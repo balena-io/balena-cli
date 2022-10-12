@@ -42,7 +42,9 @@ export default class OsInitializeCmd extends Command {
 		Initialize an os image for a device.
 
 		Initialize an os image for a device with a previously
-		configured operating system image.
+		configured operating system image and flash the
+		an external storage drive or the device's storage
+		medium depending on the device type.
 		${INIT_WARNING_MESSAGE}
 	`;
 

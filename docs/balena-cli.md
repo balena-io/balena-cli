@@ -1037,6 +1037,7 @@ Examples:
 	$ balena device register MyFleet
 	$ balena device register MyFleet --uuid <uuid>
 	$ balena device register myorg/myfleet --uuid <uuid>
+	$ balena device register myorg/myfleet --uuid <uuid> --deviceType <deviceTypeSlug>
 
 ### Arguments
 
@@ -1049,6 +1050,10 @@ fleet name or slug (preferred)
 #### -u, --uuid UUID
 
 custom uuid
+
+#### --deviceType DEVICETYPE
+
+device type slug (run 'balena devices supported' for possible values)
 
 ## device rename &#60;uuid&#62; [newName]
 
@@ -2256,7 +2261,9 @@ expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 ## os initialize &#60;image&#62;
 
 Initialize an os image for a device with a previously
-		configured operating system image.
+		configured operating system image and flash the
+		an external storage drive or the device's storage
+		medium depending on the device type.
 		
 
 Note: Initializing the device may ask for administrative permissions

@@ -1,6 +1,6 @@
 {
   "name": "balena-cli",
-  "version": "14.3.1",
+  "version": "14.4.1",
   "description": "The official balena Command Line Interface",
   "main": "./build/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
@@ -209,7 +209,7 @@
     "balena-image-fs": "^7.0.6",
     "balena-image-manager": "^8.0.0",
     "balena-preload": "^12.1.0",
-    "balena-sdk": "^16.22.0",
+    "balena-sdk": "^16.28.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",
     "balena-settings-storage": "^7.0.0",
@@ -285,6 +285,6 @@
     "windosu": "^0.3.0"
   },
   "versionist": {
-    "publishedAt": "2022-09-06T10:29:10.499Z"
+    "publishedAt": "2022-10-12T13:55:51.707Z"
   }
 }

@@ -1,4 +1,393 @@
 - commits:
+    - subject: "balena os initialize: Clarify that the process includes flashing"
+      hash: e46902e6839eeb2f59f445aeef94500bd34b8c14
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Heath Raftery
+      nested: []
+  version: 14.4.1
+  title: "'Add to description that command is device specific'"
+  date: 2022-10-12T13:55:50.416Z
+- commits:
+    - subject: "device register: Add support for the `--deviceType` option"
+      hash: 34b4ac2d9f4a759a1e9c1f313bd2e6691f8f8c12
+      body: ""
+      footer:
+        Resolves: "#2531"
+        resolves: "#2531"
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-sdk to 16.28.0
+      hash: f99244603a22abb27e37d8df7a2d6ebf3711ab9f
+      body: |
+        Update balena-sdk from 16.22.0 to 16.28.0
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "device.register: Allow providing a device type for the registered
+                device"
+              hash: 93c69c7dd734618220dddedf1acbbd764b337ff7
+              body: ""
+              footer:
+                Resolves: "#1270"
+                resolves: "#1270"
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.28.0
+          title: ""
+          date: 2022-10-12T06:43:28.586Z
+        - commits:
+            - subject: Add support for batch operations for more device modifying methods
+              hash: 4c506a79bab2e3ec7203db0d1a672f1c5056b729
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.27.0
+          title: ""
+          date: 2022-10-07T18:42:53.725Z
+        - commits:
+            - subject: Fix request batching chunking when there is no grouping navigation prop
+              hash: 41df48a6304f12979e4f1df77227eec41362904c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "request-batching: Increase the batch size to 200 items"
+              hash: 1f72425be70cffa9a236a491e273ddcb0ffc090e
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.26.7
+          title: ""
+          date: 2022-10-07T15:44:16.819Z
+        - commits:
+            - subject: Fix request batching not chunking the items of the operation
+              hash: a496304b655a83bd4ccdc1a90de1ad9132f478c0
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: "#1257"
+                see: "#1257"
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.26.6
+          title: ""
+          date: 2022-10-06T23:54:12.408Z
+        - commits:
+            - subject: Delete redundant .resinci.yml
+              hash: 0157a7b278b3b18316eef83cc65f0c6aeaafed9a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-sdk-16.26.5
+          title: ""
+          date: 2022-09-26T12:55:45.316Z
+        - commits:
+            - subject: Remove moment in favor of date-fns
+              hash: eeb54985a14acd5b8500edf90bd0a0cd60237008
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+                signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-16.26.4
+          title: ""
+          date: 2022-09-23T17:04:35.961Z
+        - commits:
+            - subject: Skip running tests in flowzone till we can inject env vars
+              hash: d1cbd35bbab56ca806abb2e12b2959106d98d54d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Switch from balenaCI to flowzone
+              hash: 93c029e00dccef2401cfa8db36cc6b77cd14bf6b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-sdk-16.26.3
+          title: ""
+          date: 2022-09-21T12:49:23.400Z
+        - commits:
+            - subject: Update balena-register-device to 8.0.0
+              hash: 1eb28196a8e773a1ba3f1bfbeb455c8abac0b432
+              body: |
+                Update balena-register-device from 7.1.0 to 8.0.0
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Remove the travis & appveyor configurations
+                      hash: 32c19504ca79ec134b34e30a4e6a52157a7b0bd6
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                    - subject: "tsconfig: Enable strict type checking"
+                      hash: 77b5211af6f87c364302342f24f9f95bc6c8ba35
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                    - subject: Update devDependencies
+                      hash: 32a482be80c978b3c8f83a2335a17c70a224cb52
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                    - subject: Update the uuid package to v9
+                      hash: 4567f824d6f45c825594fda3ec7c4b8e5f3ea561
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                    - subject: Prevent creating a package-lock.json
+                      hash: 3c0e432980a30a1fb0678acd8d0459bd53d69565
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                    - subject: Drop support for node 10 in favor of 14 & 16
+                      hash: ea7c5670950918363380cff9576a082abad6dbb9
+                      body: |
+                        That's required in order to update uuid to v9.
+                      footer:
+                        Change-type: major
+                        change-type: major
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                  version: balena-register-device-8.0.0
+                  title: "'Drop node 10 in favor of 14 & 16 & update the uuid package to v9'"
+                  date: 2022-09-06T12:49:29.202Z
+                - commits:
+                    - subject: Support `supervisorVersion`/`osVersion`/`osVariant`/`macAddress` fields
+                      hash: 6f10fe77ba11ec57bb012777975423dda498a8bd
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Pagan Gazzard
+                  version: balena-register-device-7.2.0
+                  date: 2021-04-29T12:35:30.543Z
+                - commits:
+                    - subject: Update dependencies
+                      hash: 8d78459d6cf6e0dcaa4721c38898eeb2d25c5674
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                  version: balena-register-device-7.1.1
+                  date: 2021-04-29T12:23:50.655Z
+          version: balena-sdk-16.26.2
+          title: "'Update balena-register-device to 8.0.0'"
+          date: 2022-09-06T14:13:05.260Z
+        - commits:
+            - subject: Update TypeScript to v4.8
+              hash: b1e463143d532718b525481c0098431c20353300
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.26.1
+          title: "'Update TypeScript to v4.8'"
+          date: 2022-08-29T07:13:05.100Z
+        - commits:
+            - subject: Pin TypeScript to 4.7 until upstream dependencies are updated
+              hash: 979b2a6c29734da792fc2d4fbd1644637c34c66c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "types: Add the InvitationTokenDecodedPayload type"
+              hash: c0877db26efbde5907d6b322e58c21570c6adc35
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.26.0
+          title: "'types: Add the InvitationTokenDecodedPayload type'"
+          date: 2022-08-26T08:34:23.591Z
+        - commits:
+            - subject: Deprecate the public_key from the user JWT
+              hash: 51f0d62d9e71aaa99565b3ffd03637f201422b08
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.25.1
+          title: "'Deprecate the public_key from the user JWT'"
+          date: 2022-08-05T11:58:08.709Z
+        - commits:
+            - subject: "application.remove: Support batch deletions by providing multiple IDs"
+              hash: 8238a338e95f773e4ff439dcb93b275ff0250d64
+              body: ""
+              footer:
+                Resolves: "#1255"
+                resolves: "#1255"
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Refactor the request batching implementation to be generic
+              hash: c3eeda42c2924d1d84beeca7077fd3aa7c6a8d1b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Change pine options merging to extend the default `$select`ed
+                properties
+              hash: 47dd4bd69f49589717e635f5dc8903b056f449be
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.25.0
+          title: "'application.remove: Support batch deletions by providing multiple IDs'"
+          date: 2022-08-04T14:10:56.891Z
+        - commits:
+            - subject: Refactor the internal mergePineOptions utility
+              hash: 5a0fb3952dfd79aa73be3c4dec5cf75ca7c7810a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.24.2
+          title: "'Refactor the internal mergePineOptions utility'"
+          date: 2022-08-02T16:55:58.822Z
+        - commits:
+            - subject: Update Husky to v7
+              hash: 9aab4c042d26b23838bf6faeb7b5ebae9b382e04
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://typicode.github.io/husky/#/?id=migrate-from-v4-to-v8
+                see: https://typicode.github.io/husky/#/?id=migrate-from-v4-to-v8
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.24.1
+          title: "'Update Husky to v7'"
+          date: 2022-07-21T14:04:26.953Z
+        - commits:
+            - subject: "types: Add missing Application to Service relation"
+              hash: a38ced5f200903d96ab3e6e13c3efb3f3761414e
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.24.0
+          title: "'types: Add missing Application to Service relation'"
+          date: 2022-07-08T17:43:16.397Z
+        - commits:
+            - subject: Add expiry-date for generation of user and device keys
+              hash: 9ed3643ed9e2180ee9b4aef3c32a1d5a745d554a
+              body: ""
+              footer:
+                Change-Type: minor
+                change-type: minor
+                Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+                signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+              author: Nitish Agarwal
+              nested: []
+          version: balena-sdk-16.23.0
+          title: "'Add expiryDate for generation of user and device keys'"
+          date: 2022-07-07T12:22:14.983Z
+  version: 14.4.0
+  title: "'device register: Add support for the  option'"
+  date: 2022-10-12T12:30:20.793Z
+- commits:
     - subject: Add unified OS versions in the examples of the device & os commands
       hash: a117dc0382c7644b23b00940229e0794d7249b59
       body: ""
