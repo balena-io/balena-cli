@@ -1,4 +1,16 @@
 - commits:
+    - subject: "balena os initialize: Clarify that the process includes flashing"
+      hash: e46902e6839eeb2f59f445aeef94500bd34b8c14
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Heath Raftery
+      nested: []
+  version: 14.4.1
+  title: "'Add to description that command is device specific'"
+  date: 2022-10-12T13:55:50.416Z
+- commits:
     - subject: "device register: Add support for the `--deviceType` option"
       hash: 34b4ac2d9f4a759a1e9c1f313bd2e6691f8f8c12
       body: ""
