@@ -79,29 +79,33 @@ export async function trackCommand(commandSignature: string) {
 async function sendEvent(balenaUrl: string, event: string, username?: string) {
 	const { default: got } = await import('got');
 	const trackData = {
-		event,
-		properties: {
-			arch: process.arch,
-			balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
-			distinct_id: username,
-			mp_lib: 'node',
-			node: process.version,
-			platform: process.platform,
-			token: 'balena-main',
-			version: packageJSON.version,
-		},
+		api_key: 'balena-main',
+		events: [
+			{
+				event_type: event,
+				arch: process.arch,
+				balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+				user_id: username,
+				node: process.version,
+				platform: process.platform,
+				version_name: packageJSON.version,
+			},
+		],
 	};
-	const url = `https://api.${balenaUrl}/mixpanel/track`;
-	const searchParams = {
-		ip: 0,
-		verbose: 0,
-		data: Buffer.from(JSON.stringify(trackData)).toString('base64'),
-	};
+	const url = `http://localhost:3001/amplitude/2/httpapi`;
+
+	const encodedTrackedData = Buffer.from(JSON.stringify(trackData)).toString(
+		'base64',
+	);
 	try {
-		await got(url, { searchParams, retry: 0, timeout: 4000 });
+		await got.post(url, {
+			json: { encodedTrackedData },
+			retry: 0,
+			timeout: 4000,
+		});
 	} catch (e) {
 		if (process.env.DEBUG) {
-			console.error(`[debug] Event tracking error: ${e.message || e}`);
+			console.error(`[debug] Event tracking error: ${e}`);
 		}
 
 		if (e instanceof got.TimeoutError) {
