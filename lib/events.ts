@@ -83,23 +83,22 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 		events: [
 			{
 				event_type: event,
-				arch: process.arch,
-				balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
 				user_id: username,
-				node: process.version,
-				platform: process.platform,
 				version_name: packageJSON.version,
+				event_properties: {
+					balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+					arch: process.arch,
+					platform: process.platform,
+					node: process.version,
+				},
 			},
 		],
 	};
-	const url = `http://localhost:3001/amplitude/2/httpapi`;
+	const url = `https://data.${balenaUrl}/amplitude/2/httpapi`;
 
-	const encodedTrackedData = Buffer.from(JSON.stringify(trackData)).toString(
-		'base64',
-	);
 	try {
 		await got.post(url, {
-			json: { encodedTrackedData },
+			json: trackData,
 			retry: 0,
 			timeout: 4000,
 		});
