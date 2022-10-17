@@ -107,11 +107,19 @@ export async function getManifest(
 	deviceType: string,
 ): Promise<BalenaSdk.DeviceTypeJson.DeviceType> {
 	const init = await import('balena-device-init');
+	const sdk = getBalenaSdk();
 	const manifest = await init.getImageManifest(image);
-	if (manifest != null) {
-		return manifest;
+	if (
+		manifest != null &&
+		manifest.slug !== deviceType &&
+		manifest.slug !== (await sdk.models.deviceType.get(deviceType)).slug
+	) {
+		const { ExpectedError } = await import('../errors');
+		throw new ExpectedError(
+			`The device type of the provided OS image ${manifest.slug}, does not match the expected device type ${deviceType}`,
+		);
 	}
-	return getBalenaSdk().models.device.getManifestBySlug(deviceType);
+	return manifest ?? (await sdk.models.device.getManifestBySlug(deviceType));
 }
 
 export const areDeviceTypesCompatible = async (
