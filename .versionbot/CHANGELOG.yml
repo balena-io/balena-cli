@@ -1,4 +1,32 @@
 - commits:
+    - subject: Stop relying on device-type.json for resolving the device type aliases
+      hash: c103bf5167aebfc0a7a5e693fe59e48f5f86d20b
+      body: ""
+      footer:
+        Resolves: "#2541"
+        resolves: "#2541"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Stop relying on device-type.json for resolving the cpu architecture
+      hash: c346741ce64819f83960bc15a0d0a7392bfefb55
+      body: ""
+      footer:
+        Resolves: "#2542"
+        resolves: "#2542"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.4.2
+  title: "'Stop relying on device-type.json for resolving the cpu architecture'"
+  date: 2022-10-17T15:57:35.329Z
+- commits:
     - subject: "balena os initialize: Clarify that the process includes flashing"
       hash: e46902e6839eeb2f59f445aeef94500bd34b8c14
       body: ""
