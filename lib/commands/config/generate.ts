@@ -184,7 +184,8 @@ export default class ConfigGenerateCmd extends Command {
 					deviceType,
 				))
 			) {
-				throw new balena.errors.BalenaInvalidDeviceType(
+				const { ExpectedError } = await import('../../errors');
+				throw new ExpectedError(
 					`Device type ${options.deviceType} is incompatible with fleet ${options.fleet}`,
 				);
 			}
