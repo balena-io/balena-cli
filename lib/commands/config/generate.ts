@@ -175,25 +175,24 @@ export default class ConfigGenerateCmd extends Command {
 
 		const deviceType = options.deviceType || resourceDeviceType;
 
-		const deviceManifest = await balena.models.device.getManifestBySlug(
-			deviceType,
-		);
-
 		// Check compatibility if application and deviceType provided
 		if (options.fleet && options.deviceType) {
-			const appDeviceManifest = await balena.models.device.getManifestBySlug(
-				resourceDeviceType,
-			);
-
 			const helpers = await import('../../utils/helpers');
 			if (
-				!helpers.areDeviceTypesCompatible(appDeviceManifest, deviceManifest)
+				!(await helpers.areDeviceTypesCompatible(
+					resourceDeviceType,
+					deviceType,
+				))
 			) {
 				throw new balena.errors.BalenaInvalidDeviceType(
 					`Device type ${options.deviceType} is incompatible with fleet ${options.fleet}`,
 				);
 			}
 		}
+
+		const deviceManifest = await balena.models.device.getManifestBySlug(
+			deviceType,
+		);
 
 		// Prompt for values
 		// Pass params as an override: if there is any param with exactly the same name as a
