@@ -104,7 +104,7 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 		});
 	} catch (e) {
 		if (process.env.DEBUG) {
-			console.error(`[debug] Event tracking error: ${e}`);
+			console.error(`[debug] Event tracking error: ${e.message || e}`);
 		}
 
 		if (e instanceof got.TimeoutError) {
