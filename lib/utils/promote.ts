@@ -198,31 +198,37 @@ async function selectAppFromList(
 
 async function getOrSelectApplication(
 	sdk: BalenaSdk.BalenaSDK,
-	deviceType: string,
+	deviceTypeSlug: string,
 	appName?: string,
 ): Promise<ApplicationWithDeviceType> {
-	const _ = await import('lodash');
+	const pineOptions = {
+		$select: 'slug',
+		$expand: {
+			is_of__cpu_architecture: {
+				$select: 'slug',
+			},
+		},
+	} as const;
+	const [deviceType, allDeviceTypes] = await Promise.all([
+		sdk.models.deviceType.get(deviceTypeSlug, pineOptions) as Promise<
+			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
+		>,
+		sdk.models.deviceType.getAllSupported(pineOptions) as Promise<
+			Array<BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>>
+		>,
+	]);
 
-	const allDeviceTypes = await sdk.models.config.getDeviceTypes();
-	const deviceTypeManifest = _.find(allDeviceTypes, { slug: deviceType });
-	if (!deviceTypeManifest) {
-		throw new ExpectedError(`"${deviceType}" is not a valid device type`);
-	}
-	const compatibleDeviceTypes = _(allDeviceTypes)
-		.filter(
-			(dt) =>
-				sdk.models.os.isArchitectureCompatibleWith(
-					deviceTypeManifest.arch,
-					dt.arch,
-				) &&
-				!!dt.isDependent === !!deviceTypeManifest.isDependent &&
-				dt.state !== 'DISCONTINUED',
+	const compatibleDeviceTypes = allDeviceTypes
+		.filter((dt) =>
+			sdk.models.os.isArchitectureCompatibleWith(
+				deviceType.is_of__cpu_architecture[0].slug,
+				dt.is_of__cpu_architecture[0].slug,
+			),
 		)
-		.map((type) => type.slug)
-		.value();
+		.map((type) => type.slug);
 
 	if (!appName) {
-		return createOrSelectApp(sdk, compatibleDeviceTypes, deviceType);
+		return createOrSelectApp(sdk, compatibleDeviceTypes, deviceTypeSlug);
 	}
 
 	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
@@ -257,13 +263,13 @@ async function getOrSelectApplication(
 			undefined,
 			true,
 		);
-		return await createApplication(sdk, deviceType, name);
+		return await createApplication(sdk, deviceTypeSlug, name);
 	}
 
 	// We've found at least one fleet with the given name.
 	// Filter out fleets for non-matching device types and see what we're left with.
 	const validApplications = applications.filter((app) =>
-		_.includes(compatibleDeviceTypes, app.is_for__device_type[0].slug),
+		compatibleDeviceTypes.includes(app.is_for__device_type[0].slug),
 	);
 
 	if (validApplications.length === 0) {

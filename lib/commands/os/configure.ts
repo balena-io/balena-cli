@@ -215,7 +215,7 @@ export default class OsConfigureCmd extends Command {
 					is_for__device_type: { $select: 'slug' },
 				},
 			})) as ApplicationWithDeviceType;
-			await checkDeviceTypeCompatibility(balena, options, app);
+			await checkDeviceTypeCompatibility(options, app);
 			deviceTypeSlug =
 				options['device-type'] || app.is_for__device_type[0].slug;
 		}
@@ -361,17 +361,17 @@ async function getOsVersionFromImage(
  * @param app Balena SDK Application model object
  */
 async function checkDeviceTypeCompatibility(
-	sdk: BalenaSdk.BalenaSDK,
 	options: FlagsDef,
 	app: ApplicationWithDeviceType,
 ) {
 	if (options['device-type']) {
-		const [appDeviceType, optionDeviceType] = await Promise.all([
-			sdk.models.device.getManifestBySlug(app.is_for__device_type[0].slug),
-			sdk.models.device.getManifestBySlug(options['device-type']),
-		]);
 		const helpers = await import('../../utils/helpers');
-		if (!helpers.areDeviceTypesCompatible(appDeviceType, optionDeviceType)) {
+		if (
+			!await helpers.areDeviceTypesCompatible(
+				app.is_for__device_type[0].slug,
+				options['device-type'],
+			)
+		) {
 			throw new ExpectedError(
 				`Device type ${options['device-type']} is incompatible with fleet ${options.fleet}`,
 			);

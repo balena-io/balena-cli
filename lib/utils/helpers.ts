@@ -114,14 +114,35 @@ export async function getManifest(
 	return getBalenaSdk().models.device.getManifestBySlug(deviceType);
 }
 
-export const areDeviceTypesCompatible = (
-	appDeviceType: BalenaSdk.DeviceTypeJson.DeviceType,
-	osDeviceType: BalenaSdk.DeviceTypeJson.DeviceType,
-) =>
-	getBalenaSdk().models.os.isArchitectureCompatibleWith(
-		osDeviceType.arch,
-		appDeviceType.arch,
-	) && !!appDeviceType.isDependent === !!osDeviceType.isDependent;
+export const areDeviceTypesCompatible = async (
+	appDeviceTypeSlug: string,
+	osDeviceTypeSlug: string,
+) => {
+	if (appDeviceTypeSlug === osDeviceTypeSlug) {
+		return true;
+	}
+	const sdk = getBalenaSdk();
+	const pineOptions = {
+		$select: 'is_of__cpu_architecture',
+		$expand: {
+			is_of__cpu_architecture: {
+				$select: 'slug',
+			},
+		},
+	} as const;
+	const [appDeviceType, osDeviceType] = await Promise.all(
+		[appDeviceTypeSlug, osDeviceTypeSlug].map(
+			(dtSlug) =>
+				sdk.models.deviceType.get(dtSlug, pineOptions) as Promise<
+					BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
+				>,
+		),
+	);
+	return sdk.models.os.isArchitectureCompatibleWith(
+		osDeviceType.is_of__cpu_architecture[0].slug,
+		appDeviceType.is_of__cpu_architecture[0].slug,
+	);
+};
 
 export async function osProgressHandler(step: InitializeEmitter) {
 	step.on('stdout', process.stdout.write.bind(process.stdout));
