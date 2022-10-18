@@ -1,4 +1,30 @@
 - commits:
+    - subject: keeps events loggiging with default message
+      hash: d1e3bdf29a4cbe976f6d2feff0eb0f8553b3865a
+      body: ""
+      footer:
+        change-type: minor
+      author: Otávio Jacobi
+      nested: []
+    - subject: uses amplitude data events format
+      hash: bdf7fedd7aa596834243590cf914f8f366088867
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otávio Jacobi
+      nested: []
+    - subject: changes analytics endpoint to analytics-backend
+      hash: c163662f4a63e1a3b0621ef28c8720f6f4a1edcd
+      body: ""
+      footer:
+        change-type: minor
+      author: Otávio Jacobi
+      nested: []
+  version: 14.5.0
+  title: "'changes analytics endpoint to analytics-backend'"
+  date: 2022-10-18T11:18:18.257Z
+- commits:
     - subject: Update simple-git to 3.14.1
       hash: 70330759007bfdba81986e6c7db1f5c2cb0d7d5f
       body: ""
