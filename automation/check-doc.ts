@@ -20,7 +20,7 @@ import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import simplegit from 'simple-git/promise';
+import { simpleGit } from 'simple-git';
 
 const ROOT = path.normalize(path.join(__dirname, '..'));
 
@@ -32,7 +32,7 @@ const ROOT = path.normalize(path.join(__dirname, '..'));
  * using `touch`.
  */
 async function checkBuildTimestamps() {
-	const git = simplegit(ROOT);
+	const git = simpleGit(ROOT);
 	const docFile = path.join(ROOT, 'docs', 'balena-cli.md');
 	const [docStat, gitStatus] = await Promise.all([
 		fs.stat(docFile),
