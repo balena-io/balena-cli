@@ -7,6 +7,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "n310-tx2",
+					"__metadata": {}
+				}
+			],
 			"id": 162,
 			"slug": "n310-tx2",
 			"name": "Aetina N310 TX2",
@@ -20,6 +26,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "n510-tx2",
 					"__metadata": {}
 				}
 			],
@@ -39,6 +51,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "aio-3288c",
+					"__metadata": {}
+				}
+			],
 			"id": 148,
 			"slug": "aio-3288c",
 			"name": "AIO 3288C",
@@ -52,6 +70,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "am571x-evm",
 					"__metadata": {}
 				}
 			],
@@ -71,6 +95,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "apalis-imx6q",
+					"__metadata": {}
+				}
+			],
 			"id": 2,
 			"slug": "apalis-imx6q",
 			"name": "Apalis iMX6q",
@@ -84,6 +114,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "asus-tinker-board",
 					"__metadata": {}
 				}
 			],
@@ -108,6 +144,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "asus-tinker-board-s",
+					"__metadata": {}
+				}
+			],
 			"id": 9,
 			"slug": "asus-tinker-board-s",
 			"name": "Asus Tinker Board S",
@@ -129,6 +171,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jn30b-nano",
+					"__metadata": {}
+				}
+			],
 			"id": 141,
 			"slug": "jn30b-nano",
 			"name": "Auvidea JN30B Nano",
@@ -142,6 +190,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "fincm3",
 					"__metadata": {}
 				}
 			],
@@ -161,6 +215,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "bananapi-m1-plus",
+					"__metadata": {}
+				}
+			],
 			"id": 10,
 			"slug": "bananapi-m1-plus",
 			"name": "BananaPi-M1+",
@@ -174,6 +234,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "beagleboard-xm",
 					"__metadata": {}
 				}
 			],
@@ -193,6 +259,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "beaglebone-black",
+					"__metadata": {}
+				}
+			],
 			"id": 12,
 			"slug": "beaglebone-black",
 			"name": "BeagleBone Black",
@@ -206,6 +278,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "beaglebone-green",
 					"__metadata": {}
 				}
 			],
@@ -225,6 +303,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "beaglebone-green-gateway",
+					"__metadata": {}
+				}
+			],
 			"id": 184,
 			"slug": "beaglebone-green-gateway",
 			"name": "BeagleBone Green Gateway",
@@ -238,6 +322,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "beaglebone-green-wifi",
 					"__metadata": {}
 				}
 			],
@@ -257,6 +347,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "colibri-imx6dl",
+					"__metadata": {}
+				}
+			],
 			"id": 18,
 			"slug": "colibri-imx6dl",
 			"name": "Colibri iMX6dl",
@@ -270,6 +366,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "iot-gate-imx8",
 					"__metadata": {}
 				}
 			],
@@ -289,6 +391,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "cl-som-imx8",
+					"__metadata": {}
+				}
+			],
 			"id": 17,
 			"slug": "cl-som-imx8",
 			"name": "Compulab MX8M",
@@ -302,6 +410,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "coral-dev",
 					"__metadata": {}
 				}
 			],
@@ -321,6 +435,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "astro-tx2",
+					"__metadata": {}
+				}
+			],
 			"id": 161,
 			"slug": "astro-tx2",
 			"name": "CTI Astro TX2 G+",
@@ -334,6 +454,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "orbitty-tx2",
 					"__metadata": {}
 				}
 			],
@@ -353,6 +479,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "photon-nano",
+					"__metadata": {}
+				}
+			],
 			"id": 146,
 			"slug": "photon-nano",
 			"name": "CTI Photon Nano",
@@ -366,6 +498,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "photon-xavier-nx",
 					"__metadata": {}
 				}
 			],
@@ -385,6 +523,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "spacely-tx2",
+					"__metadata": {}
+				}
+			],
 			"id": 64,
 			"slug": "spacely-tx2",
 			"name": "CTI Spacely TX2",
@@ -398,6 +542,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "i386-nlp",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "cybertan-ze250",
 					"__metadata": {}
 				}
 			],
@@ -417,6 +567,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "ccimx8x-sbc-pro",
+					"__metadata": {}
+				}
+			],
 			"id": 185,
 			"slug": "ccimx8x-sbc-pro",
 			"name": "Digi ConnectCore 8X SBC Pro",
@@ -430,6 +586,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "edge",
 					"__metadata": {}
 				}
 			],
@@ -449,6 +611,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "etcher-pro",
+					"__metadata": {}
+				}
+			],
 			"id": 144,
 			"slug": "etcher-pro",
 			"name": "Etcher Pro",
@@ -462,6 +630,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "firefly-rk3288",
 					"__metadata": {}
 				}
 			],
@@ -481,6 +655,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "floyd-nano",
+					"__metadata": {}
+				}
+			],
 			"id": 192,
 			"slug": "floyd-nano",
 			"name": "Floyd Nano BB02A eMMC",
@@ -494,6 +674,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "generic",
 					"__metadata": {}
 				}
 			],
@@ -513,6 +699,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "generic-aarch64",
+					"__metadata": {}
+				}
+			],
 			"id": 23,
 			"slug": "generic-aarch64",
 			"name": "Generic AARCH64",
@@ -526,6 +718,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "generic-amd64",
 					"__metadata": {}
 				}
 			],
@@ -545,6 +743,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "generic-armv7ahf",
+					"__metadata": {}
+				}
+			],
 			"id": 178,
 			"slug": "generic-armv7ahf",
 			"name": "Generic ARMv7-a HF",
@@ -558,6 +762,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "genericx86-64-ext",
 					"__metadata": {}
 				}
 			],
@@ -577,6 +787,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "hummingboard",
+					"__metadata": {}
+				}
+			],
 			"id": 25,
 			"slug": "hummingboard",
 			"name": "Hummingboard",
@@ -590,6 +806,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "imx8mm-var-dart ",
 					"__metadata": {}
 				}
 			],
@@ -609,6 +831,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "intel-edison",
+					"__metadata": {}
+				}
+			],
 			"id": 29,
 			"slug": "intel-edison",
 			"name": "Intel Edison",
@@ -622,6 +850,16 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "intel-nuc",
+					"__metadata": {}
+				},
+				{
+					"is_referenced_by__alias": "nuc",
 					"__metadata": {}
 				}
 			],
@@ -641,6 +879,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "smarc-px30",
+					"__metadata": {}
+				}
+			],
 			"id": 186,
 			"slug": "smarc-px30",
 			"name": "I-Pi SMARC PX30 SD-CARD",
@@ -654,6 +898,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "surface-pro-6",
 					"__metadata": {}
 				}
 			],
@@ -673,6 +923,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "surface-go",
+					"__metadata": {}
+				}
+			],
 			"id": 140,
 			"slug": "surface-go",
 			"name": "Microsoft Surface Go",
@@ -686,6 +942,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "nanopc-t4",
 					"__metadata": {}
 				}
 			],
@@ -705,6 +967,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "nanopi-neo-air",
+					"__metadata": {}
+				}
+			],
 			"id": 41,
 			"slug": "nanopi-neo-air",
 			"name": "Nanopi Neo Air",
@@ -718,6 +986,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "nitrogen6x",
 					"__metadata": {}
 				}
 			],
@@ -737,6 +1011,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "nitrogen6xq2g",
+					"__metadata": {}
+				}
+			],
 			"id": 43,
 			"slug": "nitrogen6xq2g",
 			"name": "Nitrogen 6X Quad 2GB",
@@ -750,6 +1030,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "nitrogen8mm",
 					"__metadata": {}
 				}
 			],
@@ -769,6 +1055,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "npe-x500-m3",
+					"__metadata": {}
+				}
+			],
 			"id": 45,
 			"slug": "npe-x500-m3",
 			"name": "NPE X500 M3",
@@ -782,6 +1074,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "blackboard-tx2",
 					"__metadata": {}
 				}
 			],
@@ -801,6 +1099,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-nano-2gb-devkit",
+					"__metadata": {}
+				}
+			],
 			"id": 188,
 			"slug": "jetson-nano-2gb-devkit",
 			"name": "Nvidia Jetson Nano 2GB Devkit SD",
@@ -814,6 +1118,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-nano-emmc",
 					"__metadata": {}
 				}
 			],
@@ -833,6 +1143,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-nano",
+					"__metadata": {}
+				}
+			],
 			"id": 32,
 			"slug": "jetson-nano",
 			"name": "Nvidia Jetson Nano SD-CARD",
@@ -846,6 +1162,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-tx1",
 					"__metadata": {}
 				}
 			],
@@ -865,6 +1187,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-tx2",
+					"__metadata": {}
+				}
+			],
 			"id": 34,
 			"slug": "jetson-tx2",
 			"name": "Nvidia Jetson TX2",
@@ -878,6 +1206,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-tx2-skycatch",
 					"__metadata": {}
 				}
 			],
@@ -897,6 +1231,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-xavier",
+					"__metadata": {}
+				}
+			],
 			"id": 36,
 			"slug": "jetson-xavier",
 			"name": "Nvidia Jetson Xavier",
@@ -910,6 +1250,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-xavier-nx-devkit-emmc",
 					"__metadata": {}
 				}
 			],
@@ -929,6 +1275,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "jetson-xavier-nx-devkit",
+					"__metadata": {}
+				}
+			],
 			"id": 181,
 			"slug": "jetson-xavier-nx-devkit",
 			"name": "Nvidia Jetson Xavier NX Devkit SD-CARD",
@@ -942,6 +1294,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "odroid-c1",
 					"__metadata": {}
 				}
 			],
@@ -961,6 +1319,20 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "odroid-u3+",
+					"__metadata": {}
+				},
+				{
+					"is_referenced_by__alias": "odroid-ux3",
+					"__metadata": {}
+				},
+				{
+					"is_referenced_by__alias": "odroid-xu4",
+					"__metadata": {}
+				}
+			],
 			"id": 47,
 			"slug": "odroid-xu4",
 			"name": "ODROID-XU4",
@@ -974,6 +1346,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "orange-pi-lite",
 					"__metadata": {}
 				}
 			],
@@ -993,6 +1371,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "orange-pi-one",
+					"__metadata": {}
+				}
+			],
 			"id": 49,
 			"slug": "orange-pi-one",
 			"name": "Orange Pi One",
@@ -1006,6 +1390,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "orangepi-plus2",
 					"__metadata": {}
 				}
 			],
@@ -1025,6 +1415,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "orange-pi-zero",
+					"__metadata": {}
+				}
+			],
 			"id": 51,
 			"slug": "orange-pi-zero",
 			"name": "Orange Pi Zero",
@@ -1038,6 +1434,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "parallella",
 					"__metadata": {}
 				}
 			],
@@ -1057,6 +1459,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "beaglebone-pocket",
+					"__metadata": {}
+				}
+			],
 			"id": 15,
 			"slug": "beaglebone-pocket",
 			"name": "PocketBeagle",
@@ -1070,6 +1478,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "i386",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "qemux86",
 					"__metadata": {}
 				}
 			],
@@ -1089,6 +1503,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "qemux86-64",
+					"__metadata": {}
+				}
+			],
 			"id": 55,
 			"slug": "qemux86-64",
 			"name": "QEMU X86 64bit",
@@ -1102,6 +1522,16 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypi2",
+					"__metadata": {}
+				},
+				{
+					"is_referenced_by__alias": "raspberry-pi2",
 					"__metadata": {}
 				}
 			],
@@ -1121,6 +1551,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypi3",
+					"__metadata": {}
+				}
+			],
 			"id": 58,
 			"slug": "raspberrypi3",
 			"name": "Raspberry Pi 3",
@@ -1134,6 +1570,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypi3-64",
 					"__metadata": {}
 				}
 			],
@@ -1153,6 +1595,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypi400-64",
+					"__metadata": {}
+				}
+			],
 			"id": 183,
 			"slug": "raspberrypi400-64",
 			"name": "Raspberry Pi 400",
@@ -1166,6 +1614,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypi4-64",
 					"__metadata": {}
 				}
 			],
@@ -1185,6 +1639,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypicm4-ioboard",
+					"__metadata": {}
+				}
+			],
 			"id": 191,
 			"slug": "raspberrypicm4-ioboard",
 			"name": "Raspberry Pi CM4 IO Board",
@@ -1198,6 +1658,16 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "rpi",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "raspberrypi",
+					"__metadata": {}
+				},
+				{
+					"is_referenced_by__alias": "raspberry-pi",
 					"__metadata": {}
 				}
 			],
@@ -1217,6 +1687,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "revpi-connect",
+					"__metadata": {}
+				}
+			],
 			"id": 163,
 			"slug": "revpi-connect",
 			"name": "Revolution Pi Connect",
@@ -1230,6 +1706,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "revpi-core-3",
 					"__metadata": {}
 				}
 			],
@@ -1249,6 +1731,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "kitra520",
+					"__metadata": {}
+				}
+			],
 			"id": 37,
 			"slug": "kitra520",
 			"name": "RushUp Kitra 520",
@@ -1262,6 +1750,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "kitra710",
 					"__metadata": {}
 				}
 			],
@@ -1281,6 +1775,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "artik10",
+					"__metadata": {}
+				}
+			],
 			"id": 3,
 			"slug": "artik10",
 			"name": "Samsung Artik 10",
@@ -1294,6 +1794,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "artik5",
 					"__metadata": {}
 				}
 			],
@@ -1313,6 +1819,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "artik530",
+					"__metadata": {}
+				}
+			],
 			"id": 5,
 			"slug": "artik530",
 			"name": "Samsung Artik 530",
@@ -1326,6 +1838,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "artik533s",
 					"__metadata": {}
 				}
 			],
@@ -1345,6 +1863,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "artik710",
+					"__metadata": {}
+				}
+			],
 			"id": 7,
 			"slug": "artik710",
 			"name": "Samsung Artik 710",
@@ -1358,6 +1882,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "i386-nlp",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "iot2000",
 					"__metadata": {}
 				}
 			],
@@ -1377,6 +1907,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "skx2",
+					"__metadata": {}
+				}
+			],
 			"id": 62,
 			"slug": "skx2",
 			"name": "SKX2",
@@ -1390,6 +1926,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "ts4900",
 					"__metadata": {}
 				}
 			],
@@ -1409,6 +1951,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "ts7700",
+					"__metadata": {}
+				}
+			],
 			"id": 69,
 			"slug": "ts7700",
 			"name": "Technologic TS-7700",
@@ -1422,6 +1970,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "up-board",
 					"__metadata": {}
 				}
 			],
@@ -1446,6 +2000,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "up-core",
+					"__metadata": {}
+				}
+			],
 			"id": 71,
 			"slug": "up-core",
 			"name": "UP Core",
@@ -1464,6 +2024,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "up-core-plus",
 					"__metadata": {}
 				}
 			],
@@ -1488,6 +2054,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "up-squared",
+					"__metadata": {}
+				}
+			],
 			"id": 73,
 			"slug": "up-squared",
 			"name": "UP Squared",
@@ -1509,6 +2081,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "imx6ul-var-dart",
+					"__metadata": {}
+				}
+			],
 			"id": 26,
 			"slug": "imx6ul-var-dart",
 			"name": "Variscite DART-6UL",
@@ -1522,6 +2100,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "imx8m-var-dart",
 					"__metadata": {}
 				}
 			],
@@ -1541,6 +2125,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "imx8mm-var-dart",
+					"__metadata": {}
+				}
+			],
 			"id": 150,
 			"slug": "imx8mm-var-dart",
 			"name": "Variscite DART-MX8M Mini",
@@ -1554,6 +2144,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "var-som-mx6",
 					"__metadata": {}
 				}
 			],
@@ -1573,6 +2169,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "imx7-var-som",
+					"__metadata": {}
+				}
+			],
 			"id": 27,
 			"slug": "imx7-var-som",
 			"name": "Variscite VAR-SOM-MX7",
@@ -1586,6 +2188,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "via-vab820-quad",
 					"__metadata": {}
 				}
 			],
@@ -1605,6 +2213,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "zc702-zynq7",
+					"__metadata": {}
+				}
+			],
 			"id": 169,
 			"slug": "zc702-zynq7",
 			"name": "Zynq ZC702",
@@ -1618,6 +2232,12 @@
 			"is_of__cpu_architecture": [
 				{
 					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"device_type_alias": [
+				{
+					"is_referenced_by__alias": "zynq-xz702",
 					"__metadata": {}
 				}
 			],

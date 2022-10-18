@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { flags } from '@oclif/command';
+import type * as BalenaSdk from 'balena-sdk';
 import * as _ from 'lodash';
 import Command from '../../command';
 
@@ -59,36 +60,38 @@ export default class DevicesSupportedCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
-		const [dts, configDTs] = await Promise.all([
-			getBalenaSdk().models.deviceType.getAllSupported({
-				$expand: { is_of__cpu_architecture: { $select: 'slug' } },
-				$select: ['slug', 'name'],
-			}),
-			getBalenaSdk().models.config.getDeviceTypes(),
-		]);
-		const dtsBySlug = _.keyBy(dts, (dt) => dt.slug);
-		const configDTsBySlug = _.keyBy(configDTs, (dt) => dt.slug);
+		const pineOptions = {
+			$select: (['slug', 'name'] as const).slice(),
+			$expand: {
+				is_of__cpu_architecture: { $select: 'slug' },
+				device_type_alias: {
+					$select: 'is_referenced_by__alias',
+					$orderby: 'is_referenced_by__alias asc',
+				},
+			},
+		} as const;
+		const dts = (await getBalenaSdk().models.deviceType.getAllSupported(
+			pineOptions,
+		)) as Array<
+			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
+		>;
 		interface DT {
 			slug: string;
 			aliases: string[];
 			arch: string;
 			name: string;
 		}
-		let deviceTypes: DT[] = [];
-		for (const slug of Object.keys(dtsBySlug)) {
-			const configDT: Partial<typeof configDTs[0]> =
-				configDTsBySlug[slug] || {};
-			const aliases = (configDT.aliases || []).filter(
-				(alias) => alias !== slug,
-			);
-			const dt: Partial<typeof dts[0]> = dtsBySlug[slug] || {};
-			deviceTypes.push({
-				slug,
+		let deviceTypes = dts.map((dt): DT => {
+			const aliases = dt.device_type_alias
+				.map((dta) => dta.is_referenced_by__alias)
+				.filter((alias) => alias !== dt.slug);
+			return {
+				slug: dt.slug,
 				aliases: options.json ? aliases : [aliases.join(', ')],
-				arch: (dt.is_of__cpu_architecture as any)?.[0]?.slug || 'n/a',
+				arch: dt.is_of__cpu_architecture[0]?.slug || 'n/a',
 				name: dt.name || 'N/A',
-			});
-		}
+			};
+		});
 		const fields = ['slug', 'aliases', 'arch', 'name'];
 		deviceTypes = _.sortBy(deviceTypes, fields);
 		if (options.json) {

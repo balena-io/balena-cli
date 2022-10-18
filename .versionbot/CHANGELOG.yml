@@ -1,4 +1,60 @@
 - commits:
+    - subject: Update simple-git to 3.14.1
+      hash: 70330759007bfdba81986e6c7db1f5c2cb0d7d5f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.4.4
+  title: "'Update simple git'"
+  date: 2022-10-18T10:00:35.080Z
+- commits:
+    - subject: "config generate: Fix the incompatible arch errors showing as not found"
+      hash: 2e115968d5dce98fe05ab0607e1c04bd9f4c67c8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.4.3
+  title: "'config generate: Fix the incompatible arch errors showing as not found'"
+  date: 2022-10-17T20:46:59.653Z
+- commits:
+    - subject: Stop relying on device-type.json for resolving the device type aliases
+      hash: a20d2a04a86797d77819c63e556d8ec7d4c128ca
+      body: ""
+      footer:
+        Resolves: "#2541"
+        resolves: "#2541"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Stop relying on device-type.json for resolving the cpu architecture
+      hash: 57b0dccc7d12197dc78c2b8fd4f3cdb6329ec510
+      body: ""
+      footer:
+        Resolves: "#2542"
+        resolves: "#2542"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.4.2
+  title: "'Stop relying on device-type.json for resolving the cpu architecture'"
+  date: 2022-10-17T16:15:07.388Z
+- commits:
     - subject: "balena os initialize: Clarify that the process includes flashing"
       hash: e46902e6839eeb2f59f445aeef94500bd34b8c14
       body: ""

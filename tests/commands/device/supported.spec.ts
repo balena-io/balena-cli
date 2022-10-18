@@ -44,7 +44,6 @@ describe('balena devices supported', function () {
 
 	it('should list currently supported devices, with correct filtering', async () => {
 		api.expectGetDeviceTypes();
-		api.expectGetConfigDeviceTypes();
 
 		const { out, err } = await runCommand('devices supported');
 
@@ -54,7 +53,7 @@ describe('balena devices supported', function () {
 		expect(lines).to.have.lengthOf.at.least(2);
 		expect(lines).to.contain('intel-nuc nuc amd64 Intel NUC');
 		expect(lines).to.contain(
-			'odroid-xu4 odroid-ux3, odroid-u3+ armv7hf ODROID-XU4',
+			'odroid-xu4 odroid-u3+, odroid-ux3 armv7hf ODROID-XU4',
 		);
 		expect(err).to.eql([]);
 	});

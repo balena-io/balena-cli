@@ -107,16 +107,6 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	(_sdk, deviceUUID) => deviceUUID,
 );
 
-/** Given a device type alias like 'nuc', return the actual slug like 'intel-nuc'. */
-export const unaliasDeviceType = _.memoize(async function (
-	sdk: SDK.BalenaSDK,
-	deviceType: string,
-): Promise<string> {
-	return (
-		(await sdk.models.device.getManifestBySlug(deviceType)).slug || deviceType
-	);
-});
-
 /**
  * Download balenaOS image for the specified `deviceType`.
  * `OSVersion` may be one of:
@@ -255,8 +245,8 @@ export async function getOsVersions(
 	);
 	// if slug is an alias, fetch the real slug
 	if (!versions.length) {
-		// unaliasDeviceType() produces a nice error msg if slug is invalid
-		slug = await unaliasDeviceType(sdk, slug);
+		// unalias device type slug
+		slug = (await sdk.models.deviceType.get(slug, { $select: 'slug' })).slug;
 		if (slug !== deviceType) {
 			versions = await sdk.models.os.getAvailableOsVersions(slug);
 		}
