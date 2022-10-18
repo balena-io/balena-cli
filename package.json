@@ -95,7 +95,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "node automation/check-npm-version.js && node automation/check-doc.js"
+      "pre-commit": "node automation/check-npm-version.js && ts-node automation/check-doc.ts"
     }
   },
   "oclif": {
