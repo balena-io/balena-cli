@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update simple-git to 3.14.1
+      hash: 70330759007bfdba81986e6c7db1f5c2cb0d7d5f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.4.4
+  title: "'Update simple git'"
+  date: 2022-10-18T10:00:35.080Z
+- commits:
     - subject: "config generate: Fix the incompatible arch errors showing as not found"
       hash: 2e115968d5dce98fe05ab0607e1c04bd9f4c67c8
       body: ""
