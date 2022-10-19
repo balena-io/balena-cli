@@ -127,7 +127,7 @@
     "@types/chai-as-promised": "^7.1.4",
     "@types/cli-truncate": "^2.0.0",
     "@types/common-tags": "^1.8.1",
-    "@types/dockerode": "^3.3.9",
+    "@types/dockerode": "^3.3.11",
     "@types/ejs": "^3.1.0",
     "@types/express": "^4.17.13",
     "@types/fs-extra": "^9.0.13",
@@ -194,7 +194,7 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "@balena/compose": "^2.1.1",
+    "@balena/compose": "^2.1.2",
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.1",
     "@oclif/command": "^1.8.16",
@@ -226,7 +226,7 @@
     "denymount": "^2.3.0",
     "docker-modem": "3.0.0",
     "docker-progress": "^5.1.3",
-    "dockerode": "^3.3.1",
+    "dockerode": "3.3.3",
     "ejs": "^3.1.6",
     "etcher-sdk": "^6.2.1",
     "event-stream": "3.3.4",
