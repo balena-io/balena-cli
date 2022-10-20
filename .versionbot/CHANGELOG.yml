@@ -1,4 +1,20 @@
 - commits:
+    - subject: Allow most printable ASCII chars for object label key
+      hash: fa303c0fe00fffc7306848b0664b5eb1d2b35431
+      body: |
+        Implemented as a balena-compose dependency update. Includes pinning
+        dockerode due to a regression in v3.3.4.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 14.5.1
+  title: "'Allow most printable ASCII chars for object label key'"
+  date: 2022-10-20T14:26:13.796Z
+- commits:
     - subject: keeps events loggiging with default message
       hash: d1e3bdf29a4cbe976f6d2feff0eb0f8553b3865a
       body: ""
