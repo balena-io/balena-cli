@@ -73,6 +73,8 @@ export async function trackCommand(commandSignature: string) {
 	}
 }
 
+const TIMEOUT = 4000;
+
 /**
  * Make the event tracking HTTPS request to balenaCloud's '/mixpanel' endpoint.
  */
@@ -100,14 +102,23 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 		await got.post(url, {
 			json: trackData,
 			retry: 0,
-			timeout: 4000,
+			timeout: {
+				// Starts when the request is initiated.
+				request: TIMEOUT,
+				// Starts when request has been flushed.
+				// Exits the request as soon as it's sent.
+				response: 0,
+			},
 		});
 	} catch (e) {
 		if (process.env.DEBUG) {
 			console.error(`[debug] Event tracking error: ${e.message || e}`);
 		}
 
-		if (e instanceof got.TimeoutError) {
+		if (
+			e instanceof got.TimeoutError &&
+			TIMEOUT < (e.timings.phases.total ?? 0)
+		) {
 			console.error(stripIndent`
 				Timeout submitting analytics event to balenaCloud/openBalena.
 				If you are using the balena CLI in an air-gapped environment with a filtered
