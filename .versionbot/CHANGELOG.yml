@@ -1,4 +1,20 @@
 - commits:
+    - subject: Stop waiting for the analytics response
+      hash: 1c7d9255ae5333ff717b9f32ef7adf1690cbb163
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.zulipchat.com/#narrow/stream/345884-aspect.2Fanalytics/topic/Balena.20CLI.20analytics-performance
+        see: https://balena.zulipchat.com/#narrow/stream/345884-aspect.2Fanalytics/topic/Balena.20CLI.20analytics-performance
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.2
+  title: "'Stop waiting for the analytics response'"
+  date: 2022-10-21T16:18:42.222Z
+- commits:
     - subject: Bump parse-link-header from 1.0.1 to 2.0.0
       hash: 3c2c925eed81ed61e1326437038cda1059b1a0ba
       body: >
