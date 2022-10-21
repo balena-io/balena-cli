@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump parse-link-header from 1.0.1 to 2.0.0
+      hash: 3c2c925eed81ed61e1326437038cda1059b1a0ba
+      body: >
+        Bumps [parse-link-header](https://github.com/thlorenz/parse-link-header)
+        from 1.0.1 to 2.0.0.
+
+        - [Release notes](https://github.com/thlorenz/parse-link-header/releases)
+
+        - [Commits](https://github.com/thlorenz/parse-link-header/compare/v1.0.1...v2.0.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: parse-link-header
+          dependency-type: direct:development
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 14.5.1
+  title: "'Bump parse-link-header from 1.0.1 to 2.0.0'"
+  date: 2022-10-20T17:14:00.057Z
+- commits:
     - subject: keeps events loggiging with default message
       hash: d1e3bdf29a4cbe976f6d2feff0eb0f8553b3865a
       body: ""
