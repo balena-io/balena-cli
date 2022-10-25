@@ -1,6 +1,6 @@
 {
   "name": "balena-cli",
-  "version": "11.18.2",
+  "version": "11.18.3",
   "description": "The official balena CLI tool",
   "main": "./build/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
@@ -242,5 +242,8 @@
   "optionalDependencies": {
     "net-keepalive": "^1.2.1",
     "windosu": "^0.3.0"
+  },
+  "versionist": {
+    "publishedAt": "2022-10-25T10:33:49.050Z"
   }
 }
