@@ -1,4 +1,25 @@
 - commits:
+    - subject: Bump multicast-dns to rebased commit (again)
+      hash: ca1a445d902dc70b42be4c84b841ca1a42a26e79
+      body: >
+        A recent PR reverted the multicast-dns commit bump from PR #2401. This
+        means that
+
+        under some conditions, `npm install` will fail.
+
+
+        See: https://github.com/balena-io-modules/multicast-dns/pull/1
+
+        See: https://github.com/balena-io/balena-cli/pull/2401
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: pipex
+      nested: []
+  version: 14.5.3
+  title: "'Bump multicast-dns to rebased commit (again)'"
+  date: 2022-10-27T18:05:10.822Z
+- commits:
     - subject: Stop waiting for the analytics response
       hash: 1c7d9255ae5333ff717b9f32ef7adf1690cbb163
       body: ""
