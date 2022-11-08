@@ -177,7 +177,16 @@ const messages: {
 		Looks like the session token has expired.
 		Try logging in again with the "balena login" command.`,
 
-	BalenaInvalidDeviceType: (error: Error & { deviceTypeSlug?: string }) => {
+	BalenaInvalidDeviceType: (
+		error: Error & { deviceTypeSlug?: string; type?: string },
+	) => {
+		// TODO: The SDK should be throwing a different Error for this case.
+		if (
+			typeof error.type === 'string' &&
+			error.type.startsWith('Incompatible ')
+		) {
+			return error.type;
+		}
 		const slug = error.deviceTypeSlug ? `"${error.deviceTypeSlug}"` : 'slug';
 		return stripIndent`
 			Device type ${slug} not recognized. Perhaps misspelled?
