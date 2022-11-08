@@ -45,8 +45,6 @@ const execFileAsync = promisify(execFile);
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
 const arch = process.arch;
-const MSYS2_BASH =
-	process.env.MSYSSHELLPATH || 'C:\\msys64\\usr\\bin\\bash.exe';
 
 function dPath(...paths: string[]) {
 	return path.join(ROOT, 'dist', ...paths);
@@ -425,20 +423,28 @@ async function renameInstallerFiles() {
 
 /**
  * If the CSC_LINK and CSC_KEY_PASSWORD env vars are set, digitally sign the
- * executable installer by running the balena-io/scripts/shared/sign-exe.sh
- * script (which must be in the PATH) using a MSYS2 bash shell.
+ * executable installer using Microsoft SignTool.exe (Sign Tool)
+ * https://learn.microsoft.com/en-us/dotnet/framework/tools/signtool-exe
  */
 async function signWindowsInstaller() {
 	if (process.env.CSC_LINK && process.env.CSC_KEY_PASSWORD) {
 		const exeName = renamedOclifInstallers[process.platform];
 		console.log(`Signing installer "${exeName}"`);
-		await execFileAsync(MSYS2_BASH, [
-			'sign-exe.sh',
+		// trust ...
+		await execFileAsync('signtool.exe', [
+			'sign',
+			'-t',
+			process.env.TIMESTAMP_SERVER || 'http://timestamp.comodoca.com',
 			'-f',
-			exeName,
+			process.env.CSC_LINK,
+			'-p',
+			process.env.CSC_KEY_PASSWORD,
 			'-d',
 			`balena-cli ${version}`,
+			exeName,
 		]);
+		// ... but verify
+		await execFileAsync('signtool.exe', ['verify', '-pa', '-v', exeName]);
 	} else {
 		console.log(
 			'Skipping installer signing step because CSC_* env vars are not set',
@@ -450,14 +456,21 @@ async function signWindowsInstaller() {
  * Wait for Apple Installer Notarization to continue
  */
 async function notarizeMacInstaller(): Promise<void> {
-	const appleId = 'accounts+apple@balena.io';
-	const { notarize } = await import('electron-notarize');
-	await notarize({
-		appBundleId: 'io.balena.etcher',
-		appPath: renamedOclifInstallers.darwin,
-		appleId,
-		appleIdPassword: '@keychain:CLI_PASSWORD',
-	});
+	const appleId =
+		process.env.XCODE_APP_LOADER_EMAIL || 'accounts+apple@balena.io';
+	const appBundleId = packageJSON.oclif.macos.identifier || 'io.balena.cli';
+	const appleIdPassword = process.env.XCODE_APP_LOADER_PASSWORD;
+
+	if (appleIdPassword) {
+		const { notarize } = await import('electron-notarize');
+		// https://github.com/electron/notarize/blob/main/README.md
+		await notarize({
+			appBundleId,
+			appPath: renamedOclifInstallers.darwin,
+			appleId,
+			appleIdPassword,
+		});
+	}
 }
 
 /**

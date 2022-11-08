@@ -90,8 +90,7 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=12.8.0 <13.0.0",
-    "npm": "<7.0.0"
+    "node": ">=12 <16"
   },
   "husky": {
     "hooks": {
