@@ -9,6 +9,11 @@ inputs:
     description: "JSON stringified object containing all the secrets from the calling workflow"
     required: true
 
+  # --- custom environment
+  VERBOSE:
+    type: string
+    default: "true"
+
 runs:
   # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
   using: "composite"
@@ -27,13 +32,9 @@ runs:
     # https://docs.github.com/en/rest/releases
     - name: Finalize GitHub release
       if: runner.os == 'Linux'
-      # FIXME: Process completed with exit code 141.
-      # https://stackoverflow.com/questions/54999974
-      # https://stackoverflow.com/questions/22464786
-      continue-on-error: true
       shell: bash
       run: |
-        set -a
+        set -ea
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
