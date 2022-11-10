@@ -27,12 +27,13 @@ runs:
     # https://docs.github.com/en/rest/releases
     - name: Finalize GitHub release
       if: runner.os == 'Linux'
+      # FIXME: Process completed with exit code 141.
+      # https://stackoverflow.com/questions/54999974
+      # https://stackoverflow.com/questions/22464786
+      continue-on-error: true
       shell: bash
       run: |
-        set -ea
-
-        # https://stackoverflow.com/a/22464942/1559300
-        trap '' PIPE
+        set -a
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
