@@ -27,7 +27,7 @@ runs:
     # https://docs.github.com/en/rest/releases
     - name: Finalize GitHub release
       if: runner.os == 'Linux'
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         set -ea
 
