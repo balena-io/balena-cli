@@ -1,4 +1,20 @@
 - commits:
+    - subject: Error when the device type and image parameters do not match
+      hash: 4de369ff956a4da2a34ddb8f54cf3fcef10a9ec2
+      body: ""
+      footer:
+        Resolves: "#2537"
+        resolves: "#2537"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.4
+  title: ""
+  date: 2022-11-10T18:31:18.648Z
+- commits:
     - subject: Switch to Flowzone
       hash: 19144163eeed93a6b68b91715d87e043879a8d51
       body: ""
