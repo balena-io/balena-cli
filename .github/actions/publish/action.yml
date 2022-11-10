@@ -1,0 +1,153 @@
+---
+name: package and draft GitHub release
+# https://github.com/product-os/flowzone/tree/master/.github/actions
+inputs:
+  json:
+    description: "JSON stringified object containing all the inputs from the calling workflow"
+    required: true
+  secrets:
+    description: "JSON stringified object containing all the secrets from the calling workflow"
+    required: true
+
+  # --- custom environment
+  XCODE_APP_LOADER_EMAIL:
+    type: string
+    default: "accounts+apple@balena.io"
+  NODE_VERSION:
+    type: string
+    # FIXME: (please) https://github.com/balena-io/balena-cli/issues/2165
+    default: "12.x"
+  VERBOSE:
+    type: string
+    default: "true"
+
+runs:
+  # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
+  using: "composite"
+  steps:
+    - name: Download custom source artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}
+        path: ${{ runner.temp }}
+
+    - name: Extract custom source artifact
+      shell: pwsh
+      working-directory: .
+      run: tar -xf ${{ runner.temp }}/custom.tgz
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.NODE_VERSION }}
+        cache: npm
+
+    - name: Install additional tools
+      if: runner.os == 'Windows'
+      shell: bash --noprofile --norc -eo pipefail -x {0}
+      run: |
+        choco install yq
+
+    - name: Install additional tools
+      if: runner.os == 'macOS'
+      shell: bash --noprofile --norc -eo pipefail -x {0}
+      run: |
+        brew install coreutils
+
+    # https://www.electron.build/code-signing.html
+    # https://github.com/Apple-Actions/import-codesign-certs
+    - name: Import Apple code signing certificate
+      if: runner.os == 'macOS'
+      uses: apple-actions/import-codesign-certs@v1
+      with:
+        p12-file-base64: ${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
+        p12-password: ${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
+
+    - name: Import Windows code signing certificate
+      if: runner.os == 'Windows'
+      shell: powershell
+      run: |
+        Set-Content -Path ${{ runner.temp }}/certificate.base64 -Value $env:WINDOWS_CERTIFICATE
+        certutil -decode ${{ runner.temp }}/certificate.base64 ${{ runner.temp }}/certificate.pfx
+        Remove-Item -path ${{ runner.temp }} -include certificate.base64
+
+        Import-PfxCertificate `
+          -FilePath ${{ runner.temp }}/certificate.pfx `
+          -CertStoreLocation Cert:\CurrentUser\My `
+          -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
+
+      env:
+        WINDOWS_CERTIFICATE: ${{ fromJSON(inputs.secrets).WINDOWS_SIGNING }}
+        WINDOWS_CERTIFICATE_PASSWORD: ${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
+
+    # https://github.com/product-os/scripts/tree/master/shared
+    # https://github.com/product-os/balena-concourse/blob/master/pipelines/github-events/template.yml
+    - name: Package release
+      id: package_release
+      shell: bash --noprofile --norc -eo pipefail -x {0}
+      run: |
+        set -ea
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        runner_os="$(echo "${RUNNER_OS}" | tr '[:upper:]' '[:lower:]')"
+        runner_arch="$(echo "${RUNNER_ARCH}" | tr '[:upper:]' '[:lower:]')"
+
+        if [[ $runner_os =~ darwin|macos|osx ]]; then
+            CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
+            CSC_KEYCHAIN=signing_temp
+            CSC_LINK=${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
+
+        elif [[ $runner_os =~ windows|win ]]; then
+            CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
+            CSC_LINK='${{ runner.temp }}\certificate.pfx'
+
+            # patches/all/oclif.patch
+            MSYSSHELLPATH="$(which bash)"
+            MSYSTEM=MSYS
+
+            # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
+            PATH="/c/Program Files (x86)/Windows Kits/10/bin/${runner_arch}:${PATH}"
+        fi
+
+        npm run package
+
+        find dist -type f -maxdepth 1
+
+        echo "version=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      env:
+        # https://github.blog/2020-08-03-github-actions-improvements-for-fork-and-pull-request-workflows/#improvements-for-public-repository-forks
+        # https://docs.github.com/en/actions/managing-workflow-runs/approving-workflow-runs-from-public-forks#about-workflow-runs-from-public-forks
+        CSC_FOR_PULL_REQUEST: true
+        # https://sectigo.com/resource-library/time-stamping-server
+        TIMESTAMP_SERVER: http://timestamp.sectigo.com
+        # Apple notarization (automation/build-bin.ts)
+        XCODE_APP_LOADER_EMAIL: ${{ inputs.XCODE_APP_LOADER_EMAIL }}
+        XCODE_APP_LOADER_PASSWORD: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_PASSWORD }}
+
+    # https://github.com/softprops/action-gh-release#-customizing
+    - name: Create draft GitHub (pre)release
+      uses: softprops/action-gh-release@v1
+      with:
+        # use PR branch name for draft releases
+        name: ${{ github.event.pull_request.head.ref }}
+        tag_name: ${{ github.event.pull_request.head.ref }}
+        draft: true
+        prerelease: true
+        token: ${{ fromJSON(inputs.secrets).FLOWZONE_TOKEN }}
+        files: |
+          dist/*.pkg
+          dist/*.exe
+          dist/*.zip
+
+    - name: Compress custom source
+      shell: pwsh
+      run: tar -acf ${{ runner.temp }}/custom.tgz .
+
+    - name: Upload custom artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}
+        path: ${{ runner.temp }}/custom.tgz
+        retention-days: 1
