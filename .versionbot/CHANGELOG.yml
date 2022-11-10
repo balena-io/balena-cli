@@ -1,4 +1,16 @@
 - commits:
+    - subject: Don't pipefail
+      hash: e5ce1ade892ddddd8a34209b83dcafaeb53a0051
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 14.5.5
+  title: ""
+  date: 2022-11-10T20:07:10.573Z
+- commits:
     - subject: Error when the device type and image parameters do not match
       hash: 4de369ff956a4da2a34ddb8f54cf3fcef10a9ec2
       body: ""
