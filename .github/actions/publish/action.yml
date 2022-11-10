@@ -44,13 +44,13 @@ runs:
 
     - name: Install additional tools
       if: runner.os == 'Windows'
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         choco install yq
 
     - name: Install additional tools
       if: runner.os == 'macOS'
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         brew install coreutils
 
@@ -84,7 +84,7 @@ runs:
     # https://github.com/product-os/balena-concourse/blob/master/pipelines/github-events/template.yml
     - name: Package release
       id: package_release
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         set -ea
 
