@@ -1,4 +1,16 @@
 - commits:
+    - subject: Ignore PIPE signal
+      hash: 6063f4c7762140731a42dd1e5515ce3326b4cb91
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 14.5.6
+  title: ""
+  date: 2022-11-10T21:07:32.419Z
+- commits:
     - subject: Don't pipefail
       hash: e5ce1ade892ddddd8a34209b83dcafaeb53a0051
       body: ""
