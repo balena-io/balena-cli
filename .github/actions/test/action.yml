@@ -24,7 +24,7 @@ runs:
   steps:
     - name: Delete previous draft release
       if: runner.os == 'Linux'
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         set -ea
 
@@ -43,7 +43,7 @@ runs:
         cache: npm
 
     - name: Test release
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         set -ea
 

@@ -16,7 +16,7 @@ runs:
     - name: Get release version
       if: runner.os == 'Linux'
       id: get_release
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         set -ea
 
@@ -30,6 +30,9 @@ runs:
       shell: bash
       run: |
         set -ea
+
+        # https://stackoverflow.com/a/22464942/1559300
+        trap '' PIPE
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 

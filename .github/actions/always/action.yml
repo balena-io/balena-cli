@@ -26,7 +26,7 @@ runs:
         github.event.pull_request.merged == false &&
         github.event.action == 'closed'
 
-      shell: bash --noprofile --norc -eo pipefail -x {0}
+      shell: bash
       run: |
         set -ea
 
