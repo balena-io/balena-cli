@@ -1,4 +1,16 @@
 - commits:
+    - subject: Switch to Flowzone
+      hash: 19144163eeed93a6b68b91715d87e043879a8d51
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 14.5.3
+  title: ""
+  date: 2022-11-10T17:20:17.608Z
+- commits:
     - subject: Stop waiting for the analytics response
       hash: 1c7d9255ae5333ff717b9f32ef7adf1690cbb163
       body: ""
@@ -970,8 +982,8 @@
             - subject: "patch: bump browserify from 14.5.0 to 17.0.0"
               hash: 2ee532e8dcc3eda0c54296f468f7f9a9e637071a
               body: >
-                Bumps [browserify](https://github.com/browserify/browserify)
-                from 14.5.0 to 17.0.0.
+                Bumps [browserify](https://github.com/browserify/browserify) from 14.5.0
+                to 17.0.0.
 
                 - [Release notes](https://github.com/browserify/browserify/releases)
 
@@ -1000,8 +1012,7 @@
             - subject: "patch: bump tmp from 0.0.31 to 0.2.1"
               hash: e905a6a8054297c89e75447e5ff48ca92e13bd49
               body: >
-                Bumps [tmp](https://github.com/raszi/node-tmp) from 0.0.31 to
-                0.2.1.
+                Bumps [tmp](https://github.com/raszi/node-tmp) from 0.0.31 to 0.2.1.
 
                 - [Release notes](https://github.com/raszi/node-tmp/releases)
 
@@ -1084,8 +1095,7 @@
             - subject: "patch: bump mocha from 3.5.3 to 10.0.0"
               hash: 548996665b7e6159e5e209aa4a10987e071da024
               body: >
-                Bumps [mocha](https://github.com/mochajs/mocha) from 3.5.3 to
-                10.0.0.
+                Bumps [mocha](https://github.com/mochajs/mocha) from 3.5.3 to 10.0.0.
 
                 - [Release notes](https://github.com/mochajs/mocha/releases)
 
@@ -1128,8 +1138,8 @@
             - subject: "patch: bump mockttp from 0.9.1 to 2.7.0"
               hash: fa44187e4e510171666f046d6a3a658f59956fd4
               body: >-
-                Bumps [mockttp](https://github.com/httptoolkit/mockttp) from
-                0.9.1 to 2.7.0.
+                Bumps [mockttp](https://github.com/httptoolkit/mockttp) from 0.9.1 to
+                2.7.0.
 
                 - [Release notes](https://github.com/httptoolkit/mockttp/releases)
 
@@ -1202,8 +1212,8 @@
             - subject: "patch: bump superagent from 3.8.3 to 7.1.2"
               hash: ae3974af1965386bf236b7ae295e4a9ecc285f0c
               body: >
-                Bumps [superagent](https://github.com/visionmedia/superagent)
-                from 3.8.3 to 7.1.2.
+                Bumps [superagent](https://github.com/visionmedia/superagent) from 3.8.3
+                to 7.1.2.
 
                 - [Release notes](https://github.com/visionmedia/superagent/releases)
 
@@ -1232,8 +1242,7 @@
             - subject: "patch: bump dotenv from 4.0.0 to 16.0.0"
               hash: b2ddda64df84d5a109b2adc1ee847ff5aef17000
               body: >
-                Bumps [dotenv](https://github.com/motdotla/dotenv) from 4.0.0 to
-                16.0.0.
+                Bumps [dotenv](https://github.com/motdotla/dotenv) from 4.0.0 to 16.0.0.
 
                 - [Release notes](https://github.com/motdotla/dotenv/releases)
 
@@ -1372,8 +1381,8 @@
             - subject: "minor: Add trying SDK in the browser"
               hash: 50a6ca1844869eaccaf3275361a4016f7a284c05
               body: >
-                Add information about using SDK in the browser as a partial.
-                Solving: https://github.com/balena-io/docs/issues/2205
+                Add information about using SDK in the browser as a partial. Solving:
+                https://github.com/balena-io/docs/issues/2205
               footer:
                 Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
                 signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
@@ -1460,8 +1469,7 @@
             - subject: Remove unnecessary vpn address filtering when fetching local addresses
               hash: 12266a3c9349e5d944ba203e56f2fe80b5e97970
               body: >
-                This has been handled by the supervisor since v2.2.0 / balenaOS
-                v1.14
+                This has been handled by the supervisor since v2.2.0 / balenaOS v1.14
 
                 from 2016-09-23 and is not relevant for any supported devices
               footer:
@@ -1831,8 +1839,8 @@
             - subject: Add support for building images with progress
               hash: e072408ee951d3caf46af5050d0b71991d114614
               body: >
-                Using build instead of pull allows to add metadata (e.g. labels)
-                to pulled images in an
+                Using build instead of pull allows to add metadata (e.g. labels) to pulled
+                images in an
 
                 atomic way. This commit adds the `DockerProgres.build()` method to
 
@@ -2921,8 +2929,7 @@
                             - subject: Allow more lenient gzip decompression
                               hash: 9c7bc3051b279c9d09ec501a78dbe9f506d65650
                               body: >
-                                Be more lenient with decoding compressed
-                                responses, since (very rarely)
+                                Be more lenient with decoding compressed responses, since (very rarely)
 
                                 servers send slightly invalid gzip responses that are still accepted
 
@@ -4595,8 +4602,8 @@
     - subject: Improve directory scan speed prior to tarballing
       hash: 257dd514ed7c0f6988b8a47219991cc4f61b4529
       body: >
-        This changes improves the speed that the project is tarballed by
-        switching from
+        This changes improves the speed that the project is tarballed by switching
+        from
 
         `klaw` to `recursive-fs` and not running `lstat` on files that are ignored.
 
@@ -5107,8 +5114,7 @@
                     - subject: Allow more lenient gzip decompression
                       hash: 9c7bc3051b279c9d09ec501a78dbe9f506d65650
                       body: >
-                        Be more lenient with decoding compressed responses,
-                        since (very rarely)
+                        Be more lenient with decoding compressed responses, since (very rarely)
 
                         servers send slightly invalid gzip responses that are still accepted
 
@@ -5406,8 +5412,7 @@
     - subject: Add balena.yml handling and `--draft` to `balena deploy` release creation
       hash: 7d568a928b4297671e3776b72f64a6e2845d5f72
       body: >
-        This change allows use of a contract and release semver when doing a
-        push,
+        This change allows use of a contract and release semver when doing a push,
 
         and is part of the larger feature to use the builder as part of a CI/CD pipeline.
       footer:
@@ -6777,8 +6782,7 @@
     - subject: "docker: Improve handling of Docker-in-Docker errors"
       hash: 9036ce9af373eb8d328f105839163db0cae38ae6
       body: >
-        The `local` logging driver captures output from container’s
-        stdout/stderr
+        The `local` logging driver captures output from container’s stdout/stderr
 
         and writes them to an internal storage that is optimized for performance and disk use.
 
@@ -10437,8 +10441,7 @@
                         - commits:
                             - author: Thodoris Greasidis
                               body: >-
-                                Didn't convert the source, so that we don't end
-                                up
+                                Didn't convert the source, so that we don't end up
 
                                 having conflicts with other ongoing PRs.
                               footers:
@@ -18064,8 +18067,7 @@
       subject: "dependencies: bump etcher-sdk to pull in fixes"
     - author: Gergely Imreh
       body: >-
-        To fix the same error as here
-        https://github.com/nodejs/node/issues/20285
+        To fix the same error as here https://github.com/nodejs/node/issues/20285
 
         Task changes as described at https://fettblog.eu/gulp-4-parallel-and-series/
       footers:
@@ -19608,11 +19610,11 @@
       subject: Improve `selectFromList` function signature to be much more reusable
     - author: Akis Kesoglou
       body: >-
-        Both commands work with local devices by remotely invoking the
-        `os-config` executable via SSH. This requires an as of yet unreleased
-        resinOS (that will most likely be v2.14) and the commands ascertain
-        compatibility merely by looking for the `os-config` executable in the
-        device, and bail out if it’s not present.
+        Both commands work with local devices by remotely invoking the `os-config`
+        executable via SSH. This requires an as of yet unreleased resinOS (that
+        will most likely be v2.14) and the commands ascertain compatibility
+        merely by looking for the `os-config` executable in the device, and bail
+        out if it’s not present.
 
         `join` and `leave` accept a couple of optional arguments and implement a wizard-style interface if these are not given. They allow to interactively select the device and the application to promote to. If the user has no apps, `join` will offer the user to create one. `join` will also offer the user to login or create an account if they’re not logged in already without exiting the wizard.
 
@@ -20278,9 +20280,9 @@
       subject: Fix invoking undefined method
     - author: Akis Kesoglou
       body: >-
-        Legacy behaviour is mostly retained. The most notable change in
-        behaviour is that invoking `resin deploy` without options is now allowed
-        (see help string how it behaves).
+        Legacy behaviour is mostly retained. The most notable change in behaviour
+        is that invoking `resin deploy` without options is now allowed (see help
+        string how it behaves).
 
         In this commit there are also the following notable changes:
 
