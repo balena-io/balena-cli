@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix surfacing incompatible device type errors as not recognized
+      hash: ca9767835852da53758f8e9713db85357f22ba8b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.10
+  title: ""
+  date: 2022-11-11T11:24:19.344Z
+- commits:
     - subject: Prevent git from existing with 141
       hash: 52e95e6d0a96cfb07c111b927f3f8b0607063b99
       body: ""
