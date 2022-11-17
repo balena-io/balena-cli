@@ -1,4 +1,16 @@
 - commits:
+    - subject: Adding .nvmrc so we can use nvm use instead of hunting for version
+      hash: 767216c842569a523540b7d4d32133c4e53c7596
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: zoobot
+      nested: []
+  version: 14.5.11
+  title: ""
+  date: 2022-11-17T18:32:46.270Z
+- commits:
     - subject: Fix surfacing incompatible device type errors as not recognized
       hash: ca9767835852da53758f8e9713db85357f22ba8b
       body: ""
