@@ -83,7 +83,6 @@ runs:
     # https://github.com/product-os/scripts/tree/master/shared
     # https://github.com/product-os/balena-concourse/blob/master/pipelines/github-events/template.yml
     - name: Package release
-      id: package_release
       shell: bash
       run: |
         set -ea
@@ -114,8 +113,6 @@ runs:
 
         find dist -type f -maxdepth 1
 
-        echo "version=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
-
       env:
         # https://github.blog/2020-08-03-github-actions-improvements-for-fork-and-pull-request-workflows/#improvements-for-public-repository-forks
         # https://docs.github.com/en/actions/managing-workflow-runs/approving-workflow-runs-from-public-forks#about-workflow-runs-from-public-forks
@@ -126,28 +123,9 @@ runs:
         XCODE_APP_LOADER_EMAIL: ${{ inputs.XCODE_APP_LOADER_EMAIL }}
         XCODE_APP_LOADER_PASSWORD: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_PASSWORD }}
 
-    # https://github.com/softprops/action-gh-release#-customizing
-    - name: Create draft GitHub (pre)release
-      uses: softprops/action-gh-release@v1
-      with:
-        # use PR branch name for draft releases
-        name: ${{ github.event.pull_request.head.ref }}
-        tag_name: ${{ github.event.pull_request.head.ref }}
-        draft: true
-        prerelease: true
-        token: ${{ fromJSON(inputs.secrets).FLOWZONE_TOKEN }}
-        files: |
-          dist/*.pkg
-          dist/*.exe
-          dist/*.zip
-
-    - name: Compress custom source
-      shell: pwsh
-      run: tar -acf ${{ runner.temp }}/custom.tgz .
-
-    - name: Upload custom artifact
+    - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}
-        path: ${{ runner.temp }}/custom.tgz
+        name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
+        path: dist
         retention-days: 1
