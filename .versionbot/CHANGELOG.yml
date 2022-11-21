@@ -1,4 +1,16 @@
 - commits:
+    - subject: Move GH publishing to FZ core
+      hash: 99e8a36bb581ac84619ecba452c5afa3d56dae94
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 14.5.12
+  title: ""
+  date: 2022-11-21T18:46:45.663Z
+- commits:
     - subject: Adding .nvmrc so we can use nvm use instead of hunting for version
       hash: 767216c842569a523540b7d4d32133c4e53c7596
       body: ""
