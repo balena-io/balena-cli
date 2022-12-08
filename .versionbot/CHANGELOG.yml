@@ -1,4 +1,24 @@
 - commits:
+    - subject: Build on macos-11 for library compatibility reasons
+      hash: e566badfffbe54a44f8fdd627fc8a78a5ecc204f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Page-
+      nested: []
+    - subject: Build on ubuntu-20.04 for library compatibility reasons
+      hash: 69834c417e2aa2d2c20a9749319fc72bb6e563fa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Page-
+      nested: []
+  version: 14.5.13
+  title: ""
+  date: 2022-12-08T14:00:25.894Z
+- commits:
     - subject: Move GH publishing to FZ core
       hash: 99e8a36bb581ac84619ecba452c5afa3d56dae94
       body: ""
