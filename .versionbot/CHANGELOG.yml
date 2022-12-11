@@ -1,4 +1,25 @@
 - commits:
+    - subject: Bump multicast-dns to rebased commit (again)
+      hash: 60dd0daae5682c797ad5ac6fec94ccb7b91c5264
+      body: >
+        A recent PR reverted the multicast-dns commit bump from PR #2401. This
+        means that
+
+        under some conditions, `npm install` will fail.
+
+
+        See: https://github.com/balena-io-modules/multicast-dns/pull/1
+
+        See: https://github.com/balena-io/balena-cli/pull/2401
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: pipex
+      nested: []
+  version: 14.5.14
+  title: ""
+  date: 2022-12-11T21:46:37.025Z
+- commits:
     - subject: Build on macos-11 for library compatibility reasons
       hash: e566badfffbe54a44f8fdd627fc8a78a5ecc204f
       body: ""
