@@ -1,4 +1,14 @@
 - commits:
+    - subject: "patch: update balena-preload to 12.2.0"
+      hash: ca637b3fb669cd8997ceb70201d4cabe0c621ecf
+      body: ""
+      footer: {}
+      author: Edwin Joassart
+      nested: []
+  version: 14.5.15
+  title: ""
+  date: 2022-12-12T13:41:11.847Z
+- commits:
     - subject: Bump multicast-dns to rebased commit (again)
       hash: 60dd0daae5682c797ad5ac6fec94ccb7b91c5264
       body: >
