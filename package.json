@@ -207,7 +207,7 @@
     "balena-errors": "^4.7.1",
     "balena-image-fs": "^7.0.6",
     "balena-image-manager": "^8.0.0",
-    "balena-preload": "^12.1.0",
+    "balena-preload": "^12.2.0",
     "balena-sdk": "^16.28.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",
