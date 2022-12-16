@@ -52,7 +52,6 @@ interface MonitoredContainer {
 	containerId: string;
 }
 
-type BuildLogs = Dictionary<string>;
 type StageImageIDs = Dictionary<string[]>;
 
 export interface LivepushOpts {
@@ -62,7 +61,7 @@ export interface LivepushOpts {
 	docker: Dockerode;
 	api: DeviceAPI;
 	logger: Logger;
-	buildLogs: BuildLogs;
+	imageIds: StageImageIDs;
 	deployOpts: DeviceDeployOptions;
 }
 
@@ -97,7 +96,7 @@ export class LivepushManager {
 		this.api = opts.api;
 		this.logger = opts.logger;
 		this.deployOpts = opts.deployOpts;
-		this.imageIds = LivepushManager.getMultistageImageIDs(opts.buildLogs);
+		this.imageIds = opts.imageIds;
 	}
 
 	public async init(): Promise<void> {
@@ -297,33 +296,6 @@ export class LivepushManager {
 		return new Dockerfile(content).generateLiveDockerfile();
 	}
 
-	private static getMultistageImageIDs(buildLogs: BuildLogs): StageImageIDs {
-		const stageIds: StageImageIDs = {};
-		_.each(buildLogs, (log, serviceName) => {
-			stageIds[serviceName] = [];
-
-			const lines = log.split(/\r?\n/);
-			let lastArrowMessage: string | undefined;
-			for (const line of lines) {
-				// If this was a from line, take the last found
-				// image id and save it
-				if (
-					/step \d+(?:\/\d+)?\s*:\s*FROM/i.test(line) &&
-					lastArrowMessage != null
-				) {
-					stageIds[serviceName].push(lastArrowMessage);
-				} else {
-					const msg = LivepushManager.extractDockerArrowMessage(line);
-					if (msg != null) {
-						lastArrowMessage = msg;
-					}
-				}
-			}
-		});
-
-		return stageIds;
-	}
-
 	private async awaitDeviceStateSettle(): Promise<void> {
 		// Cache the state to avoid unnecessary calls
 		this.lastDeviceStatus = await this.api.getStatus();
@@ -405,9 +377,9 @@ export class LivepushManager {
 				);
 			}
 
-			let buildLog: string;
+			let stageImages: string[];
 			try {
-				buildLog = await rebuildSingleTask(
+				stageImages = await rebuildSingleTask(
 					serviceName,
 					this.docker,
 					this.logger,
@@ -466,17 +438,13 @@ export class LivepushManager {
 				);
 			}
 
-			const buildLogs: Dictionary<string> = {};
-			buildLogs[serviceName] = buildLog;
-			const stageImages = LivepushManager.getMultistageImageIDs(buildLogs);
-
 			const dockerfile = new Dockerfile(buildTask.dockerfile!);
 
 			instance.livepush = await Livepush.init({
 				dockerfile,
 				context: buildTask.context!,
 				containerId: container.containerId,
-				stageImages: stageImages[serviceName],
+				stageImages,
 				docker: this.docker,
 			});
 			this.assignLivepushOutputHandlers(serviceName, instance.livepush);
@@ -534,16 +502,6 @@ export class LivepushManager {
 		livepush.on('cancel', () => {
 			log('Cancelling current livepush...');
 		});
-	}
-
-	private static extractDockerArrowMessage(
-		outputLine: string,
-	): string | undefined {
-		const arrowTest = /^.*\s*-+>\s*(.+)/i;
-		const match = arrowTest.exec(outputLine);
-		if (match != null) {
-			return match[1];
-		}
 	}
 
 	private getDockerfilePathFromTask(task: BuildTask): string[] {
