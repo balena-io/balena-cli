@@ -15,4 +15,25 @@
  * limitations under the License.
  */
 
-declare module 'resin-cli-visuals';
+declare module 'resin-cli-visuals' {
+	export const Progress: new (...options: any[]) => any;
+
+	export class Spinner {
+		constructor(message?: string);
+		spinner: any;
+		start(): void;
+		stop(): void;
+	}
+
+	export const SpinnerPromise: new <T>(options: {
+		promise: T;
+		startMessage: string;
+		stopMessage: string;
+	}) => T;
+
+	export const table: {
+		horizontal: (...options: any[]) => any;
+		vertical: (...options: any[]) => any;
+	};
+	export const drive: (...options: any[]) => any;
+}

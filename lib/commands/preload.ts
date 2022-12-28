@@ -187,7 +187,7 @@ Can be repeated to add multiple certificates.\
 			: undefined;
 
 		const progressBars: {
-			[key: string]: ReturnType<typeof getVisuals>['Progress'];
+			[key: string]: InstanceType<ReturnType<typeof getVisuals>['Progress']>;
 		} = {};
 
 		const progressHandler = function (event: {
@@ -201,7 +201,7 @@ Can be repeated to add multiple certificates.\
 		};
 
 		const spinners: {
-			[key: string]: ReturnType<typeof getVisuals>['Spinner'];
+			[key: string]: InstanceType<ReturnType<typeof getVisuals>['Spinner']>;
 		} = {};
 
 		const spinnerHandler = function (event: { name: string; action: string }) {

@@ -163,12 +163,61 @@ async function getOsVersion(deviceIp: string): Promise<string> {
 	return match[1];
 }
 
+const dockerPort = 2375;
+const dockerTimeout = 2000;
+
+async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
+	const { discoverLocalBalenaOsDevices } = await import('../utils/discover');
+	const { SpinnerPromise } = getVisuals();
+	const devices = await new SpinnerPromise({
+		promise: discoverLocalBalenaOsDevices(timeout),
+		startMessage: 'Discovering local balenaOS devices..',
+		stopMessage: 'Reporting discovered devices',
+	});
+
+	const responsiveDevices: typeof devices = [];
+	const Docker = await import('docker-toolbelt');
+	await Promise.all(
+		devices.map(async function (device) {
+			const address = device?.address;
+			if (!address) {
+				return;
+			}
+
+			try {
+				const docker = new Docker({
+					host: address,
+					port: dockerPort,
+					timeout: dockerTimeout,
+				});
+				await docker.ping();
+				responsiveDevices.push(device);
+			} catch {
+				return;
+			}
+		}),
+	);
+
+	if (!responsiveDevices.length) {
+		throw new Error('Could not find any local balenaOS devices');
+	}
+
+	return getCliForm().ask({
+		message: 'select a device',
+		type: 'list',
+		default: devices[0].address,
+		choices: responsiveDevices.map((device) => ({
+			name: `${device.host || 'untitled'} (${device.address})`,
+			value: device.address,
+		})),
+	});
+}
+
 async function selectLocalDevice(): Promise<string> {
-	const { forms } = await import('balena-sync');
-	let hostnameOrIp;
 	try {
-		hostnameOrIp = await forms.selectLocalBalenaOsDevice();
+		const hostnameOrIp = await selectLocalBalenaOsDevice();
 		console.error(`==> Selected device: ${hostnameOrIp}`);
+		return hostnameOrIp;
 	} catch (e) {
 		if (e.message.toLowerCase().includes('could not find any')) {
 			throw new ExpectedError(e);
@@ -176,8 +225,6 @@ async function selectLocalDevice(): Promise<string> {
 			throw e;
 		}
 	}
-
-	return hostnameOrIp;
 }
 
 async function selectAppFromList(
