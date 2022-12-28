@@ -1295,9 +1295,9 @@
       }
     },
     "@balena/compose": {
-      "version": "2.1.1",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-2.1.1.tgz",
-      "integrity": "sha512-Ra+nrR+wAuWYZsKFAtHpVZOpig19rcMvBtdoPuCjFgcpSCqGNLFaaHqRvg/kr9nN6sFXyaiYKpsb9C/varmy3Q==",
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-2.1.2.tgz",
+      "integrity": "sha512-FeVbdlFGRsU+oSlMm+15c0EC4VFaCdTbU1ym6aMlGGXkhn9ChYXCxpJAGUMCxe3Wzim1oh7Vnpb0QVUiX6Sfkw==",
       "requires": {
         "JSONStream": "^1.3.5",
         "ajv": "^6.12.3",
@@ -1307,7 +1307,7 @@
         "docker-modem": "^3.0.3",
         "docker-progress": "^5.1.0",
         "dockerfile-ast": "^0.2.1",
-        "dockerode": "^3.3.1",
+        "dockerode": "3.3.3",
         "duplexify": "^4.1.2",
         "event-stream": "^4.0.1",
         "fp-ts": "^2.8.1",
@@ -1333,14 +1333,14 @@
           "integrity": "sha512-6+VnnhZpxwWvvKwjkRnuqlTtlBRJuM+3cCSXmZoYhyXcdgxx6l/3lwYpqmJ9qmhzgWVeATkpVsTua92BsObJjw=="
         },
         "docker-modem": {
-          "version": "3.0.5",
-          "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-3.0.5.tgz",
-          "integrity": "sha512-x1E6jxWdtoK3+ifAUWj4w5egPdTDGBpesSCErm+aKET5BnnEOvDtTP6GxcnMB1zZiv2iQ0qJZvJie+1wfIRg6Q==",
+          "version": "3.0.6",
+          "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-3.0.6.tgz",
+          "integrity": "sha512-h0Ow21gclbYsZ3mkHDfsYNDqtRhXS8fXr51bU0qr1dxgTMJj0XufbzX+jhNOvA8KuEEzn6JbvLVhXyv+fny9Uw==",
           "requires": {
             "debug": "^4.1.1",
             "readable-stream": "^3.5.0",
             "split-ca": "^1.0.1",
-            "ssh2": "^1.4.0"
+            "ssh2": "^1.11.0"
           }
         },
         "event-stream": {
@@ -1368,9 +1368,9 @@
           "integrity": "sha512-pgsE40/SvC7st04AHiISNewaIMUbY5V/K8b21ekiPiFoYs/EYSdsGa+FJArB1d441uq4Q8zZyIxvAzkGNlBdRw=="
         },
         "nan": {
-          "version": "2.16.0",
-          "resolved": "https://registry.npmjs.org/nan/-/nan-2.16.0.tgz",
-          "integrity": "sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==",
+          "version": "2.17.0",
+          "resolved": "https://registry.npmjs.org/nan/-/nan-2.17.0.tgz",
+          "integrity": "sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==",
           "optional": true
         },
         "readable-stream": {
@@ -2668,9 +2668,9 @@
       }
     },
     "@types/dockerode": {
-      "version": "3.3.9",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.9.tgz",
-      "integrity": "sha512-SYRN5FF/qmwpxUT6snJP5D8k0wgoUKOGVs625XvpRJOOUi6s//UYI4F0tbyE3OmzpI70Fo1+aqpzX27zCrInww==",
+      "version": "3.3.11",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.11.tgz",
+      "integrity": "sha512-aokz8xlZoq+ShZ5UkDmVZFwOrzuxK2ufFxK8WcQ4PuCPlQmUWl7kyHAv6ahKI7furWAysLtQnO7xX0jNDJdQTw==",
       "requires": {
         "@types/docker-modem": "*",
         "@types/node": "*"
@@ -3061,18 +3061,9 @@
       }
     },
     "@types/ssh2": {
-      "version": "0.5.52",
-      "resolved": "https://registry.npmjs.org/@types/ssh2/-/ssh2-0.5.52.tgz",
-      "integrity": "sha512-lbLLlXxdCZOSJMCInKH2+9V/77ET2J6NPQHpFI0kda61Dd1KglJs+fPQBchizmzYSOJBgdTajhPqBO1xxLywvg==",
-      "requires": {
-        "@types/node": "*",
-        "@types/ssh2-streams": "*"
-      }
-    },
-    "@types/ssh2-streams": {
-      "version": "0.1.9",
-      "resolved": "https://registry.npmjs.org/@types/ssh2-streams/-/ssh2-streams-0.1.9.tgz",
-      "integrity": "sha512-I2J9jKqfmvXLR5GomDiCoHrEJ58hAOmFrekfFqmCFd+A6gaEStvWnPykoWUwld1PNg4G5ag1LwdA+Lz1doRJqg==",
+      "version": "1.11.6",
+      "resolved": "https://registry.npmjs.org/@types/ssh2/-/ssh2-1.11.6.tgz",
+      "integrity": "sha512-8Mf6bhzYYBLEB/G6COux7DS/F5bCWwojv/qFo2yH/e4cLzAavJnxvFXrYW59iKfXdhG6OmzJcXDasgOb/s0rxw==",
       "requires": {
         "@types/node": "*"
       }
@@ -5564,9 +5555,9 @@
       },
       "dependencies": {
         "nan": {
-          "version": "2.16.0",
-          "resolved": "https://registry.npmjs.org/nan/-/nan-2.16.0.tgz",
-          "integrity": "sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==",
+          "version": "2.17.0",
+          "resolved": "https://registry.npmjs.org/nan/-/nan-2.17.0.tgz",
+          "integrity": "sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==",
           "optional": true
         }
       }
@@ -6468,9 +6459,9 @@
       }
     },
     "dockerode": {
-      "version": "3.3.1",
-      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.1.tgz",
-      "integrity": "sha512-AS2mr8Lp122aa5n6d99HkuTNdRV1wkkhHwBdcnY6V0+28D3DSYwhxAk85/mM9XwD3RMliTxyr63iuvn5ZblFYQ==",
+      "version": "3.3.3",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.3.tgz",
+      "integrity": "sha512-lvKV6/NGf2/CYLt5V4c0fd6Fl9XZSCo1Z2HBT9ioKrKLMB2o+gA62Uza8RROpzGvYv57KJx2dKu+ZwSpB//OIA==",
       "requires": {
         "docker-modem": "^3.0.0",
         "tar-fs": "~2.0.1"
@@ -7941,9 +7932,9 @@
       "integrity": "sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow=="
     },
     "fp-ts": {
-      "version": "2.12.2",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.12.2.tgz",
-      "integrity": "sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw=="
+      "version": "2.13.1",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.13.1.tgz",
+      "integrity": "sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -9335,9 +9326,9 @@
       }
     },
     "io-ts": {
-      "version": "2.2.17",
-      "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.2.17.tgz",
-      "integrity": "sha512-RkQY06h6rRyADVEI46OCAUYTP2p18Vdtz9Movi19Mmj7SJ1NhN/yGyW7CxlcBVxh95WKg2YSbTmcUPqqeLuhXw=="
+      "version": "2.2.19",
+      "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.2.19.tgz",
+      "integrity": "sha512-ED0GQwvKRr5C2jqOOJCkuJW2clnbzqFexQ8V7Qsb+VB36S1Mk/OKH7k0FjSe4mjKy9qBRA3OqgVGyFMUEKIubw=="
     },
     "io-ts-reporters": {
       "version": "1.2.2",
@@ -13133,9 +13124,9 @@
       }
     },
     "pinejs-client-request": {
-      "version": "7.3.5",
-      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.3.5.tgz",
-      "integrity": "sha512-A7OFpAASDixcprtBpHInF28oqcFXWeYssOlIVIzIMua6QIL65OVqxVdrkMb9KcAFfgJX9oY8656+Ri4O1w05lA==",
+      "version": "7.3.6",
+      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.3.6.tgz",
+      "integrity": "sha512-6Pr9rKXh2DcZcd/sCc7r8nLq6upL8SLWu7/VURAQ57U43bVWs/Urbib4jdyJ9CjRVvhGWm+7b52Y/Y0Q29WhqA==",
       "requires": {
         "@types/lodash": "^4.14.181",
         "@types/lru-cache": "^5.1.1",
@@ -13148,9 +13139,9 @@
       },
       "dependencies": {
         "@types/lodash": {
-          "version": "4.14.182",
-          "resolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.182.tgz",
-          "integrity": "sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q=="
+          "version": "4.14.186",
+          "resolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.186.tgz",
+          "integrity": "sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw=="
         },
         "@types/request": {
           "version": "2.48.8",
@@ -13174,9 +13165,9 @@
           }
         },
         "pinejs-client-core": {
-          "version": "6.10.2",
-          "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.10.2.tgz",
-          "integrity": "sha512-atW5VgmHdAwJGhalhw3hLbjhrjVQDODaSzrwLJYWFHS4M2XlQPdl7xGin4U6moGeVnsUDQe+/qVU8yKJLDgXrQ==",
+          "version": "6.10.5",
+          "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.10.5.tgz",
+          "integrity": "sha512-wkcbNXCaU+wFAkPqdXUAlSA9XWjHmMrPzvRdmm1fEnI5bhaon8UWnH3cKi9JHZ8RXsO/bvn6d8zl7MKxQsn13Q==",
           "requires": {
             "@balena/es-version": "^1.0.1"
           }
