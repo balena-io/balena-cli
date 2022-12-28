@@ -1,4 +1,16 @@
 - commits:
+    - subject: Stop using the deprecated balena-sync module
+      hash: 2fd0ca6a0203c30639cc981cf572bf2aa375b881
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.17
+  title: ""
+  date: 2022-12-28T23:56:10.845Z
+- commits:
     - subject: Update the npm-shrinkwrap.json dependencies to match the package.json
       hash: 63a0d1977031ba633d3be7d108320c111c6bdf49
       body: ""
