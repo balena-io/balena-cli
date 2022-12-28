@@ -1,21 +1,3 @@
-> Warning Cannot resolve 'module'
-  node_modules/balena-sync/build/index.js
-  Dynamic require may fail at run time, because the requested file
-  is unknown at compilation time and not included into executable.
-  Use a string literal as an argument for 'require', or leave it
-  as is and specify the resolved file name in 'scripts' option.
-> Warning Cannot resolve ''./' + command'
-  node_modules/balena-sync/build/capitano/index.js
-  Dynamic require may fail at run time, because the requested file
-  is unknown at compilation time and not included into executable.
-  Use a string literal as an argument for 'require', or leave it
-  as is and specify the resolved file name in 'scripts' option.
-> Warning Cannot resolve ''./' + target'
-  node_modules/balena-sync/build/sync/index.js
-  Dynamic require may fail at run time, because the requested file
-  is unknown at compilation time and not included into executable.
-  Use a string literal as an argument for 'require', or leave it
-  as is and specify the resolved file name in 'scripts' option.
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
   %1: node_modules/open/xdg-open
