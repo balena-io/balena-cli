@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update the npm-shrinkwrap.json dependencies to match the package.json
+      hash: 63a0d1977031ba633d3be7d108320c111c6bdf49
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.16
+  title: ""
+  date: 2022-12-28T23:01:23.125Z
+- commits:
     - subject: "patch: update balena-preload to 12.2.0"
       hash: ca637b3fb669cd8997ceb70201d4cabe0c621ecf
       body: ""
