@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update flowzone tests to use npm ci
+      hash: c818d846b368cf9c634757581faca15074100e8a
+      body: |
+        Will also make sure that the shrinkwrap is
+        matching the committed package.json.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.18
+  title: ""
+  date: 2022-12-29T07:20:47.915Z
+- commits:
     - subject: Stop using the deprecated balena-sync module
       hash: 2fd0ca6a0203c30639cc981cf572bf2aa375b881
       body: ""
