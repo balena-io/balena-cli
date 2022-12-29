@@ -36,7 +36,7 @@ runs:
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
-        if [[ -e package-lock.json ]]; then
+        if [[ -e package-lock.json ]] || [[ -e npm-shrinkwrap.json ]]; then
             npm ci
         else
             npm i
