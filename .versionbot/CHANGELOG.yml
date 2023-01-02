@@ -1,4 +1,19 @@
 - commits:
+    - subject: "preload: Drops ability to preload Intel Edison (EOL 2017) Upgrade
+        balena-preload from 12.2.0 to 13.0.0"
+      hash: 40a0941ca30d7a997300231fc43385ce7bdb5e68
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Edwin Joassart <edwin.joassart@balena.io>
+        signed-off-by: Edwin Joassart <edwin.joassart@balena.io>
+      author: JOASSART Edwin
+      nested: []
+  version: 15.0.0
+  title: ""
+  date: 2023-01-02T15:21:57.099Z
+- commits:
     - subject: Update flowzone tests to use npm ci
       hash: c818d846b368cf9c634757581faca15074100e8a
       body: |
