@@ -158,17 +158,16 @@ export async function runRemoteCommand({
 					resolve([code ?? undefined, signal ?? undefined]),
 				);
 
-				if (ps.stdin && stdin && typeof stdin !== 'string') {
-					stdin.pipe(ps.stdin);
-				}
-				if (ps.stdout && stdout && typeof stdout !== 'string') {
-					ps.stdout.pipe(stdout);
-				}
-				if (ps.stderr && stderr && typeof stderr !== 'string') {
-					ps.stderr.pipe(stderr);
-				}
-			},
-		);
+			if (ps.stdin && stdin && typeof stdin !== 'string') {
+				stdin.pipe(ps.stdin);
+			}
+			if (ps.stdout && stdout && typeof stdout !== 'string') {
+				ps.stdout.pipe(stdout);
+			}
+			if (ps.stderr && stderr && typeof stderr !== 'string') {
+				ps.stderr.pipe(stderr);
+			}
+		});
 	} catch (error) {
 		const msg = [
 			`ssh failed with exit code=${exitCode} signal=${exitSignal}:`,
