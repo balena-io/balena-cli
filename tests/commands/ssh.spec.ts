@@ -178,7 +178,7 @@ async function startMockSshServer(): Promise<[Server, number]> {
 	});
 
 	return await new Promise<[Server, number]>((resolve, reject) => {
-		// TODO: remove 'as any' below. According to @types/node v12.20.42, the
+		// TODO: remove 'as any' below. According to @types/node v14.18.36, the
 		// callback type is `() => void`, but our code assumes `(err: Error) => void`
 		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
 			// this callback is called for the 'listening' event
