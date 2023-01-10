@@ -15,8 +15,7 @@ inputs:
     default: "accounts+apple@balena.io"
   NODE_VERSION:
     type: string
-    # FIXME: (please) https://github.com/balena-io/balena-cli/issues/2165
-    default: "12.x"
+    default: "14.x"
   VERBOSE:
     type: string
     default: "true"

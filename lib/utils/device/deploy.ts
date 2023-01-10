@@ -209,9 +209,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logDebug('Fetching device information...');
 	const deviceInfo = await api.getDeviceInformation();
 
-	let buildLogs: Dictionary<string> | undefined;
+	let imageIds: Dictionary<string[]> | undefined;
 	if (!opts.nolive) {
-		buildLogs = {};
+		imageIds = {};
 	}
 
 	const { awaitInterruptibleTask } = await import('../helpers');
@@ -223,7 +223,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		deviceInfo,
 		globalLogger,
 		opts,
-		buildLogs,
+		imageIds,
 	);
 
 	globalLogger.outputDeferredMessages();
@@ -265,7 +265,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			docker,
 			logger: globalLogger,
 			composition: project.composition,
-			buildLogs: buildLogs!,
+			imageIds: imageIds!,
 			deployOpts: opts,
 		});
 		promises.push(livepush.init());
@@ -312,6 +312,14 @@ function connectToDocker(host: string, port: number): Docker {
 	});
 }
 
+function extractDockerArrowMessage(outputLine: string): string | undefined {
+	const arrowTest = /^.*\s*-+>\s*(.+)/i;
+	const match = arrowTest.exec(outputLine);
+	if (match != null) {
+		return match[1];
+	}
+}
+
 async function performBuilds(
 	composition: Composition,
 	tarStream: Readable,
@@ -319,7 +327,7 @@ async function performBuilds(
 	deviceInfo: DeviceInfo,
 	logger: Logger,
 	opts: DeviceDeployOptions,
-	buildLogs?: Dictionary<string>,
+	imageIds?: Dictionary<string[]>,
 ): Promise<BuildTask[]> {
 	const multibuild = await import('@balena/compose/dist/multibuild');
 
@@ -345,14 +353,29 @@ async function performBuilds(
 	// If we're passed a build logs object make sure to set it
 	// up properly
 	let logHandlers: ((serviceName: string, line: string) => void) | undefined;
-	if (buildLogs != null) {
+
+	const lastArrowMessage: Dictionary<string> = {};
+
+	if (imageIds != null) {
 		for (const task of buildTasks) {
 			if (!task.external) {
-				buildLogs[task.serviceName] = '';
+				imageIds[task.serviceName] = [];
 			}
 		}
 		logHandlers = (serviceName: string, line: string) => {
-			buildLogs[serviceName] += `${line}\n`;
+			// If this was a from line, take the last found
+			// image id and save it
+			if (
+				/step \d+(?:\/\d+)?\s*:\s*FROM/i.test(line) &&
+				lastArrowMessage[serviceName] != null
+			) {
+				imageIds[serviceName].push(lastArrowMessage[serviceName]);
+			} else {
+				const msg = extractDockerArrowMessage(line);
+				if (msg != null) {
+					lastArrowMessage[serviceName] = msg;
+				}
+			}
 		};
 	}
 
@@ -413,12 +436,26 @@ export async function rebuildSingleTask(
 	// the logs, so any calller who wants to keep track of
 	// this should provide the following callback
 	containerIdCb?: (id: string) => void,
-): Promise<string> {
+): Promise<string[]> {
 	const multibuild = await import('@balena/compose/dist/multibuild');
 	// First we run the build task, to get the new image id
-	let buildLogs = '';
+	const stageIds = [] as string[];
+	let lastArrowMessage: string | undefined;
+
 	const logHandler = (_s: string, line: string) => {
-		buildLogs += `${line}\n`;
+		// If this was a FROM line, take the last found
+		// image id and save it as a stage id
+		if (
+			/step \d+(?:\/\d+)?\s*:\s*FROM/i.test(line) &&
+			lastArrowMessage != null
+		) {
+			stageIds.push(lastArrowMessage);
+		} else {
+			const msg = extractDockerArrowMessage(line);
+			if (msg != null) {
+				lastArrowMessage = msg;
+			}
+		}
 
 		if (containerIdCb != null) {
 			const match = line.match(/^\s*--->\s*Running\s*in\s*([a-f0-9]*)\s*$/i);
@@ -477,7 +514,7 @@ export async function rebuildSingleTask(
 		]);
 	}
 
-	return buildLogs;
+	return stageIds;
 }
 
 function assignOutputHandlers(

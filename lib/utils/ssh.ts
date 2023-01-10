@@ -151,23 +151,23 @@ export async function runRemoteCommand({
 	let exitCode: number | undefined;
 	let exitSignal: NodeJS.Signals | undefined;
 	try {
-		[exitCode, exitSignal] = await new Promise<[number, NodeJS.Signals]>(
-			(resolve, reject) => {
-				const ps = spawn(program, args, { stdio })
-					.on('error', reject)
-					.on('close', (code, signal) => resolve([code, signal]));
+		[exitCode, exitSignal] = await new Promise((resolve, reject) => {
+			const ps = spawn(program, args, { stdio })
+				.on('error', reject)
+				.on('close', (code, signal) =>
+					resolve([code ?? undefined, signal ?? undefined]),
+				);
 
-				if (ps.stdin && stdin && typeof stdin !== 'string') {
-					stdin.pipe(ps.stdin);
-				}
-				if (ps.stdout && stdout && typeof stdout !== 'string') {
-					ps.stdout.pipe(stdout);
-				}
-				if (ps.stderr && stderr && typeof stderr !== 'string') {
-					ps.stderr.pipe(stderr);
-				}
-			},
-		);
+			if (ps.stdin && stdin && typeof stdin !== 'string') {
+				stdin.pipe(ps.stdin);
+			}
+			if (ps.stdout && stdout && typeof stdout !== 'string') {
+				ps.stdout.pipe(stdout);
+			}
+			if (ps.stderr && stderr && typeof stderr !== 'string') {
+				ps.stderr.pipe(stderr);
+			}
+		});
 	} catch (error) {
 		const msg = [
 			`ssh failed with exit code=${exitCode} signal=${exitSignal}:`,

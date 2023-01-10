@@ -1421,6 +1421,14 @@
         "tslint-no-unused-expression-chai": "^0.1.4",
         "typescript": "^4.2.4",
         "yargs": "^16.2.0"
+      },
+      "dependencies": {
+        "@types/node": {
+          "version": "12.20.55",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-12.20.55.tgz",
+          "integrity": "sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==",
+          "dev": true
+        }
       }
     },
     "@balena/node-beaglebone-usbboot": {
@@ -2888,9 +2896,9 @@
       }
     },
     "@types/node": {
-      "version": "12.20.42",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-12.20.42.tgz",
-      "integrity": "sha512-aI3/oo5DzyiI5R/xAhxxRzfZlWlsbbqdgxfTPkqu/Zt+23GXiJvMCyPJT4+xKSXOnLqoL8jJYMLTwvK2M3a5hw=="
+      "version": "14.18.36",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.18.36.tgz",
+      "integrity": "sha512-FXKWbsJ6a1hIrRxv+FoukuHnGTgEzKYGi7kilfMae96AL9UNkPFNWJEEYWzdRI9ooIkbr4AKldyuSTLql06vLQ=="
     },
     "@types/node-cleanup": {
       "version": "2.1.2",
