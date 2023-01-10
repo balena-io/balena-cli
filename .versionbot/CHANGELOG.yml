@@ -1,4 +1,23 @@
 - commits:
+    - subject: Process livepush build logs inline
+      hash: 578de7bcd4d1ec6a106251d19305c99c250458c1
+      body: |
+        When using livepush, the CLI parses the build logs to obtain the stage
+        image ids, which are necessary for properly running livepush.
+
+        This process used to store the full log output in memory before parsing
+        the logs for obtaining the stage ids. We have seen this cause issues
+        before because of the excessive memory usage and it is one the suspects
+        of #2165, which is blocking the update to Node 14
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+  version: 15.0.1
+  title: ""
+  date: 2023-01-10T13:43:22.577Z
+- commits:
     - subject: "preload: Drops ability to preload Intel Edison (EOL 2017) Upgrade
         balena-preload from 12.2.0 to 13.0.0"
       hash: 40a0941ca30d7a997300231fc43385ce7bdb5e68
