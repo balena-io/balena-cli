@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix push --nolive doc typo
+      hash: ba80d3c38c89b86abfcf6ee7ef4c4113a2049bb1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 15.0.2
+  title: ""
+  date: 2023-01-14T07:35:11.117Z
+- commits:
     - subject: Process livepush build logs inline
       hash: 578de7bcd4d1ec6a106251d19305c99c250458c1
       body: |
