@@ -178,7 +178,7 @@ export default class PushCmd extends Command {
 			description: stripIndent`
 				Don't run a live session on this push. The filesystem will not be monitored,
 				and changes will not be synchronized to any running containers. Note that both
-				this flag and --detached and required to cause the process to end once the
+				this flag and --detached are required to cause the process to end once the
 				initial build has completed.`,
 			default: false,
 		}),
