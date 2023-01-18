@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use https for the npm deprecation check, avoiding a redirect
+      hash: 234fb6cd39fe0a935f73e84a2ddecf2d77e257aa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 15.0.3
+  title: ""
+  date: 2023-01-18T16:16:37.596Z
+- commits:
     - subject: Fix push --nolive doc typo
       hash: ba80d3c38c89b86abfcf6ee7ef4c4113a2049bb1
       body: ""
