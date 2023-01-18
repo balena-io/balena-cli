@@ -86,7 +86,7 @@ export class DeprecationChecker {
 	 * @param version Semver without 'v' prefix, e.g. '12.0.0.'
 	 */
 	protected getNpmUrl(version: string) {
-		return `http://registry.npmjs.org/balena-cli/${version}`;
+		return `https://registry.npmjs.org/balena-cli/${version}`;
 	}
 
 	/**
