@@ -1,16 +1,15 @@
 name: Flowzone
-
 on:
   pull_request:
     types: [opened, synchronize, closed]
     branches:
       - "main"
       - "master"
-
 jobs:
   flowzone:
     name: Flowzone
-    uses: product-os/flowzone/.github/workflows/flowzone.yml@master
+    uses: product-os/flowzone/.github/workflows/flowzone.yml@ac24f6f2ae1297b10820427adad76daefd02cc5c
     secrets: inherit
     with:
       tests_run_on: '["ubuntu-20.04","macos-11","windows-2019"]'
+      protect_branch: false
