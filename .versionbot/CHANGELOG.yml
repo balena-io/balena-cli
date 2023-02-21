@@ -1,4 +1,17 @@
 - commits:
+    - subject: "patch: Clarify update rate of update notifier info"
+      hash: 0b9b65ef886b1ea0bd285a6a1900aae0c7fac281
+      body: If the cli has not been run in a while, it will show old update
+        information. It's not obvious why, and this might lead to confusion. So
+        this commit just adds a comment to clarify that out-of-date update
+        notifier info is expected behaviour, and why.
+      footer: {}
+      author: Heath Raftery
+      nested: []
+  version: 15.0.4
+  title: ""
+  date: 2023-02-21T07:24:18.046Z
+- commits:
     - subject: Use https for the npm deprecation check, avoiding a redirect
       hash: 234fb6cd39fe0a935f73e84a2ddecf2d77e257aa
       body: ""
