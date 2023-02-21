@@ -19,8 +19,10 @@ import * as UpdateNotifier from 'update-notifier';
 
 import packageJSON = require('../../package.json');
 
-// Check for an update once a day. 1 day granularity should be
-// enough, rather than every run.
+// Check for an update at most once a day. 1 day granularity should be
+// enough, rather than every run. Note because we show the information
+// from the *last* time we ran, if the cli has not been run for a while
+// the update info can be out of date.
 const balenaUpdateInterval = 1000 * 60 * 60 * 24 * 1;
 
 let notifier: UpdateNotifier.UpdateNotifier;
