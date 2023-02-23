@@ -33,3 +33,7 @@
 /package-lock.json
 /resinrc.yml
 /tmp/
+
+# direnv files
+.envrc
+.direnv

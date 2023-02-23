@@ -45,6 +45,7 @@ import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
 import { exists } from './which';
+import { multibuild } from '@balena/compose';
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 
@@ -287,6 +288,7 @@ async function $buildProject(
 	opts: BuildProjectOpts,
 ): Promise<[BuiltImage[], Dictionary<string>]> {
 	const { logger, projectName } = opts;
+
 	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
 
 	const needsQemu = await installQemuIfNeeded({ ...opts, imageDescriptors });
@@ -300,6 +302,12 @@ async function $buildProject(
 		logger,
 		projectName,
 	);
+
+	if (opts.emulated) {
+		_.each(tasks, (task) => {
+			task.dockerPlatform = multibuild.resolveDockerPlatform(opts.arch);;
+		});
+	}
 
 	const imageDescriptorsByServiceName = _.keyBy(
 		imageDescriptors,
