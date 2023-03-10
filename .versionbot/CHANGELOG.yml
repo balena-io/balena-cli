@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix application isLegacy check for rename and deploy
+      hash: ecf4b046b5d30c6e726b61f1e2b1a39cc91b8e53
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: JSReds
+      nested: []
+  version: 15.0.5
+  title: ""
+  date: 2023-03-10T16:25:37.691Z
+- commits:
     - subject: "patch: Clarify update rate of update notifier info"
       hash: 0b9b65ef886b1ea0bd285a6a1900aae0c7fac281
       body: If the cli has not been run in a while, it will show old update
