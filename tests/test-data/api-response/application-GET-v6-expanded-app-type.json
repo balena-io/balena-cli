@@ -6,7 +6,7 @@
 					"name": "Starter",
 					"slug": "microservices-starter",
 					"supports_multicontainer": true,
-					"is_legacy": false,
+					"is_legacy": true,
 					"__metadata": {}
 				}
 			],

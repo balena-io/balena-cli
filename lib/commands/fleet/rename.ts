@@ -80,7 +80,7 @@ export default class FleetRenameCmd extends Command {
 		const application = await getApplication(balena, params.fleet, {
 			$expand: {
 				application_type: {
-					$select: ['is_legacy'],
+					$select: ['slug'],
 				},
 			},
 		});
@@ -92,7 +92,7 @@ export default class FleetRenameCmd extends Command {
 
 		// Check app supports renaming
 		const appType = (application.application_type as ApplicationType[])?.[0];
-		if (appType.is_legacy) {
+		if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
 			throw new ExpectedError(
 				`Fleet ${params.fleet} is of 'legacy' type, and cannot be renamed.`,
 			);
