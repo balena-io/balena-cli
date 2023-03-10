@@ -340,7 +340,7 @@ ${dockerignoreHelp}
 			);
 
 			let release: Release | ComposeReleaseInfo['release'];
-			if (appType?.is_legacy) {
+			if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
 				const { deployLegacy } = require('../utils/deploy-legacy');
 
 				const msg = getChalk().yellow(

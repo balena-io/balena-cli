@@ -184,7 +184,7 @@ export async function getAppWithArch(
 	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
 		$expand: {
 			application_type: {
-				$select: ['name', 'slug', 'supports_multicontainer', 'is_legacy'],
+				$select: ['name', 'slug', 'supports_multicontainer'],
 			},
 			is_for__device_type: {
 				$select: 'slug',
