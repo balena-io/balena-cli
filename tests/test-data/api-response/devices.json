@@ -3,20 +3,11 @@
 		{
 			"belongs_to__application": [
 				{
-					"app_name": "test app",
 					"slug": "org/test app",
 					"__metadata": {}
 				}
 			],
 			"id": 1747415,
-			"belongs_to__user": {
-				"__deferred": {
-					"uri": "/resin/user(46272)"
-				},
-				"__id": 46272
-			},
-			"is_managed_by__device": null,
-			"actor": 4180757,
 			"device_name": "sparkling-wood",
 			"is_of__device_type": [{ "slug": "raspberrypi4-64" }],
 			"uuid": "fda508c8583011b8466c26abdd5159f2",
@@ -25,50 +16,10 @@
 					"commit": "18756d3386c25a044db66b89e0409804"
 				}
 			],
-			"note": null,
-			"local_id": null,
 			"status": "Idle",
 			"is_online": false,
-			"last_connectivity_event": "2019-11-23T00:26:35.074Z",
-			"is_connected_to_vpn": false,
-			"last_vpn_event": "2019-11-23T00:26:35.074Z",
-			"ip_address": "192.168.0.112",
-			"vpn_address": null,
-			"public_address": "89.186.29.129",
 			"os_version": "balenaOS 2.44.0+rev3",
-			"os_variant": "dev",
 			"supervisor_version": "10.3.7",
-			"should_be_managed_by__supervisor_release": null,
-			"is_managed_by__service_instance": {
-				"__deferred": {
-					"uri": "/resin/service_instance(124111)"
-				},
-				"__id": 124111
-			},
-			"provisioning_progress": null,
-			"provisioning_state": "",
-			"download_progress": null,
-			"is_web_accessible": false,
-			"longitude": "22.5853",
-			"latitude": "51.2712",
-			"location": "Lublin, Lublin, Poland",
-			"custom_longitude": "",
-			"custom_latitude": "",
-			"logs_channel": null,
-			"is_locked_until__date": null,
-			"is_accessible_by_support_until__date": null,
-			"created_at": "2019-11-18T12:27:37.423Z",
-			"is_active": true,
-			"api_heartbeat_state": "offline",
-			"cpu_usage" : 34,
-			"cpu_temp" : 56.2,
-			"cpu_id" :  "some cpu id",
-			"memory_usage" : 1000,
-			"memory_total" : 4000,
-			"storage_block_device" : "/dev/mmcblk0",
-			"storage_usage" :  1000,
-			"storage_total" : 64000,
-			"is_undervolted" : true,
 			"__metadata": {
 				"uri": "/resin/device(@id)?@id=1747415"
 			}
@@ -76,14 +27,6 @@
 		{
 			"belongs_to__application": [],
 			"id": 1747416,
-			"belongs_to__user": {
-				"__deferred": {
-					"uri": "/resin/user(46272)"
-				},
-				"__id": 46272
-			},
-			"is_managed_by__device": null,
-			"actor": 4180757,
 			"device_name": "dashing-spruce",
 			"is_of__device_type": [{ "slug": "raspberrypi4-64" }],
 			"uuid": "fda508c8583011b8466c26abdd5159f3",
@@ -92,50 +35,10 @@
 					"commit": "18756d3386c25a044db66b89e0409804"
 				}
 			],
-			"note": null,
-			"local_id": null,
 			"status": "Idle",
 			"is_online": false,
-			"last_connectivity_event": "2019-11-23T00:26:35.074Z",
-			"is_connected_to_vpn": false,
-			"last_vpn_event": "2019-11-23T00:26:35.074Z",
-			"ip_address": "192.168.0.112",
-			"vpn_address": null,
-			"public_address": "89.186.29.129",
 			"os_version": "balenaOS 2.44.0+rev3",
-			"os_variant": "dev",
 			"supervisor_version": "10.3.7",
-			"should_be_managed_by__supervisor_release": null,
-			"is_managed_by__service_instance": {
-				"__deferred": {
-					"uri": "/resin/service_instance(124111)"
-				},
-				"__id": 124111
-			},
-			"provisioning_progress": null,
-			"provisioning_state": "",
-			"download_progress": null,
-			"is_web_accessible": false,
-			"longitude": "22.5853",
-			"latitude": "51.2712",
-			"location": "Lublin, Lublin, Poland",
-			"custom_longitude": "",
-			"custom_latitude": "",
-			"logs_channel": null,
-			"is_locked_until__date": null,
-			"is_accessible_by_support_until__date": null,
-			"created_at": "2019-11-18T12:27:37.423Z",
-			"is_active": true,
-			"api_heartbeat_state": "offline",
-			"cpu_usage" : 34,
-			"cpu_temp" : 56.2,
-			"cpu_id" :  "some cpu id",
-			"memory_usage" : 1000,
-			"memory_total" : 4000,
-			"storage_block_device" : "/dev/mmcblk0",
-			"storage_usage" :  1000,
-			"storage_total" : 64000,
-			"is_undervolted" : true,
 			"__metadata": {
 				"uri": "/resin/device(@id)?@id=1747415"
 			}
