@@ -38,7 +38,7 @@ describe('balena devices', function () {
 	it('should list devices from own and collaborator apps', async () => {
 		api.scope
 			.get(
-				'/v6/device?$orderby=device_name%20asc&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+				'/v6/device?$orderby=device_name%20asc&$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
 			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
 				'Content-Type': 'application/json',

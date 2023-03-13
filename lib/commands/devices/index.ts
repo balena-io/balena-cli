@@ -36,6 +36,20 @@ interface FlagsDef {
 	json: boolean;
 }
 
+const devicesSelectFields = {
+	$select: (
+		[
+			'id',
+			'uuid',
+			'device_name',
+			'status',
+			'is_online',
+			'supervisor_version',
+			'os_version',
+		] as const
+	).slice(),
+} as const;
+
 export default class DevicesCmd extends Command {
 	public static description = stripIndent`
 		List all devices.
@@ -70,6 +84,7 @@ export default class DevicesCmd extends Command {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesCmd);
 
 		const balena = getBalenaSdk();
+		const devicesOptions = { ...devicesSelectFields, ...expandForAppName };
 
 		let devices;
 
@@ -78,11 +93,11 @@ export default class DevicesCmd extends Command {
 			const application = await getApplication(balena, options.fleet);
 			devices = (await balena.models.device.getAllByApplication(
 				application.id,
-				expandForAppName,
+				devicesOptions,
 			)) as ExtendedDevice[];
 		} else {
 			devices = (await balena.models.device.getAll(
-				expandForAppName,
+				devicesOptions,
 			)) as ExtendedDevice[];
 		}
 
