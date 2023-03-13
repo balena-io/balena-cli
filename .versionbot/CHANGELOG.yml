@@ -1,4 +1,16 @@
 - commits:
+    - subject: "Devices: explicitly fetches only used fields"
+      hash: 5761a306be9b135886a6d9c0f3515d1ef4550468
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 15.0.6
+  title: ""
+  date: 2023-03-13T14:03:45.516Z
+- commits:
     - subject: Fix application isLegacy check for rename and deploy
       hash: ecf4b046b5d30c6e726b61f1e2b1a39cc91b8e53
       body: ""
