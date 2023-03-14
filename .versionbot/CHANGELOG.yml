@@ -1,4 +1,147 @@
 - commits:
+    - subject: Update balena-compose to v2.2.1
+      hash: 564716faa7fcff91f83b2e43de770a7e72b6e5d5
+      body: |
+        Update balena-compose from 2.1.1 to 2.2.1
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested:
+        - commits:
+            - subject: Ignore references to build stages when evaluating manifests
+              hash: 367081fb0c3d7d029b55cd887b60385868248815
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-compose-2.2.1
+          title: ""
+          date: 2023-03-14T17:07:03.458Z
+        - commits:
+            - subject: OCI Image Index should allow platform opts
+              hash: 4178f93696438bc89415bbc260d3caf90a0b82bc
+              body: |
+                Similar to Manifest v2, OCI Image Index manifest types
+                support the platform arg, and if the default host
+                platform is not avilable in the manfiest they will
+                actually fail to pull.
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-compose-2.2.0
+          title: ""
+          date: 2023-03-13T19:00:05.420Z
+        - commits:
+            - subject: Write to debug log when using platform option
+              hash: 1db846fa5026105c9e78fdfbae23047e14764eb2
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-compose-2.1.4
+          title: ""
+          date: 2023-03-13T14:58:49.392Z
+        - commits:
+            - subject: Fixup tests to use recent debian:bullseye-slim images
+              hash: 3ed4ae940fc207866ca4b532cf7539b8e177ef1f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-compose-2.1.3
+          title: ""
+          date: 2023-03-01T18:00:46.411Z
+        - commits:
+            - subject: "test/multibuild: Use 127.0.0.1 for the extra_hosts test"
+              hash: a91d59ff1dbfebf2a0c543523e94107f881ca5db
+              body: |
+                That's b/c flowzone limit network access to
+                just internal networks.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+            - subject: Output error text to aid test debugging
+              hash: 2094b3e75e13422614bbc31d34719b66dce6fa14
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+            - subject: Replace balenaCI & circleCI with flowzone
+              hash: 663683427156f8413c6ffc2679e0befd93c914fc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Pin dockerode to v3.3.3 to avoid regression
+              hash: 2883800a018d89ca748194370c9c795c8e48cd33
+              body: >
+                The problem is rework to buildImage() in v3.3.4 that hangs balena-compose
+                use of it.
+
+                See Issue: https://github.com/apocas/dockerode/issues/696
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+            - subject: Prettify fixup
+              hash: 9606f358e16e60774df6656d87612cd17e8b4b87
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+            - subject: Fix underspecified generics in release/models
+              hash: 57107eb5c89f51bd36e10cb8f9340bab63723348
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: balena-compose-2.1.2
+          title: ""
+          date: 2022-10-17T08:10:36.440Z
+  version: 15.1.0
+  title: ""
+  date: 2023-03-14T20:19:05.334Z
+- commits:
     - subject: "Devices: explicitly fetches only used fields"
       hash: 5761a306be9b135886a6d9c0f3515d1ef4550468
       body: ""
