@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update TypeScript to 5.0.2
+      hash: 1cd9fbf6a0db345b90ca8341f956f65688b9f30e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 15.1.1
+  title: ""
+  date: 2023-03-17T10:20:00.978Z
+- commits:
     - subject: Update balena-compose to v2.2.1
       hash: 564716faa7fcff91f83b2e43de770a7e72b6e5d5
       body: |
