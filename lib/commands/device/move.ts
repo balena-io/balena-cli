@@ -21,6 +21,7 @@ import type {
 	BalenaSDK,
 	Device,
 	DeviceType,
+	PineOptions,
 	PineTypedResult,
 } from 'balena-sdk';
 import Command from '../../command';
@@ -153,7 +154,7 @@ export default class DeviceMoveCmd extends Command {
 					$select: 'slug',
 				},
 			},
-		} as const;
+		} satisfies PineOptions<DeviceType>;
 		const deviceTypes = (await balena.models.deviceType.getAllSupported(
 			deviceTypeOptions,
 		)) as Array<PineTypedResult<DeviceType, typeof deviceTypeOptions>>;

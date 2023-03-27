@@ -61,15 +61,15 @@ export default class DevicesSupportedCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
 		const pineOptions = {
-			$select: (['slug', 'name'] as const).slice(),
+			$select: ['slug', 'name'],
 			$expand: {
 				is_of__cpu_architecture: { $select: 'slug' },
 				device_type_alias: {
 					$select: 'is_referenced_by__alias',
-					$orderby: 'is_referenced_by__alias asc',
+					$orderby: { is_referenced_by__alias: 'asc' },
 				},
 			},
-		} as const;
+		} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
 		const dts = (await getBalenaSdk().models.deviceType.getAllSupported(
 			pineOptions,
 		)) as Array<

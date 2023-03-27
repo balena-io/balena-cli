@@ -255,7 +255,7 @@ async function getOrSelectApplication(
 				$select: 'slug',
 			},
 		},
-	} as const;
+	} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
 	const [deviceType, allDeviceTypes] = await Promise.all([
 		sdk.models.deviceType.get(deviceTypeSlug, pineOptions) as Promise<
 			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
