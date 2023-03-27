@@ -1,4 +1,16 @@
 - commits:
+    - subject: Improve type checking by using the satisfies operator
+      hash: 174312977a52836b12a799d0e2b8ea39c942883a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 15.1.2
+  title: ""
+  date: 2023-03-27T15:14:45.270Z
+- commits:
     - subject: Update TypeScript to 5.0.2
       hash: 1cd9fbf6a0db345b90ca8341f956f65688b9f30e
       body: ""
