@@ -22,7 +22,7 @@ import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo, jsonInfo } from '../../utils/messages';
 
-import type { Application } from 'balena-sdk';
+import type { Application, Device, PineOptions } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
@@ -37,18 +37,16 @@ interface FlagsDef {
 }
 
 const devicesSelectFields = {
-	$select: (
-		[
-			'id',
-			'uuid',
-			'device_name',
-			'status',
-			'is_online',
-			'supervisor_version',
-			'os_version',
-		] as const
-	).slice(),
-} as const;
+	$select: [
+		'id',
+		'uuid',
+		'device_name',
+		'status',
+		'is_online',
+		'supervisor_version',
+		'os_version',
+	],
+} satisfies PineOptions<Device>;
 
 export default class DevicesCmd extends Command {
 	public static description = stripIndent`

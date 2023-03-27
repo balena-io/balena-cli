@@ -137,7 +137,7 @@ export const areDeviceTypesCompatible = async (
 				$select: 'slug',
 			},
 		},
-	} as const;
+	} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
 	const [appDeviceType, osDeviceType] = await Promise.all(
 		[appDeviceTypeSlug, osDeviceTypeSlug].map(
 			(dtSlug) =>
@@ -439,11 +439,11 @@ export function getProxyConfig(): ProxyConfig | undefined {
 
 export const expandForAppName = {
 	$expand: {
-		belongs_to__application: { $select: ['app_name', 'slug'] as any },
+		belongs_to__application: { $select: ['app_name', 'slug'] },
 		is_of__device_type: { $select: 'slug' },
 		is_running__release: { $select: 'commit' },
 	},
-} as const;
+} satisfies BalenaSdk.PineOptions<BalenaSdk.Device>;
 
 export const expandForAppNameAndCpuArch = {
 	$expand: {
@@ -457,7 +457,7 @@ export const expandForAppNameAndCpuArch = {
 			},
 		},
 	},
-} as const;
+} satisfies BalenaSdk.PineOptions<BalenaSdk.Device>;
 
 /**
  * Use the `readline` library on Windows to install SIGINT handlers.

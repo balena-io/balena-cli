@@ -91,7 +91,7 @@ export default class BalenaHelp extends Help {
 			.map((pc) => {
 				return commands.find((c) => c.id === pc.replace(' ', ':'));
 			})
-			.filter((c): c is typeof commands[0] => !!c);
+			.filter((c): c is (typeof commands)[0] => !!c);
 
 		let usageLength = 0;
 		for (const cmd of primaryCommands) {
