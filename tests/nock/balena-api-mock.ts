@@ -212,13 +212,20 @@ export class BalenaAPIMock extends NockMock {
 
 	public expectGetDevice(opts: {
 		fullUUID: string;
+		shortUUID?: string;
 		inaccessibleApp?: boolean;
 		isOnline?: boolean;
 		optional?: boolean;
 		persist?: boolean;
 	}) {
 		const id = 7654321;
-		this.optGet(/^\/v\d+\/device($|\?)/, opts).reply(200, {
+		const providedUuid = opts.shortUUID ?? opts.fullUUID;
+		this.optGet(
+			providedUuid.length !== 32
+				? /^\/v\d+\/device($|\?)/
+				: /^\/v\d+\/device\(uuid=%27[0-9a-f]{32}%27\)/,
+			opts,
+		).reply(200, {
 			d: [
 				{
 					id,
