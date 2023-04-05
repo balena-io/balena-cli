@@ -1,4 +1,738 @@
 - commits:
+    - subject: Add support for device restarts in open-balena
+      hash: c1017e8e27e4b4227de5f47ec0cb7a890262f663
+      body: |
+        Update balena-sdk from 16.28.2 to 16.40.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "device.reboot: Fix the typings requiring a second argument"
+              hash: af6f7f98483dab7f7c150ad3b7614896f806f63a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "device.restartApplication: Use the supervisor endpoint to issue
+                restarts"
+              hash: 417a03b6b6891a9f472ecdae2b992f2c01a89f84
+              body: ""
+              footer:
+                Resolves: "#717"
+                resolves: "#717"
+                Change-type: minor
+                change-type: minor
+                See: https://github.com/balena-io/open-balena-api/issues/141
+                see: https://github.com/balena-io/open-balena-api/issues/141
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.40.0
+          title: ""
+          date: 2023-04-05T06:04:03.606Z
+        - commits:
+            - subject: "patch: Split instruction strings on linebreak"
+              hash: 815e9a7700f6592c5a5b6f90d390606c1e166a2d
+              body: ""
+              footer:
+                Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+                signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+              author: Vipul Gupta (@vipulgupta2048)
+              nested: []
+          version: balena-sdk-16.39.1
+          title: ""
+          date: 2023-04-04T07:48:20.539Z
+        - commits:
+            - subject: Add `device history` model
+              hash: 6cdc45fccfafd9eb0d67043ba5b9029fd47c25f8
+              body: >
+                `device history` is read only and model is added with
+
+                - getAllByDevice
+
+                - getAllByApplication
+
+
+                Changelog-entry: Enable audit logging and reviewing device changes. The SDK defaults to fetch last 7 days of history
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: fisehara <harald@balena.io>
+                signed-off-by: fisehara <harald@balena.io>
+              author: fisehara
+              nested: []
+          version: balena-sdk-16.39.0
+          title: ""
+          date: 2023-03-30T15:11:52.226Z
+        - commits:
+            - subject: Fix credit-bundle jsdocs
+              hash: db958ceb3360fc61662a545b3a5d4e91b7a63e5a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Josh Bowling
+              nested: []
+          version: balena-sdk-16.38.2
+          title: ""
+          date: 2023-03-28T07:50:05.631Z
+        - commits:
+            - subject: Deprecate the device-type.json's instructions field
+              hash: d25129e7700348eae5d5690c17c47aeb033999d3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.38.1
+          title: ""
+          date: 2023-03-27T15:11:18.990Z
+        - commits:
+            - subject: Add aliases for the DT contrast slugs used in getInstructions
+              hash: d47f707acf9b0a15259aac449ef3d42c1497f9d7
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.38.0
+          title: ""
+          date: 2023-03-21T15:30:17.676Z
+        - commits:
+            - subject: "device-type/getInstructions: Overload to accept the device type
+                contract"
+              hash: 2c118e035153304494b6388fe6c57358aed678f3
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.37.0
+          title: ""
+          date: 2023-03-21T08:27:32.228Z
+        - commits:
+            - subject: Update TypeScript to 5.0.2
+              hash: 2b4930c4e89ce67a0e9d3d6b04642ec53fa3e254
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.36.6
+          title: ""
+          date: 2023-03-20T23:00:59.020Z
+        - commits:
+            - subject: "patch: Improve jetsonFlash provisioning partial"
+              hash: 6ccd09ce5372f221e6410f69bf779a98b39d1a5a
+              body: ""
+              footer:
+                Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+                signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+              author: Vipul Gupta (@vipulgupta2048)
+              nested: []
+          version: balena-sdk-16.36.5
+          title: ""
+          date: 2023-03-16T19:32:14.798Z
+        - commits:
+            - subject: Avoid running write operation tests in parallel to support retries
+              hash: eb6400c8382521d1e2563cc6cd0e3345d2b26869
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Retry failing tests twice
+              hash: cc60b33c0be7c16944b26b1821d84896328038f1
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Fix tests per removal of `microservices-starter` application type
+              hash: c16b7ecbc7817b7cebeaa228a988f37379d357ad
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-16.36.4
+          title: ""
+          date: 2023-03-15T16:07:51.007Z
+        - commits:
+            - subject: "models/device-type: Add test for Radxa Zero instructions"
+              hash: f6b78068c77ba7c8bdaa156a237ed1693b41b83f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Alexandru Costache <alexandru@balena.io>
+                signed-off-by: Alexandru Costache <alexandru@balena.io>
+              author: Alexandru Costache
+              nested: []
+            - subject: "lib/models: Add radxaFlash protocol for Radxa boards"
+              hash: 7c8f72cc3ed7cc3ab1272a33fb2ea163c6c94b62
+              body: |
+                The Radxa boards use different flashing mechanisms
+                depending on the device model. Let's add a common
+                step for them, which is entering maskrom mode. The
+                actual procedure for entering this mode is detailed
+                in the contract partials for each device.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Alexandru Costache <alexandru@balena.io>
+                signed-off-by: Alexandru Costache <alexandru@balena.io>
+              author: Alexandru Costache
+              nested: []
+          version: balena-sdk-16.36.3
+          title: ""
+          date: 2023-02-28T08:54:38.206Z
+        - commits:
+            - subject: "tests: Stop using flowzone internal env vars to for skipping npm test"
+              hash: f2b97331c0c90bdf405fda02e7fc78c21f27c40b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.36.2
+          title: ""
+          date: 2023-02-24T18:53:38.952Z
+        - commits:
+            - subject: Add plan validity date fields
+              hash: 508703829d26d64971f5a3fbeb92cd891c057762
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Josh Bowling
+              nested: []
+          version: balena-sdk-16.36.1
+          title: ""
+          date: 2023-02-20T09:15:09.476Z
+        - commits:
+            - subject: Add contract partial based instruction generation
+              hash: 424fc463a236379a85047aa6c473db0ba740b935
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Micah Halter <micah@balena.io>
+                signed-off-by: Micah Halter <micah@balena.io>
+              author: Micah Halter
+              nested: []
+          version: balena-sdk-16.36.0
+          title: ""
+          date: 2023-02-16T14:28:58.323Z
+        - commits:
+            - subject: Add `CreditBundle` model
+              hash: 0dbb6d7fb0e2d91e957c299a53e9e7f7cc67ef4f
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-16.35.0
+          title: ""
+          date: 2023-02-10T15:54:48.576Z
+        - commits:
+            - subject: Add configVarInvalidRegex to Config Var typing
+              hash: b1a9831540ae693f02e99a2d9d44841c76187a87
+              body: >
+                This is part of the work for enabling the creation of configuration
+
+                variables with a colon character as a means to allow Raspberry PI users
+
+                to enable the second HDMI port on RPI4 and others.
+              footer:
+                Relates-to: balena-io/open-balena-api#1199
+                relates-to: balena-io/open-balena-api#1199
+                Change-type: minor
+                change-type: minor
+              author: Felipe Lalanne
+              nested: []
+          version: balena-sdk-16.34.0
+          title: ""
+          date: 2023-02-09T16:54:13.648Z
+        - commits:
+            - subject: "CurrentServiceWithCommit: Add release `raw_version` to type"
+              hash: 0ded12d5defad8665ce94cd3b5c9fe67de114ea3
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-16.33.0
+          title: ""
+          date: 2023-02-09T14:42:42.519Z
+        - commits:
+            - subject: Optimize the device.get method
+              hash: 66e9d96e1a04b9e028737ecdedcdb91f5bfbc4b6
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.zulipchat.com/#narrow/stream/346007-balena-io.2FbalenaCloud/topic/SDK.20uuidOrId
+                see: https://balena.zulipchat.com/#narrow/stream/346007-balena-io.2FbalenaCloud/topic/SDK.20uuidOrId
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.32.3
+          title: ""
+          date: 2023-02-07T22:21:59.637Z
+        - commits:
+            - subject: Improve pine typings for public resources without id fields
+              hash: 3b19617112795c11119a40aa8c2a0cce89be6ca5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.32.2
+          title: ""
+          date: 2023-02-02T09:19:25.837Z
+        - commits:
+            - subject: Drop no longer used .travis.yml & .hound.yml
+              hash: 69ded63730b899e097235360e8d6c40f26113a88
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Rerun prettier
+              hash: 782843aaebc92d2bc2c228d8a531ecbf450d06a1
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.32.1
+          title: ""
+          date: 2023-01-16T20:56:36.936Z
+        - commits:
+            - subject: "typings: Add the device.is_frozen field"
+              hash: d808b7dd910a4afd35e12f1e2d57c6b36f30cb6c
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.32.0
+          title: ""
+          date: 2023-01-05T23:10:26.233Z
+        - commits:
+            - subject: "application.create: Deprecate the `parent` option"
+              hash: fdd220b8b52fd62ea55c2e2ab845ec81c086b5ab
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Deprecate the device.getAllByParentDevice() method
+              hash: a539a421ba75cc0daf5309b560304778ca3d1a98
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Simplify the device.move() checks
+              hash: d5092ed9aa0de33487bfa624d7bdb530b85c6ca4
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.31.2
+          title: ""
+          date: 2022-12-20T11:25:13.835Z
+        - commits:
+            - subject: Replace appveyor with flowzone
+              hash: 281a120e82b362d9a495e106913fc422264c091a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.31.1
+          title: ""
+          date: 2022-12-17T19:46:46.675Z
+        - commits:
+            - subject: Add `updateAccountInfo` method to billing model for updating billing
+                account info
+              hash: d7521ae2f9724f3545f535f232673ed47814d54d
+              body: ""
+              footer:
+                Changelog-entry: Add `updateAccountInfo` method to billing model for updating
+                  billing account info
+                changelog-entry: Add `updateAccountInfo` method to billing model for updating
+                  billing account info
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-16.31.0
+          title: ""
+          date: 2022-12-16T13:47:53.230Z
+        - commits:
+            - subject: "Flowzone: Allow external contributions"
+              hash: 0194aafccf061255aa0d8a46642372b4d2f26d76
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.30.2
+          title: ""
+          date: 2022-12-13T13:42:31.676Z
+        - commits:
+            - subject: "patch: bump catch-uncommitted from 1.6.2 to 2.0.0"
+              hash: eef2f8ef1abec6fe825a55c37a771070a3efb94a
+              body: >
+                Bumps
+                [catch-uncommitted](https://github.com/resin-io-modules/catch-uncommitted)
+                from 1.6.2 to 2.0.0.
+
+                - [Release notes](https://github.com/resin-io-modules/catch-uncommitted/releases)
+
+                - [Changelog](https://github.com/balena-io-modules/catch-uncommitted/blob/master/CHANGELOG.md)
+
+                - [Commits](https://github.com/resin-io-modules/catch-uncommitted/compare/v1.6.2...v2.0.0)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: catch-uncommitted
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: dependabot[bot]
+              nested: []
+          version: balena-sdk-16.30.1
+          title: ""
+          date: 2022-12-07T09:26:22.165Z
+        - commits:
+            - subject: Add utils and export mergePineOptions `balena.utils.mergePineOptions()`
+              hash: 5c10581848255f451cbfe29ea74711bf7f53bde8
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Andrea Rosci <andrear@balena.io>
+                signed-off-by: Andrea Rosci <andrear@balena.io>
+              author: JSReds
+              nested: []
+          version: balena-sdk-16.30.0
+          title: ""
+          date: 2022-11-24T17:55:44.523Z
+        - commits:
+            - subject: "device.getWithServiceDetails: Stop auto-expanding the
+                gateway_downloads"
+              hash: c6846f529245ceee6d2a1de621249b0ac4f8ca20
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.zulipchat.com/#narrow/stream/345889-loop.2Fbalena-os/topic/Python.20SDK.20doesn't.20work.20with.20device.20API.20key
+                see: https://balena.zulipchat.com/#narrow/stream/345889-loop.2Fbalena-os/topic/Python.20SDK.20doesn't.20work.20with.20device.20API.20key
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.29.3
+          title: ""
+          date: 2022-11-24T12:16:07.452Z
+        - commits:
+            - subject: Update TypeScript to 4.9.3
+              hash: 9d81b8779cdd720e8c90b83e15257b33999bbdc9
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.29.2
+          title: ""
+          date: 2022-11-16T08:29:18.733Z
+        - commits:
+            - subject: Fix release end_timestamp type
+              hash: 7bf0c406d09126a69f4711db8e9a4b12a5e559b0
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.29.1
+          title: ""
+          date: 2022-11-12T23:34:03.778Z
+        - commits:
+            - subject: Support filtered $count operations inside $filter & $orderby
+              hash: b36810a4b65909dea8725a4b9c060d06f2b82d2f
+              body: |
+                Update pinejs-client-core from 6.9.6 to 6.12.0
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Deprecate the 'a/count' notation in $orderby
+                      hash: f1aaa244418a413860cde2a42a0a3e44d00249d2
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "Deprecate the $count: { $op: number } notation"
+                      hash: 7501cc05ede27af86604ca0720f2ca5f99334f02
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "Add support for `$filter: { $op: [{ $count: {} }, number] }` notation"
+                      hash: 4a5c6ba07ce6e0e54bbea64c70be64c31e956080
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.12.0
+                  title: ""
+                  date: 2022-11-10T22:13:38.655Z
+                - commits:
+                    - subject: "Deprecate non-$filter props inside `$expand: { a: { $count: {...}}}`"
+                      hash: 97066f1d1359eb0d340a216fa9aec1ba81dc8052
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "Add support for `$orderby: { a: { $count: ... }, $dir: 'asc' }`
+                        notation"
+                      hash: 570f0400e518efc0499a0111873768b5dc4c94f5
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                        See: https://jel.ly.fish/thread-f02087f0-7415-42ac-9b54-75fd10fd0c5c
+                        see: https://jel.ly.fish/thread-f02087f0-7415-42ac-9b54-75fd10fd0c5c
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.11.0
+                  title: ""
+                  date: 2022-11-09T15:59:01.304Z
+                - commits:
+                    - subject: Refactor the deprecation message definitions
+                      hash: 941b08a4359d11bef0d36645d2b4b358a3b1090e
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.10.7
+                  title: ""
+                  date: 2022-11-07T17:51:35.292Z
+                - commits:
+                    - subject: "tests: Support `.only` & `.skip` in the higher level test functions"
+                      hash: 9326a2d23d40831be6100241ae92fdec57404806
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.10.6
+                  title: ""
+                  date: 2022-10-31T13:32:10.558Z
+                - commits:
+                    - subject: "Flowzone: Use inherited secrets"
+                      hash: b3bf8b0cae0c40980f76a952d1890a228d48bd3c
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                      nested: []
+                  version: pinejs-client-js-6.10.5
+                  title: ""
+                  date: 2022-10-14T16:25:25.721Z
+                - commits:
+                    - subject: Specify node 10 as the minimum supported node engine in the
+                        package.json
+                      hash: e0f8b12d1e7c0b792fcd16de9e938e90a368ba14
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Replace balenaCI with flowzone
+                      hash: 941af23d810b6924face6164ee601ee4b686bef7
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.10.4
+                  title: ""
+                  date: 2022-09-26T09:38:22.584Z
+                - commits:
+                    - subject: Fix $count typings to only allow $filter under it
+                      hash: d4cb65524ba2076df05f03574ce39acd547daa63
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        See: https://docs.oasis-open.org/odata/odata/v4.01/os/abnf/odata-abnf-construction-rules.txt
+                        see: https://docs.oasis-open.org/odata/odata/v4.01/os/abnf/odata-abnf-construction-rules.txt
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                  version: pinejs-client-js-6.10.3
+                  title: "'Fix  typings to only allow  under it'"
+                  date: 2022-09-15T15:20:32.755Z
+                - commits:
+                    - subject: Update dependencies
+                      hash: edc7575ac0976037506deb076d034e7cf08ce5bb
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                    - subject: Remove circleci
+                      hash: 59c5a36292a80149b305d83a4d22b4d2dbe3001d
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                  version: pinejs-client-js-6.10.2
+                  title: "'Remove circleci/update deps'"
+                  date: 2022-04-08T13:22:23.848Z
+                - commits:
+                    - subject: Do not await the _request() result to allow enhanced promises
+                        downstream
+                      hash: a209138f928809869d68e05cdcea4c2bf0d1fac1
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                  version: pinejs-client-js-6.10.1
+                  title: "'Avoid modifying the resulting promise when retries are not used'"
+                  date: 2022-02-08T23:33:07.778Z
+                - commits:
+                    - subject: Add optional retry logic to client
+                      hash: d5496ebe73a0db28ac1c123575e80c9d25367d48
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Paul Jonathan Zoulin
+                  version: pinejs-client-js-6.10.0
+                  date: 2022-01-24T19:05:04.020Z
+          version: balena-sdk-16.29.0
+          title: ""
+          date: 2022-11-12T08:40:37.612Z
+        - commits:
+            - subject: Use deep imports for date-fns to improve tree-shaking
+              hash: db4d99bd589ead7c94dfb38835c72aa7f9c81081
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.zulipchat.com/#narrow/stream/346007-balena-io.2FbalenaCloud/topic/moment.20-.3E.20date-fns
+                see: https://balena.zulipchat.com/#narrow/stream/346007-balena-io.2FbalenaCloud/topic/moment.20-.3E.20date-fns
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Enable esModuleInterop build option
+              hash: 6aa14da9aa2580dcad6c7f2490b3a7c8edec3322
+              body: |
+                Had to enable esModuleInterop, b/c
+                otherwise the date-fns/formatDistance import
+                not returning anything, even though TS was
+                happy.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.28.4
+          title: ""
+          date: 2022-11-04T16:40:26.421Z
+        - commits:
+            - subject: Update balena-errors to v4.7.3
+              hash: a3dc9fc18e0db6bdaa052502db222f5870b58323
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Andrea Rosci <andrear@balena.io>
+                signed-off-by: Andrea Rosci <andrear@balena.io>
+              author: JSReds
+              nested: []
+          version: balena-sdk-16.28.3
+          title: ""
+          date: 2022-11-03T10:53:47.700Z
+  version: 15.2.0
+  title: ""
+  date: 2023-04-05T13:09:19.017Z
+- commits:
     - subject: "devices supported: Fix showing types without a valid & finalized
         release"
       hash: b98047cacf12929a64bcda7bf253da6102179b63
