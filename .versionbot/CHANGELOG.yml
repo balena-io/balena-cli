@@ -1,4 +1,60 @@
 - commits:
+    - subject: "devices supported: Fix showing types without a valid & finalized
+        release"
+      hash: b98047cacf12929a64bcda7bf253da6102179b63
+      body: |
+        Update balena-sdk from 16.28.0 to 16.28.2
+      footer:
+        Resolves: "#2524"
+        resolves: "#2524"
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Update tests to run on node 18
+              hash: 1838f590aaf27da8cc84952ffb9ea96b48e0f5b3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "deviceType.getAllSupported: Require a valid & final release to exist"
+              hash: a32e4666ba7e4ea273606854f1c16c99df6a97d6
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.zulipchat.com/#narrow/stream/350505-aspect.2Fcommunication/topic/Device-type.20listings.20on.20Docs.20.26.20Hub.20Conflicts
+                see: https://balena.zulipchat.com/#narrow/stream/350505-aspect.2Fcommunication/topic/Device-type.20listings.20on.20Docs.20.26.20Hub.20Conflicts
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.28.2
+          title: ""
+          date: 2022-10-27T15:33:07.297Z
+        - commits:
+            - subject: "flowzone: Run the node tests using the latest LTS version"
+              hash: d6e497829f5b687ab45d2e473d888a76b9996064
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.28.1
+          title: ""
+          date: 2022-10-14T18:17:33.333Z
+  version: 15.1.3
+  title: ""
+  date: 2023-04-05T08:06:53.629Z
+- commits:
     - subject: Improve type checking by using the satisfies operator
       hash: 174312977a52836b12a799d0e2b8ea39c942883a
       body: ""
