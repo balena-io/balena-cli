@@ -138,6 +138,7 @@ describe('balena envs', function () {
 	});
 
 	it('should successfully list env variables for a test device', async () => {
+		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
 		api.expectGetDeviceEnvVars();
 		api.expectGetApplication();
@@ -145,20 +146,19 @@ describe('balena envs', function () {
 		api.expectGetAppServiceVars();
 		api.expectGetDeviceServiceVars();
 
-		const uuid = shortUUID;
-		const result = await runCommand(`envs -d ${uuid}`);
+		const result = await runCommand(`envs -d ${shortUUID}`);
 		let { out } = result;
 		let expected =
 			stripIndent`
 			ID     NAME  VALUE       FLEET    DEVICE  SERVICE
 			120110 svar1 svar1-value org/test *       service1
 			120111 svar2 svar2-value org/test *       service2
-			120120 svar3 svar3-value org/test ${uuid} service1
-			120121 svar4 svar4-value org/test ${uuid} service2
+			120120 svar3 svar3-value org/test ${shortUUID} service1
+			120121 svar4 svar4-value org/test ${shortUUID} service2
 			120101 var1  var1-val    org/test *       *
 			120102 var2  22          org/test *       *
-			120203 var3  var3-val    org/test ${uuid} *
-			120204 var4  44          org/test ${uuid} *
+			120203 var3  var3-val    org/test ${shortUUID} *
+			120204 var4  44          org/test ${shortUUID} *
 			` + '\n';
 
 		out = out.map((l) => l.replace(/ +/g, ' '));
@@ -168,6 +168,7 @@ describe('balena envs', function () {
 	});
 
 	it('should successfully list env variables for a test device (JSON output)', async () => {
+		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
 		api.expectGetDeviceEnvVars();
 		api.expectGetApplication();
@@ -192,6 +193,7 @@ describe('balena envs', function () {
 	});
 
 	it('should successfully list config variables for a test device', async () => {
+		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
 		api.expectGetDeviceConfigVars();
 		api.expectGetApplication();
@@ -216,24 +218,24 @@ describe('balena envs', function () {
 		const serviceName = 'service2';
 		api.expectGetService({ serviceName });
 		api.expectGetApplication();
+		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
 		api.expectGetDeviceServiceVars();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
 		api.expectGetDeviceEnvVars();
 
-		const uuid = shortUUID;
-		const result = await runCommand(`envs -d ${uuid} -s ${serviceName}`);
+		const result = await runCommand(`envs -d ${shortUUID} -s ${serviceName}`);
 		let { out } = result;
 		let expected =
 			stripIndent`
 			ID     NAME  VALUE       FLEET    DEVICE  SERVICE
 			120111 svar2 svar2-value org/test *       service2
-			120121 svar4 svar4-value org/test ${uuid} service2
+			120121 svar4 svar4-value org/test ${shortUUID} service2
 			120101 var1  var1-val    org/test *       *
 			120102 var2  22          org/test *       *
-			120203 var3  var3-val    org/test ${uuid} *
-			120204 var4  44          org/test ${uuid} *
+			120203 var3  var3-val    org/test ${shortUUID} *
+			120204 var4  44          org/test ${shortUUID} *
 		` + '\n';
 
 		out = out.map((l) => l.replace(/ +/g, ' '));
@@ -243,20 +245,20 @@ describe('balena envs', function () {
 	});
 
 	it('should successfully list env and service variables for a test device (unknown fleet)', async () => {
+		api.expectGetDevice({ shortUUID, fullUUID, inaccessibleApp: true });
 		api.expectGetDevice({ fullUUID, inaccessibleApp: true });
 		api.expectGetDeviceEnvVars();
 		api.expectGetDeviceServiceVars();
 
-		const uuid = shortUUID;
-		const result = await runCommand(`envs -d ${uuid}`);
+		const result = await runCommand(`envs -d ${shortUUID}`);
 		let { out } = result;
 		let expected =
 			stripIndent`
 			ID     NAME  VALUE       FLEET DEVICE  SERVICE
-			120120 svar3 svar3-value N/A   ${uuid} service1
-			120121 svar4 svar4-value N/A   ${uuid} service2
-			120203 var3  var3-val    N/A   ${uuid} *
-			120204 var4  44          N/A   ${uuid} *
+			120120 svar3 svar3-value N/A   ${shortUUID} service1
+			120121 svar4 svar4-value N/A   ${shortUUID} service2
+			120203 var3  var3-val    N/A   ${shortUUID} *
+			120204 var4  44          N/A   ${shortUUID} *
 		` + '\n';
 
 		out = out.map((l) => l.replace(/ +/g, ' '));
@@ -271,22 +273,22 @@ describe('balena envs', function () {
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
+		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
 		api.expectGetDeviceEnvVars();
 		api.expectGetDeviceServiceVars();
 
-		const uuid = shortUUID;
-		const result = await runCommand(`envs -d ${uuid} -s ${serviceName}`);
+		const result = await runCommand(`envs -d ${shortUUID} -s ${serviceName}`);
 		let { out } = result;
 		let expected =
 			stripIndent`
 			ID     NAME  VALUE       FLEET    DEVICE  SERVICE
 			120110 svar1 svar1-value org/test *       ${serviceName}
-			120120 svar3 svar3-value org/test ${uuid} ${serviceName}
+			120120 svar3 svar3-value org/test ${shortUUID} ${serviceName}
 			120101 var1  var1-val    org/test *       *
 			120102 var2  22          org/test *       *
-			120203 var3  var3-val    org/test ${uuid} *
-			120204 var4  44          org/test ${uuid} *
+			120203 var3  var3-val    org/test ${shortUUID} *
+			120204 var4  44          org/test ${shortUUID} *
 		` + '\n';
 
 		out = out.map((l) => l.replace(/ +/g, ' '));
@@ -301,6 +303,7 @@ describe('balena envs', function () {
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
+		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
 		api.expectGetDeviceEnvVars();
 		api.expectGetDeviceServiceVars();

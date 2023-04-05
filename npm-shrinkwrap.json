@@ -3921,9 +3921,9 @@
       }
     },
     "balena-errors": {
-      "version": "4.7.1",
-      "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.7.1.tgz",
-      "integrity": "sha512-g21kf6N5tMZYDietZNLHCbqhmAxPX9gRmJQgMuIjMZWvjzCQxcqaELNYTtDwXwEbXLhbhF6QV2IJDZul+5X6nQ==",
+      "version": "4.7.3",
+      "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.7.3.tgz",
+      "integrity": "sha512-9PvKEtPUsoDm6qVGtb6ikdVc3yd3t82TJBIC4foQSnyHCCCAj18BBVIYfq+zkPw4kdhPOULgPyBpxQb4J2fIuQ==",
       "requires": {
         "tslib": "^2.0.0",
         "typed-error": "^3.0.0"
@@ -4116,40 +4116,30 @@
         "progress-stream": "^2.0.0",
         "qs": "^6.9.4",
         "tslib": "^2.0.0"
-      },
-      "dependencies": {
-        "balena-errors": {
-          "version": "4.7.3",
-          "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.7.3.tgz",
-          "integrity": "sha512-9PvKEtPUsoDm6qVGtb6ikdVc3yd3t82TJBIC4foQSnyHCCCAj18BBVIYfq+zkPw4kdhPOULgPyBpxQb4J2fIuQ==",
-          "requires": {
-            "tslib": "^2.0.0",
-            "typed-error": "^3.0.0"
-          }
-        }
       }
     },
     "balena-sdk": {
-      "version": "16.28.2",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-16.28.2.tgz",
-      "integrity": "sha512-C7jxSd7TzMMX/+69egj1fkI7tZ62/TBYVIg8j0dR2VyqdQeJVa0IIB1LxJmXbscKmvWtpZUgvxmE0C6phEsWEA==",
+      "version": "16.40.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-16.40.0.tgz",
+      "integrity": "sha512-w7oP/oESZnymWtngieQrR3YJAR+CLSnys5RllPZBtZ5vYZsSHdrdRRMamlemy5ydCQN4q66Uw95U20bBXigT5g==",
       "requires": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",
         "@types/node": "^12.20.50",
         "abortcontroller-polyfill": "^1.7.1",
         "balena-auth": "^4.1.0",
-        "balena-errors": "^4.7.1",
+        "balena-errors": "^4.7.3",
         "balena-hup-action-utils": "~4.1.0",
         "balena-register-device": "^8.0.0",
         "balena-request": "^11.5.5",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^4.0.6",
         "date-fns": "^2.29.3",
+        "handlebars": "^4.7.7",
         "lodash": "^4.17.21",
         "memoizee": "^0.4.15",
         "ndjson": "^2.0.0",
-        "pinejs-client-core": "^6.9.6",
+        "pinejs-client-core": "^6.12.0",
         "tslib": "^2.1.0"
       },
       "dependencies": {
@@ -8510,6 +8500,25 @@
         "crc32-stream": "^4.0.0"
       }
     },
+    "handlebars": {
+      "version": "4.7.7",
+      "resolved": "https://registry.npmjs.org/handlebars/-/handlebars-4.7.7.tgz",
+      "integrity": "sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==",
+      "requires": {
+        "minimist": "^1.2.5",
+        "neo-async": "^2.6.0",
+        "source-map": "^0.6.1",
+        "uglify-js": "^3.1.4",
+        "wordwrap": "^1.0.0"
+      },
+      "dependencies": {
+        "wordwrap": {
+          "version": "1.0.0",
+          "resolved": "https://registry.npmjs.org/wordwrap/-/wordwrap-1.0.0.tgz",
+          "integrity": "sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q=="
+        }
+      }
+    },
     "har-schema": {
       "version": "2.0.0",
       "resolved": "https://registry.npmjs.org/har-schema/-/har-schema-2.0.0.tgz",
@@ -11669,6 +11678,11 @@
       "version": "0.6.2",
       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.2.tgz",
       "integrity": "sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw=="
+    },
+    "neo-async": {
+      "version": "2.6.2",
+      "resolved": "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz",
+      "integrity": "sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw=="
     },
     "nested-error-stacks": {
       "version": "1.0.2",
@@ -16820,6 +16834,12 @@
       "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.0.2.tgz",
       "integrity": "sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==",
       "dev": true
+    },
+    "uglify-js": {
+      "version": "3.17.4",
+      "resolved": "https://registry.npmjs.org/uglify-js/-/uglify-js-3.17.4.tgz",
+      "integrity": "sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==",
+      "optional": true
     },
     "unbox-primitive": {
       "version": "1.0.1",
