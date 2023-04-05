@@ -177,7 +177,7 @@
     "husky": "^4.3.8",
     "inline-source-cli": "^2.0.0",
     "intercept-stdout": "^0.1.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mkdirp": "^1.0.4",
     "mocha": "^8.4.0",
     "mock-require": "^3.0.3",
