@@ -199,6 +199,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device restart &#60;uuid&#62;](#device-restart-uuid)
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
+	- [device pin &#60;uuid&#62; &#91;releaseToPinTo&#93;](#device-pin-uuid)
 
 - Releases
 
@@ -1152,6 +1153,22 @@ the uuid of the device to shutdown
 #### -f, --force
 
 force action if the update lock is set
+
+## device pin &#60;uuid&#62; &#91;releaseToPinTo&#93;
+Pin a device to a release.
+	
+Examples:
+	
+	$ balena device pin 670d7df 6d4ee441f329d3e74808d866da51540a
+### Arguments
+
+#### UUID
+
+the uuid of the device to pin
+
+#### releaseToPinTo
+	
+the commit of the release for the device to get pinned to
 
 # Releases
 
