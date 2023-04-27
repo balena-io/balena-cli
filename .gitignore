@@ -10,6 +10,7 @@
 *.seed
 /.idea/
 /.lock-wscript
+/.nvmrc
 /.nyc_output/
 /.vscode/
 /coverage/
