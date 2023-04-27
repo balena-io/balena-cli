@@ -199,7 +199,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device restart &#60;uuid&#62;](#device-restart-uuid)
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
-	- [device pin &#60;uuid&#62; &#91;releaseToPinTo&#93;](#device-pin-uuid)
+	- [device pin &#60;uuid&#62; &#91;releaseToPinTo&#93;](#device-pin-uuid-releasetopinto)
 
 - Releases
 
