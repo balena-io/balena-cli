@@ -1,4 +1,19 @@
 - commits:
+    - subject: Remove nvmrc
+      hash: 35fe7c6a5886f6af5d430c06d62ca20f757009a7
+      body: |
+        There is not a lot of benefit to using `.nvmrc` as it still requires
+        `nvm use`, and not everybody uses `nvm`. The call to `npm install` will
+        already warn about using the wrong version.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+  version: 15.2.2
+  title: ""
+  date: 2023-04-28T16:16:42.608Z
+- commits:
     - subject: Fix tslib going out of sync causing HUP to fail
       hash: 150c6e75f52f246016704bd75c9584a7231f1cf6
       body: ""
