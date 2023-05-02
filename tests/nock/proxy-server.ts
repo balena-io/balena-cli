@@ -113,7 +113,7 @@ async function createProxyServer(): Promise<[number, number]> {
 	let proxyPort = 0; // TCP port number, 0 means automatic allocation
 
 	await new Promise<void>((resolve, reject) => {
-		// TODO: remove 'as any' below. According to @types/node v14.18.36, the
+		// TODO: remove 'as any' below. According to @types/node v16.18.25, the
 		// callback type is `() => void`, but our code assumes `(err: Error) => void`
 		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
 			if (err) {
@@ -197,7 +197,7 @@ async function createInterceptorServer(): Promise<number> {
 	let interceptorPort = 0;
 
 	await new Promise<void>((resolve, reject) => {
-		// TODO: remove 'as any' below. According to @types/node v14.18.36, the
+		// TODO: remove 'as any' below. According to @types/node v16.18.25, the
 		// callback type is `() => void`, but our code assumes `(err: Error) => void`
 		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
 			if (err) {

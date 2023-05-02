@@ -153,19 +153,19 @@ export default class TunnelCmd extends Command {
 						try {
 							await handler(client);
 							logConnection(
-								client.remoteAddress || '',
-								client.remotePort || 0,
-								client.localAddress,
-								client.localPort,
+								client.remoteAddress ?? '',
+								client.remotePort ?? 0,
+								client.localAddress ?? '',
+								client.localPort ?? 0,
 								uuid,
 								remotePort,
 							);
 						} catch (err) {
 							logConnection(
-								client.remoteAddress || '',
-								client.remotePort || 0,
-								client.localAddress,
-								client.localPort,
+								client.remoteAddress ?? '',
+								client.remotePort ?? 0,
+								client.localAddress ?? '',
+								client.localPort ?? 0,
 								uuid,
 								remotePort,
 								err,

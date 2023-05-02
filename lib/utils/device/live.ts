@@ -249,7 +249,7 @@ export class LivepushManager {
 			cwd: serviceContext,
 			followSymlinks: true,
 			ignoreInitial: true,
-			ignored: (filePath: string, stats: fs.Stats | undefined) => {
+			ignored: (filePath: string, stats?: fs.Stats) => {
 				if (!stats) {
 					try {
 						// sync because chokidar defines a sync interface
