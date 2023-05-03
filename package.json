@@ -183,7 +183,7 @@
     "mock-require": "^3.0.3",
     "nock": "^13.2.1",
     "parse-link-header": "^2.0.0",
-    "pkg": "^5.5.1",
+    "pkg": "^5.8.1",
     "publish-release": "^1.6.1",
     "rewire": "^5.0.0",
     "simple-git": "^3.14.1",
