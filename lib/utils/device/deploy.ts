@@ -44,7 +44,7 @@ import { displayBuildLog } from './logs';
 import { stripIndent } from '../lazy';
 
 const LOCAL_APPNAME = 'localapp';
-const LOCAL_RELEASEHASH = 'localrelease';
+const LOCAL_RELEASEHASH = '10ca12e1ea5e';
 const LOCAL_PROJECT_NAME = 'local_image';
 
 // Define the logger here so the debug output
