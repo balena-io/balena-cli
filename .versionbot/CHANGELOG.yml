@@ -1,4 +1,35 @@
 - commits:
+    - subject: Use valid release uuid for local releases
+      hash: cd19845b6b6ddecbf723b0598b9fbb628dd2419f
+      body: >
+        On local push, the CLI uses `localrelease` as the `commit` property for
+
+        the development application. This is not a valid uuid and will not be
+
+        read properly by the supervisor, as seen in
+
+
+        https://github.com/balena-os/balena-supervisor/blob/master/src/compose/service.ts#L652
+
+
+        While this is not a problem right now, the commit is becoming the main
+
+        way to identify a service release (replacing `releaseId` and `imageId`),
+
+        and the invalid release uuid could cause update issues when pushing a
+
+        local release on when using some API endpoints.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Relates-to: balena-os/balena-supervisor#2136
+        relates-to: balena-os/balena-supervisor#2136
+      author: Felipe Lalanne
+      nested: []
+  version: 15.2.3
+  title: ""
+  date: 2023-05-03T20:03:47.033Z
+- commits:
     - subject: Remove nvmrc
       hash: 35fe7c6a5886f6af5d430c06d62ca20f757009a7
       body: |
