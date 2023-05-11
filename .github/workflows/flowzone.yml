@@ -10,7 +10,7 @@ on:
 jobs:
   flowzone:
     name: Flowzone
-    uses: product-os/flowzone/.github/workflows/flowzone.yml@master
+    uses: product-os/flowzone/.github/workflows/flowzone.yml@v4.7.1
     secrets: inherit
     with:
       tests_run_on: '["ubuntu-20.04","macos-11","windows-2019"]'
