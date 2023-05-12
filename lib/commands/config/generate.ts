@@ -19,13 +19,18 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo, devModeInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	devModeInfo,
+	secureBootInfo,
+} from '../../utils/messages';
 import type { PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
 	fleet?: string;
 	dev?: boolean; // balenaOS development variant
+	secureBoot?: boolean;
 	device?: string;
 	deviceApiKey?: string;
 	deviceType?: string;
@@ -51,6 +56,8 @@ export default class ConfigGenerateCmd extends Command {
 
 		${devModeInfo.split('\n').join('\n\t\t')}
 
+		${secureBootInfo.split('\n').join('\n\t\t')}
+
 		To configure an image for a fleet of mixed device types, use the --fleet option
 		alongside the --deviceType option to specify the target device type.
 
@@ -66,6 +73,7 @@ export default class ConfigGenerateCmd extends Command {
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json',
 		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --dev',
+		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --secureBoot',
 		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --deviceType fincm3',
 		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --output config.json',
 		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15',
@@ -80,6 +88,7 @@ export default class ConfigGenerateCmd extends Command {
 		}),
 		fleet: { ...cf.fleet, exclusive: ['device'] },
 		dev: cf.dev,
+		secureBoot: cf.secureBoot,
 		device: {
 			...cf.device,
 			exclusive: [
@@ -195,6 +204,15 @@ export default class ConfigGenerateCmd extends Command {
 			deviceType,
 		);
 
+		const { validateSecureBootOptionAndWarn } = await import(
+			'../../utils/config'
+		);
+		await validateSecureBootOptionAndWarn(
+			options.secureBoot,
+			deviceType,
+			options.version,
+		);
+
 		// Prompt for values
 		// Pass params as an override: if there is any param with exactly the same name as a
 		// required option, that value is used (and the corresponding question is not asked)
@@ -203,6 +221,7 @@ export default class ConfigGenerateCmd extends Command {
 		});
 		answers.version = options.version;
 		answers.developmentMode = options.dev;
+		answers.secureBoot = options.secureBoot;
 		answers.provisioningKeyName = options['provisioning-key-name'];
 		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
 

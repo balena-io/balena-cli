@@ -74,6 +74,12 @@ export const dev: IBooleanFlag<boolean> = flags.boolean({
 	default: false,
 });
 
+export const secureBoot: IBooleanFlag<boolean> = flags.boolean({
+	description:
+		'Configure balenaOS installer to opt-in secure boot and disk encryption',
+	default: false,
+});
+
 export const drive = flags.string({
 	char: 'd',
 	description: stripIndent`

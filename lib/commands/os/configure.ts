@@ -23,7 +23,11 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import { applicationIdInfo, devModeInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	devModeInfo,
+	secureBootInfo,
+} from '../../utils/messages';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -36,6 +40,7 @@ interface FlagsDef {
 	'config-wifi-key'?: string;
 	'config-wifi-ssid'?: string;
 	dev?: boolean; // balenaOS development variant
+	secureBoot?: boolean;
 	device?: string; // device UUID
 	'device-type'?: string;
 	help?: void;
@@ -53,6 +58,7 @@ interface ArgsDef {
 interface Answers {
 	appUpdatePollInterval: number; // in minutes
 	developmentMode?: boolean; // balenaOS development variant
+	secureBoot?: boolean;
 	deviceType: string; // e.g. "raspberrypi3"
 	network: 'ethernet' | 'wifi';
 	version: string; // e.g. "2.32.0+rev1"
@@ -79,6 +85,8 @@ export default class OsConfigureCmd extends Command {
 		in case of a fleet with mixed device types.
 
 		${devModeInfo.split('\n').join('\n\t\t')}
+
+		${secureBootInfo.split('\n').join('\n\t\t')}
 
 		The --system-connection (-c) option is used to inject NetworkManager connection
 		profiles for additional network interfaces, such as cellular/GSM or additional
@@ -140,6 +148,7 @@ export default class OsConfigureCmd extends Command {
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
 		dev: cf.dev,
+		secureBoot: cf.secureBoot,
 		device: {
 			...cf.device,
 			exclusive: [
@@ -238,6 +247,15 @@ export default class OsConfigureCmd extends Command {
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
 		await validateDevOptionAndWarn(options.dev, osVersion);
 
+		const { validateSecureBootOptionAndWarn } = await import(
+			'../../utils/config'
+		);
+		await validateSecureBootOptionAndWarn(
+			options.secureBoot,
+			deviceTypeSlug,
+			osVersion,
+		);
+
 		const answers: Answers = await askQuestionsForDeviceType(
 			deviceTypeManifest,
 			options,
@@ -248,6 +266,7 @@ export default class OsConfigureCmd extends Command {
 		}
 		answers.version = osVersion;
 		answers.developmentMode = options.dev;
+		answers.secureBoot = options.secureBoot;
 		answers.provisioningKeyName = options['provisioning-key-name'];
 		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
 
