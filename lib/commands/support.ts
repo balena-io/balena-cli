@@ -149,7 +149,7 @@ export default class SupportCmd extends Command {
 			console.log(
 				`Access has been granted for ${duration}, expiring ${new Date(
 					expiryTs,
-				).toLocaleString()}`,
+				).toISOString()}`,
 			);
 		}
 	}
