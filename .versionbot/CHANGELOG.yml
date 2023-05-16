@@ -1,4 +1,76 @@
 - commits:
+    - subject: "support: Change the printed support expiry date in ISO 8601 UTC format"
+      hash: 5bf95300ee0140487e7cac0083aecb972f7efe51
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "logs: Change the timestamp format to ISO 8601 UTC"
+      hash: adb460b270a2aebb7c27a77483d9bfa652bfad0a
+      body: ""
+      footer:
+        Resolves: "#2608"
+        resolves: "#2608"
+        Change-type: major
+        change-type: major
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Pin flowzone to v4.7.1
+      hash: ca80bd52fe5d4c7e3ab2b82852126d6067a6f3f8
+      body: |
+        The macos-11 runners apparently do not support zst compression format as
+        added in flowzone 4.7.2. While support is rolled out, we can keep
+        the flowzone branch to the previous working version.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+    - subject: Update etcher-sdk to v8.5.3
+      hash: 281f8abb9a4a9c33b26674a1ee139de8dd09143e
+      body: >
+        This removes the dependency on our custom fork of
+        [node-usb](https://github.com/balena-io-modules/node-usb)
+
+        and uses the maintained building method of the official node-usb repo
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+    - subject: Update vercel/pkg to v5.8.1
+      hash: 2cf2918d73cd595e7e7dfc4620aeb8dce08b25ec
+      body: >
+        This seems to be needed to build the binaries for node v16 since earlier
+
+        versions failed with
+
+
+        ```
+
+        Error: Could not detect abi for version 16.13.0 and runtime node.  Updating "node-abi" might help solve this issue if it is a new release of node
+
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+    - subject: Update to Node 16
+      hash: 7dfb7474f54d65c0d73a72ac1df69de554a7ad31
+      body: |
+        This also drops support for Node 14
+      footer:
+        Change-type: major
+        change-type: major
+      author: Felipe Lalanne
+      nested: []
+  version: 16.0.0
+  title: ""
+  date: 2023-05-16T00:02:35.062Z
+- commits:
     - subject: Use valid release uuid for local releases
       hash: cd19845b6b6ddecbf723b0598b9fbb628dd2419f
       body: >
