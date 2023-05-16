@@ -1,4 +1,15 @@
 - commits:
+    - subject: build linux/arm packages
+      hash: d61c30075036bf82fd81fdf6445bc5309d8af721
+      body: ""
+      footer:
+        change-type: minor
+      author: balenaCI
+      nested: []
+  version: 16.1.0
+  title: ""
+  date: 2023-05-16T18:26:08.594Z
+- commits:
     - subject: "support: Change the printed support expiry date in ISO 8601 UTC format"
       hash: 5bf95300ee0140487e7cac0083aecb972f7efe51
       body: ""
