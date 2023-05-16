@@ -1,24 +1,24 @@
 diff --git a/node_modules/@oclif/parser/lib/errors.js b/node_modules/@oclif/parser/lib/errors.js
-index 0c93a81..95d06be 100644
+index 39936e3..23e3925 100644
 --- a/node_modules/@oclif/parser/lib/errors.js
 +++ b/node_modules/@oclif/parser/lib/errors.js
-@@ -13,7 +13,8 @@ const m = deps_1.default()
+@@ -14,7 +14,8 @@ const m = deps_1.default()
      .add('list', () => require('./list'));
  class CLIParseError extends errors_1.CLIError {
      constructor(options) {
 -        options.message += '\nSee more help with --help';
-+        const help = options.command ? `\`${options.command} --help\`` : '--help';
-+        options.message += `\nSee more help with ${help}`;
++    		const help = options.command ? `\`${options.command} --help\`` : '--help';
++    		options.message += `\nSee more help with ${help}`;
          super(options.message);
          this.parse = options.parse;
      }
-@@ -34,22 +35,24 @@ class InvalidArgsSpecError extends CLIParseError {
+@@ -35,22 +36,24 @@ class InvalidArgsSpecError extends CLIParseError {
  exports.InvalidArgsSpecError = InvalidArgsSpecError;
  class RequiredArgsError extends CLIParseError {
      constructor({ args, parse }) {
 -        let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`;
-+        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
-+        let message = `Missing ${args.length} required argument${args.length === 1 ? '' : 's'}`;
++    		const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
++    		let message = `Missing ${args.length} required argument${args.length === 1 ? '' : 's'}`;
          const namedArgs = args.filter(a => a.name);
          if (namedArgs.length > 0) {
              const list = m.list.renderList(namedArgs.map(a => [a.name, a.description]));
@@ -32,7 +32,7 @@ index 0c93a81..95d06be 100644
  exports.RequiredArgsError = RequiredArgsError;
  class RequiredFlagError extends CLIParseError {
      constructor({ flag, parse }) {
-+        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
++    		const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
          const usage = m.list.renderList(m.help.flagUsages([flag], { displayRequired: false }));
          const message = `Missing required flag:\n${usage}`;
 -        super({ parse, message });
@@ -41,15 +41,15 @@ index 0c93a81..95d06be 100644
      }
  }
 diff --git a/node_modules/@oclif/parser/lib/list.js b/node_modules/@oclif/parser/lib/list.js
-index 3907cc0..b689ca1 100644
+index 9d020b7..6ea9eb9 100644
 --- a/node_modules/@oclif/parser/lib/list.js
 +++ b/node_modules/@oclif/parser/lib/list.js
-@@ -21,7 +21,7 @@ function renderList(items) {
+@@ -22,7 +22,7 @@ function renderList(items) {
          }
          left = left.padEnd(maxLength);
          right = linewrap(maxLength + 2, right);
 -        return `${left}  ${right}`;
-+        return `${left} : ${right}`;
++  			return `${left} : ${right}`;
      });
      return lines.join('\n');
  }

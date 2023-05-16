@@ -155,12 +155,8 @@ export function displayLogObject<T extends Log>(
 	system: boolean,
 	filterServices?: string[],
 ): void {
-	let toPrint: string;
-	if (obj.timestamp != null) {
-		toPrint = `[${new Date(obj.timestamp).toLocaleString()}]`;
-	} else {
-		toPrint = `[${new Date().toLocaleString()}]`;
-	}
+	const d = obj.timestamp != null ? new Date(obj.timestamp) : new Date();
+	let toPrint = `[${d.toISOString()}]`;
 
 	if (obj.serviceName != null) {
 		if (filterServices) {

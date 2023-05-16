@@ -1,15 +1,16 @@
 diff --git a/node_modules/open/index.js b/node_modules/open/index.js
-index 3bf5373..e042b64 100644
+index 13147d0..ff161dd 100644
 --- a/node_modules/open/index.js
 +++ b/node_modules/open/index.js
-@@ -11,7 +11,9 @@ const pAccess = promisify(fs.access);
- const pExecFile = promisify(childProcess.execFile);
+@@ -10,7 +10,10 @@ const pAccess = promisify(fs.access);
+ const pReadFile = promisify(fs.readFile);
  
  // Path to included `xdg-open`.
 -const localXdgOpenPath = path.join(__dirname, 'xdg-open');
 +const localXdgOpenPath = process.pkg
 +	? path.join(path.dirname(process.execPath), 'xdg-open')
 +	: path.join(__dirname, 'xdg-open');
++
  
- // Convert a path from WSL format to Windows format:
- // `/mnt/c/Program Files/Example/MyApp.exe` → `C:\Program Files\Example\MyApp.exe`
+ /**
+ Get the mount point for fixed drives in WSL.

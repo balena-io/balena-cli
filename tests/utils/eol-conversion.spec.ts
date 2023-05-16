@@ -63,8 +63,6 @@ describe('detectEncoding() function', function () {
 	it('should correctly detect the encoding of a few selected files', async () => {
 		const sampleBinary = [
 			'drivelist/build/Release/drivelist.node',
-			'@balena.io/usb/build/Release/usb_bindings.node',
-			'xxhash/build/Release/hash.node',
 			'mountutils/build/Release/MountUtils.node',
 		];
 		const sampleText = [

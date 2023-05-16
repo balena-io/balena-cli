@@ -78,8 +78,8 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some development tools to be installed first, as follows.
 
-> **The balena CLI currently requires Node.js version 14.**  
-> **Versions 15 and later are not yet fully supported.**
+> **The balena CLI currently requires Node.js version 16.**  
+> **Versions 17 and later are not yet fully supported.**
 
 ### Install development tools
 
@@ -89,7 +89,7 @@ some development tools to be installed first, as follows.
 $ sudo apt-get update && sudo apt-get -y install curl python3 git make g++
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 $ . ~/.bashrc
-$ nvm install 14
+$ nvm install 16
 ```
 
 The `curl` command line above uses
@@ -106,15 +106,15 @@ recommended.
 ```sh
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 $ . ~/.bashrc
-$ nvm install 14
+$ nvm install 16
 ```
 
 #### **Windows** (not WSL)
 
 Install:
 
-* Node.js v14 from the [Nodejs.org releases page](https://nodejs.org/en/download/releases/).
   * If you'd like the ability to switch between Node.js versions, install
+- Node.js v16 from the [Nodejs.org releases page](https://nodejs.org/en/download/releases/).
     [nvm-windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows)
     instead.
 * The [MSYS2 shell](https://www.msys2.org/), which provides `git`, `make`, `g++` and more:
