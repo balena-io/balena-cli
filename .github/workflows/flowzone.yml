@@ -3,14 +3,27 @@ name: Flowzone
 on:
   pull_request:
     types: [opened, synchronize, closed]
-    branches:
-      - "main"
-      - "master"
+    branches: [main, master]
+  pull_request_target:
+    types: [opened, synchronize, closed]
+    branches: [main, master]
 
 jobs:
   flowzone:
     name: Flowzone
     uses: product-os/flowzone/.github/workflows/flowzone.yml@v4.7.1
+    # prevent duplicate workflow executions for pull_request and pull_request_target
+    if: |
+      (
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event_name == 'pull_request'
+      ) || (
+        github.event.pull_request.head.repo.full_name != github.repository &&
+        github.event_name == 'pull_request_target'
+      )
     secrets: inherit
     with:
-      tests_run_on: '["ubuntu-20.04","macos-11","windows-2019"]'
+      custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-11"],["windows-2019"]]'
+      repo_config: true
+      repo_description: "The official balena CLI tool."
+      github_prerelease: true

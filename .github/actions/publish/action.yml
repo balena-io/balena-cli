@@ -8,6 +8,9 @@ inputs:
   secrets:
     description: "JSON stringified object containing all the secrets from the calling workflow"
     required: true
+  variables:
+    description: "JSON stringified object containing all the variables from the calling workflow"
+    required: true
 
   # --- custom environment
   XCODE_APP_LOADER_EMAIL:
@@ -27,7 +30,7 @@ runs:
     - name: Download custom source artifact
       uses: actions/download-artifact@v3
       with:
-        name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}
+        name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}-${{ runner.arch }}
         path: ${{ runner.temp }}
 
     - name: Extract custom source artifact

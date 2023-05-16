@@ -87,7 +87,7 @@ async function diffPkgOutput(pkgOut: string) {
 		'tests',
 		'test-data',
 		'pkg',
-		`expected-warnings-${process.platform}.txt`,
+		`expected-warnings-${process.platform}-${arch}.txt`,
 	);
 	const absSavedPath = path.join(ROOT, relSavedPath);
 	const ignoreStartsWith = [
@@ -180,9 +180,18 @@ async function execPkg(...args: any[]) {
  * to be directly executed from inside another binary executable.)
  */
 async function buildPkg() {
+	// https://github.com/vercel/pkg#targets
+	let targets = `linux-${arch}`;
+	// TBC: not possible to build for macOS or Windows arm64 on x64 nodes
+	if (process.platform === 'darwin') {
+		targets = `macos-x64`;
+	}
+	if (process.platform === 'win32') {
+		targets = `win-x64`;
+	}
 	const args = [
-		'--target',
-		'host',
+		'--targets',
+		targets,
 		'--output',
 		'build-bin/balena',
 		'package.json',
