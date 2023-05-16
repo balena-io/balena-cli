@@ -1,0 +1,90 @@
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/open/xdg-open
+  %2: path-to-executable/xdg-open
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/open/xdg-open
+  %2: path-to-executable/xdg-open
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/build/Release/drivelist.node
+  %2: path-to-executable/drivelist.node
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/darwin.sh
+  %2: path-to-executable/drivelist/darwin.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/linux.sh
+  %2: path-to-executable/drivelist/linux.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/win32.bat
+  %2: path-to-executable/drivelist/win32.bat
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/build/Release/drivelist.node
+  %2: path-to-executable/drivelist.node
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/darwin.sh
+  %2: path-to-executable/drivelist/darwin.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/linux.sh
+  %2: path-to-executable/drivelist/linux.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/win32.bat
+  %2: path-to-executable/drivelist/win32.bat
+> Warning Cannot resolve 'path'
+  node_modules/@balena/compose/dist/parse/schemas/index.js
+  Dynamic require may fail at run time, because the requested file
+  is unknown at compilation time and not included into executable.
+  Use a string literal as an argument for 'require', or leave it
+  as is and specify the resolved file name in 'scripts' option.
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/build/Release/drivelist.node
+  %2: path-to-executable/drivelist.node
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/scripts/darwin.sh
+  %2: path-to-executable/drivelist/darwin.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/scripts/linux.sh
+  %2: path-to-executable/drivelist/linux.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/scripts/win32.bat
+  %2: path-to-executable/drivelist/win32.bat
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/build/Release/drivelist.node
+  %2: path-to-executable/drivelist.node
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/scripts/darwin.sh
+  %2: path-to-executable/drivelist/darwin.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/scripts/linux.sh
+  %2: path-to-executable/drivelist/linux.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/drivelist/scripts/win32.bat
+  %2: path-to-executable/drivelist/win32.bat
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/opn/xdg-open
+  %2: path-to-executable/xdg-open
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/opn/xdg-open
+  %2: path-to-executable/xdg-open
+prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=arm64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=arm64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=arm64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=arm64 libc= platform=linux)
