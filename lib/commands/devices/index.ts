@@ -92,7 +92,9 @@ export default class DevicesCmd extends Command {
 
 		if (options.fleet != null) {
 			const { getApplication } = await import('../../utils/sdk');
-			const application = await getApplication(balena, options.fleet);
+			const application = await getApplication(balena, options.fleet, {
+				$select: 'id',
+			});
 			devices = (await balena.models.device.getAllByApplication(
 				application.id,
 				devicesOptions,
