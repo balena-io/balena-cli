@@ -200,21 +200,25 @@ export async function validateSecureBootOptionAndWarn(
 		throw new ExpectedError(`Error: No device type provided`);
 	}
 	const sdk = getBalenaSdk();
-	const [OsRelease]: BalenaSdk.OsVersion[] =
-		await sdk.models.os.getAllOsVersions(`${slug}`, {
-			$select: 'id',
-			$filter: { raw_version: `${version.replace(/^v/, '')}` },
-		});
-	if (!OsRelease) {
+	const releasePineOpts = {
+		$select: 'contract',
+		$filter: { raw_version: `${version.replace(/^v/, '')}` },
+	} satisfies BalenaSdk.PineOptions<BalenaSdk.Release>;
+	// TODO: Remove the added type casting when the SDK returns the fully typed result
+	const [osRelease] = (await sdk.models.os.getAllOsVersions(
+		slug,
+		releasePineOpts,
+	)) as Array<
+		BalenaSdk.OsVersion &
+			BalenaSdk.PineTypedResult<BalenaSdk.Release, typeof releasePineOpts>
+	>;
+	if (!osRelease) {
 		throw new ExpectedError(`Error: No ${version} release for ${slug}`);
 	}
-	const OsContract = await sdk.models.release.get(OsRelease.id, {
-		$select: 'contract',
-	});
-	const yaml = require('js-yaml');
-	const contract = yaml.load(OsContract['contract']);
+
+	const contract = osRelease.contract ? JSON.parse(osRelease.contract) : null;
 	if (
-		contract.provides.some((entry: Dictionary<string>) => {
+		contract?.provides.some((entry: Dictionary<string>) => {
 			return entry.type === 'sw.feature' && entry.slug === 'secureboot';
 		})
 	) {
