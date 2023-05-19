@@ -31,7 +31,14 @@ import { parseAsInteger } from '../utils/validation';
 
 import { flags } from '@oclif/command';
 import * as _ from 'lodash';
-import type { Application, BalenaSDK, PineExpand, Release } from 'balena-sdk';
+import type {
+	Application,
+	BalenaSDK,
+	PineExpand,
+	PineOptions,
+	PineTypedResult,
+	Release,
+} from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 
 interface FlagsDef extends DockerConnectionCliFlags {
@@ -308,7 +315,7 @@ Can be repeated to add multiple certificates.\
 		}
 	}
 
-	readonly applicationExpandOptions: PineExpand<Application> = {
+	readonly applicationExpandOptions = {
 		owns__release: {
 			$select: ['id', 'commit', 'end_timestamp', 'composition'],
 			$expand: {
@@ -329,7 +336,7 @@ Can be repeated to add multiple certificates.\
 		should_be_running__release: {
 			$select: 'commit',
 		},
-	};
+	} satisfies PineExpand<Application>;
 
 	isCurrentCommit(commit: string) {
 		return commit === 'latest' || commit === 'current';
@@ -343,7 +350,7 @@ Can be repeated to add multiple certificates.\
 		} catch {
 			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
 		}
-		return (await balena.models.application.getAllDirectlyAccessible({
+		const options = {
 			$select: ['id', 'slug', 'should_track_latest_release'],
 			$expand: this.applicationExpandOptions,
 			$filter: {
@@ -388,11 +395,10 @@ Can be repeated to add multiple certificates.\
 				},
 			},
 			$orderby: 'slug asc',
-		})) as Array<
-			ApplicationWithDeviceType & {
-				should_be_running__release: [Release?];
-			}
-		>;
+		} satisfies PineOptions<Application>;
+		return (await balena.models.application.getAllDirectlyAccessible(
+			options,
+		)) as Array<PineTypedResult<Application, typeof options>>;
 	}
 
 	async selectApplication(deviceTypeSlug: string) {
@@ -442,7 +448,7 @@ Can be repeated to add multiple certificates.\
 	}
 
 	async offerToDisableAutomaticUpdates(
-		application: Application,
+		application: Pick<Application, 'id' | 'should_track_latest_release'>,
 		commit: string,
 		pinDevice: boolean,
 	) {
@@ -494,9 +500,9 @@ Would you like to disable automatic updates for this fleet now?\
 	async getAppWithReleases(balenaSdk: BalenaSDK, slug: string) {
 		const { getApplication } = await import('../utils/sdk');
 
-		return (await getApplication(balenaSdk, slug, {
+		return await getApplication(balenaSdk, slug, {
 			$expand: this.applicationExpandOptions,
-		})) as Application & { should_be_running__release: [Release?] };
+		});
 	}
 
 	async prepareAndPreload(

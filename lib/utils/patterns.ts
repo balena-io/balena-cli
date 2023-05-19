@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import type { Application, BalenaSDK, Device, Organization } from 'balena-sdk';
+import type { BalenaSDK, Device, Organization } from 'balena-sdk';
 import _ = require('lodash');
 
 import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
@@ -193,10 +193,11 @@ export function selectApplication(
 		});
 }
 
-export async function selectOrganization(organizations?: Organization[]) {
+export async function selectOrganization(
+	organizations?: Array<Pick<Organization, 'handle' | 'name'>>,
+) {
 	// Use either provided orgs (if e.g. already loaded) or load from cloud
-	organizations =
-		organizations || (await getBalenaSdk().models.organization.getAll());
+	organizations ??= await getBalenaSdk().models.organization.getAll();
 	return getCliForm().ask({
 		message: 'Select an organization',
 		type: 'list',
@@ -295,19 +296,20 @@ export async function getOnlineTargetDeviceUuid(
 	}
 
 	// Not a device UUID, try application
-	let application: Application;
-	try {
-		logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
-		const { getApplication } = await import('./sdk');
-		application = await getApplication(sdk, fleetOrDevice);
-	} catch (err) {
-		const { BalenaApplicationNotFound } = await import('balena-errors');
-		if (instanceOf(err, BalenaApplicationNotFound)) {
-			throw new ExpectedError(`Fleet or Device not found: ${fleetOrDevice}`);
-		} else {
-			throw err;
+	const application = await (async () => {
+		try {
+			logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
+			const { getApplication } = await import('./sdk');
+			return await getApplication(sdk, fleetOrDevice);
+		} catch (err) {
+			const { BalenaApplicationNotFound } = await import('balena-errors');
+			if (instanceOf(err, BalenaApplicationNotFound)) {
+				throw new ExpectedError(`Fleet or Device not found: ${fleetOrDevice}`);
+			} else {
+				throw err;
+			}
 		}
-	}
+	})();
 
 	// App found, load its devices
 	const devices = await sdk.models.device.getAllByApplication(application.id, {

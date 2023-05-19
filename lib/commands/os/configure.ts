@@ -381,7 +381,9 @@ async function getOsVersionFromImage(
  */
 async function checkDeviceTypeCompatibility(
 	options: FlagsDef,
-	app: ApplicationWithDeviceType,
+	app: {
+		is_for__device_type: [Pick<BalenaSdk.DeviceType, 'slug'>];
+	},
 ) {
 	if (options['device-type']) {
 		const helpers = await import('../../utils/helpers');

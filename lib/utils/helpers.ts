@@ -180,11 +180,10 @@ export async function osProgressHandler(step: InitializeEmitter) {
 	});
 }
 
-export async function getAppWithArch(
-	applicationName: string,
-): Promise<ApplicationWithDeviceType & { arch: string }> {
+export async function getAppWithArch(applicationName: string) {
 	const { getApplication } = await import('./sdk');
-	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
+	const balena = getBalenaSdk();
+	const app = await getApplication(balena, applicationName, {
 		$expand: {
 			application_type: {
 				$select: ['name', 'slug', 'supports_multicontainer'],
@@ -198,20 +197,10 @@ export async function getAppWithArch(
 				},
 			},
 		},
-	};
-	const balena = getBalenaSdk();
-	const app = (await getApplication(
-		balena,
-		applicationName,
-		options,
-	)) as ApplicationWithDeviceType;
-	const { getExpanded } = await import('./pine');
-
+	});
 	return {
 		...app,
-		arch: getExpanded(
-			getExpanded(app.is_for__device_type)!.is_of__cpu_architecture,
-		)!.slug,
+		arch: app.is_for__device_type[0].is_of__cpu_architecture[0].slug,
 	};
 }
 

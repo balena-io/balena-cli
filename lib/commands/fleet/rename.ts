@@ -16,7 +16,6 @@
  */
 
 import type { flags } from '@oclif/command';
-import type { ApplicationType } from 'balena-sdk';
 
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
@@ -91,7 +90,7 @@ export default class FleetRenameCmd extends Command {
 		}
 
 		// Check app supports renaming
-		const appType = (application.application_type as ApplicationType[])?.[0];
+		const appType = application.application_type[0];
 		if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
 			throw new ExpectedError(
 				`Fleet ${params.fleet} is of 'legacy' type, and cannot be renamed.`,

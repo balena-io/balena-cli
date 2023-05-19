@@ -17,7 +17,6 @@
 
 import type { flags as flagsType } from '@oclif/command';
 import { flags } from '@oclif/command';
-import type { Release } from 'balena-sdk';
 
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
@@ -74,17 +73,12 @@ export default class FleetCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const application = (await getApplication(balena, params.fleet, {
+		const application = await getApplication(balena, params.fleet, {
 			$expand: {
 				is_for__device_type: { $select: 'slug' },
 				should_be_running__release: { $select: 'commit' },
 			},
-		})) as ApplicationWithDeviceType & {
-			should_be_running__release: [Release?];
-			// For display purposes:
-			device_type: string;
-			commit?: string;
-		};
+		});
 
 		if (options.view) {
 			const open = await import('open');
@@ -95,11 +89,14 @@ export default class FleetCmd extends Command {
 			return;
 		}
 
-		application.device_type = application.is_for__device_type[0].slug;
-		application.commit = application.should_be_running__release[0]?.commit;
+		const outputApplication = {
+			...application,
+			device_type: application.is_for__device_type[0].slug,
+			commit: application.should_be_running__release[0]?.commit,
+		};
 
 		await this.outputData(
-			application,
+			outputApplication,
 			['app_name', 'id', 'device_type', 'slug', 'commit'],
 			options,
 		);
