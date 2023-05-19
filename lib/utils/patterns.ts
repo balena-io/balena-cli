@@ -298,7 +298,9 @@ export async function getOnlineTargetDeviceUuid(
 		try {
 			logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
 			const { getApplication } = await import('./sdk');
-			return await getApplication(sdk, fleetOrDevice);
+			return await getApplication(sdk, fleetOrDevice, {
+				$select: ['id', 'slug'],
+			});
 		} catch (err) {
 			const { BalenaApplicationNotFound } = await import('balena-errors');
 			if (instanceOf(err, BalenaApplicationNotFound)) {
