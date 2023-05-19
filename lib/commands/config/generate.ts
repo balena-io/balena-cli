@@ -147,6 +147,7 @@ export default class ConfigGenerateCmd extends Command {
 	public async getApplication(balena: BalenaSDK, fleet: string) {
 		const { getApplication } = await import('../../utils/sdk');
 		return await getApplication(balena, fleet, {
+			$select: 'slug',
 			$expand: {
 				is_for__device_type: { $select: 'slug' },
 			},
