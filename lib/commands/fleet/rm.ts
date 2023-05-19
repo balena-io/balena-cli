@@ -76,7 +76,9 @@ export default class FleetRmCmd extends Command {
 		);
 
 		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
-		const application = await getApplication(balena, params.fleet);
+		const application = await getApplication(balena, params.fleet, {
+			$select: 'slug',
+		});
 
 		// Remove
 		await balena.models.application.remove(application.slug);

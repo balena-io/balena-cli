@@ -63,7 +63,9 @@ export default class FleetRestartCmd extends Command {
 		const balena = getBalenaSdk();
 
 		// Disambiguate application
-		const application = await getApplication(balena, params.fleet);
+		const application = await getApplication(balena, params.fleet, {
+			$select: 'slug',
+		});
 
 		await balena.models.application.restart(application.slug);
 	}

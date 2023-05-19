@@ -77,9 +77,10 @@ export default class FleetRenameCmd extends Command {
 		// Disambiguate target application (if params.params is a number, it could either be an ID or a numerical name)
 		const { getApplication } = await import('../../utils/sdk');
 		const application = await getApplication(balena, params.fleet, {
+			$select: ['id', 'app_name', 'slug'],
 			$expand: {
 				application_type: {
-					$select: ['slug'],
+					$select: 'slug',
 				},
 			},
 		});
@@ -132,9 +133,9 @@ export default class FleetRenameCmd extends Command {
 		}
 
 		// Get application again, to be sure of results
-		const renamedApplication = await balena.models.application.get(
-			application.id,
-		);
+		const renamedApplication = await getApplication(balena, application.id, {
+			$select: ['app_name', 'slug'],
+		});
 
 		// Output result
 		console.log(`Fleet renamed`);
