@@ -169,6 +169,10 @@ confuse the balenaOS "development mode" with a device's "local mode", the latter
 being a supervisor feature that allows the "balena push" command to push a user's
 application directly to a device in the local network.`;
 
+export const secureBootInfo = `\
+The '--secureBoot' option is used to configure a balenaOS installer image to opt-in
+secure boot and disk encryption.`;
+
 export const jsonInfo = `\
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it

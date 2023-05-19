@@ -52,6 +52,10 @@ export interface ImgConfig {
 	os?: {
 		sshKeys?: string[];
 	};
+
+	installer?: {
+		secureboot?: boolean;
+	};
 }
 
 export async function generateApplicationConfig(
@@ -63,6 +67,7 @@ export async function generateApplicationConfig(
 		os?: {
 			sshKeys?: string[];
 		};
+		secureBoot?: boolean;
 	},
 ): Promise<ImgConfig> {
 	options = {
@@ -82,6 +87,12 @@ export async function generateApplicationConfig(
 		config.os.sshKeys = config.os.sshKeys
 			? [...config.os.sshKeys, ...options.os.sshKeys]
 			: options.os.sshKeys;
+	}
+
+	// configure installer secure boot opt-in if specified
+	if (options.secureBoot) {
+		config.installer ??= {};
+		config.installer.secureboot = options.secureBoot;
 	}
 
 	return config;
@@ -164,4 +175,63 @@ export async function validateDevOptionAndWarn(
 		Please note that development mode allows unauthenticated, passwordless root ssh access
 		and exposes network ports such as 2375 that allows unencrypted access to balenaEngine.
 		Therefore, development mode should only be used in private, trusted local networks.`);
+}
+
+/**
+ * Chech whether the `--secureBoot` option of commands related to OS configuration
+ * such as `os configure` and `config generate` is compatible with a given
+ * OS release, and print a warning regarding the consequences of using that
+ * option.
+ */
+export async function validateSecureBootOptionAndWarn(
+	secureBoot?: boolean,
+	slug?: string,
+	version?: string,
+	logger?: import('./logger'),
+) {
+	if (!secureBoot) {
+		return;
+	}
+	const { ExpectedError } = await import('../errors');
+	if (!version) {
+		throw new ExpectedError(`Error: No version provided`);
+	}
+	if (!slug) {
+		throw new ExpectedError(`Error: No device type provided`);
+	}
+	const sdk = getBalenaSdk();
+	const releasePineOpts = {
+		$select: 'contract',
+		$filter: { raw_version: `${version.replace(/^v/, '')}` },
+	} satisfies BalenaSdk.PineOptions<BalenaSdk.Release>;
+	// TODO: Remove the added type casting when the SDK returns the fully typed result
+	const [osRelease] = (await sdk.models.os.getAllOsVersions(
+		slug,
+		releasePineOpts,
+	)) as Array<
+		BalenaSdk.OsVersion &
+			BalenaSdk.PineTypedResult<BalenaSdk.Release, typeof releasePineOpts>
+	>;
+	if (!osRelease) {
+		throw new ExpectedError(`Error: No ${version} release for ${slug}`);
+	}
+
+	const contract = osRelease.contract ? JSON.parse(osRelease.contract) : null;
+	if (
+		contract?.provides.some((entry: Dictionary<string>) => {
+			return entry.type === 'sw.feature' && entry.slug === 'secureboot';
+		})
+	) {
+		if (!logger) {
+			const Logger = await import('./logger');
+			logger = Logger.getLogger();
+		}
+		logger.logInfo(stripIndent`
+			The '--secureBoot' option is being used to configure a balenaOS installer image
+			into secure boot and full disk encryption.`);
+	} else {
+		throw new ExpectedError(
+			`Error: The '--secureBoot' option is not supported for ${slug} in ${version}`,
+		);
+	}
 }

@@ -2160,6 +2160,9 @@ confuse the balenaOS "development mode" with a device's "local mode", the latter
 being a supervisor feature that allows the "balena push" command to push a user's
 application directly to a device in the local network.
 
+The '--secureBoot' option is used to configure a balenaOS installer image to opt-in
+secure boot and disk encryption.
+
 The --system-connection (-c) option is used to inject NetworkManager connection
 profiles for additional network interfaces, such as cellular/GSM or additional
 WiFi or ethernet connections. This option may be passed multiple times in case there
@@ -2229,6 +2232,10 @@ WiFi SSID (network name) (non-interactive configuration)
 #### --dev
 
 Configure balenaOS to operate in development mode
+
+#### --secureBoot
+
+Configure balenaOS installer to opt-in secure boot and disk encryption
 
 #### -d, --device DEVICE
 
@@ -2314,6 +2321,9 @@ confuse the balenaOS "development mode" with a device's "local mode", the latter
 being a supervisor feature that allows the "balena push" command to push a user's
 application directly to a device in the local network.
 
+The '--secureBoot' option is used to configure a balenaOS installer image to opt-in
+secure boot and disk encryption.
+
 To configure an image for a fleet of mixed device types, use the --fleet option
 alongside the --deviceType option to specify the target device type.
 
@@ -2337,6 +2347,7 @@ Examples:
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
 	$ balena config generate --fleet myorg/fleet --version 2.12.7 --dev
+	$ balena config generate --fleet myorg/fleet --version 2.12.7 --secureBoot
 	$ balena config generate --fleet myorg/fleet --version 2.12.7 --deviceType fincm3
 	$ balena config generate --fleet myorg/fleet --version 2.12.7 --output config.json
 	$ balena config generate --fleet myorg/fleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15
@@ -2354,6 +2365,10 @@ fleet name or slug (preferred)
 #### --dev
 
 Configure balenaOS to operate in development mode
+
+#### --secureBoot
+
+Configure balenaOS installer to opt-in secure boot and disk encryption
 
 #### -d, --device DEVICE
 
