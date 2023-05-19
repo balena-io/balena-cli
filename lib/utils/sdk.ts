@@ -81,26 +81,39 @@ export async function getFleetSlug(
 	return nameOrSlug.toLowerCase();
 }
 
+export async function getOwnOrganizations(
+	sdk: BalenaSDK,
+): Promise<Organization[]>;
+export async function getOwnOrganizations<TP extends PineOptions<Organization>>(
+	sdk: BalenaSDK,
+	options: TP,
+): Promise<Array<PineTypedResult<Organization, TP>>>;
 /**
  * Wraps the sdk organization.getAll method,
  * restricting to those orgs user is a member of
  */
 export async function getOwnOrganizations(
 	sdk: BalenaSDK,
+	options?: PineOptions<Organization>,
 ): Promise<Organization[]> {
-	return await sdk.models.organization.getAll({
-		$filter: {
-			organization_membership: {
-				$any: {
-					$alias: 'orm',
-					$expr: {
-						orm: {
-							user: await sdk.auth.getUserId(),
+	return await sdk.models.organization.getAll(
+		sdk.utils.mergePineOptions(
+			{
+				$filter: {
+					organization_membership: {
+						$any: {
+							$alias: 'orm',
+							$expr: {
+								orm: {
+									user: await sdk.auth.getUserId(),
+								},
+							},
 						},
 					},
 				},
+				$orderby: 'name asc',
 			},
-		},
-		$orderby: 'name asc',
-	});
+			options,
+		),
+	);
 }

@@ -193,7 +193,9 @@ export async function selectOrganization(
 	organizations?: Array<Pick<Organization, 'handle' | 'name'>>,
 ) {
 	// Use either provided orgs (if e.g. already loaded) or load from cloud
-	organizations ??= await getBalenaSdk().models.organization.getAll();
+	organizations ??= await getBalenaSdk().models.organization.getAll({
+		$select: ['name', 'handle'],
+	});
 	return getCliForm().ask({
 		message: 'Select an organization',
 		type: 'list',
