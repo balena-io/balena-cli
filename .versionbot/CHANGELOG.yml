@@ -1,4 +1,178 @@
 - commits:
+    - subject: "secureboot: Retrieve the OS release & contract in one request"
+      hash: 83a5e7392adc371b8e4c3edfe7efb22b5f3f6eee
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure, config generate: Add '--secureBoot' option to opt-in
+        secure boot"
+      hash: f0c8c370228676313d57b00505c589f1832ec0d4
+      body: |
+        Allow to generate a config file with `installer.secureboot` set so that
+        a secure boot and disk encrypted system can be installed.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Alex Gonzalez <alexg@balena.io>
+        signed-off-by: Alex Gonzalez <alexg@balena.io>
+      author: Alex Gonzalez
+      nested: []
+    - subject: "package.json: Update balena-sdk to 16.44.2"
+      hash: ba26d3204db82168133de467035aa5b2dbd506a1
+      body: |
+        Update balena-sdk from 16.40.0 to 16.44.2
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Alex Gonzalez <alexg@balena.io>
+        signed-off-by: Alex Gonzalez <alexg@balena.io>
+      author: Alex Gonzalez
+      nested:
+        - commits:
+            - subject: Update flowzone's macos runner to v12
+              hash: 0217b18d0410cb47254a586fe61a24b1bc602a4f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add device type yocto properties to typings
+              hash: 2659041f88cd5130020ab8a57ecc90a1533f10f2
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+            - subject: Optimize getDeviceUrl request in one query
+              hash: 9b30c54425eff504f3e3c6a2948d9f1ed2fe8225
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+          version: balena-sdk-16.44.2
+          title: ""
+          date: 2023-05-16T09:40:50.769Z
+        - commits:
+            - subject: Fix device.getAllByOrganization parameter docs
+              hash: b0ac935ec4a8e59cd69f27824077fe2de867d145
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+          version: balena-sdk-16.44.1
+          title: ""
+          date: 2023-05-09T13:45:49.211Z
+        - commits:
+            - subject: Add device.getAllByOrganization()
+              hash: cae28e8a6b2ec00c3be8df046ec1d334993816e1
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Deprecate Device's is_managed_by__device & manages__device properties
+              hash: 7dd18a0f6087fa4e4fb002700d27550c1539356f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.44.0
+          title: ""
+          date: 2023-04-27T18:36:49.103Z
+        - commits:
+            - subject: Add test case DeviceHistory expandable resources
+              hash: 8d6160dd6e65964043fd64115a3ca08cb0d03764
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: fisehara <harald@balena.io>
+                signed-off-by: fisehara <harald@balena.io>
+              author: fisehara
+              nested: []
+            - subject: Make DeviceHistory referenced resources expandable
+              hash: 04d3aea7e86ca90bf9b456d21161c5e0b586f9ad
+              body: |
+                Add NavigationResource for Actor and fix DeviceType resource
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: fisehara <harald@balena.io>
+                signed-off-by: fisehara <harald@balena.io>
+              author: fisehara
+              nested: []
+          version: balena-sdk-16.43.0
+          title: ""
+          date: 2023-04-19T08:21:57.502Z
+        - commits:
+            - subject: Add support for pine queries on Concept Type properties
+              hash: 2da182dc83fac63eb7d29dc00cfdcf40865969b2
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Properly type Actor properties on resources
+              hash: b8d55511c5faff1d28cbd1f93988f7ffb6a55b3a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: fisehara <harald@balena.io>
+                signed-off-by: fisehara <harald@balena.io>
+              author: fisehara
+              nested: []
+          version: balena-sdk-16.42.0
+          title: ""
+          date: 2023-04-18T18:38:08.173Z
+        - commits:
+            - subject: "Release model: Add support for getting/patching releases by
+                `application` & `rawVersion` pairs"
+              hash: 9086f70becf3fc7ffc8f5e21f52dd509d14b46f4
+              body: ""
+              footer:
+                Changelog-entry: "Release model: Add support for getting/patching releases by
+                  `application` & `rawVersion` pairs"
+                changelog-entry: "Release model: Add support for getting/patching releases by
+                  `application` & `rawVersion` pairs"
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-16.41.0
+          title: ""
+          date: 2023-04-07T13:17:25.193Z
+    - subject: "flowzone: update custom runs to use macos-12"
+      hash: d53542975edd144319986484401a1421a35c4845
+      body: >
+        After the flowzone update to use zstd as compression algorithm for
+        sources
+
+        there is an error on macos-11 as tar does not support it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Alex Gonzalez <alexg@balena.io>
+        signed-off-by: Alex Gonzalez <alexg@balena.io>
+      author: Alex Gonzalez
+      nested: []
+  version: 16.2.0
+  title: ""
+  date: 2023-05-19T18:11:53.353Z
+- commits:
     - subject: build linux/arm packages
       hash: d61c30075036bf82fd81fdf6445bc5309d8af721
       body: ""
