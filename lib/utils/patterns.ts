@@ -157,40 +157,36 @@ export async function confirm(
 	}
 }
 
-export function selectApplication(
+export async function selectApplication(
 	filter?: (app: ApplicationWithDeviceType) => boolean,
 	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
-	return balena.models.application
-		.hasAny()
-		.then(async (hasAnyApplications) => {
-			if (!hasAnyApplications) {
-				throw new ExpectedError('No fleets found');
-			}
+	const apps = (await balena.models.application.getAllDirectlyAccessible({
+		$expand: {
+			is_for__device_type: {
+				$select: 'slug',
+			},
+		},
+	})) as ApplicationWithDeviceType[];
 
-			const apps = (await balena.models.application.getAllDirectlyAccessible({
-				$expand: {
-					is_for__device_type: {
-						$select: 'slug',
-					},
-				},
-			})) as ApplicationWithDeviceType[];
-			return apps.filter(filter || _.constant(true));
-		})
-		.then((applications) => {
-			if (errorOnEmptySelection && applications.length === 0) {
-				throw new ExpectedError('No suitable fleets found for selection');
-			}
-			return getCliForm().ask({
-				message: 'Select an application',
-				type: 'list',
-				choices: _.map(applications, (application) => ({
-					name: `${application.app_name} (${application.slug}) [${application.is_for__device_type[0].slug}]`,
-					value: application,
-				})),
-			});
-		});
+	if (!apps.length) {
+		throw new ExpectedError('No fleets found');
+	}
+
+	const applications = filter ? apps.filter(filter) : apps;
+
+	if (errorOnEmptySelection && applications.length === 0) {
+		throw new ExpectedError('No suitable fleets found for selection');
+	}
+	return getCliForm().ask({
+		message: 'Select an application',
+		type: 'list',
+		choices: _.map(applications, (application) => ({
+			name: `${application.app_name} (${application.slug}) [${application.is_for__device_type[0].slug}]`,
+			value: application,
+		})),
+	});
 }
 
 export async function selectOrganization(
