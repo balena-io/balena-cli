@@ -328,7 +328,7 @@ export default class PushCmd extends Command {
 		]);
 
 		const application = await getApplication(sdk, appNameOrSlug, {
-			$select: ['app_name', 'slug'],
+			$select: 'slug',
 		});
 
 		const opts = {
