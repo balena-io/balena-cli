@@ -76,7 +76,7 @@ export async function getFleetSlug(
 	if (!looksLikeFleetSlug(nameOrSlug)) {
 		// Not a slug: must be an app name.
 		// TODO: revisit this logic when we add support for fleet UUIDs.
-		return (await getApplication(sdk, nameOrSlug)).slug;
+		return (await getApplication(sdk, nameOrSlug, { $select: 'slug' })).slug;
 	}
 	return nameOrSlug.toLowerCase();
 }
