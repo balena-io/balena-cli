@@ -1,4 +1,619 @@
 - commits:
+    - subject: Update balena-settings-client to 5.0.2
+      hash: d9651c7393a928ea8069b2070071b4bdb55637e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-preload & balena-image-manager
+      hash: e371b1e7598605e9493399ee328cb8b061de56cb
+      body: |
+        Update balena-image-manager from 8.0.1 to 9.0.0
+        Update balena-preload from 13.0.0 to 14.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Drop .hound.yml
+              hash: d6055a616346aa2f017dfa791a20f0bb2a5a42ac
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update dependencies
+              hash: 0131918d375a4e8bbfe23f497f8426db1f0ed500
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update README.md
+              hash: 88d1b499ce5784c6daf9df5a305fcb2bff5d8416
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update to balena-sdk 17.0.0
+              hash: 57bb914c68d2e35851700034e4f8d73e10df6227
+              body: |
+                Update to balena-sdk from 16.8.0 to 17.0.0
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Convert to typescript an emit type declarations
+              hash: f540af7d9508897b6371afa649203e80a1e37e8c
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Require es2019 capable runtime
+              hash: ffbf5486aa5f082df091dd48e0c672b99f5860b8
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop support for Node.js v12 & v14
+              hash: d1e817215e7a632dcd557258074d3338948de63a
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-image-manager-9.0.0
+          title: ""
+          date: 2023-05-23T10:00:55.424Z
+        - commits:
+            - subject: Delete redundant .resinci.yml
+              hash: 040902fa9a870bcf1f5e1fd5d49fe1f9815dbe87
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-image-manager-8.0.3
+          title: ""
+          date: 2022-09-26T12:43:24.149Z
+        - commits:
+            - subject: Drop the .travis.yml
+              hash: 3915fa10d02335c7d97a89182b135dd41f54d64c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Replace balenaCI with flowzone
+              hash: d1def00d3a52ce22242da96764ea42d674138e1a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-image-manager-8.0.2
+          title: ""
+          date: 2022-09-22T22:41:39.467Z
+        - commits:
+            - subject: Improve typings & source type safety
+              hash: 98a0b5174457239ee2b0b3270d4089ceb5c6878d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update dev dependencies
+              hash: 94773c38f7d4bcb83c9573e82fab6562d86b11c7
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update to balena-sdk 17.0.0
+              hash: d6a4fd04c6c1b9169aaa3d0aeeb94b7fd72c417d
+              body: |
+                Update to balena-sdk from 16.8.0 to 17.0.0
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Emit type declaration files
+              hash: 9c3a23146af6fb688331b962f94cf6cf01942734
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Switch to es6 module exports
+              hash: 7e7cd01a9f6fa959e5ae867615f627ab018f2945
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Require es2019 capable runtime
+              hash: 932dc7b4f75ee528fe7ceb632a7a443c90a58076
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop support for Node.js v12 & v14
+              hash: 02088fbb87d36cc674ae425e7fdc8defa1334cf3
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-preload-14.0.0
+          title: ""
+          date: 2023-05-23T10:00:54.755Z
+    - subject: Update balena-sdk to 17.0.0
+      hash: 77cf4af1666dbdef0478c5d6f3aeb0df4b54b44b
+      body: |
+        Update balena-sdk from 16.45.1 to 17.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Fully type the result of os.getAllOsVersions when providing pine
+                options
+              hash: 484a0db3ae90ea8170005162fe83a4ed10830f32
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Change all .create() methods to return fully typed results
+              hash: 1f156eccaa40409adfd25204ad14e263412fe621
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Change the pine.post() method to return fully typed results
+              hash: 0766da0fd9186d2f1246af1b5a24c7304fa91955
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add the imageType property to the os.download method
+              hash: 1a7b04481859e92cc6f0874db246ecc55752ff17
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add OS download custom properties
+              hash: 6f3e1e5d2a6a3eb9096da7a92291d92b97db3e3a
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Otávio Jacobi
+              nested: []
+            - subject: "**BREAKING**: Drop the tags.getAll() method from all models"
+              hash: 93c374cc3c562f8d3eba541938f0cbd1b998f559
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+                See: https://github.com/balena-io/balena-sdk/issues/1300
+                see: https://github.com/balena-io/balena-sdk/issues/1300
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "**BREAKING**: Drop organization.membership.getAll()"
+              hash: 9e061c986f5e2104000adc97258a5f3d3a68994b
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+                See: https://github.com/balena-io/balena-sdk/issues/1300
+                see: https://github.com/balena-io/balena-sdk/issues/1300
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "**BREAKING**: Drop application.membership.getAll()"
+              hash: 10bc1f70eb3441b6589ce99399f19a27f425f798
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+                See: https://github.com/balena-io/balena-sdk/issues/1300
+                see: https://github.com/balena-io/balena-sdk/issues/1300
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "**BREAKING**: Drop device.getAll() in favor of getAllByOrganization()"
+              hash: 6e174f1c07b9ee1cd49452e7814b469fbcea26c2
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+                See: https://github.com/balena-io/balena-sdk/issues/1300
+                see: https://github.com/balena-io/balena-sdk/issues/1300
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Replace lodash flatten with native flatMap
+              hash: df723bd0d160cec4f19bb44510ca7475cc019bcc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Move the sources under the /src folder
+              hash: dfcdc93e871932391c94f2a3e26403a354bce5c0
+              body: ""
+              footer:
+                Resolves: "#1316"
+                resolves: "#1316"
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "types: Add type checks for the direction of the string $orderby
+                variant"
+              hash: ef263ae31ab2b1bb106599b8cf8aca36aed2397f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "types: Require a generic param in pine's associated resource helpers"
+              hash: ebba99414df57800f81cb5563ff0c5c530402f5d
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Convert some async expectations to asyn-await"
+              hash: 2a465e315bb3589728ca63c22d8a7d6c774266ce
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "types: Rename ODataOptionsWithSelect to ODataOptionsStrict"
+              hash: 4e61818ce134072efa54b95918bf9a767b153fb5
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "types: Rename PineOptionsWithSelect to PineOptionsStrict"
+              hash: c4d9394541c595750be52fc573ae630c877f60e1
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "Types: Rename ParamsObjWithSelect to ParamsObjStrict"
+              hash: f6974faf367e1823bda76872af4d22e6d086a2f7
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "release: Rename the `.note()` method to `.setNote()`"
+              hash: c8f18c9515b32e568b55b395a1a3bb40ae886431
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "device: Rename the `.note()` method to `.setNote()`"
+              hash: 192675c95d2d3fd4f079fb332f1ec3a31253a503
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "os.download: Change to accept a single object parameter"
+              hash: 8af221fc9f7022d36bac2e635cc007480dbf4e71
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "OsVersion: Make `variant` non-nullable to match the Release field"
+              hash: 7e5b1b0c8842cdb03af0943e62be926d2fc414e6
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "OsVersion: Drop the formattedVersion property"
+              hash: bdda17e47f30ae76bc9307514c87d8310df84753
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "OsVersion: Drop the rawVersion property in favor of raw_version"
+              hash: 660d86d59a2f94afe4f2a79e329762a91ce5ce1b
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop device.getManifestByApplication()
+              hash: 6a765d796fd99a05d635a45235f2a23cd3e8ad19
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop device.getManifestBySlug in favor of
+                config.getDeviceTypeManifestBySlug
+              hash: 6fd19e707620ee1a5a28599f9aa17b4f4b85292f
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop support for callbacks
+              hash: bfa093bc853fd288a5c09911c3ca9ad5e8352c13
+              body: ""
+              footer:
+                Resolves: "#874"
+                resolves: "#874"
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "getWithServiceDetails: Drop the current_gateway_downloads property"
+              hash: e6fc4e6fc647058fe3940b60dd62903a4e490baf
+              body: ""
+              footer:
+                Resolves: "#1284"
+                resolves: "#1284"
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "types: Drop the deprecated public_key property from the JWTUser"
+              hash: 40a42744db25f0aba0471e0885ce02b524efc58b
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop the deprecated needsPasswordReset property from the JWTUser
+              hash: 4d9c53cfaac93f1dccf7ecf4c91c3509dd1f88e6
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Bump mockttp to v3.0.0
+              hash: c0393bad50b42c31e250f1b27cea29a6734c848f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update balena-hup-action-utils to 5.0.0
+              hash: d15912e75cbaf56553998d6f8cf6488ede8e9142
+              body: |
+                Update balena-hup-action-utils from 4.1.0 to 5.0.0
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Re-enable TS-compatibility checks
+                      hash: af8c613fd90ed8992e280668f38428532f49e856
+                      body: ""
+                      footer:
+                        Resolves: "#20"
+                        resolves: "#20"
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update Typescript to 5.0.4
+                      hash: ec45e3cfaa76f98c61455c0ffbc0eb95d89bcfa7
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Throw a typed HUPActionError for expected errors
+                      hash: 67895734317615fa4115ff8b611854573a512e11
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Change the build target to es6
+                      hash: 433af1c0a84fcddf21436c1fe2d812e53de737dd
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Drop support for node < v12
+                      hash: f892293249d534a4afc3012d51264e33b01cb4ec
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-hup-action-utils-5.0.0
+                  title: ""
+                  date: 2023-04-28T09:13:27.431Z
+                - commits:
+                    - subject: Delete redundant .resinci.yml
+                      hash: e3edf16cfbcaa4882325e6a7e3fd8339e8b8dd28
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-hup-action-utils-4.1.3
+                  title: ""
+                  date: 2022-09-26T12:39:20.357Z
+                - commits:
+                    - subject: Specify node 10 as the minimum supported node engine in the
+                        package.json
+                      hash: 428b80a8d6ff2059fb6be39b7e9ad745847c9748
+                      body: |
+                        The semver 7.1.3 package, which
+                        balena-semver depends on, already has node
+                        10 as the minimum engine.
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        See: https://www.npmjs.com/package/semver
+                        see: https://www.npmjs.com/package/semver
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Replace balenaCI with flowzone
+                      hash: 8cbe03c666bec40ccfa06bb1c7be2e9d1cd9f90d
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-hup-action-utils-4.1.2
+                  title: ""
+                  date: 2022-09-22T22:35:28.848Z
+                - commits:
+                    - subject: Bump karma to v6
+                      hash: 76cb56e651c47958d271919e89e774438027d4cf
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                  version: balena-hup-action-utils-4.1.1
+                  title: "'Bump karma to v6'"
+                  date: 2022-04-09T20:24:15.243Z
+            - subject: Update balena-settings-client to v5.0.0
+              hash: 7b78ad6d2149c7d3c8826136a8a4ce930bc2a5b1
+              body: |
+                Update balena-settings-client from 4.0.6 to 5.0.0
+              footer:
+                Resolves: "#1231"
+                resolves: "#1231"
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Bump minimum supported Typescript version to v5.0.2
+              hash: 418dfc5e2dd7cdf6daa13a40a635dceb042a1596
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis
+                signed-off-by: Thodoris Greasidis
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "**BREAKING**: Drop device.getAllByParentDevice"
+              hash: 6dfa00cfb06fe4ac1588988a772d17c23cd9b65a
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "**BREAKING**: Drop support for node 12, require es2019 builtin APIs"
+              hash: 12f0ef9f5f17ccff294d131fb93e442a8ea06f5f
+              body: |
+                Node 12 may well still work with the SDK for
+                quite a while, but we'll no longer actively test
+                against them since they are now
+                characterized as EOL, and it's quite possible
+                that it may stop working entirely in any future
+                release.
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "**BREAKING**: Stop publishing an unminified browser bundle"
+              hash: a5a524ce956859a2484e25aad0f048ec562df5b3
+              body: ""
+              footer:
+                Resolves: "#1222"
+                resolves: "#1222"
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.0.0
+          title: ""
+          date: 2023-05-22T12:35:06.147Z
+  version: 16.2.1
+  title: ""
+  date: 2023-05-23T12:28:21.304Z
+- commits:
     - subject: "secureboot: Retrieve the OS release & contract in one request"
       hash: 83a5e7392adc371b8e4c3edfe7efb22b5f3f6eee
       body: ""
