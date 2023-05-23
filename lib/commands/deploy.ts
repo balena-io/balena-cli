@@ -43,15 +43,13 @@ import {
 	parseReleaseTagKeysAndValues,
 } from '../utils/compose_ts';
 import { dockerCliFlags } from '../utils/docker';
-import type {
-	Application,
-	ApplicationType,
-	DeviceType,
-	Release,
-} from 'balena-sdk';
+import type { ApplicationType, DeviceType, Release } from 'balena-sdk';
 
-interface ApplicationWithArch extends Application {
+interface ApplicationWithArch {
+	id: number;
 	arch: string;
+	is_for__device_type: [Pick<DeviceType, 'slug'>];
+	application_type: [Pick<ApplicationType, 'slug' | 'supports_multicontainer'>];
 }
 
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
@@ -262,7 +260,7 @@ ${dockerignoreHelp}
 			'../utils/compose_ts'
 		);
 
-		const appType = (opts.app?.application_type as ApplicationType[])?.[0];
+		const appType = opts.app.application_type[0];
 
 		try {
 			const project = await loadProject(
@@ -319,7 +317,7 @@ ${dockerignoreHelp}
 					projectName: project.name,
 					composition: compositionToBuild,
 					arch: opts.app.arch,
-					deviceType: (opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
+					deviceType: opts.app.is_for__device_type[0].slug,
 					emulated: opts.buildEmulated,
 					buildOpts: opts.buildOpts,
 					inlineLogs: composeOpts.inlineLogs,

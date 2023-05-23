@@ -20,8 +20,18 @@ import type {
 	BalenaSDK,
 	Organization,
 	PineOptions,
+	PineTypedResult,
 } from 'balena-sdk';
 
+export async function getApplication(
+	sdk: BalenaSDK,
+	nameOrSlugOrId: string | number,
+): Promise<Application>;
+export async function getApplication<TP extends PineOptions<Application>>(
+	sdk: BalenaSDK,
+	nameOrSlugOrId: string | number,
+	options?: TP,
+): Promise<PineTypedResult<Application, TP>>;
 /**
  * Get a fleet object, disambiguating the fleet identifier which may be a
  * a fleet slug or name.
@@ -29,21 +39,24 @@ import type {
  */
 export async function getApplication(
 	sdk: BalenaSDK,
-	nameOrSlug: string,
+	nameOrSlugOrId: string | number,
 	options?: PineOptions<Application>,
 ): Promise<Application> {
 	const { looksLikeFleetSlug } = await import('./validation');
-	if (!looksLikeFleetSlug(nameOrSlug)) {
+	if (
+		typeof nameOrSlugOrId === 'string' &&
+		!looksLikeFleetSlug(nameOrSlugOrId)
+	) {
 		// Not a slug: must be an app name.
 		// TODO: revisit this logic when we add support for fleet UUIDs.
 		return await sdk.models.application.getAppByName(
-			nameOrSlug,
+			nameOrSlugOrId,
 			options,
 			'directly_accessible',
 		);
 	}
 	return await sdk.models.application.getDirectlyAccessible(
-		nameOrSlug,
+		nameOrSlugOrId,
 		options,
 	);
 }

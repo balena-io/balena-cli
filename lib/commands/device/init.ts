@@ -124,7 +124,7 @@ export default class DeviceInitCmd extends Command {
 		const balena = getBalenaSdk();
 
 		// Get application and
-		const application = (await getApplication(
+		const application = await getApplication(
 			balena,
 			options.fleet ||
 				(
@@ -137,7 +137,7 @@ export default class DeviceInitCmd extends Command {
 					},
 				},
 			},
-		)) as ApplicationWithDeviceType;
+		);
 
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();

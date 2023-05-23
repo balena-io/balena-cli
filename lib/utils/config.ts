@@ -59,7 +59,7 @@ export interface ImgConfig {
 }
 
 export async function generateApplicationConfig(
-	application: BalenaSdk.Application,
+	application: Pick<BalenaSdk.Application, 'slug'>,
 	options: {
 		version: string;
 		appUpdatePollInterval?: number;

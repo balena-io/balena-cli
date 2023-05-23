@@ -20,7 +20,7 @@ import Command from '../command';
 import { getBalenaSdk } from '../utils/lazy';
 import * as cf from '../utils/common-flags';
 import * as compose from '../utils/compose';
-import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
+import type { ApplicationType, BalenaSDK } from 'balena-sdk';
 import {
 	buildArgDeprecation,
 	dockerignoreHelp,
@@ -218,7 +218,9 @@ ${dockerignoreHelp}
 		logger: import('../utils/logger'),
 		composeOpts: ComposeOpts,
 		opts: {
-			app?: Application;
+			app?: {
+				application_type: [Pick<ApplicationType, 'supports_multicontainer'>];
+			};
 			arch: string;
 			deviceType: string;
 			buildEmulated: boolean;
@@ -234,7 +236,7 @@ ${dockerignoreHelp}
 			opts.buildOpts.t,
 		);
 
-		const appType = (opts.app?.application_type as ApplicationType[])?.[0];
+		const appType = opts.app?.application_type?.[0];
 		if (
 			appType != null &&
 			project.descriptors.length > 1 &&

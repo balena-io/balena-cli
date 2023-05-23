@@ -24,7 +24,7 @@ import {
 	devModeInfo,
 	secureBootInfo,
 } from '../../utils/messages';
-import type { PineDeferred } from 'balena-sdk';
+import type { BalenaSDK, PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
@@ -144,17 +144,24 @@ export default class ConfigGenerateCmd extends Command {
 
 	public static authenticated = true;
 
+	public async getApplication(balena: BalenaSDK, fleet: string) {
+		const { getApplication } = await import('../../utils/sdk');
+		return await getApplication(balena, fleet, {
+			$expand: {
+				is_for__device_type: { $select: 'slug' },
+			},
+		});
+	}
+
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(ConfigGenerateCmd);
-
-		const { getApplication } = await import('../../utils/sdk');
-
 		const balena = getBalenaSdk();
 
 		await this.validateOptions(options);
 
 		let resourceDeviceType: string;
-		let application: ApplicationWithDeviceType | null = null;
+		let application: Awaited<ReturnType<typeof this.getApplication>> | null =
+			null;
 		let device:
 			| (DeviceWithDeviceType & { belongs_to__application: PineDeferred })
 			| null = null;
@@ -174,11 +181,7 @@ export default class ConfigGenerateCmd extends Command {
 			resourceDeviceType = device.is_of__device_type[0].slug;
 		} else {
 			// Disambiguate application (if is a number, it could either be an ID or a numerical name)
-			application = (await getApplication(balena, options.fleet!, {
-				$expand: {
-					is_for__device_type: { $select: 'slug' },
-				},
-			})) as ApplicationWithDeviceType;
+			application = await this.getApplication(balena, options.fleet!);
 			resourceDeviceType = application.is_for__device_type[0].slug;
 		}
 
