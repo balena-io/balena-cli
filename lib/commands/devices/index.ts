@@ -82,7 +82,11 @@ export default class DevicesCmd extends Command {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesCmd);
 
 		const balena = getBalenaSdk();
-		const devicesOptions = { ...devicesSelectFields, ...expandForAppName };
+		const devicesOptions = {
+			...devicesSelectFields,
+			...expandForAppName,
+			$orderby: { device_name: 'asc' },
+		} satisfies PineOptions<Device>;
 
 		let devices;
 
@@ -94,9 +98,10 @@ export default class DevicesCmd extends Command {
 				devicesOptions,
 			)) as ExtendedDevice[];
 		} else {
-			devices = (await balena.models.device.getAll(
-				devicesOptions,
-			)) as ExtendedDevice[];
+			devices = (await balena.pine.get({
+				resource: 'device',
+				options: devicesOptions,
+			})) as ExtendedDevice[];
 		}
 
 		devices = devices.map(function (device) {

@@ -252,33 +252,6 @@ export async function awaitDeviceOsUpdate(
 	return uuid;
 }
 
-export function inferOrSelectDevice(preferredUuid: string) {
-	const balena = getBalenaSdk();
-	return balena.models.device.getAll().then((devices) => {
-		const onlineDevices = devices.filter((device) => device.is_online);
-		if (_.isEmpty(onlineDevices)) {
-			throw new ExpectedError("You don't have any devices online");
-		}
-
-		const defaultUuid = _(onlineDevices).map('uuid').includes(preferredUuid)
-			? preferredUuid
-			: onlineDevices[0].uuid;
-
-		return getCliForm().ask({
-			message: 'Select a device',
-			type: 'list',
-			default: defaultUuid,
-			choices: _.map(onlineDevices, (device) => ({
-				name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
-					0,
-					7,
-				)})`,
-				value: device.uuid,
-			})),
-		});
-	});
-}
-
 /*
  * Given fleetOrDevice, which may be
  *  - a fleet name
