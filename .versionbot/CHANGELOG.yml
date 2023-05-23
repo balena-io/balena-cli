@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove extra request when filling the application selection list
+      hash: 46aa08c953e0d5e95b276a638a6185216e4c3327
+      body: |
+        Saves one request of about 450ms on the
+        init and move commands.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.2.4
+  title: ""
+  date: 2023-05-23T20:31:24.681Z
+- commits:
     - subject: Use stricter typings
       hash: 1a6fe1f3de8cf8e741dabbd57b5e81366bd73054
       body: ""
