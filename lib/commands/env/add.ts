@@ -151,16 +151,15 @@ export default class EnvAddCmd extends Command {
 
 		const varType = isConfigVar ? 'configVar' : 'envVar';
 		if (options.fleet) {
-			const { getFleetSlug } = await import('../../utils/sdk');
-			for (const app of options.fleet.split(',')) {
+			for (const appSlug of await resolveFleetSlugs(balena, options.fleet)) {
 				try {
 					await balena.models.application[varType].set(
-						await getFleetSlug(balena, app),
+						appSlug,
 						params.name,
 						params.value,
 					);
 				} catch (err) {
-					console.error(`${err.message}, fleet: ${app}`);
+					console.error(`${err.message}, fleet: ${appSlug}`);
 					process.exitCode = 1;
 				}
 			}
@@ -181,6 +180,25 @@ export default class EnvAddCmd extends Command {
 	}
 }
 
+// TODO: Stop accepting application names in the next major
+// and just drop this in favor of doing the .split(',') directly.
+async function resolveFleetSlugs(
+	balena: BalenaSdk.BalenaSDK,
+	fleetOption: string,
+) {
+	const fleetSlugs: string[] = [];
+	const { getFleetSlug } = await import('../../utils/sdk');
+	for (const appNameOrSlug of fleetOption.split(',')) {
+		try {
+			fleetSlugs.push(await getFleetSlug(balena, appNameOrSlug));
+		} catch (err) {
+			console.error(`${err.message}, fleet: ${appNameOrSlug}`);
+			process.exitCode = 1;
+		}
+	}
+	return fleetSlugs;
+}
+
 /**
  * Add service variables for a device or fleet.
  */
@@ -190,17 +208,17 @@ async function setServiceVars(
 	options: FlagsDef,
 ) {
 	if (options.fleet) {
-		for (const app of options.fleet.split(',')) {
+		for (const appSlug of await resolveFleetSlugs(sdk, options.fleet)) {
 			for (const service of options.service!.split(',')) {
 				try {
-					const serviceId = await getServiceIdForApp(sdk, app, service);
+					const serviceId = await getServiceIdForApp(sdk, appSlug, service);
 					await sdk.models.service.var.set(
 						serviceId,
 						params.name,
 						params.value!,
 					);
 				} catch (err) {
-					console.error(`${err.message}, fleet: ${app}`);
+					console.error(`${err.message}, fleet: ${appSlug}`);
 					process.exitCode = 1;
 				}
 			}
@@ -245,11 +263,11 @@ async function setServiceVars(
  */
 async function getServiceIdForApp(
 	sdk: BalenaSdk.BalenaSDK,
-	appName: string,
+	appSlug: string,
 	serviceName: string,
 ): Promise<number> {
 	let serviceId: number | undefined;
-	const services = await sdk.models.service.getAllByApplication(appName, {
+	const services = await sdk.models.service.getAllByApplication(appSlug, {
 		$filter: { service_name: serviceName },
 	});
 	if (services.length > 0) {
@@ -257,7 +275,7 @@ async function getServiceIdForApp(
 	}
 	if (serviceId === undefined) {
 		throw new ExpectedError(
-			`Cannot find service ${serviceName} for fleet ${appName}`,
+			`Cannot find service ${serviceName} for fleet ${appSlug}`,
 		);
 	}
 	return serviceId;
