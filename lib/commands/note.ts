@@ -88,6 +88,6 @@ export default class NoteCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		return balena.models.device.note(options.device!, params.note);
+		return balena.models.device.setNote(options.device, params.note);
 	}
 }

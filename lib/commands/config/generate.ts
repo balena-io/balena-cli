@@ -200,9 +200,8 @@ export default class ConfigGenerateCmd extends Command {
 			}
 		}
 
-		const deviceManifest = await balena.models.device.getManifestBySlug(
-			deviceType,
-		);
+		const deviceManifest =
+			await balena.models.config.getDeviceTypeManifestBySlug(deviceType);
 
 		const { validateSecureBootOptionAndWarn } = await import(
 			'../../utils/config'

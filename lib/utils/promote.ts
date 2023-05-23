@@ -427,7 +427,7 @@ async function generateApplicationConfig(
 ) {
 	const { generateApplicationConfig: configGen } = await import('./config');
 
-	const manifest = await sdk.models.device.getManifestBySlug(
+	const manifest = await sdk.models.config.getDeviceTypeManifestBySlug(
 		app.is_for__device_type[0].slug,
 	);
 	const opts =

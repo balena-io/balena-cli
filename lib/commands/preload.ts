@@ -242,7 +242,7 @@ Can be repeated to add multiple certificates.\
 		const dockerUtils = await import('../utils/docker');
 		const docker = await dockerUtils.getDocker(options);
 		const preloader = new balenaPreload.Preloader(
-			null,
+			undefined,
 			docker,
 			fleetSlug,
 			commit,
@@ -512,7 +512,7 @@ Would you like to disable automatic updates for this fleet now?\
 
 		const application = options.slug
 			? await this.getAppWithReleases(balenaSdk, options.slug)
-			: await this.selectApplication(preloader.config.deviceType);
+			: await this.selectApplication(preloader.config!.deviceType);
 
 		let commit: string; // commit hash or the strings 'latest' or 'current'
 

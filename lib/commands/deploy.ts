@@ -235,7 +235,7 @@ ${dockerignoreHelp}
 			releaseTagValues,
 		);
 		if (options.note) {
-			await sdk.models.release.note(release.id, options.note);
+			await sdk.models.release.setNote(release.id, options.note);
 		}
 	}
 

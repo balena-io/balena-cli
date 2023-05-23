@@ -16,7 +16,6 @@
  */
 
 import { flags } from '@oclif/command';
-import type { Application } from 'balena-sdk';
 
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
@@ -101,13 +100,17 @@ export default class FleetCreateCmd extends Command {
 			options.organization?.toLowerCase() || (await this.getOrganization());
 
 		// Create application
-		let application: Application;
 		try {
-			application = await getBalenaSdk().models.application.create({
+			const application = await getBalenaSdk().models.application.create({
 				name: params.name,
 				deviceType,
 				organization,
 			});
+
+			// Output
+			console.log(
+				`Fleet created: slug "${application.slug}", device type "${deviceType}"`,
+			);
 		} catch (err) {
 			if ((err.message || '').toLowerCase().includes('unique')) {
 				// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
@@ -123,11 +126,6 @@ export default class FleetCreateCmd extends Command {
 
 			throw err;
 		}
-
-		// Output
-		console.log(
-			`Fleet created: slug "${application.slug}", device type "${deviceType}"`,
-		);
 	}
 
 	async getOrganization() {

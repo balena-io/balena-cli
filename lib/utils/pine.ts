@@ -16,10 +16,10 @@ limitations under the License.
 
 import type { OptionalNavigationResource } from 'balena-sdk';
 
-export const getExpanded = <T>(obj: OptionalNavigationResource<T>) =>
+export const getExpanded = <T extends {}>(obj: OptionalNavigationResource<T>) =>
 	(Array.isArray(obj) && obj[0]) || undefined;
 
-export const getExpandedProp = <T, K extends keyof T>(
+export const getExpandedProp = <T extends {}, K extends keyof T>(
 	obj: OptionalNavigationResource<T>,
 	key: K,
 ) => (Array.isArray(obj) && obj[0] && obj[0][key]) || undefined;

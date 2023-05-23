@@ -200,18 +200,10 @@ export async function validateSecureBootOptionAndWarn(
 		throw new ExpectedError(`Error: No device type provided`);
 	}
 	const sdk = getBalenaSdk();
-	const releasePineOpts = {
+	const [osRelease] = await sdk.models.os.getAllOsVersions(slug, {
 		$select: 'contract',
 		$filter: { raw_version: `${version.replace(/^v/, '')}` },
-	} satisfies BalenaSdk.PineOptions<BalenaSdk.Release>;
-	// TODO: Remove the added type casting when the SDK returns the fully typed result
-	const [osRelease] = (await sdk.models.os.getAllOsVersions(
-		slug,
-		releasePineOpts,
-	)) as Array<
-		BalenaSdk.OsVersion &
-			BalenaSdk.PineTypedResult<BalenaSdk.Release, typeof releasePineOpts>
-	>;
+	});
 	if (!osRelease) {
 		throw new ExpectedError(`Error: No ${version} release for ${slug}`);
 	}

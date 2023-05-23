@@ -119,7 +119,10 @@ export async function getManifest(
 			`The device type of the provided OS image ${manifest.slug}, does not match the expected device type ${deviceType}`,
 		);
 	}
-	return manifest ?? (await sdk.models.device.getManifestBySlug(deviceType));
+	return (
+		manifest ??
+		(await sdk.models.config.getDeviceTypeManifestBySlug(deviceType))
+	);
 }
 
 export const areDeviceTypesCompatible = async (

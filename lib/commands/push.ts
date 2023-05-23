@@ -358,7 +358,7 @@ export default class PushCmd extends Command {
 				releaseTagValues,
 			);
 			if (options.note) {
-				await sdk.models.release.note(releaseId, options.note);
+				await sdk.models.release.setNote(releaseId, options.note);
 			}
 		} else if (releaseTagKeys.length > 0) {
 			throw new Error(stripIndent`
