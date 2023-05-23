@@ -1,4 +1,16 @@
 - commits:
+    - subject: "env add: Fix accepting fleet names when setting service vars"
+      hash: 50e852acee7c3c243a0228d3725217bdc2545e32
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.2.2
+  title: ""
+  date: 2023-05-23T14:02:34.112Z
+- commits:
     - subject: Update balena-settings-client to 5.0.2
       hash: d9651c7393a928ea8069b2070071b4bdb55637e1
       body: ""
