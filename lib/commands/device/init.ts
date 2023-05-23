@@ -124,21 +124,16 @@ export default class DeviceInitCmd extends Command {
 		const balena = getBalenaSdk();
 
 		// Get application and
-		const application = await getApplication(
-			balena,
-			options.fleet ||
-				(
-					await (await import('../../utils/patterns')).selectApplication()
-				).slug,
-			{
-				$select: ['id', 'slug'],
-				$expand: {
-					is_for__device_type: {
-						$select: 'slug',
+		const application = options.fleet
+			? await getApplication(balena, options.fleet, {
+					$select: ['id', 'slug'],
+					$expand: {
+						is_for__device_type: {
+							$select: 'slug',
+						},
 					},
-				},
-			},
-		);
+			  })
+			: await (await import('../../utils/patterns')).selectApplication();
 
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();
