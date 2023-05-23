@@ -317,6 +317,12 @@ export async function getOnlineTargetDeviceUuid(
 			const { getApplication } = await import('./sdk');
 			return await getApplication(sdk, fleetOrDevice, {
 				$select: ['id', 'slug'],
+				$expand: {
+					owns__device: {
+						$select: ['device_name', 'uuid'],
+						$filter: { is_online: true },
+					},
+				},
 			});
 		} catch (err) {
 			const { BalenaApplicationNotFound } = await import('balena-errors');
@@ -329,10 +335,7 @@ export async function getOnlineTargetDeviceUuid(
 	})();
 
 	// App found, load its devices
-	const devices = await sdk.models.device.getAllByApplication(application.id, {
-		$select: ['device_name', 'uuid'],
-		$filter: { is_online: true },
-	});
+	const devices = application.owns__device;
 
 	// Throw if no devices online
 	if (_.isEmpty(devices)) {
