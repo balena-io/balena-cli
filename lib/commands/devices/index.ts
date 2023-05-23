@@ -22,13 +22,7 @@ import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo, jsonInfo } from '../../utils/messages';
 
-import type { Application, Device, PineOptions } from 'balena-sdk';
-
-interface ExtendedDevice extends DeviceWithDeviceType {
-	dashboard_url?: string;
-	fleet?: string | null; // 'org/name' slug
-	device_type?: string | null;
-}
+import type { Device, PineOptions } from 'balena-sdk';
 
 interface FlagsDef {
 	fleet?: string;
@@ -88,38 +82,33 @@ export default class DevicesCmd extends Command {
 			$orderby: { device_name: 'asc' },
 		} satisfies PineOptions<Device>;
 
-		let devices;
+		const devices = (
+			await (async () => {
+				if (options.fleet != null) {
+					const { getApplication } = await import('../../utils/sdk');
+					const application = await getApplication(balena, options.fleet, {
+						$select: 'slug',
+						$expand: {
+							owns__device: devicesOptions,
+						},
+					});
+					return application.owns__device;
+				}
 
-		if (options.fleet != null) {
-			const { getApplication } = await import('../../utils/sdk');
-			const application = await getApplication(balena, options.fleet, {
-				$select: 'id',
-			});
-			devices = (await balena.models.device.getAllByApplication(
-				application.id,
-				devicesOptions,
-			)) as ExtendedDevice[];
-		} else {
-			devices = (await balena.pine.get({
-				resource: 'device',
-				options: devicesOptions,
-			})) as ExtendedDevice[];
-		}
+				return await balena.pine.get({
+					resource: 'device',
+					options: devicesOptions,
+				});
+			})()
+		).map((device) => ({
+			...device,
+			dashboard_url: balena.models.device.getDashboardUrl(device.uuid),
+			fleet: device.belongs_to__application?.[0]?.slug || null,
+			uuid: options.json ? device.uuid : device.uuid.slice(0, 7),
+			device_type: device.is_of__device_type?.[0]?.slug || null,
+		}));
 
-		devices = devices.map(function (device) {
-			device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
-
-			const belongsToApplication =
-				device.belongs_to__application as Application[];
-			device.fleet = belongsToApplication?.[0]?.slug || null;
-
-			device.uuid = options.json ? device.uuid : device.uuid.slice(0, 7);
-
-			device.device_type = device.is_of__device_type?.[0]?.slug || null;
-			return device;
-		});
-
-		const fields = [
+		const fields: Array<keyof (typeof devices)[number]> = [
 			'id',
 			'uuid',
 			'device_name',
