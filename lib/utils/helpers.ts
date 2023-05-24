@@ -437,20 +437,6 @@ export const expandForAppName = {
 	},
 } satisfies BalenaSdk.PineOptions<BalenaSdk.Device>;
 
-export const expandForAppNameAndCpuArch = {
-	$expand: {
-		...expandForAppName.$expand,
-		is_of__device_type: {
-			$select: 'slug',
-			$expand: {
-				is_of__cpu_architecture: {
-					$select: 'slug',
-				},
-			},
-		},
-	},
-} satisfies BalenaSdk.PineOptions<BalenaSdk.Device>;
-
 /**
  * Use the `readline` library on Windows to install SIGINT handlers.
  * This appears to be necessary on MSYS / Git for Windows, and also useful

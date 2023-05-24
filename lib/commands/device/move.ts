@@ -30,13 +30,6 @@ import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
-type ExtendedDevice = PineTypedResult<
-	Device,
-	typeof import('../../utils/helpers').expandForAppNameAndCpuArch
-> & {
-	application_name?: string;
-};
-
 interface FlagsDef {
 	fleet?: string;
 	help: void;
@@ -82,6 +75,33 @@ export default class DeviceMoveCmd extends Command {
 
 	public static authenticated = true;
 
+	private async getDevices(balena: BalenaSDK, deviceUuids: string[]) {
+		const deviceOptions = {
+			$select: 'belongs_to__application',
+			$expand: {
+				is_of__device_type: {
+					$select: 'is_of__cpu_architecture',
+					$expand: {
+						is_of__cpu_architecture: {
+							$select: 'slug',
+						},
+					},
+				},
+			},
+		} satisfies PineOptions<Device>;
+
+		// TODO: Refacor once `device.get()` accepts an array of uuids`
+		const devices = await Promise.all(
+			deviceUuids.map(
+				(uuid) =>
+					balena.models.device.get(uuid, deviceOptions) as Promise<
+						PineTypedResult<Device, typeof deviceOptions>
+					>,
+			),
+		);
+		return devices;
+	}
+
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			DeviceMoveCmd,
@@ -89,36 +109,17 @@ export default class DeviceMoveCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const { expandForAppNameAndCpuArch } = await import('../../utils/helpers');
-
 		// Split uuids string into array of uuids
 		const deviceUuids = params.uuid.split(',');
 
-		// Get devices
-		const devices = await Promise.all(
-			deviceUuids.map(
-				(uuid) =>
-					balena.models.device.get(
-						uuid,
-						expandForAppNameAndCpuArch,
-					) as Promise<ExtendedDevice>,
-			),
-		);
-
-		// Map application name for each device
-		for (const device of devices) {
-			const belongsToApplication = device.belongs_to__application;
-			device.application_name = belongsToApplication?.[0]
-				? belongsToApplication[0].app_name
-				: 'N/a';
-		}
+		const devices = await this.getDevices(balena, deviceUuids);
 
 		// Disambiguate application
 		const { getApplication } = await import('../../utils/sdk');
 
 		// Get destination application
 		const application = options.fleet
-			? await getApplication(balena, options.fleet)
+			? await getApplication(balena, options.fleet, { $select: ['id', 'slug'] })
 			: await this.interactivelySelectApplication(balena, devices);
 
 		// Move each device
@@ -135,7 +136,7 @@ export default class DeviceMoveCmd extends Command {
 
 	async interactivelySelectApplication(
 		balena: BalenaSDK,
-		devices: ExtendedDevice[],
+		devices: Awaited<ReturnType<typeof this.getDevices>>,
 	) {
 		const { getExpandedProp } = await import('../../utils/pine');
 		// deduplicate the slugs
@@ -181,7 +182,9 @@ export default class DeviceMoveCmd extends Command {
 			const application = await patterns.selectApplication(
 				(app) =>
 					compatibleDeviceTypeSlugs.has(app.is_for__device_type[0].slug) &&
-					devices.some((device) => device.application_name !== app.app_name),
+					devices.some(
+						(device) => device.belongs_to__application.__id !== app.id,
+					),
 				true,
 			);
 			return application;

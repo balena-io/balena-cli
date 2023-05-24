@@ -65,7 +65,9 @@ export default class FleetPurgeCmd extends Command {
 
 		// balena.models.application.purge only accepts a numeric id
 		// so we must first fetch the app to get it's id,
-		const application = await getApplication(balena, params.fleet);
+		const application = await getApplication(balena, params.fleet, {
+			$select: 'id',
+		});
 
 		try {
 			await balena.models.application.purge(application.id);

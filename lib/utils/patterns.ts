@@ -14,7 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import type { BalenaSDK, Device, Organization } from 'balena-sdk';
+import type {
+	Application,
+	BalenaSDK,
+	Device,
+	Organization,
+	PineOptions,
+	PineTypedResult,
+} from 'balena-sdk';
 import _ = require('lodash');
 
 import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
@@ -157,18 +164,28 @@ export async function confirm(
 	}
 }
 
+const selectApplicationPineOptions = {
+	$select: ['id', 'slug', 'app_name'],
+	$expand: {
+		is_for__device_type: {
+			$select: 'slug',
+		},
+	},
+} satisfies PineOptions<Application>;
+
+type SelectApplicationResult = PineTypedResult<
+	Application,
+	typeof selectApplicationPineOptions
+>;
+
 export async function selectApplication(
-	filter?: (app: ApplicationWithDeviceType) => boolean,
+	filter?: (app: SelectApplicationResult) => boolean,
 	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
-	const apps = (await balena.models.application.getAllDirectlyAccessible({
-		$expand: {
-			is_for__device_type: {
-				$select: 'slug',
-			},
-		},
-	})) as ApplicationWithDeviceType[];
+	const apps = (await balena.models.application.getAllDirectlyAccessible(
+		selectApplicationPineOptions,
+	)) as SelectApplicationResult[];
 
 	if (!apps.length) {
 		throw new ExpectedError('No fleets found');
@@ -193,7 +210,9 @@ export async function selectOrganization(
 	organizations?: Array<Pick<Organization, 'handle' | 'name'>>,
 ) {
 	// Use either provided orgs (if e.g. already loaded) or load from cloud
-	organizations ??= await getBalenaSdk().models.organization.getAll();
+	organizations ??= await getBalenaSdk().models.organization.getAll({
+		$select: ['name', 'handle'],
+	});
 	return getCliForm().ask({
 		message: 'Select an organization',
 		type: 'list',
@@ -296,7 +315,9 @@ export async function getOnlineTargetDeviceUuid(
 		try {
 			logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
 			const { getApplication } = await import('./sdk');
-			return await getApplication(sdk, fleetOrDevice);
+			return await getApplication(sdk, fleetOrDevice, {
+				$select: ['id', 'slug'],
+			});
 		} catch (err) {
 			const { BalenaApplicationNotFound } = await import('balena-errors');
 			if (instanceOf(err, BalenaApplicationNotFound)) {

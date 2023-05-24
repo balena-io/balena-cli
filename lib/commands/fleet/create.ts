@@ -130,7 +130,9 @@ export default class FleetCreateCmd extends Command {
 
 	async getOrganization() {
 		const { getOwnOrganizations } = await import('../../utils/sdk');
-		const organizations = await getOwnOrganizations(getBalenaSdk());
+		const organizations = await getOwnOrganizations(getBalenaSdk(), {
+			$select: ['name', 'handle'],
+		});
 
 		if (organizations.length === 0) {
 			// User is not a member of any organizations (should not happen).

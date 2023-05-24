@@ -131,6 +131,7 @@ export default class DeviceInitCmd extends Command {
 					await (await import('../../utils/patterns')).selectApplication()
 				).slug,
 			{
+				$select: ['id', 'slug'],
 				$expand: {
 					is_for__device_type: {
 						$select: 'slug',

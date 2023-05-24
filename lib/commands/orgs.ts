@@ -46,7 +46,9 @@ export default class OrgsCmd extends Command {
 		const { getOwnOrganizations } = await import('../utils/sdk');
 
 		// Get organizations
-		const organizations = await getOwnOrganizations(getBalenaSdk());
+		const organizations = await getOwnOrganizations(getBalenaSdk(), {
+			$select: ['name', 'handle'],
+		});
 
 		// Display
 		console.log(
