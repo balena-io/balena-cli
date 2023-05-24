@@ -261,7 +261,7 @@
     "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
     "request": "^2.88.2",
     "resin-cli-form": "^2.0.2",
-    "resin-cli-visuals": "^1.8.2",
+    "resin-cli-visuals": "^1.8.3",
     "resin-discoverable-services": "^2.0.4",
     "resin-doodles": "^0.2.0",
     "resin-stream-logger": "^0.1.2",

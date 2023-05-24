@@ -78,7 +78,7 @@
         "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
         "request": "^2.88.2",
         "resin-cli-form": "^2.0.2",
-        "resin-cli-visuals": "^1.8.2",
+        "resin-cli-visuals": "^1.8.3",
         "resin-discoverable-services": "^2.0.4",
         "resin-doodles": "^0.2.0",
         "resin-stream-logger": "^0.1.2",
@@ -2813,9 +2813,9 @@
       }
     },
     "node_modules/@types/dockerode": {
-      "version": "3.3.17",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.17.tgz",
-      "integrity": "sha512-rhH719FBhfwFcL45AixUE5YWnXsdYEEnGhp/HWubOTowZMcsE4wDANvZi+EOrDLzYy2jI3EougA8par/ILi5Ww==",
+      "version": "3.3.18",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.18.tgz",
+      "integrity": "sha512-4EcP136jNMBZQ4zTHlI1VP2RpIQ2uJvRpjta3W2Cc7Ti7rk2r3TgVKjxR0Tb3NrT9ObXvl7Tv5nxra6BHEpkWg==",
       "dependencies": {
         "@types/docker-modem": "*",
         "@types/node": "*"
@@ -17041,9 +17041,9 @@
       }
     },
     "node_modules/resin-cli-visuals": {
-      "version": "1.8.2",
-      "resolved": "https://registry.npmjs.org/resin-cli-visuals/-/resin-cli-visuals-1.8.2.tgz",
-      "integrity": "sha512-ErngSwKgSxJ+M1hX3v5wG1D8UWPXArWRt4K+nJ9/hd55Yl5S+hw2LfAtoAOyrGLXL0SClxKvIMIUjFttkZ7ayw==",
+      "version": "1.8.3",
+      "resolved": "https://registry.npmjs.org/resin-cli-visuals/-/resin-cli-visuals-1.8.3.tgz",
+      "integrity": "sha512-r3rk5yL5DqqBC2BwVCjXo5BOP9LPhtSw/7aheE1uRevhU1u5w4hzMvh+QtCmMtOumex6R3RtGO0ONqrSyKFudw==",
       "dependencies": {
         "bluebird": "^3.5.1",
         "chalk": "^3.0.0",
@@ -24660,9 +24660,9 @@
       }
     },
     "@types/dockerode": {
-      "version": "3.3.17",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.17.tgz",
-      "integrity": "sha512-rhH719FBhfwFcL45AixUE5YWnXsdYEEnGhp/HWubOTowZMcsE4wDANvZi+EOrDLzYy2jI3EougA8par/ILi5Ww==",
+      "version": "3.3.18",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.18.tgz",
+      "integrity": "sha512-4EcP136jNMBZQ4zTHlI1VP2RpIQ2uJvRpjta3W2Cc7Ti7rk2r3TgVKjxR0Tb3NrT9ObXvl7Tv5nxra6BHEpkWg==",
       "requires": {
         "@types/docker-modem": "*",
         "@types/node": "*"
@@ -35950,9 +35950,9 @@
       }
     },
     "resin-cli-visuals": {
-      "version": "1.8.2",
-      "resolved": "https://registry.npmjs.org/resin-cli-visuals/-/resin-cli-visuals-1.8.2.tgz",
-      "integrity": "sha512-ErngSwKgSxJ+M1hX3v5wG1D8UWPXArWRt4K+nJ9/hd55Yl5S+hw2LfAtoAOyrGLXL0SClxKvIMIUjFttkZ7ayw==",
+      "version": "1.8.3",
+      "resolved": "https://registry.npmjs.org/resin-cli-visuals/-/resin-cli-visuals-1.8.3.tgz",
+      "integrity": "sha512-r3rk5yL5DqqBC2BwVCjXo5BOP9LPhtSw/7aheE1uRevhU1u5w4hzMvh+QtCmMtOumex6R3RtGO0ONqrSyKFudw==",
       "requires": {
         "bluebird": "^3.5.1",
         "chalk": "^3.0.0",
