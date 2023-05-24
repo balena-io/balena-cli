@@ -1,4 +1,106 @@
 - commits:
+    - subject: "device init: Stop fetching unnecessary app fields"
+      hash: 07cb0cbfcd2b3dae8d360096a743fe844c671d45
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device move: Stop fetching unnecessary device & app fields"
+      hash: a2392dc580b6cac5bef137d21ddfedff03fd5cdd
+      body: |
+        Reduces the amount of device data retrieved
+        by 66%.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device register: Stop fetching unnecessary app fields"
+      hash: 8b3235ab2b57aa8240e9e28b871ca0f9501f5445
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "config generate: Stop fetching unnecessary app fields"
+      hash: 15dac6f19488464a8c89fa51f835a7ce48493fba
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "devices: Stop fetching unnecessary device fields"
+      hash: 3c93db844935ebf42b00cfa6d8df2b4b7a95df0f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "fleet rm,restart,rename,purge: Stop fetching unnecessary app fields"
+      hash: 9d8df0b78122fedee2290a2b3ca784ae1d8461a6
+      body: |
+        Halves the amout of application data retrieved.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "push: Stop unnecessarily fetching the application name"
+      hash: bcadbdbed8b3355b00df185844c33f28617a6b1f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "ssh,tunnel: Reduce the amount of application fields fetched"
+      hash: 05a96fa60eeda2da64832fb1b95f732660011065
+      body: |
+        Halves the amout of application data retrieved.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "orgs: Stop fetching unnecessary org fields"
+      hash: 2e37536e7a53ddc331a894c2e292736b354c27f1
+      body: |
+        Halves the amount of org data retrieved to
+        show the list of orgs to select from.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "fleet create: Reduce the amount of org fields fetched"
+      hash: 025c4ef7f2522dc9542a99c4dd008a956828669a
+      body: |
+        Halves the amount of org data retrieved to
+        show the list of orgs to select from.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Fetch only the app slug when resolving an app by name
+      hash: ecbc660bf50a2d0cdc1f69e6646a816df18ea247
+      body: |
+        Affects many env & tags commands, as well
+        as support, releases & preload.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.2.6
+  title: ""
+  date: 2023-05-24T11:17:28.049Z
+- commits:
     - subject: Fix device int & os initialize failing to initialize the drive list
       hash: 0a25bec01056f1653936f17722c15a4af79808eb
       body: ""
