@@ -1,4 +1,34 @@
 - commits:
+    - subject: "device init: Avoid extra request when not providing the --fleet option"
+      hash: 063e9d40f0bb7cf5fd80d04d7989ffb1c5f7d98f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "devices: Use a single request when providing the --fleet parameter"
+      hash: 2b58143164f7933c5910c1e99d2d651841eb29b8
+      body: |
+        Reduces the response time when using
+        --fleet from 1.5s to 1s.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "ssh,tunnel: Fetch the fleet & devices in one request"
+      hash: 861d4f33b761b4bacb1756fc4a4345fdef512ad5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.2.7
+  title: ""
+  date: 2023-05-24T12:04:56.372Z
+- commits:
     - subject: "device init: Stop fetching unnecessary app fields"
       hash: 07cb0cbfcd2b3dae8d360096a743fe844c671d45
       body: ""
