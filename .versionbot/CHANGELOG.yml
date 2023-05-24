@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix device int & os initialize failing to initialize the drive list
+      hash: 0a25bec01056f1653936f17722c15a4af79808eb
+      body: ""
+      footer:
+        Resolves: "#2627"
+        resolves: "#2627"
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.2.5
+  title: ""
+  date: 2023-05-24T10:30:19.237Z
+- commits:
     - subject: Remove extra request when filling the application selection list
       hash: 46aa08c953e0d5e95b276a638a6185216e4c3327
       body: |
