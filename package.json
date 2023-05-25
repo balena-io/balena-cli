@@ -109,7 +109,8 @@
       "sign": "Developer ID Installer: Balena Ltd (66H43P8FRG)"
     },
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@oclif/plugin-update"
     ]
   },
   "devDependencies": {
@@ -197,6 +198,7 @@
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.1",
     "@oclif/command": "^1.8.16",
+    "@oclif/plugin-update": "^3.1.15",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^6.16.1",
     "@types/fast-levenshtein": "0.0.1",
