@@ -7,10 +7,11 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="build deploy envs fleets join keys leave login logout logs note orgs preload push releases scan settings ssh support tags tunnel version whoami api-key api-keys app config device device devices env fleet fleet internal key key local os release release tag util"
+  main_commands="build deploy envs fleets join keys leave login logout logs note orgs preload push releases scan settings ssh support tags tunnel version whoami api-key api-keys app block config device device devices env fleet fleet internal key key local os release release tag util"
   # Sub-completions
   api_key_cmds="generate"
   app_cmds="create"
+  block_cmds="create"
   config_cmds="generate inject read reconfigure write"
   device_cmds="deactivate identify init local-mode move os-update pin public-url purge reboot register rename restart rm shutdown track-fleet"
   devices_cmds="supported"
@@ -40,6 +41,9 @@ _balena_complete()
         ;;
       app)
         COMPREPLY=( $(compgen -W "$app_cmds" -- $cur) )
+        ;;
+      block)
+        COMPREPLY=( $(compgen -W "$block_cmds" -- $cur) )
         ;;
       config)
         COMPREPLY=( $(compgen -W "$config_cmds" -- $cur) )
