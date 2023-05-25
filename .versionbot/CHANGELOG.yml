@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add `balena api-keys` command for listing user/fleet API keys
+      hash: 166130c3df354531c0699205d9f2ef21ffd6bed6
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 16.3.0
+  title: ""
+  date: 2023-05-25T15:06:36.634Z
+- commits:
     - subject: "device init: Avoid extra request when not providing the --fleet option"
       hash: 063e9d40f0bb7cf5fd80d04d7989ffb1c5f7d98f
       body: ""
