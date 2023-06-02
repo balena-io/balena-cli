@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update TypeScript to 5.1.3
+      hash: abd73b805b542be4dda02845f8224ed4136455ca
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.5.1
+  title: ""
+  date: 2023-06-02T06:29:58.265Z
+- commits:
     - subject: Add `balena block create` command for creating Blocks
       hash: 9975e5d9ac566e9535b43041186f0ad158a19b19
       body: ""
