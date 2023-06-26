@@ -1,4 +1,16 @@
 - commits:
+    - subject: "api-key: Add `revoke` command which accepts a list of API key ids"
+      hash: 4b1378dfbcfdac45adeb3ac39aa101c02ed21c90
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 16.6.0
+  title: ""
+  date: 2023-06-26T13:05:09.313Z
+- commits:
     - subject: Re-enable automatic github final releases
       hash: bc405d997e33b975aeda53583890ee7578c98496
       body: ""
