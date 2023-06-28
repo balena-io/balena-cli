@@ -114,6 +114,7 @@
   },
   "devDependencies": {
     "@balena/lint": "^6.2.2",
+    "@electron/notarize": "^2.0.0",
     "@oclif/config": "^1.18.2",
     "@oclif/parser": "^3.8.6",
     "@octokit/plugin-throttling": "^3.5.1",
@@ -170,7 +171,6 @@
     "cross-env": "^7.0.3",
     "deep-object-diff": "^1.1.0",
     "diff": "^5.0.0",
-    "electron-notarize": "^1.0.0",
     "ent": "^2.2.0",
     "filehound": "^1.17.5",
     "fs-extra": "^9.1.0",
