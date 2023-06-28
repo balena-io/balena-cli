@@ -1,4 +1,16 @@
 - commits:
+    - subject: Drop `electron-notarize` dependency in favor of `@electron/notarize`
+      hash: 10b5af69679d04323c920d7fc08b9d691b6590b2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 16.6.1
+  title: ""
+  date: 2023-06-28T12:47:54.665Z
+- commits:
     - subject: "api-key: Add `revoke` command which accepts a list of API key ids"
       hash: 4b1378dfbcfdac45adeb3ac39aa101c02ed21c90
       body: ""
