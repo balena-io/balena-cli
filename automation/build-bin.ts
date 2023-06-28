@@ -465,16 +465,17 @@ async function signWindowsInstaller() {
  * Wait for Apple Installer Notarization to continue
  */
 async function notarizeMacInstaller(): Promise<void> {
+	const teamId = process.env.XCODE_APP_LOADER_TEAM_ID;
 	const appleId =
 		process.env.XCODE_APP_LOADER_EMAIL || 'accounts+apple@balena.io';
-	const appBundleId = packageJSON.oclif.macos.identifier || 'io.balena.cli';
 	const appleIdPassword = process.env.XCODE_APP_LOADER_PASSWORD;
 
-	if (appleIdPassword) {
-		const { notarize } = await import('electron-notarize');
-		// https://github.com/electron/notarize/blob/main/README.md
+	if (appleIdPassword && teamId) {
+		const { notarize } = await import('@electron/notarize');
+		// https://github.com/electron/notarize#readme
 		await notarize({
-			appBundleId,
+			tool: 'notarytool',
+			teamId,
 			appPath: renamedOclifInstallers.darwin,
 			appleId,
 			appleIdPassword,

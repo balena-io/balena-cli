@@ -3,29 +3,29 @@ name: package and draft GitHub release
 # https://github.com/product-os/flowzone/tree/master/.github/actions
 inputs:
   json:
-    description: "JSON stringified object containing all the inputs from the calling workflow"
+    description: 'JSON stringified object containing all the inputs from the calling workflow'
     required: true
   secrets:
-    description: "JSON stringified object containing all the secrets from the calling workflow"
+    description: 'JSON stringified object containing all the secrets from the calling workflow'
     required: true
   variables:
-    description: "JSON stringified object containing all the variables from the calling workflow"
+    description: 'JSON stringified object containing all the variables from the calling workflow'
     required: true
 
   # --- custom environment
   XCODE_APP_LOADER_EMAIL:
     type: string
-    default: "accounts+apple@balena.io"
+    default: 'accounts+apple@balena.io'
   NODE_VERSION:
     type: string
     default: '16.x'
   VERBOSE:
     type: string
-    default: "true"
+    default: 'true'
 
 runs:
   # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Download custom source artifact
       uses: actions/download-artifact@v3
@@ -124,6 +124,7 @@ runs:
         # Apple notarization (automation/build-bin.ts)
         XCODE_APP_LOADER_EMAIL: ${{ inputs.XCODE_APP_LOADER_EMAIL }}
         XCODE_APP_LOADER_PASSWORD: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_PASSWORD }}
+        XCODE_APP_LOADER_TEAM_ID: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_TEAM_ID }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
