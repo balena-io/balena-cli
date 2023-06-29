@@ -1,4 +1,16 @@
 - commits:
+    - subject: "macos notarization: Expose team ID instead of keeping it in secrets"
+      hash: d843e75512ebb9a54f00207b1b17aa65dc3244fc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 16.6.2
+  title: ""
+  date: 2023-06-29T12:27:11.915Z
+- commits:
     - subject: Drop `electron-notarize` dependency in favor of `@electron/notarize`
       hash: 10b5af69679d04323c920d7fc08b9d691b6590b2
       body: ""
