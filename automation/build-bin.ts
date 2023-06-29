@@ -465,7 +465,7 @@ async function signWindowsInstaller() {
  * Wait for Apple Installer Notarization to continue
  */
 async function notarizeMacInstaller(): Promise<void> {
-	const teamId = process.env.XCODE_APP_LOADER_TEAM_ID;
+	const teamId = process.env.XCODE_APP_LOADER_TEAM_ID || '66H43P8FRG';
 	const appleId =
 		process.env.XCODE_APP_LOADER_EMAIL || 'accounts+apple@balena.io';
 	const appleIdPassword = process.env.XCODE_APP_LOADER_PASSWORD;

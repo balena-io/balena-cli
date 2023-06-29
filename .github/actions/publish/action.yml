@@ -124,7 +124,7 @@ runs:
         # Apple notarization (automation/build-bin.ts)
         XCODE_APP_LOADER_EMAIL: ${{ inputs.XCODE_APP_LOADER_EMAIL }}
         XCODE_APP_LOADER_PASSWORD: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_PASSWORD }}
-        XCODE_APP_LOADER_TEAM_ID: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_TEAM_ID }}
+        XCODE_APP_LOADER_TEAM_ID: ${{ inputs.XCODE_APP_LOADER_TEAM_ID }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
