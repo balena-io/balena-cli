@@ -208,7 +208,7 @@ ${dockerignoreHelp}
 	 *   buildEmulated
 	 *   buildOpts: arguments to forward to docker build command
 	 *
-	 * @param {DockerToolbelt} docker
+	 * @param {Dockerode} docker
 	 * @param {Logger} logger
 	 * @param {ComposeOpts} composeOpts
 	 * @param opts
