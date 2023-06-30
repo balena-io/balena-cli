@@ -41,7 +41,7 @@
         "docker-modem": "3.0.0",
         "docker-progress": "^5.1.3",
         "docker-toolbelt": "^3.3.10",
-        "dockerode": "^3.3.1",
+        "dockerode": "3.3.3",
         "ejs": "^3.1.6",
         "etcher-sdk": "^8.5.3",
         "event-stream": "3.3.4",
@@ -8510,9 +8510,9 @@
       "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="
     },
     "node_modules/fast-glob": {
-      "version": "3.2.12",
-      "resolved": "https://registry.npmjs.org/fast-glob/-/fast-glob-3.2.12.tgz",
-      "integrity": "sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==",
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/fast-glob/-/fast-glob-3.3.0.tgz",
+      "integrity": "sha512-ChDuvbOypPuNjO8yIDf36x7BlZX1smcUMTTcyoIjycexOxd6DFsKsg21qVBzEmr3G7fUKIRy2/psii+CIUt7FA==",
       "dependencies": {
         "@nodelib/fs.stat": "^2.0.2",
         "@nodelib/fs.walk": "^1.2.3",
@@ -29324,9 +29324,9 @@
       "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="
     },
     "fast-glob": {
-      "version": "3.2.12",
-      "resolved": "https://registry.npmjs.org/fast-glob/-/fast-glob-3.2.12.tgz",
-      "integrity": "sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==",
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/fast-glob/-/fast-glob-3.3.0.tgz",
+      "integrity": "sha512-ChDuvbOypPuNjO8yIDf36x7BlZX1smcUMTTcyoIjycexOxd6DFsKsg21qVBzEmr3G7fUKIRy2/psii+CIUt7FA==",
       "requires": {
         "@nodelib/fs.stat": "^2.0.2",
         "@nodelib/fs.walk": "^1.2.3",
