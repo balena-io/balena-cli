@@ -176,7 +176,7 @@ async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	});
 
 	const responsiveDevices: typeof devices = [];
-	const Docker = await import('docker-toolbelt');
+	const Docker = await import('dockerode');
 	await Promise.all(
 		devices.map(async function (device) {
 			const address = device?.address;
