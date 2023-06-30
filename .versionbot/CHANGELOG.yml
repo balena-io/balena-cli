@@ -1,4 +1,28 @@
 - commits:
+    - subject: Remove redundant dependency on docker-toolbelt
+      hash: 0f4054fa4ddf74a8c7ec869bef74cee43f182df1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Akis Kesoglou
+      nested: []
+    - subject: Pin dockerode to v3.3.3
+      hash: 7545fc5d6e3d2c224a6c2024678b872538e3795c
+      body: >
+        v3.3.4 introduces a regression that is fixed by
+        https://github.com/apocas/dockerode/pull/695 but Dockerode has not
+        published a version that includes the fix yet. Pin the dependency to
+        ensure we don’t ever update to a broken version.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Akis Kesoglou
+      nested: []
+  version: 16.6.3
+  title: ""
+  date: 2023-06-30T17:07:32.165Z
+- commits:
     - subject: "macos notarization: Expose team ID instead of keeping it in secrets"
       hash: d843e75512ebb9a54f00207b1b17aa65dc3244fc
       body: ""
