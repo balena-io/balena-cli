@@ -588,7 +588,7 @@ async function assignDockerBuildOpts(
 				pull: opts.pull,
 			};
 			if (task.external) {
-				task.dockerOpts.authconfig = await getAuthConfigObj(
+				task.dockerOpts.authconfig = getAuthConfigObj(
 					task.imageName!,
 					opts.registrySecrets,
 				);
