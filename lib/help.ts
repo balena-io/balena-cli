@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Help from '@oclif/plugin-help';
+import { Help } from '@oclif/core';
+import { HelpFormatter } from '@oclif/core/lib/help/formatter';
 import * as indent from 'indent-string';
 import { getChalk } from './utils/lazy';
-import { renderList } from '@oclif/plugin-help/lib/list';
 import { ExpectedError } from './errors';
 
 // Partially overrides standard implementation of help plugin
@@ -39,9 +39,11 @@ function getHelpSubject(args: string[]): string | undefined {
 }
 
 export default class BalenaHelp extends Help {
+	public helpFormatter = new HelpFormatter(this.config);
+
 	public static usage: 'help [command]';
 
-	public showHelp(argv: string[]) {
+	public async showHelp(argv: string[]) {
 		const chalk = getChalk();
 		const subject = getHelpSubject(argv);
 		if (!subject) {
@@ -52,7 +54,7 @@ export default class BalenaHelp extends Help {
 
 		const command = this.config.findCommand(subject);
 		if (command) {
-			this.showCommandHelp(command);
+			await this.showCommandHelp(command);
 			return;
 		}
 
@@ -187,14 +189,15 @@ See: https://git.io/JRHUW#deprecation-policy`,
 			return '';
 		}
 
-		const body = renderList(
+		const body = this.helpFormatter.renderList(
 			commands
 				.filter((c) => c.usage != null && c.usage !== '')
 				.map((c) => [c.usage, this.formatDescription(c.description)]),
 			{
 				spacer: '\n',
 				stripAnsi: this.opts.stripAnsi,
-				maxWidth: this.opts.maxWidth - 2,
+				indentation: 2,
+				multiline: true,
 			},
 		);
 
