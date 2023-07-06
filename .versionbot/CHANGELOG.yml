@@ -1,4 +1,20 @@
 - commits:
+    - subject: Bump balena-compose to v2.3.0
+      hash: 9d0b82122a3df2791a55c83371828635f6e4a0c1
+      body: |
+        This allows the the CLI to use docker registry config when querying the
+        images manifest.
+      footer:
+        Relates-to: balena-io-modules/balena-compose#31
+        relates-to: balena-io-modules/balena-compose#31
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+  version: 16.6.4
+  title: ""
+  date: 2023-07-06T13:58:25.571Z
+- commits:
     - subject: Remove redundant dependency on docker-toolbelt
       hash: 0f4054fa4ddf74a8c7ec869bef74cee43f182df1
       body: ""
