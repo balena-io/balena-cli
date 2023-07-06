@@ -1,0 +1,49 @@
+diff --git a/node_modules/@oclif/core/lib/help/command.js b/node_modules/@oclif/core/lib/help/command.js
+index 6de139b..3a13197 100644
+--- a/node_modules/@oclif/core/lib/help/command.js
++++ b/node_modules/@oclif/core/lib/help/command.js
+@@ -206,7 +206,7 @@ class CommandHelp extends formatter_1.HelpFormatter {
+         if (args.filter(a => a.description).length === 0)
+             return;
+         return args.map(a => {
+-            const name = a.name.toUpperCase();
++            const name = a.required ? `<${a.name}>` : `[${a.name}]`;
+             let description = a.description || '';
+             if (a.default)
+                 description = `[default: ${a.default}] ${description}`;
+@@ -238,14 +238,12 @@ class CommandHelp extends formatter_1.HelpFormatter {
+             label = labels.join(', ');
+         }
+         if (flag.type === 'option') {
+-            let value = flag.helpValue || (this.opts.showFlagNameInTitle ? flag.name : '<value>');
++            let value = flag.helpValue || (this.opts.showFlagNameInTitle ? flag.name : `<${flag.name}>`);
+             if (!flag.helpValue && flag.options) {
+                 value = showOptions || this.opts.showFlagOptionsInTitle ? `${flag.options.join('|')}` : '<option>';
+             }
+             if (flag.multiple)
+-                value += '...';
+-            if (!value.includes('|'))
+-                value = underline(value);
++                value += ' ...';
+             label += `=${value}`;
+         }
+         return label;
+diff --git a/node_modules/@oclif/core/lib/help/index.js b/node_modules/@oclif/core/lib/help/index.js
+index f9ef7cc..a14c67c 100644
+--- a/node_modules/@oclif/core/lib/help/index.js
++++ b/node_modules/@oclif/core/lib/help/index.js
+@@ -136,11 +136,12 @@ class Help extends HelpBase {
+         }
+         this.log(this.formatCommand(command));
+         this.log('');
+-        if (subTopics.length > 0) {
++        const SUPPRESS_SUBTOPICS = true;
++        if (subTopics.length > 0 && !SUPPRESS_SUBTOPICS) {
+             this.log(this.formatTopics(subTopics));
+             this.log('');
+         }
+-        if (subCommands.length > 0) {
++        if (subCommands.length > 0 && !SUPPRESS_SUBTOPICS) {
+             const aliases = [];
+             const uniqueSubCommands = subCommands.filter(p => {
+                 aliases.push(...p.aliases);

@@ -17,7 +17,7 @@
 
 import type { JsonVersions } from '../lib/commands/version';
 
-import { run as oclifRun } from 'oclif';
+import { run as oclifRun } from '@oclif/core';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import { execFile } from 'child_process';
@@ -30,6 +30,7 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import { promisify } from 'util';
+import { notarize } from '@electron/notarize';
 
 import { stripIndent } from '../build/utils/lazy';
 import {
@@ -206,7 +207,6 @@ async function buildPkg() {
 	const paths: Array<[string, string[], string[]]> = [
 		// [platform, [source path], [destination path]]
 		['*', ['open', 'xdg-open'], ['xdg-open']],
-		['*', ['opn', 'xdg-open'], ['xdg-open-402']],
 		['darwin', ['denymount', 'bin', 'denymount'], ['denymount']],
 	];
 	await Promise.all(
@@ -471,8 +471,6 @@ async function notarizeMacInstaller(): Promise<void> {
 	const appleIdPassword = process.env.XCODE_APP_LOADER_PASSWORD;
 
 	if (appleIdPassword && teamId) {
-		const { notarize } = await import('@electron/notarize');
-		// https://github.com/electron/notarize#readme
 		await notarize({
 			tool: 'notarytool',
 			teamId,
@@ -494,9 +492,10 @@ export async function buildOclifInstaller() {
 	let packOpts = ['-r', ROOT];
 	if (process.platform === 'darwin') {
 		packOS = 'macos';
+		packOpts = packOpts.concat('--targets', 'darwin-x64');
 	} else if (process.platform === 'win32') {
 		packOS = 'win';
-		packOpts = packOpts.concat('-t', 'win32-x64');
+		packOpts = packOpts.concat('--targets', 'win32-x64');
 	}
 	if (packOS) {
 		console.log(`Building oclif installer for CLI ${version}`);
@@ -514,10 +513,11 @@ export async function buildOclifInstaller() {
 			await signFilesForNotarization();
 		}
 		console.log('=======================================================');
-		console.log(`oclif "${packCmd}" "${packOpts.join('" "')}"`);
+		console.log(`oclif ${packCmd} ${packOpts.join(' ')}`);
 		console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
 		console.log('=======================================================');
-		await oclifRun([packCmd].concat(...packOpts));
+		const oclifPath = path.join(ROOT, 'node_modules', 'oclif');
+		await oclifRun([packCmd].concat(...packOpts), oclifPath);
 		await renameInstallerFiles();
 		// The Windows installer is explicitly signed here (oclif doesn't do it).
 		// The macOS installer is automatically signed by oclif (which runs the

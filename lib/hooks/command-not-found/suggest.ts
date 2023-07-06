@@ -17,6 +17,7 @@
 
 import { Hook } from '@oclif/config';
 import type { IConfig } from '@oclif/config';
+import { getChalk } from '../../utils/lazy';
 
 /*
  A modified version of the command-not-found plugin logic,
@@ -31,7 +32,7 @@ const hook: Hook<'command-not-found'> = async function (
 ) {
 	const Levenshtein = await import('fast-levenshtein');
 	const _ = await import('lodash');
-	const { color } = await import('@oclif/color');
+	const chalk = getChalk();
 
 	const commandId = opts.id || '';
 	const command = opts.id?.replace(':', ' ') || '';
@@ -60,17 +61,19 @@ const hook: Hook<'command-not-found'> = async function (
 
 	// Output suggestions
 	console.error(
-		`${color.yellow(command)} is not a recognized balena command.\n`,
+		`${chalk.yellow(command)} is not a recognized balena command.\n`,
 	);
 	console.error(`Did you mean: ? `);
 	suggestions.forEach((s) => {
-		console.error(`  ${color.cmd(s)}`);
+		console.error(`  ${chalk.cyan.bold(s)}`);
 	});
 	console.error(
-		`\nRun ${color.cmd('balena help -v')} for a list of available commands,`,
+		`\nRun ${chalk.cyan.bold(
+			'balena help -v',
+		)} for a list of available commands,`,
 	);
 	console.error(
-		` or ${color.cmd(
+		` or ${chalk.cyan.bold(
 			'balena help <command>',
 		)} for detailed help on a specific command.`,
 	);

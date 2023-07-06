@@ -20,7 +20,7 @@ import type * as BalenaSdk from 'balena-sdk';
 import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
-import type { ux } from 'cli-ux';
+import type { ux } from '@oclif/core';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {
@@ -57,7 +57,9 @@ export const getCliForm = once(
 	() => require('resin-cli-form') as typeof CliForm,
 );
 
-export const getCliUx = once(() => require('cli-ux').ux as typeof ux);
+export const getCliUx = once(
+	() => require('@oclif/core/lib/cli-ux') as typeof ux,
+);
 
 // Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
 export const stripIndent =
