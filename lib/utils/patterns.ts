@@ -115,22 +115,22 @@ export function askLoginType() {
 	});
 }
 
-export function selectDeviceType() {
-	return getBalenaSdk()
-		.models.config.getDeviceTypes()
-		.then((deviceTypes) => {
-			deviceTypes = _.sortBy(deviceTypes, 'name').filter(
-				(dt) => dt.state !== 'DISCONTINUED',
-			);
-			return getCliForm().ask({
-				message: 'Device Type',
-				type: 'list',
-				choices: _.map(deviceTypes, ({ slug: value, name }) => ({
-					name,
-					value,
-				})),
-			});
-		});
+export async function selectDeviceType() {
+	const sdk = getBalenaSdk();
+	let deviceTypes = await sdk.models.deviceType.getAllSupported();
+	if (deviceTypes.length === 0) {
+		// Without this open-balena users would get an empty list
+		// until we add a hostApps import in open-balena.
+		deviceTypes = await sdk.models.deviceType.getAll();
+	}
+	return getCliForm().ask({
+		message: 'Device Type',
+		type: 'list',
+		choices: _.map(deviceTypes, ({ slug: value, name }) => ({
+			name,
+			value,
+		})),
+	});
 }
 
 /**
