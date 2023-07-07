@@ -22,7 +22,6 @@ import type {
 	PineOptions,
 	PineTypedResult,
 } from 'balena-sdk';
-import _ = require('lodash');
 
 import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
 import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
@@ -126,7 +125,7 @@ export async function selectDeviceType() {
 	return getCliForm().ask({
 		message: 'Device Type',
 		type: 'list',
-		choices: _.map(deviceTypes, ({ slug: value, name }) => ({
+		choices: deviceTypes.map(({ slug: value, name }) => ({
 			name,
 			value,
 		})),
@@ -183,7 +182,7 @@ export async function selectApplication(
 	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
-	const apps = (await balena.models.application.getAllDirectlyAccessible(
+	let apps = (await balena.models.application.getAllDirectlyAccessible(
 		selectApplicationPineOptions,
 	)) as SelectApplicationResult[];
 
@@ -191,15 +190,17 @@ export async function selectApplication(
 		throw new ExpectedError('No fleets found');
 	}
 
-	const applications = filter ? apps.filter(filter) : apps;
+	if (filter != null) {
+		apps = apps.filter(filter);
+	}
 
-	if (errorOnEmptySelection && applications.length === 0) {
+	if (errorOnEmptySelection && apps.length === 0) {
 		throw new ExpectedError('No suitable fleets found for selection');
 	}
 	return getCliForm().ask({
 		message: 'Select an application',
 		type: 'list',
-		choices: _.map(applications, (application) => ({
+		choices: apps.map((application) => ({
 			name: `${application.app_name} (${application.slug}) [${application.is_for__device_type[0].slug}]`,
 			value: application,
 		})),
@@ -338,7 +339,7 @@ export async function getOnlineTargetDeviceUuid(
 	const devices = application.owns__device;
 
 	// Throw if no devices online
-	if (_.isEmpty(devices)) {
+	if (!devices.length) {
 		throw new ExpectedError(
 			`Fleet ${application.slug} found, but has no devices online.`,
 		);
@@ -349,7 +350,7 @@ export async function getOnlineTargetDeviceUuid(
 		message: `Select a device on fleet ${application.slug}`,
 		type: 'list',
 		default: devices[0].uuid,
-		choices: _.map(devices, (device) => ({
+		choices: devices.map((device) => ({
 			name: `${device.device_name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
 			value: device.uuid,
 		})),
@@ -363,7 +364,7 @@ export function selectFromList<T>(
 	return getCliForm().ask<T>({
 		message,
 		type: 'list',
-		choices: _.map(choices, (s) => ({
+		choices: choices.map((s) => ({
 			name: s.name,
 			value: s,
 		})),
