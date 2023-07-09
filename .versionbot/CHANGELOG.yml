@@ -1,4 +1,19 @@
 - commits:
+    - subject: "fleet/block/app create: Fetch the supported device types using the
+        hostApps"
+      hash: d78b76aceb4cff60dbfe29d61b3ee5e9a2883fc9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Organisation/Improvements-849#Improvements/Stop-relying-on-device-types-v1-device-type.json-for-unrelated-things-257
+        see: https://balena.fibery.io/Organisation/Improvements-849#Improvements/Stop-relying-on-device-types-v1-device-type.json-for-unrelated-things-257
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.6.5
+  title: ""
+  date: 2023-07-09T21:29:52.818Z
+- commits:
     - subject: Bump balena-compose to v2.3.0
       hash: 9d0b82122a3df2791a55c83371828635f6e4a0c1
       body: |
