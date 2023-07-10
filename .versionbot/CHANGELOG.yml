@@ -1,4 +1,16 @@
 - commits:
+    - subject: Reduce lodash usage in common user interaction patterns
+      hash: d3c27ae859b32e187546964830cdbc236cc56138
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.6.6
+  title: ""
+  date: 2023-07-10T17:16:05.627Z
+- commits:
     - subject: "fleet/block/app create: Fetch the supported device types using the
         hostApps"
       hash: d78b76aceb4cff60dbfe29d61b3ee5e9a2883fc9
