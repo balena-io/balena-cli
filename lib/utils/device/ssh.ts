@@ -76,13 +76,21 @@ export async function getContainerIdForService(
 		.filter((l) => l);
 
 	const { escapeRegExp } = await import('lodash');
-	const regex = new RegExp(`(?:^|\\/)${escapeRegExp(opts.service)}_\\d+_\\d+`);
+	const regex = new RegExp(
+		`(?:^|\\/)${escapeRegExp(
+			opts.service,
+		)}_(?:\\d+_)?(?:\\d+_)?(?:[a-f0-9]*)?$`,
+	);
 	// Old balenaOS container name pattern:
 	//    main_1234567_2345678
 	// New balenaOS container name patterns:
 	//    main_1234567_2345678_a000b111c222d333e444f555a666b777
 	//    main_1_1_localrelease
-	const nameRegex = /(?:^|\/)([a-zA-Z0-9_-]+)_\d+_\d+(?:_.+)?$/;
+	// Newer balenaOS container names just use commit
+	//    main_a000b111c222d333e444f555a666b777
+	//    main_10ca12e1ea5e
+	const nameRegex =
+		/(?:^|\/)([a-zA-Z0-9_-]+?)_(?:\d+_)?(?:\d+_)?(?:[a-f0-9]*)?$/;
 
 	const serviceNames: string[] = [];
 	const containerNames: string[] = [];
@@ -116,7 +124,9 @@ export async function getContainerIdForService(
 		throw new ExpectedError(
 			`Could not find a container matching service name "${s}" on device "${d}".${
 				serviceNames.length > 0
-					? `\nAvailable services:\n\t${serviceNames.join('\n\t')}`
+					? `\nAvailable services:\n\t${serviceNames
+							.map((n) => `'${n}'`)
+							.join('\n\t')}`
 					: ''
 			}`,
 		);
