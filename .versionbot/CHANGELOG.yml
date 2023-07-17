@@ -1,4 +1,19 @@
 - commits:
+    - subject: "preload: Add the --no-pin-device-to-release flag to avoid interactive
+        questions"
+      hash: f53f148c8955f90f80e98962f10d4a1fe0dc8474
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: https://balena.zulipchat.com/#narrow/stream/345746-aspect.2Fproduct/topic/Level.20-.20need.20thoughts.20on.20questions.20.26.20feature.20suggestions
+        see: https://balena.zulipchat.com/#narrow/stream/345746-aspect.2Fproduct/topic/Level.20-.20need.20thoughts.20on.20questions.20.26.20feature.20suggestions
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.7.0
+  title: ""
+  date: 2023-07-17T19:59:49.480Z
+- commits:
     - subject: Reduce lodash usage in common user interaction patterns
       hash: d3c27ae859b32e187546964830cdbc236cc56138
       body: ""
