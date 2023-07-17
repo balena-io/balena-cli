@@ -46,7 +46,7 @@ interface FlagsDef extends DockerConnectionCliFlags {
 	commit?: string;
 	'splash-image'?: string;
 	'dont-check-arch': boolean;
-	'pin-device-to-release': boolean;
+	'pin-device-to-release'?: boolean;
 	'additional-space'?: number;
 	'add-certificate'?: string[];
 	help: void;
@@ -122,7 +122,7 @@ https://github.com/balena-io-examples/staged-releases\
 				'disable architecture compatibility check between image and fleet',
 		}),
 		'pin-device-to-release': flags.boolean({
-			default: false,
+			allowNo: true,
 			description:
 				'pin the preloaded device to the preloaded release on provision',
 			char: 'p',
@@ -230,7 +230,7 @@ Can be repeated to add multiple certificates.\
 		const splashImage = options['splash-image'];
 		const additionalSpace = options['additional-space'];
 		const dontCheckArch = options['dont-check-arch'] || false;
-		const pinDevice = options['pin-device-to-release'] || false;
+		const pinDevice = options['pin-device-to-release'];
 
 		if (dontCheckArch && !fleetSlug) {
 			throw new ExpectedError(
@@ -257,7 +257,7 @@ Can be repeated to add multiple certificates.\
 			splashImage,
 			undefined, // TODO: Currently always undefined, investigate approach in ssh command.
 			dontCheckArch,
-			pinDevice,
+			pinDevice ?? false,
 			certificates,
 			additionalSpace,
 		);
@@ -450,14 +450,14 @@ Can be repeated to add multiple certificates.\
 	async offerToDisableAutomaticUpdates(
 		application: Pick<Application, 'id' | 'should_track_latest_release'>,
 		commit: string,
-		pinDevice: boolean,
+		pinDevice: boolean | undefined,
 	) {
 		const balena = getBalenaSdk();
 
 		if (
 			this.isCurrentCommit(commit) ||
 			!application.should_track_latest_release ||
-			pinDevice
+			pinDevice != null
 		) {
 			return;
 		}
@@ -476,8 +476,9 @@ through the web dashboard or programatically through the balena API / SDK.
 Documentation about release policies and pinning can be found at:
 https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/
 
-Alternatively, the --pin-device-to-release flag may be used to pin only the
-preloaded device to the selected release.
+Alternatively, the --pin-device-to-release or --no-pin-device-to-release flags may be used
+to avoid this interactive confirmation and pin only the preloaded device to the selected release
+or keep it unpinned respectively.
 
 Would you like to disable automatic updates for this fleet now?\
 `;
@@ -511,7 +512,7 @@ Would you like to disable automatic updates for this fleet now?\
 		options: {
 			slug?: string;
 			commit?: string;
-			pinDevice: boolean;
+			pinDevice?: boolean;
 		},
 	) {
 		await preloader.prepare();
