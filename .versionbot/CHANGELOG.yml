@@ -1,4 +1,378 @@
 - commits:
+    - subject: Update balena-sdk to 17.8.0
+      hash: bd598788dcb70fc48d225290c9705ae17ad0b2b5
+      body: |
+        Update balena-sdk from 17.0.0 to 17.8.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "billing: Add `removeBillingInfo` method for removing billing info"
+              hash: 25d24ccdfe89ecc816ca8781cbfed6dafeda91bc
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-17.8.0
+          title: ""
+          date: 2023-07-10T13:20:21.969Z
+        - commits:
+            - subject: "deviceType.getBySlugOrName: Use a clearer var name in the docs
+                example"
+              hash: 41f7b823975667c37daf1c541919c20e95a9198b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.7.1
+          title: ""
+          date: 2023-07-09T21:29:32.317Z
+        - commits:
+            - subject: Add typings for the organization.is_frozen computed term
+              hash: 95a4304cf75a6537036764d59d6a7f9c9060d623
+              body: ""
+              footer:
+                Depends-on: https://github.com/balena-io/balena-api/pull/4503
+                depends-on: https://github.com/balena-io/balena-api/pull/4503
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.7.0
+          title: ""
+          date: 2023-07-06T11:02:18.622Z
+        - commits:
+            - subject: "application.create: Enable creating fleets with archived device types"
+              hash: 97a267ce844840936a3bffe7d4f317e21cd0f8ad
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-17.6.0
+          title: ""
+          date: 2023-07-05T12:29:10.114Z
+        - commits:
+            - subject: Add `owns__credit_bundle` typing for `Organization`
+              hash: 5260e77117f6eb07e32cb70da8889eb18112d216
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-17.5.0
+          title: ""
+          date: 2023-06-27T17:12:54.385Z
+        - commits:
+            - subject: Add typings for Credits Notifications
+              hash: a1f526da9d3b217a51fe1987d8913c345ed0c996
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-17.4.0
+          title: ""
+          date: 2023-06-19T10:20:57.945Z
+        - commits:
+            - subject: "util: Simplify the listImagesFromTargetState helper"
+              hash: b4efb2c3412020a2a186a9798f4f225bf7cee2d5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.3.2
+          title: ""
+          date: 2023-06-19T06:20:01.454Z
+        - commits:
+            - subject: Fix prettier complaining on windows runners
+              hash: 8d7f2eae237f270b128af35a2dd2da8377ea5092
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "deviceType.getInstructions: Improve the return type"
+              hash: 8339dbc86b295147c5d3054a27ff667920f4ac55
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Fix browser tests now failing to find a polyfill for querystring
+              hash: 02b72b0091c092403e684a6ae1ea3f3affcdb2fa
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.3.1
+          title: ""
+          date: 2023-06-17T09:13:14.340Z
+        - commits:
+            - subject: "os: Export the OsDownloadOptions type"
+              hash: ccfbb31d225c3dfa1d6ad8f11fc8d475b1a04315
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.3.0
+          title: ""
+          date: 2023-06-05T07:51:40.633Z
+        - commits:
+            - subject: "tsconfig: Allow noImplicitThis in the tests"
+              hash: 0688fef9932a22d6dc4783f862aee3bf919d753a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tsconfig: Switch to strict compilation to fix the 5.1 errors"
+              hash: d4facc8362966b03fec3120f8d4664d7de512c17
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update TypeScript to 5.1.3
+              hash: f9c9c2be9cdd0e9a293131631b2bbfd932381ccc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.2.3
+          title: ""
+          date: 2023-06-04T11:35:09.276Z
+        - commits:
+            - subject: Access other models internally via the shared current sdk instance
+              hash: 4ea321fa304c47ef8bfa474adbd45a430f6b6b40
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.2.2
+          title: ""
+          date: 2023-06-01T15:12:15.596Z
+        - commits:
+            - subject: Convert the remaining .js tests to .ts
+              hash: c4cd34fbeeb8815eba2684d071df313d14689238
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.2.1
+          title: ""
+          date: 2023-06-01T13:02:29.958Z
+        - commits:
+            - subject: Extends batch device actions to accept arrays of full UUIDs
+              hash: 3344ea5c83d0a3698293d4e989d29397fcd6a59b
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "device.startOsUpdate: Add support for providing an array of UUIDs"
+              hash: 2aa208c0b086c6885948672ccd068458c7f10139
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                See: https://balena.zulipchat.com/#narrow/stream/345889-balena-io.2Fos/topic/Enpal.20HUP
+                see: https://balena.zulipchat.com/#narrow/stream/345889-balena-io.2Fos/topic/Enpal.20HUP
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.2.0
+          title: ""
+          date: 2023-06-01T10:37:18.645Z
+        - commits:
+            - subject: Add 2fa tests
+              hash: 969559251e183c0cba203404e6a4642c64e4a6b4
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+            - subject: Fix auth.twoFactor.isEnabled() regression returning always true
+              hash: 77c194aa66c17287f88ecc6d488dbace759d4c1a
+              body: |
+                Update balena-auth from 4.1.0 to 4.2.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Add a get2FAStatus() method
+                      hash: 266c8bc9b12d13fd96ce0ae6b12d7767a27030d8
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-auth-4.2.0
+                  title: ""
+                  date: 2023-05-25T12:06:34.551Z
+                - commits:
+                    - subject: Fix async tests not waiting for the result
+                      hash: 027af56893911b7b6a95c6743eb90cae86cc3f86
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-auth-4.1.3
+                  title: ""
+                  date: 2023-05-25T08:28:54.576Z
+                - commits:
+                    - subject: Delete redundant .resinci.yml
+                      hash: eca476bec2b6ddd9c41809f3bca4c2c2f776fe69
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-auth-4.1.2
+                  title: ""
+                  date: 2022-09-26T12:39:48.984Z
+                - commits:
+                    - subject: Replace balenaCI with flowzone
+                      hash: 349377a015dcbc7d963b950dc63ba2b2a03ad6a7
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-auth-4.1.1
+                  title: ""
+                  date: 2022-09-22T22:01:40.204Z
+          version: balena-sdk-17.1.4
+          title: ""
+          date: 2023-05-30T06:58:26.026Z
+        - commits:
+            - subject: Add support to short uuid on device.serviceVar.set
+              hash: 7b38ccb080e1d0028e6d9730738722f2122b0854
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+          version: balena-sdk-17.1.3
+          title: ""
+          date: 2023-05-29T14:17:14.708Z
+        - commits:
+            - subject: Switch to a stricter request limiting queuing mode
+              hash: 4302addfba8a773f1b528d4e12e4dd070593d149
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.1.2
+          title: ""
+          date: 2023-05-25T15:40:23.870Z
+        - commits:
+            - subject: Drop the callback examples from the docs
+              hash: 5d9bb410c83cbf2c0a8f031ab746984ffe912b5a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.1.1
+          title: ""
+          date: 2023-05-25T08:12:20.868Z
+        - commits:
+            - subject: Add the requestLimit & requestLimitInterval options to the SDK factory
+              hash: 9a92f9b8da880b53379522f6201cadcd7fcb97bd
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.1.0
+          title: ""
+          date: 2023-05-24T18:28:06.683Z
+        - commits:
+            - subject: Update dependencies
+              hash: c709c49f64ffc53e2a2c0477b5b28c6db56c064d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-17.0.2
+          title: ""
+          date: 2023-05-24T16:45:55.757Z
+        - commits:
+            - subject: Add a method to retrieve the supervisor image for a DT
+              hash: b64ee7ec80343f9846367b3b8794ef77421fe25b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Edwin Joassart
+              nested: []
+            - subject: Add util to list images referenced in a target state v3
+              hash: 9cbebb75cde280394871d6dd04758c237a2229aa
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Edwin Joassart
+              nested: []
+            - subject: Add a method for retrieving an application's virtual device target
+                supervisor state
+              hash: 3bc2fe3d7b6f20b733dba326e8895c7bba2e1c2f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Edwin Joassart <edwin.joassart@balena.io>
+                signed-off-by: Edwin Joassart <edwin.joassart@balena.io>
+              author: Edwin Joassart
+              nested: []
+          version: balena-sdk-17.0.1
+          title: ""
+          date: 2023-05-24T15:35:03.815Z
+  version: 16.7.1
+  title: ""
+  date: 2023-07-18T20:27:03.774Z
+- commits:
     - subject: "preload: Add the --no-pin-device-to-release flag to avoid interactive
         questions"
       hash: f53f148c8955f90f80e98962f10d4a1fe0dc8474
