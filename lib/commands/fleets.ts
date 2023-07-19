@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import type * as BalenaSdk from 'balena-sdk';
 import { flags } from '@oclif/command';
 
 import Command from '../command';
@@ -22,7 +23,7 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import type { DataSetOutputOptions } from '../framework';
 
-interface ExtendedApplication extends ApplicationWithDeviceType {
+interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 	device_count: number;
 	online_devices: number;
 	device_type?: string;
@@ -60,15 +61,20 @@ export default class FleetsCmd extends Command {
 
 		const balena = getBalenaSdk();
 
+		const pineOptions = {
+			$select: ['id', 'app_name', 'slug'],
+			$expand: {
+				is_for__device_type: { $select: 'slug' },
+				owns__device: { $select: 'is_online' },
+			},
+		} satisfies BalenaSdk.PineOptions<BalenaSdk.Application>;
 		// Get applications
 		const applications =
-			(await balena.models.application.getAllDirectlyAccessible({
-				$select: ['id', 'app_name', 'slug'],
-				$expand: {
-					is_for__device_type: { $select: 'slug' },
-					owns__device: { $select: 'is_online' },
-				},
-			})) as ExtendedApplication[];
+			(await balena.models.application.getAllDirectlyAccessible(
+				pineOptions,
+			)) as Array<
+				BalenaSdk.PineTypedResult<BalenaSdk.Application, typeof pineOptions>
+			> as ExtendedApplication[];
 
 		// Add extended properties
 		applications.forEach((application) => {

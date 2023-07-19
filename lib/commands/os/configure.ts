@@ -204,7 +204,7 @@ export default class OsConfigureCmd extends Command {
 		const helpers = await import('../../utils/helpers');
 		const { getApplication } = await import('../../utils/sdk');
 
-		let app: ApplicationWithDeviceType | undefined;
+		let app: ApplicationWithDeviceTypeSlug | undefined;
 		let device;
 		let deviceTypeSlug: string;
 
@@ -223,7 +223,7 @@ export default class OsConfigureCmd extends Command {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},
-			})) as ApplicationWithDeviceType;
+			})) as ApplicationWithDeviceTypeSlug;
 			await checkDeviceTypeCompatibility(options, app);
 			deviceTypeSlug =
 				options['device-type'] || app.is_for__device_type[0].slug;
