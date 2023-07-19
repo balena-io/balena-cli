@@ -20,7 +20,6 @@ import type { IArg } from '@oclif/parser/lib/args';
 import type {
 	BalenaSDK,
 	Device,
-	DeviceType,
 	PineOptions,
 	PineTypedResult,
 } from 'balena-sdk';
@@ -138,7 +137,6 @@ export default class DeviceMoveCmd extends Command {
 		balena: BalenaSDK,
 		devices: Awaited<ReturnType<typeof this.getDevices>>,
 	) {
-		const { getExpandedProp } = await import('../../utils/pine');
 		// deduplicate the slugs
 		const deviceCpuArchs = Array.from(
 			new Set(
@@ -148,48 +146,44 @@ export default class DeviceMoveCmd extends Command {
 			),
 		);
 
-		const deviceTypeOptions = {
-			$select: 'slug',
-			$expand: {
-				is_of__cpu_architecture: {
-					$select: 'slug',
-				},
+		const allCpuArches = await balena.pine.get({
+			resource: 'cpu_architecture',
+			options: {
+				$select: ['id', 'slug'],
 			},
-		} satisfies PineOptions<DeviceType>;
-		const deviceTypes = (await balena.models.deviceType.getAllSupported(
-			deviceTypeOptions,
-		)) as Array<PineTypedResult<DeviceType, typeof deviceTypeOptions>>;
+		});
 
-		const compatibleDeviceTypeSlugs = new Set(
-			deviceTypes
-				.filter((deviceType) => {
-					const deviceTypeArch = getExpandedProp(
-						deviceType.is_of__cpu_architecture,
-						'slug',
-					)!;
-					return deviceCpuArchs.every((deviceCpuArch) =>
-						balena.models.os.isArchitectureCompatibleWith(
-							deviceCpuArch,
-							deviceTypeArch,
-						),
-					);
-				})
-				.map((deviceType) => deviceType.slug),
-		);
+		const compatibleCpuArchIds = allCpuArches
+			.filter((cpuArch) => {
+				return deviceCpuArchs.every((deviceCpuArch) =>
+					balena.models.os.isArchitectureCompatibleWith(
+						deviceCpuArch,
+						cpuArch.slug,
+					),
+				);
+			})
+			.map((deviceType) => deviceType.id);
 
 		const patterns = await import('../../utils/patterns');
 		try {
 			const application = await patterns.selectApplication(
-				(app) =>
-					compatibleDeviceTypeSlugs.has(app.is_for__device_type[0].slug) &&
-					devices.some(
-						(device) => device.belongs_to__application.__id !== app.id,
-					),
+				{
+					is_for__device_type: {
+						$any: {
+							$alias: 'dt',
+							$expr: {
+								dt: {
+									is_of__cpu_architecture: { $in: compatibleCpuArchIds },
+								},
+							},
+						},
+					},
+				},
 				true,
 			);
 			return application;
 		} catch (err) {
-			if (!compatibleDeviceTypeSlugs.size) {
+			if (!compatibleCpuArchIds.length) {
 				throw new ExpectedError(
 					`${err.message}\nDo all devices have a compatible architecture?`,
 				);
