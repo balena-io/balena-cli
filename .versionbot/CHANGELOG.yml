@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update balena-compose to v3.0.2
+      hash: 884e37d24293fc09a3a1c0f8e8763dc24698418c
+      body: |
+        Update balena-compose to v3.0.2
+
+        That release removes the use of the `cachefrom` on pull tasks, which
+        there is good evidence to suggest is the cause of #2165
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+  version: 16.7.2
+  title: ""
+  date: 2023-07-19T01:43:53.469Z
+- commits:
     - subject: Update balena-sdk to 17.8.0
       hash: bd598788dcb70fc48d225290c9705ae17ad0b2b5
       body: |
