@@ -1,4 +1,17 @@
 - commits:
+    - subject: "move: Include fleets of discontinued device types in the fleet
+        selection"
+      hash: b011af89ad7b4f43199be9666009155a8c6371b7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.7.4
+  title: ""
+  date: 2023-07-20T10:41:06.291Z
+- commits:
     - subject: "promote: Allow joining fleets of discontinued device types"
       hash: 5628824bee935f6520fad3be498ea768e591755b
       body: ""
