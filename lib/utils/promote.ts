@@ -228,8 +228,8 @@ async function selectLocalDevice(): Promise<string> {
 }
 
 async function selectAppFromList(
-	applications: ApplicationWithDeviceType[],
-): Promise<ApplicationWithDeviceType> {
+	applications: ApplicationWithDeviceTypeSlug[],
+): Promise<ApplicationWithDeviceTypeSlug> {
 	const _ = await import('lodash');
 	const { selectFromList } = await import('../utils/patterns');
 
@@ -247,7 +247,7 @@ async function getOrSelectApplication(
 	sdk: BalenaSdk.BalenaSDK,
 	deviceTypeSlug: string,
 	appName?: string,
-): Promise<ApplicationWithDeviceType> {
+): Promise<ApplicationWithDeviceTypeSlug> {
 	const pineOptions = {
 		$select: 'slug',
 		$expand: {
@@ -256,51 +256,72 @@ async function getOrSelectApplication(
 			},
 		},
 	} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
-	const [deviceType, allDeviceTypes] = await Promise.all([
-		sdk.models.deviceType.get(deviceTypeSlug, pineOptions) as Promise<
-			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
-		>,
-		sdk.models.deviceType.getAllSupported(pineOptions) as Promise<
-			Array<BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>>
-		>,
-	]);
+	const deviceType = (await sdk.models.deviceType.get(
+		deviceTypeSlug,
+		pineOptions,
+	)) as BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>;
+	const allCpuArches = await sdk.pine.get({
+		resource: 'cpu_architecture',
+		options: {
+			$select: ['id', 'slug'],
+		},
+	});
 
-	const compatibleDeviceTypes = allDeviceTypes
-		.filter((dt) =>
+	const compatibleCpuArchIds = allCpuArches
+		.filter((cpuArch) =>
 			sdk.models.os.isArchitectureCompatibleWith(
 				deviceType.is_of__cpu_architecture[0].slug,
-				dt.is_of__cpu_architecture[0].slug,
+				cpuArch.slug,
 			),
 		)
-		.map((type) => type.slug);
+		.map((cpu) => cpu.id);
 
 	if (!appName) {
-		return createOrSelectApp(sdk, compatibleDeviceTypes, deviceTypeSlug);
+		return createOrSelectApp(
+			sdk,
+			{
+				is_for__device_type: {
+					$any: {
+						$alias: 'dt',
+						$expr: {
+							dt: {
+								is_of__cpu_architecture: { $in: compatibleCpuArchIds },
+							},
+						},
+					},
+				},
+			},
+			deviceTypeSlug,
+		);
 	}
 
-	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
+	const options = {
 		$expand: {
-			is_for__device_type: { $select: 'slug' },
+			is_for__device_type: { $select: ['slug', 'is_of__cpu_architecture'] },
 		},
-	};
+	} satisfies BalenaSdk.PineOptions<BalenaSdk.Application>;
 
 	// Check for a fleet slug of the form `user/fleet` and update the API query.
 	let name: string;
 	const match = appName.split('/');
 	if (match.length > 1) {
 		// These will match at most one fleet
-		options.$filter = { slug: appName.toLowerCase() };
+		(options as BalenaSdk.PineOptions<BalenaSdk.Application>).$filter = {
+			slug: appName.toLowerCase(),
+		};
 		name = match[1];
 	} else {
 		// We're given an application; resolve it if it's ambiguous and also validate
 		// it's of appropriate device type.
-		options.$filter = { app_name: appName };
+		(options as BalenaSdk.PineOptions<BalenaSdk.Application>).$filter = {
+			app_name: appName,
+		};
 		name = appName;
 	}
 
 	const applications = (await sdk.models.application.getAllDirectlyAccessible(
 		options,
-	)) as ApplicationWithDeviceType[];
+	)) as Array<BalenaSdk.PineTypedResult<BalenaSdk.Application, typeof options>>;
 
 	if (applications.length === 0) {
 		await confirm(
@@ -315,8 +336,11 @@ async function getOrSelectApplication(
 
 	// We've found at least one fleet with the given name.
 	// Filter out fleets for non-matching device types and see what we're left with.
+	const compatibleCpuArchIdsSet = new Set(compatibleCpuArchIds);
 	const validApplications = applications.filter((app) =>
-		compatibleDeviceTypes.includes(app.is_for__device_type[0].slug),
+		compatibleCpuArchIdsSet.has(
+			app.is_for__device_type[0].is_of__cpu_architecture.__id,
+		),
 	);
 
 	if (validApplications.length === 0) {
@@ -332,21 +356,14 @@ async function getOrSelectApplication(
 
 async function createOrSelectApp(
 	sdk: BalenaSdk.BalenaSDK,
-	compatibleDeviceTypes: string[],
+	compatibleDeviceTypesFilter: BalenaSdk.PineFilter<BalenaSdk.Application>,
 	deviceType: string,
-): Promise<ApplicationWithDeviceType> {
+): Promise<ApplicationWithDeviceTypeSlug> {
 	// No fleet specified, show a list to select one.
 	const applications = (await sdk.models.application.getAllDirectlyAccessible({
 		$expand: { is_for__device_type: { $select: 'slug' } },
-		$filter: {
-			is_for__device_type: {
-				$any: {
-					$alias: 'dt',
-					$expr: { dt: { slug: { $in: compatibleDeviceTypes } } },
-				},
-			},
-		},
-	})) as ApplicationWithDeviceType[];
+		$filter: compatibleDeviceTypesFilter,
+	})) as ApplicationWithDeviceTypeSlug[];
 
 	if (applications.length === 0) {
 		await confirm(
@@ -366,7 +383,7 @@ async function createApplication(
 	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	name?: string,
-): Promise<ApplicationWithDeviceType> {
+): Promise<ApplicationWithDeviceTypeSlug> {
 	const validation = await import('./validation');
 
 	const username = await sdk.auth.whoami();
@@ -414,12 +431,12 @@ async function createApplication(
 		$expand: {
 			is_for__device_type: { $select: 'slug' },
 		},
-	})) as ApplicationWithDeviceType;
+	})) as ApplicationWithDeviceTypeSlug;
 }
 
 async function generateApplicationConfig(
 	sdk: BalenaSdk.BalenaSDK,
-	app: ApplicationWithDeviceType,
+	app: ApplicationWithDeviceTypeSlug,
 	options: {
 		version: string;
 		appUpdatePollInterval?: number;
