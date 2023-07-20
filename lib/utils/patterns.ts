@@ -19,6 +19,7 @@ import type {
 	BalenaSDK,
 	Device,
 	Organization,
+	PineFilter,
 	PineOptions,
 	PineTypedResult,
 } from 'balena-sdk';
@@ -178,19 +179,22 @@ type SelectApplicationResult = PineTypedResult<
 >;
 
 export async function selectApplication(
-	filter?: (app: SelectApplicationResult) => boolean,
+	filter?:
+		| PineFilter<Application>
+		| ((app: SelectApplicationResult) => boolean),
 	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
-	let apps = (await balena.models.application.getAllDirectlyAccessible(
-		selectApplicationPineOptions,
-	)) as SelectApplicationResult[];
+	let apps = (await balena.models.application.getAllDirectlyAccessible({
+		...selectApplicationPineOptions,
+		...(filter != null && typeof filter === 'object' && { $filter: filter }),
+	})) as SelectApplicationResult[];
 
 	if (!apps.length) {
 		throw new ExpectedError('No fleets found');
 	}
 
-	if (filter != null) {
+	if (filter != null && typeof filter === 'function') {
 		apps = apps.filter(filter);
 	}
 
