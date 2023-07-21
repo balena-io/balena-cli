@@ -228,6 +228,24 @@ export async function selectOrganization(
 	});
 }
 
+export async function getAndSelectOrganization() {
+	const { getOwnOrganizations } = await import('./sdk');
+	const organizations = await getOwnOrganizations(getBalenaSdk(), {
+		$select: ['name', 'handle'],
+	});
+
+	if (organizations.length === 0) {
+		// User is not a member of any organizations (should not happen).
+		throw new Error('This account is not a member of any organizations');
+	} else if (organizations.length === 1) {
+		// User is a member of only one organization - use this.
+		return organizations[0].handle;
+	} else {
+		// User is a member of multiple organizations -
+		return selectOrganization(organizations);
+	}
+}
+
 export async function awaitDeviceOsUpdate(
 	uuid: string,
 	targetOsVersion: string,

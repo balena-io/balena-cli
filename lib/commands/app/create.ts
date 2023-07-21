@@ -18,19 +18,9 @@
 import { flags } from '@oclif/command';
 
 import Command from '../../command';
-import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	organization?: string;
-	type?: string; // application device type
-	help: void;
-}
-
-interface ArgsDef {
-	name: string;
-}
+import { stripIndent } from '../../utils/lazy';
+import { ArgsDef, FlagsDef } from '../../utils/application-create';
 
 export default class AppCreateCmd extends Command {
 	public static description = stripIndent`
@@ -90,61 +80,8 @@ export default class AppCreateCmd extends Command {
 			AppCreateCmd,
 		);
 
-		// Ascertain device type
-		const deviceType =
-			options.type ||
-			(await (await import('../../utils/patterns')).selectDeviceType());
-
-		// Ascertain organization
-		const organization =
-			options.organization?.toLowerCase() || (await this.getOrganization());
-
-		// Create application
-		try {
-			const application = await getBalenaSdk().models.application.create({
-				name: params.name,
-				deviceType,
-				organization,
-				applicationClass: 'app',
-			});
-
-			// Output
-			console.log(
-				`App created: slug "${application.slug}", device type "${deviceType}"`,
-			);
-		} catch (err) {
-			if ((err.message || '').toLowerCase().includes('unique')) {
-				// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
-				throw new ExpectedError(
-					`Error: An app or block or fleet with the name "${params.name}" already exists in organization "${organization}".`,
-				);
-			} else if ((err.message || '').toLowerCase().includes('unauthorized')) {
-				// BalenaRequestError: Request error: Unauthorized
-				throw new ExpectedError(
-					`Error: You are not authorized to create apps in organization "${organization}".`,
-				);
-			}
-
-			throw err;
-		}
-	}
-
-	async getOrganization() {
-		const { getOwnOrganizations } = await import('../../utils/sdk');
-		const organizations = await getOwnOrganizations(getBalenaSdk(), {
-			$select: ['name', 'handle'],
-		});
-
-		if (organizations.length === 0) {
-			// User is not a member of any organizations (should not happen).
-			throw new Error('This account is not a member of any organizations');
-		} else if (organizations.length === 1) {
-			// User is a member of only one organization - use this.
-			return organizations[0].handle;
-		} else {
-			// User is a member of multiple organizations -
-			const { selectOrganization } = await import('../../utils/patterns');
-			return selectOrganization(organizations);
-		}
+		await (
+			await import('../../utils/application-create')
+		).applicationCreateBase('app', options, params);
 	}
 }
