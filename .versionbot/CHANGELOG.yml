@@ -1,4 +1,16 @@
 - commits:
+    - subject: Abstract the fleet/app/block create commands
+      hash: aff094575bb26547fa28b49eceec840a4c683929
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.7.5
+  title: ""
+  date: 2023-07-21T06:59:20.298Z
+- commits:
     - subject: "move: Include fleets of discontinued device types in the fleet
         selection"
       hash: b011af89ad7b4f43199be9666009155a8c6371b7
