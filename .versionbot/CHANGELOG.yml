@@ -1,4 +1,16 @@
 - commits:
+    - subject: "app create: Fix halting with a deprecation warning"
+      hash: 365d95c36b4b10cd683290747d1f26926d9a4710
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 16.7.6
+  title: ""
+  date: 2023-07-24T13:38:02.677Z
+- commits:
     - subject: Abstract the fleet/app/block create commands
       hash: aff094575bb26547fa28b49eceec840a4c683929
       body: ""
