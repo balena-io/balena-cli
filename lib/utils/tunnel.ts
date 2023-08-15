@@ -51,7 +51,7 @@ export const tunnelConnectionToDevice = (
 		sdk.auth.getToken(),
 	]).then(([tunnelUrl, whoami, token]) => {
 		const auth = {
-			user: whoami || 'root',
+			user: whoami?.actorType === 'user' ? whoami.username : 'root',
 			password: token,
 		};
 

@@ -386,8 +386,11 @@ async function createApplication(
 ): Promise<ApplicationWithDeviceTypeSlug> {
 	const validation = await import('./validation');
 
-	const username = await sdk.auth.whoami();
-	if (!username) {
+	let username: string;
+	try {
+		const userInfo = await sdk.auth.getUserInfo();
+		username = userInfo.username;
+	} catch (err) {
 		throw new sdk.errors.BalenaNotLoggedIn();
 	}
 
@@ -404,7 +407,7 @@ async function createApplication(
 				try {
 					await sdk.models.application.getDirectlyAccessible(appName, {
 						$filter: {
-							slug: { $startswith: `${username!.toLowerCase()}/` },
+							slug: { $startswith: `${username.toLowerCase()}/` },
 						},
 					});
 					// TODO: This is the only example in the codebase where `printErrorMessage()`

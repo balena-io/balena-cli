@@ -346,9 +346,9 @@ ${dockerignoreHelp}
 				);
 				logger.logWarn(msg);
 
-				const [token, username, url, options] = await Promise.all([
+				const [token, { username }, url, options] = await Promise.all([
 					sdk.auth.getToken(),
-					sdk.auth.whoami(),
+					sdk.auth.getUserInfo(),
 					sdk.settings.get('balenaUrl'),
 					{
 						// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
@@ -371,8 +371,8 @@ ${dockerignoreHelp}
 					$select: ['commit'],
 				});
 			} else {
-				const [userId, auth, apiEndpoint] = await Promise.all([
-					sdk.auth.getUserId(),
+				const [{ id: userId }, auth, apiEndpoint] = await Promise.all([
+					sdk.auth.getUserInfo(),
 					sdk.auth.getToken(),
 					sdk.settings.get('apiUrl'),
 				]);

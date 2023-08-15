@@ -36,11 +36,11 @@ export default class WhoamiCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const [username, email, url] = await Promise.all([
-			balena.auth.whoami(),
-			balena.auth.getEmail(),
+		const [{ username, email }, url] = await Promise.all([
+			balena.auth.getUserInfo(),
 			balena.settings.get('balenaUrl'),
 		]);
+
 		console.log(
 			getVisuals().table.vertical({ username, email, url }, [
 				'$account information$',
