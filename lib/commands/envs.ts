@@ -208,6 +208,7 @@ async function validateServiceName(
 	fleetSlug: string,
 ) {
 	const services = await sdk.models.service.getAllByApplication(fleetSlug, {
+		$select: 'id',
 		$filter: { service_name: serviceName },
 	});
 	if (services.length === 0) {
