@@ -16,7 +16,7 @@
  */
 
 import * as settings from 'balena-settings-client';
-import * as getStorage from 'balena-settings-storage';
+import { getStorage } from 'balena-settings-storage';
 import { expect } from 'chai';
 import mock = require('mock-require');
 import * as semver from 'semver';
@@ -78,7 +78,7 @@ describe('DeprecationChecker', function () {
 			.stub(mockStorage, 'set')
 			.withArgs(checker.cacheFile, sinon.match.any);
 
-		mock(storageModPath, () => mockStorage);
+		mock(storageModPath, { getStorage: () => mockStorage });
 	});
 
 	this.afterEach(() => {

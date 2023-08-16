@@ -210,7 +210,7 @@
     "balena-sdk": "^17.12.1",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
-    "balena-settings-storage": "^7.0.0",
+    "balena-settings-storage": "^8.1.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.1",
     "chalk": "^3.0.0",

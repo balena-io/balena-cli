@@ -138,7 +138,7 @@ export async function getCachedUsername(): Promise<CachedUsername | undefined> {
 	if (cachedUsername) {
 		return cachedUsername;
 	}
-	const [{ getBalenaSdk }, getStorage, settings] = await Promise.all([
+	const [{ getBalenaSdk }, { getStorage }, settings] = await Promise.all([
 		import('./lazy'),
 		import('balena-settings-storage'),
 		import('balena-settings-client'),

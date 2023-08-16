@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import type { BalenaSettingsStorage } from 'balena-settings-storage';
+
 export interface ReleaseTimestampsByVersion {
 	[version: string]: string; // e.g. { '12.0.0': '2021-06-16T12:54:52.000Z' }
 	lastFetched: string; // ISO 8601 timestamp, e.g. '2021-06-27T16:46:10.000Z'
@@ -46,7 +48,7 @@ export class DeprecationChecker {
 	readonly cacheFile = 'cachedReleaseTimestamps';
 	readonly now = new Date().getTime();
 	private initialized = false;
-	storage: ReturnType<typeof import('balena-settings-storage')>;
+	storage: BalenaSettingsStorage;
 	cachedTimestamps: ReleaseTimestampsByVersion;
 	nextMajorVersion: string; // semver without the 'v' prefix
 
@@ -63,7 +65,7 @@ export class DeprecationChecker {
 		this.initialized = true;
 
 		const settings = await import('balena-settings-client');
-		const getStorage = await import('balena-settings-storage');
+		const { getStorage } = await import('balena-settings-storage');
 		const dataDirectory = settings.get<string>('dataDirectory');
 		this.storage = getStorage({ dataDirectory });
 		let stored: ReleaseTimestampsByVersion | undefined;
