@@ -93,7 +93,6 @@ export default class EnvsCmd extends Command {
 		'$ balena envs --fleet myorg/myfleet',
 		'$ balena envs --fleet MyFleet --json',
 		'$ balena envs --fleet MyFleet --service MyService',
-		'$ balena envs --fleet MyFleet --service MyService',
 		'$ balena envs --fleet MyFleet --config',
 		'$ balena envs --device 7cf02a6',
 		'$ balena envs --device 7cf02a6 --json',
