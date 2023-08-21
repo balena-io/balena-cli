@@ -1,4 +1,16 @@
 - commits:
+    - subject: Revert flowzone to master
+      hash: 272915192b08627bf0687af0bbf73247f1f815da
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 16.7.7
+  title: ""
+  date: 2023-08-21T16:56:29.557Z
+- commits:
     - subject: "app create: Fix halting with a deprecation warning"
       hash: 365d95c36b4b10cd683290747d1f26926d9a4710
       body: ""
