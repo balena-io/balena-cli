@@ -49,7 +49,7 @@ runs:
 
     - name: Compress custom source
       shell: pwsh
-      run: tar -acf ${{ runner.temp }}/custom.tgz .
+      run: tar --exclude-vcs -acf ${{ runner.temp }}/custom.tgz .
 
     - name: Upload custom artifact
       uses: actions/upload-artifact@v3

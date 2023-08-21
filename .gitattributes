@@ -4,6 +4,10 @@
 *.* -eol
 
 *.sh text eol=lf
+.dockerignore eol=lf
+Dockerfile eol=lf
+Dockerfile.* eol=lf
+* text=auto eol=lf
 
 # lf for the docs as it's auto-generated and will otherwise trigger an uncommited error on windows
 docs/balena-cli.md text eol=lf
