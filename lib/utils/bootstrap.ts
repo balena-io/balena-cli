@@ -167,7 +167,7 @@ export async function getCachedUsername(): Promise<CachedUsername | undefined> {
 		// ignore
 	}
 	try {
-		const username = await getBalenaSdk().auth.whoami();
+		const { username } = await getBalenaSdk().auth.getUserInfo();
 		if (username) {
 			cachedUsername = { token, username };
 			await storage.set('cachedUsername', cachedUsername);

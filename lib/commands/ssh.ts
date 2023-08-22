@@ -152,9 +152,9 @@ export default class SshCmd extends Command {
 
 		const { which } = await import('../utils/which');
 
-		const [whichProxytunnel, username, proxyUrl] = await Promise.all([
+		const [whichProxytunnel, { username }, proxyUrl] = await Promise.all([
 			useProxy ? which('proxytunnel', false) : undefined,
-			sdk.auth.whoami(),
+			sdk.auth.getUserInfo(),
 			// note that `proxyUrl` refers to the balenaCloud "resin-proxy"
 			// service, currently "balena-devices.com", rather than some
 			// local proxy server URL
@@ -208,7 +208,7 @@ export default class SshCmd extends Command {
 				port: options.port || 'cloud',
 				proxyCommand,
 				service: params.service,
-				username: username!,
+				username,
 			});
 		}
 

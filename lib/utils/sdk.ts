@@ -105,7 +105,7 @@ export async function getOwnOrganizations(
 							$alias: 'orm',
 							$expr: {
 								orm: {
-									user: await sdk.auth.getUserId(),
+									user: (await sdk.auth.getUserInfo()).id,
 								},
 							},
 						},

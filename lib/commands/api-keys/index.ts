@@ -62,7 +62,7 @@ export default class ApiKeysCmd extends Command {
 							$select: 'actor',
 						})
 				  ).actor
-				: await getBalenaSdk().auth.getUserActorId();
+				: await getBalenaSdk().auth.getActorId();
 			const keys = await getBalenaSdk().pine.get({
 				resource: 'api_key',
 				options: {

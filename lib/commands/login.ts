@@ -137,7 +137,7 @@ export default class LoginCmd extends Command {
 		console.log(`\nLogging in to ${balenaUrl}`);
 		await this.doLogin(options, balenaUrl, params.token);
 
-		const username = await balena.auth.whoami();
+		const { username } = await balena.auth.getUserInfo();
 
 		console.info(`Successfully logged in as: ${username}`);
 		console.info(`\
@@ -165,7 +165,12 @@ ${messages.reachingOut}`);
 			}
 			const balena = getBalenaSdk();
 			await balena.auth.loginWithToken(token!);
-			if (!(await balena.auth.whoami())) {
+			try {
+				await balena.auth.getUserInfo();
+			} catch (err) {
+				if (process.env.DEBUG) {
+					console.error(`Get user info failed with: ${err.message}`);
+				}
 				throw new ExpectedError('Token authentication failed');
 			}
 			return;
