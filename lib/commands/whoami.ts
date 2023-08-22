@@ -36,18 +36,37 @@ export default class WhoamiCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const [{ username, email }, url] = await Promise.all([
-			balena.auth.getUserInfo(),
+		const [whoamiResult, url] = await Promise.all([
+			balena.auth.whoami(),
 			balena.settings.get('balenaUrl'),
 		]);
 
-		console.log(
-			getVisuals().table.vertical({ username, email, url }, [
-				'$account information$',
-				'username',
-				'email',
-				'url',
-			]),
-		);
+		if (whoamiResult?.actorType === 'user') {
+			const { username, email } = whoamiResult;
+			console.log(
+				getVisuals().table.vertical({ username, email, url }, [
+					'$account information$',
+					'username',
+					'email',
+					'url',
+				]),
+			);
+		} else if (whoamiResult?.actorType === 'device') {
+			console.log(
+				getVisuals().table.vertical({ device: whoamiResult.uuid, url }, [
+					'$account information$',
+					'device',
+					'url',
+				]),
+			);
+		} else if (whoamiResult?.actorType === 'application') {
+			console.log(
+				getVisuals().table.vertical({ application: whoamiResult.slug, url }, [
+					'$account information$',
+					'application',
+					'url',
+				]),
+			);
+		}
 	}
 }

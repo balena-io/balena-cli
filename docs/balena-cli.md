@@ -621,6 +621,10 @@ password
 
 TCP port number of local HTTP login server (--web auth only)
 
+#### -H, --hideExperimentalWarning
+
+Hides warning for experimental features
+
 ## logout
 
 Logout from your balena account.

@@ -439,6 +439,28 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
+	public expectDeviceWhoAmI(opts: ScopeOpts = { optional: true }) {
+		this.optGet('/actor/v1/whoami', opts).reply(200, {
+			id: 1235,
+			actorType: 'device',
+			actorTypeId: 88888,
+			uuid: 'a11dc1acd31b623a0e4e084a6cf13aaa',
+		});
+	}
+
+	public expectApplicationWhoAmI(opts: ScopeOpts = { optional: true }) {
+		this.optGet('/actor/v1/whoami', opts).reply(200, {
+			id: 1236,
+			actorType: 'application',
+			actorTypeId: 77777,
+			slug: 'mytestorf/mytestfleet',
+		});
+	}
+
+	public expectWhoAmIFail(opts: ScopeOpts = { optional: true }) {
+		this.optGet('/actor/v1/whoami', opts).reply(401);
+	}
+
 	public expectGetMixpanel(opts: ScopeOpts = {}) {
 		this.optGet(/^\/mixpanel\/track/, opts).reply(200, {});
 	}
