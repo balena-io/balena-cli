@@ -386,6 +386,21 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
+	public expectGetServiceFromApp(opts: {
+		optional?: boolean;
+		persist?: boolean;
+		serviceId?: number;
+		serviceName: string;
+	}) {
+		const serviceId = opts.serviceId || 243768;
+		this.optGet(/^\/v6\/application($|\?).*\$expand=service.*/, opts).reply(
+			200,
+			{
+				d: [{ service: [{ id: serviceId, service_name: opts.serviceName }] }],
+			},
+		);
+	}
+
 	public expectPostService409(opts: ScopeOpts = {}) {
 		this.optPost(/^\/v\d+\/service$/, opts).reply(
 			409,

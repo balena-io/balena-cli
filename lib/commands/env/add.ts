@@ -268,6 +268,7 @@ async function getServiceIdForApp(
 ): Promise<number> {
 	let serviceId: number | undefined;
 	const services = await sdk.models.service.getAllByApplication(appSlug, {
+		$select: 'id',
 		$filter: { service_name: serviceName },
 	});
 	if (services.length > 0) {

@@ -95,7 +95,7 @@ describe('balena envs', function () {
 
 	it('should successfully list service variables for a test fleet (-s flag)', async () => {
 		const serviceName = 'service2';
-		api.expectGetService({ serviceName });
+		api.expectGetServiceFromApp({ serviceName });
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
@@ -117,7 +117,7 @@ describe('balena envs', function () {
 
 	it('should successfully list env and service vars for a test fleet (-s flags)', async () => {
 		const serviceName = 'service1';
-		api.expectGetService({ serviceName });
+		api.expectGetServiceFromApp({ serviceName });
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
@@ -216,7 +216,7 @@ describe('balena envs', function () {
 
 	it('should successfully list service variables for a test device (-s flag)', async () => {
 		const serviceName = 'service2';
-		api.expectGetService({ serviceName });
+		api.expectGetServiceFromApp({ serviceName });
 		api.expectGetApplication();
 		api.expectGetDevice({ shortUUID, fullUUID });
 		api.expectGetDevice({ fullUUID });
@@ -269,7 +269,7 @@ describe('balena envs', function () {
 
 	it('should successfully list env and service vars for a test device (-s flags)', async () => {
 		const serviceName = 'service1';
-		api.expectGetService({ serviceName });
+		api.expectGetServiceFromApp({ serviceName });
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
@@ -299,7 +299,7 @@ describe('balena envs', function () {
 
 	it('should successfully list env and service vars for a test device (-js flags)', async () => {
 		const serviceName = 'service1';
-		api.expectGetService({ serviceName });
+		api.expectGetServiceFromApp({ serviceName });
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
