@@ -43,6 +43,29 @@ export async function getApplication(
 	options?: PineOptions<Application>,
 ): Promise<Application> {
 	const { looksLikeFleetSlug } = await import('./validation');
+	const whoamiResult = await sdk.auth.whoami();
+	const isDeviceActor = whoamiResult?.actorType === 'device';
+
+	if (isDeviceActor) {
+		const $filterByActor = {
+			$filter: {
+				owns__device: {
+					$any: {
+						$alias: 'd',
+						$expr: {
+							d: {
+								actor: whoamiResult.id,
+							},
+						},
+					},
+				},
+			},
+		};
+		options = options
+			? sdk.utils.mergePineOptions(options, $filterByActor)
+			: $filterByActor;
+	}
+
 	if (
 		typeof nameOrSlugOrId === 'string' &&
 		!looksLikeFleetSlug(nameOrSlugOrId)
@@ -52,13 +75,15 @@ export async function getApplication(
 		return await sdk.models.application.getAppByName(
 			nameOrSlugOrId,
 			options,
-			'directly_accessible',
+			isDeviceActor ? undefined : 'directly_accessible',
 		);
 	}
-	return await sdk.models.application.getDirectlyAccessible(
-		nameOrSlugOrId,
-		options,
-	);
+
+	const getFunction = isDeviceActor
+		? sdk.models.application.get
+		: sdk.models.application.getDirectlyAccessible;
+
+	return getFunction(nameOrSlugOrId, options);
 }
 
 /**

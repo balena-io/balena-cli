@@ -20,6 +20,7 @@ import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../utils/lazy';
 import { ExpectedError } from '../errors';
+import type { WhoamiResult } from 'balena-sdk';
 
 interface FlagsDef {
 	token: boolean;
@@ -30,6 +31,7 @@ interface FlagsDef {
 	password?: string;
 	port?: number;
 	help: void;
+	hideExperimentalWarning: boolean;
 }
 
 interface ArgsDef {
@@ -114,6 +116,11 @@ export default class LoginCmd extends Command {
 				'TCP port number of local HTTP login server (--web auth only)',
 			dependsOn: ['web'],
 		}),
+		hideExperimentalWarning: flags.boolean({
+			char: 'H',
+			default: false,
+			description: 'Hides warning for experimental features',
+		}),
 		help: cf.help,
 	};
 
@@ -137,9 +144,24 @@ export default class LoginCmd extends Command {
 		console.log(`\nLogging in to ${balenaUrl}`);
 		await this.doLogin(options, balenaUrl, params.token);
 
-		const { username } = await balena.auth.getUserInfo();
+		// We can safely assume this won't be undefined as doLogin will throw if this call fails
+		// We also don't need to worry too much about the amount of calls to whoami
+		// as these are cached by the SDK
+		const whoamiResult = (await balena.auth.whoami()) as WhoamiResult;
 
-		console.info(`Successfully logged in as: ${username}`);
+		if (whoamiResult.actorType !== 'user' && !options.hideExperimentalWarning) {
+			console.info(stripIndent`
+			----------------------------------------------------------------------------------------
+			You are logging in with a ${whoamiResult.actorType} key.
+			This is an experimental feature and many features of the CLI might not work as expected.
+			We sure hope you know what you are doing.
+			----------------------------------------------------------------------------------------
+			`);
+		}
+
+		console.info(
+			`Successfully logged in as: ${this.getLoggedInMessage(whoamiResult)}`,
+		);
 		console.info(`\
 
 Find out about the available commands by running:
@@ -147,6 +169,16 @@ Find out about the available commands by running:
   $ balena help
 
 ${messages.reachingOut}`);
+	}
+
+	private getLoggedInMessage(whoami: WhoamiResult): string {
+		if (whoami.actorType === 'user') {
+			return whoami.username;
+		}
+
+		const identifier =
+			whoami.actorType === 'device' ? whoami.uuid : whoami.slug;
+		return `${whoami.actorType} ${identifier}`;
 	}
 
 	async doLogin(
@@ -166,7 +198,9 @@ ${messages.reachingOut}`);
 			const balena = getBalenaSdk();
 			await balena.auth.loginWithToken(token!);
 			try {
-				await balena.auth.getUserInfo();
+				if (!(await balena.auth.whoami())) {
+					throw new ExpectedError('Token authentication failed');
+				}
 			} catch (err) {
 				if (process.env.DEBUG) {
 					console.error(`Get user info failed with: ${err.message}`);
