@@ -89,7 +89,7 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=16 <18"
+    "node": ">=18 <20"
   },
   "husky": {
     "hooks": {
@@ -147,7 +147,7 @@
     "@types/ndjson": "^2.0.1",
     "@types/net-keepalive": "^0.4.1",
     "@types/nock": "^11.1.0",
-    "@types/node": "^16.18.25",
+    "@types/node": "^18.17.6",
     "@types/node-cleanup": "^2.1.2",
     "@types/parse-link-header": "^1.0.1",
     "@types/prettyjson": "^0.0.30",

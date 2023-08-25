@@ -84,7 +84,7 @@
   The file must be distributed with executable as %2.
   %1: node_modules/opn/xdg-open
   %2: path-to-executable/xdg-open
-prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=x64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=x64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=x64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v16.16.0 runtime=node arch=x64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
