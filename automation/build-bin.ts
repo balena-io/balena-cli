@@ -201,8 +201,6 @@ async function buildPkg() {
 	console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
 	console.log('=======================================================');
 
-	await execPkg(args);
-
 	const paths: Array<[string, string[], string[]]> = [
 		// [platform, [source path], [destination path]]
 		['*', ['open', 'xdg-open'], ['xdg-open']],
@@ -215,7 +213,7 @@ async function buildPkg() {
 				// eg copy from node_modules/open/xdg-open to build-bin/xdg-open
 				return fs.copy(
 					path.join(ROOT, 'node_modules', ...source),
-					path.join(ROOT, 'build-bin', ...dest),
+					path.join(ROOT, 'build-bin-tmp', ...dest),
 				);
 			}
 		}),
@@ -234,11 +232,13 @@ async function buildPkg() {
 				extPath,
 				extPath.replace(
 					path.join(ROOT, 'node_modules'),
-					path.join(ROOT, 'build-bin'),
+					path.join(ROOT, 'build-bin-tmp'),
 				),
 			),
 		),
 	);
+
+	await execPkg(args);
 }
 
 /**
