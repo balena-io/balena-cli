@@ -1,4 +1,16 @@
 - commits:
+    - subject: Accept device & application keys on login as experimental feature
+      hash: 14ba287e0d5f15154185c2cad685ab589953bf56
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otávio Jacobi
+      nested: []
+  version: 16.8.0
+  title: ""
+  date: 2023-08-25T17:47:40.201Z
+- commits:
     - subject: Update balena-sdk to v18
       hash: 8b320d3e9e8c5042d12a874645b2453e2fa5d4fa
       body: |-
