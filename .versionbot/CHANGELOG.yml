@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update to Node 18
+      hash: 817ce5dc9612c7b75c138090c0dca14c4987a5f7
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Otávio Jacobi
+      nested: []
+  version: 17.0.0
+  title: ""
+  date: 2023-08-29T11:45:48.922Z
+- commits:
     - subject: Accept device & application keys on login as experimental feature
       hash: 14ba287e0d5f15154185c2cad685ab589953bf56
       body: ""
