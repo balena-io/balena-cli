@@ -167,7 +167,7 @@ async function handleHeadlessBuildStream(
 	// been started
 	let message: HeadlessBuilderMessage;
 	try {
-		const response = await streamToPromise(stream as NodeJS.ReadWriteStream);
+		const response = await streamToPromise(stream as NodeJS.ReadStream);
 		message = JSON.parse(response.toString());
 	} catch (e) {
 		if (e.code === 'SIGINT') {
@@ -419,7 +419,7 @@ async function getRemoteBuildStream(
 	if (build.opts.headless) {
 		stream = buildRequest;
 	} else {
-		stream = buildRequest.pipe(JSONStream.parse('*'));
+		stream = buildRequest.pipe(JSONStream.parse('*')) as NodeJS.ReadStream;
 	}
 	stream = stream
 		.once('error', () => uploadSpinner.stop())
