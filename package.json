@@ -222,7 +222,7 @@
     "docker-progress": "^5.1.3",
     "dockerode": "3.3.3",
     "ejs": "^3.1.6",
-    "etcher-sdk": "^8.5.3",
+    "etcher-sdk": "^8.7.0",
     "event-stream": "3.3.4",
     "express": "^4.17.2",
     "fast-boot2": "^1.1.0",
