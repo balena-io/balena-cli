@@ -76,11 +76,3 @@
   The file must be distributed with executable as %2.
   %1: node_modules\drivelist\scripts\win32.bat
   %2: path-to-executable/drivelist/win32.bat
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules\opn\xdg-open
-  %2: path-to-executable/xdg-open
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules\opn\xdg-open
-  %2: path-to-executable/xdg-open
