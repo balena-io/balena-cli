@@ -1,4 +1,128 @@
 - commits:
+    - subject: Fix local flash on unix environments
+      hash: 49e23464f9bc9a3948974ad5d706692990902002
+      body: Update etcher-sdk from 8.5.3 to 8.7.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested:
+        - commits:
+            - subject: Update migrator README and bump minor version
+              hash: 9d7608dca69e0dcb3b2f188765dc8590c768229f
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: etcher-sdk-8.7.0
+          title: ""
+          date: 2023-08-13T16:06:05.940Z
+        - commits:
+            - subject: Add ability to migrate network configuration
+              hash: f4988ad0c7fcf8b074e08a69ff48fe6b75ae4b30
+              body: |
+                * Accept connection profiles
+                * Write network configuration file to boot partition
+                * Supports WiFi configuration only
+                * Add 'config' step to migration
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+            - subject: Add ability to set/clear drive letter on Windows
+              hash: c477ec5038bc4c6c6ebab1869d7c5a170f3ae46f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: etcher-sdk-8.6.3
+          title: ""
+          date: 2023-08-13T15:48:09.215Z
+        - commits:
+            - subject: Refine migrate() function
+              hash: 77f3a3c791c69ceae0146bb04c26ef7860743bf3
+              body: |
+                * Add abstractions for target device and partition
+                * Only look for volume info if partition pre-existing
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+            - subject: Rework findVolume() so localization independent
+              hash: df9708844abdfc793535ed5e72b393c8222a978d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: etcher-sdk-8.6.2
+          title: ""
+          date: 2023-06-22T11:51:27.075Z
+        - commits:
+            - subject: Establish contract for diskpart functions
+              hash: 159ced7b74fa2dad776d34d573a19ccfcdd69278
+              body: |
+                All new functions must throw an error on non-Windows platforms.
+                Only clean() is a no-op for historical reasons.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: etcher-sdk-8.6.1
+          title: ""
+          date: 2023-05-19T15:51:22.661Z
+        - commits:
+            - subject: "Migrator: setup task sequence"
+              hash: f215585ae84f7455aef2f283be155186d0e62436
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: etcher-sdk-8.6.0
+          title: ""
+          date: 2023-05-19T14:06:16.055Z
+        - commits:
+            - subject: stop diskpart.clean() from breaking CLI  flash cmd
+              hash: 1d0dad1e62f2c723f706482b2b87ec7835d578fe
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ryan Cooke <ryan@balena.io>
+                signed-off-by: Ryan Cooke <ryan@balena.io>
+              author: rcooke-warwick
+              nested: []
+          version: etcher-sdk-8.5.4
+          title: ""
+          date: 2023-05-18T15:25:29.172Z
+  version: 17.1.1
+  title: ""
+  date: 2023-09-05T15:06:09.940Z
+- commits:
     - subject: Update oclif, improve help command
       hash: e46378ec518202d466a85faea50023996c5bdec2
       body: ""
