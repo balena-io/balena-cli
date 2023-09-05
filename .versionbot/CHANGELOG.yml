@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update oclif, improve help command
+      hash: e46378ec518202d466a85faea50023996c5bdec2
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 17.1.0
+  title: ""
+  date: 2023-09-05T13:00:56.974Z
+- commits:
     - subject: Update to Node 18
       hash: 817ce5dc9612c7b75c138090c0dca14c4987a5f7
       body: ""
