@@ -16,7 +16,7 @@
  */
 
 import { Main } from '@oclif/command';
-import type * as Config from '@oclif/config';
+import type { Command } from '@oclif/core';
 
 /**
  * This class is a partial copy-and-paste of
@@ -26,7 +26,7 @@ import type * as Config from '@oclif/config';
 export class CommandHelp {
 	constructor(public command: { args?: any[] }) {}
 
-	protected arg(arg: Config.Command['args'][0]): string {
+	protected arg(arg: Command.Arg.Any): string {
 		const name = arg.name.toUpperCase();
 		if (arg.required) {
 			return `${name}`;
