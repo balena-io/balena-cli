@@ -61,7 +61,7 @@ index 360c34b..ae14bf5 100644
          description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
  the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..41963eb 100644
+index 384ea4b..206a5fc 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
 @@ -21,8 +21,10 @@ const pack = async (from, to) => {
@@ -100,7 +100,7 @@ index 384ea4b..41963eb 100644
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +59,20 @@ async function build(c, options = {}) {
+@@ -49,35 +59,22 @@ async function build(c, options = {}) {
          await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
      };
      const addDependencies = async () => {
@@ -145,11 +145,13 @@ index 384ea4b..41963eb 100644
          }
 +        console.error(`[debug] oclif running "npm prune --production" in "${ws}"`);
 +        await exec('npm prune --production', { cwd: c.workspace() });
++        await exec('rm -rf node_modules/**/*.ts', { cwd: c.workspace() });
++        await exec('rm -rf node_modules/**/*.map', { cwd: c.workspace() });
 +        console.error(`[debug] oclif done`);
      };
      const pretarball = async () => {
          const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
-@@ -115,7 +110,8 @@ async function build(c, options = {}) {
+@@ -115,7 +112,8 @@ async function build(c, options = {}) {
              output: path.join(workspace, 'bin', 'node'),
              platform: target.platform,
              arch: target.arch,
@@ -159,7 +161,7 @@ index 384ea4b..41963eb 100644
          });
          if (options.pack === false)
              return;
-@@ -158,6 +154,7 @@ async function build(c, options = {}) {
+@@ -158,6 +156,7 @@ async function build(c, options = {}) {
          await fs.writeJSON(manifestFilepath, manifest, { spaces: 2 });
      };
      (0, log_1.log)(`gathering workspace for ${config.bin} to ${c.workspace()}`);
