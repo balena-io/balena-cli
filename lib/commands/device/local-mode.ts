@@ -15,22 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	enable: boolean;
-	disable: boolean;
-	status: boolean;
-	help?: void;
-}
-
-interface ArgsDef {
-	uuid: string | number;
-}
 
 export default class DeviceLocalModeCmd extends Command {
 	public static description = stripIndent`
@@ -47,26 +35,25 @@ export default class DeviceLocalModeCmd extends Command {
 		'$ balena device local-mode 23c73a1 --status',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the uuid of the device to manage',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device local-mode <uuid>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		enable: flags.boolean({
+	public static flags = {
+		enable: Flags.boolean({
 			description: 'enable local mode',
 			exclusive: ['disable', 'status'],
 		}),
-		disable: flags.boolean({
+		disable: Flags.boolean({
 			description: 'disable local mode',
 			exclusive: ['enable', 'status'],
 		}),
-		status: flags.boolean({
+		status: Flags.boolean({
 			description: 'output boolean indicating local mode status',
 			exclusive: ['enable', 'disable'],
 		}),
@@ -76,7 +63,7 @@ export default class DeviceLocalModeCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+		const { args: params, flags: options } = await this.parse(
 			DeviceLocalModeCmd,
 		);
 

@@ -15,23 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getCliForm, stripIndent } from '../../utils/lazy';
 import * as _ from 'lodash';
 import type { DeviceTypeJson } from 'balena-sdk';
-
-interface FlagsDef {
-	advanced: boolean;
-	output: string;
-	help: void;
-}
-
-interface ArgsDef {
-	image: string;
-	'device-type': string;
-}
 
 export default class OsBuildConfigCmd extends Command {
 	public static description = stripIndent`
@@ -46,27 +35,25 @@ export default class OsBuildConfigCmd extends Command {
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6 --config rpi3-config.json',
 	];
 
-	public static args = [
-		{
-			name: 'image',
+	public static args = {
+		image: Args.string({
 			description: 'os image',
 			required: true,
-		},
-		{
-			name: 'device-type',
+		}),
+		'device-type': Args.string({
 			description: 'device type',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'os build-config <image> <device-type>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		advanced: flags.boolean({
+	public static flags = {
+		advanced: Flags.boolean({
 			description: 'show advanced configuration options',
 			char: 'v',
 		}),
-		output: flags.string({
+		output: Flags.string({
 			description: 'path to output JSON file',
 			char: 'o',
 			required: true,
@@ -77,9 +64,7 @@ export default class OsBuildConfigCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			OsBuildConfigCmd,
-		);
+		const { args: params, flags: options } = await this.parse(OsBuildConfigCmd);
 
 		const { writeFile } = (await import('fs')).promises;
 

@@ -15,19 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	slug: string;
-}
 
 export default class FleetTrackLatestCmd extends Command {
 	public static description = stripIndent`
@@ -40,24 +31,23 @@ export default class FleetTrackLatestCmd extends Command {
 		'$ balena fleet track-latest myfleet',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'slug',
+	public static args = {
+		slug: Args.string({
 			description: 'the slug of the fleet to make track the latest release',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'fleet track-latest <slug>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(FleetTrackLatestCmd);
+		const { args: params } = await this.parse(FleetTrackLatestCmd);
 
 		const balena = getBalenaSdk();
 

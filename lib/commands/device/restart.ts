@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
@@ -25,15 +24,6 @@ import type {
 	DeviceWithServiceDetails,
 	CurrentServiceWithCommit,
 } from 'balena-sdk';
-
-interface FlagsDef {
-	help: void;
-	service?: string;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DeviceRestartCmd extends Command {
 	public static description = stripIndent`
@@ -55,19 +45,18 @@ export default class DeviceRestartCmd extends Command {
 		'$ balena device restart 23c73a1 -s myService1,myService2',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description:
 				'comma-separated list (no blank spaces) of device UUIDs to restart',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device restart <uuid>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		service: flags.string({
+	public static flags = {
+		service: Flags.string({
 			description:
 				'comma-separated list (no blank spaces) of service names to restart',
 			char: 's',
@@ -78,9 +67,7 @@ export default class DeviceRestartCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			DeviceRestartCmd,
-		);
+		const { args: params, flags: options } = await this.parse(DeviceRestartCmd);
 
 		const balena = getBalenaSdk();
 		const ux = getCliUx();

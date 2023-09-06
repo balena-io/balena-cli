@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args, Flags } from '@oclif/core';
 import Command from '../command';
 import { getBalenaSdk } from '../utils/lazy';
 import * as cf from '../utils/common-flags';
@@ -31,16 +31,15 @@ import { buildProject, composeCliFlags } from '../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../utils/docker';
 import { dockerCliFlags } from '../utils/docker';
 
+// TODO: For this special one we can't use Interfaces.InferredFlags/InferredArgs
+// because of the 'registry-secrets' type which is defined in the actual code
+// as a path (string | undefined) but then the cli turns it into an object
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	arch?: string;
 	deviceType?: string;
 	fleet?: string;
 	source?: string; // Not part of command profile - source param copied here.
 	help: void;
-}
-
-interface ArgsDef {
-	source?: string;
 }
 
 export default class BuildCmd extends Command {
@@ -74,21 +73,18 @@ ${dockerignoreHelp}
 		'$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -f myFleet',
 	];
 
-	public static args = [
-		{
-			name: 'source',
-			description: 'path of project source directory',
-		},
-	];
+	public static args = {
+		source: Args.string({ description: 'path of project source directory' }),
+	};
 
 	public static usage = 'build [source]';
 
-	public static flags: flags.Input<FlagsDef> = {
-		arch: flags.string({
+	public static flags = {
+		arch: Flags.string({
 			description: 'the architecture to build for',
 			char: 'A',
 		}),
-		deviceType: flags.string({
+		deviceType: Flags.string({
 			description: 'the type of device this build is for',
 			char: 'd',
 		}),
@@ -97,15 +93,13 @@ ${dockerignoreHelp}
 		...dockerCliFlags,
 		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
 		// Revisit this in future release.
-		help: flags.help({}),
+		help: Flags.help({}),
 	};
 
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			BuildCmd,
-		);
+		const { args: params, flags: options } = await this.parse(BuildCmd);
 
 		await Command.checkLoggedInIf(!!options.fleet);
 

@@ -15,22 +15,11 @@
  * limitations under the License.
  */
 
-import type { flags } from '@oclif/command';
-
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-
-interface FlagsDef {
-	yes: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	fleet: string;
-}
 
 export default class FleetRmCmd extends Command {
 	public static description = stripIndent`
@@ -49,11 +38,13 @@ export default class FleetRmCmd extends Command {
 		'$ balena fleet rm myorg/myfleet',
 	];
 
-	public static args = [ca.fleetRequired];
+	public static args = {
+		fleet: ca.fleetRequired,
+	};
 
 	public static usage = 'fleet rm <fleet>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		yes: cf.yes,
 		help: cf.help,
 	};
@@ -61,9 +52,7 @@ export default class FleetRmCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			FleetRmCmd,
-		);
+		const { args: params, flags: options } = await this.parse(FleetRmCmd);
 
 		const { confirm } = await import('../../utils/patterns');
 		const { getApplication } = await import('../../utils/sdk');

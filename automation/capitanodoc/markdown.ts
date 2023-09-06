@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { flagUsages } from '@oclif/parser';
+import { Parser } from '@oclif/core';
 import * as ent from 'ent';
 import * as _ from 'lodash';
 
@@ -37,8 +37,8 @@ function renderOclifCommand(command: OclifCommand): string[] {
 
 	if (!_.isEmpty(command.args)) {
 		result.push('### Arguments');
-		for (const arg of command.args!) {
-			result.push(`#### ${arg.name.toUpperCase()}`, arg.description || '');
+		for (const [name, arg] of Object.entries(command.args!)) {
+			result.push(`#### ${name.toUpperCase()}`, arg.description || '');
 		}
 	}
 
@@ -49,7 +49,7 @@ function renderOclifCommand(command: OclifCommand): string[] {
 				continue;
 			}
 			flag.name = name;
-			const flagUsage = flagUsages([flag])
+			const flagUsage = Parser.flagUsages([flag])
 				.map(([usage, _description]) => usage)
 				.join()
 				.trim();

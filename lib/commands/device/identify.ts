@@ -15,20 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { ExpectedError } from '../../errors';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DeviceIdentifyCmd extends Command {
 	public static description = stripIndent`
@@ -38,24 +29,23 @@ export default class DeviceIdentifyCmd extends Command {
 		`;
 	public static examples = ['$ balena device identify 23c73a1'];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the uuid of the device to identify',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device identify <uuid>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceIdentifyCmd);
+		const { args: params } = await this.parse(DeviceIdentifyCmd);
 
 		const balena = getBalenaSdk();
 

@@ -15,19 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
-
-interface FlagsDef {
-	fleet?: string;
-	device?: string;
-	release?: string;
-	help: void;
-}
 
 export default class TagsCmd extends Command {
 	public static description = stripIndent`
@@ -48,7 +40,7 @@ export default class TagsCmd extends Command {
 
 	public static usage = 'tags';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: {
 			...cf.fleet,
 			exclusive: ['device', 'release'],
@@ -67,7 +59,7 @@ export default class TagsCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(TagsCmd);
+		const { flags: options } = await this.parse(TagsCmd);
 
 		const balena = getBalenaSdk();
 

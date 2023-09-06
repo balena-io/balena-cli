@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
+import type { Interfaces } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
@@ -25,26 +26,6 @@ import {
 	secureBootInfo,
 } from '../../utils/messages';
 import type { BalenaSDK, PineDeferred } from 'balena-sdk';
-
-interface FlagsDef {
-	version: string; // OS version
-	fleet?: string;
-	dev?: boolean; // balenaOS development variant
-	secureBoot?: boolean;
-	device?: string;
-	deviceApiKey?: string;
-	deviceType?: string;
-	'generate-device-api-key': boolean;
-	output?: string;
-	// Options for non-interactive configuration
-	network?: string;
-	wifiSsid?: string;
-	wifiKey?: string;
-	appUpdatePollInterval?: string;
-	'provisioning-key-name'?: string;
-	'provisioning-key-expiry-date'?: string;
-	help: void;
-}
 
 export default class ConfigGenerateCmd extends Command {
 	public static description = stripIndent`
@@ -81,8 +62,8 @@ export default class ConfigGenerateCmd extends Command {
 
 	public static usage = 'config generate';
 
-	public static flags: flags.Input<FlagsDef> = {
-		version: flags.string({
+	public static flags = {
+		version: Flags.string({
 			description: 'a balenaOS version',
 			required: true,
 		}),
@@ -97,44 +78,44 @@ export default class ConfigGenerateCmd extends Command {
 				'provisioning-key-expiry-date',
 			],
 		},
-		deviceApiKey: flags.string({
+		deviceApiKey: Flags.string({
 			description:
 				'custom device key - note that this is only supported on balenaOS 2.0.3+',
 			char: 'k',
 		}),
-		deviceType: flags.string({
+		deviceType: Flags.string({
 			description:
 				"device type slug (run 'balena devices supported' for possible values)",
 		}),
-		'generate-device-api-key': flags.boolean({
+		'generate-device-api-key': Flags.boolean({
 			description: 'generate a fresh device key for the device',
 		}),
-		output: flags.string({
+		output: Flags.string({
 			description: 'path of output file',
 			char: 'o',
 		}),
 		// Options for non-interactive configuration
-		network: flags.string({
+		network: Flags.string({
 			description: 'the network type to use: ethernet or wifi',
 			options: ['ethernet', 'wifi'],
 		}),
-		wifiSsid: flags.string({
+		wifiSsid: Flags.string({
 			description:
 				'the wifi ssid to use (used only if --network is set to wifi)',
 		}),
-		wifiKey: flags.string({
+		wifiKey: Flags.string({
 			description:
 				'the wifi key to use (used only if --network is set to wifi)',
 		}),
-		appUpdatePollInterval: flags.string({
+		appUpdatePollInterval: Flags.string({
 			description:
 				'supervisor cloud polling interval in minutes (e.g. for device variables)',
 		}),
-		'provisioning-key-name': flags.string({
+		'provisioning-key-name': Flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
 			exclusive: ['device'],
 		}),
-		'provisioning-key-expiry-date': flags.string({
+		'provisioning-key-expiry-date': Flags.string({
 			description:
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['device'],
@@ -155,7 +136,7 @@ export default class ConfigGenerateCmd extends Command {
 	}
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(ConfigGenerateCmd);
+		const { flags: options } = await this.parse(ConfigGenerateCmd);
 		const balena = getBalenaSdk();
 
 		await this.validateOptions(options);
@@ -266,7 +247,9 @@ export default class ConfigGenerateCmd extends Command {
 	protected readonly deviceTypeNotAllowedMessage =
 		'The --deviceType option can only be used alongside the --fleet option';
 
-	protected async validateOptions(options: FlagsDef) {
+	protected async validateOptions(
+		options: Interfaces.InferredFlags<typeof ConfigGenerateCmd.flags>,
+	) {
 		const { ExpectedError } = await import('../../errors');
 
 		if (options.device == null && options.fleet == null) {

@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
-import { ArgsDef, FlagsDef } from '../../utils/application-create';
 
 export default class FleetCreateCmd extends Command {
 	public static description = stripIndent`
@@ -50,22 +49,21 @@ export default class FleetCreateCmd extends Command {
 		'$ balena fleet create MyFleet -o myorg --type raspberry-pi',
 	];
 
-	public static args = [
-		{
-			name: 'name',
+	public static args = {
+		name: Args.string({
 			description: 'fleet name',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'fleet create <name>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		organization: flags.string({
+	public static flags = {
+		organization: Flags.string({
 			char: 'o',
 			description: 'handle of the organization the fleet should belong to',
 		}),
-		type: flags.string({
+		type: Flags.string({
 			char: 't',
 			description:
 				'fleet device type (Check available types with `balena devices supported`)',
@@ -76,9 +74,7 @@ export default class FleetCreateCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			FleetCreateCmd,
-		);
+		const { args: params, flags: options } = await this.parse(FleetCreateCmd);
 
 		await (
 			await import('../../utils/application-create')

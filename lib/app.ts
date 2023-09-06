@@ -24,6 +24,7 @@ import {
 } from './preparser';
 import { CliSettings } from './utils/bootstrap';
 import { onceAsync } from './utils/lazy';
+import { run as mainRun } from '@oclif/core';
 
 /**
  * Sentry.io setup
@@ -114,10 +115,9 @@ async function oclifRun(command: string[], options: AppOptions) {
 	}
 
 	const runPromise = (async function (shouldFlush: boolean) {
-		const { CustomMain } = await import('./utils/oclif-utils');
 		let isEEXIT = false;
 		try {
-			await CustomMain.run(command);
+			await mainRun(command, options.configPath);
 		} catch (error) {
 			// oclif sometimes exits with ExitError code EEXIT 0 (not an error),
 			// for example the `balena help` command.
@@ -130,7 +130,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 			}
 		}
 		if (shouldFlush) {
-			await import('@oclif/command/flush');
+			await import('@oclif/core/flush');
 		}
 		// TODO: figure out why we need to call fast-boot stop() here, in
 		// addition to calling it in the main `run()` function in this file.

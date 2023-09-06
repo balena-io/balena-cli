@@ -1,3 +1,16 @@
+diff --git a/node_modules/@oclif/core/lib/cli-ux/list.js b/node_modules/@oclif/core/lib/cli-ux/list.js
+index dc6058c..64b2f85 100644
+--- a/node_modules/@oclif/core/lib/cli-ux/list.js
++++ b/node_modules/@oclif/core/lib/cli-ux/list.js
+@@ -22,7 +22,7 @@ function renderList(items) {
+         }
+         left = left.padEnd(maxLength);
+         right = linewrap(maxLength + 2, right);
+-        return `${left}  ${right}`;
++        return `${left} : ${right}`;
+     });
+     return lines.join('\n');
+ }
 diff --git a/node_modules/@oclif/core/lib/help/command.js b/node_modules/@oclif/core/lib/help/command.js
 index 6de139b..3a13197 100644
 --- a/node_modules/@oclif/core/lib/help/command.js
@@ -47,3 +60,47 @@ index f9ef7cc..a14c67c 100644
              const aliases = [];
              const uniqueSubCommands = subCommands.filter(p => {
                  aliases.push(...p.aliases);
+diff --git a/node_modules/@oclif/core/lib/parser/errors.js b/node_modules/@oclif/core/lib/parser/errors.js
+index 07ec8e5..a4560ea 100644
+--- a/node_modules/@oclif/core/lib/parser/errors.js
++++ b/node_modules/@oclif/core/lib/parser/errors.js
+@@ -10,7 +10,8 @@ var errors_2 = require("../errors");
+ Object.defineProperty(exports, "CLIError", { enumerable: true, get: function () { return errors_2.CLIError; } });
+ class CLIParseError extends errors_1.CLIError {
+     constructor(options) {
+-        options.message += '\nSee more help with --help';
++        const help = options.command ? `\`${options.command} --help\`` : '--help';
++        options.message += `\nSee more help with ${help}`;
+         super(options.message);
+         this.parse = options.parse;
+     }
+@@ -31,7 +32,8 @@ class InvalidArgsSpecError extends CLIParseError {
+ exports.InvalidArgsSpecError = InvalidArgsSpecError;
+ class RequiredArgsError extends CLIParseError {
+     constructor({ args, parse, flagsWithMultiple }) {
+-        let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`;
++        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
++        let message = `Missing ${args.length} required argument${args.length === 1 ? '' : 's'}`;
+         const namedArgs = args.filter(a => a.name);
+         if (namedArgs.length > 0) {
+             const list = (0, list_1.renderList)(namedArgs.map(a => [a.name, a.description]));
+@@ -42,16 +44,17 @@ class RequiredArgsError extends CLIParseError {
+             message += `\n\nNote: ${flags} allow${flagsWithMultiple.length === 1 ? 's' : ''} multiple values. Because of this you need to provide all arguments before providing ${flagsWithMultiple.length === 1 ? 'that flag' : 'those flags'}.`;
+             message += '\nAlternatively, you can use "--" to signify the end of the flags and the beginning of arguments.';
+         }
+-        super({ parse, message });
++        super({ parse, message, command });
+         this.args = args;
+     }
+ }
+ exports.RequiredArgsError = RequiredArgsError;
+ class RequiredFlagError extends CLIParseError {
+     constructor({ flag, parse }) {
++        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
+         const usage = (0, list_1.renderList)((0, help_1.flagUsages)([flag], { displayRequired: false }));
+         const message = `Missing required flag:\n${usage}`;
+-        super({ parse, message });
++        super({ parse, message, command });
+         this.flag = flag;
+     }
+ }

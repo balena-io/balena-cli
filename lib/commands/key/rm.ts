@@ -15,22 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
-
-type IArg<T> = import('@oclif/parser').args.IArg<T>;
-
-interface FlagsDef {
-	yes: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	id: number;
-}
 
 export default class KeyRmCmd extends Command {
 	public static description = stripIndent`
@@ -43,18 +32,17 @@ export default class KeyRmCmd extends Command {
 
 	public static examples = ['$ balena key rm 17', '$ balena key rm 17 --yes'];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'id',
+	public static args = {
+		id: Args.integer({
 			description: 'balenaCloud ID for the SSH key',
-			parse: (x) => parseAsInteger(x, 'id'),
+			parse: async (x) => parseAsInteger(x, 'id'),
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'key rm <id>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		yes: cf.yes,
 		help: cf.help,
 	};
@@ -62,9 +50,7 @@ export default class KeyRmCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			KeyRmCmd,
-		);
+		const { args: params, flags: options } = await this.parse(KeyRmCmd);
 
 		const patterns = await import('../../utils/patterns');
 

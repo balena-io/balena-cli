@@ -15,23 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import type { Device } from 'balena-sdk';
 import { ExpectedError } from '../../errors';
-
-interface FlagsDef {
-	version?: string;
-	yes: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DeviceOsUpdateCmd extends Command {
 	public static description = stripIndent`
@@ -50,18 +39,17 @@ export default class DeviceOsUpdateCmd extends Command {
 		'$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the uuid of the device to update',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device os-update <uuid>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		version: flags.string({
+	public static flags = {
+		version: Flags.string({
 			description: 'a balenaOS version',
 		}),
 		yes: cf.yes,
@@ -71,7 +59,7 @@ export default class DeviceOsUpdateCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+		const { args: params, flags: options } = await this.parse(
 			DeviceOsUpdateCmd,
 		);
 

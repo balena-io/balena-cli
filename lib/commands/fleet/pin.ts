@@ -15,21 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	slug: string;
-	releaseToPinTo?: string;
-}
 
 export default class FleetPinCmd extends Command {
 	public static description = stripIndent`
@@ -44,28 +34,26 @@ export default class FleetPinCmd extends Command {
 		'$ balena fleet pin myorg/myfleet 91165e5',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'slug',
+	public static args = {
+		slug: Args.string({
 			description: 'the slug of the fleet to pin to a release',
 			required: true,
-		},
-		{
-			name: 'releaseToPinTo',
+		}),
+		releaseToPinTo: Args.string({
 			description: 'the commit of the release for the fleet to get pinned to',
-		},
-	];
+		}),
+	};
 
 	public static usage = 'fleet pin <slug> [releaseToPinTo]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(FleetPinCmd);
+		const { args: params } = await this.parse(FleetPinCmd);
 
 		const balena = getBalenaSdk();
 

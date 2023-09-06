@@ -98,8 +98,9 @@ export async function runCommand<T>(commandArgs: string[]): Promise<T> {
 			...commandArgs.slice(2),
 		];
 	}
-	const { run } = require('@oclif/command');
-	return run(commandArgs);
+
+	const { run } = require('@oclif/core') as typeof import('@oclif/core');
+	return run(commandArgs) as Promise<T>;
 }
 
 export async function getManifest(

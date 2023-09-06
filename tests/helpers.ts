@@ -106,6 +106,7 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 
 	try {
 		await balenaCLI.run(preArgs.concat(cmd.split(' ').filter((c) => c)), {
+			configPath: path.resolve(__dirname, '..'),
 			noFlush: true,
 		});
 	} finally {

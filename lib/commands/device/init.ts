@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -76,14 +76,14 @@ export default class DeviceInitCmd extends Command {
 
 	public static usage = 'device init';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: cf.fleet,
 		yes: cf.yes,
-		advanced: flags.boolean({
+		advanced: Flags.boolean({
 			char: 'v',
 			description: 'show advanced configuration options',
 		}),
-		'os-version': flags.string({
+		'os-version': Flags.string({
 			description: stripIndent`
 				exact version number, or a valid semver range,
 				or 'latest' (includes pre-releases),
@@ -93,13 +93,13 @@ export default class DeviceInitCmd extends Command {
 				`,
 		}),
 		drive: cf.drive,
-		config: flags.string({
+		config: Flags.string({
 			description: 'path to the config JSON file, see `balena os build-config`',
 		}),
-		'provisioning-key-name': flags.string({
+		'provisioning-key-name': Flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
 		}),
-		'provisioning-key-expiry-date': flags.string({
+		'provisioning-key-expiry-date': Flags.string({
 			description:
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 		}),
@@ -109,7 +109,7 @@ export default class DeviceInitCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(DeviceInitCmd);
+		const { flags: options } = await this.parse(DeviceInitCmd);
 
 		// Imports
 		const { promisify } = await import('util');

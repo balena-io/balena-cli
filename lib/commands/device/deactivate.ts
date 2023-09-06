@@ -15,20 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	yes: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DeviceDeactivateCmd extends Command {
 	public static description = stripIndent`
@@ -44,17 +34,16 @@ export default class DeviceDeactivateCmd extends Command {
 		'$ balena device deactivate 7cf02a6 --yes',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the UUID of the device to be deactivated',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device deactivate <uuid>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		yes: cf.yes,
 		help: cf.help,
 	};
@@ -62,7 +51,7 @@ export default class DeviceDeactivateCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+		const { args: params, flags: options } = await this.parse(
 			DeviceDeactivateCmd,
 		);
 

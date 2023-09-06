@@ -15,21 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getCliForm, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	type: string;
-	drive?: string;
-	yes: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	image: string;
-}
 
 const INIT_WARNING_MESSAGE = `
 
@@ -52,17 +41,16 @@ export default class OsInitializeCmd extends Command {
 		'$ balena os initialize ../path/rpi.img --type raspberry-pi',
 	];
 
-	public static args = [
-		{
-			name: 'image',
+	public static args = {
+		image: Args.string({
 			description: 'path to OS image',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'os initialize <image>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		type: cf.deviceType,
 		drive: cf.drive,
 		yes: cf.yes,
@@ -72,9 +60,7 @@ export default class OsInitializeCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			OsInitializeCmd,
-		);
+		const { args: params, flags: options } = await this.parse(OsInitializeCmd);
 
 		const { getManifest, sudo } = await import('../../utils/helpers');
 

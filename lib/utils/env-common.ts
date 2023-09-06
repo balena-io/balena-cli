@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import { stripIndent } from './lazy';
 
 import { ExpectedError } from '../errors';
 
-import type { IBooleanFlag } from '@oclif/parser/lib/flags';
-
-export const booleanConfig: IBooleanFlag<boolean> = flags.boolean({
+export const booleanConfig = Flags.boolean({
 	char: 'c',
 	description:
 		'select a configuration variable (may be used together with the --device option)',
@@ -30,13 +28,13 @@ export const booleanConfig: IBooleanFlag<boolean> = flags.boolean({
 	exclusive: ['service'],
 });
 
-export const booleanDevice: IBooleanFlag<boolean> = flags.boolean({
+export const booleanDevice = Flags.boolean({
 	char: 'd',
 	description: 'select a device-specific variable instead of a fleet variable',
 	default: false,
 });
 
-export const booleanService: IBooleanFlag<boolean> = flags.boolean({
+export const booleanService = Flags.boolean({
 	char: 's',
 	description:
 		'select a service variable (may be used together with the --device option)',

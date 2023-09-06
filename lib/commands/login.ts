@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../utils/lazy';
@@ -32,10 +32,6 @@ interface FlagsDef {
 	port?: number;
 	help: void;
 	hideExperimentalWarning: boolean;
-}
-
-interface ArgsDef {
-	token?: string;
 }
 
 export default class LoginCmd extends Command {
@@ -61,37 +57,34 @@ export default class LoginCmd extends Command {
 		'$ balena login --credentials --email johndoe@gmail.com --password secret',
 	];
 
-	public static args = [
-		{
-			// Capitano allowed -t to be type boolean|string, which oclif does not.
-			// So -t is now bool, and we check first arg for token content.
-			name: 'token',
+	public static args = {
+		token: Args.string({
 			hidden: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'login';
 
-	public static flags: flags.Input<FlagsDef> = {
-		web: flags.boolean({
+	public static flags = {
+		web: Flags.boolean({
 			default: false,
 			char: 'w',
 			description: 'web-based login',
 			exclusive: ['token', 'credentials'],
 		}),
-		token: flags.boolean({
+		token: Flags.boolean({
 			default: false,
 			char: 't',
 			description: 'session token or API key',
 			exclusive: ['web', 'credentials'],
 		}),
-		credentials: flags.boolean({
+		credentials: Flags.boolean({
 			default: false,
 			char: 'c',
 			description: 'credential-based login',
 			exclusive: ['web', 'token'],
 		}),
-		email: flags.string({
+		email: Flags.string({
 			char: 'e',
 			description: 'email',
 			exclusive: ['user'],
@@ -99,24 +92,24 @@ export default class LoginCmd extends Command {
 		}),
 		// Capitano version of this command had a second alias for email, 'u'.
 		// Using an oclif hidden flag to support the same behaviour.
-		user: flags.string({
+		user: Flags.string({
 			char: 'u',
 			hidden: true,
 			exclusive: ['email'],
 			dependsOn: ['credentials'],
 		}),
-		password: flags.string({
+		password: Flags.string({
 			char: 'p',
 			description: 'password',
 			dependsOn: ['credentials'],
 		}),
-		port: flags.integer({
+		port: Flags.integer({
 			char: 'P',
 			description:
 				'TCP port number of local HTTP login server (--web auth only)',
 			dependsOn: ['web'],
 		}),
-		hideExperimentalWarning: flags.boolean({
+		hideExperimentalWarning: Flags.boolean({
 			char: 'H',
 			default: false,
 			description: 'Hides warning for experimental features',
@@ -127,9 +120,7 @@ export default class LoginCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { flags: options, args: params } = this.parse<FlagsDef, ArgsDef>(
-			LoginCmd,
-		);
+		const { flags: options, args: params } = await this.parse(LoginCmd);
 
 		const balena = getBalenaSdk();
 		const messages = await import('../utils/messages');

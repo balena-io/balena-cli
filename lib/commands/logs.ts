@@ -15,24 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { LogMessage } from 'balena-sdk';
-import { IArg } from '@oclif/parser/lib/args';
-
-interface FlagsDef {
-	'max-retry'?: number;
-	tail?: boolean;
-	service?: string[];
-	system?: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	device: string;
-}
 
 const MAX_RETRY = 1000;
 
@@ -67,35 +54,34 @@ export default class LogsCmd extends Command {
 		'$ balena logs 23c73a1.local --system --service my-service',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'device',
+	public static args = {
+		device: Args.string({
 			description: 'device UUID, IP, or .local address',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'logs <device>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		'max-retry': flags.integer({
+	public static flags = {
+		'max-retry': Flags.integer({
 			description: stripIndent`
 				Maximum number of reconnection attempts on "connection lost" errors
 				(use 0 to disable auto reconnection).`,
 		}),
-		tail: flags.boolean({
+		tail: Flags.boolean({
 			default: false,
 			description: 'continuously stream output',
 			char: 't',
 		}),
-		service: flags.string({
+		service: Flags.string({
 			description: stripIndent`
 				Reject logs not originating from this service.
 				This can be used in combination with --system or other --service flags.`,
 			char: 's',
 			multiple: true,
 		}),
-		system: flags.boolean({
+		system: Flags.boolean({
 			default: false,
 			description:
 				'Only show system logs. This can be used in combination with --service.',
@@ -107,9 +93,7 @@ export default class LogsCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			LogsCmd,
-		);
+		const { args: params, flags: options } = await this.parse(LogsCmd);
 
 		const balena = getBalenaSdk();
 		const { serviceIdToName } = await import('../utils/cloud');

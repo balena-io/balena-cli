@@ -16,22 +16,15 @@
  */
 
 import type * as BalenaSdk from 'balena-sdk';
-import { flags } from '@oclif/command';
 
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
-import type { DataSetOutputOptions } from '../framework';
 
 interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 	device_count: number;
 	online_devices: number;
 	device_type?: string;
-}
-
-interface FlagsDef extends DataSetOutputOptions {
-	help: void;
-	verbose?: boolean;
 }
 
 export default class FleetsCmd extends Command {
@@ -48,7 +41,7 @@ export default class FleetsCmd extends Command {
 
 	public static usage = 'fleets';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		...cf.dataSetOutputFlags,
 		help: cf.help,
 	};
@@ -57,7 +50,7 @@ export default class FleetsCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(FleetsCmd);
+		const { flags: options } = await this.parse(FleetsCmd);
 
 		const balena = getBalenaSdk();
 

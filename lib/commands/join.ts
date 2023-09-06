@@ -15,22 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args, Flags } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
 import { parseAsLocalHostnameOrIp } from '../utils/validation';
-
-interface FlagsDef {
-	fleet?: string;
-	pollInterval?: number;
-	help?: void;
-}
-
-interface ArgsDef {
-	deviceIpOrHostname?: string;
-}
 
 export default class JoinCmd extends Command {
 	public static description = stripIndent`
@@ -63,20 +53,19 @@ export default class JoinCmd extends Command {
 		'$ balena join 192.168.1.25 --fleet MyFleet',
 	];
 
-	public static args = [
-		{
-			name: 'deviceIpOrHostname',
+	public static args = {
+		deviceIpOrHostname: Args.string({
 			description: 'the IP or hostname of device',
 			parse: parseAsLocalHostnameOrIp,
-		},
-	];
+		}),
+	};
 
 	// Hardcoded to preserve camelcase
 	public static usage = 'join [deviceIpOrHostname]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: cf.fleet,
-		pollInterval: flags.integer({
+		pollInterval: Flags.integer({
 			description: 'the interval in minutes to check for updates',
 			char: 'i',
 		}),
@@ -87,9 +76,7 @@ export default class JoinCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			JoinCmd,
-		);
+		const { args: params, flags: options } = await this.parse(JoinCmd);
 
 		const promote = await import('../utils/promote');
 		const sdk = getBalenaSdk();

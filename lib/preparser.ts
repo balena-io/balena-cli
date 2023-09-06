@@ -20,6 +20,7 @@ export let unsupportedFlag = false;
 export interface AppOptions {
 	// Prevent the default behavior of flushing stdout after running a command
 	noFlush?: boolean;
+	configPath?: string;
 }
 
 export async function preparseArgs(argv: string[]): Promise<string[]> {

@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
 
 export default class KeysCmd extends Command {
 	public static description = stripIndent`
@@ -34,14 +29,14 @@ export default class KeysCmd extends Command {
 
 	public static usage = 'keys';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		this.parse<FlagsDef, {}>(KeysCmd);
+		await this.parse(KeysCmd);
 
 		const keys = await getBalenaSdk().models.key.getAll();
 

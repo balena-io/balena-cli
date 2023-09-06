@@ -15,22 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import type { BlockDevice } from 'etcher-sdk/build/source-destination';
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	yes: boolean;
-	drive?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	image: string;
-}
 
 export default class LocalFlashCmd extends Command {
 	public static description = stripIndent`
@@ -49,17 +39,16 @@ export default class LocalFlashCmd extends Command {
 		'$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes',
 	];
 
-	public static args = [
-		{
-			name: 'image',
+	public static args = {
+		image: Args.string({
 			description: 'path to OS image',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'local flash <image>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		drive: cf.drive,
 		yes: cf.yes,
 		help: cf.help,
@@ -68,9 +57,7 @@ export default class LocalFlashCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			LocalFlashCmd,
-		);
+		const { args: params, flags: options } = await this.parse(LocalFlashCmd);
 
 		if (process.platform === 'linux') {
 			const { promisify } = await import('util');
