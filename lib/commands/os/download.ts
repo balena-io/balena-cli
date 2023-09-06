@@ -15,20 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	output: string;
-	version?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	type: string;
-}
 
 export default class OsDownloadCmd extends Command {
 	public static description = stripIndent`
@@ -65,23 +55,22 @@ export default class OsDownloadCmd extends Command {
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr',
 	];
 
-	public static args = [
-		{
-			name: 'type',
+	public static args = {
+		type: Args.string({
 			description: 'the device type',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'os download <type>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		output: flags.string({
+	public static flags = {
+		output: Flags.string({
 			description: 'output path',
 			char: 'o',
 			required: true,
 		}),
-		version: flags.string({
+		version: Flags.string({
 			description: stripIndent`
 				version number (ESR or non-ESR versions),
 				or semver range (non-ESR versions only),
@@ -96,9 +85,7 @@ export default class OsDownloadCmd extends Command {
 	};
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			OsDownloadCmd,
-		);
+		const { args: params, flags: options } = await this.parse(OsDownloadCmd);
 
 		// balenaOS ESR versions require user authentication
 		if (options.version) {

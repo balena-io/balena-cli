@@ -15,25 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
-
-type IArg<T> = import('@oclif/parser').args.IArg<T>;
-
-interface FlagsDef {
-	config: boolean;
-	device: boolean;
-	service: boolean;
-	yes: boolean;
-}
-
-interface ArgsDef {
-	id: number;
-}
 
 export default class EnvRmCmd extends Command {
 	public static description = stripIndent`
@@ -57,22 +44,21 @@ export default class EnvRmCmd extends Command {
 		'$ balena env rm 789789 --device --service --yes',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'id',
+	public static args = {
+		id: Args.integer({
 			required: true,
 			description: "variable's numeric database ID",
-			parse: (input) => parseAsInteger(input, 'id'),
-		},
-	];
+			parse: async (input) => parseAsInteger(input, 'id'),
+		}),
+	};
 
 	public static usage = 'env rm <id>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		config: ec.booleanConfig,
 		device: ec.booleanDevice,
 		service: ec.booleanService,
-		yes: flags.boolean({
+		yes: Flags.boolean({
 			char: 'y',
 			description:
 				'do not prompt for confirmation before deleting the variable',
@@ -81,9 +67,7 @@ export default class EnvRmCmd extends Command {
 	};
 
 	public async run() {
-		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
-			EnvRmCmd,
-		);
+		const { args: params, flags: opt } = await this.parse(EnvRmCmd);
 
 		await Command.checkLoggedIn();
 

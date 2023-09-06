@@ -15,21 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
-
-interface FlagsDef {
-	device?: string; // device UUID
-	dev?: string; // Alias for device.
-	help: void;
-}
-
-interface ArgsDef {
-	note: string;
-}
 
 export default class NoteCmd extends Command {
 	public static description = stripIndent`
@@ -46,18 +36,17 @@ export default class NoteCmd extends Command {
 		'$ cat note.txt | balena note --device 7cf02a6',
 	];
 
-	public static args = [
-		{
-			name: 'note',
+	public static args = {
+		note: Args.string({
 			description: 'note content',
-		},
-	];
+		}),
+	};
 
 	public static usage = 'note <|note>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		device: { exclusive: ['dev'], ...cf.device },
-		dev: flags.string({
+		dev: Flags.string({
 			exclusive: ['device'],
 			hidden: true,
 		}),
@@ -69,9 +58,7 @@ export default class NoteCmd extends Command {
 	public static readStdin = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			NoteCmd,
-		);
+		const { args: params, flags: options } = await this.parse(NoteCmd);
 
 		params.note = params.note || this.stdin;
 

@@ -15,19 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { commitOrIdArg } from '.';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	commitOrId: string | number;
-}
 
 export default class ReleaseValidateCmd extends Command {
 	public static description = stripIndent`
@@ -45,23 +36,21 @@ export default class ReleaseValidateCmd extends Command {
 
 	public static usage = 'release validate <commitOrId>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
-	public static args = [
-		{
-			name: 'commitOrId',
+	public static args = {
+		commitOrId: commitOrIdArg({
 			description: 'the commit or ID of the release to validate',
 			required: true,
-			parse: (commitOrId: string) => tryAsInteger(commitOrId),
-		},
-	];
+		}),
+	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(ReleaseValidateCmd);
+		const { args: params } = await this.parse(ReleaseValidateCmd);
 
 		const balena = getBalenaSdk();
 

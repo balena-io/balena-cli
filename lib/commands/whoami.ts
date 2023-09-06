@@ -32,7 +32,7 @@ export default class WhoamiCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		this.parse<{}, {}>(WhoamiCmd);
+		await this.parse(WhoamiCmd);
 
 		const balena = getBalenaSdk();
 

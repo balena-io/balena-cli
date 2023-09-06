@@ -15,19 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { stripIndent } from '../utils/lazy';
 import { parseAsLocalHostnameOrIp } from '../utils/validation';
-
-interface FlagsDef {
-	help?: void;
-}
-
-interface ArgsDef {
-	deviceIpOrHostname?: string;
-}
 
 export default class LeaveCmd extends Command {
 	public static description = stripIndent`
@@ -51,17 +43,16 @@ export default class LeaveCmd extends Command {
 		'$ balena leave 192.168.1.25',
 	];
 
-	public static args = [
-		{
-			name: 'deviceIpOrHostname',
+	public static args = {
+		deviceIpOrHostname: Args.string({
 			description: 'the device IP or hostname',
 			parse: parseAsLocalHostnameOrIp,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'leave [deviceIpOrHostname]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
@@ -69,7 +60,7 @@ export default class LeaveCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(LeaveCmd);
+		const { args: params } = await this.parse(LeaveCmd);
 
 		const promote = await import('../utils/promote');
 		const logger = await Command.getLogger();

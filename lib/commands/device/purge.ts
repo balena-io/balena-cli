@@ -15,19 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DevicePurgeCmd extends Command {
 	public static description = stripIndent`
@@ -46,22 +37,21 @@ export default class DevicePurgeCmd extends Command {
 
 	public static usage = 'device purge <uuid>';
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'comma-separated list (no blank spaces) of device UUIDs',
 			required: true,
-		},
-	];
+		}),
+	};
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DevicePurgeCmd);
+		const { args: params } = await this.parse(DevicePurgeCmd);
 
 		const balena = getBalenaSdk();
 		const ux = getCliUx();

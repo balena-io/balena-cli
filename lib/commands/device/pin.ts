@@ -15,21 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-	releaseToPinTo?: string;
-}
 
 export default class DevicePinCmd extends Command {
 	public static description = stripIndent`
@@ -44,28 +34,26 @@ export default class DevicePinCmd extends Command {
 		'$ balena device pin 7cf02a6 91165e5',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the uuid of the device to pin to a release',
 			required: true,
-		},
-		{
-			name: 'releaseToPinTo',
+		}),
+		releaseToPinTo: Args.string({
 			description: 'the commit of the release for the device to get pinned to',
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device pin <uuid> [releaseToPinTo]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DevicePinCmd);
+		const { args: params } = await this.parse(DevicePinCmd);
 
 		const balena = getBalenaSdk();
 

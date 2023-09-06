@@ -15,24 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { parseAsInteger, validateLocalHostnameOrIp } from '../utils/validation';
-
-interface FlagsDef {
-	port?: number;
-	tty: boolean;
-	verbose: boolean;
-	noproxy: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	fleetOrDevice: string;
-	service?: string;
-}
 
 export default class SshCmd extends Command {
 	public static description = stripIndent`
@@ -73,41 +60,39 @@ export default class SshCmd extends Command {
 		'$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService',
 	];
 
-	public static args = [
-		{
-			name: 'fleetOrDevice',
+	public static args = {
+		fleetOrDevice: Args.string({
 			description: 'fleet name/slug, device uuid, or address of local device',
 			required: true,
-		},
-		{
-			name: 'service',
+		}),
+		service: Args.string({
 			description: 'service name, if connecting to a container',
 			required: false,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'ssh <fleetOrDevice> [service]';
 
-	public static flags: flags.Input<FlagsDef> = {
-		port: flags.integer({
+	public static flags = {
+		port: Flags.integer({
 			description: stripIndent`
 				SSH server port number (default 22222) if the target is an IP address or .local
 				hostname. Otherwise, port number for the balenaCloud gateway (default 22).`,
 			char: 'p',
-			parse: (p) => parseAsInteger(p, 'port'),
+			parse: async (p) => parseAsInteger(p, 'port'),
 		}),
-		tty: flags.boolean({
+		tty: Flags.boolean({
 			default: false,
 			description:
 				'force pseudo-terminal allocation (bypass TTY autodetection for stdin)',
 			char: 't',
 		}),
-		verbose: flags.boolean({
+		verbose: Flags.boolean({
 			default: false,
 			description: 'increase verbosity',
 			char: 'v',
 		}),
-		noproxy: flags.boolean({
+		noproxy: Flags.boolean({
 			default: false,
 			description: 'bypass global proxy configuration for the ssh connection',
 		}),
@@ -118,9 +103,7 @@ export default class SshCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			SshCmd,
-		);
+		const { args: params, flags: options } = await this.parse(SshCmd);
 
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {

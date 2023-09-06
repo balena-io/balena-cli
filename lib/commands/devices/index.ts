@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
@@ -23,12 +22,6 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo, jsonInfo } from '../../utils/messages';
 
 import type { Device, PineOptions } from 'balena-sdk';
-
-interface FlagsDef {
-	fleet?: string;
-	help: void;
-	json: boolean;
-}
 
 const devicesSelectFields = {
 	$select: [
@@ -62,7 +55,7 @@ export default class DevicesCmd extends Command {
 
 	public static usage = 'devices';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: cf.fleet,
 		json: cf.json,
 		help: cf.help,
@@ -73,7 +66,7 @@ export default class DevicesCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(DevicesCmd);
+		const { flags: options } = await this.parse(DevicesCmd);
 
 		const balena = getBalenaSdk();
 		const devicesOptions = {

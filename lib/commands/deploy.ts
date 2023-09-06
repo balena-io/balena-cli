@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args, Flags } from '@oclif/core';
 import type { ImageDescriptor } from '@balena/compose/dist/parse';
 
 import Command from '../command';
@@ -52,6 +52,9 @@ interface ApplicationWithArch {
 	application_type: [Pick<ApplicationType, 'slug' | 'supports_multicontainer'>];
 }
 
+// TODO: For this special one we can't use Interfaces.InferredFlags/InferredArgs
+// because of the 'registry-secrets' type which is defined in the actual code
+// as a path (string | undefined) but then the cli turns it into an object
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	source?: string;
 	build: boolean;
@@ -60,11 +63,6 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	draft: boolean;
 	note?: string;
 	help: void;
-}
-
-interface ArgsDef {
-	fleet: string;
-	image?: string;
 }
 
 export default class DeployCmd extends Command {
@@ -105,31 +103,28 @@ ${dockerignoreHelp}
 		'$ balena deploy myFleet myRepo/myImage --release-tag key1 "" key2 "value2 with spaces"',
 	];
 
-	public static args = [
-		ca.fleetRequired,
-		{
-			name: 'image',
-			description: 'the image to deploy',
-		},
-	];
+	public static args = {
+		fleet: ca.fleetRequired,
+		image: Args.string({ description: 'the image to deploy' }),
+	};
 
 	public static usage = 'deploy <fleet> [image]';
 
-	public static flags: flags.Input<FlagsDef> = {
-		source: flags.string({
+	public static flags = {
+		source: Flags.string({
 			description:
 				'specify an alternate source directory; default is the working directory',
 			char: 's',
 		}),
-		build: flags.boolean({
+		build: Flags.boolean({
 			description: 'force a rebuild before deploy',
 			char: 'b',
 		}),
-		nologupload: flags.boolean({
+		nologupload: Flags.boolean({
 			description:
 				"don't upload build logs to the dashboard with image (if building)",
 		}),
-		'release-tag': flags.string({
+		'release-tag': Flags.string({
 			description: stripIndent`
 				Set release tags if the image deployment is successful. Multiple
 				arguments may be provided, alternating tag keys and values (see examples).
@@ -137,7 +132,7 @@ ${dockerignoreHelp}
 			`,
 			multiple: true,
 		}),
-		draft: flags.boolean({
+		draft: Flags.boolean({
 			description: stripIndent`
 				Deploy the release as a draft. Draft releases are ignored
 				by the 'track latest' release policy but can be used through release pinning.
@@ -145,12 +140,12 @@ ${dockerignoreHelp}
 				as final by default unless this option is given.`,
 			default: false,
 		}),
-		note: flags.string({ description: 'The notes for this release' }),
+		note: Flags.string({ description: 'The notes for this release' }),
 		...composeCliFlags,
 		...dockerCliFlags,
 		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
 		// Revisit this in future release.
-		help: flags.help({}),
+		help: Flags.help({}),
 	};
 
 	public static authenticated = true;
@@ -158,9 +153,7 @@ ${dockerignoreHelp}
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			DeployCmd,
-		);
+		const { args: params, flags: options } = await this.parse(DeployCmd);
 
 		(await import('events')).defaultMaxListeners = 1000;
 
@@ -190,7 +183,7 @@ ${dockerignoreHelp}
 		);
 
 		if (image) {
-			options['registry-secrets'] = await getRegistrySecrets(
+			(options as FlagsDef)['registry-secrets'] = await getRegistrySecrets(
 				sdk,
 				options['registry-secrets'],
 			);
@@ -203,7 +196,7 @@ ${dockerignoreHelp}
 					registrySecretsPath: options['registry-secrets'],
 				});
 			options.dockerfile = dockerfilePath;
-			options['registry-secrets'] = registrySecrets;
+			(options as FlagsDef)['registry-secrets'] = registrySecrets;
 		}
 
 		const helpers = await import('../utils/helpers');
@@ -212,7 +205,7 @@ ${dockerignoreHelp}
 		const dockerUtils = await import('../utils/docker');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			dockerUtils.getDocker(options),
-			dockerUtils.generateBuildOpts(options),
+			dockerUtils.generateBuildOpts(options as FlagsDef),
 			compose.generateOpts(options),
 		]);
 

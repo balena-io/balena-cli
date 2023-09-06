@@ -15,20 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationNameNote } from '../utils/messages';
 import type * as BalenaSdk from 'balena-sdk';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	fleet: string;
-}
 
 export default class ReleasesCmd extends Command {
 	public static description = stripIndent`
@@ -42,22 +34,21 @@ export default class ReleasesCmd extends Command {
 
 	public static usage = 'releases <fleet>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
-	public static args = [
-		{
-			name: 'fleet',
+	public static args = {
+		fleet: Args.string({
 			description: 'fleet name or slug (preferred)',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(ReleasesCmd);
+		const { args: params } = await this.parse(ReleasesCmd);
 
 		const fields: Array<keyof BalenaSdk.Release> = [
 			'id',

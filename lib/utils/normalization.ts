@@ -78,6 +78,6 @@ export async function disambiguateReleaseParam(
 /**
  * Convert to lowercase if looks like slug
  */
-export function lowercaseIfSlug(s: string) {
+export async function lowercaseIfSlug(s: string) {
 	return s.includes('/') ? s.toLowerCase() : s;
 }

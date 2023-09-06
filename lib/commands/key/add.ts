@@ -15,20 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	name: string;
-	path: string;
-}
 
 export default class KeyAddCmd extends Command {
 	public static description = stripIndent`
@@ -60,21 +51,19 @@ export default class KeyAddCmd extends Command {
 		'$ balena key add Main %userprofile%.sshid_rsa.pub',
 	];
 
-	public static args = [
-		{
-			name: 'name',
+	public static args = {
+		name: Args.string({
 			description: 'the SSH key name',
 			required: true,
-		},
-		{
-			name: `path`,
+		}),
+		path: Args.string({
 			description: `the path to the public key file`,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'key add <name> [path]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
@@ -83,7 +72,7 @@ export default class KeyAddCmd extends Command {
 	public static readStdin = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(KeyAddCmd);
+		const { args: params } = await this.parse(KeyAddCmd);
 
 		let key: string;
 		if (params.path != null) {

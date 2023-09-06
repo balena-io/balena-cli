@@ -15,21 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
-
-type IArg<T> = import('@oclif/parser').args.IArg<T>;
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	id: number;
-}
 
 export default class KeyCmd extends Command {
 	public static description = stripIndent`
@@ -40,25 +30,24 @@ export default class KeyCmd extends Command {
 
 	public static examples = ['$ balena key 17'];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'id',
+	public static args = {
+		id: Args.integer({
 			description: 'balenaCloud ID for the SSH key',
-			parse: (x) => parseAsInteger(x, 'id'),
+			parse: async (x) => parseAsInteger(x, 'id'),
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'key <id>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<{}, ArgsDef>(KeyCmd);
+		const { args: params } = await this.parse(KeyCmd);
 
 		const key = await getBalenaSdk().models.key.get(params.id);
 

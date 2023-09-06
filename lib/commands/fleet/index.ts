@@ -15,24 +15,13 @@
  * limitations under the License.
  */
 
-import type { flags as flagsType } from '@oclif/command';
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-import type { DataOutputOptions } from '../../framework';
-
-interface FlagsDef extends DataOutputOptions {
-	help: void;
-	view: boolean;
-}
-
-interface ArgsDef {
-	fleet: string;
-}
 
 export default class FleetCmd extends Command {
 	public static description = stripIndent`
@@ -48,13 +37,15 @@ export default class FleetCmd extends Command {
 		'$ balena fleet myorg/myfleet --view',
 	];
 
-	public static args = [ca.fleetRequired];
+	public static args = {
+		fleet: ca.fleetRequired,
+	};
 
 	public static usage = 'fleet <fleet>';
 
-	public static flags: flagsType.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
-		view: flags.boolean({
+		view: Flags.boolean({
 			default: false,
 			description: 'open fleet dashboard page',
 		}),
@@ -65,9 +56,7 @@ export default class FleetCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			FleetCmd,
-		);
+		const { args: params, flags: options } = await this.parse(FleetCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
 

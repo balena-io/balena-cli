@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
+import type { Interfaces } from '@oclif/core';
 import type * as SDK from 'balena-sdk';
 import * as _ from 'lodash';
 import Command from '../command';
@@ -23,14 +24,7 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
 
-interface FlagsDef {
-	fleet?: string;
-	config: boolean;
-	device?: string; // device UUID
-	json: boolean;
-	help: void;
-	service?: string; // service name
-}
+type FlagsDef = Interfaces.InferredFlags<typeof EnvsCmd.flags>;
 
 interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
 	fleet?: string | null; // fleet slug
@@ -102,9 +96,9 @@ export default class EnvsCmd extends Command {
 
 	public static usage = 'envs';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },
-		config: flags.boolean({
+		config: Flags.boolean({
 			default: false,
 			char: 'c',
 			description: 'show configuration variables only',
@@ -117,7 +111,7 @@ export default class EnvsCmd extends Command {
 	};
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
+		const { flags: options } = await this.parse(EnvsCmd);
 
 		const variables: EnvironmentVariableInfo[] = [];
 

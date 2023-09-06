@@ -14,27 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 
 import * as cf from '../../utils/common-flags';
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
-
-type IArg<T> = import('@oclif/parser').args.IArg<T>;
-
-interface FlagsDef {
-	config: boolean;
-	device: boolean;
-	service: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	id: number;
-	value: string;
-}
 
 export default class EnvRenameCmd extends Command {
 	public static description = stripIndent`
@@ -54,24 +40,22 @@ export default class EnvRenameCmd extends Command {
 		'$ balena env rename 678678 1 --device --config',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'id',
+	public static args = {
+		id: Args.integer({
 			required: true,
 			description: "variable's numeric database ID",
-			parse: (input) => parseAsInteger(input, 'id'),
-		},
-		{
-			name: 'value',
+			parse: async (input) => parseAsInteger(input, 'id'),
+		}),
+		value: Args.string({
 			required: true,
 			description:
 				"variable value; if omitted, use value from this process' environment",
-		},
-	];
+		}),
+	};
 
 	public static usage = 'env rename <id> <value>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		config: ec.booleanConfig,
 		device: ec.booleanDevice,
 		service: ec.booleanService,
@@ -79,9 +63,7 @@ export default class EnvRenameCmd extends Command {
 	};
 
 	public async run() {
-		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
-			EnvRenameCmd,
-		);
+		const { args: params, flags: opt } = await this.parse(EnvRenameCmd);
 
 		await Command.checkLoggedIn();
 

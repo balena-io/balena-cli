@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
@@ -78,23 +78,21 @@ export default class EnvAddCmd extends Command {
 		'$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2',
 	];
 
-	public static args = [
-		{
-			name: 'name',
+	public static args = {
+		name: Args.string({
 			required: true,
 			description: 'environment or config variable name',
-		},
-		{
-			name: 'value',
+		}),
+		value: Args.string({
 			required: false,
 			description:
 				"variable value; if omitted, use value from this process' environment",
-		},
-	];
+		}),
+	};
 
 	public static usage = 'env add <name> [value]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },
 		device: { ...cf.device, exclusive: ['fleet'] },
 		help: cf.help,
@@ -103,9 +101,7 @@ export default class EnvAddCmd extends Command {
 	};
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			EnvAddCmd,
-		);
+		const { args: params, flags: options } = await this.parse(EnvAddCmd);
 		const cmd = this;
 
 		if (!options.fleet && !options.device) {
