@@ -38,6 +38,9 @@ const hook: Hook<'prerun'> = async function (options) {
 	const cmdSignature =
 		usage == null ? '*' : typeof usage === 'string' ? usage : usage.join(' ');
 
+	if (cmdSignature === 'version') {
+		return;
+	}
 	// Intentionally do not await for the track promise here, in order to
 	// run the command tracking and the command itself in parallel.
 	trackResolve(events.trackCommand(cmdSignature));
