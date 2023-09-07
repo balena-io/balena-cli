@@ -84,7 +84,8 @@ runs:
 
     # https://github.com/product-os/scripts/tree/master/shared
     # https://github.com/product-os/balena-concourse/blob/master/pipelines/github-events/template.yml
-    - name: Package release
+    - name: Package release (Unix)
+      if: runner.os != 'Windows'
       shell: bash
       run: |
         set -ea
@@ -92,24 +93,44 @@ runs:
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
         runner_os="$(echo "${RUNNER_OS}" | tr '[:upper:]' '[:lower:]')"
-        runner_arch="$(echo "${RUNNER_ARCH}" | tr '[:upper:]' '[:lower:]')"
 
         if [[ $runner_os =~ darwin|macos|osx ]]; then
             CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
             CSC_KEYCHAIN=signing_temp
             CSC_LINK=${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
-
-        elif [[ $runner_os =~ windows|win ]]; then
-            CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
-            CSC_LINK='${{ runner.temp }}\certificate.pfx'
-
-            # patches/all/oclif.patch
-            MSYSSHELLPATH="$(which bash)"
-            MSYSTEM=MSYS
-
-            # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
-            PATH="/c/Program Files (x86)/Windows Kits/10/bin/${runner_arch}:${PATH}"
         fi
+
+        npm run package
+
+        find dist -type f -maxdepth 1
+      env:
+        # https://github.blog/2020-08-03-github-actions-improvements-for-fork-and-pull-request-workflows/#improvements-for-public-repository-forks
+        # https://docs.github.com/en/actions/managing-workflow-runs/approving-workflow-runs-from-public-forks#about-workflow-runs-from-public-forks
+        CSC_FOR_PULL_REQUEST: true
+        # https://sectigo.com/resource-library/time-stamping-server
+        TIMESTAMP_SERVER: http://timestamp.sectigo.com
+        # Apple notarization (automation/build-bin.ts)
+        XCODE_APP_LOADER_EMAIL: ${{ inputs.XCODE_APP_LOADER_EMAIL }}
+        XCODE_APP_LOADER_PASSWORD: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_PASSWORD }}
+        XCODE_APP_LOADER_TEAM_ID: ${{ inputs.XCODE_APP_LOADER_TEAM_ID }}
+
+    - name: Setup Wsl (Windows)
+      if: runner.os == 'Windows'
+      uses: Vampire/setup-wsl@v2
+
+    - name: Package release (Windows)
+      if: runner.os == 'Windows'
+      shell: wsl-bash -u root {0}
+      run: |
+        set -ea
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
+        CSC_LINK='${{ runner.temp }}\certificate.pfx'
+
+        # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
+        PATH="/c/Program Files (x86)/Windows Kits/10/bin/x64:${PATH}"
 
         npm run package
 
