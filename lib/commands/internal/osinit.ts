@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import { stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
@@ -27,12 +28,6 @@ import { CommandHelp } from '../../utils/oclif-utils';
 //    - https://github.com/balena-io/balena-cli/pull/1455#discussion_r334308357
 //    - https://github.com/balena-io/balena-cli/pull/1455#discussion_r334308526
 
-interface ArgsDef {
-	image: string;
-	type: string;
-	config: string;
-}
-
 export default class OsinitCmd extends Command {
 	public static description = stripIndent`
 		Do actual init of the device with the preconfigured os image.
@@ -41,20 +36,17 @@ export default class OsinitCmd extends Command {
 		Use \`balena os initialize <image>\` instead.
 	`;
 
-	public static args = [
-		{
-			name: 'image',
+	public static args = {
+		image: Args.string({
 			required: true,
-		},
-		{
-			name: 'type',
+		}),
+		type: Args.string({
 			required: true,
-		},
-		{
-			name: 'config',
+		}),
+		config: Args.string({
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = (
 		'internal osinit ' +
@@ -66,7 +58,7 @@ export default class OsinitCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params } = this.parse<{}, ArgsDef>(OsinitCmd);
+		const { args: params } = await this.parse(OsinitCmd);
 
 		const config = JSON.parse(params.config);
 

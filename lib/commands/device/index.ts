@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import { IArg } from '@oclif/parser/lib/args';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
@@ -41,15 +40,6 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 	undervoltage_detected?: boolean;
 }
 
-interface FlagsDef {
-	help: void;
-	view: boolean;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
-
 export default class DeviceCmd extends Command {
 	public static description = stripIndent`
 		Show info about a single device.
@@ -61,19 +51,18 @@ export default class DeviceCmd extends Command {
 		'$ balena device 7cf02a6 --view',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the device uuid',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device <uuid>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
-		view: flags.boolean({
+		view: Flags.boolean({
 			default: false,
 			description: 'open device dashboard page',
 		}),
@@ -83,9 +72,7 @@ export default class DeviceCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			DeviceCmd,
-		);
+		const { args: params, flags: options } = await this.parse(DeviceCmd);
 
 		const balena = getBalenaSdk();
 

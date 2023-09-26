@@ -15,20 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	yes: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DeviceRmCmd extends Command {
 	public static description = stripIndent`
@@ -45,18 +35,17 @@ export default class DeviceRmCmd extends Command {
 		'$ balena device rm 7cf02a6 --yes',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description:
 				'comma-separated list (no blank spaces) of device UUIDs to be removed',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device rm <uuid(s)>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		yes: cf.yes,
 		help: cf.help,
 	};
@@ -64,9 +53,7 @@ export default class DeviceRmCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			DeviceRmCmd,
-		);
+		const { args: params, flags: options } = await this.parse(DeviceRmCmd);
 
 		const balena = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');

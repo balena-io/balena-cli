@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
+import type { Interfaces } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import { promisify } from 'util';
 import * as _ from 'lodash';
@@ -31,29 +32,7 @@ import {
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
-interface FlagsDef {
-	advanced?: boolean;
-	fleet?: string;
-	config?: string;
-	'config-app-update-poll-interval'?: number;
-	'config-network'?: string;
-	'config-wifi-key'?: string;
-	'config-wifi-ssid'?: string;
-	dev?: boolean; // balenaOS development variant
-	secureBoot?: boolean;
-	device?: string; // device UUID
-	'device-type'?: string;
-	help?: void;
-	version?: string;
-	'system-connection': string[];
-	'initial-device-name'?: string;
-	'provisioning-key-name'?: string;
-	'provisioning-key-expiry-date'?: string;
-}
-
-interface ArgsDef {
-	image: string;
-}
+type FlagsDef = Interfaces.InferredFlags<typeof OsConfigureCmd.flags>;
 
 interface Answers {
 	appUpdatePollInterval: number; // in minutes
@@ -111,40 +90,39 @@ export default class OsConfigureCmd extends Command {
 		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3 --config myWifiConfig.json',
 	];
 
-	public static args = [
-		{
-			name: 'image',
+	public static args = {
+		image: Args.string({
 			required: true,
 			description: 'path to a balenaOS image file, e.g. "rpi3.img"',
-		},
-	];
+		}),
+	};
 
 	public static usage = 'os configure <image>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		advanced: flags.boolean({
+	public static flags = {
+		advanced: Flags.boolean({
 			char: 'v',
 			description:
 				'ask advanced configuration questions (when in interactive mode)',
 		}),
 		fleet: { ...cf.fleet, exclusive: ['device'] },
-		config: flags.string({
+		config: Flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
 			exclusive: ['provisioning-key-name', 'provisioning-key-expiry-date'],
 		}),
-		'config-app-update-poll-interval': flags.integer({
+		'config-app-update-poll-interval': Flags.integer({
 			description:
 				'supervisor cloud polling interval in minutes (e.g. for variable updates)',
 		}),
-		'config-network': flags.string({
+		'config-network': Flags.string({
 			description: 'device network type (non-interactive configuration)',
 			options: ['ethernet', 'wifi'],
 		}),
-		'config-wifi-key': flags.string({
+		'config-wifi-key': Flags.string({
 			description: 'WiFi key (password) (non-interactive configuration)',
 		}),
-		'config-wifi-ssid': flags.string({
+		'config-wifi-ssid': Flags.string({
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
 		dev: cf.dev,
@@ -157,29 +135,29 @@ export default class OsConfigureCmd extends Command {
 				'provisioning-key-expiry-date',
 			],
 		},
-		'device-type': flags.string({
+		'device-type': Flags.string({
 			description:
 				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
 		}),
-		'initial-device-name': flags.string({
+		'initial-device-name': Flags.string({
 			description:
 				'This option will set the device name when the device provisions',
 		}),
-		version: flags.string({
+		version: Flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
 		}),
-		'system-connection': flags.string({
+		'system-connection': Flags.string({
 			multiple: true,
 			char: 'c',
 			required: false,
 			description:
 				"paths to local files to place into the 'system-connections' directory",
 		}),
-		'provisioning-key-name': flags.string({
+		'provisioning-key-name': Flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
 			exclusive: ['config', 'device'],
 		}),
-		'provisioning-key-expiry-date': flags.string({
+		'provisioning-key-expiry-date': Flags.string({
 			description:
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['config', 'device'],
@@ -190,9 +168,7 @@ export default class OsConfigureCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			OsConfigureCmd,
-		);
+		const { args: params, flags: options } = await this.parse(OsConfigureCmd);
 
 		await validateOptions(options);
 

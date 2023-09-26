@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import type { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import type {
 	BalenaSDK,
 	Device,
@@ -28,15 +27,6 @@ import * as cf from '../../utils/common-flags';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-
-interface FlagsDef {
-	fleet?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-}
 
 export default class DeviceMoveCmd extends Command {
 	public static description = stripIndent`
@@ -56,18 +46,17 @@ export default class DeviceMoveCmd extends Command {
 		'$ balena device move 7cf02a6 -f myorg/mynewfleet',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description:
 				'comma-separated list (no blank spaces) of device UUIDs to be moved',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device move <uuid(s)>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: cf.fleet,
 		help: cf.help,
 	};
@@ -102,9 +91,7 @@ export default class DeviceMoveCmd extends Command {
 	}
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			DeviceMoveCmd,
-		);
+		const { args: params, flags: options } = await this.parse(DeviceMoveCmd);
 
 		const balena = getBalenaSdk();
 

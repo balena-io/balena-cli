@@ -15,16 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-	user?: void;
-	fleet?: string;
-}
 
 export default class ApiKeysCmd extends Command {
 	public static description = stripIndent`
@@ -36,13 +30,11 @@ export default class ApiKeysCmd extends Command {
 `;
 	public static examples = ['$ balena api-keys'];
 
-	public static args = [];
-
 	public static usage = 'api-keys';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
-		user: flags.boolean({
+		user: Flags.boolean({
 			char: 'u',
 			description: 'show API keys for your user',
 		}),
@@ -52,7 +44,7 @@ export default class ApiKeysCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(ApiKeysCmd);
+		const { flags: options } = await this.parse(ApiKeysCmd);
 
 		try {
 			const { getApplication } = await import('../../utils/sdk');

@@ -25,11 +25,10 @@ import {
 	stripIndent,
 } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
-import type { DockerConnectionCliFlags } from '../utils/docker';
 import { dockerConnectionCliFlags } from '../utils/docker';
 import { parseAsInteger } from '../utils/validation';
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import * as _ from 'lodash';
 import type {
 	Application,
@@ -40,21 +39,6 @@ import type {
 	Release,
 } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
-
-interface FlagsDef extends DockerConnectionCliFlags {
-	fleet?: string;
-	commit?: string;
-	'splash-image'?: string;
-	'dont-check-arch': boolean;
-	'pin-device-to-release'?: boolean;
-	'additional-space'?: number;
-	'add-certificate'?: string[];
-	help: void;
-}
-
-interface ArgsDef {
-	image: string;
-}
 
 export default class PreloadCmd extends Command {
 	public static description = stripIndent`
@@ -89,19 +73,18 @@ export default class PreloadCmd extends Command {
 		'$ balena preload balena.img',
 	];
 
-	public static args = [
-		{
-			name: 'image',
+	public static args = {
+		image: Args.string({
 			description: 'the image file path',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'preload <image>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: cf.fleet,
-		commit: flags.string({
+		commit: Flags.string({
 			description: `\
 The commit hash of the release to preload. Use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the
@@ -112,27 +95,27 @@ https://github.com/balena-io-examples/staged-releases\
 `,
 			char: 'c',
 		}),
-		'splash-image': flags.string({
+		'splash-image': Flags.string({
 			description: 'path to a png image to replace the splash screen',
 			char: 's',
 		}),
-		'dont-check-arch': flags.boolean({
+		'dont-check-arch': Flags.boolean({
 			default: false,
 			description:
 				'disable architecture compatibility check between image and fleet',
 		}),
-		'pin-device-to-release': flags.boolean({
+		'pin-device-to-release': Flags.boolean({
 			allowNo: true,
 			description:
 				'pin the preloaded device to the preloaded release on provision',
 			char: 'p',
 		}),
-		'additional-space': flags.integer({
+		'additional-space': Flags.integer({
 			description:
 				'expand the image by this amount of bytes instead of automatically estimating the required amount',
-			parse: (x) => parseAsInteger(x, 'additional-space'),
+			parse: async (x) => parseAsInteger(x, 'additional-space'),
 		}),
-		'add-certificate': flags.string({
+		'add-certificate': Flags.string({
 			description: `\
 Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
 The file name must end with '.crt' and must not be already contained in the preloader's
@@ -144,14 +127,14 @@ Can be repeated to add multiple certificates.\
 		...dockerConnectionCliFlags,
 		// Redefining --dockerPort here (defined already in dockerConnectionCliFlags)
 		// without -p alias, to avoid clash with -p alias of pin-device-to-release
-		dockerPort: flags.integer({
+		dockerPort: Flags.integer({
 			description:
 				'Docker daemon TCP port number (hint: 2375 for balena devices)',
-			parse: (p) => parseAsInteger(p, 'dockerPort'),
+			parse: async (p) => parseAsInteger(p, 'dockerPort'),
 		}),
 		// Not supporting -h for help, because of clash with -h in DockerCliFlags
 		// Revisit this in future release.
-		help: flags.help({}),
+		help: Flags.help({}),
 	};
 
 	public static authenticated = true;
@@ -159,9 +142,7 @@ Can be repeated to add multiple certificates.\
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			PreloadCmd,
-		);
+		const { args: params, flags: options } = await this.parse(PreloadCmd);
 
 		const balena = getBalenaSdk();
 		const balenaPreload = await import('balena-preload');

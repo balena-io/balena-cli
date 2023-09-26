@@ -15,18 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	ids: string;
-}
 
 export default class RevokeCmd extends Command {
 	public static description = stripIndent`
@@ -42,24 +34,23 @@ export default class RevokeCmd extends Command {
 		'$ balena api-key revoke 123,124,456',
 	];
 
-	public static args = [
-		{
-			name: 'ids',
+	public static args = {
+		ids: Args.string({
 			description: 'the API key ids',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'api-key revoke <ids>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(RevokeCmd);
+		const { args: params } = await this.parse(RevokeCmd);
 
 		try {
 			const apiKeyIds = params.ids.split(',');

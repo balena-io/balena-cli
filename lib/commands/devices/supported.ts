@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import * as _ from 'lodash';
 import Command from '../../command';
@@ -22,11 +22,6 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
-
-interface FlagsDef {
-	help: void;
-	json?: boolean;
-}
 
 export default class DevicesSupportedCmd extends Command {
 	public static description = stripIndent`
@@ -50,16 +45,16 @@ export default class DevicesSupportedCmd extends Command {
 		new CommandHelp({ args: DevicesSupportedCmd.args }).defaultUsage()
 	).trim();
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
-		json: flags.boolean({
+		json: Flags.boolean({
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
 		}),
 	};
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
+		const { flags: options } = await this.parse(DevicesSupportedCmd);
 		const pineOptions = {
 			$select: ['slug', 'name'],
 			$expand: {

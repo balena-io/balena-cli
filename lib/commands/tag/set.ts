@@ -15,23 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-
-interface FlagsDef {
-	fleet?: string;
-	device?: string;
-	release?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	tagKey: string;
-	value?: string;
-}
 
 export default class TagSetCmd extends Command {
 	public static description = stripIndent`
@@ -57,22 +45,20 @@ export default class TagSetCmd extends Command {
 		'$ balena tag set myCompositeTag --release b376b0e544e9429483b656490e5b9443b4349bd6',
 	];
 
-	public static args = [
-		{
-			name: 'tagKey',
+	public static args = {
+		tagKey: Args.string({
 			description: 'the key string of the tag',
 			required: true,
-		},
-		{
-			name: 'value',
+		}),
+		value: Args.string({
 			description: 'the optional value associated with the tag',
 			required: false,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'tag set <tagKey> [value]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		fleet: {
 			...cf.fleet,
 			exclusive: ['device', 'release'],
@@ -91,9 +77,7 @@ export default class TagSetCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			TagSetCmd,
-		);
+		const { args: params, flags: options } = await this.parse(TagSetCmd);
 
 		const balena = getBalenaSdk();
 

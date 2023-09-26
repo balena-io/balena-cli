@@ -15,23 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Flags } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-
-interface FlagsDef {
-	uuid?: string;
-	deviceType?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	fleet: string;
-}
 
 export default class DeviceRegisterCmd extends Command {
 	public static description = stripIndent`
@@ -51,16 +40,18 @@ export default class DeviceRegisterCmd extends Command {
 		'$ balena device register myorg/myfleet --uuid <uuid> --deviceType <deviceTypeSlug>',
 	];
 
-	public static args: Array<IArg<any>> = [ca.fleetRequired];
+	public static args = {
+		fleet: ca.fleetRequired,
+	};
 
 	public static usage = 'device register <fleet>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		uuid: flags.string({
+	public static flags = {
+		uuid: Flags.string({
 			description: 'custom uuid',
 			char: 'u',
 		}),
-		deviceType: flags.string({
+		deviceType: Flags.string({
 			description:
 				"device type slug (run 'balena devices supported' for possible values)",
 		}),
@@ -70,7 +61,7 @@ export default class DeviceRegisterCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+		const { args: params, flags: options } = await this.parse(
 			DeviceRegisterCmd,
 		);
 

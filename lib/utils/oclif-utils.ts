@@ -15,48 +15,29 @@
  * limitations under the License.
  */
 
-import { Main } from '@oclif/command';
-import type * as Config from '@oclif/config';
-
 /**
  * This class is a partial copy-and-paste of
  * @oclif/plugin-help/command/CommandHelp, which is used to generate oclif's
  * command help output.
  */
 export class CommandHelp {
-	constructor(public command: { args?: any[] }) {}
+	constructor(public command: { args?: { [name: string]: any } }) {}
 
-	protected arg(arg: Config.Command['args'][0]): string {
-		const name = arg.name.toUpperCase();
-		if (arg.required) {
+	protected arg(name: string, required: boolean): string {
+		name = name.toUpperCase();
+		if (required) {
 			return `${name}`;
 		}
 		return `[${name}]`;
 	}
 
 	public defaultUsage(): string {
-		return CommandHelp.compact([
-			// this.command.id,
-			(this.command.args || [])
-				.filter((a) => !a.hidden)
-				.map((a) => this.arg(a))
-				.join(' '),
-		]).join(' ');
-	}
+		const argsObject = this.command.args ?? {};
 
-	public static compact<T>(array: Array<T | undefined>): T[] {
-		return array.filter((a): a is T => !!a);
-	}
-}
-
-export class CustomMain extends Main {
-	protected _helpOverride(): boolean {
-		// Disable oclif's default handler for the 'version' command
-		if (['-v', '--version', 'version'].includes(this.argv[0])) {
-			return false;
-		} else {
-			return super._helpOverride();
-		}
+		return Object.entries(argsObject)
+			.filter(([_name, { hidden }]) => !hidden)
+			.map(([name, { required }]) => this.arg(name, required))
+			.join(' ');
 	}
 }
 

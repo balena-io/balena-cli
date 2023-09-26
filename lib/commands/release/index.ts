@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
@@ -23,14 +23,9 @@ import type * as BalenaSdk from 'balena-sdk';
 import jsyaml = require('js-yaml');
 import { tryAsInteger } from '../../utils/validation';
 
-interface FlagsDef {
-	help: void;
-	composition?: boolean;
-}
-
-interface ArgsDef {
-	commitOrId: string | number;
-}
+export const commitOrIdArg = Args.custom({
+	parse: async (commitOrId: string) => tryAsInteger(commitOrId),
+});
 
 export default class ReleaseCmd extends Command {
 	public static description = stripIndent`
@@ -43,30 +38,26 @@ export default class ReleaseCmd extends Command {
 
 	public static usage = 'release <commitOrId>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
-		composition: flags.boolean({
+		composition: Flags.boolean({
 			default: false,
 			char: 'c',
 			description: 'Return the release composition',
 		}),
 	};
 
-	public static args = [
-		{
-			name: 'commitOrId',
+	public static args = {
+		commitOrId: commitOrIdArg({
 			description: 'the commit or ID of the release to get information',
 			required: true,
-			parse: (commitOrId: string) => tryAsInteger(commitOrId),
-		},
-	];
+		}),
+	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			ReleaseCmd,
-		);
+		const { args: params, flags: options } = await this.parse(ReleaseCmd);
 
 		const balena = getBalenaSdk();
 		if (options.composition) {

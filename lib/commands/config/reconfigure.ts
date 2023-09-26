@@ -15,18 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	type?: string;
-	drive?: string;
-	advanced: boolean;
-	help: void;
-	version?: string;
-}
 
 export default class ConfigReconfigureCmd extends Command {
 	public static description = stripIndent`
@@ -49,14 +41,14 @@ export default class ConfigReconfigureCmd extends Command {
 
 	public static usage = 'config reconfigure';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		drive: cf.driveOrImg,
-		advanced: flags.boolean({
+		advanced: Flags.boolean({
 			description: 'show advanced commands',
 			char: 'v',
 		}),
 		help: cf.help,
-		version: flags.string({
+		version: Flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
 		}),
 	};
@@ -65,7 +57,7 @@ export default class ConfigReconfigureCmd extends Command {
 	public static root = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(ConfigReconfigureCmd);
+		const { flags: options } = await this.parse(ConfigReconfigureCmd);
 
 		const { safeUmount } = await import('../../utils/umount');
 

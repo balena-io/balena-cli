@@ -15,17 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getCliUx, stripIndent } from '../utils/lazy';
-
-interface FlagsDef {
-	json?: boolean;
-	verbose: boolean;
-	timeout?: number;
-	help: void;
-}
 
 export default class ScanCmd extends Command {
 	public static description = stripIndent`
@@ -47,18 +40,18 @@ export default class ScanCmd extends Command {
 
 	public static usage = 'scan';
 
-	public static flags: flags.Input<FlagsDef> = {
-		verbose: flags.boolean({
+	public static flags = {
+		verbose: Flags.boolean({
 			default: false,
 			char: 'v',
 			description: 'display full info',
 		}),
-		timeout: flags.integer({
+		timeout: Flags.integer({
 			char: 't',
 			description: 'scan timeout in seconds',
 		}),
 		help: cf.help,
-		json: flags.boolean({
+		json: Flags.boolean({
 			default: false,
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
@@ -78,7 +71,7 @@ export default class ScanCmd extends Command {
 		const dockerPort = 2375;
 		const dockerTimeout = 2000;
 
-		const { flags: options } = this.parse<FlagsDef, {}>(ScanCmd);
+		const { flags: options } = await this.parse(ScanCmd);
 
 		const discoverTimeout =
 			options.timeout != null ? options.timeout * 1000 : undefined;

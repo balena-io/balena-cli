@@ -15,17 +15,9 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	type?: string;
-	drive?: string;
-	help: void;
-	json: boolean;
-}
 
 export default class ConfigReadCmd extends Command {
 	public static description = stripIndent`
@@ -46,7 +38,7 @@ export default class ConfigReadCmd extends Command {
 
 	public static usage = 'config read';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		drive: cf.driveOrImg,
 		help: cf.help,
 		json: cf.json,
@@ -56,7 +48,7 @@ export default class ConfigReadCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(ConfigReadCmd);
+		const { flags: options } = await this.parse(ConfigReadCmd);
 
 		const { safeUmount } = await import('../../utils/umount');
 

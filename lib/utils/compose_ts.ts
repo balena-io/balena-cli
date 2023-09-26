@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import { BalenaSDK } from 'balena-sdk';
 import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
@@ -35,7 +35,6 @@ import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
 import {
 	BuiltImage,
-	ComposeCliFlags,
 	ComposeOpts,
 	ComposeProject,
 	TaggedImage,
@@ -1643,39 +1642,39 @@ function truncateString(str: string, len: number): string {
 	return str.slice(0, str.lastIndexOf('\n'));
 }
 
-export const composeCliFlags: flags.Input<ComposeCliFlags> = {
-	emulated: flags.boolean({
+export const composeCliFlags = {
+	emulated: Flags.boolean({
 		description:
 			'Use QEMU for ARM architecture emulation during the image build',
 		char: 'e',
 	}),
-	dockerfile: flags.string({
+	dockerfile: Flags.string({
 		description:
 			'Alternative Dockerfile name/path, relative to the source folder',
 	}),
-	nologs: flags.boolean({
+	nologs: Flags.boolean({
 		description:
 			'Hide the image build log output (produce less verbose output)',
 	}),
-	'multi-dockerignore': flags.boolean({
+	'multi-dockerignore': Flags.boolean({
 		description:
 			'Have each service use its own .dockerignore file. See "balena help build".',
 		char: 'm',
 	}),
-	'noparent-check': flags.boolean({
+	'noparent-check': Flags.boolean({
 		description:
 			"Disable project validation check of 'docker-compose.yml' file in parent folder",
 	}),
-	'registry-secrets': flags.string({
+	'registry-secrets': Flags.string({
 		description:
 			'Path to a YAML or JSON file with passwords for a private Docker registry',
 		char: 'R',
 	}),
-	'noconvert-eol': flags.boolean({
+	'noconvert-eol': Flags.boolean({
 		description:
 			"Don't convert line endings from CRLF (Windows format) to LF (Unix format).",
 	}),
-	projectName: flags.string({
+	projectName: Flags.string({
 		description: stripIndent`\
 			Name prefix for locally built images. This is the 'projectName' portion
 			in 'projectName_serviceName:tag'. The default is the directory name.`,

@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { stripIndent, getChalk, getVisuals } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
 
 export default class UtilAvailableDrivesCmd extends Command {
 	public static description = stripIndent`
@@ -34,14 +29,14 @@ export default class UtilAvailableDrivesCmd extends Command {
 
 	public static usage = 'util available-drives';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static offlineCompatible = true;
 
 	public async run() {
-		this.parse<FlagsDef, {}>(UtilAvailableDrivesCmd);
+		await this.parse(UtilAvailableDrivesCmd);
 
 		const sdk = await import('etcher-sdk');
 

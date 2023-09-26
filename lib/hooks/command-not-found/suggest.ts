@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Hook } from '@oclif/config';
-import type { IConfig } from '@oclif/config';
+import type { Hook, Interfaces } from '@oclif/core';
 import { getChalk } from '../../utils/lazy';
 
 /*
@@ -28,7 +27,7 @@ import { getChalk } from '../../utils/lazy';
  */
 
 const hook: Hook<'command-not-found'> = async function (
-	opts: object & { config: IConfig; id?: string; argv?: string[] },
+	opts: object & { config: Interfaces.Config; id?: string; argv?: string[] },
 ) {
 	const Levenshtein = await import('fast-levenshtein');
 	const _ = await import('lodash');

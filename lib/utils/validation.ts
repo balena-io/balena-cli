@@ -105,16 +105,12 @@ export function tryAsInteger(input: string): number | string {
 	}
 }
 
-export function parseAsLocalHostnameOrIp(input: string, paramName?: string) {
+export async function parseAsLocalHostnameOrIp(input: string) {
 	if (input && !validateLocalHostnameOrIp(input)) {
-		const message =
-			paramName == null
-				? 'The parameter must be a local hostname or IP address.'
-				: `The parameter '${paramName}' must be a local hostname or IP address.`;
-
-		throw new ExpectedError(message);
+		throw new ExpectedError(
+			'The parameter must be a local hostname or IP address.',
+		);
 	}
-
 	return input;
 }
 

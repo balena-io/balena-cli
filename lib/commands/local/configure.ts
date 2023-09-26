@@ -15,19 +15,11 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import { promisify } from 'util';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	target: string;
-}
 
 export default class LocalConfigureCmd extends Command {
 	public static description = stripIndent`
@@ -41,17 +33,16 @@ export default class LocalConfigureCmd extends Command {
 		'$ balena local configure path/to/image.img',
 	];
 
-	public static args = [
-		{
-			name: 'target',
+	public static args = {
+		target: Args.string({
 			description: 'path of drive or image to configure',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'local configure <target>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
@@ -59,7 +50,7 @@ export default class LocalConfigureCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(LocalConfigureCmd);
+		const { args: params } = await this.parse(LocalConfigureCmd);
 
 		const reconfix = await import('reconfix');
 		const { denyMount, safeUmount } = await import('../../utils/umount');

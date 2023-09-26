@@ -15,22 +15,13 @@
  * limitations under the License.
  */
 
-import type { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	fleet: string;
-	newName?: string;
-}
 
 export default class FleetRenameCmd extends Command {
 	public static description = stripIndent`
@@ -50,24 +41,23 @@ export default class FleetRenameCmd extends Command {
 		'$ balena fleet rename myorg/oldname NewName',
 	];
 
-	public static args = [
-		ca.fleetRequired,
-		{
-			name: 'newName',
+	public static args = {
+		fleet: ca.fleetRequired,
+		newName: Args.string({
 			description: 'the new name for the fleet',
-		},
-	];
+		}),
+	};
 
 	public static usage = 'fleet rename <fleet> [newName]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(FleetRenameCmd);
+		const { args: params } = await this.parse(FleetRenameCmd);
 
 		const { validateApplicationName } = await import('../../utils/validation');
 		const { ExpectedError } = await import('../../errors');

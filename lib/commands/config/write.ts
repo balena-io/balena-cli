@@ -15,21 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	type?: string;
-	drive?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	key: string;
-	value: string;
-}
 
 export default class ConfigWriteCmd extends Command {
 	public static description = stripIndent`
@@ -48,22 +37,20 @@ export default class ConfigWriteCmd extends Command {
 		'$ balena config write --drive balena.img os.network.connectivity.interval 300',
 	];
 
-	public static args = [
-		{
-			name: 'key',
+	public static args = {
+		key: Args.string({
 			description: 'the key of the config parameter to write',
 			required: true,
-		},
-		{
-			name: 'value',
+		}),
+		value: Args.string({
 			description: 'the value of the config parameter to write',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'config write <key> <value>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
@@ -72,9 +59,7 @@ export default class ConfigWriteCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			ConfigWriteCmd,
-		);
+		const { args: params, flags: options } = await this.parse(ConfigWriteCmd);
 
 		const { denyMount, safeUmount } = await import('../../utils/umount');
 

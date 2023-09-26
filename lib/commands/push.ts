@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
+import type { Interfaces } from '@oclif/core';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
@@ -34,30 +35,7 @@ enum BuildTarget {
 	Device,
 }
 
-interface ArgsDef {
-	fleetOrDevice: string;
-}
-
-interface FlagsDef {
-	source: string;
-	emulated: boolean;
-	dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
-	nocache: boolean;
-	pull: boolean;
-	'noparent-check': boolean;
-	'registry-secrets'?: string;
-	nolive: boolean;
-	detached: boolean;
-	service?: string[];
-	system: boolean;
-	env?: string[];
-	'noconvert-eol': boolean;
-	'multi-dockerignore': boolean;
-	'release-tag'?: string[];
-	draft: boolean;
-	note?: string;
-	help: void;
-}
+type FlagsDef = Interfaces.InferredFlags<typeof PushCmd.flags>;
 
 export default class PushCmd extends Command {
 	public static description = stripIndent`
@@ -112,27 +90,26 @@ export default class PushCmd extends Command {
 		'$ balena push 23c73a1.local --system --service my-service',
 	];
 
-	public static args = [
-		{
-			name: 'fleetOrDevice',
+	public static args = {
+		fleetOrDevice: Args.string({
 			description:
 				'fleet name or slug, or local device IP address or ".local" hostname',
 			required: true,
 			parse: lowercaseIfSlug,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'push <fleetOrDevice>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		source: flags.string({
+	public static flags = {
+		source: Flags.string({
 			description: stripIndent`
 				Source directory to be sent to balenaCloud or balenaOS device
 				(default: current working dir)`,
 			char: 's',
 			default: '.',
 		}),
-		emulated: flags.boolean({
+		emulated: Flags.boolean({
 			description: stripIndent`
 				Don't use the faster, native balenaCloud ARM builders; force slower QEMU ARM
 				emulation on Intel x86-64 builders. This flag is sometimes used to investigate
@@ -140,11 +117,11 @@ export default class PushCmd extends Command {
 			char: 'e',
 			default: false,
 		}),
-		dockerfile: flags.string({
+		dockerfile: Flags.string({
 			description:
 				'Alternative Dockerfile name/path, relative to the source folder',
 		}),
-		nocache: flags.boolean({
+		nocache: Flags.boolean({
 			description: stripIndent`
 				Don't use cached layers of previously built images for this project. This
 				ensures that the latest base image and packages are pulled. Note that build
@@ -155,18 +132,18 @@ export default class PushCmd extends Command {
 			char: 'c',
 			default: false,
 		}),
-		pull: flags.boolean({
+		pull: Flags.boolean({
 			description: stripIndent`
 				When pushing to a local device, force the base images to be pulled again.
 				Currently this option is ignored when pushing to the balenaCloud builders.`,
 			default: false,
 		}),
-		'noparent-check': flags.boolean({
+		'noparent-check': Flags.boolean({
 			description: stripIndent`
 				Disable project validation check of 'docker-compose.yml' file in parent folder`,
 			default: false,
 		}),
-		'registry-secrets': flags.string({
+		'registry-secrets': Flags.string({
 			description: stripIndent`
 				Path to a local YAML or JSON file containing Docker registry passwords used
 				to pull base images. Note that if registry-secrets are not provided on the
@@ -174,7 +151,7 @@ export default class PushCmd extends Command {
 				used (usually $HOME/.balena/secrets.yml|.json)`,
 			char: 'R',
 		}),
-		nolive: flags.boolean({
+		nolive: Flags.boolean({
 			description: stripIndent`
 				Don't run a live session on this push. The filesystem will not be monitored,
 				and changes will not be synchronized to any running containers. Note that both
@@ -182,7 +159,7 @@ export default class PushCmd extends Command {
 				initial build has completed.`,
 			default: false,
 		}),
-		detached: flags.boolean({
+		detached: Flags.boolean({
 			description: stripIndent`
 				When pushing to the cloud, this option will cause the build to start, then
 				return execution back to the shell, with the status and release ID (if
@@ -191,20 +168,20 @@ export default class PushCmd extends Command {
 			char: 'd',
 			default: false,
 		}),
-		service: flags.string({
+		service: Flags.string({
 			description: stripIndent`
 				Reject logs not originating from this service.
 				This can be used in combination with --system and other --service flags.
 				Only valid when pushing to a local mode device.`,
 			multiple: true,
 		}),
-		system: flags.boolean({
+		system: Flags.boolean({
 			description: stripIndent`
 				Only show system logs. This can be used in combination with --service.
 				Only valid when pushing to a local mode device.`,
 			default: false,
 		}),
-		env: flags.string({
+		env: Flags.string({
 			description: stripIndent`
 				When performing a push to device, run the built containers with environment
 				variables provided with this argument. Environment variables can be applied
@@ -216,17 +193,17 @@ export default class PushCmd extends Command {
 			`,
 			multiple: true,
 		}),
-		'noconvert-eol': flags.boolean({
+		'noconvert-eol': Flags.boolean({
 			description: `Don't convert line endings from CRLF (Windows format) to LF (Unix format).`,
 			default: false,
 		}),
-		'multi-dockerignore': flags.boolean({
+		'multi-dockerignore': Flags.boolean({
 			description:
 				'Have each service use its own .dockerignore file. See "balena help push".',
 			char: 'm',
 			default: false,
 		}),
-		'release-tag': flags.string({
+		'release-tag': Flags.string({
 			description: stripIndent`
 				Set release tags if the image build is successful (balenaCloud only). Multiple
 				arguments may be provided, alternating tag keys and values (see examples).
@@ -235,7 +212,7 @@ export default class PushCmd extends Command {
 			multiple: true,
 			exclusive: ['detached'],
 		}),
-		draft: flags.boolean({
+		draft: Flags.boolean({
 			description: stripIndent`
 				Instruct the builder to create the release as a draft. Draft releases are ignored
 				by the 'track latest' release policy but can be used through release pinning.
@@ -243,16 +220,14 @@ export default class PushCmd extends Command {
 				as final by default unless this option is given.`,
 			default: false,
 		}),
-		note: flags.string({ description: 'The notes for this release' }),
+		note: Flags.string({ description: 'The notes for this release' }),
 		help: cf.help,
 	};
 
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			PushCmd,
-		);
+		const { args: params, flags: options } = await this.parse(PushCmd);
 
 		const logger = await Command.getLogger();
 		logger.logDebug(`Using build source directory: ${options.source} `);

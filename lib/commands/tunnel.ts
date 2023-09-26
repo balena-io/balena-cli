@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../command';
 import {
 	NoPortsDefinedError,
@@ -27,15 +27,6 @@ import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { lowercaseIfSlug } from '../utils/normalization';
 
 import type { Server, Socket } from 'net';
-
-interface FlagsDef {
-	port: string[];
-	help: void;
-}
-
-interface ArgsDef {
-	deviceOrFleet: string;
-}
 
 export default class TunnelCmd extends Command {
 	public static description = stripIndent`
@@ -79,19 +70,18 @@ export default class TunnelCmd extends Command {
 		'$ balena tunnel myFleet -p 8080:3000 -p 8081:9000',
 	];
 
-	public static args = [
-		{
-			name: 'deviceOrFleet',
+	public static args = {
+		deviceOrFleet: Args.string({
 			description: 'device UUID or fleet name/slug',
 			required: true,
 			parse: lowercaseIfSlug,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'tunnel <deviceOrFleet>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		port: flags.string({
+	public static flags = {
+		port: Flags.string({
 			description:
 				'port mapping in the format <remotePort>[:[localIP:]localPort]',
 			char: 'p',
@@ -104,9 +94,7 @@ export default class TunnelCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			TunnelCmd,
-		);
+		const { args: params, flags: options } = await this.parse(TunnelCmd);
 
 		const logger = await Command.getLogger();
 		const sdk = getBalenaSdk();

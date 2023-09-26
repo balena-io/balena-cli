@@ -15,15 +15,9 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import Command from '../command';
 import { stripIndent } from '../utils/lazy';
-
-interface FlagsDef {
-	all: boolean;
-	json: boolean;
-	help: void;
-}
 
 export interface JsonVersions {
 	'balena-cli': string;
@@ -59,24 +53,24 @@ export default class VersionCmd extends Command {
 
 	public static offlineCompatible = true;
 
-	public static flags: flags.Input<FlagsDef> = {
-		all: flags.boolean({
+	public static flags = {
+		all: Flags.boolean({
 			default: false,
 			char: 'a',
 			description:
 				'include version information for additional components (Node.js)',
 		}),
-		json: flags.boolean({
+		json: Flags.boolean({
 			default: false,
 			char: 'j',
 			description:
 				'output version information in JSON format for programmatic use',
 		}),
-		help: flags.help({ char: 'h' }),
+		help: Flags.help({ char: 'h' }),
 	};
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(VersionCmd);
+		const { flags: options } = await this.parse(VersionCmd);
 		const versions: JsonVersions = {
 			'balena-cli': (await import('../../package.json')).version,
 			'Node.js':

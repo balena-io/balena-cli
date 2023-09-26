@@ -13,10 +13,10 @@ index d06d0b3..c571fe3 100644
          const arches = _.uniq(buildConfig.targets
              .filter(t => t.platform === 'darwin')
 diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
-index 360c34b..ae14bf5 100644
+index c0926bd..a37cd6e 100644
 --- a/node_modules/oclif/lib/commands/pack/win.js
 +++ b/node_modules/oclif/lib/commands/pack/win.js
-@@ -59,6 +59,13 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+@@ -59,6 +59,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
  ${customization}
  
  Section "${config.name} CLI \${VERSION}"
@@ -26,21 +26,10 @@ index 360c34b..ae14bf5 100644
 +  ; unable to make script wait for completion (despite using _?)
 +  DetailPrint "Removing files from previous version."
 +  RMDir /r "$INSTDIR\\client"
-+
    SetOutPath $INSTDIR
    File /r bin
    File /r client
-@@ -203,7 +210,8 @@ class PackWin extends core_1.Command {
-     async run() {
-         await this.checkForNSIS();
-         const { flags } = await this.parse(PackWin);
--        const buildConfig = await Tarballs.buildConfig(flags.root);
-+        const $targets = flags.targets ? flags.targets.split(',') : undefined;
-+        const buildConfig = await Tarballs.buildConfig(flags.root, { targets: $targets });
-         const { config } = buildConfig;
-         await Tarballs.build(buildConfig, { platform: 'win32', pack: false, tarball: flags.tarball, parallel: true });
-         const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch);
-@@ -225,7 +233,8 @@ class PackWin extends core_1.Command {
+@@ -226,7 +232,8 @@ class PackWin extends core_1.Command {
                  fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({ bin: flags['additional-cli'] })),
              ] : []));
              await fs.move(buildConfig.workspace({ platform: 'win32', arch }), path.join(installerBase, 'client'));
@@ -50,21 +39,11 @@ index 360c34b..ae14bf5 100644
              const templateKey = (0, upload_util_1.templateShortKey)('win32', { bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch });
              const o = buildConfig.dist(`win32/${templateKey}`);
              await fs.move(path.join(installerBase, 'installer.exe'), o);
-@@ -263,6 +272,9 @@ PackWin.flags = {
-         default: '.',
-         required: true,
-     }),
-+    targets: core_1.Flags.string({
-+        description: 'comma-separated targets to pack (e.g.: win32-x86,win32-x64)'
-+    }),
-     'additional-cli': core_1.Flags.string({
-         description: `an Oclif CLI other than the one listed in config.bin that should be made available to the user
- the CLI should already exist in a directory named after the CLI that is the root of the tarball produced by "oclif pack:tarballs"`,
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..41963eb 100644
+index 384ea4b..602daa4 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
-@@ -21,8 +21,10 @@ const pack = async (from, to) => {
+@@ -21,7 +21,8 @@ const pack = async (from, to) => {
          await exec(`tar cfJ ${to} ${(path.basename(from))}`, { cwd }));
  };
  async function build(c, options = {}) {
@@ -72,11 +51,9 @@ index 384ea4b..41963eb 100644
 +    const { xz, config, tmp } = c;
 +    console.error(`[debug] oclif c.root="${c.root}" c.workspace()="${c.workspace()}"`);
      const packCLI = async () => {
-+        console.error('[debug] packing cli');
          const { stdout } = await exec('npm pack --unsafe-perm', { cwd: c.root });
          return path.join(c.root, stdout.trim().split('\n').pop());
-     };
-@@ -30,7 +32,8 @@ async function build(c, options = {}) {
+@@ -30,7 +31,8 @@ async function build(c, options = {}) {
          await fs.emptyDir(c.workspace());
          const tarballNewLocation = path.join(c.workspace(), path.basename(tarball));
          await fs.move(tarball, tarballNewLocation);
@@ -86,7 +63,7 @@ index 384ea4b..41963eb 100644
          await Promise.all((await fs.promises.readdir(path.join(c.workspace(), 'package'), { withFileTypes: true }))
              .map(i => fs.move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))));
          await Promise.all([
-@@ -38,6 +41,13 @@ async function build(c, options = {}) {
+@@ -38,6 +40,13 @@ async function build(c, options = {}) {
              fs.promises.rm(path.join(c.workspace(), path.basename(tarball)), { recursive: true }),
              fs.remove(path.join(c.workspace(), 'bin', 'run.cmd')),
          ]);
@@ -100,7 +77,7 @@ index 384ea4b..41963eb 100644
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +59,20 @@ async function build(c, options = {}) {
+@@ -49,35 +58,20 @@ async function build(c, options = {}) {
          await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
      };
      const addDependencies = async () => {
@@ -149,7 +126,7 @@ index 384ea4b..41963eb 100644
      };
      const pretarball = async () => {
          const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
-@@ -115,7 +110,8 @@ async function build(c, options = {}) {
+@@ -115,7 +109,8 @@ async function build(c, options = {}) {
              output: path.join(workspace, 'bin', 'node'),
              platform: target.platform,
              arch: target.arch,
@@ -159,7 +136,7 @@ index 384ea4b..41963eb 100644
          });
          if (options.pack === false)
              return;
-@@ -158,6 +154,7 @@ async function build(c, options = {}) {
+@@ -158,6 +153,7 @@ async function build(c, options = {}) {
          await fs.writeJSON(manifestFilepath, manifest, { spaces: 2 });
      };
      (0, log_1.log)(`gathering workspace for ${config.bin} to ${c.workspace()}`);
@@ -168,7 +145,7 @@ index 384ea4b..41963eb 100644
      await updatePJSON();
      await addDependencies();
 diff --git a/node_modules/oclif/lib/tarballs/config.js b/node_modules/oclif/lib/tarballs/config.js
-index 216759d..f7bfbfe 100644
+index 216759d..cab0e6e 100644
 --- a/node_modules/oclif/lib/tarballs/config.js
 +++ b/node_modules/oclif/lib/tarballs/config.js
 @@ -25,7 +25,10 @@ async function gitSha(cwd, options = {}) {
@@ -176,9 +153,9 @@ index 216759d..f7bfbfe 100644
  exports.gitSha = gitSha;
  async function Tmp(config) {
 -    const tmp = path.join(config.root, 'tmp');
-+    const tmp = process.env.BUILD_TMP
-+        ? path.join(process.env.BUILD_TMP, 'oclif')
-+        : path.join(config.root, 'tmp');
++     const tmp = process.env.BUILD_TMP
++         ? path.join(process.env.BUILD_TMP, 'oclif')
++         : path.join(config.root, 'tmp');
 +    console.error(`[debug] oclif tmp="${tmp}"`);
      await fs.promises.mkdir(tmp, { recursive: true });
      return tmp;

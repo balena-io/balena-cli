@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Help } from '@oclif/core';
-import { HelpFormatter } from '@oclif/core/lib/help/formatter';
 import * as indent from 'indent-string';
 import { getChalk } from './utils/lazy';
 
@@ -38,8 +37,6 @@ function getHelpSubject(args: string[]): string | undefined {
 }
 
 export default class BalenaHelp extends Help {
-	public helpFormatter = new HelpFormatter(this.config);
-
 	public static usage: 'help [command]';
 
 	public async showHelp(argv: string[]) {
@@ -53,15 +50,20 @@ export default class BalenaHelp extends Help {
 
 		const command = this.config.findCommand(subject);
 		if (command) {
-			await this.showCommandHelp(command);
+			await this.showCommandHelp(await command.load());
 			return;
 		}
 
 		// If they've typed a topic (e.g. `balena os`) that isn't also a command (e.g. `balena device`)
 		// then list the associated commands.
-		const topicCommands = this.config.commands.filter((c) => {
-			return c.id.startsWith(`${subject}:`);
-		});
+		const topicCommands = await Promise.all(
+			this.config.commands
+				.filter((c) => {
+					return c.id.startsWith(`${subject}:`);
+				})
+				.map((topic) => topic.load()),
+		);
+
 		if (topicCommands.length > 0) {
 			console.log(`${chalk.yellow(subject)} commands include:`);
 			console.log(this.formatCommands(topicCommands));
@@ -188,7 +190,7 @@ See: https://git.io/JRHUW#deprecation-policy`,
 			return '';
 		}
 
-		const body = this.helpFormatter.renderList(
+		const body = this.renderList(
 			commands
 				.filter((c) => c.usage != null && c.usage !== '')
 				.map((c) => [c.usage, this.formatDescription(c.description)]),

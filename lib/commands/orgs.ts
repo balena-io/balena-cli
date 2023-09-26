@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
 
 export default class OrgsCmd extends Command {
 	public static description = stripIndent`
@@ -34,14 +29,14 @@ export default class OrgsCmd extends Command {
 
 	public static usage = 'orgs';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		this.parse<FlagsDef, {}>(OrgsCmd);
+		await this.parse(OrgsCmd);
 
 		const { getOwnOrganizations } = await import('../utils/sdk');
 

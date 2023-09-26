@@ -62,12 +62,11 @@ class FakeHelpCommand {
 		'$ balena help os download',
 	];
 
-	args = [
-		{
-			name: 'command',
+	args = {
+		command: {
 			description: 'command to show help for',
 		},
-	];
+	};
 
 	usage = 'help [command]';
 

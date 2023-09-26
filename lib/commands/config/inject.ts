@@ -15,20 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	type?: string;
-	drive?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	file: string;
-}
 
 export default class ConfigInjectCmd extends Command {
 	public static description = stripIndent`
@@ -46,17 +36,16 @@ export default class ConfigInjectCmd extends Command {
 		'$ balena config inject my/config.json --drive /dev/disk2',
 	];
 
-	public static args = [
-		{
-			name: 'file',
+	public static args = {
+		file: Args.string({
 			description: 'the path to the config.json file to inject',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'config inject <file>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
@@ -65,9 +54,7 @@ export default class ConfigInjectCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			ConfigInjectCmd,
-		);
+		const { args: params, flags: options } = await this.parse(ConfigInjectCmd);
 
 		const { safeUmount } = await import('../../utils/umount');
 

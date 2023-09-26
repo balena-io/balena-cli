@@ -15,72 +15,69 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 import { stripIndent } from './lazy';
 import { lowercaseIfSlug } from './normalization';
 
-import type { IBooleanFlag } from '@oclif/parser/lib/flags';
-import type { DataOutputOptions, DataSetOutputOptions } from '../framework';
-
-export const fleet = flags.string({
+export const fleet = Flags.string({
 	char: 'f',
 	description: 'fleet name or slug (preferred)',
 	parse: lowercaseIfSlug,
 });
 
-export const device = flags.string({
+export const device = Flags.string({
 	char: 'd',
 	description: 'device UUID',
 });
 
-export const help: IBooleanFlag<void> = flags.help({ char: 'h' });
+export const help = Flags.help({ char: 'h' });
 
-export const quiet: IBooleanFlag<boolean> = flags.boolean({
+export const quiet = Flags.boolean({
 	char: 'q',
 	description: 'suppress warning messages',
 	default: false,
 });
 
-export const release = flags.string({
+export const release = Flags.string({
 	char: 'r',
 	description: 'release id',
 });
 
-export const service = flags.string({
+export const service = Flags.string({
 	char: 's',
 	description: 'service name',
 });
 
-export const verbose: IBooleanFlag<boolean> = flags.boolean({
+export const verbose = Flags.boolean({
 	char: 'v',
 	description: 'produce verbose output',
 	default: false,
 });
 
-export const yes: IBooleanFlag<boolean> = flags.boolean({
+export const yes = Flags.boolean({
 	char: 'y',
 	description: 'answer "yes" to all questions (non interactive use)',
 	default: false,
 });
 
-export const force: IBooleanFlag<boolean> = flags.boolean({
+export const force = Flags.boolean({
 	char: 'f',
 	description: 'force action if the update lock is set',
 	default: false,
 });
 
-export const dev: IBooleanFlag<boolean> = flags.boolean({
+export const dev = Flags.boolean({
 	description: 'Configure balenaOS to operate in development mode',
 	default: false,
 });
 
-export const secureBoot: IBooleanFlag<boolean> = flags.boolean({
+export const secureBoot = Flags.boolean({
 	description:
 		'Configure balenaOS installer to opt-in secure boot and disk encryption',
 	default: false,
 });
 
-export const drive = flags.string({
+export const drive = Flags.string({
 	char: 'd',
 	description: stripIndent`
 		the drive to write the image to, eg. \`/dev/sdb\` or \`/dev/mmcblk0\`.
@@ -89,30 +86,30 @@ export const drive = flags.string({
 	`,
 });
 
-export const driveOrImg = flags.string({
+export const driveOrImg = Flags.string({
 	char: 'd',
 	description:
 		'path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)',
 });
 
-export const deviceType = flags.string({
+export const deviceType = Flags.string({
 	description:
 		'device type (Check available types with `balena devices supported`)',
 	char: 't',
 	required: true,
 });
 
-export const json: IBooleanFlag<boolean> = flags.boolean({
+export const json = Flags.boolean({
 	char: 'j',
 	description: 'produce JSON output instead of tabular output',
 	default: false,
 });
 
-export const dataOutputFlags: flags.Input<DataOutputOptions> = {
-	fields: flags.string({
+export const dataOutputFlags = {
+	fields: Flags.string({
 		description: 'only show provided fields (comma-separated)',
 	}),
-	json: flags.boolean({
+	json: Flags.boolean({
 		char: 'j',
 		exclusive: ['no-truncate'],
 		description: 'output in json format',
@@ -120,24 +117,23 @@ export const dataOutputFlags: flags.Input<DataOutputOptions> = {
 	}),
 };
 
-export const dataSetOutputFlags: flags.Input<DataOutputOptions> &
-	flags.Input<DataSetOutputOptions> = {
+export const dataSetOutputFlags = {
 	...dataOutputFlags,
-	filter: flags.string({
+	filter: Flags.string({
 		description:
 			'filter results by substring matching of a given field, eg: --filter field=foo',
 	}),
-	'no-header': flags.boolean({
+	'no-header': Flags.boolean({
 		exclusive: ['json'],
 		description: 'hide table header from output',
 		default: false,
 	}),
-	'no-truncate': flags.boolean({
+	'no-truncate': Flags.boolean({
 		exclusive: ['json'],
 		description: 'do not truncate output to fit screen',
 		default: false,
 	}),
-	sort: flags.string({
+	sort: Flags.string({
 		description: `field to sort by (prepend '-' for descending order)`,
 	}),
 };

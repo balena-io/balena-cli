@@ -15,20 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
-import type { IArg } from '@oclif/parser/lib/args';
+import { Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-
-interface FlagsDef {
-	help: void;
-}
-
-interface ArgsDef {
-	uuid: string;
-	newName?: string;
-}
 
 export default class DeviceRenameCmd extends Command {
 	public static description = stripIndent`
@@ -43,28 +33,26 @@ export default class DeviceRenameCmd extends Command {
 		'$ balena device rename 7cf02a6 MyPi',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'uuid',
+	public static args = {
+		uuid: Args.string({
 			description: 'the uuid of the device to rename',
 			required: true,
-		},
-		{
-			name: 'newName',
+		}),
+		newName: Args.string({
 			description: 'the new name for the device',
-		},
-	];
+		}),
+	};
 
 	public static usage = 'device rename <uuid> [newName]';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceRenameCmd);
+		const { args: params } = await this.parse(DeviceRenameCmd);
 
 		const balena = getBalenaSdk();
 

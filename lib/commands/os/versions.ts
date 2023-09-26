@@ -15,19 +15,10 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
-
-interface FlagsDef {
-	esr?: boolean;
-	help: void;
-}
-
-interface ArgsDef {
-	type: string;
-}
 
 export default class OsVersionsCmd extends Command {
 	public static description = stripIndent`
@@ -42,28 +33,25 @@ export default class OsVersionsCmd extends Command {
 
 	public static examples = ['$ balena os versions raspberrypi3'];
 
-	public static args = [
-		{
-			name: 'type',
+	public static args = {
+		type: Args.string({
 			description: 'device type',
 			required: true,
-		},
-	];
+		}),
+	};
 
 	public static usage = 'os versions <type>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags = {
 		help: cf.help,
-		esr: flags.boolean({
+		esr: Flags.boolean({
 			description: 'select balenaOS ESR versions',
 			default: false,
 		}),
 	};
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			OsVersionsCmd,
-		);
+		const { args: params, flags: options } = await this.parse(OsVersionsCmd);
 
 		const { formatOsVersion, getOsVersions } = await import(
 			'../../utils/cloud'

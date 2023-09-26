@@ -16,7 +16,7 @@
  */
 
 import type * as dockerode from 'dockerode';
-import { flags } from '@oclif/command';
+import { Flags } from '@oclif/core';
 
 import { ExpectedError } from '../errors';
 import { parseAsInteger } from './validation';
@@ -43,58 +43,58 @@ export interface DockerCliFlags extends DockerConnectionCliFlags {
 	squash: boolean;
 }
 
-export const dockerConnectionCliFlags: flags.Input<DockerConnectionCliFlags> = {
-	docker: flags.string({
+export const dockerConnectionCliFlags = {
+	docker: Flags.string({
 		description: 'Path to a local docker socket (e.g. /var/run/docker.sock)',
 		char: 'P',
 	}),
-	dockerHost: flags.string({
+	dockerHost: Flags.string({
 		description:
 			'Docker daemon hostname or IP address (dev machine or balena device) ',
 		char: 'h',
 	}),
-	dockerPort: flags.integer({
+	dockerPort: Flags.integer({
 		description:
 			'Docker daemon TCP port number (hint: 2375 for balena devices)',
 		char: 'p',
-		parse: (p) => parseAsInteger(p, 'dockerPort'),
+		parse: async (p) => parseAsInteger(p, 'dockerPort'),
 	}),
-	ca: flags.string({
+	ca: Flags.string({
 		description: 'Docker host TLS certificate authority file',
 	}),
-	cert: flags.string({
+	cert: Flags.string({
 		description: 'Docker host TLS certificate file',
 	}),
-	key: flags.string({
+	key: Flags.string({
 		description: 'Docker host TLS key file',
 	}),
 };
 
-export const dockerCliFlags: flags.Input<DockerCliFlags> = {
-	tag: flags.string({
+export const dockerCliFlags = {
+	tag: Flags.string({
 		description: `\
 Tag locally built Docker images. This is the 'tag' portion
 in 'projectName_serviceName:tag'. The default is 'latest'.`,
 		char: 't',
 	}),
-	buildArg: flags.string({
+	buildArg: Flags.string({
 		description:
 			'[Deprecated] Set a build-time variable (eg. "-B \'ARG=value\'"). Can be specified multiple times.',
 		char: 'B',
 		multiple: true,
 	}),
-	'cache-from': flags.string({
+	'cache-from': Flags.string({
 		description: `\
 Comma-separated list (no spaces) of image names for build cache resolution. \
 Implements the same feature as the "docker build --cache-from" option.`,
 	}),
-	nocache: flags.boolean({
+	nocache: Flags.boolean({
 		description: "Don't use docker layer caching when building",
 	}),
-	pull: flags.boolean({
+	pull: Flags.boolean({
 		description: 'Pull the base images again even if they exist locally',
 	}),
-	squash: flags.boolean({
+	squash: Flags.boolean({
 		description: 'Squash newly built layers into a single new layer',
 	}),
 	...dockerConnectionCliFlags,

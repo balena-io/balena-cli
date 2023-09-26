@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Args } from '@oclif/core';
 import { lowercaseIfSlug } from './normalization';
 
-export const fleetRequired = {
-	name: 'fleet',
+export const fleetRequired = Args.string({
 	description: 'fleet name or slug (preferred)',
 	required: true,
 	parse: lowercaseIfSlug,
-};
+});

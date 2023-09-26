@@ -15,23 +15,12 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import { Flags, Args } from '@oclif/core';
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
-
-interface FlagsDef {
-	fleet?: string;
-	device?: string;
-	duration?: string;
-	help: void;
-}
-
-interface ArgsDef {
-	action: string;
-}
 
 export default class SupportCmd extends Command {
 	public static description = stripIndent`
@@ -56,18 +45,17 @@ export default class SupportCmd extends Command {
 		'balena support disable -f myorg/myfleet',
 	];
 
-	public static args = [
-		{
-			name: 'action',
+	public static args = {
+		action: Args.string({
 			description: 'enable|disable support access',
 			options: ['enable', 'disable'],
-		},
-	];
+		}),
+	};
 
 	public static usage = 'support <action>';
 
-	public static flags: flags.Input<FlagsDef> = {
-		device: flags.string({
+	public static flags = {
+		device: Flags.string({
 			description: 'comma-separated list (no spaces) of device UUIDs',
 			char: 'd',
 		}),
@@ -76,7 +64,7 @@ export default class SupportCmd extends Command {
 			description:
 				'comma-separated list (no spaces) of fleet names or slugs (preferred)',
 		},
-		duration: flags.string({
+		duration: Flags.string({
 			description:
 				'length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d',
 			char: 't',
@@ -87,9 +75,7 @@ export default class SupportCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			SupportCmd,
-		);
+		const { args: params, flags: options } = await this.parse(SupportCmd);
 
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
