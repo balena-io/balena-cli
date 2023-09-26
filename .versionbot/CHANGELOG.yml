@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix preload with commit hash Update balena-preload from 14.0.2 to 14.0.3
+      hash: 50e1efa448f70a2d04a0e0e9bb2a970edf9f5ac1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.1.2
+  title: ""
+  date: 2023-09-26T12:14:25.652Z
+- commits:
     - subject: Fix local flash on unix environments
       hash: 49e23464f9bc9a3948974ad5d706692990902002
       body: Update etcher-sdk from 8.5.3 to 8.7.0
