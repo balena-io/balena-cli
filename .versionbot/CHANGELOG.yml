@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump oclif to ^3.17.1
+      hash: fa2a232e5fe30823e1c301189cdf034c67ce930c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.1.4
+  title: ""
+  date: 2023-09-29T12:40:47.597Z
+- commits:
     - subject: Move to @oclif/core v2
       hash: 77906c4152a565841b9c4f1e02677e815d191b26
       body: ""
