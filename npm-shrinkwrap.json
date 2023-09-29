@@ -2763,9 +2763,9 @@
       }
     },
     "node_modules/@sigstore/sign/node_modules/cacache/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -2784,9 +2784,9 @@
       }
     },
     "node_modules/@sigstore/sign/node_modules/fs-minipass/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -2905,9 +2905,9 @@
       }
     },
     "node_modules/@sigstore/sign/node_modules/minipass-fetch/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -2949,9 +2949,9 @@
       }
     },
     "node_modules/@sigstore/sign/node_modules/ssri/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -3486,9 +3486,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "18.18.0",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.0.tgz",
-      "integrity": "sha512-3xA4X31gHT1F1l38ATDIL9GpRLdwVhnEFC8Uikv5ZLlXATwrCYyPq7ZWHxzxc3J/30SUiwiYT+bQe0/XvKlWbw=="
+      "version": "18.18.1",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.1.tgz",
+      "integrity": "sha512-3G42sxmm0fF2+Vtb9TJQpnjmP+uKlWvFa8KoEGquh4gqRmoUG/N0ufuhikw6HEsdG2G2oIKhog1GCTfz9v5NdQ=="
     },
     "node_modules/@types/node-cleanup": {
       "version": "2.1.2",
@@ -4724,9 +4724,9 @@
       }
     },
     "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "16.18.54",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-16.18.54.tgz",
-      "integrity": "sha512-oTmGy68gxZZ21FhTJVVvZBYpQHEBZxHKTsGshobMqm9qWpbqdZsA5jvsuPZcHu0KwpmLrOHWPdEfg7XDpNT9UA=="
+      "version": "16.18.55",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-16.18.55.tgz",
+      "integrity": "sha512-Y1zz/LIuJek01+hlPNzzXQhmq/Z2BCP96j18MSXC0S0jSu/IG4FFxmBs7W4/lI2vPJ7foVfEB0hUVtnOjnCiTg=="
     },
     "node_modules/balena-semver": {
       "version": "2.3.0",
@@ -15143,9 +15143,9 @@
       }
     },
     "node_modules/path-scurry/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -16527,9 +16527,9 @@
       }
     },
     "node_modules/read-package-json/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -17811,9 +17811,9 @@
       }
     },
     "node_modules/sigstore/node_modules/cacache/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -17832,9 +17832,9 @@
       }
     },
     "node_modules/sigstore/node_modules/fs-minipass/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -17953,9 +17953,9 @@
       }
     },
     "node_modules/sigstore/node_modules/minipass-fetch/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -17997,9 +17997,9 @@
       }
     },
     "node_modules/sigstore/node_modules/ssri/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -19840,9 +19840,9 @@
       }
     },
     "node_modules/tuf-js/node_modules/cacache/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -19861,9 +19861,9 @@
       }
     },
     "node_modules/tuf-js/node_modules/fs-minipass/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -19982,9 +19982,9 @@
       }
     },
     "node_modules/tuf-js/node_modules/minipass-fetch/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -20026,9 +20026,9 @@
       }
     },
     "node_modules/tuf-js/node_modules/ssri/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -22181,9 +22181,9 @@
       }
     },
     "node_modules/yeoman-generator/node_modules/cacache/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -22268,9 +22268,9 @@
       }
     },
     "node_modules/yeoman-generator/node_modules/fs-minipass/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -22452,9 +22452,9 @@
       }
     },
     "node_modules/yeoman-generator/node_modules/minipass-fetch/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -22819,9 +22819,9 @@
       }
     },
     "node_modules/yeoman-generator/node_modules/ssri/node_modules/minipass": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-      "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+      "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
       "dev": true,
       "engines": {
         "node": ">=16 || 14 >=14.17"
@@ -25096,9 +25096,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -25113,9 +25113,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -25201,9 +25201,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -25235,9 +25235,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -25739,9 +25739,9 @@
       }
     },
     "@types/node": {
-      "version": "18.18.0",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.0.tgz",
-      "integrity": "sha512-3xA4X31gHT1F1l38ATDIL9GpRLdwVhnEFC8Uikv5ZLlXATwrCYyPq7ZWHxzxc3J/30SUiwiYT+bQe0/XvKlWbw=="
+      "version": "18.18.1",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.1.tgz",
+      "integrity": "sha512-3G42sxmm0fF2+Vtb9TJQpnjmP+uKlWvFa8KoEGquh4gqRmoUG/N0ufuhikw6HEsdG2G2oIKhog1GCTfz9v5NdQ=="
     },
     "@types/node-cleanup": {
       "version": "2.1.2",
@@ -26807,9 +26807,9 @@
       },
       "dependencies": {
         "@types/node": {
-          "version": "16.18.54",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-16.18.54.tgz",
-          "integrity": "sha512-oTmGy68gxZZ21FhTJVVvZBYpQHEBZxHKTsGshobMqm9qWpbqdZsA5jvsuPZcHu0KwpmLrOHWPdEfg7XDpNT9UA=="
+          "version": "16.18.55",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-16.18.55.tgz",
+          "integrity": "sha512-Y1zz/LIuJek01+hlPNzzXQhmq/Z2BCP96j18MSXC0S0jSu/IG4FFxmBs7W4/lI2vPJ7foVfEB0hUVtnOjnCiTg=="
         }
       }
     },
@@ -34959,9 +34959,9 @@
           "dev": true
         },
         "minipass": {
-          "version": "7.0.3",
-          "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-          "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+          "version": "7.0.4",
+          "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+          "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
           "dev": true
         }
       }
@@ -35972,9 +35972,9 @@
           }
         },
         "minipass": {
-          "version": "7.0.3",
-          "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-          "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+          "version": "7.0.4",
+          "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+          "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
           "dev": true
         },
         "normalize-package-data": {
@@ -37036,9 +37036,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -37053,9 +37053,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -37141,9 +37141,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -37175,9 +37175,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -38636,9 +38636,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -38653,9 +38653,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -38741,9 +38741,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -38775,9 +38775,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -40409,9 +40409,9 @@
               }
             },
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -40474,9 +40474,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -40607,9 +40607,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }
@@ -40882,9 +40882,9 @@
           },
           "dependencies": {
             "minipass": {
-              "version": "7.0.3",
-              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.3.tgz",
-              "integrity": "sha512-LhbbwCfz3vsb12j/WkWQPZfKTsgqIe1Nf/ti1pKjYESGLHIVjWU96G9/ljLH4F9mWNVhlQOm0VySdAWzf05dpg==",
+              "version": "7.0.4",
+              "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz",
+              "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==",
               "dev": true
             }
           }

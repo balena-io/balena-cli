@@ -13,7 +13,7 @@ index d06d0b3..c571fe3 100644
          const arches = _.uniq(buildConfig.targets
              .filter(t => t.platform === 'darwin')
 diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
-index c0926bd..a37cd6e 100644
+index c0926bd..e4f645c 100644
 --- a/node_modules/oclif/lib/commands/pack/win.js
 +++ b/node_modules/oclif/lib/commands/pack/win.js
 @@ -59,6 +59,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
@@ -29,18 +29,8 @@ index c0926bd..a37cd6e 100644
    SetOutPath $INSTDIR
    File /r bin
    File /r client
-@@ -226,7 +232,8 @@ class PackWin extends core_1.Command {
-                 fs.writeFile(path.join(installerBase, 'bin', `${flags['additional-cli']}`), scripts.sh({ bin: flags['additional-cli'] })),
-             ] : []));
-             await fs.move(buildConfig.workspace({ platform: 'win32', arch }), path.join(installerBase, 'client'));
--            await exec(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
-+            const { msysExec, toMsysPath } = require("../../util");
-+            await msysExec(`makensis ${toMsysPath(installerBase)}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
-             const templateKey = (0, upload_util_1.templateShortKey)('win32', { bin: config.bin, version: config.version, sha: buildConfig.gitSha, arch });
-             const o = buildConfig.dist(`win32/${templateKey}`);
-             await fs.move(path.join(installerBase, 'installer.exe'), o);
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..602daa4 100644
+index 384ea4b..3f32b37 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
 @@ -21,7 +21,8 @@ const pack = async (from, to) => {
@@ -53,17 +43,7 @@ index 384ea4b..602daa4 100644
      const packCLI = async () => {
          const { stdout } = await exec('npm pack --unsafe-perm', { cwd: c.root });
          return path.join(c.root, stdout.trim().split('\n').pop());
-@@ -30,7 +31,8 @@ async function build(c, options = {}) {
-         await fs.emptyDir(c.workspace());
-         const tarballNewLocation = path.join(c.workspace(), path.basename(tarball));
-         await fs.move(tarball, tarballNewLocation);
--        await exec(`tar -xzf "${tarballNewLocation}"`, { cwd: c.workspace() });
-+        const { msysExec, toMsysPath } = require("../util");
-+        await msysExec(`tar -xzf ${toMsysPath(tarballNewLocation)}`, { cwd: c.workspace() });
-         await Promise.all((await fs.promises.readdir(path.join(c.workspace(), 'package'), { withFileTypes: true }))
-             .map(i => fs.move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))));
-         await Promise.all([
-@@ -38,6 +40,13 @@ async function build(c, options = {}) {
+@@ -38,6 +39,13 @@ async function build(c, options = {}) {
              fs.promises.rm(path.join(c.workspace(), path.basename(tarball)), { recursive: true }),
              fs.remove(path.join(c.workspace(), 'bin', 'run.cmd')),
          ]);
@@ -77,7 +57,7 @@ index 384ea4b..602daa4 100644
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +58,20 @@ async function build(c, options = {}) {
+@@ -49,35 +57,20 @@ async function build(c, options = {}) {
          await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
      };
      const addDependencies = async () => {
@@ -126,7 +106,7 @@ index 384ea4b..602daa4 100644
      };
      const pretarball = async () => {
          const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
-@@ -115,7 +109,8 @@ async function build(c, options = {}) {
+@@ -115,7 +108,8 @@ async function build(c, options = {}) {
              output: path.join(workspace, 'bin', 'node'),
              platform: target.platform,
              arch: target.arch,
@@ -136,7 +116,7 @@ index 384ea4b..602daa4 100644
          });
          if (options.pack === false)
              return;
-@@ -158,6 +153,7 @@ async function build(c, options = {}) {
+@@ -158,6 +152,7 @@ async function build(c, options = {}) {
          await fs.writeJSON(manifestFilepath, manifest, { spaces: 2 });
      };
      (0, log_1.log)(`gathering workspace for ${config.bin} to ${c.workspace()}`);
@@ -169,40 +149,6 @@ index 216759d..cab0e6e 100644
              if (target && target.platform)
                  return path.join(base, [target.platform, target.arch].join('-'), (0, upload_util_1.templateShortKey)('baseDir', { bin: config.bin }));
              return path.join(base, (0, upload_util_1.templateShortKey)('baseDir', { bin: config.bin }));
-diff --git a/node_modules/oclif/lib/tarballs/node.js b/node_modules/oclif/lib/tarballs/node.js
-index 35f1d0c..5349eaa 100644
---- a/node_modules/oclif/lib/tarballs/node.js
-+++ b/node_modules/oclif/lib/tarballs/node.js
-@@ -12,6 +12,7 @@ const retry = require("async-retry");
- const util_2 = require("../util");
- const pipeline = (0, util_1.promisify)(stream_1.pipeline);
- const exec = (0, util_1.promisify)(child_process_1.exec);
-+const { isMSYS2, msysExec, toMsysPath } = require("../util");
- const RETRY_TIMEOUT_MS = 1000;
- async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
-     if (arch === 'arm')
-@@ -42,8 +43,10 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
-         const basedir = path.dirname(tarball);
-         await fs.promises.mkdir(basedir, { recursive: true });
-         await pipeline(got_1.default.stream(url), fs.createWriteStream(tarball));
--        if (platform !== 'win32')
--            await exec(`grep "${path.basename(tarball)}" "${shasums}" | shasum -a 256 -c -`, { cwd: basedir });
-+        if (platform !== 'win32') {
-+            const shaCmd = isMSYS2 ? 'sha256sum -c -' : 'shasum -a 256 -c -';
-+            await msysExec(`grep ${path.basename(tarball)} ${toMsysPath(shasums)} | ${shaCmd}`, { cwd: basedir });
-+        }
-     };
-     const extract = async () => {
-         (0, log_1.log)(`extracting ${nodeBase}`);
-@@ -51,7 +54,7 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
-         await fs.promises.mkdir(nodeTmp, { recursive: true });
-         await fs.promises.mkdir(path.dirname(cache), { recursive: true });
-         if (platform === 'win32') {
--            await exec(`7z x -bd -y "${tarball}"`, { cwd: nodeTmp });
-+            await msysExec(`7z x -bd -y ${toMsysPath(tarball)} > /dev/null`, { cwd: nodeTmp });
-             await fs.move(path.join(nodeTmp, nodeBase, 'node.exe'), path.join(cache, 'node.exe'));
-         }
-         else {
 diff --git a/node_modules/oclif/lib/upload-util.js b/node_modules/oclif/lib/upload-util.js
 index 6963e4d..430472d 100644
 --- a/node_modules/oclif/lib/upload-util.js
@@ -222,64 +168,3 @@ index 6963e4d..430472d 100644
          deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
      };
      return _.template(templates[type])(Object.assign({}, options));
-diff --git a/node_modules/oclif/lib/util.js b/node_modules/oclif/lib/util.js
-index 816c71b..1384aa6 100644
---- a/node_modules/oclif/lib/util.js
-+++ b/node_modules/oclif/lib/util.js
-@@ -95,9 +95,10 @@ const hash = async (algo, fp) => {
-     });
- };
- exports.hash = hash;
-+
- async function checkFor7Zip() {
-     try {
--        await exec('7z');
-+        await msysExec('7z', { stdio: [0, null, 2] });
-     }
-     catch (error) {
-         if (error.code === 127)
-@@ -107,3 +108,44 @@ async function checkFor7Zip() {
-     }
- }
- exports.checkFor7Zip = checkFor7Zip;
-+
-+// OSTYPE is 'msys' for MSYS 1.0 and for MSYS2, or 'cygwin' for Cygwin
-+// but note that OSTYPE is not "exported" by default, so run: export OSTYPE=$OSTYPE
-+// MSYSTEM is 'MINGW32' for MSYS 1.0, 'MSYS' for MSYS2, and undefined for Cygwin
-+const isCygwin = process.env.OSTYPE === 'cygwin';
-+const isMinGW = process.env.MSYSTEM && process.env.MSYSTEM.startsWith('MINGW');
-+const isMSYS2 = process.env.MSYSTEM && process.env.MSYSTEM.startsWith('MSYS');
-+const MSYSSHELLPATH = process.env.MSYSSHELLPATH ||
-+    (isMSYS2 ? 'C:\\msys64\\usr\\bin\\bash.exe' :
-+        (isMinGW ? 'C:\\MinGW\\msys\\1.0\\bin\\bash.exe' :
-+            (isCygwin ? 'C:\\cygwin64\\bin\\bash.exe' : '/bin/sh')));
-+
-+exports.isCygwin = isCygwin;
-+exports.isMinGW = isMinGW;
-+exports.isMSYS2 = isMSYS2;
-+console.error(`[debug] oclif MSYSSHELLPATH=${MSYSSHELLPATH} MSYSTEM=${process.env.MSYSTEM} OSTYPE=${process.env.OSTYPE} isMSYS2=${isMSYS2} isMingGW=${isMinGW} isCygwin=${isCygwin}`);
-+
-+/* Convert a Windows path like 'C:\tmp' to a MSYS path like '/c/tmp' */
-+function toMsysPath(windowsPath) {
-+    // 'c:\myfolder' -> '/c/myfolder' or '/cygdrive/c/myfolder'
-+    let msysPath = windowsPath.replace(/\\/g, '/');
-+    if (isMSYS2 || isMinGW) {
-+        msysPath = msysPath.replace(/^([a-zA-Z]):/, '/$1');
-+    } else if (isCygwin) {
-+        msysPath = msysPath.replace(/^([a-zA-Z]):/, '/cygdrive/$1');
-+    }
-+    console.error(`[debug] oclif toMsysPath before="${windowsPath}" after="${msysPath}"`);
-+    return msysPath;
-+}
-+exports.toMsysPath = toMsysPath;
-+
-+async function msysExec(cmd, options = {}) {
-+    if (process.platform !== 'win32') {
-+        return exec(cmd, options);
-+    }
-+    const sh = MSYSSHELLPATH;
-+    const args = ['-c', cmd];
-+    console.error(`[debug] oclif msysExec sh="${sh}" args=${JSON.stringify(args)} options=${JSON.stringify(options)}`);
-+    return exec(`"${sh}" "${args.join('" "')}"`, options);
-+}
-+exports.msysExec = msysExec;

@@ -23,7 +23,7 @@ jobs:
       )
     secrets: inherit
     with:
-      custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-12"],["windows-2019"]]'
+      custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-12"],["windows-2022"]]'
       repo_config: true
       repo_description: "The official balena CLI tool."
       github_prerelease: false
