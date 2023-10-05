@@ -68,6 +68,7 @@ export default class SshCmd extends Command {
 		service: Args.string({
 			description: 'service name, if connecting to a container',
 			required: false,
+			ignoreStdin: true,
 		}),
 	};
 
