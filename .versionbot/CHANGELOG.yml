@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix ssh ignoreStdin device argument
+      hash: dc3261d9c70d75ac0e01ad4c481f5cf4d1781804
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.1.5
+  title: ""
+  date: 2023-10-05T10:54:31.030Z
+- commits:
     - subject: Bump oclif to ^3.17.1
       hash: fa2a232e5fe30823e1c301189cdf034c67ce930c
       body: ""
