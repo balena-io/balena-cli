@@ -15,12 +15,16 @@
  * limitations under the License.
  */
 
+import type { Interfaces } from '@oclif/core';
+
 export let unsupportedFlag = false;
 
 export interface AppOptions {
 	// Prevent the default behavior of flushing stdout after running a command
 	noFlush?: boolean;
-	configPath?: string;
+	development?: boolean;
+	dir: string;
+	loadOptions?: Interfaces.LoadOptions;
 }
 
 export async function preparseArgs(argv: string[]): Promise<string[]> {
