@@ -1172,9 +1172,16 @@ created public/open fleet, or with fleets from other balena accounts that you
 may be invited to join under any role.  For this reason, fleet names are
 especially discouraged in scripts (e.g. CI environments).
 
+The --json option is recommended when scripting the output of this command,
+because field names are less likely to change in JSON format and because it
+better represents data types like arrays, empty strings and null values.
+The 'jq' utility may be helpful for querying JSON fields in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
 Examples:
 
 	$ balena releases myorg/myfleet
+	$ balena releases myorg/myfleet --json
 
 ### Arguments
 
@@ -1183,6 +1190,10 @@ Examples:
 fleet name or slug (preferred)
 
 ### Options
+
+#### -j, --json
+
+produce JSON output instead of tabular output
 
 ## release &#60;commitOrId&#62;
 

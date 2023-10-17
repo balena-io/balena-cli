@@ -65,4 +65,17 @@ describe('balena release', function () {
 		expect(lines[1]).to.contain('142334');
 		expect(lines[1]).to.contain('90247b54de4fa7a0a3cbc85e73c68039');
 	});
+
+	it('should list releases as JSON with the -j/--json flag', async () => {
+		api.expectGetRelease();
+		api.expectGetApplication();
+		const { err, out } = await runCommand('releases someapp --json');
+		expect(err).to.be.empty;
+		const json = JSON.parse(out.join(''));
+		expect(json[0].commit).to.equal('90247b54de4fa7a0a3cbc85e73c68039');
+		expect(json[0].contains__image[0].image[0].start_timestamp).to.equal(
+			'2020-01-04T01:13:08.583Z',
+		);
+		expect(json[0].__metadata.uri).to.equal('/resin/release(@id)?@id=142334');
+	});
 });
