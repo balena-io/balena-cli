@@ -56,6 +56,16 @@ describe('balena release', function () {
 		expect(lines[5]).to.be.equal('main:');
 	});
 
+	it('should print version information as JSON with the the -j/--json flag', async () => {
+		api.expectGetRelease();
+		const { err, out } = await runCommand('release 27fda508c --json');
+		expect(err).to.be.empty;
+		const json = JSON.parse(out.join(''));
+		expect(json.commit).to.equal('90247b54de4fa7a0a3cbc85e73c68039');
+		expect(json.release_tag[0].tag_key).to.equal('testtag1');
+		expect(json.composition.services.main.network_mode).to.equal('host');
+	});
+
 	it('should list releases', async () => {
 		api.expectGetRelease();
 		api.expectGetApplication();
