@@ -27,3 +27,4 @@ jobs:
       repo_config: true
       repo_description: "The official balena CLI tool."
       github_prerelease: false
+      restrict_custom_actions: false
