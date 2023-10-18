@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow custom actions for external contributors
+      hash: 3fc6eb7a47687d26181fe346dd856dc90ddbcdfa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kyle Harding
+      nested: []
+  version: 17.1.6
+  title: ""
+  date: 2023-10-18T18:16:04.783Z
+- commits:
     - subject: Fix ssh ignoreStdin device argument
       hash: dc3261d9c70d75ac0e01ad4c481f5cf4d1781804
       body: ""
