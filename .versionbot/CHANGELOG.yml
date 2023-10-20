@@ -1,4 +1,40 @@
 - commits:
+    - subject: "tag set: Fix using empty string as a value"
+      hash: 8204dcad9323bebd4b0b40b84f658fc0bcb66a29
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "env add: Fix using empty string as a value"
+      hash: 03bcb6cff7743d0d60ef76dcf3af4a9b31f5f743
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Add tests for empty & non-provided value for the `env add` command
+      hash: 66b6eed57c000713beea2e28d4f56cdbfc2b0ea4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Add tests for the `tag set` command
+      hash: 99b0f2c0222cc82fdbdfce5cd80a1ffc04e715d7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 17.1.7
+  title: ""
+  date: 2023-10-20T10:49:15.378Z
+- commits:
     - subject: Allow custom actions for external contributors
       hash: 3fc6eb7a47687d26181fe346dd856dc90ddbcdfa
       body: ""
