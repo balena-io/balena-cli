@@ -1,4 +1,15 @@
 - commits:
+    - subject: "release: Add '--json' option for JSON output"
+      hash: b7e5915c7acdc41a25c869b81a772059397f79d3
+      body: ""
+      footer:
+        change-type: minor
+      author: Brian Bugh
+      nested: []
+  version: 17.2.0
+  title: ""
+  date: 2023-10-20T13:45:53.401Z
+- commits:
     - subject: "tag set: Fix using empty string as a value"
       hash: 8204dcad9323bebd4b0b40b84f658fc0bcb66a29
       body: ""
