@@ -21,6 +21,7 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationNameNote } from '../utils/messages';
 import type * as BalenaSdk from 'balena-sdk';
+import { jsonInfo } from '../utils/messages';
 
 export default class ReleasesCmd extends Command {
 	public static description = stripIndent`
@@ -29,12 +30,18 @@ export default class ReleasesCmd extends Command {
 		List all releases of the given fleet.
 
 		${applicationNameNote.split('\n').join('\n\t\t')}
+
+		${jsonInfo.split('\n').join('\n\t\t')}
 `;
-	public static examples = ['$ balena releases myorg/myfleet'];
+	public static examples = [
+		'$ balena releases myorg/myfleet',
+		'$ balena releases myorg/myfleet --json',
+	];
 
 	public static usage = 'releases <fleet>';
 
 	public static flags = {
+		json: cf.json,
 		help: cf.help,
 	};
 
@@ -48,7 +55,7 @@ export default class ReleasesCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = await this.parse(ReleasesCmd);
+		const { args: params, flags: options } = await this.parse(ReleasesCmd);
 
 		const fields: Array<keyof BalenaSdk.Release> = [
 			'id',
@@ -64,15 +71,27 @@ export default class ReleasesCmd extends Command {
 
 		const releases = await balena.models.release.getAllByApplication(
 			await getFleetSlug(balena, params.fleet),
-			{ $select: fields },
+			options.json
+				? {
+						$expand: {
+							release_tag: {
+								$select: ['tag_key', 'value'],
+							},
+						},
+				  }
+				: { $select: fields },
 		);
 
-		const _ = await import('lodash');
-		console.log(
-			getVisuals().table.horizontal(
-				releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
-				fields,
-			),
-		);
+		if (options.json) {
+			console.log(JSON.stringify(releases, null, 4));
+		} else {
+			const _ = await import('lodash');
+			console.log(
+				getVisuals().table.horizontal(
+					releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
+					fields,
+				),
+			);
+		}
 	}
 }

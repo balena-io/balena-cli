@@ -56,6 +56,16 @@ describe('balena release', function () {
 		expect(lines[5]).to.be.equal('main:');
 	});
 
+	it('should print version information as JSON with the the -j/--json flag', async () => {
+		api.expectGetRelease();
+		const { err, out } = await runCommand('release 27fda508c --json');
+		expect(err).to.be.empty;
+		const json = JSON.parse(out.join(''));
+		expect(json.commit).to.equal('90247b54de4fa7a0a3cbc85e73c68039');
+		expect(json.release_tag[0].tag_key).to.equal('testtag1');
+		expect(json.composition.services.main.network_mode).to.equal('host');
+	});
+
 	it('should list releases', async () => {
 		api.expectGetRelease();
 		api.expectGetApplication();
@@ -64,5 +74,18 @@ describe('balena release', function () {
 		expect(lines.length).to.be.equal(2);
 		expect(lines[1]).to.contain('142334');
 		expect(lines[1]).to.contain('90247b54de4fa7a0a3cbc85e73c68039');
+	});
+
+	it('should list releases as JSON with the -j/--json flag', async () => {
+		api.expectGetRelease();
+		api.expectGetApplication();
+		const { err, out } = await runCommand('releases someapp --json');
+		expect(err).to.be.empty;
+		const json = JSON.parse(out.join(''));
+		expect(json[0].commit).to.equal('90247b54de4fa7a0a3cbc85e73c68039');
+		expect(json[0].contains__image[0].image[0].start_timestamp).to.equal(
+			'2020-01-04T01:13:08.583Z',
+		);
+		expect(json[0].__metadata.uri).to.equal('/resin/release(@id)?@id=142334');
 	});
 });

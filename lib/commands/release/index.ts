@@ -15,30 +15,37 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
+import { Flags, Args, type Interfaces } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import type * as BalenaSdk from 'balena-sdk';
 import jsyaml = require('js-yaml');
 import { tryAsInteger } from '../../utils/validation';
+import { jsonInfo } from '../../utils/messages';
 
 export const commitOrIdArg = Args.custom({
 	parse: async (commitOrId: string) => tryAsInteger(commitOrId),
 });
 
+type FlagsDef = Interfaces.InferredFlags<typeof ReleaseCmd.flags>;
+
 export default class ReleaseCmd extends Command {
 	public static description = stripIndent`
 		Get info for a release.
+
+		${jsonInfo.split('\n').join('\n\t\t')}
 `;
 	public static examples = [
 		'$ balena release a777f7345fe3d655c1c981aa642e5555',
 		'$ balena release 1234567',
+		'$ balena release d3f3151f5ad25ca6b070aa4d08296aca --json',
 	];
 
 	public static usage = 'release <commitOrId>';
 
 	public static flags = {
+		json: cf.json,
 		help: cf.help,
 		composition: Flags.boolean({
 			default: false,
@@ -63,7 +70,7 @@ export default class ReleaseCmd extends Command {
 		if (options.composition) {
 			await this.showComposition(params.commitOrId, balena);
 		} else {
-			await this.showReleaseInfo(params.commitOrId, balena);
+			await this.showReleaseInfo(params.commitOrId, balena, options);
 		}
 	}
 
@@ -81,6 +88,7 @@ export default class ReleaseCmd extends Command {
 	async showReleaseInfo(
 		commitOrId: string | number,
 		balena: BalenaSdk.BalenaSDK,
+		options: FlagsDef,
 	) {
 		const fields: Array<keyof BalenaSdk.Release> = [
 			'id',
@@ -95,7 +103,7 @@ export default class ReleaseCmd extends Command {
 		];
 
 		const release = await balena.models.release.get(commitOrId, {
-			$select: fields,
+			...(!options.json && { $select: fields }),
 			$expand: {
 				release_tag: {
 					$select: ['tag_key', 'value'],
@@ -103,17 +111,21 @@ export default class ReleaseCmd extends Command {
 			},
 		});
 
-		const tagStr = release
-			.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
-			.join('\n');
+		if (options.json) {
+			console.log(JSON.stringify(release, null, 4));
+		} else {
+			const tagStr = release
+				.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
+				.join('\n');
 
-		const _ = await import('lodash');
-		const values = _.mapValues(
-			release,
-			(val) => val ?? 'N/a',
-		) as Dictionary<string>;
-		values['tags'] = tagStr;
+			const _ = await import('lodash');
+			const values = _.mapValues(
+				release,
+				(val) => val ?? 'N/a',
+			) as Dictionary<string>;
+			values['tags'] = tagStr;
 
-		console.log(getVisuals().table.vertical(values, [...fields, 'tags']));
+			console.log(getVisuals().table.vertical(values, [...fields, 'tags']));
+		}
 	}
 }
