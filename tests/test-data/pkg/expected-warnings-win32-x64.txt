@@ -76,3 +76,8 @@
   The file must be distributed with executable as %2.
   %1: node_modules\drivelist\scripts\win32.bat
   %2: path-to-executable/drivelist/win32.bat
+> Warning Failed to make bytecode node18-x64 for file node_modules\@isaacs\cliui\node_modules\string-width\index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules\@isaacs\cliui\node_modules\strip-ansi\index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules\@isaacs\cliui\node_modules\wrap-ansi\index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules\@isaacs\cliui\node_modules\ansi-regex\index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules\@isaacs\cliui\node_modules\ansi-styles\index.js
