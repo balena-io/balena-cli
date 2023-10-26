@@ -1,4 +1,1073 @@
 - commits:
+    - subject: Update balena-sdk and deduped dependencies
+      hash: 04db9c7a91ffd9a5a0a92bd86084326a8686bdfd
+      body: |
+        Update balena-sdk from 18.0.0 to 19.0.0
+        Update balena-preload from 14.0.3 to 15.0.1
+        Update balena-image-manager from 9.0.2 to 10.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested:
+        - commits:
+            - subject: "**BREAKING**: Drop support to node < 18"
+              hash: 3a31275b20968b5bfcd603eb88af579b31856363
+              body: |-
+                Update balena-request from 12.0.4 to 13.0.0
+                Update balena-register-device from 8.0.7 to 9.0.1
+              footer:
+                Change-type: major
+                change-type: major
+              author: Otávio Jacobi
+              nested:
+                - commits:
+                    - subject: Fix balena-request peer dependency
+                      hash: 21589a43eea60bf5e601d51bcab7b483e571fe53
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Otávio Jacobi
+                      nested: []
+                  version: balena-register-device-9.0.1
+                  title: ""
+                  date: 2023-10-11T18:27:18.967Z
+                - commits:
+                    - subject: Drop supoport for node 14 & 16
+                      hash: cc8ad72abb414347545498f6eceab01b2fcba71a
+                      body: Update balena-request from 12.0.1 to 13.0.0
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Otávio Jacobi
+                      nested: []
+                  version: balena-register-device-9.0.0
+                  title: ""
+                  date: 2023-10-11T18:16:47.892Z
+                - commits:
+                    - subject: Drop support for node 14 & 16
+                      hash: c7bdf11c4ce4ea3b885a608d5ce76eeab758d32d
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Otávio Jacobi
+                      nested: []
+                  version: balena-request-13.0.0
+                  title: ""
+                  date: 2023-10-11T17:43:03.483Z
+          version: balena-sdk-19.0.0
+          title: ""
+          date: 2023-10-16T16:25:52.595Z
+        - commits:
+            - subject: "jwt: Deprecate the profile fields in favor of the user_profile"
+              hash: 59fd11688780c2b703d036715842ad0615ed8ee1
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "jwt: Deprecate the intercom fields"
+              hash: a9a082a397ea52be89f8d8873c426e45cf90a7f7
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "jwt: Deprecate the features fields"
+              hash: 709913eeee9e6bc7fd4ce082b268deeac5514a71
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "jwt: Deprecate thw loginAs field"
+              hash: 4925b36356aae7584bf25c3c5478eeba80e43643
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "jwt: Deprecate username & created_at in favor of the user resource"
+              hash: 20179ef6c4bf39bf3a5a1d7d567a3afd80794230
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add typings for the user_profile resource
+              hash: 5e23708bf444c3d315a1754d315945edbb575c36
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Depends-on: https://github.com/balena-io/balena-api/pull/4626
+                depends-on: https://github.com/balena-io/balena-api/pull/4626
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.3.0
+          title: ""
+          date: 2023-10-09T13:07:11.832Z
+        - commits:
+            - subject: Update @balena/lint to 7.2.0
+              hash: d8de677a8a4aff9b0a0e0c6220cc84369547f80c
+              body: Update @balena/lint from 7.0.1 to 7.2.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Deprecate the social_service_account property of the JWTUser
+              hash: d2854536a6ad8a1656b61045951629dafa82b3af
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add typings for the social_service_account resource
+              hash: 9d001d6de5264c63af037fb9c628e3df6a143731
+              body: ""
+              footer:
+                Depends-on: https://github.com/balena-io/balena-api/pull/4623
+                depends-on: https://github.com/balena-io/balena-api/pull/4623
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.2.0
+          title: ""
+          date: 2023-09-26T13:23:32.399Z
+        - commits:
+            - subject: Update TypeScript to 5.2.2
+              hash: be1bb622fc8fc374ef99d0a67db1495accf56ec3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.1.4
+          title: ""
+          date: 2023-08-24T21:36:26.911Z
+        - commits:
+            - subject: "tests/os: Refactor some promise tests to async await"
+              hash: dd9959dbd631d7fdaf882a6c696c0e3bb49abe4c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Fix os.getSupervisorReleaseByDeviceType test to work on balenaMachine
+              hash: dd7708f520f13a71fb6907cc0b72e7ba3263be39
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update balena-request from 12.0.2 to 12.0.4
+              hash: 31bc401dc11fa2179b3ebb1cf0642c76c39b8783
+              body: |
+                Update balena-request from 12.0.2 to 12.0.4
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Refactor the interceptors to stop using .reduce()
+                      hash: bb3ebd421cff85803bc80ead121b83e8ed103499
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-12.0.4
+                  title: ""
+                  date: 2023-08-23T08:22:55.377Z
+                - commits:
+                    - subject: Avoid deep imports from balena-auth
+                      hash: c11642a930772b968ff736583358d04a0b9321f4
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update balena-auth to 5.1.0
+                      hash: d86de07cb9386cc5fe79c01e9ed03d9af664fe4b
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-12.0.3
+                  title: ""
+                  date: 2023-08-09T12:18:22.918Z
+          version: balena-sdk-18.1.3
+          title: ""
+          date: 2023-08-23T09:36:03.477Z
+        - commits:
+            - subject: "organization-invite: Fix throwing a typed error when passing an
+                unkonwn role"
+              hash: ff13fd82316f86170ccde6c1c2b0f9b114ed386a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "application-invite: Fix throwing a typed error when passing an unkonwn
+                role"
+              hash: 64cf7302b99fcb530b29848532bca293d44d6835
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Fix bugs that linting surfaced"
+              hash: 8150fb6ff2def8145fa2e105070ae6d92f2e8178
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update @balena/lint to 7.0.1
+              hash: 014c192ba05fb091c506988ac244408185b3d16f
+              body: |
+                Update @balena/lint from 6.1.1 to 7.0.1
+              footer:
+                Depends-on: https://github.com/balena-io-modules/node-balena-lint/pull/85
+                depends-on: https://github.com/balena-io-modules/node-balena-lint/pull/85
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.1.2
+          title: ""
+          date: 2023-08-23T08:22:41.017Z
+        - commits:
+            - subject: "logs: Emit errors when initializing the SDK with debug: true"
+              hash: a9247d6ef2309504746a621877ee6e1df3eaaf7f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.1.1
+          title: ""
+          date: 2023-08-22T16:11:18.789Z
+        - commits:
+            - subject: Improve the auth.getActorId() tests
+              hash: 2d574ac35a7a259cc85107808835c44d7ec88e71
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "auth.getUserInfo: Add the actor id to the returned values"
+              hash: 76bd5fb7825f05134b5bfa02f67fc96acf79ccaf
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.1.0
+          title: ""
+          date: 2023-08-22T10:41:46.759Z
+        - commits:
+            - subject: "patch: bump lint-staged from 13.3.0 to 14.0.0"
+              hash: 59d0bcd099a4fba24ad2c8c9b51c0603241440ee
+              body: >
+                Bumps [lint-staged](https://github.com/okonet/lint-staged) from
+                13.3.0 to 14.0.0.
+
+                - [Release notes](https://github.com/okonet/lint-staged/releases)
+
+                - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: lint-staged
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer:
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.0.2
+          title: ""
+          date: 2023-08-18T16:37:07.261Z
+        - commits:
+            - subject: Replace dependabot with renovate
+              hash: 3cd8b81e1159dc8e0c583e2108ee843c4ba5eaba
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-18.0.1
+          title: ""
+          date: 2023-08-18T15:57:05.138Z
+        - commits:
+            - subject: Update balena-sdk to 19.0.1
+              hash: 75a631f6ddd75764ac64504e46f5f47e83a6f489
+              body: Update balena-sdk from 18.0.0 to 19.0.1
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested:
+                - commits:
+                    - subject: Fix test workflow to run on node 18
+                      hash: 2a7b7c475e3c2f50ebda9331d07fa060d331c37c
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Otávio Jacobi
+                      nested: []
+                  version: balena-sdk-19.0.1
+                  title: ""
+                  date: 2023-10-19T12:34:56.447Z
+                - commits:
+                    - subject: "**BREAKING**: Drop support to node < 18"
+                      hash: 3a31275b20968b5bfcd603eb88af579b31856363
+                      body: |-
+                        Update balena-request from 12.0.4 to 13.0.0
+                        Update balena-register-device from 8.0.7 to 9.0.1
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Otávio Jacobi
+                      nested:
+                        - commits:
+                            - subject: Fix balena-request peer dependency
+                              hash: 21589a43eea60bf5e601d51bcab7b483e571fe53
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Otávio Jacobi
+                              nested: []
+                          version: balena-register-device-9.0.1
+                          title: ""
+                          date: 2023-10-11T18:27:18.967Z
+                        - commits:
+                            - subject: Drop supoport for node 14 & 16
+                              hash: cc8ad72abb414347545498f6eceab01b2fcba71a
+                              body: Update balena-request from 12.0.1 to 13.0.0
+                              footer:
+                                Change-type: major
+                                change-type: major
+                              author: Otávio Jacobi
+                              nested: []
+                          version: balena-register-device-9.0.0
+                          title: ""
+                          date: 2023-10-11T18:16:47.892Z
+                        - commits:
+                            - subject: Drop support for node 14 & 16
+                              hash: c7bdf11c4ce4ea3b885a608d5ce76eeab758d32d
+                              body: ""
+                              footer:
+                                Change-type: major
+                                change-type: major
+                              author: Otávio Jacobi
+                              nested: []
+                          version: balena-request-13.0.0
+                          title: ""
+                          date: 2023-10-11T17:43:03.483Z
+                  version: balena-sdk-19.0.0
+                  title: ""
+                  date: 2023-10-16T16:25:52.595Z
+                - commits:
+                    - subject: "jwt: Deprecate the profile fields in favor of the user_profile"
+                      hash: 59fd11688780c2b703d036715842ad0615ed8ee1
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate the intercom fields"
+                      hash: a9a082a397ea52be89f8d8873c426e45cf90a7f7
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate the features fields"
+                      hash: 709913eeee9e6bc7fd4ce082b268deeac5514a71
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate thw loginAs field"
+                      hash: 4925b36356aae7584bf25c3c5478eeba80e43643
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate username & created_at in favor of the user resource"
+                      hash: 20179ef6c4bf39bf3a5a1d7d567a3afd80794230
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Add typings for the user_profile resource
+                      hash: 5e23708bf444c3d315a1754d315945edbb575c36
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                        Depends-on: https://github.com/balena-io/balena-api/pull/4626
+                        depends-on: https://github.com/balena-io/balena-api/pull/4626
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.3.0
+                  title: ""
+                  date: 2023-10-09T13:07:11.832Z
+                - commits:
+                    - subject: Update @balena/lint to 7.2.0
+                      hash: d8de677a8a4aff9b0a0e0c6220cc84369547f80c
+                      body: Update @balena/lint from 7.0.1 to 7.2.0
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Deprecate the social_service_account property of the JWTUser
+                      hash: d2854536a6ad8a1656b61045951629dafa82b3af
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Add typings for the social_service_account resource
+                      hash: 9d001d6de5264c63af037fb9c628e3df6a143731
+                      body: ""
+                      footer:
+                        Depends-on: https://github.com/balena-io/balena-api/pull/4623
+                        depends-on: https://github.com/balena-io/balena-api/pull/4623
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.2.0
+                  title: ""
+                  date: 2023-09-26T13:23:32.399Z
+                - commits:
+                    - subject: Update TypeScript to 5.2.2
+                      hash: be1bb622fc8fc374ef99d0a67db1495accf56ec3
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.4
+                  title: ""
+                  date: 2023-08-24T21:36:26.911Z
+                - commits:
+                    - subject: "tests/os: Refactor some promise tests to async await"
+                      hash: dd9959dbd631d7fdaf882a6c696c0e3bb49abe4c
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Fix os.getSupervisorReleaseByDeviceType test to work on balenaMachine
+                      hash: dd7708f520f13a71fb6907cc0b72e7ba3263be39
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update balena-request from 12.0.2 to 12.0.4
+                      hash: 31bc401dc11fa2179b3ebb1cf0642c76c39b8783
+                      body: |
+                        Update balena-request from 12.0.2 to 12.0.4
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested:
+                        - commits:
+                            - subject: Refactor the interceptors to stop using .reduce()
+                              hash: bb3ebd421cff85803bc80ead121b83e8ed103499
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Thodoris Greasidis
+                              nested: []
+                          version: balena-request-12.0.4
+                          title: ""
+                          date: 2023-08-23T08:22:55.377Z
+                        - commits:
+                            - subject: Avoid deep imports from balena-auth
+                              hash: c11642a930772b968ff736583358d04a0b9321f4
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Thodoris Greasidis
+                              nested: []
+                            - subject: Update balena-auth to 5.1.0
+                              hash: d86de07cb9386cc5fe79c01e9ed03d9af664fe4b
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Thodoris Greasidis
+                              nested: []
+                          version: balena-request-12.0.3
+                          title: ""
+                          date: 2023-08-09T12:18:22.918Z
+                  version: balena-sdk-18.1.3
+                  title: ""
+                  date: 2023-08-23T09:36:03.477Z
+                - commits:
+                    - subject: "organization-invite: Fix throwing a typed error when passing an
+                        unkonwn role"
+                      hash: ff13fd82316f86170ccde6c1c2b0f9b114ed386a
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "application-invite: Fix throwing a typed error when passing an unkonwn
+                        role"
+                      hash: 64cf7302b99fcb530b29848532bca293d44d6835
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "tests: Fix bugs that linting surfaced"
+                      hash: 8150fb6ff2def8145fa2e105070ae6d92f2e8178
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update @balena/lint to 7.0.1
+                      hash: 014c192ba05fb091c506988ac244408185b3d16f
+                      body: |
+                        Update @balena/lint from 6.1.1 to 7.0.1
+                      footer:
+                        Depends-on: https://github.com/balena-io-modules/node-balena-lint/pull/85
+                        depends-on: https://github.com/balena-io-modules/node-balena-lint/pull/85
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.2
+                  title: ""
+                  date: 2023-08-23T08:22:41.017Z
+                - commits:
+                    - subject: "logs: Emit errors when initializing the SDK with debug: true"
+                      hash: a9247d6ef2309504746a621877ee6e1df3eaaf7f
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.1
+                  title: ""
+                  date: 2023-08-22T16:11:18.789Z
+                - commits:
+                    - subject: Improve the auth.getActorId() tests
+                      hash: 2d574ac35a7a259cc85107808835c44d7ec88e71
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "auth.getUserInfo: Add the actor id to the returned values"
+                      hash: 76bd5fb7825f05134b5bfa02f67fc96acf79ccaf
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.0
+                  title: ""
+                  date: 2023-08-22T10:41:46.759Z
+                - commits:
+                    - subject: "patch: bump lint-staged from 13.3.0 to 14.0.0"
+                      hash: 59d0bcd099a4fba24ad2c8c9b51c0603241440ee
+                      body: >
+                        Bumps
+                        [lint-staged](https://github.com/okonet/lint-staged)
+                        from 13.3.0 to 14.0.0.
+
+                        - [Release notes](https://github.com/okonet/lint-staged/releases)
+
+                        - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
+
+
+                        ---
+
+                        updated-dependencies:
+
+                        - dependency-name: lint-staged
+                          dependency-type: direct:development
+                          update-type: version-update:semver-major
+                        ...
+                      footer:
+                        Signed-off-by: dependabot[bot] <support@github.com>
+                        signed-off-by: dependabot[bot] <support@github.com>
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.0.2
+                  title: ""
+                  date: 2023-08-18T16:37:07.261Z
+                - commits:
+                    - subject: Replace dependabot with renovate
+                      hash: 3cd8b81e1159dc8e0c583e2108ee843c4ba5eaba
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.0.1
+                  title: ""
+                  date: 2023-08-18T15:57:05.138Z
+          version: balena-image-manager-10.0.1
+          title: ""
+          date: 2023-10-26T17:18:16.758Z
+        - commits:
+            - subject: Drop support for Node.js v16
+              hash: bda4345815baa3b145b6a72613a0a764ebb0a81d
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Otávio Jacobi
+              nested: []
+          version: balena-image-manager-10.0.0
+          title: ""
+          date: 2023-10-26T17:09:02.375Z
+        - commits:
+            - subject: Update @balena/lint
+              hash: 62f1e5f03b9036611b320ddb31192e500c7e16f8
+              body: Update @balena/lint from 6.2.2 to 7.2.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+            - subject: Bump rimraf
+              hash: 9dd492010e0075ce31bcf313d02dafe17b4c902b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+          version: balena-image-manager-9.0.3
+          title: ""
+          date: 2023-10-26T16:57:58.102Z
+        - commits:
+            - subject: Update balena-sdk to 19.0.1
+              hash: 469e95af6c11541a994cd60ec6189dea30568332
+              body: Update balena-sdk from 18.0.0 to 19.0.1
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested:
+                - commits:
+                    - subject: Fix test workflow to run on node 18
+                      hash: 2a7b7c475e3c2f50ebda9331d07fa060d331c37c
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Otávio Jacobi
+                      nested: []
+                  version: balena-sdk-19.0.1
+                  title: ""
+                  date: 2023-10-19T12:34:56.447Z
+                - commits:
+                    - subject: "**BREAKING**: Drop support to node < 18"
+                      hash: 3a31275b20968b5bfcd603eb88af579b31856363
+                      body: |-
+                        Update balena-request from 12.0.4 to 13.0.0
+                        Update balena-register-device from 8.0.7 to 9.0.1
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Otávio Jacobi
+                      nested:
+                        - commits:
+                            - subject: Fix balena-request peer dependency
+                              hash: 21589a43eea60bf5e601d51bcab7b483e571fe53
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Otávio Jacobi
+                              nested: []
+                          version: balena-register-device-9.0.1
+                          title: ""
+                          date: 2023-10-11T18:27:18.967Z
+                        - commits:
+                            - subject: Drop supoport for node 14 & 16
+                              hash: cc8ad72abb414347545498f6eceab01b2fcba71a
+                              body: Update balena-request from 12.0.1 to 13.0.0
+                              footer:
+                                Change-type: major
+                                change-type: major
+                              author: Otávio Jacobi
+                              nested: []
+                          version: balena-register-device-9.0.0
+                          title: ""
+                          date: 2023-10-11T18:16:47.892Z
+                        - commits:
+                            - subject: Drop support for node 14 & 16
+                              hash: c7bdf11c4ce4ea3b885a608d5ce76eeab758d32d
+                              body: ""
+                              footer:
+                                Change-type: major
+                                change-type: major
+                              author: Otávio Jacobi
+                              nested: []
+                          version: balena-request-13.0.0
+                          title: ""
+                          date: 2023-10-11T17:43:03.483Z
+                  version: balena-sdk-19.0.0
+                  title: ""
+                  date: 2023-10-16T16:25:52.595Z
+                - commits:
+                    - subject: "jwt: Deprecate the profile fields in favor of the user_profile"
+                      hash: 59fd11688780c2b703d036715842ad0615ed8ee1
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate the intercom fields"
+                      hash: a9a082a397ea52be89f8d8873c426e45cf90a7f7
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate the features fields"
+                      hash: 709913eeee9e6bc7fd4ce082b268deeac5514a71
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate thw loginAs field"
+                      hash: 4925b36356aae7584bf25c3c5478eeba80e43643
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "jwt: Deprecate username & created_at in favor of the user resource"
+                      hash: 20179ef6c4bf39bf3a5a1d7d567a3afd80794230
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Add typings for the user_profile resource
+                      hash: 5e23708bf444c3d315a1754d315945edbb575c36
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                        Depends-on: https://github.com/balena-io/balena-api/pull/4626
+                        depends-on: https://github.com/balena-io/balena-api/pull/4626
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.3.0
+                  title: ""
+                  date: 2023-10-09T13:07:11.832Z
+                - commits:
+                    - subject: Update @balena/lint to 7.2.0
+                      hash: d8de677a8a4aff9b0a0e0c6220cc84369547f80c
+                      body: Update @balena/lint from 7.0.1 to 7.2.0
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Deprecate the social_service_account property of the JWTUser
+                      hash: d2854536a6ad8a1656b61045951629dafa82b3af
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Add typings for the social_service_account resource
+                      hash: 9d001d6de5264c63af037fb9c628e3df6a143731
+                      body: ""
+                      footer:
+                        Depends-on: https://github.com/balena-io/balena-api/pull/4623
+                        depends-on: https://github.com/balena-io/balena-api/pull/4623
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.2.0
+                  title: ""
+                  date: 2023-09-26T13:23:32.399Z
+                - commits:
+                    - subject: Update TypeScript to 5.2.2
+                      hash: be1bb622fc8fc374ef99d0a67db1495accf56ec3
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.4
+                  title: ""
+                  date: 2023-08-24T21:36:26.911Z
+                - commits:
+                    - subject: "tests/os: Refactor some promise tests to async await"
+                      hash: dd9959dbd631d7fdaf882a6c696c0e3bb49abe4c
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Fix os.getSupervisorReleaseByDeviceType test to work on balenaMachine
+                      hash: dd7708f520f13a71fb6907cc0b72e7ba3263be39
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update balena-request from 12.0.2 to 12.0.4
+                      hash: 31bc401dc11fa2179b3ebb1cf0642c76c39b8783
+                      body: |
+                        Update balena-request from 12.0.2 to 12.0.4
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested:
+                        - commits:
+                            - subject: Refactor the interceptors to stop using .reduce()
+                              hash: bb3ebd421cff85803bc80ead121b83e8ed103499
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Thodoris Greasidis
+                              nested: []
+                          version: balena-request-12.0.4
+                          title: ""
+                          date: 2023-08-23T08:22:55.377Z
+                        - commits:
+                            - subject: Avoid deep imports from balena-auth
+                              hash: c11642a930772b968ff736583358d04a0b9321f4
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Thodoris Greasidis
+                              nested: []
+                            - subject: Update balena-auth to 5.1.0
+                              hash: d86de07cb9386cc5fe79c01e9ed03d9af664fe4b
+                              body: ""
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Thodoris Greasidis
+                              nested: []
+                          version: balena-request-12.0.3
+                          title: ""
+                          date: 2023-08-09T12:18:22.918Z
+                  version: balena-sdk-18.1.3
+                  title: ""
+                  date: 2023-08-23T09:36:03.477Z
+                - commits:
+                    - subject: "organization-invite: Fix throwing a typed error when passing an
+                        unkonwn role"
+                      hash: ff13fd82316f86170ccde6c1c2b0f9b114ed386a
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "application-invite: Fix throwing a typed error when passing an unkonwn
+                        role"
+                      hash: 64cf7302b99fcb530b29848532bca293d44d6835
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "tests: Fix bugs that linting surfaced"
+                      hash: 8150fb6ff2def8145fa2e105070ae6d92f2e8178
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update @balena/lint to 7.0.1
+                      hash: 014c192ba05fb091c506988ac244408185b3d16f
+                      body: |
+                        Update @balena/lint from 6.1.1 to 7.0.1
+                      footer:
+                        Depends-on: https://github.com/balena-io-modules/node-balena-lint/pull/85
+                        depends-on: https://github.com/balena-io-modules/node-balena-lint/pull/85
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.2
+                  title: ""
+                  date: 2023-08-23T08:22:41.017Z
+                - commits:
+                    - subject: "logs: Emit errors when initializing the SDK with debug: true"
+                      hash: a9247d6ef2309504746a621877ee6e1df3eaaf7f
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.1
+                  title: ""
+                  date: 2023-08-22T16:11:18.789Z
+                - commits:
+                    - subject: Improve the auth.getActorId() tests
+                      hash: 2d574ac35a7a259cc85107808835c44d7ec88e71
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "auth.getUserInfo: Add the actor id to the returned values"
+                      hash: 76bd5fb7825f05134b5bfa02f67fc96acf79ccaf
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.1.0
+                  title: ""
+                  date: 2023-08-22T10:41:46.759Z
+                - commits:
+                    - subject: "patch: bump lint-staged from 13.3.0 to 14.0.0"
+                      hash: 59d0bcd099a4fba24ad2c8c9b51c0603241440ee
+                      body: >
+                        Bumps
+                        [lint-staged](https://github.com/okonet/lint-staged)
+                        from 13.3.0 to 14.0.0.
+
+                        - [Release notes](https://github.com/okonet/lint-staged/releases)
+
+                        - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
+
+
+                        ---
+
+                        updated-dependencies:
+
+                        - dependency-name: lint-staged
+                          dependency-type: direct:development
+                          update-type: version-update:semver-major
+                        ...
+                      footer:
+                        Signed-off-by: dependabot[bot] <support@github.com>
+                        signed-off-by: dependabot[bot] <support@github.com>
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.0.2
+                  title: ""
+                  date: 2023-08-18T16:37:07.261Z
+                - commits:
+                    - subject: Replace dependabot with renovate
+                      hash: 3cd8b81e1159dc8e0c583e2108ee843c4ba5eaba
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-sdk-18.0.1
+                  title: ""
+                  date: 2023-08-18T15:57:05.138Z
+          version: balena-preload-15.0.1
+          title: ""
+          date: 2023-10-26T17:02:21.787Z
+        - commits:
+            - subject: Drop support for Node.js v16
+              hash: ec2dd2b5be4ff921017e072d65d8aada31fc5caa
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Otávio Jacobi
+              nested: []
+          version: balena-preload-15.0.0
+          title: ""
+          date: 2023-10-26T16:35:55.840Z
+  version: 17.2.1
+  title: ""
+  date: 2023-10-26T21:28:40.096Z
+- commits:
     - subject: "release: Add '--json' option for JSON output"
       hash: b7e5915c7acdc41a25c869b81a772059397f79d3
       body: ""
