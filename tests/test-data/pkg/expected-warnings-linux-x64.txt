@@ -79,5 +79,9 @@
 prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
 prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
 prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
+> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/string-width/index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/strip-ansi/index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/wrap-ansi/index.js
 prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
-
+> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/ansi-regex/index.js
+> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/ansi-styles/index.js
