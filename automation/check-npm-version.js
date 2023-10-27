@@ -23,8 +23,8 @@ function parseSemver(version) {
  * @param {string} v2
  */
 function semverGte(v1, v2) {
-	let v1Array = parseSemver(v1);
-	let v2Array = parseSemver(v2);
+	const v1Array = parseSemver(v1);
+	const v2Array = parseSemver(v2);
 	for (let i = 0; i < 3; i++) {
 		if (v1Array[i] < v2Array[i]) {
 			return false;

@@ -228,9 +228,10 @@ async function getAppVars(
 	if (!fleetSlug) {
 		return appVars;
 	}
-	const vars = await sdk.models.application[
-		options.config ? 'configVar' : 'envVar'
-	].getAllByApplication(fleetSlug);
+	const vars =
+		await sdk.models.application[
+			options.config ? 'configVar' : 'envVar'
+		].getAllByApplication(fleetSlug);
 	fillInInfoFields(vars, fleetSlug);
 	appVars.push(...vars);
 	if (!options.config) {
@@ -269,9 +270,8 @@ async function getDeviceVars(
 	const printedUUID = options.json ? fullUUID : options.device!;
 	const deviceVars: EnvironmentVariableInfo[] = [];
 	if (options.config) {
-		const deviceConfigVars = await sdk.models.device.configVar.getAllByDevice(
-			fullUUID,
-		);
+		const deviceConfigVars =
+			await sdk.models.device.configVar.getAllByDevice(fullUUID);
 		fillInInfoFields(deviceConfigVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceConfigVars);
 	} else {
@@ -296,9 +296,8 @@ async function getDeviceVars(
 		fillInInfoFields(deviceServiceVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceServiceVars);
 
-		const deviceEnvVars = await sdk.models.device.envVar.getAllByDevice(
-			fullUUID,
-		);
+		const deviceEnvVars =
+			await sdk.models.device.envVar.getAllByDevice(fullUUID);
 		fillInInfoFields(deviceEnvVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceEnvVars);
 	}

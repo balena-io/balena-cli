@@ -5,8 +5,6 @@
 // Before opening a PR you should build and test your changes using bin/balena
 // ****************************************************************************
 
-// tslint:disable:no-var-requires
-
 // We boost the threadpool size as ext2fs can deadlock with some
 // operations otherwise, if the pool runs out.
 process.env.UV_THREADPOOL_SIZE = '64';

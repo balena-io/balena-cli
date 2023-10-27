@@ -29,7 +29,7 @@ import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
 
-export function authenticate(options: {}): Promise<void> {
+export function authenticate(options: object): Promise<void> {
 	const balena = getBalenaSdk();
 	return getCliForm()
 		.run(

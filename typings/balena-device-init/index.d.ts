@@ -18,7 +18,6 @@
 declare module 'balena-device-init' {
 	import { DeviceTypeJson } from 'balena-sdk';
 	import * as Bluebird from 'bluebird';
-	import { EventEmitter } from 'events';
 
 	interface OperationState {
 		operation:
@@ -82,14 +81,14 @@ declare module 'balena-device-init' {
 	export function configure(
 		image: string,
 		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
-		config: {},
-		options?: {},
+		config: object,
+		options?: object,
 	): Bluebird<InitializeEmitter>;
 
 	export function initialize(
 		image: string,
 		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
-		config: {},
+		config: object,
 	): Bluebird<InitializeEmitter>;
 
 	export function getImageOsVersion(

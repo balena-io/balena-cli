@@ -31,8 +31,8 @@ if (fs.existsSync(commandsFilePath)) {
 
 const commandsJson = JSON.parse(fs.readFileSync(commandsFilePath, 'utf8'));
 
-var mainCommands = [];
-var additionalCommands = [];
+const mainCommands = [];
+const additionalCommands = [];
 for (const key of Object.keys(commandsJson.commands)) {
 	const cmd = key.split(':');
 	if (cmd.length > 1) {
@@ -72,8 +72,8 @@ fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 		/\$main_commands\$/g,
 		'main_commands="' + mainCommandsStr + '"',
 	);
-	var subCommands = [];
-	var prevElement = additionalCommands[0][0];
+	let subCommands = [];
+	let prevElement = additionalCommands[0][0];
 	additionalCommands.forEach(function (element) {
 		if (element[0] === prevElement) {
 			subCommands.push(element[1]);
@@ -134,8 +134,8 @@ fs.readFile(zshFilePathIn, 'utf8', function (err, data) {
 		/\$main_commands\$/g,
 		'main_commands=( ' + mainCommandsStr + ' )',
 	);
-	var subCommands = [];
-	var prevElement = additionalCommands[0][0];
+	let subCommands = [];
+	let prevElement = additionalCommands[0][0];
 	additionalCommands.forEach(function (element) {
 		if (element[0] === prevElement) {
 			subCommands.push(element[1]);

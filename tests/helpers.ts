@@ -268,6 +268,7 @@ export function cleanOutput(
  * coded from observation of a few samples only, and may not cover all cases.
  */
 export function monochrome(text: string): string {
+	// eslint-disable-next-line no-control-regex
 	return text.replace(/\u001b\[\??(\d+;)*\d+[a-zA-Z]\r?/g, '');
 }
 

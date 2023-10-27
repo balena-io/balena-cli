@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-// tslint:disable-next-line:import-blacklist
+// eslint-disable-next-line no-restricted-imports
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
@@ -82,5 +82,5 @@ async function run() {
 	}
 }
 
-// tslint:disable-next-line:no-floating-promises
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run();

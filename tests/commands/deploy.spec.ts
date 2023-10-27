@@ -326,7 +326,7 @@ describe('balena deploy', function () {
 			});
 		} finally {
 			await switchSentry(sentryStatus);
-			// @ts-expect-error
+			// @ts-expect-error claims restore does not exist
 			process.exit.restore();
 		}
 	});

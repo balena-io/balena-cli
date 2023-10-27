@@ -25,7 +25,6 @@ import * as filehound from 'filehound';
 import { Stats } from 'fs';
 import * as fs from 'fs-extra';
 import * as klaw from 'klaw';
-import * as _ from 'lodash';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';

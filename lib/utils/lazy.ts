@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-imports */
+/** the import blacklist is to enforce lazy loading so exempt this file  */
 /*
 Copyright 2020 Balena
 
@@ -13,8 +15,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-// tslint:disable:import-blacklist - the import blacklist is to enforce lazy loading so exempt this file
 
 import type * as BalenaSdk from 'balena-sdk';
 import type { Chalk } from 'chalk';

@@ -390,9 +390,8 @@ Can be repeated to add multiple certificates.\
 		);
 		applicationInfoSpinner.start();
 
-		const applications = await this.getApplicationsWithSuccessfulBuilds(
-			deviceTypeSlug,
-		);
+		const applications =
+			await this.getApplicationsWithSuccessfulBuilds(deviceTypeSlug);
 		applicationInfoSpinner.stop();
 		if (applications.length === 0) {
 			throw new ExpectedError(

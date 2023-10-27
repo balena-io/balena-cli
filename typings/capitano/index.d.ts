@@ -20,7 +20,7 @@ declare module 'capitano' {
 
 	export interface Cli {
 		command: string;
-		options: {};
+		options: object;
 		global: {
 			help?: boolean;
 		};
@@ -30,12 +30,13 @@ declare module 'capitano' {
 		signature: string;
 		description?: string;
 		parameter?: string;
+		// eslint-disable-next-line id-denylist
 		boolean?: boolean;
 		required?: string;
 		alias?: string | string[];
 	}
 
-	export interface CommandDefinition<P = {}, O = {}> {
+	export interface CommandDefinition<P = object, O = object> {
 		signature: string;
 		description?: string;
 		help?: string;
@@ -65,6 +66,7 @@ declare module 'capitano' {
 	export interface Option {
 		signature: Signature;
 		alias: string | string[];
+		// eslint-disable-next-line id-denylist
 		boolean: boolean;
 		parameter: string;
 		required: boolean | string;

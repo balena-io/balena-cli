@@ -204,12 +204,16 @@ export default class TunnelCmd extends Command {
 		let localAddress = 'localhost';
 
 		// First element is always remotePort
+		// TODO: figure out why we have explicitly passed `undefined` for the radix parameter
+		// eslint-disable-next-line radix
 		const remotePort = parseInt(mappingElements[0], undefined);
 		let localPort = remotePort;
 
 		if (mappingElements.length === 2) {
 			// [1] could be localAddress or localPort
 			if (/^\d+$/.test(mappingElements[1])) {
+				// TODO: figure out why we have explicitly passed `undefined` for the radix parameter
+				// eslint-disable-next-line radix
 				localPort = parseInt(mappingElements[1], undefined);
 			} else {
 				localAddress = mappingElements[1];
@@ -217,6 +221,8 @@ export default class TunnelCmd extends Command {
 		} else if (mappingElements.length === 3) {
 			// [1] is localAddress, [2] is localPort
 			localAddress = mappingElements[1];
+			// TODO: figure out why we have explicitly passed `undefined` for the radix parameter
+			// eslint-disable-next-line radix
 			localPort = parseInt(mappingElements[2], undefined);
 		} else if (mappingElements.length > 3) {
 			throw new InvalidPortMappingError(portMapping);

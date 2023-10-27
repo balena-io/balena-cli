@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 import * as _ from 'lodash';
-import mock = require('mock-require');
+import * as mock from 'mock-require';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 

@@ -16,6 +16,7 @@
  */
 
 declare module 'common-tags/lib/stripIndent' {
+	// eslint-disable-next-line no-restricted-imports
 	import { stripIndent } from 'common-tags';
 
 	export = stripIndent;

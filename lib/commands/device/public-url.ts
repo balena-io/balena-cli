@@ -65,9 +65,8 @@ export default class DevicePublicUrlCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(
-			DevicePublicUrlCmd,
-		);
+		const { args: params, flags: options } =
+			await this.parse(DevicePublicUrlCmd);
 
 		const balena = getBalenaSdk();
 
