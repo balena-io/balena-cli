@@ -59,4 +59,29 @@ describe('balena devices', function () {
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		expect(lines.some((l) => l.includes('N/a'))).to.be.true;
 	});
+
+	it('should list devices from own and collaborator apps', async () => {
+		api.scope
+			.get(
+				'/v6/device?$orderby=device_name%20asc&$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=device_tag($select=tag_key,value),belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+			)
+			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
+				'Content-Type': 'application/json',
+			});
+
+		const { out, err } = await runCommand('devices --json');
+		expect(err).to.be.empty;
+		const json = JSON.parse(out.join(''));
+		expect(json[0].device_name).to.equal('sparkling-wood');
+		expect(json[0].device_tag[0]).to.deep.equal({
+			tag_key: 'example',
+			value: '0',
+		});
+
+		expect(json[1].device_name).to.equal('dashing-spruce');
+		expect(json[1].device_tag[0]).to.deep.equal({
+			tag_key: 'example',
+			value: '1',
+		});
+	});
 });
