@@ -20,6 +20,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { jsonInfo } from '../../utils/messages';
 
 import type { Application, Release } from 'balena-sdk';
 
@@ -45,10 +46,13 @@ export default class DeviceCmd extends Command {
 		Show info about a single device.
 
 		Show information about a single device.
+
+		${jsonInfo.split('\n').join('\n\t\t')}
 		`;
 	public static examples = [
 		'$ balena device 7cf02a6',
 		'$ balena device 7cf02a6 --view',
+		'$ balena device 7cf02a6 --json',
 	];
 
 	public static args = {
@@ -61,6 +65,7 @@ export default class DeviceCmd extends Command {
 	public static usage = 'device <uuid>';
 
 	public static flags = {
+		json: cf.json,
 		help: cf.help,
 		view: Flags.boolean({
 			default: false,
@@ -76,33 +81,45 @@ export default class DeviceCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const device = (await balena.models.device.get(params.uuid, {
-			$select: [
-				'device_name',
-				'id',
-				'overall_status',
-				'is_online',
-				'ip_address',
-				'mac_address',
-				'last_connectivity_event',
-				'uuid',
-				'supervisor_version',
-				'is_web_accessible',
-				'note',
-				'os_version',
-				'memory_usage',
-				'memory_total',
-				'public_address',
-				'storage_block_device',
-				'storage_usage',
-				'storage_total',
-				'cpu_usage',
-				'cpu_temp',
-				'cpu_id',
-				'is_undervolted',
-			],
-			...expandForAppName,
-		})) as ExtendedDevice;
+		const device = (await balena.models.device.get(
+			params.uuid,
+			options.json
+				? {
+						$expand: {
+							device_tag: {
+								$select: ['tag_key', 'value'],
+							},
+							...expandForAppName.$expand,
+						},
+				  }
+				: {
+						$select: [
+							'device_name',
+							'id',
+							'overall_status',
+							'is_online',
+							'ip_address',
+							'mac_address',
+							'last_connectivity_event',
+							'uuid',
+							'supervisor_version',
+							'is_web_accessible',
+							'note',
+							'os_version',
+							'memory_usage',
+							'memory_total',
+							'public_address',
+							'storage_block_device',
+							'storage_usage',
+							'storage_total',
+							'cpu_usage',
+							'cpu_temp',
+							'cpu_id',
+							'is_undervolted',
+						],
+						...expandForAppName,
+				  },
+		)) as ExtendedDevice;
 
 		if (options.view) {
 			const open = await import('open');
@@ -164,6 +181,11 @@ export default class DeviceCmd extends Command {
 			device.storage_usage_percent = Math.round(
 				(device.storage_usage / device.storage_total) * 100,
 			);
+		}
+
+		if (options.json) {
+			console.log(JSON.stringify(device, null, 4));
+			return;
 		}
 
 		console.log(
