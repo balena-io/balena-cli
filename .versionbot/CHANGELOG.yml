@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump balena-lint to 7.2.1
+      hash: 7d13946c3ec4edd27318544d937003a21290ad61
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 17.2.2
+  title: ""
+  date: 2023-10-30T12:25:11.812Z
+- commits:
     - subject: Update balena-sdk and deduped dependencies
       hash: 04db9c7a91ffd9a5a0a92bd86084326a8686bdfd
       body: |
