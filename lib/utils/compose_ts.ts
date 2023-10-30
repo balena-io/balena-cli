@@ -31,7 +31,6 @@ import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
-
 import { ExpectedError } from '../errors';
 import {
 	BuiltImage,
@@ -1244,7 +1243,7 @@ async function pushAndUpdateServiceImages(
 	afterEach: (
 		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
 		props: object,
-	) => void,
+	) => Promise<void>,
 ) {
 	const { DockerProgress } = await import('docker-progress');
 	const { retry } = await import('./helpers');

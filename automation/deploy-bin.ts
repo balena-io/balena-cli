@@ -30,7 +30,7 @@ const { GITHUB_TOKEN } = process.env;
 export async function createGitHubRelease() {
 	console.log(`Publishing release ${version} to GitHub`);
 	const publishRelease = await import('publish-release');
-	const ghRelease = await Bluebird.fromCallback(
+	const ghRelease = (await Bluebird.fromCallback(
 		publishRelease.bind(null, {
 			token: GITHUB_TOKEN || '',
 			owner: 'balena-io',
@@ -40,7 +40,7 @@ export async function createGitHubRelease() {
 			reuseRelease: true,
 			assets: finalReleaseAssets[process.platform],
 		}),
-	);
+	)) as { html_url: any };
 	console.log(`Release ${version} successful: ${ghRelease.html_url}`);
 }
 
@@ -154,7 +154,7 @@ async function updateGitHubReleaseDescriptions(
 ) {
 	const perPage = 30;
 	const octokit = getOctokit();
-	const options = await octokit.repos.listReleases.endpoint.merge({
+	const options = octokit.repos.listReleases.endpoint.merge({
 		owner,
 		repo,
 		per_page: perPage,

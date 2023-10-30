@@ -52,20 +52,16 @@ export default class RevokeCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(RevokeCmd);
 
-		try {
-			const apiKeyIds = params.ids.split(',');
-			if (apiKeyIds.filter((apiKeyId) => !apiKeyId.match(/^\d+$/)).length > 0) {
-				console.log('API key ids must be positive integers');
-				return;
-			}
-			await Promise.all(
-				apiKeyIds.map(
-					async (id) => await getBalenaSdk().models.apiKey.revoke(Number(id)),
-				),
-			);
-			console.log('Successfully revoked the given API keys');
-		} catch (e) {
-			throw e;
+		const apiKeyIds = params.ids.split(',');
+		if (apiKeyIds.filter((apiKeyId) => !apiKeyId.match(/^\d+$/)).length > 0) {
+			console.log('API key ids must be positive integers');
+			return;
 		}
+		await Promise.all(
+			apiKeyIds.map(
+				async (id) => await getBalenaSdk().models.apiKey.revoke(Number(id)),
+			),
+		);
+		console.log('Successfully revoked the given API keys');
 	}
 }

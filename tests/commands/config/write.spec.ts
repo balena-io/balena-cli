@@ -32,6 +32,7 @@ describe('balena config write', function () {
 			[{ a: 'b' }, 'a', 2, { a: 2 }],
 			[{ a: ['b'] }, 'a', 2, { a: 2 }],
 			[{ a: ['b'] }, 'a.1', 'c', { a: ['b', 'c'] }],
+			// eslint-disable-next-line no-sparse-arrays
 			[{ a: ['b'] }, 'a.2', 'c', { a: ['b', , 'c'] }],
 			[{ a: { '1': 'b' } }, 'a.1', 'c', { a: { '1': 'c' } }],
 			[{ a: { '1': 'b' } }, 'a.2', 'c', { a: { '1': 'b', '2': 'c' } }],

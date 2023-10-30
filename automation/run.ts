@@ -60,7 +60,7 @@ async function parse(args?: string[]) {
 		release,
 	};
 	for (const arg of args) {
-		if (!commands.hasOwnProperty(arg)) {
+		if (!Object.hasOwn(commands, arg)) {
 			throw new Error(`command unknown: ${arg}`);
 		}
 	}
@@ -103,5 +103,5 @@ export async function run(args?: string[]) {
 	}
 }
 
-// tslint:disable-next-line:no-floating-promises
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run();

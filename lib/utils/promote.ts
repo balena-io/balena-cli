@@ -394,7 +394,9 @@ async function createApplication(
 		throw new sdk.errors.BalenaNotLoggedIn();
 	}
 
+	// eslint-disable-next-line no-async-promise-executor
 	const applicationName = await new Promise<string>(async (resolve, reject) => {
+		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			try {
 				const appName = await getCliForm().ask({

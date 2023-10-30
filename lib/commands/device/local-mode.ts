@@ -63,9 +63,8 @@ export default class DeviceLocalModeCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(
-			DeviceLocalModeCmd,
-		);
+		const { args: params, flags: options } =
+			await this.parse(DeviceLocalModeCmd);
 
 		const balena = getBalenaSdk();
 

@@ -47,7 +47,7 @@ export function outputMessage(msg: string) {
  * @param options Output options
  */
 export async function outputData(
-	data: any[] | {},
+	data: any[] | object,
 	fields: string[],
 	options: DataOutputOptions | DataSetOutputOptions,
 ) {

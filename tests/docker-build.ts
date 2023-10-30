@@ -218,7 +218,7 @@ export async function testDockerBuildStream(o: {
 	}
 	if (o.expectedExitCode != null) {
 		if (process.env.BALENA_CLI_TEST_TYPE !== 'standalone') {
-			// @ts-expect-error
+			// @ts-expect-error claims the typing doesn't match
 			sinon.assert.calledWith(process.exit);
 		}
 		expect(o.expectedExitCode).to.equal(exitCode);

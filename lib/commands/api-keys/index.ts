@@ -46,42 +46,38 @@ export default class ApiKeysCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(ApiKeysCmd);
 
-		try {
-			const { getApplication } = await import('../../utils/sdk');
-			const actorId = options.fleet
-				? (
-						await getApplication(getBalenaSdk(), options.fleet, {
-							$select: 'actor',
-						})
-				  ).actor
-				: await getBalenaSdk().auth.getActorId();
-			const keys = await getBalenaSdk().pine.get({
-				resource: 'api_key',
-				options: {
-					$select: ['id', 'created_at', 'name', 'description', 'expiry_date'],
-					$filter: {
-						is_of__actor: actorId,
-						...(options.user
-							? {
-									name: {
-										$ne: null,
-									},
-							  }
-							: {}),
-					},
-					$orderby: 'name asc',
+		const { getApplication } = await import('../../utils/sdk');
+		const actorId = options.fleet
+			? (
+					await getApplication(getBalenaSdk(), options.fleet, {
+						$select: 'actor',
+					})
+			  ).actor
+			: await getBalenaSdk().auth.getActorId();
+		const keys = await getBalenaSdk().pine.get({
+			resource: 'api_key',
+			options: {
+				$select: ['id', 'created_at', 'name', 'description', 'expiry_date'],
+				$filter: {
+					is_of__actor: actorId,
+					...(options.user
+						? {
+								name: {
+									$ne: null,
+								},
+						  }
+						: {}),
 				},
-			});
-			const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];
-			const _ = await import('lodash');
-			console.log(
-				getVisuals().table.horizontal(
-					keys.map((key) => _.mapValues(key, (val) => val ?? 'N/a')),
-					fields,
-				),
-			);
-		} catch (e) {
-			throw e;
-		}
+				$orderby: 'name asc',
+			},
+		});
+		const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];
+		const _ = await import('lodash');
+		console.log(
+			getVisuals().table.horizontal(
+				keys.map((key) => _.mapValues(key, (val) => val ?? 'N/a')),
+				fields,
+			),
+		);
 	}
 }

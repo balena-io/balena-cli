@@ -38,29 +38,27 @@ export class BuilderMock extends NockMock {
 		checkURI: (uri: string) => Promise<void>;
 		checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 	}) {
-		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(async function (
-			uri,
-			requestBody,
-			callback,
-		) {
-			let error: Error | null = null;
-			try {
-				await opts.checkURI(uri);
-				if (typeof requestBody === 'string') {
-					const gzipped = Buffer.from(requestBody, 'hex');
-					const gunzipped = await Bluebird.fromCallback<Buffer>((cb) => {
-						zlib.gunzip(gzipped, cb);
-					});
-					await opts.checkBuildRequestBody(gunzipped);
-				} else {
-					throw new Error(
-						`unexpected requestBody type "${typeof requestBody}"`,
-					);
+		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(
+			async function (uri, requestBody, callback) {
+				let error: Error | null = null;
+				try {
+					await opts.checkURI(uri);
+					if (typeof requestBody === 'string') {
+						const gzipped = Buffer.from(requestBody, 'hex');
+						const gunzipped = await Bluebird.fromCallback<Buffer>((cb) => {
+							zlib.gunzip(gzipped, cb);
+						});
+						await opts.checkBuildRequestBody(gunzipped);
+					} else {
+						throw new Error(
+							`unexpected requestBody type "${typeof requestBody}"`,
+						);
+					}
+				} catch (err) {
+					error = err;
 				}
-			} catch (err) {
-				error = err;
-			}
-			callback(error, [opts.responseCode, opts.responseBody]);
-		});
+				callback(error, [opts.responseCode, opts.responseBody]);
+			},
+		);
 	}
 }

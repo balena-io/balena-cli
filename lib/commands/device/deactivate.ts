@@ -51,9 +51,8 @@ export default class DeviceDeactivateCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(
-			DeviceDeactivateCmd,
-		);
+		const { args: params, flags: options } =
+			await this.parse(DeviceDeactivateCmd);
 
 		const balena = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');

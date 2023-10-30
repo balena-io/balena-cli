@@ -194,7 +194,7 @@ async function handleHeadlessBuildStream(
 
 function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
 	switch (obj.resource) {
-		case 'cursor':
+		case 'cursor': {
 			if (obj.value == null) {
 				return;
 			}
@@ -228,6 +228,7 @@ function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
 			}
 
 			break;
+		}
 		case 'buildLogId':
 			// The name of this resource is slightly dated, but this is the release
 			// id from the API. We need to save this so that if the user ctrl+c's the
@@ -291,10 +292,10 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 	let tarSpinner = {
 		start: () => {
-			/*noop*/
+			/* noop*/
 		},
 		stop: () => {
-			/*noop*/
+			/* noop*/
 		},
 	};
 	if (process.stdout.isTTY) {

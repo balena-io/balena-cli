@@ -59,9 +59,8 @@ export default class DeviceOsUpdateCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(
-			DeviceOsUpdateCmd,
-		);
+		const { args: params, flags: options } =
+			await this.parse(DeviceOsUpdateCmd);
 
 		const sdk = getBalenaSdk();
 

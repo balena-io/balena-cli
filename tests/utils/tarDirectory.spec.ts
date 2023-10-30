@@ -16,7 +16,6 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
 import * as path from 'path';
 import * as tar from 'tar-stream';
 

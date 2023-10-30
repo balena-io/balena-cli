@@ -18,7 +18,6 @@
 import { expect } from 'chai';
 import * as chokidar from 'chokidar';
 import { promises as fs } from 'fs';
-import * as _ from 'lodash';
 import * as path from 'path';
 import { promisify } from 'util';
 

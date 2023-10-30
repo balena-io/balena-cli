@@ -61,9 +61,8 @@ export default class DeviceRegisterCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(
-			DeviceRegisterCmd,
-		);
+		const { args: params, flags: options } =
+			await this.parse(DeviceRegisterCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
 

@@ -26,15 +26,15 @@ describe('getProxyConfig() function', function () {
 
 	this.beforeEach(() => {
 		originalProxyConfig = [
-			global.hasOwnProperty('PROXY_CONFIG'),
+			Object.hasOwn(global, 'PROXY_CONFIG'),
 			(global as any).PROXY_CONFIG,
 		];
 		originalHttpProxy = [
-			process.env.hasOwnProperty('HTTP_PROXY'),
+			Object.hasOwn(process.env, 'HTTP_PROXY'),
 			process.env.HTTP_PROXY,
 		];
 		originalHttpsProxy = [
-			process.env.hasOwnProperty('HTTPS_PROXY'),
+			Object.hasOwn(process.env, 'HTTPS_PROXY'),
 			process.env.HTTPS_PROXY,
 		];
 		delete (global as any).PROXY_CONFIG;

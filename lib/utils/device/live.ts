@@ -194,6 +194,7 @@ export class LivepushManager {
 					);
 					const eventQueue = this.updateEventsWaiting[$serviceName];
 					eventQueue.push(changedPath);
+					// eslint-disable-next-line @typescript-eslint/no-floating-promises
 					this.getDebouncedEventHandler($serviceName)();
 				};
 

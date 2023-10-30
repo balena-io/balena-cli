@@ -16,7 +16,6 @@
  */
 
 import { spawn } from 'child_process';
-import * as _ from 'lodash';
 import * as path from 'path';
 
 export const ROOT = path.join(__dirname, '..');
