@@ -1,4 +1,20 @@
 - commits:
+    - subject: Generate docs for recently supported commands
+      hash: 9ef4117fb85c0d488982857223c11807e2df6745
+      body: >
+        Added documentation for `balena fleet pin` and other recently supported
+        commands
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+        signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+      author: Vipul Gupta (@vipulgupta2048)
+      nested: []
+  version: 17.2.3
+  title: ""
+  date: 2023-11-03T16:34:11.329Z
+- commits:
     - subject: Bump balena-lint to 7.2.1
       hash: 7d13946c3ec4edd27318544d937003a21290ad61
       body: ""
