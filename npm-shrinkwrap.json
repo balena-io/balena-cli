@@ -3680,9 +3680,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "18.18.7",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.7.tgz",
-      "integrity": "sha512-bw+lEsxis6eqJYW8Ql6+yTqkE6RuFtsQPSe5JxXbqYRFQEER5aJA9a5UH9igqDWm3X4iLHIKOHlnAXLM4mi7uQ==",
+      "version": "18.18.8",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.8.tgz",
+      "integrity": "sha512-OLGBaaK5V3VRBS1bAkMVP2/W9B+H8meUfl866OrMNQqt7wDgdpWPp5o6gmIc9pB+lIQHSq4ZL8ypeH1vPxcPaQ==",
       "dependencies": {
         "undici-types": "~5.26.4"
       }
@@ -17398,9 +17398,9 @@
       }
     },
     "node_modules/punycode": {
-      "version": "2.3.0",
-      "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.0.tgz",
-      "integrity": "sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==",
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
+      "integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==",
       "engines": {
         "node": ">=6"
       }
@@ -21780,9 +21780,9 @@
       "dev": true
     },
     "node_modules/universalify": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.0.tgz",
-      "integrity": "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==",
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
+      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
       "dev": true,
       "engines": {
         "node": ">= 10.0.0"
@@ -27636,9 +27636,9 @@
       }
     },
     "@types/node": {
-      "version": "18.18.7",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.7.tgz",
-      "integrity": "sha512-bw+lEsxis6eqJYW8Ql6+yTqkE6RuFtsQPSe5JxXbqYRFQEER5aJA9a5UH9igqDWm3X4iLHIKOHlnAXLM4mi7uQ==",
+      "version": "18.18.8",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.18.8.tgz",
+      "integrity": "sha512-OLGBaaK5V3VRBS1bAkMVP2/W9B+H8meUfl866OrMNQqt7wDgdpWPp5o6gmIc9pB+lIQHSq4ZL8ypeH1vPxcPaQ==",
       "requires": {
         "undici-types": "~5.26.4"
       }
@@ -38298,9 +38298,9 @@
       }
     },
     "punycode": {
-      "version": "2.3.0",
-      "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.0.tgz",
-      "integrity": "sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA=="
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
+      "integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg=="
     },
     "pupa": {
       "version": "2.1.1",
@@ -41737,9 +41737,9 @@
       "dev": true
     },
     "universalify": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.0.tgz",
-      "integrity": "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==",
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
+      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
       "dev": true
     },
     "unpipe": {
