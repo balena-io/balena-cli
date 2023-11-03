@@ -123,6 +123,20 @@ The README file is manually edited, but subsections are automatically extracted 
 `docs/balena-cli.md` by the `getCapitanoDoc()` function in
 [`automation/capitanodoc/capitanodoc.ts`](https://github.com/balena-io/balena-cli/blob/master/automation/capitanodoc/capitanodoc.ts).
 
+**IMPORTANT**
+
+The file [`capitanodoc.ts`](https://github.com/balena-io/balena-cli/blob/master/automation/capitanodoc/capitanodoc.ts) lists 
+commands to generate documentation from. At the moment, it's manually updated and maintained alphabetically. 
+
+To add a new command to be documented, 
+
+1. Find the resource which it is part of or create a new one. 
+2. List the location of the build file 
+3. Make sure to add your files in alphabetical order
+4. Resources with plural names needs to have 2 sections if they have commands like: "fleet, fleets" or "device, devices" or "tag, tags"
+
+Once added, run the command `npm run build` to generate the documentation
+
 The `INSTALL*.md` and `TROUBLESHOOTING.md` files are also manually edited.
 
 ## Patches folder

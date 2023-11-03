@@ -24,26 +24,34 @@ import { MarkdownFileParser } from './utils';
  *
  * The `getCapitanoDoc` function in this module parses README.md and adds
  * some content to this object.
+ *
+ * IMPORTANT
+ *
+ * Only build files listed here will be documented by Capitano
+ * Make sure to add your files in alphabetical order
+ *
+ * Resources with plural names needs to have 2 sections if they have commands like:
+ * "fleet, fleets" or "device, devices" or "tag, tags"
+ *
  */
 const capitanoDoc = {
 	title: 'balena CLI Documentation',
 	introduction: '',
 	categories: [
 		{
-			title: 'API keys',
-			files: ['build/commands/api-key/generate.js'],
+			title: 'API Key',
+			files: ['build/commands/api-keys/index.js'],
 		},
 		{
-			title: 'Fleet',
+			title: 'API Keys',
 			files: [
-				'build/commands/fleets.js',
-				'build/commands/fleet/index.js',
-				'build/commands/fleet/create.js',
-				'build/commands/fleet/purge.js',
-				'build/commands/fleet/rename.js',
-				'build/commands/fleet/restart.js',
-				'build/commands/fleet/rm.js',
+				'build/commands/api-key/generate.js',
+				'build/commands/api-key/revoke.js',
 			],
+		},
+		{
+			title: 'App',
+			files: ['build/commands/app/create.js'],
 		},
 		{
 			title: 'Authentication',
@@ -54,17 +62,34 @@ const capitanoDoc = {
 			],
 		},
 		{
+			title: 'Block',
+			files: ['build/commands/app/create.js'],
+		},
+		{
+			title: 'Config',
+			files: [
+				'build/commands/config/generate.js',
+				'build/commands/config/inject.js',
+				'build/commands/config/read.js',
+				'build/commands/config/reconfigure.js',
+				'build/commands/config/write.js',
+			],
+		},
+		{
+			title: 'Deploy',
+			files: ['build/commands/build.js', 'build/commands/deploy.js'],
+		},
+		{
 			title: 'Device',
 			files: [
-				'build/commands/devices/index.js',
-				'build/commands/devices/supported.js',
-				'build/commands/device/index.js',
 				'build/commands/device/deactivate.js',
 				'build/commands/device/identify.js',
+				'build/commands/device/index.js',
 				'build/commands/device/init.js',
 				'build/commands/device/local-mode.js',
 				'build/commands/device/move.js',
 				'build/commands/device/os-update.js',
+				'build/commands/device/pin.js',
 				'build/commands/device/public-url.js',
 				'build/commands/device/purge.js',
 				'build/commands/device/reboot.js',
@@ -73,44 +98,54 @@ const capitanoDoc = {
 				'build/commands/device/restart.js',
 				'build/commands/device/rm.js',
 				'build/commands/device/shutdown.js',
+				'build/commands/device/track-fleet.js',
 			],
 		},
 		{
-			title: 'Releases',
+			title: 'Devices',
 			files: [
-				'build/commands/releases.js',
-				'build/commands/release/index.js',
-				'build/commands/release/finalize.js',
+				'build/commands/devices/index.js',
+				'build/commands/devices/supported.js',
 			],
 		},
 		{
-			title: 'Environment Variables',
+			title: 'Environment Variable',
 			files: [
-				'build/commands/envs.js',
 				'build/commands/env/add.js',
 				'build/commands/env/rename.js',
 				'build/commands/env/rm.js',
 			],
 		},
 		{
-			title: 'Tags',
+			title: 'Environment Variables',
+			files: ['build/commands/envs.js'],
+		},
+		{
+			title: 'Fleet',
 			files: [
-				'build/commands/tags.js',
-				'build/commands/tag/rm.js',
-				'build/commands/tag/set.js',
+				'build/commands/fleet/create.js',
+				'build/commands/fleet/index.js',
+				'build/commands/fleet/pin.js',
+				'build/commands/fleet/purge.js',
+				'build/commands/fleet/rename.js',
+				'build/commands/fleet/restart.js',
+				'build/commands/fleet/rm.js',
+				'build/commands/fleet/track-latest.js',
 			],
+		},
+		{
+			title: 'Fleets',
+			files: ['build/commands/fleets.js'],
 		},
 		{
 			title: 'Help and Version',
 			files: ['help', 'build/commands/version.js'],
 		},
 		{
-			title: 'Keys',
+			title: 'Local',
 			files: [
-				'build/commands/keys.js',
-				'build/commands/key/index.js',
-				'build/commands/key/add.js',
-				'build/commands/key/rm.js',
+				'build/commands/local/configure.js',
+				'build/commands/local/flash.js',
 			],
 		},
 		{
@@ -130,23 +165,17 @@ const capitanoDoc = {
 			files: ['build/commands/note.js'],
 		},
 		{
+			title: 'Organizations',
+			files: ['build/commands/orgs.js'],
+		},
+		{
 			title: 'OS',
 			files: [
 				'build/commands/os/build-config.js',
 				'build/commands/os/configure.js',
-				'build/commands/os/versions.js',
 				'build/commands/os/download.js',
 				'build/commands/os/initialize.js',
-			],
-		},
-		{
-			title: 'Config',
-			files: [
-				'build/commands/config/generate.js',
-				'build/commands/config/inject.js',
-				'build/commands/config/read.js',
-				'build/commands/config/reconfigure.js',
-				'build/commands/config/write.js',
+				'build/commands/os/versions.js',
 			],
 		},
 		{
@@ -158,31 +187,54 @@ const capitanoDoc = {
 			files: ['build/commands/push.js'],
 		},
 		{
-			title: 'Settings',
-			files: ['build/commands/settings.js'],
-		},
-		{
-			title: 'Local',
-			files: [
-				'build/commands/local/configure.js',
-				'build/commands/local/flash.js',
-			],
-		},
-		{
-			title: 'Deploy',
-			files: ['build/commands/build.js', 'build/commands/deploy.js'],
-		},
-		{
 			title: 'Platform',
 			files: ['build/commands/join.js', 'build/commands/leave.js'],
 		},
 		{
-			title: 'Utilities',
-			files: ['build/commands/util/available-drives.js'],
+			title: 'Release',
+			files: [
+				'build/commands/release/finalize.js',
+				'build/commands/release/index.js',
+				'build/commands/release/invalidate.js',
+				'build/commands/release/validate.js',
+			],
+		},
+		{
+			title: 'Releases',
+			files: ['build/commands/releases.js'],
+		},
+		{
+			title: 'Settings',
+			files: ['build/commands/settings.js'],
 		},
 		{
 			title: 'Support',
 			files: ['build/commands/support.js'],
+		},
+
+		{
+			title: 'SSH Key',
+			files: [
+				'build/commands/key/add.js',
+				'build/commands/key/index.js',
+				'build/commands/key/rm.js',
+			],
+		},
+		{
+			title: 'SSH Keys',
+			files: ['build/commands/keys.js'],
+		},
+		{
+			title: 'Tags',
+			files: ['build/commands/tag/rm.js', 'build/commands/tag/set.js'],
+		},
+		{
+			title: 'Tags',
+			files: ['build/commands/tags.js'],
+		},
+		{
+			title: 'Utilities',
+			files: ['build/commands/util/available-drives.js'],
 		},
 	],
 };
