@@ -215,6 +215,8 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
 	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
+	- [device start-service &#60;uuid&#62;](#device-start-service-uuid)
+	- [device stop-service &#60;uuid&#62;](#device-stop-service-uuid)
 
 - Devices
 
@@ -1706,6 +1708,54 @@ Examples:
 #### UUID
 
 the uuid of the device to make track the fleet's release
+
+### Options
+
+## device start-service &#60;uuid&#62;
+
+Start containers on a device.
+
+Multiple devices and services may be specified with a comma-separated list
+of values (no spaces).
+
+Examples:
+
+	$ balena device start-service 23c73a1 myService
+	$ balena device start-service 23c73a1 myService1,myService2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs
+
+#### SERVICE
+
+comma-separated list (no blank spaces) of service names
+
+### Options
+
+## device stop-service &#60;uuid&#62;
+
+Stop containers on a device.
+
+Multiple devices and services may be specified with a comma-separated list
+of values (no spaces).
+
+Examples:
+
+	$ balena device stop-service 23c73a1 myService
+	$ balena device stop-service 23c73a1 myService1,myService2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs
+
+#### SERVICE
+
+comma-separated list (no blank spaces) of service names
 
 ### Options
 
