@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add device start-service and stop-service commands
+      hash: 221c21379138c2caf7ece91c156aa7dd0288824e
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Morgan Larsson
+      nested: []
+  version: 17.3.0
+  title: ""
+  date: 2023-11-06T20:19:05.251Z
+- commits:
     - subject: Dedupe shrinkwrap
       hash: 4a64102d672973ab1838ab6b3e53ca761ff0ccf2
       body: ""
