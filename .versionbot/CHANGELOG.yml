@@ -1,4 +1,16 @@
 - commits:
+    - subject: Dedupe shrinkwrap
+      hash: 4a64102d672973ab1838ab6b3e53ca761ff0ccf2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 17.2.4
+  title: ""
+  date: 2023-11-06T19:11:58.929Z
+- commits:
     - subject: Generate docs for recently supported commands
       hash: 9ef4117fb85c0d488982857223c11807e2df6745
       body: >
