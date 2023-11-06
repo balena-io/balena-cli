@@ -99,6 +99,8 @@ const capitanoDoc = {
 				'build/commands/device/rm.js',
 				'build/commands/device/shutdown.js',
 				'build/commands/device/track-fleet.js',
+				'build/commands/device/start-service.js',
+				'build/commands/device/stop-service.js',
 			],
 		},
 		{
