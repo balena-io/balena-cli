@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../command';
-import * as cf from '../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../utils/lazy';
-import { ExpectedError } from '../errors';
+import Command from '../../command';
+import * as cf from '../../utils/common-flags';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import { ExpectedError } from '../../errors';
 import type { WhoamiResult } from 'balena-sdk';
 
 interface FlagsDef {
@@ -123,7 +123,7 @@ export default class LoginCmd extends Command {
 		const { flags: options, args: params } = await this.parse(LoginCmd);
 
 		const balena = getBalenaSdk();
-		const messages = await import('../utils/messages');
+		const messages = await import('../../utils/messages');
 		const balenaUrl = await balena.settings.get('balenaUrl');
 
 		// Consolidate user/email options
@@ -202,16 +202,16 @@ ${messages.reachingOut}`);
 		}
 		// Credentials
 		else if (loginOptions.credentials) {
-			const patterns = await import('../utils/patterns');
+			const patterns = await import('../../utils/patterns');
 			return patterns.authenticate(loginOptions);
 		}
 		// Web
 		else if (loginOptions.web) {
-			const auth = await import('../auth');
+			const auth = await import('../../auth');
 			await auth.login({ port: loginOptions.port });
 			return;
 		} else {
-			const patterns = await import('../utils/patterns');
+			const patterns = await import('../../utils/patterns');
 			// User had not selected login preference, prompt interactively
 			const loginType = await patterns.askLoginType();
 			if (loginType === 'register') {

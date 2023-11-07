@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import Command from '../command';
-import { ExpectedError } from '../errors';
-import * as cf from '../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { applicationIdInfo } from '../utils/messages';
+import Command from '../../command';
+import { ExpectedError } from '../../errors';
+import * as cf from '../../utils/common-flags';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
 
 export default class TagsCmd extends Command {
 	public static description = stripIndent`
@@ -71,7 +71,7 @@ export default class TagsCmd extends Command {
 		let tags;
 
 		if (options.fleet) {
-			const { getFleetSlug } = await import('../utils/sdk');
+			const { getFleetSlug } = await import('../../utils/sdk');
 			tags = await balena.models.application.tags.getAllByApplication(
 				await getFleetSlug(balena, options.fleet),
 			);
@@ -81,7 +81,7 @@ export default class TagsCmd extends Command {
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(
-				'../utils/normalization'
+				'../../utils/normalization'
 			);
 			const releaseParam = await disambiguateReleaseParam(
 				balena,

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import Command from '../command';
-import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import Command from '../../command';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class WhoamiCmd extends Command {
 	public static description = stripIndent`

@@ -16,9 +16,9 @@
  */
 
 import { Flags } from '@oclif/core';
-import Command from '../command';
-import * as cf from '../utils/common-flags';
-import { getCliUx, stripIndent } from '../utils/lazy';
+import Command from '../../command';
+import * as cf from '../../utils/common-flags';
+import { getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class ScanCmd extends Command {
 	public static description = stripIndent`
@@ -64,9 +64,11 @@ export default class ScanCmd extends Command {
 
 	public async run() {
 		const _ = await import('lodash');
-		const { discoverLocalBalenaOsDevices } = await import('../utils/discover');
+		const { discoverLocalBalenaOsDevices } = await import(
+			'../../utils/discover'
+		);
 		const prettyjson = await import('prettyjson');
-		const dockerUtils = await import('../utils/docker');
+		const dockerUtils = await import('../../utils/docker');
 
 		const dockerPort = 2375;
 		const dockerTimeout = 2000;

@@ -16,20 +16,20 @@
  */
 
 import { Args, Flags } from '@oclif/core';
-import Command from '../command';
-import { getBalenaSdk } from '../utils/lazy';
-import * as cf from '../utils/common-flags';
-import * as compose from '../utils/compose';
+import Command from '../../command';
+import { getBalenaSdk } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags';
+import * as compose from '../../utils/compose';
 import type { ApplicationType, BalenaSDK } from 'balena-sdk';
 import {
 	buildArgDeprecation,
 	dockerignoreHelp,
 	registrySecretsHelp,
-} from '../utils/messages';
-import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
-import { buildProject, composeCliFlags } from '../utils/compose_ts';
-import type { BuildOpts, DockerCliFlags } from '../utils/docker';
-import { dockerCliFlags } from '../utils/docker';
+} from '../../utils/messages';
+import type { ComposeCliFlags, ComposeOpts } from '../../utils/compose-types';
+import { buildProject, composeCliFlags } from '../../utils/compose_ts';
+import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
+import { dockerCliFlags } from '../../utils/docker';
 
 // TODO: For this special one we can't use Interfaces.InferredFlags/InferredArgs
 // because of the 'registry-secrets' type which is defined in the actual code
@@ -148,14 +148,14 @@ ${dockerignoreHelp}
 			(opts.fleet == null && (opts.arch == null || opts.deviceType == null)) ||
 			(opts.fleet != null && (opts.arch != null || opts.deviceType != null))
 		) {
-			const { ExpectedError } = await import('../errors');
+			const { ExpectedError } = await import('../../errors');
 			throw new ExpectedError(
 				'You must specify either a fleet (-f), or the device type (-d) and architecture (-A)',
 			);
 		}
 
 		// Validate project directory
-		const { validateProjectDirectory } = await import('../utils/compose_ts');
+		const { validateProjectDirectory } = await import('../../utils/compose_ts');
 		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
 			sdk,
 			{
@@ -172,7 +172,7 @@ ${dockerignoreHelp}
 
 	protected async getAppAndResolveArch(opts: FlagsDef) {
 		if (opts.fleet) {
-			const { getAppWithArch } = await import('../utils/helpers');
+			const { getAppWithArch } = await import('../../utils/helpers');
 			const app = await getAppWithArch(opts.fleet);
 			opts.arch = app.arch;
 			opts.deviceType = app.is_for__device_type[0].slug;
@@ -181,7 +181,7 @@ ${dockerignoreHelp}
 	}
 
 	protected async prepareBuild(options: FlagsDef) {
-		const { getDocker, generateBuildOpts } = await import('../utils/docker');
+		const { getDocker, generateBuildOpts } = await import('../../utils/docker');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			getDocker(options),
 			generateBuildOpts(options),
@@ -209,7 +209,7 @@ ${dockerignoreHelp}
 	 */
 	protected async buildProject(
 		docker: import('dockerode'),
-		logger: import('../utils/logger'),
+		logger: import('../../utils/logger'),
 		composeOpts: ComposeOpts,
 		opts: {
 			app?: {
@@ -221,7 +221,7 @@ ${dockerignoreHelp}
 			buildOpts: BuildOpts;
 		},
 	) {
-		const { loadProject } = await import('../utils/compose_ts');
+		const { loadProject } = await import('../../utils/compose_ts');
 
 		const project = await loadProject(
 			logger,

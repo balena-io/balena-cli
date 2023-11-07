@@ -16,12 +16,12 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../command';
-import * as cf from '../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { applicationNameNote } from '../utils/messages';
+import Command from '../../command';
+import * as cf from '../../utils/common-flags';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { applicationNameNote } from '../../utils/messages';
 import type * as BalenaSdk from 'balena-sdk';
-import { jsonInfo } from '../utils/messages';
+import { jsonInfo } from '../../utils/messages';
 
 export default class ReleasesCmd extends Command {
 	public static description = stripIndent`
@@ -67,7 +67,7 @@ export default class ReleasesCmd extends Command {
 		];
 
 		const balena = getBalenaSdk();
-		const { getFleetSlug } = await import('../utils/sdk');
+		const { getFleetSlug } = await import('../../utils/sdk');
 
 		const releases = await balena.models.release.getAllByApplication(
 			await getFleetSlug(balena, params.fleet),

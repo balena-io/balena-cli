@@ -16,15 +16,15 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../command';
+import Command from '../../command';
 import {
 	NoPortsDefinedError,
 	InvalidPortMappingError,
 	ExpectedError,
-} from '../errors';
-import * as cf from '../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../utils/lazy';
-import { lowercaseIfSlug } from '../utils/normalization';
+} from '../../errors';
+import * as cf from '../../utils/common-flags';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { lowercaseIfSlug } from '../../utils/normalization';
 
 import type { Server, Socket } from 'net';
 
@@ -122,7 +122,7 @@ export default class TunnelCmd extends Command {
 		}
 
 		// Ascertain device uuid
-		const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
+		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns');
 		const uuid = await getOnlineTargetDeviceUuid(sdk, params.deviceOrFleet);
 		logger.logInfo(`Opening a tunnel to ${uuid}...`);
 
@@ -133,7 +133,9 @@ export default class TunnelCmd extends Command {
 			})
 			.map(async ({ localPort, localAddress, remotePort }) => {
 				try {
-					const { tunnelConnectionToDevice } = await import('../utils/tunnel');
+					const { tunnelConnectionToDevice } = await import(
+						'../../utils/tunnel'
+					);
 					const handler = await tunnelConnectionToDevice(uuid, remotePort, sdk);
 
 					const { createServer } = await import('net');

@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-import Command from '../command';
-import * as cf from '../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import Command from '../../command';
+import * as cf from '../../utils/common-flags';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class OrgsCmd extends Command {
+export default class KeysCmd extends Command {
 	public static description = stripIndent`
-		List all organizations.
+		List the SSH keys in balenaCloud.
 
-		list all the organizations that you are a member of.
-`;
-	public static examples = ['$ balena orgs'];
+		List all SSH keys registered in balenaCloud for the logged in user.
+	`;
+	public static examples = ['$ balena keys'];
 
-	public static usage = 'orgs';
+	public static usage = 'keys';
 
 	public static flags = {
 		help: cf.help,
@@ -36,18 +36,15 @@ export default class OrgsCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		await this.parse(OrgsCmd);
+		await this.parse(KeysCmd);
 
-		const { getOwnOrganizations } = await import('../utils/sdk');
+		const keys = await getBalenaSdk().models.key.getAll();
 
-		// Get organizations
-		const organizations = await getOwnOrganizations(getBalenaSdk(), {
-			$select: ['name', 'handle'],
+		// Use 'name' instead of 'title' to match dashboard.
+		const displayKeys: Array<{ id: number; name: string }> = keys.map((k) => {
+			return { id: k.id, name: k.title };
 		});
 
-		// Display
-		console.log(
-			getVisuals().table.horizontal(organizations, ['name', 'handle']),
-		);
+		console.log(getVisuals().table.horizontal(displayKeys, ['id', 'name']));
 	}
 }

@@ -15,30 +15,39 @@
  * limitations under the License.
  */
 
-import Command from '../command';
-import * as cf from '../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import Command from '../../command';
+import * as cf from '../../utils/common-flags';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class SettingsCmd extends Command {
+export default class OrgsCmd extends Command {
 	public static description = stripIndent`
-		Print current settings.
+		List all organizations.
 
-		Use this command to display the current balena CLI settings.
+		list all the organizations that you are a member of.
 `;
-	public static examples = ['$ balena settings'];
+	public static examples = ['$ balena orgs'];
 
-	public static usage = 'settings';
+	public static usage = 'orgs';
 
 	public static flags = {
 		help: cf.help,
 	};
 
+	public static authenticated = true;
+
 	public async run() {
-		await this.parse(SettingsCmd);
+		await this.parse(OrgsCmd);
 
-		const settings = await getBalenaSdk().settings.getAll();
+		const { getOwnOrganizations } = await import('../../utils/sdk');
 
-		const prettyjson = await import('prettyjson');
-		console.log(prettyjson.render(settings));
+		// Get organizations
+		const organizations = await getOwnOrganizations(getBalenaSdk(), {
+			$select: ['name', 'handle'],
+		});
+
+		// Display
+		console.log(
+			getVisuals().table.horizontal(organizations, ['name', 'handle']),
+		);
 	}
 }

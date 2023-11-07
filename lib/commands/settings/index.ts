@@ -16,20 +16,29 @@
  */
 
 import Command from '../../command';
+import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
-export default class LogoutCmd extends Command {
+export default class SettingsCmd extends Command {
 	public static description = stripIndent`
-		Logout from balena.
+		Print current settings.
 
-		Logout from your balena account.
+		Use this command to display the current balena CLI settings.
 `;
-	public static examples = ['$ balena logout'];
+	public static examples = ['$ balena settings'];
 
-	public static usage = 'logout';
+	public static usage = 'settings';
+
+	public static flags = {
+		help: cf.help,
+	};
 
 	public async run() {
-		await this.parse(LogoutCmd);
-		await getBalenaSdk().auth.logout();
+		await this.parse(SettingsCmd);
+
+		const settings = await getBalenaSdk().settings.getAll();
+
+		const prettyjson = await import('prettyjson');
+		console.log(prettyjson.render(settings));
 	}
 }

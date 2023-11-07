@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import Command from '../command';
-import { ExpectedError } from '../errors';
-import * as cf from '../utils/common-flags';
+import Command from '../../command';
+import { ExpectedError } from '../../errors';
+import * as cf from '../../utils/common-flags';
 import {
 	getBalenaSdk,
 	getCliForm,
 	getVisuals,
 	stripIndent,
-} from '../utils/lazy';
-import { applicationIdInfo } from '../utils/messages';
-import { dockerConnectionCliFlags } from '../utils/docker';
-import { parseAsInteger } from '../utils/validation';
+} from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
+import { dockerConnectionCliFlags } from '../../utils/docker';
+import { parseAsInteger } from '../../utils/validation';
 
 import { Flags, Args } from '@oclif/core';
 import * as _ from 'lodash';
@@ -148,7 +148,7 @@ Can be repeated to add multiple certificates.\
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
 		const nodeCleanup = await import('node-cleanup');
-		const { instanceOf } = await import('../errors');
+		const { instanceOf } = await import('../../errors');
 
 		// Check image file exists
 		try {
@@ -171,7 +171,9 @@ Can be repeated to add multiple certificates.\
 		// balena-preload currently does not work with numerical app IDs
 		// Load app here, and use app slug from hereon
 		const fleetSlug: string | undefined = options.fleet
-			? await (await import('../utils/sdk')).getFleetSlug(balena, options.fleet)
+			? await (
+					await import('../../utils/sdk')
+			  ).getFleetSlug(balena, options.fleet)
 			: undefined;
 
 		const progressBars: {
@@ -227,7 +229,7 @@ Can be repeated to add multiple certificates.\
 		}
 
 		// Get a configured dockerode instance
-		const dockerUtils = await import('../utils/docker');
+		const dockerUtils = await import('../../utils/docker');
 		const docker = await dockerUtils.getDocker(options);
 		const preloader = new balenaPreload.Preloader(
 			undefined,
@@ -479,7 +481,7 @@ Would you like to disable automatic updates for this fleet now?\
 	}
 
 	async getAppWithReleases(balenaSdk: BalenaSDK, slug: string) {
-		const { getApplication } = await import('../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk');
 
 		return await getApplication(balenaSdk, slug, {
 			$expand: this.applicationExpandOptions,
