@@ -7,21 +7,27 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="build deploy envs fleets join keys leave login logout logs note orgs preload push releases scan settings ssh support tags tunnel version whoami api-key api-keys app block config device device devices env fleet fleet internal key key local os release release tag util"
+  main_commands="api-key api-keys app auth block config deploy deploy device device devices env envs fleet fleet fleets help internal key key keys local logs network notes orgs os platform preload push release release releases settings support tag tags util"
   # Sub-completions
   api_key_cmds="generate revoke"
   app_cmds="create"
+  auth_cmds="login logout whoami"
   block_cmds="create"
   config_cmds="generate inject read reconfigure write"
+  deploy_cmds="build"
   device_cmds="deactivate identify init local-mode move os-update pin public-url purge reboot register rename restart rm shutdown start-service stop-service track-fleet"
   devices_cmds="supported"
   env_cmds="add rename rm"
   fleet_cmds="create pin purge rename restart rm track-latest"
+  help_cmds="version"
   internal_cmds="osinit"
   key_cmds="add rm"
   local_cmds="configure flash"
+  network_cmds="scan ssh tunnel"
   os_cmds="build-config configure download initialize versions"
+  platform_cmds="join leave"
   release_cmds="finalize invalidate validate"
+  support_cmds="support"
   tag_cmds="rm set"
 
 
@@ -42,11 +48,17 @@ _balena_complete()
       app)
         COMPREPLY=( $(compgen -W "$app_cmds" -- $cur) )
         ;;
+      auth)
+        COMPREPLY=( $(compgen -W "$auth_cmds" -- $cur) )
+        ;;
       block)
         COMPREPLY=( $(compgen -W "$block_cmds" -- $cur) )
         ;;
       config)
         COMPREPLY=( $(compgen -W "$config_cmds" -- $cur) )
+        ;;
+      deploy)
+        COMPREPLY=( $(compgen -W "$deploy_cmds" -- $cur) )
         ;;
       device)
         COMPREPLY=( $(compgen -W "$device_cmds" -- $cur) )
@@ -60,6 +72,9 @@ _balena_complete()
       fleet)
         COMPREPLY=( $(compgen -W "$fleet_cmds" -- $cur) )
         ;;
+      help)
+        COMPREPLY=( $(compgen -W "$help_cmds" -- $cur) )
+        ;;
       internal)
         COMPREPLY=( $(compgen -W "$internal_cmds" -- $cur) )
         ;;
@@ -69,11 +84,20 @@ _balena_complete()
       local)
         COMPREPLY=( $(compgen -W "$local_cmds" -- $cur) )
         ;;
+      network)
+        COMPREPLY=( $(compgen -W "$network_cmds" -- $cur) )
+        ;;
       os)
         COMPREPLY=( $(compgen -W "$os_cmds" -- $cur) )
         ;;
+      platform)
+        COMPREPLY=( $(compgen -W "$platform_cmds" -- $cur) )
+        ;;
       release)
         COMPREPLY=( $(compgen -W "$release_cmds" -- $cur) )
+        ;;
+      support)
+        COMPREPLY=( $(compgen -W "$support_cmds" -- $cur) )
         ;;
       tag)
         COMPREPLY=( $(compgen -W "$tag_cmds" -- $cur) )

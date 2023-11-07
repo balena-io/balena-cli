@@ -17,7 +17,7 @@
 
 import * as path from 'path';
 import { MarkdownFileParser } from './utils';
-import { globSync } from 'glob';
+import { GlobSync } from 'glob';
 
 /**
  * This is the skeleton of CLI documentation/reference web page at:
@@ -68,12 +68,26 @@ const commandHeadings: { [key: string]: string } = {
 };
 
 // Fetch all available commands
-const allCommandsPaths = globSync('build/commands/**/*.js', {
+const allCommandsPaths = new GlobSync('build/commands/**/*.js', {
 	ignore: 'build/commands/internal/**',
-});
+}).found;
+
+// Throw error if any commands found outside of command directories
+//
+const illegalCommandPaths = allCommandsPaths.filter((commandPath: string) =>
+	/^build\/commands\/[^/]+\.js$/.test(commandPath),
+);
+
+if (illegalCommandPaths.length !== 0) {
+	throw new Error(
+		`Found the following commands without a command directory: ${illegalCommandPaths}\n
+		To resolve this error, move the respective commands to their resource directories or create new ones.\n
+		Refer to the automation/capitanodoc/capitanodoc.ts file for more information.`,
+	);
+}
 
 // Docs config template
-let capitanoDoc: Documentation = {
+const capitanoDoc: Documentation = {
 	title: 'balena CLI Documentation',
 	introduction: '',
 	categories: [],
@@ -101,7 +115,7 @@ for (const commandPath of allCommandsPaths) {
 
 // Sort Category titles alhpabetically
 capitanoDoc.categories = capitanoDoc.categories.sort((a, b) =>
-a.title.localeCompare(b.title),
+	a.title.localeCompare(b.title),
 );
 
 // Sort Category file paths alhpabetically
@@ -109,7 +123,7 @@ capitanoDoc.categories.forEach((category) => {
 	category.files.sort((a, b) => a.localeCompare(b));
 });
 
-// TODO: Generate an error if commands are not in their folder
+console.log(capitanoDoc.categories);
 
 /**
  * Modify and return the `capitanoDoc` object above in order to generate the

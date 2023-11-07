@@ -1,3 +1,168 @@
+[
+  {
+    title: 'API Key',
+    files: [
+      'build/commands/api-key/generate.js',
+      'build/commands/api-key/revoke.js'
+    ]
+  },
+  { title: 'API Keys', files: [ 'build/commands/api-keys/index.js' ] },
+  { title: 'App', files: [ 'build/commands/app/create.js' ] },
+  {
+    title: 'Authentication',
+    files: [
+      'build/commands/auth/login.js',
+      'build/commands/auth/logout.js',
+      'build/commands/auth/whoami.js'
+    ]
+  },
+  { title: 'Block', files: [ 'build/commands/block/create.js' ] },
+  {
+    title: 'Config',
+    files: [
+      'build/commands/config/generate.js',
+      'build/commands/config/inject.js',
+      'build/commands/config/read.js',
+      'build/commands/config/reconfigure.js',
+      'build/commands/config/write.js'
+    ]
+  },
+  {
+    title: 'Deploy',
+    files: [
+      'build/commands/deploy/build.js',
+      'build/commands/deploy/index.js'
+    ]
+  },
+  {
+    title: 'Device',
+    files: [
+      'build/commands/device/deactivate.js',
+      'build/commands/device/identify.js',
+      'build/commands/device/index.js',
+      'build/commands/device/init.js',
+      'build/commands/device/local-mode.js',
+      'build/commands/device/move.js',
+      'build/commands/device/os-update.js',
+      'build/commands/device/pin.js',
+      'build/commands/device/public-url.js',
+      'build/commands/device/purge.js',
+      'build/commands/device/reboot.js',
+      'build/commands/device/register.js',
+      'build/commands/device/rename.js',
+      'build/commands/device/restart.js',
+      'build/commands/device/rm.js',
+      'build/commands/device/shutdown.js',
+      'build/commands/device/start-service.js',
+      'build/commands/device/stop-service.js',
+      'build/commands/device/track-fleet.js'
+    ]
+  },
+  {
+    title: 'Devices',
+    files: [
+      'build/commands/devices/index.js',
+      'build/commands/devices/supported.js'
+    ]
+  },
+  {
+    title: 'Environment Variable',
+    files: [
+      'build/commands/env/add.js',
+      'build/commands/env/rename.js',
+      'build/commands/env/rm.js'
+    ]
+  },
+  {
+    title: 'Environment Variables',
+    files: [ 'build/commands/envs/index.js' ]
+  },
+  {
+    title: 'Fleet',
+    files: [
+      'build/commands/fleet/create.js',
+      'build/commands/fleet/index.js',
+      'build/commands/fleet/pin.js',
+      'build/commands/fleet/purge.js',
+      'build/commands/fleet/rename.js',
+      'build/commands/fleet/restart.js',
+      'build/commands/fleet/rm.js',
+      'build/commands/fleet/track-latest.js'
+    ]
+  },
+  { title: 'Fleets', files: [ 'build/commands/fleets/index.js' ] },
+  {
+    title: 'Help and Version',
+    files: [ 'build/commands/help/version.js' ]
+  },
+  {
+    title: 'Local',
+    files: [
+      'build/commands/local/configure.js',
+      'build/commands/local/flash.js'
+    ]
+  },
+  { title: 'Logs', files: [ 'build/commands/logs/index.js' ] },
+  {
+    title: 'Network',
+    files: [
+      'build/commands/network/scan.js',
+      'build/commands/network/ssh.js',
+      'build/commands/network/tunnel.js'
+    ]
+  },
+  { title: 'Notes', files: [ 'build/commands/notes/index.js' ] },
+  { title: 'Organizations', files: [ 'build/commands/orgs/index.js' ] },
+  {
+    title: 'OS',
+    files: [
+      'build/commands/os/build-config.js',
+      'build/commands/os/configure.js',
+      'build/commands/os/download.js',
+      'build/commands/os/initialize.js',
+      'build/commands/os/versions.js'
+    ]
+  },
+  {
+    title: 'Platform',
+    files: [
+      'build/commands/platform/join.js',
+      'build/commands/platform/leave.js'
+    ]
+  },
+  { title: 'Preload', files: [ 'build/commands/preload/index.js' ] },
+  { title: 'Push', files: [ 'build/commands/push/index.js' ] },
+  {
+    title: 'Release',
+    files: [
+      'build/commands/release/finalize.js',
+      'build/commands/release/index.js',
+      'build/commands/release/invalidate.js',
+      'build/commands/release/validate.js'
+    ]
+  },
+  { title: 'Releases', files: [ 'build/commands/releases/index.js' ] },
+  { title: 'Settings', files: [ 'build/commands/settings/index.js' ] },
+  {
+    title: 'SSH Key',
+    files: [
+      'build/commands/key/add.js',
+      'build/commands/key/index.js',
+      'build/commands/key/rm.js'
+    ]
+  },
+  { title: 'SSH Keys', files: [ 'build/commands/keys/index.js' ] },
+  { title: 'Support', files: [ 'build/commands/support/support.js' ] },
+  {
+    title: 'Tag',
+    files: [ 'build/commands/tag/rm.js', 'build/commands/tag/set.js' ]
+  },
+  { title: 'Tags', files: [ 'build/commands/tags/index.js' ] },
+  {
+    title: 'Utilities',
+    files: [ 'build/commands/util/available-drives.js' ]
+  }
+]
 # balena CLI Documentation
 
 The balena CLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
@@ -162,12 +327,12 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - API Key
 
-	- [api-keys](#api-keys)
+	- [api-key generate &#60;name&#62;](#api-key-generate-name)
+	- [api-key revoke &#60;ids&#62;](#api-key-revoke-ids)
 
 - API Keys
 
-	- [api-key generate &#60;name&#62;](#api-key-generate-name)
-	- [api-key revoke &#60;ids&#62;](#api-key-revoke-ids)
+	- [api-keys](#api-keys)
 
 - App
 
@@ -181,7 +346,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Block
 
-	- [app create &#60;name&#62;](#app-create-name)
+	- [block create &#60;name&#62;](#block-create-name)
 
 - Config
 
@@ -214,9 +379,9 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device restart &#60;uuid&#62;](#device-restart-uuid)
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
-	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
 	- [device start-service &#60;uuid&#62;](#device-start-service-uuid)
 	- [device stop-service &#60;uuid&#62;](#device-stop-service-uuid)
+	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
 
 - Devices
 
@@ -250,7 +415,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Help and Version
 
-	- [help [command]](#help-command)
 	- [version](#version)
 
 - Local
@@ -284,6 +448,11 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [os configure &#60;image&#62;](#os-configure-image)
 	- [os initialize &#60;image&#62;](#os-initialize-image)
 
+- Platform
+
+	- [join [deviceiporhostname]](#join-deviceiporhostname)
+	- [leave [deviceiporhostname]](#leave-deviceiporhostname)
+
 - Preload
 
 	- [preload &#60;image&#62;](#preload-image)
@@ -291,11 +460,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 - Push
 
 	- [push &#60;fleetordevice&#62;](#push-fleetordevice)
-
-- Platform
-
-	- [join [deviceiporhostname]](#join-deviceiporhostname)
-	- [leave [deviceiporhostname]](#leave-deviceiporhostname)
 
 - Release
 
@@ -312,10 +476,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [settings](#settings)
 
-- Support
-
-	- [support &#60;action&#62;](#support-action)
-
 - SSH Key
 
 	- [key add &#60;name&#62; [path]](#key-add-name-path)
@@ -326,7 +486,11 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [keys](#keys)
 
-- Tags
+- Support
+
+	- [support &#60;action&#62;](#support-action)
+
+- Tag
 
 	- [tag rm &#60;tagkey&#62;](#tag-rm-tagkey)
 	- [tag set &#60;tagkey&#62; [value]](#tag-set-tagkey-value)
@@ -340,28 +504,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [util available-drives](#util-available-drives)
 
 # API Key
-
-## api-keys
-
-Print a list of balenaCloud API keys.
-
-Print a list of balenaCloud API keys for the current user or for a specific fleet with the `--fleet` option.
-
-Examples:
-
-	$ balena api-keys
-
-### Options
-
-#### -u, --user
-
-show API keys for your user
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-# API Keys
 
 ## api-key generate &#60;name&#62;
 
@@ -402,6 +544,28 @@ Examples:
 the API key ids
 
 ### Options
+
+# API Keys
+
+## api-keys
+
+Print a list of balenaCloud API keys.
+
+Print a list of balenaCloud API keys for the current user or for a specific fleet with the `--fleet` option.
+
+Examples:
+
+	$ balena api-keys
+
+### Options
+
+#### -u, --user
+
+show API keys for your user
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
 
 # App
 
@@ -527,16 +691,16 @@ Examples:
 
 # Block
 
-## app create &#60;name&#62;
+## block create &#60;name&#62;
 
-Create a new balena app.
+Create a new balena block.
 
-You can specify the organization the app should belong to using
+You can specify the organization the block should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
 `balena orgs` command.
 
-The app's default device type is specified with the `--type` option.
+The block's default device type is specified with the `--type` option.
 The `balena devices supported` command can be used to list the available
 device types.
 
@@ -548,25 +712,25 @@ type and organization.
 
 Examples:
 
-	$ balena app create MyApp
-	$ balena app create MyApp --organization mmyorg
-	$ balena app create MyApp -o myorg --type raspberry-pi
+	$ balena block create MyBlock
+	$ balena block create MyBlock --organization mmyorg
+	$ balena block create MyBlock -o myorg --type raspberry-pi
 
 ### Arguments
 
 #### NAME
 
-app name
+block name
 
 ### Options
 
 #### -o, --organization ORGANIZATION
 
-handle of the organization the app should belong to
+handle of the organization the block should belong to
 
 #### -t, --type TYPE
 
-app device type (Check available types with `balena devices supported`)
+block device type (Check available types with `balena devices supported`)
 
 # Config
 
@@ -1706,22 +1870,6 @@ the uuid of the device to shutdown
 
 force action if the update lock is set
 
-## device track-fleet &#60;uuid&#62;
-
-Make a device track the fleet's pinned release.
-
-Examples:
-
-	$ balena device track-fleet 7cf02a6
-
-### Arguments
-
-#### UUID
-
-the uuid of the device to make track the fleet's release
-
-### Options
-
 ## device start-service &#60;uuid&#62;
 
 Start containers on a device.
@@ -1767,6 +1915,22 @@ comma-separated list (no blank spaces) of device UUIDs
 #### SERVICE
 
 comma-separated list (no blank spaces) of service names
+
+### Options
+
+## device track-fleet &#60;uuid&#62;
+
+Make a device track the fleet's pinned release.
+
+Examples:
+
+	$ balena device track-fleet 7cf02a6
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to make track the fleet's release
 
 ### Options
 
@@ -2403,28 +2567,6 @@ field to sort by (prepend '-' for descending order)
 
 # Help and Version
 
-## help [command]
-
-List balena commands, or get detailed help for a specific command.
-
-Examples:
-
-	$ balena help
-	$ balena help login
-	$ balena help os download
-
-### Arguments
-
-#### COMMAND
-
-command to show help for
-
-### Options
-
-#### --v, --verbose
-
-show additional commands
-
 ## version
 
 Display version information for the balena CLI and/or Node.js. Note that the
@@ -3033,6 +3175,87 @@ Check `balena util available-drives` for available options.
 
 answer "yes" to all questions (non interactive use)
 
+# Platform
+
+## join [deviceIpOrHostname]
+
+Move a local device to a fleet on another balena server, causing
+the device to "join" the new server. The device must be running balenaOS.
+
+For example, you could provision a device against an openBalena installation
+where you perform end-to-end tests and then move it to balenaCloud when it's
+ready for production.
+
+To move a device between fleets on the same server, use the
+`balena device move` command instead of `balena join`.
+
+If you don't specify a device hostname or IP, this command will automatically
+scan the local network for balenaOS devices and prompt you to select one
+from an interactive picker. This may require administrator/root privileges.
+Likewise, if the fleet option is not provided then a picker will be shown.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena join
+	$ balena join balena.local
+	$ balena join balena.local --fleet MyFleet
+	$ balena join balena.local -f myorg/myfleet
+	$ balena join 192.168.1.25
+	$ balena join 192.168.1.25 --fleet MyFleet
+
+### Arguments
+
+#### DEVICEIPORHOSTNAME
+
+the IP or hostname of device
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -i, --pollInterval POLLINTERVAL
+
+the interval in minutes to check for updates
+
+## leave [deviceIpOrHostname]
+
+Remove a local device from its balena fleet, causing the device to
+"leave" the server it is provisioned on. This effectively makes the device
+"unmanaged". The device must be running balenaOS.
+
+The device entry on the server is preserved after running this command,
+so the device can subsequently re-join the server if needed.
+
+If you don't specify a device hostname or IP, this command will automatically
+scan the local network for balenaOS devices and prompt you to select one
+from an interactive picker. This may require administrator/root privileges.
+
+Examples:
+
+	$ balena leave
+	$ balena leave balena.local
+	$ balena leave 192.168.1.25
+
+### Arguments
+
+#### DEVICEIPORHOSTNAME
+
+the device IP or hostname
+
+### Options
+
 # Preload
 
 ## preload &#60;image&#62;
@@ -3368,87 +3591,6 @@ as final by default unless this option is given.
 
 The notes for this release
 
-# Platform
-
-## join [deviceIpOrHostname]
-
-Move a local device to a fleet on another balena server, causing
-the device to "join" the new server. The device must be running balenaOS.
-
-For example, you could provision a device against an openBalena installation
-where you perform end-to-end tests and then move it to balenaCloud when it's
-ready for production.
-
-To move a device between fleets on the same server, use the
-`balena device move` command instead of `balena join`.
-
-If you don't specify a device hostname or IP, this command will automatically
-scan the local network for balenaOS devices and prompt you to select one
-from an interactive picker. This may require administrator/root privileges.
-Likewise, if the fleet option is not provided then a picker will be shown.
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	$ balena join
-	$ balena join balena.local
-	$ balena join balena.local --fleet MyFleet
-	$ balena join balena.local -f myorg/myfleet
-	$ balena join 192.168.1.25
-	$ balena join 192.168.1.25 --fleet MyFleet
-
-### Arguments
-
-#### DEVICEIPORHOSTNAME
-
-the IP or hostname of device
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -i, --pollInterval POLLINTERVAL
-
-the interval in minutes to check for updates
-
-## leave [deviceIpOrHostname]
-
-Remove a local device from its balena fleet, causing the device to
-"leave" the server it is provisioned on. This effectively makes the device
-"unmanaged". The device must be running balenaOS.
-
-The device entry on the server is preserved after running this command,
-so the device can subsequently re-join the server if needed.
-
-If you don't specify a device hostname or IP, this command will automatically
-scan the local network for balenaOS devices and prompt you to select one
-from an interactive picker. This may require administrator/root privileges.
-
-Examples:
-
-	$ balena leave
-	$ balena leave balena.local
-	$ balena leave 192.168.1.25
-
-### Arguments
-
-#### DEVICEIPORHOSTNAME
-
-the device IP or hostname
-
-### Options
-
 # Release
 
 ## release finalize &#60;commitOrId&#62;
@@ -3598,56 +3740,6 @@ Examples:
 
 ### Options
 
-# Support
-
-## support &#60;action&#62;
-
-Grant or revoke balena support agent access to devices or fleets
-on balenaCloud. (This command does not apply to openBalena.)
-Access will be automatically revoked once the specified duration has elapsed.
-
-Duration defaults to 24h, but can be specified using --duration flag in days
-or hours, e.g. '12h', '2d'.
-
-Both --device and --fleet flags accept multiple values, specified as
-a comma-separated list (with no spaces).
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	balena support enable --device ab346f,cd457a --duration 3d
-	balena support enable --fleet myFleet --duration 12h
-	balena support disable -f myorg/myfleet
-
-### Arguments
-
-#### ACTION
-
-enable|disable support access
-
-### Options
-
-#### -d, --device DEVICE
-
-comma-separated list (no spaces) of device UUIDs
-
-#### -f, --fleet FLEET
-
-comma-separated list (no spaces) of fleet names or slugs (preferred)
-
-#### -t, --duration DURATION
-
-length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
-
 # SSH Key
 
 ## key add &#60;name&#62; [path]
@@ -3740,7 +3832,57 @@ Examples:
 
 ### Options
 
-# Tags
+# Support
+
+## support &#60;action&#62;
+
+Grant or revoke balena support agent access to devices or fleets
+on balenaCloud. (This command does not apply to openBalena.)
+Access will be automatically revoked once the specified duration has elapsed.
+
+Duration defaults to 24h, but can be specified using --duration flag in days
+or hours, e.g. '12h', '2d'.
+
+Both --device and --fleet flags accept multiple values, specified as
+a comma-separated list (with no spaces).
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	balena support enable --device ab346f,cd457a --duration 3d
+	balena support enable --fleet myFleet --duration 12h
+	balena support disable -f myorg/myfleet
+
+### Arguments
+
+#### ACTION
+
+enable|disable support access
+
+### Options
+
+#### -d, --device DEVICE
+
+comma-separated list (no spaces) of device UUIDs
+
+#### -f, --fleet FLEET
+
+comma-separated list (no spaces) of fleet names or slugs (preferred)
+
+#### -t, --duration DURATION
+
+length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
+
+# Tag
 
 ## tag rm &#60;tagKey&#62;
 
