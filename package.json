@@ -92,7 +92,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "node automation/check-npm-version.js && ts-node automation/check-doc.ts"
+      "pre-commit": "node automation/check-npm-version.js && ts-node automation/check-doc.ts && npm run test:shrinkwrap"
     }
   },
   "oclif": {
