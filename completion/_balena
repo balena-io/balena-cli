@@ -8,7 +8,7 @@ _balena() {
   local context state line curcontext="$curcontext"
 
   # Valid top-level completions
-  main_commands=( api-key api-keys app auth block config deploy deploy device device devices env envs fleet fleet fleets help internal key key keys local logs network notes orgs os platform preload push release release releases settings support tag tags util )
+  main_commands=( api-key api-keys app auth block config deploy deploy device device devices env envs fleet fleet fleets internal key key keys local logs network notes orgs os platform preload push release release releases settings support tag tags util version )
   # Sub-completions
   api_key_cmds=( generate revoke )
   app_cmds=( create )
@@ -20,7 +20,6 @@ _balena() {
   devices_cmds=( supported )
   env_cmds=( add rename rm )
   fleet_cmds=( create pin purge rename restart rm track-latest )
-  help_cmds=( version )
   internal_cmds=( osinit )
   key_cmds=( add rm )
   local_cmds=( configure flash )
@@ -28,7 +27,6 @@ _balena() {
   os_cmds=( build-config configure download initialize versions )
   platform_cmds=( join leave )
   release_cmds=( finalize invalidate validate )
-  support_cmds=( support )
   tag_cmds=( rm set )
 
 
@@ -78,9 +76,6 @@ _balena_sec_cmds() {
       "fleet")
         _describe -t fleet_cmds 'fleet_cmd' fleet_cmds "$@" && ret=0
       ;;
-      "help")
-        _describe -t help_cmds 'help_cmd' help_cmds "$@" && ret=0
-      ;;
       "internal")
         _describe -t internal_cmds 'internal_cmd' internal_cmds "$@" && ret=0
       ;;
@@ -101,9 +96,6 @@ _balena_sec_cmds() {
       ;;
       "release")
         _describe -t release_cmds 'release_cmd' release_cmds "$@" && ret=0
-      ;;
-      "support")
-        _describe -t support_cmds 'support_cmd' support_cmds "$@" && ret=0
       ;;
       "tag")
         _describe -t tag_cmds 'tag_cmd' tag_cmds "$@" && ret=0

@@ -1,168 +1,3 @@
-[
-  {
-    title: 'API Key',
-    files: [
-      'build/commands/api-key/generate.js',
-      'build/commands/api-key/revoke.js'
-    ]
-  },
-  { title: 'API Keys', files: [ 'build/commands/api-keys/index.js' ] },
-  { title: 'App', files: [ 'build/commands/app/create.js' ] },
-  {
-    title: 'Authentication',
-    files: [
-      'build/commands/auth/login.js',
-      'build/commands/auth/logout.js',
-      'build/commands/auth/whoami.js'
-    ]
-  },
-  { title: 'Block', files: [ 'build/commands/block/create.js' ] },
-  {
-    title: 'Config',
-    files: [
-      'build/commands/config/generate.js',
-      'build/commands/config/inject.js',
-      'build/commands/config/read.js',
-      'build/commands/config/reconfigure.js',
-      'build/commands/config/write.js'
-    ]
-  },
-  {
-    title: 'Deploy',
-    files: [
-      'build/commands/deploy/build.js',
-      'build/commands/deploy/index.js'
-    ]
-  },
-  {
-    title: 'Device',
-    files: [
-      'build/commands/device/deactivate.js',
-      'build/commands/device/identify.js',
-      'build/commands/device/index.js',
-      'build/commands/device/init.js',
-      'build/commands/device/local-mode.js',
-      'build/commands/device/move.js',
-      'build/commands/device/os-update.js',
-      'build/commands/device/pin.js',
-      'build/commands/device/public-url.js',
-      'build/commands/device/purge.js',
-      'build/commands/device/reboot.js',
-      'build/commands/device/register.js',
-      'build/commands/device/rename.js',
-      'build/commands/device/restart.js',
-      'build/commands/device/rm.js',
-      'build/commands/device/shutdown.js',
-      'build/commands/device/start-service.js',
-      'build/commands/device/stop-service.js',
-      'build/commands/device/track-fleet.js'
-    ]
-  },
-  {
-    title: 'Devices',
-    files: [
-      'build/commands/devices/index.js',
-      'build/commands/devices/supported.js'
-    ]
-  },
-  {
-    title: 'Environment Variable',
-    files: [
-      'build/commands/env/add.js',
-      'build/commands/env/rename.js',
-      'build/commands/env/rm.js'
-    ]
-  },
-  {
-    title: 'Environment Variables',
-    files: [ 'build/commands/envs/index.js' ]
-  },
-  {
-    title: 'Fleet',
-    files: [
-      'build/commands/fleet/create.js',
-      'build/commands/fleet/index.js',
-      'build/commands/fleet/pin.js',
-      'build/commands/fleet/purge.js',
-      'build/commands/fleet/rename.js',
-      'build/commands/fleet/restart.js',
-      'build/commands/fleet/rm.js',
-      'build/commands/fleet/track-latest.js'
-    ]
-  },
-  { title: 'Fleets', files: [ 'build/commands/fleets/index.js' ] },
-  {
-    title: 'Help and Version',
-    files: [ 'build/commands/help/version.js' ]
-  },
-  {
-    title: 'Local',
-    files: [
-      'build/commands/local/configure.js',
-      'build/commands/local/flash.js'
-    ]
-  },
-  { title: 'Logs', files: [ 'build/commands/logs/index.js' ] },
-  {
-    title: 'Network',
-    files: [
-      'build/commands/network/scan.js',
-      'build/commands/network/ssh.js',
-      'build/commands/network/tunnel.js'
-    ]
-  },
-  { title: 'Notes', files: [ 'build/commands/notes/index.js' ] },
-  { title: 'Organizations', files: [ 'build/commands/orgs/index.js' ] },
-  {
-    title: 'OS',
-    files: [
-      'build/commands/os/build-config.js',
-      'build/commands/os/configure.js',
-      'build/commands/os/download.js',
-      'build/commands/os/initialize.js',
-      'build/commands/os/versions.js'
-    ]
-  },
-  {
-    title: 'Platform',
-    files: [
-      'build/commands/platform/join.js',
-      'build/commands/platform/leave.js'
-    ]
-  },
-  { title: 'Preload', files: [ 'build/commands/preload/index.js' ] },
-  { title: 'Push', files: [ 'build/commands/push/index.js' ] },
-  {
-    title: 'Release',
-    files: [
-      'build/commands/release/finalize.js',
-      'build/commands/release/index.js',
-      'build/commands/release/invalidate.js',
-      'build/commands/release/validate.js'
-    ]
-  },
-  { title: 'Releases', files: [ 'build/commands/releases/index.js' ] },
-  { title: 'Settings', files: [ 'build/commands/settings/index.js' ] },
-  {
-    title: 'SSH Key',
-    files: [
-      'build/commands/key/add.js',
-      'build/commands/key/index.js',
-      'build/commands/key/rm.js'
-    ]
-  },
-  { title: 'SSH Keys', files: [ 'build/commands/keys/index.js' ] },
-  { title: 'Support', files: [ 'build/commands/support/support.js' ] },
-  {
-    title: 'Tag',
-    files: [ 'build/commands/tag/rm.js', 'build/commands/tag/set.js' ]
-  },
-  { title: 'Tags', files: [ 'build/commands/tags/index.js' ] },
-  {
-    title: 'Utilities',
-    files: [ 'build/commands/util/available-drives.js' ]
-  }
-]
 # balena CLI Documentation
 
 The balena CLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
@@ -413,10 +248,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [fleets](#fleets)
 
-- Help and Version
-
-	- [version](#version)
-
 - Local
 
 	- [local configure &#60;target&#62;](#local-configure-target)
@@ -502,6 +333,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 - Utilities
 
 	- [util available-drives](#util-available-drives)
+
+- Version
+
+	- [version](#version)
 
 # API Key
 
@@ -2565,41 +2400,6 @@ do not truncate output to fit screen
 
 field to sort by (prepend '-' for descending order)
 
-# Help and Version
-
-## version
-
-Display version information for the balena CLI and/or Node.js. Note that the
-balena CLI executable installers for Windows and macOS, and the standalone
-zip packages, ship with a built-in copy of Node.js.  In this case, the
-reported version of Node.js regards this built-in copy, rather than any
-other `node` engine that may also be available on the command prompt.
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents
-data types like lists and empty strings. The 'jq' utility may be helpful
-in shell scripts (https://stedolan.github.io/jq/manual/).
-
-This command can also be invoked with 'balena --version' or 'balena -v'.
-
-Examples:
-
-	$ balena version
-	$ balena version -a
-	$ balena version -j
-	$ balena --version
-	$ balena -v
-
-### Options
-
-#### -a, --all
-
-include version information for additional components (Node.js)
-
-#### -j, --json
-
-output version information in JSON format for programmatic use
-
 # Local
 
 ## local configure &#60;target&#62;
@@ -4025,3 +3825,38 @@ List available drives which are usable for writing an OS image to.
 Does not list system drives.
 
 ### Options
+
+# Version
+
+## version
+
+Display version information for the balena CLI and/or Node.js. Note that the
+balena CLI executable installers for Windows and macOS, and the standalone
+zip packages, ship with a built-in copy of Node.js.  In this case, the
+reported version of Node.js regards this built-in copy, rather than any
+other `node` engine that may also be available on the command prompt.
+
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents
+data types like lists and empty strings. The 'jq' utility may be helpful
+in shell scripts (https://stedolan.github.io/jq/manual/).
+
+This command can also be invoked with 'balena --version' or 'balena -v'.
+
+Examples:
+
+	$ balena version
+	$ balena version -a
+	$ balena version -j
+	$ balena --version
+	$ balena -v
+
+### Options
+
+#### -a, --all
+
+include version information for additional components (Node.js)
+
+#### -j, --json
+
+output version information in JSON format for programmatic use

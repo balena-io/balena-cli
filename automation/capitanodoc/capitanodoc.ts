@@ -73,7 +73,6 @@ const allCommandsPaths = new GlobSync('build/commands/**/*.js', {
 }).found;
 
 // Throw error if any commands found outside of command directories
-//
 const illegalCommandPaths = allCommandsPaths.filter((commandPath: string) =>
 	/^build\/commands\/[^/]+\.js$/.test(commandPath),
 );
@@ -113,17 +112,15 @@ for (const commandPath of allCommandsPaths) {
 	categoriesMap[heading].files.push(commandPath);
 }
 
-// Sort Category titles alhpabetically
+// Sort Category titles alphabetically
 capitanoDoc.categories = capitanoDoc.categories.sort((a, b) =>
 	a.title.localeCompare(b.title),
 );
 
-// Sort Category file paths alhpabetically
+// Sort Category file paths alphabetically
 capitanoDoc.categories.forEach((category) => {
 	category.files.sort((a, b) => a.localeCompare(b));
 });
-
-console.log(capitanoDoc.categories);
 
 /**
  * Modify and return the `capitanoDoc` object above in order to generate the
