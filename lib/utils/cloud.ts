@@ -185,8 +185,8 @@ export async function downloadOSImage(
 		output = fs.createWriteStream(outputPath);
 	}
 
-	const streamToPromise = await import('stream-to-promise');
-	await streamToPromise(stream.pipe(output));
+	const { pipeline } = await import('node:stream/promises');
+	await pipeline(stream, output);
 
 	console.info(
 		`balenaOS image version ${displayVersion} downloaded successfully`,
