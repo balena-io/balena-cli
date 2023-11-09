@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use `pipeline` instead of `.pipe` when downloading OS image
+      hash: 56cff464080df51251be94a6ffd6799203d1ca8c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 17.3.1
+  title: ""
+  date: 2023-11-09T17:26:35.437Z
+- commits:
     - subject: Add device start-service and stop-service commands
       hash: 221c21379138c2caf7ece91c156aa7dd0288824e
       body: ""
