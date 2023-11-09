@@ -65,6 +65,12 @@ const commandHeadings: { [key: string]: string } = {
 	orgs: 'Organizations',
 	os: 'OS',
 	util: 'Utilities',
+	ssh: 'Network',
+	scan: 'Network',
+	tunnel: 'Network',
+	build: 'Deploy',
+	join: 'Platform',
+	leave: 'Platform',
 };
 
 // Fetch all available commands

@@ -7,14 +7,13 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key api-keys app auth block config deploy deploy device device devices env envs fleet fleet fleets internal key key keys local logs network notes orgs os platform preload push release release releases settings support tag tags util version"
+  main_commands="api-key api-keys app auth block build config deploy device device devices env envs fleet fleet fleets internal join key key keys leave local logs notes orgs os preload push release release releases scan settings ssh support tag tags tunnel util version"
   # Sub-completions
   api_key_cmds="generate revoke"
   app_cmds="create"
   auth_cmds="login logout whoami"
   block_cmds="create"
   config_cmds="generate inject read reconfigure write"
-  deploy_cmds="build"
   device_cmds="deactivate identify init local-mode move os-update pin public-url purge reboot register rename restart rm shutdown start-service stop-service track-fleet"
   devices_cmds="supported"
   env_cmds="add rename rm"
@@ -22,9 +21,7 @@ _balena_complete()
   internal_cmds="osinit"
   key_cmds="add rm"
   local_cmds="configure flash"
-  network_cmds="scan ssh tunnel"
   os_cmds="build-config configure download initialize versions"
-  platform_cmds="join leave"
   release_cmds="finalize invalidate validate"
   tag_cmds="rm set"
 
@@ -55,9 +52,6 @@ _balena_complete()
       config)
         COMPREPLY=( $(compgen -W "$config_cmds" -- $cur) )
         ;;
-      deploy)
-        COMPREPLY=( $(compgen -W "$deploy_cmds" -- $cur) )
-        ;;
       device)
         COMPREPLY=( $(compgen -W "$device_cmds" -- $cur) )
         ;;
@@ -79,14 +73,8 @@ _balena_complete()
       local)
         COMPREPLY=( $(compgen -W "$local_cmds" -- $cur) )
         ;;
-      network)
-        COMPREPLY=( $(compgen -W "$network_cmds" -- $cur) )
-        ;;
       os)
         COMPREPLY=( $(compgen -W "$os_cmds" -- $cur) )
-        ;;
-      platform)
-        COMPREPLY=( $(compgen -W "$platform_cmds" -- $cur) )
         ;;
       release)
         COMPREPLY=( $(compgen -W "$release_cmds" -- $cur) )
