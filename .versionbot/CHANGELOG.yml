@@ -1,4 +1,15 @@
 - commits:
+    - subject: "device: Add `--json` option for JSON output"
+      hash: d78045b6ab0c78a1383fd240bf0f9e11b1af777f
+      body: ""
+      footer:
+        change-type: minor
+      author: Brian Bugh
+      nested: []
+  version: 17.4.0
+  title: ""
+  date: 2023-11-10T16:27:56.520Z
+- commits:
     - subject: Update @balena/compose to 3.0.5
       hash: 1b615e4690f40fce125ca1a5de53d83a519bc852
       body: |
