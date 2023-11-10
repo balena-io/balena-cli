@@ -12,7 +12,7 @@ upstream:
     url: 'https://github.com/balena-io-modules/balena-preload'
   - repo: 'etcher-sdk'
     url: 'https://github.com/balena-io-modules/etcher-sdk/'
-  - repo: 'balena-compose'
+  - repo: '@balena/compose'
     url: 'https://github.com/balena-io-modules/balena-compose'
   - repo: 'docker-progress'
     url: 'https://github.com/balena-io-modules/docker-progress'
