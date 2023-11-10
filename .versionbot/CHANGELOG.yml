@@ -1,4 +1,62 @@
 - commits:
+    - subject: Update @balena/compose to 3.0.5
+      hash: 1b615e4690f40fce125ca1a5de53d83a519bc852
+      body: |
+        Update @balena/compose from 3.0.2 to 3.0.5
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "builder: Fix unawaited buildDir pack() promise"
+              hash: 76a9cecc44a5c252c9052d1613a8b37ed9cb2dbc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.0.5
+          title: ""
+          date: 2023-11-09T16:40:49.186Z
+        - commits:
+            - subject: "api: Restore the accidentally removed concurrency limits"
+              hash: ae349e6c4487ad293766b077faddaacbb2e10007
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.0.4
+          title: ""
+          date: 2023-11-09T16:23:23.111Z
+        - commits:
+            - subject: '.mocharc: Use "exit: true" to workaround hanging on completion on
+                node20'
+              hash: db962acc46aab246a42579ddd873f24ea5f9c3ec
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Fix the expected error message for Dockerfile syntax errors"
+              hash: a675b7419876a34d35d6c8b6078e2d9bd54d41dc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.0.3
+          title: ""
+          date: 2023-11-09T16:03:42.407Z
+  version: 17.3.2
+  title: ""
+  date: 2023-11-10T11:02:53.751Z
+- commits:
     - subject: Use `pipeline` instead of `.pipe` when downloading OS image
       hash: 56cff464080df51251be94a6ffd6799203d1ca8c
       body: ""
