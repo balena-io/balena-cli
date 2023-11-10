@@ -8,6 +8,12 @@
 					"__metadata": {}
 				}
 			],
+			"device_tag": [
+				{
+					"tag_key": "example",
+					"value": "true"
+				}
+			],
 			"id": 1747415,
 			"is_managed_by__device": null,
 			"device_name": "sparkling-wood",

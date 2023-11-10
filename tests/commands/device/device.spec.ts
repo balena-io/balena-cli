@@ -107,4 +107,19 @@ describe('balena device', function () {
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 	});
+
+	it('outputs device as JSON with the -j/--json flag', async () => {
+		api.scope
+			.get(/^\/v6\/device\?.+&\$expand=device_tag\(\$select=tag_key,value\)/)
+			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
+				'Content-Type': 'application/json',
+			});
+
+		const { out, err } = await runCommand('device 27fda508c --json');
+		expect(err).to.be.empty;
+		const json = JSON.parse(out.join(''));
+		expect(json.device_name).to.equal('sparkling-wood');
+		expect(json.belongs_to__application[0].app_name).to.equal('test app');
+		expect(json.device_tag[0].tag_key).to.equal('example');
+	});
 });
