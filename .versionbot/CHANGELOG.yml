@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump shrinkwrap
+      hash: a816548bb5832ad907c02a0cb126cbd7d0ebddf5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.4.1
+  title: ""
+  date: 2023-11-13T19:18:43.914Z
+- commits:
     - subject: "device: Add `--json` option for JSON output"
       hash: d78045b6ab0c78a1383fd240bf0f9e11b1af777f
       body: ""
