@@ -9404,9 +9404,9 @@
       }
     },
     "node_modules/flat-cache": {
-      "version": "3.1.1",
-      "resolved": "https://registry.npmjs.org/flat-cache/-/flat-cache-3.1.1.tgz",
-      "integrity": "sha512-/qM2b3LUIaIgviBQovTLvijfyOQXPtSRnRK26ksj2J7rzPIecePUIpJsZ4T02Qg+xiAEKIs5K8dsHEd+VaKa/Q==",
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/flat-cache/-/flat-cache-3.2.0.tgz",
+      "integrity": "sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==",
       "dev": true,
       "dependencies": {
         "flatted": "^3.2.9",
@@ -9414,7 +9414,7 @@
         "rimraf": "^3.0.2"
       },
       "engines": {
-        "node": ">=12.0.0"
+        "node": "^10.12.0 || >=12.0.0"
       }
     },
     "node_modules/flatted": {
@@ -16256,9 +16256,12 @@
       }
     },
     "node_modules/path-scurry/node_modules/lru-cache": {
-      "version": "10.0.1",
-      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-10.0.1.tgz",
-      "integrity": "sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==",
+      "version": "10.0.2",
+      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-10.0.2.tgz",
+      "integrity": "sha512-Yj9mA8fPiVgOUpByoTZO5pNrcl5Yk37FcSHsUINpAsaBIEZIuqcCclDZJCVxqQShDsmYX8QG63svJiTbOATZwg==",
+      "dependencies": {
+        "semver": "^7.3.5"
+      },
       "engines": {
         "node": "14 || >=16.14"
       }
@@ -31571,9 +31574,9 @@
       "dev": true
     },
     "flat-cache": {
-      "version": "3.1.1",
-      "resolved": "https://registry.npmjs.org/flat-cache/-/flat-cache-3.1.1.tgz",
-      "integrity": "sha512-/qM2b3LUIaIgviBQovTLvijfyOQXPtSRnRK26ksj2J7rzPIecePUIpJsZ4T02Qg+xiAEKIs5K8dsHEd+VaKa/Q==",
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/flat-cache/-/flat-cache-3.2.0.tgz",
+      "integrity": "sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==",
       "dev": true,
       "requires": {
         "flatted": "^3.2.9",
@@ -36844,9 +36847,12 @@
       },
       "dependencies": {
         "lru-cache": {
-          "version": "10.0.1",
-          "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-10.0.1.tgz",
-          "integrity": "sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g=="
+          "version": "10.0.2",
+          "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-10.0.2.tgz",
+          "integrity": "sha512-Yj9mA8fPiVgOUpByoTZO5pNrcl5Yk37FcSHsUINpAsaBIEZIuqcCclDZJCVxqQShDsmYX8QG63svJiTbOATZwg==",
+          "requires": {
+            "semver": "^7.3.5"
+          }
         },
         "minipass": {
           "version": "7.0.4",
