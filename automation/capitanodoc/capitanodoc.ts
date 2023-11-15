@@ -56,7 +56,9 @@ interface Documentation {
 const commandHeadings: { [key: string]: string } = {
 	'api-key': 'API Key',
 	'api-keys': 'API Keys',
-	auth: 'Authentication',
+	login: 'Authentication',
+	whoami: 'Authentication',
+	logout: 'Authentication',
 	env: 'Environment Variable',
 	envs: 'Environment Variables',
 	help: 'Help and Version',
