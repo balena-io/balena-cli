@@ -17,6 +17,7 @@
 
 import * as path from 'path';
 import { MarkdownFileParser } from './utils';
+import { GlobSync } from 'glob';
 
 /**
  * This is the skeleton of CLI documentation/reference web page at:
@@ -27,224 +28,111 @@ import { MarkdownFileParser } from './utils';
  *
  * IMPORTANT
  *
- * Only build files listed here will be documented by Capitano
- * Make sure to add your files in alphabetical order
+ * All commands need to be stored under a folder in lib/commands to maintain uniformity
+ * Generating docs will error out if directive not followed
+ * To add a custom heading for command docs, add the heading next to the folder name
+ * in the `commandHeadings` dictionary.
+ *
+ * This dictionary is the source of truth that creates the docs config which is used
+ * to generate the CLI documentation. By default, the folder name will be used.
  *
  * Resources with plural names needs to have 2 sections if they have commands like:
  * "fleet, fleets" or "device, devices" or "tag, tags"
  *
  */
-const capitanoDoc = {
-	title: 'balena CLI Documentation',
-	introduction: '',
-	categories: [
-		{
-			title: 'API Key',
-			files: ['build/commands/api-keys/index.js'],
-		},
-		{
-			title: 'API Keys',
-			files: [
-				'build/commands/api-key/generate.js',
-				'build/commands/api-key/revoke.js',
-			],
-		},
-		{
-			title: 'App',
-			files: ['build/commands/app/create.js'],
-		},
-		{
-			title: 'Authentication',
-			files: [
-				'build/commands/login.js',
-				'build/commands/logout.js',
-				'build/commands/whoami.js',
-			],
-		},
-		{
-			title: 'Block',
-			files: ['build/commands/app/create.js'],
-		},
-		{
-			title: 'Config',
-			files: [
-				'build/commands/config/generate.js',
-				'build/commands/config/inject.js',
-				'build/commands/config/read.js',
-				'build/commands/config/reconfigure.js',
-				'build/commands/config/write.js',
-			],
-		},
-		{
-			title: 'Deploy',
-			files: ['build/commands/build.js', 'build/commands/deploy.js'],
-		},
-		{
-			title: 'Device',
-			files: [
-				'build/commands/device/deactivate.js',
-				'build/commands/device/identify.js',
-				'build/commands/device/index.js',
-				'build/commands/device/init.js',
-				'build/commands/device/local-mode.js',
-				'build/commands/device/move.js',
-				'build/commands/device/os-update.js',
-				'build/commands/device/pin.js',
-				'build/commands/device/public-url.js',
-				'build/commands/device/purge.js',
-				'build/commands/device/reboot.js',
-				'build/commands/device/register.js',
-				'build/commands/device/rename.js',
-				'build/commands/device/restart.js',
-				'build/commands/device/rm.js',
-				'build/commands/device/shutdown.js',
-				'build/commands/device/track-fleet.js',
-				'build/commands/device/start-service.js',
-				'build/commands/device/stop-service.js',
-			],
-		},
-		{
-			title: 'Devices',
-			files: [
-				'build/commands/devices/index.js',
-				'build/commands/devices/supported.js',
-			],
-		},
-		{
-			title: 'Environment Variable',
-			files: [
-				'build/commands/env/add.js',
-				'build/commands/env/rename.js',
-				'build/commands/env/rm.js',
-			],
-		},
-		{
-			title: 'Environment Variables',
-			files: ['build/commands/envs.js'],
-		},
-		{
-			title: 'Fleet',
-			files: [
-				'build/commands/fleet/create.js',
-				'build/commands/fleet/index.js',
-				'build/commands/fleet/pin.js',
-				'build/commands/fleet/purge.js',
-				'build/commands/fleet/rename.js',
-				'build/commands/fleet/restart.js',
-				'build/commands/fleet/rm.js',
-				'build/commands/fleet/track-latest.js',
-			],
-		},
-		{
-			title: 'Fleets',
-			files: ['build/commands/fleets.js'],
-		},
-		{
-			title: 'Help and Version',
-			files: ['help', 'build/commands/version.js'],
-		},
-		{
-			title: 'Local',
-			files: [
-				'build/commands/local/configure.js',
-				'build/commands/local/flash.js',
-			],
-		},
-		{
-			title: 'Logs',
-			files: ['build/commands/logs.js'],
-		},
-		{
-			title: 'Network',
-			files: [
-				'build/commands/scan.js',
-				'build/commands/ssh.js',
-				'build/commands/tunnel.js',
-			],
-		},
-		{
-			title: 'Notes',
-			files: ['build/commands/note.js'],
-		},
-		{
-			title: 'Organizations',
-			files: ['build/commands/orgs.js'],
-		},
-		{
-			title: 'OS',
-			files: [
-				'build/commands/os/build-config.js',
-				'build/commands/os/configure.js',
-				'build/commands/os/download.js',
-				'build/commands/os/initialize.js',
-				'build/commands/os/versions.js',
-			],
-		},
-		{
-			title: 'Preload',
-			files: ['build/commands/preload.js'],
-		},
-		{
-			title: 'Push',
-			files: ['build/commands/push.js'],
-		},
-		{
-			title: 'Platform',
-			files: ['build/commands/join.js', 'build/commands/leave.js'],
-		},
-		{
-			title: 'Release',
-			files: [
-				'build/commands/release/finalize.js',
-				'build/commands/release/index.js',
-				'build/commands/release/invalidate.js',
-				'build/commands/release/validate.js',
-			],
-		},
-		{
-			title: 'Releases',
-			files: ['build/commands/releases.js'],
-		},
-		{
-			title: 'Settings',
-			files: ['build/commands/settings.js'],
-		},
-		{
-			title: 'Support',
-			files: ['build/commands/support.js'],
-		},
 
-		{
-			title: 'SSH Key',
-			files: [
-				'build/commands/key/add.js',
-				'build/commands/key/index.js',
-				'build/commands/key/rm.js',
-			],
-		},
-		{
-			title: 'SSH Keys',
-			files: ['build/commands/keys.js'],
-		},
-		{
-			title: 'Tags',
-			files: ['build/commands/tag/rm.js', 'build/commands/tag/set.js'],
-		},
-		{
-			title: 'Tags',
-			files: ['build/commands/tags.js'],
-		},
-		{
-			title: 'Utilities',
-			files: ['build/commands/util/available-drives.js'],
-		},
-	],
+interface Category {
+	title: string;
+	files: string[];
+}
+
+interface Documentation {
+	title: string;
+	introduction: string;
+	categories: Category[];
+}
+
+// Mapping folders names to custom headings in the docs
+const commandHeadings: { [key: string]: string } = {
+	'api-key': 'API Key',
+	'api-keys': 'API Keys',
+	login: 'Authentication',
+	whoami: 'Authentication',
+	logout: 'Authentication',
+	env: 'Environment Variable',
+	envs: 'Environment Variables',
+	help: 'Help and Version',
+	key: 'SSH Key',
+	keys: 'SSH Keys',
+	orgs: 'Organizations',
+	os: 'OS',
+	util: 'Utilities',
+	ssh: 'Network',
+	scan: 'Network',
+	tunnel: 'Network',
+	build: 'Deploy',
+	join: 'Platform',
+	leave: 'Platform',
 };
 
+// Fetch all available commands
+const allCommandsPaths = new GlobSync('build/commands/**/*.js', {
+	ignore: 'build/commands/internal/**',
+}).found;
+
+// Throw error if any commands found outside of command directories
+const illegalCommandPaths = allCommandsPaths.filter((commandPath: string) =>
+	/^build\/commands\/[^/]+\.js$/.test(commandPath),
+);
+
+if (illegalCommandPaths.length !== 0) {
+	throw new Error(
+		`Found the following commands without a command directory: ${illegalCommandPaths}\n
+		To resolve this error, move the respective commands to their resource directories or create new ones.\n
+		Refer to the automation/capitanodoc/capitanodoc.ts file for more information.`,
+	);
+}
+
+// Docs config template
+const capitanoDoc: Documentation = {
+	title: 'balena CLI Documentation',
+	introduction: '',
+	categories: [],
+};
+
+// Helper function to capitalize each word of directory name
+function formatTitle(dir: string): string {
+	return dir.replace(/(^\w|\s\w)/g, (word) => word.toUpperCase());
+}
+
+// Create a map to track the categories for faster lookup
+const categoriesMap: { [key: string]: Category } = {};
+
+for (const commandPath of allCommandsPaths) {
+	const commandDir = path.basename(path.dirname(commandPath));
+	const heading = commandHeadings[commandDir] || formatTitle(commandDir);
+
+	if (!categoriesMap[heading]) {
+		categoriesMap[heading] = { title: heading, files: [] };
+		capitanoDoc.categories.push(categoriesMap[heading]);
+	}
+
+	categoriesMap[heading].files.push(commandPath);
+}
+
+// Sort Category titles alphabetically
+capitanoDoc.categories = capitanoDoc.categories.sort((a, b) =>
+	a.title.localeCompare(b.title),
+);
+
+// Sort Category file paths alphabetically
+capitanoDoc.categories.forEach((category) => {
+	category.files.sort((a, b) => a.localeCompare(b));
+});
+
 /**
- * Modify and return the `capitanoDoc` object above in order to render the
- * CLI documentation/reference web page at:
- * https://www.balena.io/docs/reference/cli/
+ * Modify and return the `capitanoDoc` object above in order to generate the
+ * CLI documentation at docs/balena-cli.md
  *
  * This function parses the README.md file to extract relevant sections
  * for the documentation web page.
