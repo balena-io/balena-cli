@@ -182,7 +182,7 @@
     "mocha": "^8.4.0",
     "mock-require": "^3.0.3",
     "nock": "^13.2.1",
-    "oclif": "^3.17.1",
+    "oclif": "^4.0.3",
     "parse-link-header": "^2.0.0",
     "pkg": "^5.8.1",
     "publish-release": "^1.6.1",
