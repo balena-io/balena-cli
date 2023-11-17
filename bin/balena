@@ -15,7 +15,7 @@ async function run() {
 	require('@balena/es-version').set('es2018');
 
 	// Run the CLI
-	await require('../build/app').run();
+	await require('../build/app').run(undefined, { dir: __dirname });
 }
 
 run();

@@ -50,7 +50,7 @@ export default class BalenaHelp extends Help {
 
 		const command = this.config.findCommand(subject);
 		if (command) {
-			await this.showCommandHelp(await command.load());
+			await this.showCommandHelp(command);
 			return;
 		}
 

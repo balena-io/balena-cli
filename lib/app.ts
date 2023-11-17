@@ -24,7 +24,7 @@ import {
 } from './preparser';
 import { CliSettings } from './utils/bootstrap';
 import { onceAsync } from './utils/lazy';
-import { run as mainRun } from '@oclif/core';
+import { run as mainRun, settings } from '@oclif/core';
 
 /**
  * Sentry.io setup
@@ -117,7 +117,14 @@ async function oclifRun(command: string[], options: AppOptions) {
 	const runPromise = (async function (shouldFlush: boolean) {
 		let isEEXIT = false;
 		try {
-			await mainRun(command, options.configPath);
+			if (options.development) {
+				// In dev mode -> use ts-node and dev plugins
+				process.env.NODE_ENV = 'development';
+				settings.debug = true;
+			}
+			// For posteriority: We can't use default oclif 'execute' as
+			// We customize error handling and flushing
+			await mainRun(command, options.loadOptions ?? options.dir);
 		} catch (error) {
 			// oclif sometimes exits with ExitError code EEXIT 0 (not an error),
 			// for example the `balena help` command.
@@ -151,7 +158,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 }
 
 /** CLI entrypoint. Called by the `bin/balena` and `bin/balena-dev` scripts. */
-export async function run(cliArgs = process.argv, options: AppOptions = {}) {
+export async function run(cliArgs = process.argv, options: AppOptions) {
 	try {
 		const { setOfflineModeEnvVars, normalizeEnvVars, pkgExec } = await import(
 			'./utils/bootstrap'
