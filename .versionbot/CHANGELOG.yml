@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump oclif-core to v3
+      hash: 72a924f00eabd13d3663e9cfa4d8feb11aa1aecd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.4.3
+  title: ""
+  date: 2023-11-17T15:39:17.941Z
+- commits:
     - subject: "Docs: Automatically generate Capitano configuration"
       hash: 4b5def0a8a632a9aed827319c1dcbe6ccf8efc32
       body: ""
