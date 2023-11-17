@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 import type * as dockerode from 'dockerode';
 import { Flags } from '@oclif/core';
 
-import { ExpectedError } from '../errors';
-import { parseAsInteger } from './validation';
+import { ExpectedError } from '../errors.js';
+import { parseAsInteger } from './validation.js';
 
 interface BalenaEngineVersion extends dockerode.DockerVersion {
 	Engine?: string;
@@ -186,7 +187,7 @@ export async function getDocker(
 export async function createClient(
 	opts: dockerode.DockerOptions,
 ): Promise<dockerode> {
-	const Docker = await import('dockerode');
+	const { default: Docker } = await import('dockerode');
 	return new Docker(opts);
 }
 

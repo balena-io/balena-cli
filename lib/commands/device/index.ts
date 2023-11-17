@@ -16,11 +16,11 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { jsonInfo } from '../../utils/messages';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { expandForAppName } from '../../utils/helpers.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { jsonInfo } from '../../utils/messages.js';
 
 import type { Application, Release } from 'balena-sdk';
 
@@ -79,7 +79,7 @@ export default class DeviceCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeviceCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		const device = (await balena.models.device.get(
 			params.uuid,
@@ -124,7 +124,7 @@ export default class DeviceCmd extends Command {
 		if (options.view) {
 			const open = await import('open');
 			const dashboardUrl = balena.models.device.getDashboardUrl(device.uuid);
-			await open(dashboardUrl, { wait: false });
+			await open.default(dashboardUrl, { wait: false });
 			return;
 		}
 

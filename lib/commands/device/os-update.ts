@@ -16,11 +16,11 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
 import type { Device } from 'balena-sdk';
-import { ExpectedError } from '../../errors';
+import { ExpectedError } from '../../errors.js';
 
 export default class DeviceOsUpdateCmd extends Command {
 	public static description = stripIndent`
@@ -62,7 +62,7 @@ export default class DeviceOsUpdateCmd extends Command {
 		const { args: params, flags: options } =
 			await this.parse(DeviceOsUpdateCmd);
 
-		const sdk = getBalenaSdk();
+		const sdk = await getBalenaSdk();
 
 		// Get device info
 		const { uuid, is_of__device_type, os_version, os_variant } =
@@ -119,7 +119,7 @@ export default class DeviceOsUpdateCmd extends Command {
 			});
 		}
 
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 		// Confirm and start update
 		await patterns.confirm(
 			options.yes || false,

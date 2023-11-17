@@ -17,10 +17,10 @@
 
 import { Args } from '@oclif/core';
 import type { BlockDevice } from 'etcher-sdk/build/source-destination';
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getChalk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class LocalFlashCmd extends Command {
 	public static description = stripIndent`
@@ -79,7 +79,7 @@ export default class LocalFlashCmd extends Command {
 
 		const drive = await this.getDrive(options);
 
-		const { confirm } = await import('../../utils/patterns');
+		const { confirm } = await import('../../utils/patterns.js');
 		await confirm(
 			options.yes,
 			'This will erase the selected drive. Are you sure?',

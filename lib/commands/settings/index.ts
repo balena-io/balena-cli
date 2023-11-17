@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class SettingsCmd extends Command {
 	public static description = stripIndent`
@@ -36,7 +36,7 @@ export default class SettingsCmd extends Command {
 	public async run() {
 		await this.parse(SettingsCmd);
 
-		const settings = await getBalenaSdk().settings.getAll();
+		const settings = await (await getBalenaSdk()).settings.getAll();
 
 		const prettyjson = await import('prettyjson');
 		console.log(prettyjson.render(settings));

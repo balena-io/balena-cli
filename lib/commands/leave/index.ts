@@ -16,10 +16,10 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { stripIndent } from '../../utils/lazy';
-import { parseAsLocalHostnameOrIp } from '../../utils/validation';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { stripIndent } from '../../utils/lazy.js';
+import { parseAsLocalHostnameOrIp } from '../../utils/validation.js';
 
 export default class LeaveCmd extends Command {
 	public static description = stripIndent`
@@ -62,7 +62,7 @@ export default class LeaveCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(LeaveCmd);
 
-		const promote = await import('../../utils/promote');
+		const promote = await import('../../utils/promote.js');
 		const logger = await Command.getLogger();
 		return promote.leave(logger, params.deviceIpOrHostname);
 	}

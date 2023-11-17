@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
 
 import type { Ignore } from '@balena/dockerignore';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export interface FileStats {
 	filePath: string;
@@ -102,7 +102,8 @@ export async function getDockerIgnoreInstance(
 	directory: string,
 ): Promise<Ignore> {
 	const dockerIgnoreStr = await readDockerIgnoreFile(directory);
-	const $dockerIgnore = (await import('@balena/dockerignore')).default;
+	const { default: $dockerIgnore } = (await import('@balena/dockerignore'))
+		.default;
 	const ig = $dockerIgnore({ ignorecase: false });
 
 	ig.add(['**/.git']);

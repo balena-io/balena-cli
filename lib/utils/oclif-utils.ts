@@ -20,6 +20,8 @@
  * @oclif/plugin-help/command/CommandHelp, which is used to generate oclif's
  * command help output.
  */
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 export class CommandHelp {
 	constructor(public command: { args?: { [name: string]: any } }) {}
 

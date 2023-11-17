@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo, jsonInfo } from '../../utils/messages';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { expandForAppName } from '../../utils/helpers.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo, jsonInfo } from '../../utils/messages.js';
 
 import type { Device, PineOptions } from 'balena-sdk';
 
@@ -68,7 +68,7 @@ export default class DevicesCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(DevicesCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 		const devicesOptions = {
 			...devicesSelectFields,
 			...expandForAppName,
@@ -78,7 +78,7 @@ export default class DevicesCmd extends Command {
 		const devices = (
 			await (async () => {
 				if (options.fleet != null) {
-					const { getApplication } = await import('../../utils/sdk');
+					const { getApplication } = await import('../../utils/sdk.js');
 					const application = await getApplication(balena, options.fleet, {
 						$select: 'slug',
 						$expand: {
@@ -115,7 +115,7 @@ export default class DevicesCmd extends Command {
 		];
 
 		if (options.json) {
-			const { pickAndRename } = await import('../../utils/helpers');
+			const { pickAndRename } = await import('../../utils/helpers.js');
 			const mapped = devices.map((device) => pickAndRename(device, fields));
 			console.log(JSON.stringify(mapped, null, 4));
 		} else {

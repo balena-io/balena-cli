@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class LogoutCmd extends Command {
 	public static description = stripIndent`
@@ -30,6 +30,6 @@ export default class LogoutCmd extends Command {
 
 	public async run() {
 		await this.parse(LogoutCmd);
-		await getBalenaSdk().auth.logout();
+		await (await getBalenaSdk()).auth.logout();
 	}
 }

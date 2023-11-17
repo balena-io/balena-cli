@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getCliForm, stripIndent } from '../../utils/lazy';
-import * as _ from 'lodash';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getCliForm, stripIndent } from '../../utils/lazy.js';
+import _ from 'lodash';
 import type { DeviceTypeJson } from 'balena-sdk';
 
 export default class OsBuildConfigCmd extends Command {
@@ -82,7 +82,7 @@ export default class OsBuildConfigCmd extends Command {
 	async buildConfig(image: string, deviceTypeSlug: string, advanced: boolean) {
 		advanced = advanced || false;
 
-		const { getManifest } = await import('../../utils/helpers');
+		const { getManifest } = await import('../../utils/helpers.js');
 
 		const deviceTypeManifest = await getManifest(image, deviceTypeSlug);
 		return this.buildConfigForDeviceType(deviceTypeManifest, advanced);
@@ -103,7 +103,7 @@ export default class OsBuildConfigCmd extends Command {
 			});
 
 			if (advancedGroup != null) {
-				const { getGroupDefaults } = await import('../../utils/helpers');
+				const { getGroupDefaults } = await import('../../utils/helpers.js');
 				override = getGroupDefaults(advancedGroup);
 			}
 		}

@@ -97,7 +97,7 @@ export function loadPackageJson() {
  * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
  */
 export async function which(program: string): Promise<string> {
-	const whichMod = await import('which');
+	const { default: whichMod } = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);

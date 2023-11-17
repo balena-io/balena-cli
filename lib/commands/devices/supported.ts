@@ -16,12 +16,12 @@
  */
 import { Flags } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import * as _ from 'lodash';
-import Command from '../../command';
+import _ from 'lodash';
+import Command from '../../command.js';
 
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { CommandHelp } from '../../utils/oclif-utils.js';
 
 export default class DevicesSupportedCmd extends Command {
 	public static description = stripIndent`
@@ -65,9 +65,9 @@ export default class DevicesSupportedCmd extends Command {
 				},
 			},
 		} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
-		const dts = (await getBalenaSdk().models.deviceType.getAllSupported(
-			pineOptions,
-		)) as Array<
+		const dts = (await (
+			await getBalenaSdk()
+		).models.deviceType.getAllSupported(pineOptions)) as Array<
 			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
 		>;
 		interface DT {

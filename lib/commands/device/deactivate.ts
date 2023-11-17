@@ -16,9 +16,9 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class DeviceDeactivateCmd extends Command {
 	public static description = stripIndent`
@@ -54,8 +54,8 @@ export default class DeviceDeactivateCmd extends Command {
 		const { args: params, flags: options } =
 			await this.parse(DeviceDeactivateCmd);
 
-		const balena = getBalenaSdk();
-		const patterns = await import('../../utils/patterns');
+		const balena = await getBalenaSdk();
+		const patterns = await import('../../utils/patterns.js');
 
 		const uuid = params.uuid;
 		const deactivationWarning = `

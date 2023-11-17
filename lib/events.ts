@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import * as packageJSON from '../package.json';
-import { stripIndent } from './utils/lazy';
+import packageJSON from '../package.json' assert {type: 'json'};
+import { stripIndent } from './utils/lazy.js';
 
 /**
  * Track balena CLI usage events (product improvement analytics).
@@ -44,7 +44,7 @@ export async function trackCommand(commandSignature: string) {
 				scope.setExtra('command', commandSignature);
 			});
 		}
-		const { getCachedUsername } = await import('./utils/bootstrap');
+		const { getCachedUsername } = await import('./utils/bootstrap.js');
 		let username: string | undefined;
 		try {
 			username = (await getCachedUsername())?.username;
@@ -99,7 +99,7 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 	const url = `https://data.${balenaUrl}/amplitude/2/httpapi`;
 
 	try {
-		await got.post(url, {
+		await got.default.post(url, {
 			json: trackData,
 			retry: 0,
 			timeout: {

@@ -16,11 +16,11 @@
  */
 
 import { Flags } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import * as ca from '../../utils/common-args';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import * as ca from '../../utils/common-args.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class DeviceRegisterCmd extends Command {
 	public static description = stripIndent`
@@ -64,9 +64,9 @@ export default class DeviceRegisterCmd extends Command {
 		const { args: params, flags: options } =
 			await this.parse(DeviceRegisterCmd);
 
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		const application = await getApplication(balena, params.fleet, {
 			$select: ['id', 'slug'],

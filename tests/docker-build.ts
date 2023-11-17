@@ -36,7 +36,7 @@ import {
 	deepJsonParse,
 	deepTemplateReplace,
 	runCommand,
-} from './helpers';
+} from './helpers.js';
 import {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,

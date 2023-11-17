@@ -2,7 +2,7 @@
 
 // ****************************************************************************
 // THIS IS FOR DEV PURPOSES ONLY AND WILL NOT BE PART OF THE PUBLISHED PACKAGE
-// Before opening a PR you should build and test your changes using bin/balena
+// Before opening a PR you should build and test your changes using bin/balena.js
 // ****************************************************************************
 
 // We boost the threadpool size as ext2fs can deadlock with some
@@ -57,7 +57,10 @@ require('ts-node').register({
 	project: path.join(rootDir, 'tsconfig.json'),
 	transpileOnly: true,
 });
-require('../lib/app').run(undefined, { dir: __dirname, development: true });
+require('../lib/app').run(undefined, {
+	dir: import.meta.url,
+	development: true,
+});
 
 // Modify package.json oclif paths from build/ -> lib/, or vice versa
 function modifyOclifPaths(revert) {

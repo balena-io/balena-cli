@@ -17,14 +17,14 @@
 
 import { Flags } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy.js';
 import {
 	applicationIdInfo,
 	devModeInfo,
 	secureBootInfo,
-} from '../../utils/messages';
+} from '../../utils/messages.js';
 import type { BalenaSDK, PineDeferred } from 'balena-sdk';
 
 export default class ConfigGenerateCmd extends Command {
@@ -126,7 +126,7 @@ export default class ConfigGenerateCmd extends Command {
 	public static authenticated = true;
 
 	public async getApplication(balena: BalenaSDK, fleet: string) {
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 		return await getApplication(balena, fleet, {
 			$select: 'slug',
 			$expand: {
@@ -137,7 +137,7 @@ export default class ConfigGenerateCmd extends Command {
 
 	public async run() {
 		const { flags: options } = await this.parse(ConfigGenerateCmd);
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		await this.validateOptions(options);
 
@@ -152,7 +152,7 @@ export default class ConfigGenerateCmd extends Command {
 				$expand: { is_of__device_type: { $select: 'slug' } },
 			});
 			if (!rawDevice.belongs_to__application) {
-				const { ExpectedError } = await import('../../errors');
+				const { ExpectedError } = await import('../../errors.js');
 				throw new ExpectedError(stripIndent`
 					Device ${options.device} does not appear to belong to an accessible fleet.
 					Try with a different device, or use '--fleet' instead of '--device'.`);
@@ -171,14 +171,14 @@ export default class ConfigGenerateCmd extends Command {
 
 		// Check compatibility if application and deviceType provided
 		if (options.fleet && options.deviceType) {
-			const helpers = await import('../../utils/helpers');
+			const helpers = await import('../../utils/helpers.js');
 			if (
 				!(await helpers.areDeviceTypesCompatible(
 					resourceDeviceType,
 					deviceType,
 				))
 			) {
-				const { ExpectedError } = await import('../../errors');
+				const { ExpectedError } = await import('../../errors.js');
 				throw new ExpectedError(
 					`Device type ${options.deviceType} is incompatible with fleet ${options.fleet}`,
 				);
@@ -189,7 +189,7 @@ export default class ConfigGenerateCmd extends Command {
 			await balena.models.config.getDeviceTypeManifestBySlug(deviceType);
 
 		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
+			'../../utils/config.js'
 		);
 		await validateSecureBootOptionAndWarn(
 			options.secureBoot,
@@ -211,7 +211,7 @@ export default class ConfigGenerateCmd extends Command {
 
 		// Generate config
 		const { generateDeviceConfig, generateApplicationConfig } = await import(
-			'../../utils/config'
+			'../../utils/config.js'
 		);
 
 		let config;
@@ -250,7 +250,7 @@ export default class ConfigGenerateCmd extends Command {
 	protected async validateOptions(
 		options: Interfaces.InferredFlags<typeof ConfigGenerateCmd.flags>,
 	) {
-		const { ExpectedError } = await import('../../errors');
+		const { ExpectedError } = await import('../../errors.js');
 
 		if (options.device == null && options.fleet == null) {
 			throw new ExpectedError(this.missingDeviceOrAppMessage);
@@ -259,7 +259,7 @@ export default class ConfigGenerateCmd extends Command {
 		if (!options.fleet && options.deviceType) {
 			throw new ExpectedError(this.deviceTypeNotAllowedMessage);
 		}
-		const { validateDevOptionAndWarn } = await import('../../utils/config');
+		const { validateDevOptionAndWarn } = await import('../../utils/config.js');
 		await validateDevOptionAndWarn(options.dev, options.version);
 	}
 }

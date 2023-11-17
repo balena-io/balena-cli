@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { getCliUx, getChalk } from '../utils/lazy';
+import { getCliUx, getChalk } from '../utils/lazy.js';
 
 export interface DataOutputOptions {
 	fields?: string;

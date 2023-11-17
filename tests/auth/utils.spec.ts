@@ -7,7 +7,7 @@ import { getBalenaSdk } from '../../build/utils/lazy';
 import tokens from './tokens';
 
 const utils = rewire('../../build/auth/utils');
-const balena = getBalenaSdk();
+const balena = await getBalenaSdk();
 
 describe('Utils:', function () {
 	describe('.getDashboardLoginURL()', function () {

@@ -68,8 +68,8 @@ index 9ced03f..4040aee 100644
              (0, promises_1.rm)(path.join(c.workspace(), path.basename(tarball)), { recursive: true }),
              (0, fs_extra_1.remove)(path.join(c.workspace(), 'bin', 'run.cmd')),
          ]);
-+        // rename the original balena-cli ./bin/balena entry point for oclif compatibility
-+        await fs.move(path.join(c.workspace(), 'bin', 'balena'), path.join(c.workspace(), 'bin', 'run'));
++        // rename the original balena-cli ./bin/balena.js entry point for oclif compatibility
++        await fs.move(path.join(c.workspace(), 'bin', 'balena.js'), path.join(c.workspace(), 'bin', 'run.js'));
 +        // The oclif installers are a production installation, while the source
 +        // `bin` folder may contain a `.fast-boot.json` file of a dev installation.
 +        // This has previously led to issues preventing the CLI from starting, so

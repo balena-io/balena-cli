@@ -17,12 +17,12 @@
 import { Flags } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as SDK from 'balena-sdk';
-import * as _ from 'lodash';
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import _ from 'lodash';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 type FlagsDef = Interfaces.InferredFlags<typeof EnvsCmd.flags>;
 
@@ -121,18 +121,18 @@ export default class EnvsCmd extends Command {
 			throw new ExpectedError('Missing --fleet or --device option');
 		}
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		let fleetSlug: string | undefined = options.fleet
 			? await (
-					await import('../../utils/sdk')
+					await import('../../utils/sdk.js')
 			  ).getFleetSlug(balena, options.fleet)
 			: undefined;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
 			const { getDeviceAndMaybeAppFromUUID } = await import(
-				'../../utils/cloud'
+				'../../utils/cloud.js'
 			);
 			const [device, app] = await getDeviceAndMaybeAppFromUUID(
 				balena,
@@ -186,7 +186,7 @@ export default class EnvsCmd extends Command {
 		}
 
 		if (options.json) {
-			const { pickAndRename } = await import('../../utils/helpers');
+			const { pickAndRename } = await import('../../utils/helpers.js');
 			const mapped = varArray.map((o) => pickAndRename(o, fields));
 			this.log(JSON.stringify(mapped, null, 4));
 		} else {
