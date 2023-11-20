@@ -31,6 +31,7 @@ export async function applicationCreateBase(
 			name: params.name,
 			deviceType,
 			organization,
+			applicationClass: resource,
 		});
 
 		// Output
