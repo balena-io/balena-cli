@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix balena block create to actually create a block
+      hash: b8769bb9e9dafac8a52eef477bc763551cf0d0b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.4.4
+  title: ""
+  date: 2023-11-20T17:57:18.485Z
+- commits:
     - subject: Bump oclif-core to v3
       hash: 72a924f00eabd13d3663e9cfa4d8feb11aa1aecd
       body: ""
