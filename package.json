@@ -196,7 +196,7 @@
     "@balena/compose": "^3.0.5",
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.1",
-    "@oclif/core": "^3.11.0",
+    "@oclif/core": "~3.11.0",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^6.16.1",
     "@types/fast-levenshtein": "0.0.1",
