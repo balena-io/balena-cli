@@ -181,17 +181,21 @@ async function execPkg(...args: any[]) {
  */
 async function buildPkg() {
 	// https://github.com/vercel/pkg#targets
-	let targets = `linux-${arch}`;
-	// TBC: not possible to build for macOS or Windows arm64 on x64 nodes
+	let targets = `linux-x64,linux-arm64`
 	if (process.platform === 'darwin') {
-		targets = `macos-x64`;
+		targets = `macos-x64,macos-arm64`;
 	}
 	if (process.platform === 'win32') {
-		targets = `win-x64`;
+		targets = `win-x64,win-arm64`;
 	}
 	const args = [
 		'--targets',
 		targets,
+		// no bytecode flag so we can cross compile for arm on x64
+		'--no-bytecode',
+		'--public',
+		'--public-packages',
+		'"*"',
 		'--output',
 		'build-bin/balena',
 		'package.json',
