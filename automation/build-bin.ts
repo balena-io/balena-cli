@@ -181,7 +181,7 @@ async function execPkg(...args: any[]) {
  */
 async function buildPkg() {
 	// https://github.com/vercel/pkg#targets
-	let targets = `linux-x64,linux-arm64`
+	let targets = `linux-x64,linux-arm64`;
 	if (process.platform === 'darwin') {
 		targets = `macos-x64,macos-arm64`;
 	}
