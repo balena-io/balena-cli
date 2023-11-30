@@ -1215,23 +1215,20 @@ export async function validateProjectDirectory(
 	return result;
 }
 
-async function getTokenForPreviousRepos(
+async function getRegistryToken(
 	logger: Logger,
-	appId: number,
 	apiEndpoint: string,
 	taggedImages: TaggedImage[],
 ): Promise<string> {
 	logger.logDebug('Authorizing push...');
-	const { authorizePush, getPreviousRepos } = await import('./compose');
+	const { authorizePush } = await import('./compose');
 	const sdk = getBalenaSdk();
-	const previousRepos = await getPreviousRepos(sdk, logger, appId);
 
 	const token = await authorizePush(
 		sdk,
 		apiEndpoint,
 		taggedImages[0].registry,
 		_.map(taggedImages, 'repo'),
-		previousRepos,
 	);
 	return token;
 }
@@ -1405,12 +1402,7 @@ export async function deployProject(
 			// awaitInterruptibleTask throws SIGINTError on CTRL-C,
 			// causing the release status to be set to 'failed'
 			await awaitInterruptibleTask(async () => {
-				const token = await getTokenForPreviousRepos(
-					logger,
-					appId,
-					apiEndpoint,
-					taggedImages,
-				);
+				const token = await getRegistryToken(logger, apiEndpoint, taggedImages);
 				await pushServiceImages(
 					docker,
 					logger,

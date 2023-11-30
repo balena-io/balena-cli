@@ -28,7 +28,6 @@ import type {
 	TaggedImage,
 } from './compose-types';
 import { getChalk } from './lazy';
-import Logger = require('./logger');
 import { ProgressCallback } from 'docker-progress';
 
 export function generateOpts(options: {
@@ -183,69 +182,16 @@ export const tagServiceImages = (
 		}),
 	);
 
-export const getPreviousRepos = (
-	sdk: SDK.BalenaSDK,
-	logger: Logger,
-	appID: number,
-): Promise<string[]> =>
-	sdk.pine
-		.get<SDK.Release>({
-			resource: 'release',
-			options: {
-				$select: 'id',
-				$filter: {
-					belongs_to__application: appID,
-					status: 'success',
-				},
-				$expand: {
-					contains__image: {
-						$select: 'image',
-						$expand: { image: { $select: 'is_stored_at__image_location' } },
-					},
-				},
-				$orderby: 'id desc',
-				$top: 1,
-			},
-		})
-		.then(function (release) {
-			// grab all images from the latest release, return all image locations in the registry
-			if (release.length > 0) {
-				const images = release[0].contains__image as Array<{
-					image: [SDK.Image];
-				}>;
-				const { getRegistryAndName } =
-					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
-				return Promise.all(
-					images.map(function (d) {
-						const imageName = d.image[0].is_stored_at__image_location || '';
-						const registry = getRegistryAndName(imageName);
-						logger.logDebug(
-							`Requesting access to previously pushed image repo (${registry.imageName})`,
-						);
-						return registry.imageName;
-					}),
-				);
-			} else {
-				return [];
-			}
-		})
-		.catch((e) => {
-			logger.logDebug(`Failed to access previously pushed image repo: ${e}`);
-			return [];
-		});
-
 export const authorizePush = function (
 	sdk: SDK.BalenaSDK,
 	tokenAuthEndpoint: string,
 	registry: string,
 	images: string[],
-	previousRepos: string[],
 ): Promise<string> {
 	if (!Array.isArray(images)) {
 		images = [images];
 	}
 
-	images.push(...previousRepos);
 	return sdk.request
 		.send({
 			baseUrl: tokenAuthEndpoint,
