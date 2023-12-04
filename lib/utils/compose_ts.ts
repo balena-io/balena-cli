@@ -1215,31 +1215,58 @@ export async function validateProjectDirectory(
 	return result;
 }
 
+/**
+ * While testing, pushing a release with a token of up to 125 repos (new + past) worked
+ * and resulted a token of 15967 characters. Generating a token with more repos, thus
+ * bigger token fails since the request would exceed the max allowed headers size of 16KB.
+ * We use a value slightly smaller than the max to account for unknown factors that
+ * might increase the request header size.
+ */
+const MAX_SAFE_IMAGE_REPOS_PER_TOKEN = 120;
+
 async function getTokenForPreviousRepos(
 	logger: Logger,
 	appId: number,
 	apiEndpoint: string,
 	taggedImages: TaggedImage[],
-): Promise<string> {
+): Promise<Array<[taggedImage: TaggedImage, token: string]>> {
 	logger.logDebug('Authorizing push...');
 	const { authorizePush, getPreviousRepos } = await import('./compose');
 	const sdk = getBalenaSdk();
 	const previousRepos = await getPreviousRepos(sdk, logger, appId);
 
-	const token = await authorizePush(
-		sdk,
-		apiEndpoint,
-		taggedImages[0].registry,
-		_.map(taggedImages, 'repo'),
-		previousRepos,
+	const newImageChunks = _.chunk(
+		taggedImages,
+		Math.max(MAX_SAFE_IMAGE_REPOS_PER_TOKEN - previousRepos.length, 1),
 	);
-	return token;
+
+	const imagesAndTokens: Array<[taggedImage: TaggedImage, token: string]> = [];
+	for (const newImageChunk of newImageChunks) {
+		const token = await authorizePush(
+			sdk,
+			apiEndpoint,
+			newImageChunk[0].registry,
+			// We request access to the previous repos as well, so that while pushing we have access
+			// to cross mount old-matching layers, so that we can avoid re-uploading them every time.
+			[
+				...newImageChunk.map((taggedImage) => taggedImage.repo),
+				...previousRepos,
+			],
+		);
+		imagesAndTokens.push(
+			...newImageChunk.map((taggedImage): (typeof imagesAndTokens)[number] => [
+				taggedImage,
+				token,
+			]),
+		);
+	}
+
+	return imagesAndTokens;
 }
 
 async function pushAndUpdateServiceImages(
 	docker: Dockerode,
-	token: string,
-	images: TaggedImage[],
+	imagesAndTokens: Array<[taggedImage: TaggedImage, token: string]>,
 	afterEach: (
 		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
 		props: object,
@@ -1249,16 +1276,19 @@ async function pushAndUpdateServiceImages(
 	const { retry } = await import('./helpers');
 	const { pushProgressRenderer } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
-	const opts = { authconfig: { registrytoken: token } };
 	const progress = new DockerProgress({ docker });
 	const renderer = pushProgressRenderer(
 		tty,
 		getChalk().blue('[Push]') + '    ',
 	);
-	const reporters = progress.aggregateProgress(images.length, renderer);
+	const reporters = progress.aggregateProgress(
+		imagesAndTokens.length,
+		renderer,
+	);
 
 	const pushImage = async (
 		localImage: Dockerode.Image,
+		token: string,
 		index: number,
 	): Promise<string> => {
 		try {
@@ -1267,7 +1297,10 @@ async function pushAndUpdateServiceImages(
 			// "name": "registry2.balena-cloud.com/v2/aa27790dff571ec7d2b4fbcf3d4648d5:latest"
 			const imgName: string = (localImage as any).name || '';
 			const imageDigest: string = await retry({
-				func: () => progress.push(imgName, reporters[index], opts),
+				func: () =>
+					progress.push(imgName, reporters[index], {
+						authconfig: { registrytoken: token },
+					}),
 				maxAttempts: 3, // try calling func 3 times (max)
 				label: imgName, // label for retry log messages
 				initialDelayMs: 2000, // wait 2 seconds before the 1st retry
@@ -1285,13 +1318,16 @@ async function pushAndUpdateServiceImages(
 	};
 
 	const inspectAndPushImage = async (
-		{ serviceImage, localImage, props, logs }: TaggedImage,
+		[{ serviceImage, localImage, props, logs }, token]: [
+			TaggedImage,
+			token: string,
+		],
 		index: number,
 	) => {
 		try {
 			const [imgInfo, imgDigest] = await Promise.all([
 				localImage.inspect(),
-				pushImage(localImage, index),
+				pushImage(localImage, token, index),
 			]);
 			serviceImage.image_size = imgInfo.Size;
 			serviceImage.content_hash = imgDigest;
@@ -1317,7 +1353,7 @@ async function pushAndUpdateServiceImages(
 
 	tty.hideCursor();
 	try {
-		await Promise.all(images.map(inspectAndPushImage));
+		await Promise.all(imagesAndTokens.map(inspectAndPushImage));
 	} finally {
 		tty.showCursor();
 	}
@@ -1329,16 +1365,14 @@ async function pushServiceImages(
 	pineClient: ReturnType<
 		typeof import('@balena/compose/dist/release').createClient
 	>,
-	taggedImages: TaggedImage[],
-	token: string,
+	imagesAndTokens: Array<[taggedImage: TaggedImage, token: string]>,
 	skipLogUpload: boolean,
 ): Promise<void> {
 	const releaseMod = await import('@balena/compose/dist/release');
 	logger.logInfo('Pushing images to registry...');
 	await pushAndUpdateServiceImages(
 		docker,
-		token,
-		taggedImages,
+		imagesAndTokens,
 		async function (serviceImage) {
 			logger.logDebug(
 				`Saving image ${serviceImage.is_stored_at__image_location}`,
@@ -1405,7 +1439,7 @@ export async function deployProject(
 			// awaitInterruptibleTask throws SIGINTError on CTRL-C,
 			// causing the release status to be set to 'failed'
 			await awaitInterruptibleTask(async () => {
-				const token = await getTokenForPreviousRepos(
+				const imagesAndTokens = await getTokenForPreviousRepos(
 					logger,
 					appId,
 					apiEndpoint,
@@ -1415,8 +1449,7 @@ export async function deployProject(
 					docker,
 					logger,
 					pineClient,
-					taggedImages,
-					token,
+					imagesAndTokens,
 					skipLogUpload,
 				);
 			});

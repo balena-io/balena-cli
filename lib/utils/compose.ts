@@ -239,13 +239,11 @@ export const authorizePush = function (
 	tokenAuthEndpoint: string,
 	registry: string,
 	images: string[],
-	previousRepos: string[],
 ): Promise<string> {
 	if (!Array.isArray(images)) {
 		images = [images];
 	}
 
-	images.push(...previousRepos);
 	return sdk.request
 		.send({
 			baseUrl: tokenAuthEndpoint,
