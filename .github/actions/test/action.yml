@@ -51,7 +51,7 @@ runs:
         fi
 
         npm run build
-        npm run test
+        npm run test:core
 
     - name: Compress custom source
       shell: pwsh
