@@ -1,4 +1,36 @@
 - commits:
+    - subject: Stop testing dependency deduplication on the custom test runners
+      hash: 65ba63d1a8d231851634830be6d48fbf0e085e47
+      body: |
+        That's since we already run that test as part of
+        flowzone's default "Test npm (18.x)", and the
+        custom tests are using the latest node & npm
+        version of the selected major.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Temporarily pin oclif-core to ~3.11.0 to deduplicate the dependencies
+      hash: f5ffa7d84f58047e1f262b2b1e1719fd4164d5de
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update TypeScript to 5.3.2
+      hash: dac3ace61d80dfd000a4a69dfa51d141d34ebc0a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 17.4.5
+  title: ""
+  date: 2023-12-04T14:08:25.597Z
+- commits:
     - subject: Fix balena block create to actually create a block
       hash: b8769bb9e9dafac8a52eef477bc763551cf0d0b0
       body: ""
