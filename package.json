@@ -59,7 +59,8 @@
     "package": "npm run build:fast && npm run build:standalone && npm run build:installer",
     "release": "ts-node --transpile-only automation/run.ts release",
     "pretest": "npm run build",
-    "test": "npm run test:shrinkwrap && npm run test:source && npm run test:standalone",
+    "test": "npm run test:shrinkwrap && npm run test:core",
+    "test:core": "npm run test:source && npm run test:standalone",
     "test:shrinkwrap": "ts-node --transpile-only automation/run.ts test-shrinkwrap",
     "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha",
     "test:standalone": "npm run build:standalone && npm run test:standalone:fast",
@@ -190,13 +191,13 @@
     "simple-git": "^3.14.1",
     "sinon": "^11.1.2",
     "ts-node": "^10.4.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.3.2"
   },
   "dependencies": {
     "@balena/compose": "^3.0.5",
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.1",
-    "@oclif/core": "^3.11.0",
+    "@oclif/core": "~3.11.0",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^6.16.1",
     "@types/fast-levenshtein": "0.0.1",
