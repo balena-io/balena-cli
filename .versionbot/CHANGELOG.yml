@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump oclif core & use default missing flag handler
+      hash: b9722c67963c9b90e94aec7653ee488957ecd690
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.4.6
+  title: ""
+  date: 2023-12-08T15:55:47.078Z
+- commits:
     - subject: Stop testing dependency deduplication on the custom test runners
       hash: 65ba63d1a8d231851634830be6d48fbf0e085e47
       body: |
