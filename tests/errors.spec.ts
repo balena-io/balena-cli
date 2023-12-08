@@ -131,7 +131,6 @@ describe('handleError() function', () => {
 	const messagesToMatch = [
 		'Missing 1 required argument', // oclif
 		'Missing 2 required arguments', // oclif
-		'Missing required flag', // oclif
 		'Unexpected argument', // oclif
 		'Unexpected arguments', // oclif
 		'to be one of', // oclif
