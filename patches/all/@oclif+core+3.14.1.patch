@@ -12,10 +12,10 @@ index 607d8dc..07ba1f2 100644
      return lines.join('\n');
  }
 diff --git a/node_modules/@oclif/core/lib/help/command.js b/node_modules/@oclif/core/lib/help/command.js
-index c528e93..2c20760 100644
+index 82d9eed..0a8d45f 100644
 --- a/node_modules/@oclif/core/lib/help/command.js
 +++ b/node_modules/@oclif/core/lib/help/command.js
-@@ -45,7 +45,7 @@ class CommandHelp extends formatter_1.HelpFormatter {
+@@ -48,7 +48,7 @@ class CommandHelp extends formatter_1.HelpFormatter {
          if (args.filter((a) => a.description).length === 0)
              return;
          return args.map((a) => {
@@ -23,9 +23,9 @@ index c528e93..2c20760 100644
 +            const name = a.required ? `<${a.name}>` : `[${a.name}]`;
              let description = a.description || '';
              if (a.default)
-                 description = `[default: ${a.default}] ${description}`;
-@@ -137,14 +137,12 @@ class CommandHelp extends formatter_1.HelpFormatter {
-             label = labels.join(flag.char ? ', ' : '  ');
+                 description = `${(0, theme_1.colorize)(this.config?.theme?.flagDefaultValue, `[default: ${a.default}]`)} ${description}`;
+@@ -143,14 +143,12 @@ class CommandHelp extends formatter_1.HelpFormatter {
+             label = labels.join((0, theme_1.colorize)(this.config?.theme?.flagSeparator, flag.char ? ', ' : '  '));
          }
          if (flag.type === 'option') {
 -            let value = flag.helpValue || (this.opts.showFlagNameInTitle ? flag.name : '<value>');
@@ -42,10 +42,10 @@ index c528e93..2c20760 100644
          }
          return label;
 diff --git a/node_modules/@oclif/core/lib/help/index.js b/node_modules/@oclif/core/lib/help/index.js
-index 38494f5..213b8b0 100644
+index 242538a..efde8ac 100644
 --- a/node_modules/@oclif/core/lib/help/index.js
 +++ b/node_modules/@oclif/core/lib/help/index.js
-@@ -158,11 +158,12 @@ class Help extends HelpBase {
+@@ -168,11 +168,12 @@ class Help extends HelpBase {
          }
          this.log(this.formatCommand(command));
          this.log('');
@@ -56,12 +56,12 @@ index 38494f5..213b8b0 100644
              this.log('');
          }
 -        if (subCommands.length > 0) {
-+        if (subCommands.length > 0 && !SUPPRESS_SUBTOPICS) {
++        if (subTopics.length > 0 && !SUPPRESS_SUBTOPICS) {
              const aliases = [];
              const uniqueSubCommands = subCommands.filter((p) => {
                  aliases.push(...p.aliases);
 diff --git a/node_modules/@oclif/core/lib/parser/errors.js b/node_modules/@oclif/core/lib/parser/errors.js
-index 51be624..768d589 100644
+index 656ec6b..2bbf36b 100644
 --- a/node_modules/@oclif/core/lib/parser/errors.js
 +++ b/node_modules/@oclif/core/lib/parser/errors.js
 @@ -14,7 +14,8 @@ Object.defineProperty(exports, "CLIError", { enumerable: true, get: function ()
@@ -71,13 +71,13 @@ index 51be624..768d589 100644
 -        options.message += '\nSee more help with --help';
 +        const help = options.command ? `\`${options.command} --help\`` : '--help';
 +        options.message += `\nSee more help with ${help}`;
-         super(options.message);
+         super(options.message, { exit: options.exit });
          this.parse = options.parse;
      }
 @@ -37,7 +38,8 @@ exports.InvalidArgsSpecError = InvalidArgsSpecError;
  class RequiredArgsError extends CLIParseError {
      args;
-     constructor({ args, flagsWithMultiple, parse, }) {
+     constructor({ args, exit, flagsWithMultiple, parse, }) {
 -        let message = `Missing ${args.length} required arg${args.length === 1 ? '' : 's'}`;
 +        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
 +        let message = `Missing ${args.length} required argument${args.length === 1 ? '' : 's'}`;
@@ -88,20 +88,8 @@ index 51be624..768d589 100644
              message += `\n\nNote: ${flags} allow${flagsWithMultiple.length === 1 ? 's' : ''} multiple values. Because of this you need to provide all arguments before providing ${flagsWithMultiple.length === 1 ? 'that flag' : 'those flags'}.`;
              message += '\nAlternatively, you can use "--" to signify the end of the flags and the beginning of arguments.';
          }
--        super({ message, parse });
-+        super({ message, parse, command });
+-        super({ exit: cache_1.default.getInstance().get('exitCodes')?.requiredArgs ?? exit, message, parse });
++        super({ exit: cache_1.default.getInstance().get('exitCodes')?.requiredArgs ?? exit, message, parse, command });
          this.args = args;
-     }
- }
-@@ -56,9 +58,10 @@ exports.RequiredArgsError = RequiredArgsError;
- class RequiredFlagError extends CLIParseError {
-     flag;
-     constructor({ flag, parse }) {
-+        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
-         const usage = (0, list_1.renderList)((0, help_1.flagUsages)([flag], { displayRequired: false }));
-         const message = `Missing required flag:\n${usage}`;
--        super({ message, parse });
-+        super({ message, parse, command });
-         this.flag = flag;
      }
  }

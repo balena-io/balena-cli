@@ -211,7 +211,6 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaOrganizationNotFound/, // balena-sdk
 	/Request error: Unauthorized$/, // balena-sdk
 	/^Missing \d+ required arg/, // oclif parser: RequiredArgsError
-	/Missing required flag/, // oclif parser: RequiredFlagError
 	/^Unexpected argument/, // oclif parser: UnexpectedArgsError
 	/to be one of/, // oclif parser: FlagInvalidOptionError, ArgInvalidOptionError
 	/must also be provided when using/, // oclif parser (depends-on)
