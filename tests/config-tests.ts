@@ -26,6 +26,11 @@ process.env.BALENARC_NO_SENTRY = '1';
 // Like the global `--unsupported` flag
 process.env.BALENARC_UNSUPPORTED = '1';
 
+// Reduce the api request retry limits to keep the tests fast.
+process.env.BALENARCTEST_API_RETRY_MIN_DELAY_MS = '100';
+process.env.BALENARCTEST_API_RETRY_MAX_DELAY_MS = '1000';
+process.env.BALENARCTEST_API_RETRY_MAX_ATTEMPTS = '2';
+
 import * as tmp from 'tmp';
 tmp.setGracefulCleanup();
 // Use a temporary dir for tests data

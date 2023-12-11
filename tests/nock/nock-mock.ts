@@ -21,6 +21,7 @@ import * as fs from 'fs';
 export interface ScopeOpts {
 	optional?: boolean;
 	persist?: boolean;
+	times?: number;
 }
 
 /**
@@ -52,36 +53,50 @@ export class NockMock {
 		this.expect = this.scope;
 	}
 
+	public optMethod(
+		method: 'get' | 'delete' | 'patch' | 'post',
+		uri: string | RegExp | ((uri: string) => boolean),
+		{ optional = false, persist = false, times = undefined }: ScopeOpts,
+	) {
+		let scope = this.scope;
+		if (persist) {
+			scope = scope.persist();
+		}
+		let reqInterceptor = scope[method](uri);
+		if (times != null) {
+			reqInterceptor = reqInterceptor.times(times);
+		} else if (optional) {
+			reqInterceptor = reqInterceptor.optionally();
+		}
+		return reqInterceptor;
+	}
+
 	public optGet(
 		uri: string | RegExp | ((uri: string) => boolean),
-		{ optional = false, persist = false }: ScopeOpts,
+		opts: ScopeOpts,
 	): nock.Interceptor {
-		const get = (persist ? this.scope.persist() : this.scope).get(uri);
-		return optional ? get.optionally() : get;
+		return this.optMethod('get', uri, opts);
 	}
 
 	public optDelete(
 		uri: string | RegExp | ((uri: string) => boolean),
-		{ optional = false, persist = false }: ScopeOpts,
+		opts: ScopeOpts,
 	) {
-		const del = (persist ? this.scope.persist() : this.scope).delete(uri);
-		return optional ? del.optionally() : del;
+		return this.optMethod('delete', uri, opts);
 	}
 
 	public optPatch(
 		uri: string | RegExp | ((uri: string) => boolean),
-		{ optional = false, persist = false }: ScopeOpts,
+		opts: ScopeOpts,
 	) {
-		const patch = (persist ? this.scope.persist() : this.scope).patch(uri);
-		return optional ? patch.optionally() : patch;
+		return this.optMethod('patch', uri, opts);
 	}
 
 	public optPost(
 		uri: string | RegExp | ((uri: string) => boolean),
-		{ optional = false, persist = false }: ScopeOpts,
+		opts: ScopeOpts,
 	) {
-		const post = (persist ? this.scope.persist() : this.scope).post(uri);
-		return optional ? post.optionally() : post;
+		return this.optMethod('post', uri, opts);
 	}
 
 	protected inspectNoOp(_uri: string, _requestBody: nock.Body): void {

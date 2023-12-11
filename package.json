@@ -196,6 +196,7 @@
   "dependencies": {
     "@balena/compose": "^3.2.0",
     "@balena/dockerignore": "^1.0.2",
+    "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^3.14.1",
     "@resin.io/valid-email": "^0.1.0",

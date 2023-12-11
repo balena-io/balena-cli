@@ -35,11 +35,13 @@ export class BalenaAPIMock extends NockMock {
 		notFound = false,
 		optional = false,
 		persist = false,
+		times = undefined as number | undefined,
 		expandArchitecture = false,
 	} = {}) {
 		const interceptor = this.optGet(/^\/v6\/application($|[(?])/, {
 			optional,
 			persist,
+			times,
 		});
 		if (notFound) {
 			interceptor.reply(200, { d: [] });
@@ -105,10 +107,12 @@ export class BalenaAPIMock extends NockMock {
 		notFound = false,
 		optional = false,
 		persist = false,
+		times = undefined as number | undefined,
 	} = {}) {
 		const interceptor = this.optGet(/^\/v6\/release($|[(?])/, {
 			persist,
 			optional,
+			times,
 		});
 		if (notFound) {
 			interceptor.reply(200, { d: [] });
@@ -133,8 +137,9 @@ export class BalenaAPIMock extends NockMock {
 		inspectRequest = this.inspectNoOp,
 		optional = false,
 		persist = false,
+		times = undefined as number | undefined,
 	}) {
-		this.optPatch(/^\/v6\/release($|[(?])/, { optional, persist }).reply(
+		this.optPatch(/^\/v6\/release($|[(?])/, { optional, persist, times }).reply(
 			statusCode,
 			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
 		);
@@ -148,8 +153,9 @@ export class BalenaAPIMock extends NockMock {
 		inspectRequest = this.inspectNoOp,
 		optional = false,
 		persist = false,
+		times = undefined as number | undefined,
 	}) {
-		this.optPost(/^\/v6\/release($|[(?])/, { optional, persist }).reply(
+		this.optPost(/^\/v6\/release($|[(?])/, { optional, persist, times }).reply(
 			statusCode,
 			this.getInspectedReplyFileFunction(
 				inspectRequest,
@@ -167,8 +173,9 @@ export class BalenaAPIMock extends NockMock {
 		inspectRequest = this.inspectNoOp,
 		optional = false,
 		persist = false,
+		times = undefined as number | undefined,
 	}) {
-		this.optPatch(/^\/v6\/image($|[(?])/, { optional, persist }).reply(
+		this.optPatch(/^\/v6\/image($|[(?])/, { optional, persist, times }).reply(
 			statusCode,
 			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
 		);

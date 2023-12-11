@@ -12,6 +12,7 @@
       "dependencies": {
         "@balena/compose": "^3.2.0",
         "@balena/dockerignore": "^1.0.2",
+        "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^3.14.1",
         "@resin.io/valid-email": "^0.1.0",
@@ -1543,6 +1544,11 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/@balena/dockerignore/-/dockerignore-1.0.2.tgz",
       "integrity": "sha512-wMue2Sy4GAVTk6Ic4tJVcnfdau+gx2EnG7S+uAEe+TWJFqE4YoWN4/H8MSLj4eYJKxGg26lZwboEniNiNwZQ6Q=="
+    },
+    "node_modules/@balena/env-parsing": {
+      "version": "1.1.8",
+      "resolved": "https://registry.npmjs.org/@balena/env-parsing/-/env-parsing-1.1.8.tgz",
+      "integrity": "sha512-6L9U2LJ5Akov92962+NjjvrfZ1VPVJGZwjb8DIurRXxFIWldA+D0EOgvvmmZtgiRsG3OfZnRK9oBBYVC/bDFxA=="
     },
     "node_modules/@balena/es-version": {
       "version": "1.0.1",
@@ -25830,6 +25836,11 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/@balena/dockerignore/-/dockerignore-1.0.2.tgz",
       "integrity": "sha512-wMue2Sy4GAVTk6Ic4tJVcnfdau+gx2EnG7S+uAEe+TWJFqE4YoWN4/H8MSLj4eYJKxGg26lZwboEniNiNwZQ6Q=="
+    },
+    "@balena/env-parsing": {
+      "version": "1.1.8",
+      "resolved": "https://registry.npmjs.org/@balena/env-parsing/-/env-parsing-1.1.8.tgz",
+      "integrity": "sha512-6L9U2LJ5Akov92962+NjjvrfZ1VPVJGZwjb8DIurRXxFIWldA+D0EOgvvmmZtgiRsG3OfZnRK9oBBYVC/bDFxA=="
     },
     "@balena/es-version": {
       "version": "1.0.1",
