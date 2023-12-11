@@ -10,7 +10,7 @@
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose": "^3.0.5",
+        "@balena/compose": "^3.2.0",
         "@balena/dockerignore": "^1.0.2",
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^3.14.1",
@@ -39,7 +39,7 @@
         "denymount": "^2.3.0",
         "docker-modem": "3.0.0",
         "docker-progress": "^5.1.3",
-        "dockerode": "3.3.3",
+        "dockerode": "3.3.5",
         "ejs": "^3.1.6",
         "etcher-sdk": "^8.7.0",
         "event-stream": "3.3.4",
@@ -1409,18 +1409,16 @@
       }
     },
     "node_modules/@balena/compose": {
-      "version": "3.0.5",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-3.0.5.tgz",
-      "integrity": "sha512-5w7aCvqKOTTwuosl39Y5+7lpjjr7k4Kx6dao01T0MAomFMlXsBNSzQjw50Xv5khkW7/DaKo0zMJnLsOq3YRDcw==",
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-3.2.0.tgz",
+      "integrity": "sha512-euzygRQadCEzd2j8xMPAMCcPogBAbF2o+f7vcNRXAdCP3q3u/bdBk7yXgWSaLmNilGqdsgeGS8WM0RxmXS9JYA==",
       "dependencies": {
         "ajv": "^6.12.3",
-        "bluebird": "^3.7.2",
-        "bluebird-lru-cache": "^1.0.1",
         "docker-file-parser": "^1.0.7",
         "docker-modem": "^3.0.3",
         "docker-progress": "^5.1.0",
         "dockerfile-ast": "^0.2.1",
-        "dockerode": "3.3.3",
+        "dockerode": "^3.3.5",
         "duplexify": "^4.1.2",
         "event-stream": "^4.0.1",
         "fp-ts": "^2.8.1",
@@ -1431,8 +1429,10 @@
         "JSONStream": "^1.3.5",
         "klaw": "^4.0.1",
         "lodash": "^4.17.19",
+        "memoizee": "^0.4.15",
         "mz": "^2.7.0",
         "p-map": "^4.0.0",
+        "pinejs-client-core": "^6.13.0",
         "pinejs-client-request": "^7.3.5",
         "request": "^2.88.2",
         "semver": "^7.3.5",
@@ -5773,37 +5773,6 @@
       "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz",
       "integrity": "sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg=="
     },
-    "node_modules/bluebird-lru-cache": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/bluebird-lru-cache/-/bluebird-lru-cache-1.0.1.tgz",
-      "integrity": "sha512-HdQ6UO5vSXG5qK/pE9srZTHCsvRzmzrn7g31XTcKq9JWMK0PG+LJ0mmR6LIYuXO5DeiR+DnLWMnMsYcd0WD2Bg==",
-      "dependencies": {
-        "bluebird": "^3.0.6",
-        "lru-cache": "^3.2.0",
-        "typed-error": "^2.0.0"
-      }
-    },
-    "node_modules/bluebird-lru-cache/node_modules/lru-cache": {
-      "version": "3.2.0",
-      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-3.2.0.tgz",
-      "integrity": "sha512-91gyOKTc2k66UG6kHiH4h3S2eltcPwE1STVfMYC/NG+nZwf8IIuiamfmpGZjpbbxzSyEJaLC0tNSmhjlQUTJow==",
-      "dependencies": {
-        "pseudomap": "^1.0.1"
-      }
-    },
-    "node_modules/bluebird-lru-cache/node_modules/tslib": {
-      "version": "1.14.1",
-      "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
-      "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
-    },
-    "node_modules/bluebird-lru-cache/node_modules/typed-error": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/typed-error/-/typed-error-2.0.0.tgz",
-      "integrity": "sha512-uRrCO6P1KGYMZPykrmBaTnwuxEERymyDkO/WLfO8VcYt4MXw6RrcUoA/yYOt8T2RPZWULDtEKibR/Hlq8Hd4rA==",
-      "dependencies": {
-        "tslib": "^1.7.1"
-      }
-    },
     "node_modules/bluebird-retry": {
       "version": "0.10.1",
       "resolved": "https://registry.npmjs.org/bluebird-retry/-/bluebird-retry-0.10.1.tgz",
@@ -7849,10 +7818,11 @@
       }
     },
     "node_modules/dockerode": {
-      "version": "3.3.3",
-      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.3.tgz",
-      "integrity": "sha512-lvKV6/NGf2/CYLt5V4c0fd6Fl9XZSCo1Z2HBT9ioKrKLMB2o+gA62Uza8RROpzGvYv57KJx2dKu+ZwSpB//OIA==",
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.5.tgz",
+      "integrity": "sha512-/0YNa3ZDNeLr/tSckmD69+Gq+qVNhvKfAHNeZJBnp7EOP6RGKV8ORrJHkUn20So5wU+xxT7+1n5u8PjHbfjbSA==",
       "dependencies": {
+        "@balena/dockerignore": "^1.0.2",
         "docker-modem": "^3.0.0",
         "tar-fs": "~2.0.1"
       },
@@ -16923,9 +16893,9 @@
       }
     },
     "node_modules/pinejs-client-core": {
-      "version": "6.12.3",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.12.3.tgz",
-      "integrity": "sha512-Qg9TbiaUlKDqcWCE6ARFFzOvNnJnBmovPifeyhV7ybYVDDpd8WAGrItQSJkOjuk4ZSwcaYMcHJ+FNatBUAnGWw==",
+      "version": "6.14.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.14.0.tgz",
+      "integrity": "sha512-28k0KYr6EItvOnVQ0cam24/D2Ky8EDFZMlyyvPMRX2KRzXIU9+FB7s6/BvSwx2+aYwxgMHCqTnBUBUDP3NZ/Hw==",
       "dependencies": {
         "@balena/es-version": "^1.0.1"
       },
@@ -16935,16 +16905,16 @@
       }
     },
     "node_modules/pinejs-client-request": {
-      "version": "7.3.6",
-      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.3.6.tgz",
-      "integrity": "sha512-6Pr9rKXh2DcZcd/sCc7r8nLq6upL8SLWu7/VURAQ57U43bVWs/Urbib4jdyJ9CjRVvhGWm+7b52Y/Y0Q29WhqA==",
+      "version": "7.4.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.4.0.tgz",
+      "integrity": "sha512-jJupfCufljGu+ALOVqR5q52yORI1UV0/nFJyGlrXedUa13fchwzgTNY7rFvTJKDZX59L5XAuc431/hSzBmZ5TA==",
       "dependencies": {
         "@types/lodash": "^4.14.181",
         "@types/lru-cache": "^5.1.1",
         "@types/request": "^2.48.8",
         "lodash": "^4.17.21",
         "lru-cache": "^6.0.0",
-        "pinejs-client-core": "^6.10.2",
+        "pinejs-client-core": "^6.14.0",
         "request": "^2.88.2",
         "typed-error": "^3.2.1"
       },
@@ -17647,11 +17617,6 @@
       "engines": {
         "node": ">= 0.10"
       }
-    },
-    "node_modules/pseudomap": {
-      "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/pseudomap/-/pseudomap-1.0.2.tgz",
-      "integrity": "sha1-8FKijacOYYkX7wqKw0wa5aaChrM="
     },
     "node_modules/psl": {
       "version": "1.8.0",
@@ -25753,18 +25718,16 @@
       }
     },
     "@balena/compose": {
-      "version": "3.0.5",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-3.0.5.tgz",
-      "integrity": "sha512-5w7aCvqKOTTwuosl39Y5+7lpjjr7k4Kx6dao01T0MAomFMlXsBNSzQjw50Xv5khkW7/DaKo0zMJnLsOq3YRDcw==",
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-3.2.0.tgz",
+      "integrity": "sha512-euzygRQadCEzd2j8xMPAMCcPogBAbF2o+f7vcNRXAdCP3q3u/bdBk7yXgWSaLmNilGqdsgeGS8WM0RxmXS9JYA==",
       "requires": {
         "ajv": "^6.12.3",
-        "bluebird": "^3.7.2",
-        "bluebird-lru-cache": "^1.0.1",
         "docker-file-parser": "^1.0.7",
         "docker-modem": "^3.0.3",
         "docker-progress": "^5.1.0",
         "dockerfile-ast": "^0.2.1",
-        "dockerode": "3.3.3",
+        "dockerode": "^3.3.5",
         "duplexify": "^4.1.2",
         "event-stream": "^4.0.1",
         "fp-ts": "^2.8.1",
@@ -25775,8 +25738,10 @@
         "JSONStream": "^1.3.5",
         "klaw": "^4.0.1",
         "lodash": "^4.17.19",
+        "memoizee": "^0.4.15",
         "mz": "^2.7.0",
         "p-map": "^4.0.0",
+        "pinejs-client-core": "^6.13.0",
         "pinejs-client-request": "^7.3.5",
         "request": "^2.88.2",
         "semver": "^7.3.5",
@@ -29311,39 +29276,6 @@
       "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz",
       "integrity": "sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg=="
     },
-    "bluebird-lru-cache": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/bluebird-lru-cache/-/bluebird-lru-cache-1.0.1.tgz",
-      "integrity": "sha512-HdQ6UO5vSXG5qK/pE9srZTHCsvRzmzrn7g31XTcKq9JWMK0PG+LJ0mmR6LIYuXO5DeiR+DnLWMnMsYcd0WD2Bg==",
-      "requires": {
-        "bluebird": "^3.0.6",
-        "lru-cache": "^3.2.0",
-        "typed-error": "^2.0.0"
-      },
-      "dependencies": {
-        "lru-cache": {
-          "version": "3.2.0",
-          "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-3.2.0.tgz",
-          "integrity": "sha512-91gyOKTc2k66UG6kHiH4h3S2eltcPwE1STVfMYC/NG+nZwf8IIuiamfmpGZjpbbxzSyEJaLC0tNSmhjlQUTJow==",
-          "requires": {
-            "pseudomap": "^1.0.1"
-          }
-        },
-        "tslib": {
-          "version": "1.14.1",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
-          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
-        },
-        "typed-error": {
-          "version": "2.0.0",
-          "resolved": "https://registry.npmjs.org/typed-error/-/typed-error-2.0.0.tgz",
-          "integrity": "sha512-uRrCO6P1KGYMZPykrmBaTnwuxEERymyDkO/WLfO8VcYt4MXw6RrcUoA/yYOt8T2RPZWULDtEKibR/Hlq8Hd4rA==",
-          "requires": {
-            "tslib": "^1.7.1"
-          }
-        }
-      }
-    },
     "bluebird-retry": {
       "version": "0.10.1",
       "resolved": "https://registry.npmjs.org/bluebird-retry/-/bluebird-retry-0.10.1.tgz",
@@ -30937,10 +30869,11 @@
       }
     },
     "dockerode": {
-      "version": "3.3.3",
-      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.3.tgz",
-      "integrity": "sha512-lvKV6/NGf2/CYLt5V4c0fd6Fl9XZSCo1Z2HBT9ioKrKLMB2o+gA62Uza8RROpzGvYv57KJx2dKu+ZwSpB//OIA==",
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.5.tgz",
+      "integrity": "sha512-/0YNa3ZDNeLr/tSckmD69+Gq+qVNhvKfAHNeZJBnp7EOP6RGKV8ORrJHkUn20So5wU+xxT7+1n5u8PjHbfjbSA==",
       "requires": {
+        "@balena/dockerignore": "^1.0.2",
         "docker-modem": "^3.0.0",
         "tar-fs": "~2.0.1"
       },
@@ -37957,24 +37890,24 @@
       "integrity": "sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg=="
     },
     "pinejs-client-core": {
-      "version": "6.12.3",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.12.3.tgz",
-      "integrity": "sha512-Qg9TbiaUlKDqcWCE6ARFFzOvNnJnBmovPifeyhV7ybYVDDpd8WAGrItQSJkOjuk4ZSwcaYMcHJ+FNatBUAnGWw==",
+      "version": "6.14.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.14.0.tgz",
+      "integrity": "sha512-28k0KYr6EItvOnVQ0cam24/D2Ky8EDFZMlyyvPMRX2KRzXIU9+FB7s6/BvSwx2+aYwxgMHCqTnBUBUDP3NZ/Hw==",
       "requires": {
         "@balena/es-version": "^1.0.1"
       }
     },
     "pinejs-client-request": {
-      "version": "7.3.6",
-      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.3.6.tgz",
-      "integrity": "sha512-6Pr9rKXh2DcZcd/sCc7r8nLq6upL8SLWu7/VURAQ57U43bVWs/Urbib4jdyJ9CjRVvhGWm+7b52Y/Y0Q29WhqA==",
+      "version": "7.4.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.4.0.tgz",
+      "integrity": "sha512-jJupfCufljGu+ALOVqR5q52yORI1UV0/nFJyGlrXedUa13fchwzgTNY7rFvTJKDZX59L5XAuc431/hSzBmZ5TA==",
       "requires": {
         "@types/lodash": "^4.14.181",
         "@types/lru-cache": "^5.1.1",
         "@types/request": "^2.48.8",
         "lodash": "^4.17.21",
         "lru-cache": "^6.0.0",
-        "pinejs-client-core": "^6.10.2",
+        "pinejs-client-core": "^6.14.0",
         "request": "^2.88.2",
         "typed-error": "^3.2.1"
       }
@@ -38464,11 +38397,6 @@
         "forwarded": "0.2.0",
         "ipaddr.js": "1.9.1"
       }
-    },
-    "pseudomap": {
-      "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/pseudomap/-/pseudomap-1.0.2.tgz",
-      "integrity": "sha1-8FKijacOYYkX7wqKw0wa5aaChrM="
     },
     "psl": {
       "version": "1.8.0",
