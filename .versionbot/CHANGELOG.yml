@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix publishing artifacts to gh release
+      hash: 1da5a75c1411bdfece2b60f83095082f6ce68ace
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+      nested: []
+  version: 17.4.9
+  title: ""
+  date: 2023-12-19T23:02:29.500Z
+- commits:
     - subject: Remove repo config from flowzone.yml
       hash: bfbc71215c376e815e7d86561d87c5b697ba7482
       body: |
