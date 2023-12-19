@@ -1,5 +1,4 @@
 name: Flowzone
-
 on:
   pull_request:
     types: [opened, synchronize, closed]
@@ -7,7 +6,6 @@ on:
   pull_request_target:
     types: [opened, synchronize, closed]
     branches: [main, master]
-
 jobs:
   flowzone:
     name: Flowzone
@@ -24,7 +22,5 @@ jobs:
     secrets: inherit
     with:
       custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-12"],["windows-2019"]]'
-      repo_config: true
-      repo_description: "The official balena CLI tool."
       github_prerelease: false
       restrict_custom_actions: false
