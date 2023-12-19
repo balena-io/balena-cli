@@ -12,10 +12,10 @@ index 607d8dc..07ba1f2 100644
      return lines.join('\n');
  }
 diff --git a/node_modules/@oclif/core/lib/help/command.js b/node_modules/@oclif/core/lib/help/command.js
-index 82d9eed..0a8d45f 100644
+index 0753040..c1b0f67 100644
 --- a/node_modules/@oclif/core/lib/help/command.js
 +++ b/node_modules/@oclif/core/lib/help/command.js
-@@ -48,7 +48,7 @@ class CommandHelp extends formatter_1.HelpFormatter {
+@@ -58,7 +58,7 @@ class CommandHelp extends formatter_1.HelpFormatter {
          if (args.filter((a) => a.description).length === 0)
              return;
          return args.map((a) => {
@@ -24,7 +24,7 @@ index 82d9eed..0a8d45f 100644
              let description = a.description || '';
              if (a.default)
                  description = `${(0, theme_1.colorize)(this.config?.theme?.flagDefaultValue, `[default: ${a.default}]`)} ${description}`;
-@@ -143,14 +143,12 @@ class CommandHelp extends formatter_1.HelpFormatter {
+@@ -153,14 +153,12 @@ class CommandHelp extends formatter_1.HelpFormatter {
              label = labels.join((0, theme_1.colorize)(this.config?.theme?.flagSeparator, flag.char ? ', ' : '  '));
          }
          if (flag.type === 'option') {

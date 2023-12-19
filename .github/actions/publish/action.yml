@@ -28,7 +28,7 @@ runs:
   using: 'composite'
   steps:
     - name: Download custom source artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@f44cd7b40bfd40b6aa1cc1b9b5b7bf03d3c67110 # v4.1.0
       with:
         name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}-${{ runner.arch }}
         path: ${{ runner.temp }}
@@ -127,8 +127,9 @@ runs:
         XCODE_APP_LOADER_TEAM_ID: ${{ inputs.XCODE_APP_LOADER_TEAM_ID }}
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4
       with:
-        name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
+        name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ strategy.job-index }}
         path: dist
         retention-days: 1
+        if-no-files-found: error
