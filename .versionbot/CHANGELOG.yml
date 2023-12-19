@@ -1,4 +1,145 @@
 - commits:
+    - subject: "deploy: Add rate-limiting aware retries for failed requests"
+      hash: 4266dc69514c2177399fc605985196a436d75740
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update dependencies
+      hash: 0ba352258482048bbdb840be7ee9958b491f9b6c
+      body: |
+        Update @balena/compose from 3.0.5 to 3.2.0
+
+        Also updates pinejs-client-request to support
+        using the Retry-After header and dockerode
+        to 3.3.5 to be aligned with @balena/compose.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: 'release/createClient: Allow specifying the "retry" options'
+              hash: b89b42a838ed2c3a7a8319cbd1b2a7c66a8210ef
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.2.0
+          title: ""
+          date: 2023-12-05T15:26:57.394Z
+        - commits:
+            - subject: Update dockerode to 3.3.5
+              hash: f5fc932f3203df4df66d38363974e62788e468ff
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-compose-3.1.3
+          title: ""
+          date: 2023-11-29T14:49:55.816Z
+        - commits:
+            - subject: Use the JSONStream typings from @types/jsonstream
+              hash: 155fdcc8e4e7df67d41152b494e1a80493bb0439
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-compose-3.1.2
+          title: ""
+          date: 2023-11-29T13:33:49.557Z
+        - commits:
+            - subject: Make use of `pipeline` for piping streams together
+              hash: 1d98cd535a20fa67869da242b0ec7ddd713a4c7b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-compose-3.1.1
+          title: ""
+          date: 2023-11-27T12:43:23.880Z
+        - commits:
+            - subject: Allow injecting any PinejsClientCore compatible API client
+              hash: e0ab3ef95f8bc51d2e9055a1f822b8d340f0c587
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.1.0
+          title: ""
+          date: 2023-11-13T16:27:44.317Z
+        - commits:
+            - subject: "NodeResolver: Refactor the recursion to an async-await loop"
+              hash: bde40f4430bc26a058598a64eeeedbb5ab35eb57
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop bluebird & bluebird-lru-cache in favor of memoizee
+              hash: 82f90b210d73ff866f5d0546e73d8779db85a504
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.0.7
+          title: ""
+          date: 2023-11-10T16:10:01.859Z
+        - commits:
+            - subject: Fix the remaining linting errors
+              hash: 51b7893bc6156d0fa7a7821cc583032694ccda98
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Remove unnecessary regex escaping
+              hash: 96b76abbcf78abd05157d49a5672a2621124bfe5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Replace the {} type with object
+              hash: dcf907ff124a638f591ae8e3fd80157eae1d1837
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update TypeScript to 5.2.2 and @blaena/lint to v7.2.1
+              hash: b583dd7ce8e964bef47f73dee53e08b7c1286532
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-compose-3.0.6
+          title: ""
+          date: 2023-11-10T14:08:35.300Z
+  version: 17.4.7
+  title: ""
+  date: 2023-12-19T14:26:26.818Z
+- commits:
     - subject: Bump oclif core & use default missing flag handler
       hash: b9722c67963c9b90e94aec7653ee488957ecd690
       body: ""
