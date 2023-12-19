@@ -194,8 +194,9 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@balena/compose": "^3.0.5",
+    "@balena/compose": "^3.2.0",
     "@balena/dockerignore": "^1.0.2",
+    "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^3.14.1",
     "@resin.io/valid-email": "^0.1.0",
@@ -223,7 +224,7 @@
     "denymount": "^2.3.0",
     "docker-modem": "3.0.0",
     "docker-progress": "^5.1.3",
-    "dockerode": "3.3.3",
+    "dockerode": "3.3.5",
     "ejs": "^3.1.6",
     "etcher-sdk": "^8.7.0",
     "event-stream": "3.3.4",

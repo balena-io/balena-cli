@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { intVar } from '@balena/env-parsing';
 import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
@@ -284,16 +285,25 @@ describe('balena deploy', function () {
 		api.expectPostRelease({});
 		docker.expectGetManifestBusybox();
 
+		let failedImagePatchRequests = 0;
 		// Mock this patch HTTP request to return status code 500, in which case
 		// the release status should be saved as "failed" rather than "success"
+		const maxRequestRetries = intVar('BALENARCTEST_API_RETRY_MAX_ATTEMPTS');
+		expect(
+			maxRequestRetries,
+			'BALENARCTEST_API_RETRY_MAX_ATTEMPTS must be >= 2 for this test',
+		).to.be.greaterThanOrEqual(2);
 		api.expectPatchImage({
 			replyBody: errMsg,
 			statusCode: 500,
+			// b/c failed requests are retried
+			times: maxRequestRetries,
 			inspectRequest: (_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
 					import('@balena/compose/dist/release/models').ImageModel
 				>;
 				expect(imageBody.status).to.equal('success');
+				failedImagePatchRequests++;
 			},
 		});
 		// Check that the CLI patches the release with status="failed"
@@ -324,11 +334,88 @@ describe('balena deploy', function () {
 				responseCode: 200,
 				services: ['main'],
 			});
+			expect(failedImagePatchRequests).to.equal(maxRequestRetries);
 		} finally {
 			await switchSentry(sentryStatus);
 			// @ts-expect-error claims restore does not exist
 			process.exit.restore();
 		}
+	});
+
+	it('should create the expected --build tar stream after retrying failing OData requests (single container)', async () => {
+		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
+			'src/start.sh': { fileSize: 89, type: 'file' },
+			'src/windows-crlf.sh': {
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
+				type: 'file',
+			},
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'deploy',
+			),
+		];
+		if (isWindows) {
+			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+			);
+		}
+
+		api.expectPostRelease({});
+		docker.expectGetManifestBusybox();
+
+		const maxRequestRetries = intVar('BALENARCTEST_API_RETRY_MAX_ATTEMPTS');
+		expect(
+			maxRequestRetries,
+			'BALENARCTEST_API_RETRY_MAX_ATTEMPTS must be >= 2 for this test',
+		).to.be.greaterThanOrEqual(2);
+		let failedImagePatchRequests = 0;
+		let succesfullImagePatchRequests = 0;
+		api
+			.optPatch(/^\/v6\/image($|[(?])/, { times: maxRequestRetries })
+			.reply((_uri, requestBody) => {
+				const imageBody = requestBody as Partial<
+					import('@balena/compose/dist/release/models').ImageModel
+				>;
+				expect(imageBody.status).to.equal('success');
+				if (failedImagePatchRequests < maxRequestRetries - 1) {
+					failedImagePatchRequests++;
+					return [500, 'Patch Image Error'];
+				}
+				succesfullImagePatchRequests++;
+				return [200, 'OK'];
+			});
+		api.expectPatchRelease({});
+		api.expectPostImageLabel();
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath}`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+		expect(failedImagePatchRequests).to.equal(maxRequestRetries - 1);
+		expect(succesfullImagePatchRequests).to.equal(1);
 	});
 
 	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {

@@ -1385,6 +1385,7 @@ export async function deployProject(
 		`${prefix}Creating release...`,
 		() =>
 			createRelease(
+				logger,
 				apiEndpoint,
 				auth,
 				userId,

@@ -20,6 +20,7 @@ import type * as SDK from 'balena-sdk';
 import type Dockerode = require('dockerode');
 import * as path from 'path';
 import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
 	BuiltImage,
 	ComposeOpts,
@@ -94,22 +95,62 @@ export function createProject(
 	};
 }
 
+const getRequestRetryParameters = (): RetryParametersObj => {
+	if (
+		process.env.BALENA_CLI_TEST_TYPE != null &&
+		process.env.BALENA_CLI_TEST_TYPE !== ''
+	) {
+		// We only read the test env vars when in test mode.
+		const { intVar } =
+			require('@balena/env-parsing') as typeof import('@balena/env-parsing');
+		// We use the BALENARCTEST namespace and only parse the env vars while in test mode
+		// since we plan to switch all pinejs clients with the one of the SDK and might not
+		// want to have to support these env vars.
+		return {
+			minDelayMs: intVar('BALENARCTEST_API_RETRY_MIN_DELAY_MS'),
+			maxDelayMs: intVar('BALENARCTEST_API_RETRY_MAX_DELAY_MS'),
+			maxAttempts: intVar('BALENARCTEST_API_RETRY_MAX_ATTEMPTS'),
+		};
+	}
+
+	return {
+		minDelayMs: 1000,
+		maxDelayMs: 60000,
+		maxAttempts: 7,
+	};
+};
+
 export const createRelease = async function (
+	logger: Logger,
 	apiEndpoint: string,
 	auth: string,
 	userId: number,
 	appId: number,
 	composition: Composition,
 	draft: boolean,
-	semver?: string,
-	contract?: string,
+	semver: string | undefined,
+	contract: string | undefined,
 ): Promise<Release> {
 	const _ = require('lodash') as typeof import('lodash');
 	const crypto = require('crypto') as typeof import('crypto');
 	const releaseMod =
 		require('@balena/compose/dist/release') as typeof import('@balena/compose/dist/release');
 
-	const client = releaseMod.createClient({ apiEndpoint, auth });
+	const client = releaseMod.createClient({
+		apiEndpoint,
+		auth,
+		retry: {
+			...getRequestRetryParameters(),
+			onRetry: (err, delayMs, attempt, maxAttempts) => {
+				const code = err?.statusCode ?? 0;
+				logger.logDebug(
+					`API call failed with code ${code}.  Attempting retry ${attempt} of ${maxAttempts} in ${
+						delayMs / 1000
+					} seconds`,
+				);
+			},
+		},
+	});
 
 	const { release, serviceImages } = await releaseMod.create({
 		client,
