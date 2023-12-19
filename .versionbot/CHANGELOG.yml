@@ -1,4 +1,21 @@
 - commits:
+    - subject: Remove repo config from flowzone.yml
+      hash: bfbc71215c376e815e7d86561d87c5b697ba7482
+      body: |
+        This functionality is being deprecated in Flowzone.
+
+        See: https://github.com/product-os/flowzone/pull/833
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 17.4.8
+  title: ""
+  date: 2023-12-19T21:59:06.220Z
+- commits:
     - subject: "deploy: Add rate-limiting aware retries for failed requests"
       hash: 4266dc69514c2177399fc605985196a436d75740
       body: ""
