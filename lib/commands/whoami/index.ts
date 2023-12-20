@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class WhoamiCmd extends Command {
 	public static description = stripIndent`
@@ -34,7 +34,7 @@ export default class WhoamiCmd extends Command {
 	public async run() {
 		await this.parse(WhoamiCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		const [whoamiResult, url] = await Promise.all([
 			balena.auth.whoami(),

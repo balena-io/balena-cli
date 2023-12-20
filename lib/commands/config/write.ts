@@ -16,10 +16,11 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getVisuals, stripIndent } from '../../utils/lazy';
-
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getVisuals, stripIndent } from '../../utils/lazy.js';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 export default class ConfigWriteCmd extends Command {
 	public static description = stripIndent`
 		Write a key-value pair to the config.json file of an OS image or attached media.
@@ -61,7 +62,7 @@ export default class ConfigWriteCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ConfigWriteCmd);
 
-		const { denyMount, safeUmount } = await import('../../utils/umount');
+		const { denyMount, safeUmount } = await import('../../utils/umount.js');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));

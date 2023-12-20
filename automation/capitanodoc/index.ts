@@ -83,6 +83,7 @@ function importOclifCommands(jsFilename: string): OclifCommand[] {
 	//  an error when parsed.  This should be improved so that `usage` does not have
 	//  to be overridden if not necessary.
 
+	// TODO: FIX ME ESM
 	const command: OclifCommand =
 		jsFilename === 'help'
 			? (new FakeHelpCommand() as unknown as OclifCommand)

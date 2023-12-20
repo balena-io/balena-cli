@@ -16,10 +16,10 @@
  */
 
 import type * as SDK from 'balena-sdk';
-import * as _ from 'lodash';
-import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy';
+import _ from 'lodash';
+import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy.js';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export const serviceIdToName = _.memoize(
 	async (
@@ -238,7 +238,7 @@ export async function getOsVersions(
 	deviceType: string,
 	esr: boolean,
 ): Promise<SDK.OsVersion[]> {
-	const sdk = getBalenaSdk();
+	const sdk = await getBalenaSdk();
 	let slug = deviceType;
 	let versions: SDK.OsVersion[] =
 		await sdk.models.os.getAvailableOsVersions(slug);

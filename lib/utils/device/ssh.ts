@@ -14,22 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ExpectedError } from '../../errors';
-import { stripIndent } from '../lazy';
+import { ExpectedError } from '../../errors.js';
+import { stripIndent } from '../lazy.js';
 
 import {
 	findBestUsernameForDevice,
 	getRemoteCommandOutput,
 	runRemoteCommand,
 	SshRemoteCommandOpts,
-} from '../ssh';
+} from '../ssh.js';
 
 export interface DeviceSSHOpts extends SshRemoteCommandOpts {
 	forceTTY?: boolean;
 	service?: string;
 }
 
-const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then echo "balena"; else echo "docker"; fi)`;
+const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena.js ]; then echo "balena"; else echo "docker"; fi)`;
 
 /**
  * List the running containers on the device over ssh, and return the full

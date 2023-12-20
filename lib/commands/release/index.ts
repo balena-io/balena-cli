@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Flags, Args, type Interfaces } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 import type * as BalenaSdk from 'balena-sdk';
-import jsyaml = require('js-yaml');
-import { tryAsInteger } from '../../utils/validation';
-import { jsonInfo } from '../../utils/messages';
+import jsyaml from 'js-yaml';
+import { tryAsInteger } from '../../utils/validation.js';
+import { jsonInfo } from '../../utils/messages.js';
 
 export const commitOrIdArg = Args.custom({
 	parse: async (commitOrId: string) => tryAsInteger(commitOrId),
@@ -66,7 +65,7 @@ export default class ReleaseCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ReleaseCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 		if (options.composition) {
 			await this.showComposition(params.commitOrId, balena);
 		} else {

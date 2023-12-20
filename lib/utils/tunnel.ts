@@ -17,7 +17,7 @@ import type { BalenaSDK } from 'balena-sdk';
 import { Socket } from 'net';
 import * as tls from 'tls';
 import { TypedError } from 'typed-error';
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 const PROXY_CONNECT_TIMEOUT_MS = 10000;
 

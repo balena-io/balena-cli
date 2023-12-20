@@ -40,7 +40,7 @@ By default, the CLI is installed to the following folders:
 OS  | Folders
 --- | ---
 Windows: | `C:\Program Files\balena-cli\`
-macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
+macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena.js`
 
 ## Standalone Zip Package
 
@@ -65,7 +65,7 @@ macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
 >   these "compact" Linux distributions, because of the alternative C libraries they ship with.
 >   For these, consider the [NPM Installation](#npm-installation) option.
 > * Note that moving the `balena` executable out of the extracted `balena-cli` folder on its own
->   (e.g. moving it to `/usr/local/bin/balena`) will **not** work, as it depends on the other
+>   (e.g. moving it to `/usr/local/bin/balena.js`) will **not** work, as it depends on the other
 >   folders and files also present in the `balena-cli` folder.
 
 To update the CLI to a new version, download a new release zip file and replace the previous

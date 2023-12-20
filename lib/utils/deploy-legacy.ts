@@ -15,29 +15,29 @@
  * limitations under the License.
  */
 
-import { getVisuals } from './lazy';
+import { getVisuals } from './lazy.js';
 import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
-import type Logger = require('./logger');
+import type Logger from './logger.js';
 import type { Request } from 'request';
 
-const getBuilderPushEndpoint = function (
+const getBuilderPushEndpoint = async function (
 	baseUrl: string,
 	owner: string,
 	app: string,
 ) {
-	const querystring = require('querystring') as typeof import('querystring');
+	const querystring = await import('querystring');
 	const args = querystring.stringify({ owner, app });
 	return `https://builder.${baseUrl}/v1/push?${args}`;
 };
 
-const getBuilderLogPushEndpoint = function (
+const getBuilderLogPushEndpoint = async function (
 	baseUrl: string,
 	buildId: number,
 	owner: string,
 	app: string,
 ) {
-	const querystring = require('querystring') as typeof import('querystring');
+	const querystring = await import('querystring');
 	const args = querystring.stringify({ owner, app, buildId });
 	return `https://builder.${baseUrl}/v1/pushLogs?${args}`;
 };
@@ -47,12 +47,12 @@ const getBuilderLogPushEndpoint = function (
  * @param {string} imageId
  * @param {string} bufferFile
  */
-const bufferImage = function (
+const bufferImage = async function (
 	docker: Dockerode,
 	imageId: string,
 	bufferFile: string,
 ): Promise<NodeJS.ReadableStream & { length: number }> {
-	const streamUtils = require('./streams') as typeof import('./streams');
+	const streamUtils = await import('./streams.js');
 
 	const image = docker.getImage(imageId);
 	const sizePromise = image.inspect().then((img) => img.Size);
@@ -109,7 +109,7 @@ const uploadToPromise = (uploadRequest: Request, logger: Logger) =>
 /**
  * @returns {Promise<{ buildId: number }>}
  */
-const uploadImage = function (
+const uploadImage = async function (
 	imageStream: NodeJS.ReadableStream & { length: number },
 	token: string,
 	username: string,
@@ -117,10 +117,9 @@ const uploadImage = function (
 	appName: string,
 	logger: Logger,
 ): Promise<{ buildId: number }> {
-	const request = require('request') as typeof import('request');
-	const progressStream =
-		require('progress-stream') as typeof import('progress-stream');
-	const zlib = require('zlib') as typeof import('zlib');
+	const request = await import('request');
+	const { default: progressStream } = await import('progress-stream');
+	const zlib = await import('zlib');
 
 	// Need to strip off the newline
 	const progressMessage = logger
@@ -142,7 +141,7 @@ const uploadImage = function (
 	);
 
 	const uploadRequest = request.post({
-		url: getBuilderPushEndpoint(url, username, appName),
+		url: await getBuilderPushEndpoint(url, username, appName),
 		headers: {
 			'Content-Encoding': 'gzip',
 		},
@@ -159,7 +158,7 @@ const uploadImage = function (
 	return uploadToPromise(uploadRequest, logger);
 };
 
-const uploadLogs = function (
+const uploadLogs = async function (
 	logs: string,
 	token: string,
 	url: string,
@@ -167,10 +166,10 @@ const uploadLogs = function (
 	username: string,
 	appName: string,
 ) {
-	const request = require('request') as typeof import('request');
+	const request = await import('request');
 	return request.post({
 		json: true,
-		url: getBuilderLogPushEndpoint(url, buildId, username, appName),
+		url: await getBuilderLogPushEndpoint(url, buildId, username, appName),
 		auth: {
 			bearer: token,
 		},
@@ -196,7 +195,7 @@ export const deployLegacy = async function (
 		shouldUploadLogs: boolean;
 	},
 ): Promise<number> {
-	const tmp = require('tmp') as typeof import('tmp');
+	const tmp = await import('tmp');
 	const tmpNameAsync = promisify(tmp.tmpName);
 
 	// Ensure the tmp files gets deleted
@@ -208,6 +207,7 @@ export const deployLegacy = async function (
 	const bufferFile = await tmpNameAsync();
 
 	logger.logInfo('Initializing deploy...');
+	const fs = await import('fs');
 	const { buildId } = await bufferImage(docker, imageName, bufferFile)
 		.then((stream) =>
 			uploadImage(stream, token, username, url, appName, logger),
@@ -217,9 +217,7 @@ export const deployLegacy = async function (
 			// has occured before any data was written) this call will throw an
 			// ugly error, just suppress it
 
-			(require('fs') as typeof import('fs')).promises
-				.unlink(bufferFile)
-				.catch(() => undefined),
+			fs.promises.unlink(bufferFile).catch(() => undefined),
 		);
 
 	if (shouldUploadLogs) {

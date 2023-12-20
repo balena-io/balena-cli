@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class TagsCmd extends Command {
 	public static description = stripIndent`
@@ -61,7 +61,7 @@ export default class TagsCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(TagsCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		// Check user has specified one of application/device/release
 		if (!options.fleet && !options.device && !options.release) {
@@ -71,7 +71,7 @@ export default class TagsCmd extends Command {
 		let tags;
 
 		if (options.fleet) {
-			const { getFleetSlug } = await import('../../utils/sdk');
+			const { getFleetSlug } = await import('../../utils/sdk.js');
 			tags = await balena.models.application.tags.getAllByApplication(
 				await getFleetSlug(balena, options.fleet),
 			);
@@ -81,7 +81,7 @@ export default class TagsCmd extends Command {
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
+				'../../utils/normalization.js'
 			);
 			const releaseParam = await disambiguateReleaseParam(
 				balena,

@@ -16,7 +16,7 @@
  */
 
 import * as semver from 'semver';
-import { version } from '../../package.json';
+import { version } from '../../package.json' assert {type: 'json'};;
 
 export function isVersionGTE(v: string): boolean {
 	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);

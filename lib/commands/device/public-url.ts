@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class DevicePublicUrlCmd extends Command {
 	public static description = stripIndent`
@@ -68,7 +68,7 @@ export default class DevicePublicUrlCmd extends Command {
 		const { args: params, flags: options } =
 			await this.parse(DevicePublicUrlCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		if (options.enable) {
 			// Enable public URL

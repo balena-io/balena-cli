@@ -18,7 +18,7 @@
 import type {
 	ImageModel,
 	ReleaseModel,
-} from '@balena/compose/dist/release/models';
+} from '@balena/compose/dist/release/models.js';
 import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type { Pack } from 'tar-stream';
 

@@ -13,11 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
-import isRoot = require('is-root');
-import * as UpdateNotifier from 'update-notifier';
+import isRoot from 'is-root';
+import UpdateNotifier from 'update-notifier';
 
-import packageJSON = require('../../package.json');
+import packageJSON from '../../package.json' assert {type: 'json'};;
 
 // Check for an update at most once a day. 1 day granularity should be
 // enough, rather than every run. Note because we show the information

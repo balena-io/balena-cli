@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Help } from '@oclif/core';
-import * as indent from 'indent-string';
-import { getChalk } from './utils/lazy';
+import indent from 'indent-string';
+import { getChalk } from './utils/lazy.js';
 
 // Partially overrides standard implementation of help plugin
 // https://github.com/oclif/plugin-help/blob/master/src/index.ts
@@ -44,7 +44,7 @@ export default class BalenaHelp extends Help {
 		const subject = getHelpSubject(argv);
 		if (!subject) {
 			const verbose = argv.includes('-v') || argv.includes('--verbose');
-			console.log(this.getCustomRootHelp(verbose));
+			console.log(await this.getCustomRootHelp(verbose));
 			return;
 		}
 
@@ -83,7 +83,7 @@ export default class BalenaHelp extends Help {
 		console.log(`command ${chalk.cyan.bold(subject)} not found`);
 	}
 
-	getCustomRootHelp(showAllCommands: boolean): string {
+	async getCustomRootHelp(showAllCommands: boolean): Promise<string> {
 		const { bold, cyan } = getChalk();
 
 		let commands = this.config.commands;
@@ -147,8 +147,9 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		];
 		globalOps[0][0] = globalOps[0][0].padEnd(usageLength);
 
-		const { deprecationPolicyNote, reachingOut } =
-			require('./utils/messages') as typeof import('./utils/messages');
+		const { deprecationPolicyNote, reachingOut } = await import(
+			'./utils/messages.js'
+		);
 
 		return [
 			bold('USAGE'),

@@ -22,11 +22,11 @@ import type {
 	PineOptions,
 	PineTypedResult,
 } from 'balena-sdk';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class DeviceMoveCmd extends Command {
 	public static description = stripIndent`
@@ -93,7 +93,7 @@ export default class DeviceMoveCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeviceMoveCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		// Split uuids string into array of uuids
 		const deviceUuids = params.uuid.split(',');
@@ -101,7 +101,7 @@ export default class DeviceMoveCmd extends Command {
 		const devices = await this.getDevices(balena, deviceUuids);
 
 		// Disambiguate application
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		// Get destination application
 		const application = options.fleet
@@ -151,7 +151,7 @@ export default class DeviceMoveCmd extends Command {
 			})
 			.map((deviceType) => deviceType.id);
 
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 		try {
 			const application = await patterns.selectApplication(
 				{

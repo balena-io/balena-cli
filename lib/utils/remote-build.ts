@@ -13,19 +13,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
 import type { BalenaSDK } from 'balena-sdk';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
 import * as request from 'request';
 import { RegistrySecrets } from '@balena/compose/dist/multibuild';
 import type * as Stream from 'stream';
-import streamToPromise = require('stream-to-promise');
+import streamToPromise from 'stream-to-promise';
 import type { Pack } from 'tar-stream';
 
-import { ExpectedError, SIGINTError } from '../errors';
-import { tarDirectory } from './compose_ts';
-import { getVisuals, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError, SIGINTError } from '../errors.js';
+import { tarDirectory } from './compose_ts.js';
+import { getVisuals, stripIndent } from './lazy.js';
+import Logger from './logger.js';
 
 const globalLogger = Logger.getLogger();
 
@@ -126,7 +129,7 @@ export async function startRemoteBuild(
 		}
 	};
 
-	const { addSIGINTHandler } = await import('./helpers');
+	const { addSIGINTHandler } = await import('./helpers.js');
 	addSIGINTHandler(sigintHandler);
 
 	try {

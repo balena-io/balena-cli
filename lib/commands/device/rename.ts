@@ -16,9 +16,9 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
 
 export default class DeviceRenameCmd extends Command {
 	public static description = stripIndent`
@@ -54,7 +54,7 @@ export default class DeviceRenameCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(DeviceRenameCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		const newName =
 			params.newName ||

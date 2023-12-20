@@ -15,7 +15,7 @@ limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
 import * as semver from 'balena-semver';
-import { getBalenaSdk, stripIndent } from './lazy';
+import { getBalenaSdk, stripIndent } from './lazy.js';
 
 export interface ImgConfig {
 	applicationName: string;
@@ -75,10 +75,9 @@ export async function generateApplicationConfig(
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
 	};
 
-	const config = (await getBalenaSdk().models.os.getConfig(
-		application.slug,
-		options,
-	)) as ImgConfig;
+	const config = (await (
+		await getBalenaSdk()
+	).models.os.getConfig(application.slug, options)) as ImgConfig;
 
 	// merge sshKeys to config, when they have been specified
 	if (options.os && options.os.sshKeys) {
@@ -98,14 +97,14 @@ export async function generateApplicationConfig(
 	return config;
 }
 
-export function generateDeviceConfig(
+export async function generateDeviceConfig(
 	device: DeviceWithDeviceType & {
 		belongs_to__application: BalenaSdk.PineDeferred;
 	},
 	deviceApiKey: string | true | undefined,
 	options: { version: string },
 ) {
-	const sdk = getBalenaSdk();
+	const sdk = await getBalenaSdk();
 	return sdk.models.application
 		.get(device.belongs_to__application.__id)
 		.then(async (application) => {
@@ -155,20 +154,20 @@ export function generateDeviceConfig(
 export async function validateDevOptionAndWarn(
 	dev?: boolean,
 	version?: string,
-	logger?: import('./logger'),
+	logger?: import('./logger.js').default,
 ) {
 	if (!dev) {
 		return;
 	}
 	if (version && /\bprod\b/.test(version)) {
-		const { ExpectedError } = await import('../errors');
+		const { ExpectedError } = await import('../errors.js');
 		throw new ExpectedError(
 			`Error: The '--dev' option conflicts with production balenaOS version '${version}'`,
 		);
 	}
 	if (!logger) {
-		const Logger = await import('./logger');
-		logger = Logger.getLogger();
+		const Logger = await import('./logger.js');
+		logger = Logger.default.getLogger();
 	}
 	logger.logInfo(stripIndent`
 		The '--dev' option is being used to configure a balenaOS image in development mode.
@@ -187,19 +186,19 @@ export async function validateSecureBootOptionAndWarn(
 	secureBoot?: boolean,
 	slug?: string,
 	version?: string,
-	logger?: import('./logger'),
+	logger?: import('./logger.js').default,
 ) {
 	if (!secureBoot) {
 		return;
 	}
-	const { ExpectedError } = await import('../errors');
+	const { ExpectedError } = await import('../errors.js');
 	if (!version) {
 		throw new ExpectedError(`Error: No version provided`);
 	}
 	if (!slug) {
 		throw new ExpectedError(`Error: No device type provided`);
 	}
-	const sdk = getBalenaSdk();
+	const sdk = await getBalenaSdk();
 	const [osRelease] = await sdk.models.os.getAllOsVersions(slug, {
 		$select: 'contract',
 		$filter: { raw_version: `${version.replace(/^v/, '')}` },
@@ -215,8 +214,8 @@ export async function validateSecureBootOptionAndWarn(
 		})
 	) {
 		if (!logger) {
-			const Logger = await import('./logger');
-			logger = Logger.getLogger();
+			const Logger = await import('./logger.js');
+			logger = Logger.default.getLogger();
 		}
 		logger.logInfo(stripIndent`
 			The '--secureBoot' option is being used to configure a balenaOS installer image

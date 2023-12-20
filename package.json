@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git@github.com:balena-io/balena-cli.git"
   },
+  "type": "module",
   "preferGlobal": true,
   "files": [
     "bin/.fast-boot.json",
@@ -21,7 +22,7 @@
     "oclif.manifest.json"
   ],
   "bin": {
-    "balena": "./bin/balena"
+    "balena": "./bin/balena.js"
   },
   "pkg": {
     "scripts": [
@@ -72,7 +73,7 @@
     "ci": "npm run test && npm run catch-uncommitted",
     "lint": "npm run lint-tsconfig && npm run lint-other",
     "lint-tsconfig": "balena-lint -e ts -e js -t tsconfig.dev.json --fix automation/ lib/ tests/ typings/",
-    "lint-other": "balena-lint -e ts -e js --fix bin/balena bin/balena-dev completion/ .mocharc.js .mocharc-standalone.js",
+    "lint-other": "balena-lint -e ts -e js --fix bin/balena.js bin/balena-dev.js completion/ .mocharc.js .mocharc-standalone.js",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepare": "echo {} > bin/.fast-boot.json",
     "prepublishOnly": "npm run build"
@@ -183,7 +184,7 @@
     "mocha": "^8.4.0",
     "mock-require": "^3.0.3",
     "nock": "^13.2.1",
-    "oclif": "^3.17.1",
+    "oclif": "^4.0.3",
     "parse-link-header": "^2.0.0",
     "pkg": "^5.8.1",
     "publish-release": "^1.6.1",

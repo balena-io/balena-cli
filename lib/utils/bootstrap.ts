@@ -22,6 +22,9 @@
  * like Sentry error reporting, preparser, oclif parser and the like.
  */
 
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
 export class CliSettings {
 	public readonly settings: any;
 	constructor() {
@@ -139,7 +142,7 @@ export async function getCachedUsername(): Promise<CachedUsername | undefined> {
 		return cachedUsername;
 	}
 	const [{ getBalenaSdk }, { getStorage }, settings] = await Promise.all([
-		import('./lazy'),
+		import('./lazy.js'),
 		import('balena-settings-storage'),
 		import('balena-settings-client'),
 	]);
@@ -167,7 +170,7 @@ export async function getCachedUsername(): Promise<CachedUsername | undefined> {
 		// ignore
 	}
 	try {
-		const { username } = await getBalenaSdk().auth.getUserInfo();
+		const { username } = await (await getBalenaSdk()).auth.getUserInfo();
 		if (username) {
 			cachedUsername = { token, username };
 			await storage.set('cachedUsername', cachedUsername);

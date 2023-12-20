@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk } from '../utils/lazy.js';
 
 /**
  * Get dashboard CLI login URL
@@ -32,7 +32,7 @@ export async function getDashboardLoginURL(
 
 	const [{ URL }, dashboardUrl] = await Promise.all([
 		import('url'),
-		getBalenaSdk().settings.get('dashboardUrl'),
+		(await getBalenaSdk()).settings.get('dashboardUrl'),
 	]);
 	return new URL(`/login/cli/${callbackUrl}`, dashboardUrl).href;
 }
@@ -54,7 +54,7 @@ export async function loginIfTokenValid(token?: string): Promise<boolean> {
 	if (!token) {
 		return false;
 	}
-	const balena = getBalenaSdk();
+	const balena = await getBalenaSdk();
 
 	let currentToken;
 	try {

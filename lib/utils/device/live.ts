@@ -19,25 +19,25 @@ import * as chokidar from 'chokidar';
 import type * as Dockerode from 'dockerode';
 import * as fs from 'fs';
 import Livepush, { ContainerNotRunningError } from 'livepush';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 import type { Composition } from '@balena/compose/dist/parse';
 import type { BuildTask } from '@balena/compose/dist/multibuild';
 
-import { instanceOf } from '../../errors';
-import Logger = require('../logger');
+import { instanceOf } from '../../errors.js';
+import type Logger from '../logger.js';
 
 import { Dockerfile } from 'livepush';
-import type DeviceAPI from './api';
-import type { DeviceInfo, Status } from './api';
+import type DeviceAPI from './api.js';
+import type { DeviceInfo, Status } from './api.js';
 import {
 	DeviceDeployOptions,
 	generateTargetState,
 	rebuildSingleTask,
-} from './deploy';
-import { BuildError } from './errors';
-import { getServiceColourFn } from './logs';
-import { delay } from '../helpers';
+} from './deploy.js';
+import { BuildError } from './errors.js';
+import { getServiceColourFn } from './logs.js';
+import { delay } from '../helpers.js';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
@@ -47,7 +47,7 @@ const LIVEPUSH_DEBOUNCE_TIMEOUT = 2000;
 
 interface MonitoredContainer {
 	context: string;
-	livepush: Livepush;
+	livepush: Livepush.default;
 	monitor: chokidar.FSWatcher;
 	containerId: string;
 }
@@ -111,8 +111,8 @@ export class LivepushManager {
 		this.logger.logLivepush('Device state settled');
 
 		// Prepare dockerignore data for file watcher
-		const { getDockerignoreByService } = await import('../ignore');
-		const { getServiceDirsFromComposition } = await import('../compose_ts');
+		const { getDockerignoreByService } = await import('../ignore.js');
+		const { getServiceDirsFromComposition } = await import('../compose_ts.js');
 		const rootContext = path.resolve(this.buildContext);
 		const serviceDirsByService = await getServiceDirsFromComposition(
 			this.deployOpts.source,
@@ -170,7 +170,7 @@ export class LivepushManager {
 				// and also converts forward slashes to backslashes on Windows.
 				const context = path.resolve(rootContext, service.build.context);
 
-				const livepush = await Livepush.init({
+				const livepush = await Livepush.default.init({
 					dockerfile,
 					context,
 					containerId: container.containerId,
@@ -441,7 +441,7 @@ export class LivepushManager {
 
 			const dockerfile = new Dockerfile(buildTask.dockerfile!);
 
-			instance.livepush = await Livepush.init({
+			instance.livepush = await Livepush.default.init({
 				dockerfile,
 				context: buildTask.context!,
 				containerId: container.containerId,
@@ -476,7 +476,7 @@ export class LivepushManager {
 
 	private assignLivepushOutputHandlers(
 		serviceName: string,
-		livepush: Livepush,
+		livepush: Livepush.default,
 	) {
 		const msgString = (msg: string) =>
 			`[${getServiceColourFn(serviceName)(serviceName)}] ${msg}`;

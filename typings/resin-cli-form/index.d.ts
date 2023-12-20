@@ -16,7 +16,7 @@
  */
 
 declare module 'resin-cli-form' {
-	import Bluebird = require('bluebird');
+	import Bluebird from 'bluebird';
 
 	export type TypeOrPromiseLike<T> = T | PromiseLike<T>;
 

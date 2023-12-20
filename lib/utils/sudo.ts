@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 import { ChildProcess, spawn, SpawnOptions } from 'child_process';
-import { stripIndent } from './lazy';
+import { stripIndent } from './lazy.js';
 
 /**
  * Execute a child process with admin / superuser privileges, prompting the user for
@@ -42,8 +44,8 @@ export async function executeWithPrivileges(
 	isCLIcmd = true,
 ): Promise<void> {
 	// whether the CLI is already running with admin / super user privileges
-	const isElevated = await (await import('is-elevated'))();
-	const { shellEscape } = await import('./helpers');
+	const isElevated = await (await import('is-elevated')).default();
+	const { shellEscape } = await import('./helpers.js');
 	const opts: SpawnOptions = {
 		env: process.env,
 		stdio: ['inherit', 'inherit', stderr ? 'pipe' : 'inherit'],

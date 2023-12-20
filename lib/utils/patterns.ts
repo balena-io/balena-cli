@@ -24,13 +24,13 @@ import type {
 	PineTypedResult,
 } from 'balena-sdk';
 
-import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
-import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
-import validation = require('./validation');
-import { delay } from './helpers';
+import { instanceOf, NotLoggedInError, ExpectedError } from '../errors.js';
+import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy.js';
+import * as validation from './validation.js';
+import { delay } from './helpers.js';
 
-export function authenticate(options: object): Promise<void> {
-	const balena = getBalenaSdk();
+export async function authenticate(options: object): Promise<void> {
+	const balena = await getBalenaSdk();
 	return getCliForm()
 		.run(
 			[
@@ -81,7 +81,7 @@ export function authenticate(options: object): Promise<void> {
  * Note: `NotLoggedInError` is an `ExpectedError`.
  */
 export async function checkLoggedIn(): Promise<void> {
-	const balena = getBalenaSdk();
+	const balena = await getBalenaSdk();
 	if (!(await balena.auth.isLoggedIn())) {
 		throw new NotLoggedInError(stripIndent`
 		Login required: use the “balena login” command to log in.
@@ -116,7 +116,7 @@ export function askLoginType() {
 }
 
 export async function selectDeviceType() {
-	const sdk = getBalenaSdk();
+	const sdk = await getBalenaSdk();
 	let deviceTypes = await sdk.models.deviceType.getAllSupported();
 	if (deviceTypes.length === 0) {
 		// Without this open-balena users would get an empty list
@@ -184,7 +184,7 @@ export async function selectApplication(
 		| ((app: SelectApplicationResult) => boolean),
 	errorOnEmptySelection = false,
 ) {
-	const balena = getBalenaSdk();
+	const balena = await getBalenaSdk();
 	let apps = (await balena.models.application.getAllDirectlyAccessible({
 		...selectApplicationPineOptions,
 		...(filter != null && typeof filter === 'object' && { $filter: filter }),
@@ -215,7 +215,9 @@ export async function selectOrganization(
 	organizations?: Array<Pick<Organization, 'handle' | 'name'>>,
 ) {
 	// Use either provided orgs (if e.g. already loaded) or load from cloud
-	organizations ??= await getBalenaSdk().models.organization.getAll({
+	organizations ??= await (
+		await getBalenaSdk()
+	).models.organization.getAll({
 		$select: ['name', 'handle'],
 	});
 	return getCliForm().ask({
@@ -229,8 +231,8 @@ export async function selectOrganization(
 }
 
 export async function getAndSelectOrganization() {
-	const { getOwnOrganizations } = await import('./sdk');
-	const organizations = await getOwnOrganizations(getBalenaSdk(), {
+	const { getOwnOrganizations } = await import('./sdk.js');
+	const organizations = await getOwnOrganizations(await getBalenaSdk(), {
 		$select: ['name', 'handle'],
 	});
 
@@ -250,7 +252,7 @@ export async function awaitDeviceOsUpdate(
 	uuid: string,
 	targetOsVersion: string,
 ) {
-	const balena = getBalenaSdk();
+	const balena = await getBalenaSdk();
 
 	const deviceName = await balena.models.device.getName(uuid);
 	const visuals = getVisuals();
@@ -304,7 +306,7 @@ export async function getOnlineTargetDeviceUuid(
 	sdk: BalenaSDK,
 	fleetOrDevice: string,
 ) {
-	const logger = (await import('../utils/logger')).getLogger();
+	const logger = (await import('../utils/logger.js')).default.getLogger();
 
 	// If looks like UUID, probably device
 	if (validation.validateUuid(fleetOrDevice)) {
@@ -337,7 +339,7 @@ export async function getOnlineTargetDeviceUuid(
 	const application = await (async () => {
 		try {
 			logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
-			const { getApplication } = await import('./sdk');
+			const { getApplication } = await import('./sdk.js');
 			return await getApplication(sdk, fleetOrDevice, {
 				$select: ['id', 'slug'],
 				$expand: {
@@ -383,6 +385,7 @@ export function selectFromList<T>(
 	message: string,
 	choices: Array<T & { name: string }>,
 ): Promise<T> {
+	// @ts-expect-error promise
 	return getCliForm().ask<T>({
 		message,
 		type: 'list',

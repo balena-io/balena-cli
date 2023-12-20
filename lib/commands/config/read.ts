@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getVisuals, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class ConfigReadCmd extends Command {
 	public static description = stripIndent`
@@ -50,7 +50,7 @@ export default class ConfigReadCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(ConfigReadCmd);
 
-		const { safeUmount } = await import('../../utils/umount');
+		const { safeUmount } = await import('../../utils/umount.js');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));

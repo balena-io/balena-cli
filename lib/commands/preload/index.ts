@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
 import {
 	getBalenaSdk,
 	getCliForm,
 	getVisuals,
 	stripIndent,
-} from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import { dockerConnectionCliFlags } from '../../utils/docker';
-import { parseAsInteger } from '../../utils/validation';
+} from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
+import { dockerConnectionCliFlags } from '../../utils/docker.js';
+import { parseAsInteger } from '../../utils/validation.js';
 
 import { Flags, Args } from '@oclif/core';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type {
 	Application,
 	BalenaSDK,
@@ -39,6 +39,7 @@ import type {
 	Release,
 } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
+import type EventEmitter from 'events';
 
 export default class PreloadCmd extends Command {
 	public static description = stripIndent`
@@ -144,11 +145,11 @@ Can be repeated to add multiple certificates.\
 	public async run() {
 		const { args: params, flags: options } = await this.parse(PreloadCmd);
 
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
 		const nodeCleanup = await import('node-cleanup');
-		const { instanceOf } = await import('../../errors');
+		const { instanceOf } = await import('../../errors.js');
 
 		// Check image file exists
 		try {
@@ -172,7 +173,7 @@ Can be repeated to add multiple certificates.\
 		// Load app here, and use app slug from hereon
 		const fleetSlug: string | undefined = options.fleet
 			? await (
-					await import('../../utils/sdk')
+					await import('../../utils/sdk.js')
 			  ).getFleetSlug(balena, options.fleet)
 			: undefined;
 
@@ -229,7 +230,7 @@ Can be repeated to add multiple certificates.\
 		}
 
 		// Get a configured dockerode instance
-		const dockerUtils = await import('../../utils/docker');
+		const dockerUtils = await import('../../utils/docker.js');
 		const docker = await dockerUtils.getDocker(options);
 		const preloader = new balenaPreload.Preloader(
 			undefined,
@@ -243,11 +244,11 @@ Can be repeated to add multiple certificates.\
 			pinDevice ?? false,
 			certificates,
 			additionalSpace,
-		);
+		) as Preloader & EventEmitter;
 
 		let gotSignal = false;
 
-		nodeCleanup(function (_exitCode, signal) {
+		nodeCleanup.default(function (_exitCode, signal) {
 			if (signal) {
 				gotSignal = true;
 				nodeCleanup.uninstall(); // don't call cleanup handler again
@@ -326,7 +327,7 @@ Can be repeated to add multiple certificates.\
 	}
 
 	async getApplicationsWithSuccessfulBuilds(deviceTypeSlug: string) {
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		try {
 			await balena.models.deviceType.get(deviceTypeSlug);
@@ -434,7 +435,7 @@ Can be repeated to add multiple certificates.\
 		commit: string,
 		pinDevice: boolean | undefined,
 	) {
-		const balena = getBalenaSdk();
+		const balena = await getBalenaSdk();
 
 		if (
 			this.isCurrentCommit(commit) ||
@@ -481,7 +482,7 @@ Would you like to disable automatic updates for this fleet now?\
 	}
 
 	async getAppWithReleases(balenaSdk: BalenaSDK, slug: string) {
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		return await getApplication(balenaSdk, slug, {
 			$expand: this.applicationExpandOptions,

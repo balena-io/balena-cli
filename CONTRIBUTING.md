@@ -8,14 +8,14 @@ The balena CLI is an open source project and your contribution is welcome!
 * Clone the `balena-cli` repository (or a [forked
   repo](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo),
   if you are not in the balena team), `cd` to it and run `npm install`.
-* Build the CLI with `npm run build` or `npm test`, and execute it with `./bin/balena`
+* Build the CLI with `npm run build` or `npm test`, and execute it with `./bin/balena.js`
   (on a Windows command prompt, you may need to run `node .\bin\balena`).
 
 In order to ease development:
 
 * `npm run build:fast` skips some of the build steps for interactive testing, or
 * `npm run test:source` skips testing the standalone zip packages (which is rather slow)
-* `./bin/balena-dev` uses `ts-node/register` to transpile on the fly.
+* `./bin/balena-dev.js` uses `ts-node/register` to transpile on the fly.
 
 Before opening a PR, test your changes with `npm test`. Keep compatibility in mind, as the CLI is
 meant to run on Linux, macOS and Windows. balena CI will run test code on all three platforms, but
@@ -230,7 +230,7 @@ be automatically invalidated if `npm link` is used or if manual modifications ar
 `node_modules` folder. In this situation:
 
 * Manually delete the module cache file (typically `~/.balena/cli-module-cache.json`), or
-* Use the `bin/balena-dev` entry point (instead of `bin/balena`) as it does not activate
+* Use the `bin/balena-dev.js` entry point (instead of `bin/balena.js`) as it does not activate
   `fast-boot2`.
 
 ## TypeScript and oclif

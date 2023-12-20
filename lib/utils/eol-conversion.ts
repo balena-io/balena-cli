@@ -16,7 +16,7 @@
  */
 
 import { promises as fs } from 'fs';
-import Logger = require('./logger');
+import Logger from './logger.js';
 
 const globalLogger = Logger.getLogger();
 

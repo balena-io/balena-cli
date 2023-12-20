@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import { ExpectedError } from '../../errors';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
+import { ExpectedError } from '../../errors.js';
 import type { WhoamiResult } from 'balena-sdk';
 
 interface FlagsDef {
@@ -122,8 +122,8 @@ export default class LoginCmd extends Command {
 	public async run() {
 		const { flags: options, args: params } = await this.parse(LoginCmd);
 
-		const balena = getBalenaSdk();
-		const messages = await import('../../utils/messages');
+		const balena = await getBalenaSdk();
+		const messages = await import('../../utils/messages.js');
 		const balenaUrl = await balena.settings.get('balenaUrl');
 
 		// Consolidate user/email options
@@ -186,7 +186,7 @@ ${messages.reachingOut}`);
 					type: 'input',
 				});
 			}
-			const balena = getBalenaSdk();
+			const balena = await getBalenaSdk();
 			await balena.auth.loginWithToken(token!);
 			try {
 				if (!(await balena.auth.whoami())) {
@@ -202,20 +202,20 @@ ${messages.reachingOut}`);
 		}
 		// Credentials
 		else if (loginOptions.credentials) {
-			const patterns = await import('../../utils/patterns');
+			const patterns = await import('../../utils/patterns.js');
 			return patterns.authenticate(loginOptions);
 		}
 		// Web
 		else if (loginOptions.web) {
-			const auth = await import('../../auth');
+			const auth = await import('../../auth/index.js');
 			await auth.login({ port: loginOptions.port });
 			return;
 		} else {
-			const patterns = await import('../../utils/patterns');
+			const patterns = await import('../../utils/patterns.js');
 			// User had not selected login preference, prompt interactively
 			const loginType = await patterns.askLoginType();
 			if (loginType === 'register') {
-				const open = await import('open');
+				const { default: open } = await import('open');
 				const signupUrl = `https://dashboard.${balenaUrl}/signup`;
 				await open(signupUrl, { wait: false });
 				throw new ExpectedError(`Please sign up at ${signupUrl}`);

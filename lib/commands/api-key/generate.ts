@@ -16,10 +16,10 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class GenerateCmd extends Command {
 	public static description = stripIndent`
@@ -53,7 +53,7 @@ export default class GenerateCmd extends Command {
 
 		let key;
 		try {
-			key = await getBalenaSdk().models.apiKey.create(params.name);
+			key = await (await getBalenaSdk()).models.apiKey.create(params.name);
 		} catch (e) {
 			if (e.name === 'BalenaNotLoggedIn') {
 				throw new ExpectedError(stripIndent`

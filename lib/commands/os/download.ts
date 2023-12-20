@@ -16,9 +16,9 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class OsDownloadCmd extends Command {
 	public static description = stripIndent`
@@ -95,7 +95,7 @@ export default class OsDownloadCmd extends Command {
 					await OsDownloadCmd.checkLoggedIn();
 				} catch (e) {
 					const { ExpectedError, NotLoggedInError } = await import(
-						'../../errors'
+						'../../errors.js'
 					);
 					if (e instanceof NotLoggedInError) {
 						throw new ExpectedError(stripIndent`
@@ -107,7 +107,7 @@ export default class OsDownloadCmd extends Command {
 			}
 		}
 
-		const { downloadOSImage } = await import('../../utils/cloud');
+		const { downloadOSImage } = await import('../../utils/cloud.js');
 
 		try {
 			await downloadOSImage(params.type, options.output, options.version);

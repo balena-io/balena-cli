@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class KeysCmd extends Command {
 	public static description = stripIndent`
@@ -38,7 +38,7 @@ export default class KeysCmd extends Command {
 	public async run() {
 		await this.parse(KeysCmd);
 
-		const keys = await getBalenaSdk().models.key.getAll();
+		const keys = await (await getBalenaSdk()).models.key.getAll();
 
 		// Use 'name' instead of 'title' to match dashboard.
 		const displayKeys: Array<{ id: number; name: string }> = keys.map((k) => {

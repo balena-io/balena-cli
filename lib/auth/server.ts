@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 import { EventEmitter } from 'events';
-import * as express from 'express';
+import express from 'express';
 import type { Socket } from 'net';
-import * as path from 'path';
+import path from 'path';
 
-import * as utils from './utils';
-import { ExpectedError } from '../errors';
+import * as utils from './utils.js';
+import { ExpectedError } from '../errors.js';
 
 export class LoginServer extends EventEmitter {
 	protected expressApp: express.Express;
@@ -56,7 +56,7 @@ export class LoginServer extends EventEmitter {
 		);
 
 		app.set('view engine', 'ejs');
-		app.set('views', path.join(__dirname, 'pages'));
+		app.set('views', path.join(import.meta.url, 'pages'));
 
 		this.server = await new Promise<import('net').Server>((resolve, reject) => {
 			const callback = (err: Error) => {

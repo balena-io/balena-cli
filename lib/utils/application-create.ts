@@ -1,5 +1,5 @@
-import { ExpectedError } from '../errors';
-import { getBalenaSdk } from './lazy';
+import { ExpectedError } from '../errors.js';
+import { getBalenaSdk } from './lazy.js';
 
 export interface FlagsDef {
 	organization?: string;
@@ -18,16 +18,18 @@ export async function applicationCreateBase(
 ) {
 	// Ascertain device type
 	const deviceType =
-		options.type || (await (await import('./patterns')).selectDeviceType());
+		options.type || (await (await import('./patterns.js')).selectDeviceType());
 
 	// Ascertain organization
 	const organization =
 		options.organization?.toLowerCase() ||
-		(await (await import('./patterns')).getAndSelectOrganization());
+		(await (await import('./patterns.js')).getAndSelectOrganization());
 
 	// Create application
 	try {
-		const application = await getBalenaSdk().models.application.create({
+		const application = await (
+			await getBalenaSdk()
+		).models.application.create({
 			name: params.name,
 			deviceType,
 			organization,

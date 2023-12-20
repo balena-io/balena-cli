@@ -16,10 +16,10 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { parseAsInteger } from '../../utils/validation';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { parseAsInteger } from '../../utils/validation.js';
 
 export default class KeyCmd extends Command {
 	public static description = stripIndent`
@@ -49,7 +49,7 @@ export default class KeyCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(KeyCmd);
 
-		const key = await getBalenaSdk().models.key.get(params.id);
+		const key = await (await getBalenaSdk()).models.key.get(params.id);
 
 		// Use 'name' instead of 'title' to match dashboard.
 		const displayKey = {

@@ -15,8 +15,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-import type * as BalenaSdk from 'balena-sdk';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
@@ -43,8 +43,8 @@ export const onceAsync = <T>(fn: () => Promise<T>) => {
 	};
 };
 
-export const getBalenaSdk = once(() =>
-	(require('balena-sdk') as typeof BalenaSdk).fromSharedOptions(),
+export const getBalenaSdk = once(async () =>
+	(await import('balena-sdk')).fromSharedOptions(),
 );
 
 export const getVisuals = once(
