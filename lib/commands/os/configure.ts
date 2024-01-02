@@ -216,9 +216,15 @@ export default class OsConfigureCmd extends Command {
 			configJson = JSON.parse(rawConfig);
 		}
 
-		const osVersion =
+		const { normalizeOsVersion } = await import('../../utils/normalization');
+		const osVersion = normalizeOsVersion(
 			options.version ||
-			(await getOsVersionFromImage(params.image, deviceTypeManifest, devInit));
+				(await getOsVersionFromImage(
+					params.image,
+					deviceTypeManifest,
+					devInit,
+				)),
+		);
 
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
 		await validateDevOptionAndWarn(options.dev, osVersion);

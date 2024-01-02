@@ -184,9 +184,9 @@ export async function validateDevOptionAndWarn(
  * option.
  */
 export async function validateSecureBootOptionAndWarn(
-	secureBoot?: boolean,
-	slug?: string,
-	version?: string,
+	secureBoot: boolean,
+	slug: string,
+	version: string,
 	logger?: import('./logger'),
 ) {
 	if (!secureBoot) {
@@ -202,7 +202,7 @@ export async function validateSecureBootOptionAndWarn(
 	const sdk = getBalenaSdk();
 	const [osRelease] = await sdk.models.os.getAllOsVersions(slug, {
 		$select: 'contract',
-		$filter: { raw_version: `${version.replace(/^v/, '')}` },
+		$filter: { raw_version: version },
 	});
 	if (!osRelease) {
 		throw new ExpectedError(`Error: No ${version} release for ${slug}`);

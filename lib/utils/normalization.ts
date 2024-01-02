@@ -81,3 +81,13 @@ export async function disambiguateReleaseParam(
 export async function lowercaseIfSlug(s: string) {
 	return s.includes('/') ? s.toLowerCase() : s;
 }
+
+export function normalizeOsVersion(version: string) {
+	// Note that `version` may also be 'latest', 'recommended', 'default'
+	if (/^v?\d+\.\d+\.\d+/.test(version)) {
+		if (version[0] === 'v') {
+			version = version.slice(1);
+		}
+	}
+	return version;
+}
