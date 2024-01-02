@@ -1,4 +1,16 @@
 - commits:
+    - subject: Normalize v prefixes in the --version parameter of all commands
+      hash: b7b01ecd5314bddae73b7b062f9d034b3661bcef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 17.4.10
+  title: ""
+  date: 2024-01-02T12:41:38.978Z
+- commits:
     - subject: Fix publishing artifacts to gh release
       hash: 1da5a75c1411bdfece2b60f83095082f6ce68ace
       body: ""
