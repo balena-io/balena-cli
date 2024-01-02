@@ -202,12 +202,8 @@ async function resolveOSVersion(
 	if (['menu', 'menu-esr'].includes(version)) {
 		return await selectOSVersionFromMenu(deviceType, version === 'menu-esr');
 	}
-	// Note that `version` may also be 'latest', 'recommended', 'default'
-	if (/^v?\d+\.\d+\.\d+/.test(version)) {
-		if (version[0] === 'v') {
-			version = version.slice(1);
-		}
-	}
+	const { normalizeOsVersion } = await import('./normalization');
+	version = normalizeOsVersion(version);
 	return version;
 }
 

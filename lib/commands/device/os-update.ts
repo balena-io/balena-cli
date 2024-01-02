@@ -100,6 +100,8 @@ export default class DeviceOsUpdateCmd extends Command {
 		// Get target OS version
 		let targetOsVersion = options.version;
 		if (targetOsVersion != null) {
+			const { normalizeOsVersion } = await import('../../utils/normalization');
+			targetOsVersion = normalizeOsVersion(targetOsVersion);
 			if (!hupVersionInfo.versions.includes(targetOsVersion)) {
 				throw new ExpectedError(
 					`The provided version ${targetOsVersion} is not in the Host OS update targets for this device`,

@@ -259,6 +259,8 @@ export default class ConfigGenerateCmd extends Command {
 		if (!options.fleet && options.deviceType) {
 			throw new ExpectedError(this.deviceTypeNotAllowedMessage);
 		}
+		const { normalizeOsVersion } = await import('../../utils/normalization');
+		options.version = normalizeOsVersion(options.version);
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
 		await validateDevOptionAndWarn(options.dev, options.version);
 	}
