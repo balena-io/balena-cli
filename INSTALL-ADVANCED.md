@@ -141,7 +141,8 @@ $ npm install balena-cli --global --production --unsafe-perm
 ```
 
 `--unsafe-perm` is needed when `npm install` is executed as the `root` user (e.g. in a Docker
-container) in order to allow npm scripts like `postinstall` to be executed.
+container) in order to allow npm scripts like `postinstall` to be executed. The `--global` flag is needed so
+the install uses the `npm-shrinkwrap.json` lockfile when [downloading dependencies](https://docs.npmjs.com/cli/v9/configuring-npm/npm-shrinkwrap-json#description).
 
 ## Additional Dependencies
 
