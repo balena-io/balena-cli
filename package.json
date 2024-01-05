@@ -16,6 +16,7 @@
     "doc/",
     "lib/",
     "patches/",
+    "!patches/**/**.dev.patch",
     "*.md",
     "npm-shrinkwrap.json",
     "oclif.manifest.json"
