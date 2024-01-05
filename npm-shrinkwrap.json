@@ -2302,9 +2302,9 @@
       }
     },
     "node_modules/@oclif/core": {
-      "version": "3.15.1",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.15.1.tgz",
-      "integrity": "sha512-d4457zVo2agLoJG97CmdY6M3BeP5sogBP3BtP65hUvJH6wA6Us1hdY3UiPPtD/ZzZImq7cATVMABuCF9tM+rWA==",
+      "version": "3.16.0",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.16.0.tgz",
+      "integrity": "sha512-/PIz+udzb59XE8O/bQvqlCtXy6RByEHH0KsrAJNa/ZrqtdsLmeDNJcHdgygFHx+nz+PYMoUzsyzJMau++EDNoQ==",
       "dependencies": {
         "ansi-escapes": "^4.3.2",
         "ansi-styles": "^4.3.0",
@@ -9118,9 +9118,9 @@
       }
     },
     "node_modules/etcher-sdk/node_modules/node-abi": {
-      "version": "3.52.0",
-      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.52.0.tgz",
-      "integrity": "sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==",
+      "version": "3.54.0",
+      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.54.0.tgz",
+      "integrity": "sha512-p7eGEiQil0YUV3ItH4/tBb781L5impVmmx2E9FRKF7d18XXzp4PGT2tdYMFY6wQqgxD0IwNZOiSJ0/K0fSi/OA==",
       "dependencies": {
         "semver": "^7.3.5"
       },
@@ -17228,9 +17228,9 @@
       }
     },
     "node_modules/pkg/node_modules/node-abi": {
-      "version": "3.52.0",
-      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.52.0.tgz",
-      "integrity": "sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==",
+      "version": "3.54.0",
+      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.54.0.tgz",
+      "integrity": "sha512-p7eGEiQil0YUV3ItH4/tBb781L5impVmmx2E9FRKF7d18XXzp4PGT2tdYMFY6wQqgxD0IwNZOiSJ0/K0fSi/OA==",
       "dev": true,
       "dependencies": {
         "semver": "^7.3.5"
@@ -22640,9 +22640,9 @@
       }
     },
     "node_modules/winusb-driver-generator/node_modules/node-abi": {
-      "version": "3.52.0",
-      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.52.0.tgz",
-      "integrity": "sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==",
+      "version": "3.54.0",
+      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.54.0.tgz",
+      "integrity": "sha512-p7eGEiQil0YUV3ItH4/tBb781L5impVmmx2E9FRKF7d18XXzp4PGT2tdYMFY6wQqgxD0IwNZOiSJ0/K0fSi/OA==",
       "optional": true,
       "dependencies": {
         "semver": "^7.3.5"
@@ -26491,9 +26491,9 @@
       }
     },
     "@oclif/core": {
-      "version": "3.15.1",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.15.1.tgz",
-      "integrity": "sha512-d4457zVo2agLoJG97CmdY6M3BeP5sogBP3BtP65hUvJH6wA6Us1hdY3UiPPtD/ZzZImq7cATVMABuCF9tM+rWA==",
+      "version": "3.16.0",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.16.0.tgz",
+      "integrity": "sha512-/PIz+udzb59XE8O/bQvqlCtXy6RByEHH0KsrAJNa/ZrqtdsLmeDNJcHdgygFHx+nz+PYMoUzsyzJMau++EDNoQ==",
       "requires": {
         "ansi-escapes": "^4.3.2",
         "ansi-styles": "^4.3.0",
@@ -31937,9 +31937,9 @@
           "integrity": "sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ=="
         },
         "node-abi": {
-          "version": "3.52.0",
-          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.52.0.tgz",
-          "integrity": "sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==",
+          "version": "3.54.0",
+          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.54.0.tgz",
+          "integrity": "sha512-p7eGEiQil0YUV3ItH4/tBb781L5impVmmx2E9FRKF7d18XXzp4PGT2tdYMFY6wQqgxD0IwNZOiSJ0/K0fSi/OA==",
           "requires": {
             "semver": "^7.3.5"
           }
@@ -38115,9 +38115,9 @@
           "dev": true
         },
         "node-abi": {
-          "version": "3.52.0",
-          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.52.0.tgz",
-          "integrity": "sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==",
+          "version": "3.54.0",
+          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.54.0.tgz",
+          "integrity": "sha512-p7eGEiQil0YUV3ItH4/tBb781L5impVmmx2E9FRKF7d18XXzp4PGT2tdYMFY6wQqgxD0IwNZOiSJ0/K0fSi/OA==",
           "dev": true,
           "requires": {
             "semver": "^7.3.5"
@@ -42439,9 +42439,9 @@
           "optional": true
         },
         "node-abi": {
-          "version": "3.52.0",
-          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.52.0.tgz",
-          "integrity": "sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==",
+          "version": "3.54.0",
+          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.54.0.tgz",
+          "integrity": "sha512-p7eGEiQil0YUV3ItH4/tBb781L5impVmmx2E9FRKF7d18XXzp4PGT2tdYMFY6wQqgxD0IwNZOiSJ0/K0fSi/OA==",
           "optional": true,
           "requires": {
             "semver": "^7.3.5"
