@@ -225,7 +225,7 @@
     "denymount": "^2.3.0",
     "docker-modem": "3.0.0",
     "docker-progress": "^5.1.3",
-    "dockerode": "3.3.5",
+    "dockerode": "3.3.3",
     "ejs": "^3.1.6",
     "etcher-sdk": "^8.7.0",
     "event-stream": "3.3.4",
