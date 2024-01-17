@@ -76,12 +76,95 @@
   The file must be distributed with executable as %2.
   %1: node_modules/drivelist/scripts/win32.bat
   %2: path-to-executable/drivelist/win32.bat
-prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
-> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/string-width/index.js
-> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/strip-ansi/index.js
-> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/wrap-ansi/index.js
-prebuild-install warn install No prebuilt binaries found (target=v18.5.0 runtime=node arch=x64 libc= platform=linux)
-> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/ansi-regex/index.js
-> Warning Failed to make bytecode node18-x64 for file node_modules/@isaacs/cliui/node_modules/ansi-styles/index.js
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/build/Release/drivelist.node
+  %2: path-to-executable/drivelist.node
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/darwin.sh
+  %2: path-to-executable/drivelist/darwin.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/linux.sh
+  %2: path-to-executable/drivelist/linux.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/win32.bat
+  %2: path-to-executable/drivelist/win32.bat
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/build/Release/drivelist.node
+  %2: path-to-executable/drivelist.node
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/darwin.sh
+  %2: path-to-executable/drivelist/darwin.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/linux.sh
+  %2: path-to-executable/drivelist/linux.sh
+> Warning Cannot include file %1 into executable.
+  The file must be distributed with executable as %2.
+  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/win32.bat
+  %2: path-to-executable/drivelist/win32.bat
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/axios.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/utils.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/adapters/adapters.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/adapters/http.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/adapters/xhr.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/cancel/CancelToken.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/cancel/CanceledError.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/cancel/isCancel.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/Axios.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/AxiosError.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/AxiosHeaders.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/InterceptorManager.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/buildFullPath.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/dispatchRequest.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/mergeConfig.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/settle.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/core/transformData.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/defaults/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/defaults/transitional.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/env/data.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/AxiosTransformStream.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/AxiosURLSearchParams.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/HttpStatusCode.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/ZlibHeaderTransformStream.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/bind.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/buildURL.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/callbackify.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/combineURLs.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/cookies.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/formDataToJSON.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/formDataToStream.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/fromDataURI.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/isAbsoluteURL.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/isAxiosError.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/isURLSameOrigin.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/parseHeaders.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/parseProtocol.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/readBlob.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/speedometer.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/spread.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/throttle.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/toFormData.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/toURLEncodedForm.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/helpers/validator.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/platform/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/platform/common/utils.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/platform/node/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/platform/node/classes/FormData.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/axios/lib/platform/node/classes/URLSearchParams.js
+prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=x64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=x64 libc= platform=linux)
+prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=x64 libc= platform=linux)
+> Warning Failed to make bytecode node20-x64 for file node_modules/@isaacs/cliui/node_modules/string-width/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/@isaacs/cliui/node_modules/strip-ansi/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/@isaacs/cliui/node_modules/wrap-ansi/index.js
+prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=x64 libc= platform=linux)
+> Warning Failed to make bytecode node20-x64 for file node_modules/@isaacs/cliui/node_modules/ansi-regex/index.js
+> Warning Failed to make bytecode node20-x64 for file node_modules/@isaacs/cliui/node_modules/ansi-styles/index.js
+prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=x64 libc= platform=linux)

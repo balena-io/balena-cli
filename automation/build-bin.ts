@@ -155,7 +155,7 @@ ${sep}
  * messages (stdout and stderr) in order to call diffPkgOutput().
  */
 async function execPkg(...args: any[]) {
-	const { exec: pkgExec } = await import('pkg');
+	const { exec: pkgExec } = await import('@yao-pkg/pkg');
 	const outTap = new StdOutTap(true);
 	try {
 		outTap.tap();
