@@ -1,4 +1,19 @@
 - commits:
+    - subject: Regression described in GitHub Issue 2715; balena push hangs in local
+        mode.
+      hash: 09e2550b32f628f8e5b5cb8be0cafe4b40c7ce10
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 17.4.12
+  title: ""
+  date: 2024-01-18T10:55:45.599Z
+- commits:
     - subject: Exclude the oclif package patch from the published files
       hash: 4e5eb4bcee8e33a1aac337401c0180817e152b69
       body: ""
