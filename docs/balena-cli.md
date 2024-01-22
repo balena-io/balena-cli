@@ -2728,6 +2728,10 @@ device type
 
 select balenaOS ESR versions
 
+#### --include-draft
+
+include pre-release balenaOS versions
+
 ## os download &#60;type&#62;
 
 Download an unconfigured OS image for the specified device type.

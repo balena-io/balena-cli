@@ -200,7 +200,11 @@ async function resolveOSVersion(
 	version: string,
 ): Promise<string> {
 	if (['menu', 'menu-esr'].includes(version)) {
-		return await selectOSVersionFromMenu(deviceType, version === 'menu-esr');
+		return await selectOSVersionFromMenu(
+			deviceType,
+			version === 'menu-esr',
+			false,
+		);
 	}
 	const { normalizeOsVersion } = await import('./normalization');
 	version = normalizeOsVersion(version);
@@ -210,8 +214,9 @@ async function resolveOSVersion(
 async function selectOSVersionFromMenu(
 	deviceType: string,
 	esr: boolean,
+	includeDraft: boolean,
 ): Promise<string> {
-	const vs = await getOsVersions(deviceType, esr);
+	const vs = await getOsVersions(deviceType, esr, includeDraft);
 
 	const choices = vs.map((v) => ({
 		value: v.raw_version,
@@ -233,17 +238,22 @@ async function selectOSVersionFromMenu(
 export async function getOsVersions(
 	deviceType: string,
 	esr: boolean,
+	includeDraft: boolean,
 ): Promise<SDK.OsVersion[]> {
 	const sdk = getBalenaSdk();
 	let slug = deviceType;
-	let versions: SDK.OsVersion[] =
-		await sdk.models.os.getAvailableOsVersions(slug);
+	let versions: SDK.OsVersion[] = await sdk.models.os.getAvailableOsVersions(
+		slug,
+		{ includeDraft },
+	);
 	// if slug is an alias, fetch the real slug
 	if (!versions.length) {
 		// unalias device type slug
 		slug = (await sdk.models.deviceType.get(slug, { $select: 'slug' })).slug;
 		if (slug !== deviceType) {
-			versions = await sdk.models.os.getAvailableOsVersions(slug);
+			versions = await sdk.models.os.getAvailableOsVersions(slug, {
+				includeDraft,
+			});
 		}
 	}
 	versions = versions.filter(
