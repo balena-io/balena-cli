@@ -37,6 +37,7 @@ export default class DeviceOsUpdateCmd extends Command {
 		'$ balena device os-update 23c73a1',
 		'$ balena device os-update 23c73a1 --version 2.101.7',
 		'$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod',
+		'$ balena device os-update 23c73a1 --include-draft',
 	];
 
 	public static args = {
@@ -51,6 +52,12 @@ export default class DeviceOsUpdateCmd extends Command {
 	public static flags = {
 		version: Flags.string({
 			description: 'a balenaOS version',
+			exclusive: ['include-draft'],
+		}),
+		'include-draft': Flags.boolean({
+			description: 'include pre-release balenaOS versions',
+			default: false,
+			exclusive: ['version'],
 		}),
 		yes: cf.yes,
 		help: cf.help,
@@ -86,8 +93,8 @@ export default class DeviceOsUpdateCmd extends Command {
 			);
 		}
 
-		let includeDraft = false;
-		if (options.version != null) {
+		let includeDraft = options['include-draft'];
+		if (!includeDraft && options.version != null) {
 			const bSemver = await import('balena-semver');
 			const parsedVersion = bSemver.parse(options.version);
 			// When the user provides a draft version, we need to pass `includeDraft`
