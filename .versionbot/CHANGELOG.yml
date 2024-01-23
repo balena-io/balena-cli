@@ -1,4 +1,274 @@
 - commits:
+    - subject: "os versions: Add the --include-draft option"
+      hash: 1ba8db1459355f6a5887f9106876318bd81f7f02
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device os-update: Add option for including pre-release versions in the
+        list"
+      hash: cdada0aec8e8f7a6c72d629dfa7a36f5d56b1b0d
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device os-update: Enable updates to pre-release versions of higher
+        base semver"
+      hash: 116653348219f9ce8fd896428d690940350f2597
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Depends-on: https://github.com/balena-io/balena-sdk/pull/1398
+        depends-on: https://github.com/balena-io/balena-sdk/pull/1398
+        See: https://balena.fibery.io/Work/Task/cli-Enable-OS-Updates-to-pre-release-OS-versions-1751
+        see: https://balena.fibery.io/Work/Task/cli-Enable-OS-Updates-to-pre-release-OS-versions-1751
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-sdk to 19.4.0
+      hash: 01538728cd4a0ad512b45c062b4d45f6d1f664e7
+      body: |
+        Update balena-sdk from 19.0.1 to 19.4.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Update the deviceType.getInstructions tests
+              hash: 3fd5f7d88c6fd335e8ada5c9efd64ddd14c9a992
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "os.getSupportedOsUpdateVersions: Add the option to include draft
+                releases"
+              hash: 87b3187274a5f417ab82855029f517dc99a2f503
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Enable OS Updates to pre-release versions of higher base semver
+              hash: 38360a84d29f316d3619d3b899538ccdf71635fc
+              body: |
+                Update balena-hup-action-utils from 5.0.0 to 6.1.0
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Enable OS Updates to pre-release versions of higher base semver
+                      hash: 1b3e83b9519157be1ca9ba7756bba87a08bea04a
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-hup-action-utils-6.1.0
+                  title: ""
+                  date: 2024-01-04T13:32:14.391Z
+                - commits:
+                    - subject: Drop support for TypeScript < 5.3.3
+                      hash: 7c3430280b47ea9a17f7bb94df068f2a46bfa975
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Drop support for node < v18
+                      hash: b1eb6844578bff03c05c19bbf6436526a69a8b30
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update dependencies
+                      hash: 7413837d3aed9aa54ec5d1e218647f543308b298
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Move the build step from prepare to prepack
+                      hash: c4480c214c79f4e07cf3b65944b83d11c9c2e267
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-hup-action-utils-6.0.0
+                  title: ""
+                  date: 2023-12-20T13:33:03.867Z
+                - commits:
+                    - subject: "patch: Update flowzone.yml"
+                      hash: 41a90775219e1b7b144069aea545f8f2141c88f7
+                      body: ""
+                      footer: {}
+                      author: Kyle Harding
+                      nested: []
+                  version: balena-hup-action-utils-5.0.1
+                  title: ""
+                  date: 2023-07-13T19:00:55.217Z
+            - subject: "os.getAvailableOsVersions: Add the option to include draft releases"
+              hash: b8e795ac01e2e05c6484cfd492ea9dfd5f16f142
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.4.0
+          title: ""
+          date: 2024-01-23T14:37:21.759Z
+        - commits:
+            - subject: Update date-fns to v3
+              hash: f027a467b4fe45884650d2d8c56ce3a361842a6b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.3.5
+          title: ""
+          date: 2023-12-21T13:16:48.448Z
+        - commits:
+            - subject: "types/Device: Deprecate the non-existent vpn_address property"
+              hash: 0a9d79b71f7c97813831649d18a4bc1703d71307
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+          version: balena-sdk-19.3.4
+          title: ""
+          date: 2023-12-15T13:34:05.193Z
+        - commits:
+            - subject: "types/Device: Deprecate the non-existent state & status_sort_index
+                properties"
+              hash: 7013d15352906ae815f5cd630086222f5c9853df
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.3.3
+          title: ""
+          date: 2023-12-15T12:02:22.609Z
+        - commits:
+            - subject: "test:fast: Run the tests ignoring any linting errors"
+              hash: 59811c2f19a2044b4a1a0d1068ba90ee1587f9a3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Re-enable the explicit error checks for non-tarball DWB
+                requests"
+              hash: cb7c1a2d842e53255975a91457da00bd7070d8f7
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.3.2
+          title: ""
+          date: 2023-12-08T15:49:54.842Z
+        - commits:
+            - subject: Update TypeScript to 5.3.2
+              hash: d66ee5c290df275e18bbdcf8bd5cf9475e6db768
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.3.1
+          title: ""
+          date: 2023-11-30T15:10:55.747Z
+        - commits:
+            - subject: "tests: Remove the explicit error checks for non-tarball DWB requests"
+              hash: 0ca96b7440af76a1b7c52899d880dc817cf69278
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Properly cleanup the test orgs"
+              hash: 431acbfa773b271b614c619595abc61f3c6e791c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Reduce the request batching chunk size to speed up tests"
+              hash: d3397cb6fdf6fd7edb4247d0d5980086e9338c1d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add option for configuring the request batching chunk size
+              hash: 94e5d7816ac813e9b8468b73e3d365f735182f4b
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.3.0
+          title: ""
+          date: 2023-11-30T13:54:32.874Z
+        - commits:
+            - subject: Add organization logo to organization
+              hash: 251e835ad6fe778024bbe358fa70aa73c8e250b8
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Otávio Jacobi
+              nested: []
+          version: balena-sdk-19.2.0
+          title: ""
+          date: 2023-11-13T11:20:58.418Z
+        - commits:
+            - subject: Add the retryRateLimitedRequests sdk option for retrying after HTTP
+                429s
+              hash: 25e83b67f6f7c3f20982c97d4e561dd81c37a672
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.1.0
+          title: ""
+          date: 2023-11-06T13:49:10.660Z
+  version: 17.5.0
+  title: ""
+  date: 2024-01-23T15:52:49.156Z
+- commits:
     - subject: Regression described in GitHub Issue 2715; balena push hangs in local
         mode.
       hash: 09e2550b32f628f8e5b5cb8be0cafe4b40c7ce10
