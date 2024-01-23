@@ -48,15 +48,33 @@ export default class OsVersionsCmd extends Command {
 			description: 'select balenaOS ESR versions',
 			default: false,
 		}),
+		'include-draft': Flags.boolean({
+			description: 'include pre-release balenaOS versions',
+			default: false,
+		}),
 	};
 
 	public async run() {
 		const { args: params, flags: options } = await this.parse(OsVersionsCmd);
 
+		if (options['include-draft']) {
+			const { warnify } = await import('../../utils/messages');
+			console.error(
+				warnify(stripIndent`
+				Using pre-release balenaOS versions is only supported for OS updates
+				and not for OS image downloads.
+			`),
+			);
+		}
+
 		const { formatOsVersion, getOsVersions } = await import(
 			'../../utils/cloud'
 		);
-		const vs = await getOsVersions(params.type, !!options.esr);
+		const vs = await getOsVersions(
+			params.type,
+			!!options.esr,
+			options['include-draft'],
+		);
 
 		console.log(vs.map((v) => formatOsVersion(v)).join('\n'));
 	}

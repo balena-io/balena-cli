@@ -1454,6 +1454,7 @@ Examples:
 	$ balena device os-update 23c73a1
 	$ balena device os-update 23c73a1 --version 2.101.7
 	$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod
+	$ balena device os-update 23c73a1 --include-draft
 
 ### Arguments
 
@@ -1466,6 +1467,10 @@ the uuid of the device to update
 #### --version VERSION
 
 a balenaOS version
+
+#### --include-draft
+
+include pre-release balenaOS versions
 
 #### -y, --yes
 
@@ -2722,6 +2727,10 @@ device type
 #### --esr
 
 select balenaOS ESR versions
+
+#### --include-draft
+
+include pre-release balenaOS versions
 
 ## os download &#60;type&#62;
 
