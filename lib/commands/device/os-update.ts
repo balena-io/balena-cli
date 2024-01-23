@@ -86,10 +86,25 @@ export default class DeviceOsUpdateCmd extends Command {
 			);
 		}
 
+		let includeDraft = false;
+		if (options.version != null) {
+			const bSemver = await import('balena-semver');
+			const parsedVersion = bSemver.parse(options.version);
+			// When the user provides a draft version, we need to pass `includeDraft`
+			// to the os.getSupportedOsUpdateVersions() since w/o it the results
+			// will for sure not include the user provided version and the command
+			// would return a "not in the Host OS update targets" error.
+			includeDraft =
+				parsedVersion != null && parsedVersion.prerelease.length > 0;
+		}
+
 		// Get supported OS update versions
 		const hupVersionInfo = await sdk.models.os.getSupportedOsUpdateVersions(
 			is_of__device_type[0].slug,
 			currentOsVersion,
+			{
+				includeDraft,
+			},
 		);
 		if (hupVersionInfo.versions.length === 0) {
 			throw new ExpectedError(
