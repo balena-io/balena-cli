@@ -39,9 +39,9 @@
         "columnify": "^1.5.2",
         "common-tags": "^1.7.2",
         "denymount": "^2.3.0",
-        "docker-modem": "3.0.0",
+        "docker-modem": "^5.0.3",
         "docker-progress": "^5.1.3",
-        "dockerode": "3.3.3",
+        "dockerode": "^4.0.2",
         "ejs": "^3.1.6",
         "etcher-sdk": "9.0.6",
         "event-stream": "3.3.4",
@@ -113,7 +113,7 @@
         "@types/cli-truncate": "^2.0.0",
         "@types/common-tags": "^1.8.1",
         "@types/diff": "^5.0.3",
-        "@types/dockerode": "^3.3.9",
+        "@types/dockerode": "^3.3.23",
         "@types/ejs": "^3.1.0",
         "@types/express": "^4.17.13",
         "@types/fs-extra": "^9.0.13",
@@ -3662,9 +3662,9 @@
       }
     },
     "node_modules/@types/dockerode": {
-      "version": "3.3.19",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.19.tgz",
-      "integrity": "sha512-7CC5yIpQi+bHXwDK43b/deYXteP3Lem9gdocVVHJPSRJJLMfbiOchQV3rDmAPkMw+n3GIVj7m1six3JW+VcwwA==",
+      "version": "3.3.23",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.23.tgz",
+      "integrity": "sha512-Lz5J+NFgZS4cEVhquwjIGH4oQwlVn2h7LXD3boitujBnzOE5o7s9H8hchEjoDK2SlRsJTogdKnQeiJgPPKLIEw==",
       "dependencies": {
         "@types/docker-modem": "*",
         "@types/node": "*"
@@ -5806,6 +5806,44 @@
       },
       "engines": {
         "node": ">= 6.9.0"
+      }
+    },
+    "node_modules/balena-preload/node_modules/docker-modem": {
+      "version": "3.0.8",
+      "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-3.0.8.tgz",
+      "integrity": "sha512-f0ReSURdM3pcKPNS30mxOHSbaFLcknGmQjwSfmbcdOw1XWKXVhukM3NJHhr7NpY9BIyyWQb0EBo3KQvvuU5egQ==",
+      "dependencies": {
+        "debug": "^4.1.1",
+        "readable-stream": "^3.5.0",
+        "split-ca": "^1.0.1",
+        "ssh2": "^1.11.0"
+      },
+      "engines": {
+        "node": ">= 8.0"
+      }
+    },
+    "node_modules/balena-preload/node_modules/dockerode": {
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.5.tgz",
+      "integrity": "sha512-/0YNa3ZDNeLr/tSckmD69+Gq+qVNhvKfAHNeZJBnp7EOP6RGKV8ORrJHkUn20So5wU+xxT7+1n5u8PjHbfjbSA==",
+      "dependencies": {
+        "@balena/dockerignore": "^1.0.2",
+        "docker-modem": "^3.0.0",
+        "tar-fs": "~2.0.1"
+      },
+      "engines": {
+        "node": ">= 8.0"
+      }
+    },
+    "node_modules/balena-preload/node_modules/dockerode/node_modules/tar-fs": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/tar-fs/-/tar-fs-2.0.1.tgz",
+      "integrity": "sha512-6tzWDMeroL87uF/+lin46k+Q+46rAJ0SyPGz7OW7wTgblI273hsBqk2C1j0/xNadNLKDTUL9BukSjB7cwgmlPA==",
+      "dependencies": {
+        "chownr": "^1.1.1",
+        "mkdirp-classic": "^0.5.2",
+        "pump": "^3.0.0",
+        "tar-stream": "^2.0.0"
       }
     },
     "node_modules/balena-preload/node_modules/readable-stream": {
@@ -8155,14 +8193,14 @@
       "integrity": "sha512-6+VnnhZpxwWvvKwjkRnuqlTtlBRJuM+3cCSXmZoYhyXcdgxx6l/3lwYpqmJ9qmhzgWVeATkpVsTua92BsObJjw=="
     },
     "node_modules/docker-modem": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-3.0.0.tgz",
-      "integrity": "sha512-WwFajJ8I5geZ/dDZ5FDMDA6TBkWa76xWwGIGw8uzUjNUGCN0to83wJ8Oi1AxrJTC0JBn+7fvIxUctnawtlwXeg==",
+      "version": "5.0.3",
+      "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-5.0.3.tgz",
+      "integrity": "sha512-89zhop5YVhcPEt5FpUFGr3cDyceGhq/F9J+ZndQ4KfqNvfbJpPMfgeixFgUj5OjCYAboElqODxY5Z1EBsSa6sg==",
       "dependencies": {
         "debug": "^4.1.1",
         "readable-stream": "^3.5.0",
         "split-ca": "^1.0.1",
-        "ssh2": "^0.8.7"
+        "ssh2": "^1.15.0"
       },
       "engines": {
         "node": ">= 8.0"
@@ -8179,17 +8217,6 @@
       },
       "engines": {
         "node": ">= 6"
-      }
-    },
-    "node_modules/docker-modem/node_modules/ssh2": {
-      "version": "0.8.9",
-      "resolved": "https://registry.npmjs.org/ssh2/-/ssh2-0.8.9.tgz",
-      "integrity": "sha512-GmoNPxWDMkVpMFa9LVVzQZHF6EW3WKmBwL+4/GeILf2hFmix5Isxm7Amamo8o7bHiU0tC+wXsGcUXOxp8ChPaw==",
-      "dependencies": {
-        "ssh2-streams": "~0.4.10"
-      },
-      "engines": {
-        "node": ">=5.2.0"
       }
     },
     "node_modules/docker-progress": {
@@ -8214,11 +8241,12 @@
       }
     },
     "node_modules/dockerode": {
-      "version": "3.3.3",
-      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.3.tgz",
-      "integrity": "sha512-lvKV6/NGf2/CYLt5V4c0fd6Fl9XZSCo1Z2HBT9ioKrKLMB2o+gA62Uza8RROpzGvYv57KJx2dKu+ZwSpB//OIA==",
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-4.0.2.tgz",
+      "integrity": "sha512-9wM1BVpVMFr2Pw3eJNXrYYt6DT9k0xMcsSCjtPvyQ+xa1iPg/Mo3T/gUcwI0B2cczqCeCYRPF8yFYDwtFXT0+w==",
       "dependencies": {
-        "docker-modem": "^3.0.0",
+        "@balena/dockerignore": "^1.0.2",
+        "docker-modem": "^5.0.3",
         "tar-fs": "~2.0.1"
       },
       "engines": {
@@ -20755,19 +20783,6 @@
         "nan": "^2.18.0"
       }
     },
-    "node_modules/ssh2-streams": {
-      "version": "0.4.10",
-      "resolved": "https://registry.npmjs.org/ssh2-streams/-/ssh2-streams-0.4.10.tgz",
-      "integrity": "sha512-8pnlMjvnIZJvmTzUIIA5nT4jr2ZWNNVHwyXfMGdRJbug9TpI3kd99ffglgfSWqujVv/0gxwMsDn9j9RVst8yhQ==",
-      "dependencies": {
-        "asn1": "~0.2.0",
-        "bcrypt-pbkdf": "^1.0.2",
-        "streamsearch": "~0.1.2"
-      },
-      "engines": {
-        "node": ">=5.2.0"
-      }
-    },
     "node_modules/sshpk": {
       "version": "1.16.1",
       "resolved": "https://registry.npmjs.org/sshpk/-/sshpk-1.16.1.tgz",
@@ -20889,14 +20904,6 @@
       "integrity": "sha512-6vaNInhu+CHxtONf3zw3vq4SP2DOQhjBvIa3rNcG0+P7eKWlYH6Peu7rHizSloRU2EwMz6GraLieis9Ac9+p1w==",
       "dependencies": {
         "wrappy": "1"
-      }
-    },
-    "node_modules/streamsearch": {
-      "version": "0.1.2",
-      "resolved": "https://registry.npmjs.org/streamsearch/-/streamsearch-0.1.2.tgz",
-      "integrity": "sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo=",
-      "engines": {
-        "node": ">=0.8.0"
       }
     },
     "node_modules/streamx": {
@@ -27986,9 +27993,9 @@
       }
     },
     "@types/dockerode": {
-      "version": "3.3.19",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.19.tgz",
-      "integrity": "sha512-7CC5yIpQi+bHXwDK43b/deYXteP3Lem9gdocVVHJPSRJJLMfbiOchQV3rDmAPkMw+n3GIVj7m1six3JW+VcwwA==",
+      "version": "3.3.23",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.23.tgz",
+      "integrity": "sha512-Lz5J+NFgZS4cEVhquwjIGH4oQwlVn2h7LXD3boitujBnzOE5o7s9H8hchEjoDK2SlRsJTogdKnQeiJgPPKLIEw==",
       "requires": {
         "@types/docker-modem": "*",
         "@types/node": "*"
@@ -29702,6 +29709,40 @@
           "requires": {
             "crc": "^3.4.4",
             "readable-stream": "^3.4.0"
+          }
+        },
+        "docker-modem": {
+          "version": "3.0.8",
+          "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-3.0.8.tgz",
+          "integrity": "sha512-f0ReSURdM3pcKPNS30mxOHSbaFLcknGmQjwSfmbcdOw1XWKXVhukM3NJHhr7NpY9BIyyWQb0EBo3KQvvuU5egQ==",
+          "requires": {
+            "debug": "^4.1.1",
+            "readable-stream": "^3.5.0",
+            "split-ca": "^1.0.1",
+            "ssh2": "^1.11.0"
+          }
+        },
+        "dockerode": {
+          "version": "3.3.5",
+          "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.5.tgz",
+          "integrity": "sha512-/0YNa3ZDNeLr/tSckmD69+Gq+qVNhvKfAHNeZJBnp7EOP6RGKV8ORrJHkUn20So5wU+xxT7+1n5u8PjHbfjbSA==",
+          "requires": {
+            "@balena/dockerignore": "^1.0.2",
+            "docker-modem": "^3.0.0",
+            "tar-fs": "~2.0.1"
+          },
+          "dependencies": {
+            "tar-fs": {
+              "version": "2.0.1",
+              "resolved": "https://registry.npmjs.org/tar-fs/-/tar-fs-2.0.1.tgz",
+              "integrity": "sha512-6tzWDMeroL87uF/+lin46k+Q+46rAJ0SyPGz7OW7wTgblI273hsBqk2C1j0/xNadNLKDTUL9BukSjB7cwgmlPA==",
+              "requires": {
+                "chownr": "^1.1.1",
+                "mkdirp-classic": "^0.5.2",
+                "pump": "^3.0.0",
+                "tar-stream": "^2.0.0"
+              }
+            }
           }
         },
         "readable-stream": {
@@ -31545,14 +31586,14 @@
       "integrity": "sha512-6+VnnhZpxwWvvKwjkRnuqlTtlBRJuM+3cCSXmZoYhyXcdgxx6l/3lwYpqmJ9qmhzgWVeATkpVsTua92BsObJjw=="
     },
     "docker-modem": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-3.0.0.tgz",
-      "integrity": "sha512-WwFajJ8I5geZ/dDZ5FDMDA6TBkWa76xWwGIGw8uzUjNUGCN0to83wJ8Oi1AxrJTC0JBn+7fvIxUctnawtlwXeg==",
+      "version": "5.0.3",
+      "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-5.0.3.tgz",
+      "integrity": "sha512-89zhop5YVhcPEt5FpUFGr3cDyceGhq/F9J+ZndQ4KfqNvfbJpPMfgeixFgUj5OjCYAboElqODxY5Z1EBsSa6sg==",
       "requires": {
         "debug": "^4.1.1",
         "readable-stream": "^3.5.0",
         "split-ca": "^1.0.1",
-        "ssh2": "^0.8.7"
+        "ssh2": "^1.15.0"
       },
       "dependencies": {
         "readable-stream": {
@@ -31563,14 +31604,6 @@
             "inherits": "^2.0.3",
             "string_decoder": "^1.1.1",
             "util-deprecate": "^1.0.1"
-          }
-        },
-        "ssh2": {
-          "version": "0.8.9",
-          "resolved": "https://registry.npmjs.org/ssh2/-/ssh2-0.8.9.tgz",
-          "integrity": "sha512-GmoNPxWDMkVpMFa9LVVzQZHF6EW3WKmBwL+4/GeILf2hFmix5Isxm7Amamo8o7bHiU0tC+wXsGcUXOxp8ChPaw==",
-          "requires": {
-            "ssh2-streams": "~0.4.10"
           }
         }
       }
@@ -31594,11 +31627,12 @@
       }
     },
     "dockerode": {
-      "version": "3.3.3",
-      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.3.tgz",
-      "integrity": "sha512-lvKV6/NGf2/CYLt5V4c0fd6Fl9XZSCo1Z2HBT9ioKrKLMB2o+gA62Uza8RROpzGvYv57KJx2dKu+ZwSpB//OIA==",
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-4.0.2.tgz",
+      "integrity": "sha512-9wM1BVpVMFr2Pw3eJNXrYYt6DT9k0xMcsSCjtPvyQ+xa1iPg/Mo3T/gUcwI0B2cczqCeCYRPF8yFYDwtFXT0+w==",
       "requires": {
-        "docker-modem": "^3.0.0",
+        "@balena/dockerignore": "^1.0.2",
+        "docker-modem": "^5.0.3",
         "tar-fs": "~2.0.1"
       },
       "dependencies": {
@@ -41299,16 +41333,6 @@
         "nan": "^2.18.0"
       }
     },
-    "ssh2-streams": {
-      "version": "0.4.10",
-      "resolved": "https://registry.npmjs.org/ssh2-streams/-/ssh2-streams-0.4.10.tgz",
-      "integrity": "sha512-8pnlMjvnIZJvmTzUIIA5nT4jr2ZWNNVHwyXfMGdRJbug9TpI3kd99ffglgfSWqujVv/0gxwMsDn9j9RVst8yhQ==",
-      "requires": {
-        "asn1": "~0.2.0",
-        "bcrypt-pbkdf": "^1.0.2",
-        "streamsearch": "~0.1.2"
-      }
-    },
     "sshpk": {
       "version": "1.16.1",
       "resolved": "https://registry.npmjs.org/sshpk/-/sshpk-1.16.1.tgz",
@@ -41415,11 +41439,6 @@
           }
         }
       }
-    },
-    "streamsearch": {
-      "version": "0.1.2",
-      "resolved": "https://registry.npmjs.org/streamsearch/-/streamsearch-0.1.2.tgz",
-      "integrity": "sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo="
     },
     "streamx": {
       "version": "2.15.0",
