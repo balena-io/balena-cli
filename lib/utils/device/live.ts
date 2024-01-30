@@ -423,7 +423,12 @@ export class LivepushManager {
 			// If we re-apply the target state, the supervisor
 			// should recreate the container
 			await this.api.setTargetState(
-				generateTargetState(currentState, this.composition, [buildTask], {}),
+				generateTargetState(
+					currentState,
+					this.composition,
+					this.buildTasks,
+					{},
+				),
 			);
 
 			await this.awaitDeviceStateSettle();
