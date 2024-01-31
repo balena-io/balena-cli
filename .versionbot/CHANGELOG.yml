@@ -1,4 +1,30 @@
 - commits:
+    - subject: Fix target state construction with livepush
+      hash: 8d6a621bfb62147ed0a88f58057e38211e82f841
+      body: >
+        When constructing the target state after a reported change from
+        livepush, the
+
+        handler function would not pass all build tasks to the function that
+
+        constructs the target state, causing a TypeError when trying to obtain
+
+        the target image name for each service. This updates the handler to pass
+
+        all build tasks, ensuring the information is available to construct the
+
+        target state.
+      footer:
+        Relates-to: "#2724"
+        relates-to: "#2724"
+        Change-type: patch
+        change-type: patch
+      author: Felipe Lalanne
+      nested: []
+  version: 17.5.1
+  title: ""
+  date: 2024-01-31T01:05:17.796Z
+- commits:
     - subject: "os versions: Add the --include-draft option"
       hash: 1ba8db1459355f6a5887f9106876318bd81f7f02
       body: ""
