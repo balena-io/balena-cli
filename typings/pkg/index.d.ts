@@ -21,7 +21,3 @@ declare namespace NodeJS {
 		pkg?: boolean;
 	}
 }
-
-declare module 'pkg' {
-	export function exec(args: string[]): Promise<void>;
-}

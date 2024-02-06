@@ -40,6 +40,7 @@
       "node_modules/open/xdg-open",
       "node_modules/windosu/*.bat",
       "node_modules/windosu/*.cmd",
+      "node_modules/axios/**/*",
       "npm-shrinkwrap.json",
       "oclif.manifest.json"
     ]
@@ -90,7 +91,7 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=18 <20"
+    "node": ">=20 <21"
   },
   "husky": {
     "hooks": {
@@ -147,7 +148,7 @@
     "@types/ndjson": "^2.0.1",
     "@types/net-keepalive": "^0.4.1",
     "@types/nock": "^11.1.0",
-    "@types/node": "^18.17.6",
+    "@types/node": "^20.0.0",
     "@types/node-cleanup": "^2.1.2",
     "@types/parse-link-header": "^1.0.1",
     "@types/prettyjson": "^0.0.30",
@@ -186,7 +187,6 @@
     "nock": "^13.2.1",
     "oclif": "^3.17.1",
     "parse-link-header": "^2.0.0",
-    "pkg": "^5.8.1",
     "publish-release": "^1.6.1",
     "rewire": "^5.0.0",
     "simple-git": "^3.14.1",
@@ -204,6 +204,7 @@
     "@sentry/node": "^6.16.1",
     "@types/fast-levenshtein": "0.0.1",
     "@types/update-notifier": "^4.1.1",
+    "@yao-pkg/pkg": "^5.11.1",
     "balena-config-json": "^4.2.0",
     "balena-device-init": "^6.0.0",
     "balena-errors": "^4.7.3",
@@ -227,7 +228,7 @@
     "docker-progress": "^5.1.3",
     "dockerode": "3.3.3",
     "ejs": "^3.1.6",
-    "etcher-sdk": "^8.7.0",
+    "etcher-sdk": "9.0.6",
     "event-stream": "3.3.4",
     "express": "^4.17.2",
     "fast-boot2": "^1.1.0",
