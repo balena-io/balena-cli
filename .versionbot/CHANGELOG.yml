@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update to Node 20
+      hash: bf5e61a61c542f0c0a57ae49bb9a9998588d6851
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Otávio Jacobi
+      nested: []
+  version: 18.0.0
+  title: ""
+  date: 2024-02-06T12:19:35.139Z
+- commits:
     - subject: Fix target state construction with livepush
       hash: 8d6a621bfb62147ed0a88f58057e38211e82f841
       body: >
