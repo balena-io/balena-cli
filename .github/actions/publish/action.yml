@@ -67,6 +67,7 @@ runs:
 
     - name: Import Windows code signing certificate
       if: runner.os == 'Windows'
+      id: import_win_signing_cert
       shell: powershell
       run: |
         Set-Content -Path ${{ runner.temp }}/certificate.base64 -Value $env:WINDOWS_CERTIFICATE
@@ -78,6 +79,7 @@ runs:
           -CertStoreLocation Cert:\CurrentUser\My `
           -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
 
+        echo "certFilePath=${{ runner.temp }}/certificate.pfx" >> $GITHUB_OUTPUT
       env:
         WINDOWS_CERTIFICATE: ${{ fromJSON(inputs.secrets).WINDOWS_SIGNING }}
         WINDOWS_CERTIFICATE_PASSWORD: ${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
@@ -100,8 +102,10 @@ runs:
             CSC_LINK=${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
 
         elif [[ $runner_os =~ windows|win ]]; then
+
+            echo "the cert file path is ${{ steps.import_win_signing_cert.outputs.certFilePath }}"
             CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
-            CSC_LINK='${{ runner.temp }}\certificate.pfx'
+            CSC_LINK='${{ steps.import_win_signing_cert.outputs.certFilePath }}'
 
             # patches/all/oclif.patch
             MSYSSHELLPATH="$(which bash)"
