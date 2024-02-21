@@ -882,6 +882,7 @@ Examples:
 
 	$ balena build --fleet myFleet
 	$ balena build ./source/ --fleet myorg/myfleet
+	$ balena build ./source/ --fleet myorg/myfleet --docker-compose my-custom-compose.yml
 	$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated
 	$ balena build --docker /var/run/docker.sock --fleet myFleet   # Linux, Mac
 	$ balena build --docker //./pipe/docker_engine --fleet myFleet # Windows
@@ -914,6 +915,10 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
+
+#### --docker-compose DOCKER-COMPOSE
+
+Alternative compose yml file, relative to the source folder
 
 #### --nologs
 
@@ -1087,6 +1092,7 @@ Examples:
 
 	$ balena deploy myFleet
 	$ balena deploy myorg/myfleet --build --source myBuildDir/
+	$ balena deploy myorg/myfleet --builld --source myBuildDir/ --docker-compose my-custom-compose.yml
 	$ balena deploy myorg/myfleet --build --source myBuildDir/ --note "this is the note for this release"
 	$ balena deploy myorg/myfleet myRepo/myImage
 	$ balena deploy myFleet myRepo/myImage --release-tag key1 "" key2 "value2 with spaces"
@@ -1139,6 +1145,10 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
+
+#### --docker-compose DOCKER-COMPOSE
+
+Alternative compose yml file, relative to the source folder
 
 #### --nologs
 
@@ -3281,6 +3291,7 @@ Examples:
 	$ balena push myFleet -s <source directory>
 	$ balena push myFleet --source <source directory> --note "this is the note for this release"
 	$ balena push myFleet --release-tag key1 "" key2 "value2 with spaces"
+	$ balena push myorg/myfleet --docker-compose my-custom-compose.yml
 	$ balena push myorg/myfleet
 	
 	$ balena push 10.0.0.1
@@ -3314,6 +3325,10 @@ suspected issues with the balenaCloud backend.
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
+
+#### --docker-compose DOCKER-COMPOSE
+
+Alternative compose yml file, relative to the source folder
 
 #### -c, --nocache
 

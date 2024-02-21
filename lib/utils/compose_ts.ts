@@ -31,7 +31,7 @@ import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
-import { ExpectedError } from '../errors';
+import { CompositionFileNotFoundError, ExpectedError } from '../errors';
 import {
 	BuiltImage,
 	ComposeOpts,
@@ -128,7 +128,11 @@ export async function loadProject(
 		composeStr = compose.defaultComposition(image);
 	} else {
 		logger.logDebug('Resolving project...');
-		[composeName, composeStr] = await resolveProject(logger, opts.projectPath);
+		[composeName, composeStr] = await resolveProject({
+			logger,
+			projectRoot: opts.projectPath,
+			compositionFile: opts.composefileName,
+		});
 
 		if (composeName) {
 			if (opts.dockerfilePath) {
@@ -198,33 +202,55 @@ async function mergeDevComposeOverlay(
 	return composeStr;
 }
 
+async function getDefaultCompositionFileName(
+	projectRoot: string,
+): Promise<string | undefined> {
+	for (const fname of compositionFileNames) {
+		if (await exists(path.join(projectRoot, fname))) {
+			return fname;
+		}
+	}
+}
+
+interface ResolveProjectParameters {
+	logger: Logger;
+	projectRoot: string;
+	quiet?: boolean;
+	compositionFile?: string;
+}
 /**
  * Look into the given directory for valid compose files and return
  * the contents of the first one found.
  */
-async function resolveProject(
-	logger: Logger,
-	projectRoot: string,
+async function resolveProject({
+	logger,
+	projectRoot,
 	quiet = false,
-): Promise<[string, string]> {
-	let composeFileName = '';
+	compositionFile,
+}: ResolveProjectParameters): Promise<[string, string]> {
+	logger.logError(`Iam on resolve project and have ${compositionFile}`);
+	const composeFileName =
+		compositionFile ?? (await getDefaultCompositionFileName(projectRoot));
 	let composeFileContents = '';
-	for (const fname of compositionFileNames) {
-		const fpath = path.join(projectRoot, fname);
-		if (await exists(fpath)) {
-			logger.logDebug(`${fname} file found at "${projectRoot}"`);
-			composeFileName = fname;
-			try {
-				composeFileContents = await fs.readFile(fpath, 'utf8');
-			} catch (err) {
-				logger.logError(`Error reading composition file "${fpath}":\n${err}`);
-				throw err;
-			}
-			break;
-		}
+
+	if (composeFileName == null) {
+		throw new CompositionFileNotFoundError(projectRoot);
+	}
+
+	const fpath = path.join(projectRoot, composeFileName);
+	if (!(await exists(fpath))) {
+		throw new CompositionFileNotFoundError(fpath);
+	}
+
+	logger.logDebug(`Using composition file at "${fpath}"`);
+	try {
+		composeFileContents = await fs.readFile(fpath, 'utf8');
+	} catch (err) {
+		logger.logError(`Error reading composition file "${fpath}":\n${err}`);
+		throw err;
 	}
 	if (!quiet && !composeFileName) {
-		logger.logInfo(`No "docker-compose.yml" file found at "${projectRoot}"`);
+		logger.logInfo(`No composition file found at "${projectRoot}"`);
 	}
 
 	return [composeFileName, composeFileContents];
@@ -680,15 +706,17 @@ async function loadBuildMetatada(
 export async function getServiceDirsFromComposition(
 	sourceDir: string,
 	composition?: Composition,
+	compositionFile?: string,
 ): Promise<Dictionary<string>> {
 	const { createProject } = await import('./compose');
 	const serviceDirs: Dictionary<string> = {};
 	if (!composition) {
-		const [, composeStr] = await resolveProject(
-			Logger.getLogger(),
-			sourceDir,
-			true,
-		);
+		const [, composeStr] = await resolveProject({
+			logger: Logger.getLogger(),
+			projectRoot: sourceDir,
+			quiet: true,
+			compositionFile,
+		});
 		if (composeStr) {
 			composition = createProject(sourceDir, composeStr).composition;
 		}
@@ -1651,6 +1679,9 @@ export const composeCliFlags = {
 	dockerfile: Flags.string({
 		description:
 			'Alternative Dockerfile name/path, relative to the source folder',
+	}),
+	'docker-compose': Flags.string({
+		description: 'Alternative compose yml file, relative to the source folder',
 	}),
 	nologs: Flags.boolean({
 		description:

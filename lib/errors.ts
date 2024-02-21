@@ -47,6 +47,12 @@ export class NoPortsDefinedError extends ExpectedError {
 
 export class SIGINTError extends ExpectedError {}
 
+export class CompositionFileNotFoundError extends ExpectedError {
+	constructor(filePath: string) {
+		super(`Composition file not found at: "${filePath}"`);
+	}
+}
+
 /**
  * instanceOf is a more reliable implementation of the plain `instanceof`
  * typescript operator, for use with TypedError errors when the error

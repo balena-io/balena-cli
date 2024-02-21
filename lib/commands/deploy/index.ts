@@ -98,6 +98,7 @@ ${dockerignoreHelp}
 	public static examples = [
 		'$ balena deploy myFleet',
 		'$ balena deploy myorg/myfleet --build --source myBuildDir/',
+		'$ balena deploy myorg/myfleet --builld --source myBuildDir/ --docker-compose my-custom-compose.yml',
 		'$ balena deploy myorg/myfleet --build --source myBuildDir/ --note "this is the note for this release"',
 		'$ balena deploy myorg/myfleet myRepo/myImage',
 		'$ balena deploy myFleet myRepo/myImage --release-tag key1 "" key2 "value2 with spaces"',

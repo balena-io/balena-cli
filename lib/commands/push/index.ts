@@ -78,6 +78,7 @@ export default class PushCmd extends Command {
 		'$ balena push myFleet -s <source directory>',
 		'$ balena push myFleet --source <source directory> --note "this is the note for this release"',
 		'$ balena push myFleet --release-tag key1 "" key2 "value2 with spaces"',
+		'$ balena push myorg/myfleet --docker-compose my-custom-compose.yml',
 		'$ balena push myorg/myfleet',
 		'',
 		'$ balena push 10.0.0.1',
@@ -120,6 +121,10 @@ export default class PushCmd extends Command {
 		dockerfile: Flags.string({
 			description:
 				'Alternative Dockerfile name/path, relative to the source folder',
+		}),
+		'docker-compose': Flags.string({
+			description:
+				'Alternative compose yml file, relative to the source folder',
 		}),
 		nocache: Flags.boolean({
 			description: stripIndent`
@@ -365,6 +370,7 @@ export default class PushCmd extends Command {
 				dockerfilePath,
 				registrySecrets,
 				multiDockerignore: options['multi-dockerignore'],
+				composefileName: options['docker-compose'],
 				nocache: options.nocache,
 				pull: options.pull,
 				noParentCheck: options['noparent-check'],

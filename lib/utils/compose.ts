@@ -40,6 +40,7 @@ export function generateOpts(options: {
 	dockerfile?: string;
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
+	'docker-compose'?: string;
 }): Promise<ComposeOpts> {
 	const { promises: fs } = require('fs') as typeof import('fs');
 	return fs.realpath(options.source || '.').then((projectPath) => ({
@@ -49,6 +50,7 @@ export function generateOpts(options: {
 		convertEol: !options['noconvert-eol'],
 		dockerfilePath: options.dockerfile,
 		multiDockerignore: !!options['multi-dockerignore'],
+		composefileName: options['docker-compose'],
 		noParentCheck: options['noparent-check'],
 	}));
 }
