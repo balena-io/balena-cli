@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import { promises as fs } from 'fs';
 import Logger = require('./logger');
+import type { FileStats } from './ignore';
 
 const globalLogger = Logger.getLogger();
 
@@ -64,58 +64,55 @@ export function convertEolInPlace(buf: Buffer): Buffer {
 }
 
 /**
- * Drop-in replacement for promisified fs.readFile(<string>)
- * Attempts to convert EOLs from CRLF to LF for supported encodings,
- * or otherwise logs warnings.
+ * Returns an EOL converter from CRLF to LF for supported encodings,
+ * or otherwise logs warnings. The result is either undefined or an
+ * async iterator, so that it can be used directly in pipeline().
  * @param filepath
  * @param convertEol When true, performs conversions, otherwise just warns.
  */
-export async function readFileWithEolConversion(
-	filepath: string,
-	convertEol: boolean,
-): Promise<Buffer> {
-	const fileBuffer = await fs.readFile(filepath);
-
+export function getFileEolConverter(fileStats: FileStats, convertEol: boolean) {
 	// Skip processing of very large files
-	const fileStats = await fs.stat(filepath);
-	if (fileStats.size > LARGE_FILE_THRESHOLD) {
-		globalLogger.logWarn(`CRLF detection skipped for large file: ${filepath}`);
-		return fileBuffer;
-	}
-
-	// Analyse encoding
-	const encoding = detectEncoding(fileBuffer);
-
-	// Skip further processing of non-convertible encodings
-	if (!CONVERTIBLE_ENCODINGS.includes(encoding)) {
-		return fileBuffer;
-	}
-
-	// Skip further processing of files that don't contain CRLF
-	if (!fileBuffer.includes('\r\n')) {
-		return fileBuffer;
-	}
-
-	if (convertEol) {
-		// Convert CRLF->LF
-		globalLogger.logInfo(
-			`Converting line endings CRLF -> LF for file: ${filepath}`,
+	if (fileStats.stats.size > LARGE_FILE_THRESHOLD) {
+		globalLogger.logWarn(
+			`CRLF detection skipped for large file: ${fileStats.filePath}`,
 		);
+		return;
+	}
 
-		return convertEolInPlace(fileBuffer);
-	} else {
+	return function (fileBuffer: Buffer) {
+		// Analyse encoding
+		const encoding = detectEncoding(fileBuffer);
+
+		// Skip further processing of non-convertible encodings
+		if (!CONVERTIBLE_ENCODINGS.includes(encoding)) {
+			return fileBuffer;
+		}
+
+		// Skip further processing of files that don't contain CRLF
+		if (!fileBuffer.includes('\r\n')) {
+			return fileBuffer;
+		}
+
+		if (convertEol) {
+			// Convert CRLF->LF
+			globalLogger.logInfo(
+				`Converting line endings CRLF -> LF for file: ${fileStats.filePath}`,
+			);
+
+			return convertEolInPlace(fileBuffer);
+		}
+
 		// Immediate warning
 		globalLogger.logWarn(
-			`CRLF (Windows) line endings detected in file: ${filepath}`,
+			`CRLF (Windows) line endings detected in file: ${fileStats.filePath}`,
 		);
 		// And summary warning later
 		globalLogger.deferredLog(
 			'Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
 			Logger.Level.WARN,
 		);
-
 		return fileBuffer;
-	}
+	};
 }
 
 /**
