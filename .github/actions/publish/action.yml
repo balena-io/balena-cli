@@ -69,18 +69,11 @@ runs:
       if: runner.os == 'Windows'
       shell: powershell
       run: |
-        Set-Content -Path ${{ runner.temp }}/certificate.base64 -Value $env:WINDOWS_CERTIFICATE
-        certutil -decode ${{ runner.temp }}/certificate.base64 ${{ runner.temp }}/certificate.pfx
+        Set-Content -Path ${{ runner.temp }}/certificate.base64 -Value $env:SM_CLIENT_CERT_FILE_B64
+        certutil -decode ${{ runner.temp }}/certificate.base64 ${{ runner.temp }}/Certificate_pkcs12.p12
         Remove-Item -path ${{ runner.temp }} -include certificate.base64
-
-        Import-PfxCertificate `
-          -FilePath ${{ runner.temp }}/certificate.pfx `
-          -CertStoreLocation Cert:\CurrentUser\My `
-          -Password (ConvertTo-SecureString -String $env:WINDOWS_CERTIFICATE_PASSWORD -Force -AsPlainText)
-
       env:
-        WINDOWS_CERTIFICATE: ${{ fromJSON(inputs.secrets).WINDOWS_SIGNING }}
-        WINDOWS_CERTIFICATE_PASSWORD: ${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
+        SM_CLIENT_CERT_FILE_B64: ${{ fromJSON(inputs.secrets).SM_CLIENT_CERT_FILE_B64 }}
 
     # https://github.com/product-os/scripts/tree/master/shared
     # https://github.com/product-os/balena-concourse/blob/master/pipelines/github-events/template.yml
@@ -100,8 +93,21 @@ runs:
             CSC_LINK=${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
 
         elif [[ $runner_os =~ windows|win ]]; then
-            CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).WINDOWS_SIGNING_PASSWORD }}
-            CSC_LINK='${{ runner.temp }}\certificate.pfx'
+            SM_HOST=${{ fromJSON(inputs.secrets).SM_HOST }}
+            SM_API_KEY=${{ fromJSON(inputs.secrets).SM_API_KEY }}
+            SM_CLIENT_CERT_FILE='${{ runner.temp }}\Certificate_pkcs12.p12'
+            SM_CLIENT_CERT_PASSWORD=${{ fromJSON(inputs.secrets).SM_CLIENT_CERT_PASSWORD }}
+            SM_CODE_SIGNING_CERT_SHA1_HASH=${{ fromJSON(inputs.secrets).SM_CODE_SIGNING_CERT_SHA1_HASH }}
+
+            curl --silent --retry 3 --fail https://one.digicert.com/signingmanager/api-ui/v1/releases/smtools-windows-x64.msi/download \
+              -H "x-api-key:$SM_API_KEY" \
+              -o smtools-windows-x64.msi
+            msiexec -i smtools-windows-x64.msi -qn
+            PATH="/c/Program Files/DigiCert/DigiCert One Signing Manager Tools:${PATH}"
+            smksp_registrar.exe list
+            smctl.exe keypair ls
+            /c/Windows/System32/certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
+            smksp_cert_sync.exe
 
             # patches/all/oclif.patch
             MSYSSHELLPATH="$(which bash)"
@@ -119,8 +125,8 @@ runs:
         # https://github.blog/2020-08-03-github-actions-improvements-for-fork-and-pull-request-workflows/#improvements-for-public-repository-forks
         # https://docs.github.com/en/actions/managing-workflow-runs/approving-workflow-runs-from-public-forks#about-workflow-runs-from-public-forks
         CSC_FOR_PULL_REQUEST: true
-        # https://sectigo.com/resource-library/time-stamping-server
-        TIMESTAMP_SERVER: http://timestamp.sectigo.com
+        # https://docs.digicert.com/es/software-trust-manager/ci-cd-integrations/plugins/github-custom-action-for-keypair-signing.html
+        TIMESTAMP_SERVER: http://timestamp.digicert.com
         # Apple notarization (automation/build-bin.ts)
         XCODE_APP_LOADER_EMAIL: ${{ inputs.XCODE_APP_LOADER_EMAIL }}
         XCODE_APP_LOADER_PASSWORD: ${{ fromJSON(inputs.secrets).XCODE_APP_LOADER_PASSWORD }}
