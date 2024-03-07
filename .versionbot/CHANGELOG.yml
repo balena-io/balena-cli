@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix windows signing
+      hash: 2e061845ae01fd6d3aa10c97bf8a68a8dba5dfd9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.0.1
+  title: ""
+  date: 2024-03-07T16:30:09.344Z
+- commits:
     - subject: Update to Node 20
       hash: bf5e61a61c542f0c0a57ae49bb9a9998588d6851
       body: ""
@@ -1049,9 +1061,11 @@
                 Bumps [lint-staged](https://github.com/okonet/lint-staged) from
                 13.3.0 to 14.0.0.
 
-                - [Release notes](https://github.com/okonet/lint-staged/releases)
+                - [Release
+                notes](https://github.com/okonet/lint-staged/releases)
 
-                - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
+                -
+                [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
 
 
                 ---
@@ -1391,9 +1405,11 @@
                         [lint-staged](https://github.com/okonet/lint-staged)
                         from 13.3.0 to 14.0.0.
 
-                        - [Release notes](https://github.com/okonet/lint-staged/releases)
+                        - [Release
+                        notes](https://github.com/okonet/lint-staged/releases)
 
-                        - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
+                        -
+                        [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
 
 
                         ---
@@ -1768,9 +1784,11 @@
                         [lint-staged](https://github.com/okonet/lint-staged)
                         from 13.3.0 to 14.0.0.
 
-                        - [Release notes](https://github.com/okonet/lint-staged/releases)
+                        - [Release
+                        notes](https://github.com/okonet/lint-staged/releases)
 
-                        - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
+                        -
+                        [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
 
 
                         ---
@@ -2969,7 +2987,8 @@
                                 Be more lenient with decoding compressed
                                 responses, since (very rarely)
 
-                                servers send slightly invalid gzip responses that are still accepted
+                                servers send slightly invalid gzip responses
+                                that are still accepted
 
                                 by common browsers.
 
@@ -2989,7 +3008,8 @@
                               body: >
                                 The only breaking change is dropping support
 
-                                for node v8 but we have already done that in v11.
+                                for node v8 but we have already done that in
+                                v11.
                               footer:
                                 Change-type: minor
                                 change-type: minor
@@ -3018,7 +3038,8 @@
                               body: >
                                 Otherwise request from the browser could end up
 
-                                on the domain of the current url. For the dashboard
+                                on the domain of the current url. For the
+                                dashboard
 
                                 this would mean the UI nginx would respond with
 
@@ -4296,7 +4317,8 @@
                                 Be more lenient with decoding compressed
                                 responses, since (very rarely)
 
-                                servers send slightly invalid gzip responses that are still accepted
+                                servers send slightly invalid gzip responses
+                                that are still accepted
 
                                 by common browsers.
 
@@ -4316,7 +4338,8 @@
                               body: >
                                 The only breaking change is dropping support
 
-                                for node v8 but we have already done that in v11.
+                                for node v8 but we have already done that in
+                                v11.
                               footer:
                                 Change-type: minor
                                 change-type: minor
@@ -4345,7 +4368,8 @@
                               body: >
                                 Otherwise request from the browser could end up
 
-                                on the domain of the current url. For the dashboard
+                                on the domain of the current url. For the
+                                dashboard
 
                                 this would mean the UI nginx would respond with
 
@@ -5566,7 +5590,8 @@
                         Be more lenient with decoding compressed responses,
                         since (very rarely)
 
-                        servers send slightly invalid gzip responses that are still accepted
+                        servers send slightly invalid gzip responses that are
+                        still accepted
 
                         by common browsers.
 
@@ -7402,7 +7427,9 @@
 
         ```
 
-        Error: Could not detect abi for version 16.13.0 and runtime node.  Updating "node-abi" might help solve this issue if it is a new release of node
+        Error: Could not detect abi for version 16.13.0 and runtime
+        node.  Updating "node-abi" might help solve this issue if it is a new
+        release of node
 
         ```
       footer:
@@ -7538,7 +7565,8 @@
                 - getAllByApplication
 
 
-                Changelog-entry: Enable audit logging and reviewing device changes. The SDK defaults to fetch last 7 days of history
+                Changelog-entry: Enable audit logging and reviewing device
+                changes. The SDK defaults to fetch last 7 days of history
               footer:
                 Change-type: minor
                 change-type: minor
@@ -7736,7 +7764,8 @@
                 This is part of the work for enabling the creation of
                 configuration
 
-                variables with a colon character as a means to allow Raspberry PI users
+                variables with a colon character as a means to allow Raspberry
+                PI users
 
                 to enable the second HDMI port on RPI4 and others.
               footer:
@@ -7896,11 +7925,14 @@
                 [catch-uncommitted](https://github.com/resin-io-modules/catch-uncommitted)
                 from 1.6.2 to 2.0.0.
 
-                - [Release notes](https://github.com/resin-io-modules/catch-uncommitted/releases)
+                - [Release
+                notes](https://github.com/resin-io-modules/catch-uncommitted/releases)
 
-                - [Changelog](https://github.com/balena-io-modules/catch-uncommitted/blob/master/CHANGELOG.md)
+                -
+                [Changelog](https://github.com/balena-io-modules/catch-uncommitted/blob/master/CHANGELOG.md)
 
-                - [Commits](https://github.com/resin-io-modules/catch-uncommitted/compare/v1.6.2...v2.0.0)
+                -
+                [Commits](https://github.com/resin-io-modules/catch-uncommitted/compare/v1.6.2...v2.0.0)
 
 
                 ---
@@ -8771,9 +8803,11 @@
         Bumps [parse-link-header](https://github.com/thlorenz/parse-link-header)
         from 1.0.1 to 2.0.0.
 
-        - [Release notes](https://github.com/thlorenz/parse-link-header/releases)
+        - [Release
+        notes](https://github.com/thlorenz/parse-link-header/releases)
 
-        - [Commits](https://github.com/thlorenz/parse-link-header/compare/v1.0.1...v2.0.0)
+        -
+        [Commits](https://github.com/thlorenz/parse-link-header/compare/v1.0.1...v2.0.0)
 
 
         ---
@@ -9723,11 +9757,14 @@
                 Bumps [browserify](https://github.com/browserify/browserify)
                 from 14.5.0 to 17.0.0.
 
-                - [Release notes](https://github.com/browserify/browserify/releases)
+                - [Release
+                notes](https://github.com/browserify/browserify/releases)
 
-                - [Changelog](https://github.com/browserify/browserify/blob/master/changelog.markdown)
+                -
+                [Changelog](https://github.com/browserify/browserify/blob/master/changelog.markdown)
 
-                - [Commits](https://github.com/browserify/browserify/compare/14.5.0...v17.0.0)
+                -
+                [Commits](https://github.com/browserify/browserify/compare/14.5.0...v17.0.0)
 
 
                 ---
@@ -9755,9 +9792,11 @@
 
                 - [Release notes](https://github.com/raszi/node-tmp/releases)
 
-                - [Changelog](https://github.com/raszi/node-tmp/blob/master/CHANGELOG.md)
+                -
+                [Changelog](https://github.com/raszi/node-tmp/blob/master/CHANGELOG.md)
 
-                - [Commits](https://github.com/raszi/node-tmp/compare/v0.0.31...v0.2.1)
+                -
+                [Commits](https://github.com/raszi/node-tmp/compare/v0.0.31...v0.2.1)
 
 
                 ---
@@ -9839,9 +9878,11 @@
 
                 - [Release notes](https://github.com/mochajs/mocha/releases)
 
-                - [Changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md)
+                -
+                [Changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md)
 
-                - [Commits](https://github.com/mochajs/mocha/compare/v3.5.3...v10.0.0)
+                -
+                [Commits](https://github.com/mochajs/mocha/compare/v3.5.3...v10.0.0)
 
 
                 ---
@@ -9881,9 +9922,11 @@
                 Bumps [mockttp](https://github.com/httptoolkit/mockttp) from
                 0.9.1 to 2.7.0.
 
-                - [Release notes](https://github.com/httptoolkit/mockttp/releases)
+                - [Release
+                notes](https://github.com/httptoolkit/mockttp/releases)
 
-                - [Commits](https://github.com/httptoolkit/mockttp/compare/v0.9.1...v2.7.0)
+                -
+                [Commits](https://github.com/httptoolkit/mockttp/compare/v0.9.1...v2.7.0)
 
 
                 ---
@@ -9955,9 +9998,11 @@
                 Bumps [superagent](https://github.com/visionmedia/superagent)
                 from 3.8.3 to 7.1.2.
 
-                - [Release notes](https://github.com/visionmedia/superagent/releases)
+                - [Release
+                notes](https://github.com/visionmedia/superagent/releases)
 
-                - [Changelog](https://github.com/visionmedia/superagent/blob/master/HISTORY.md)
+                -
+                [Changelog](https://github.com/visionmedia/superagent/blob/master/HISTORY.md)
 
                 - [Commits](https://github.com/visionmedia/superagent/commits)
 
@@ -9987,9 +10032,11 @@
 
                 - [Release notes](https://github.com/motdotla/dotenv/releases)
 
-                - [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md)
+                -
+                [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md)
 
-                - [Commits](https://github.com/motdotla/dotenv/compare/v4.0.0...v16.0.0)
+                -
+                [Commits](https://github.com/motdotla/dotenv/compare/v4.0.0...v16.0.0)
 
 
                 ---
@@ -10584,9 +10631,11 @@
                 Using build instead of pull allows to add metadata (e.g. labels)
                 to pulled images in an
 
-                atomic way. This commit adds the `DockerProgres.build()` method to
+                atomic way. This commit adds the `DockerProgres.build()` method
+                to
 
-                build an image from a remote (or local) source and track the progress of
+                build an image from a remote (or local) source and track the
+                progress of
 
                 the build.
               footer:
@@ -10617,7 +10666,8 @@
               body: >
                 Starting in balenaOS v2.93.0 the supervisor images are tagged
 
-                as balena_supervisor after being pulled from the balena registry.
+                as balena_supervisor after being pulled from the balena
+                registry.
               footer:
                 Change-type: patch
                 change-type: patch
@@ -11674,7 +11724,8 @@
                                 Be more lenient with decoding compressed
                                 responses, since (very rarely)
 
-                                servers send slightly invalid gzip responses that are still accepted
+                                servers send slightly invalid gzip responses
+                                that are still accepted
 
                                 by common browsers.
 
@@ -13348,7 +13399,8 @@
         This changes improves the speed that the project is tarballed by
         switching from
 
-        `klaw` to `recursive-fs` and not running `lstat` on files that are ignored.
+        `klaw` to `recursive-fs` and not running `lstat` on files that are
+        ignored.
 
         Whilst testing with the Jellyfish repository, which contains a number of
 
@@ -13373,9 +13425,11 @@
         Fixes #2394
 
 
-        When pushing to a device in local mode, if a service is not external, and uses
+        When pushing to a device in local mode, if a service is not external,
+        and uses
 
-        an `image` field, that value should be used for tags and target state, otherwise
+        an `image` field, that value should be used for tags and target state,
+        otherwise
 
         it won't match the image name generated on the device by balenaEngine.
       footer:
@@ -13553,7 +13607,11 @@
         https://github.com/compose-spec/compose-spec/blob/43f6537b2c8f01b6d3f0e184d13a0f3cb93d38d7/spec.md#fragments
 
 
-        Removing the FAILSAFE_SCHEMA flag is not expected to break existing project files, since the default behaviour is more liberal, or cause problems down the road given we perform validation immediately after. Docs for the flag: https://github.com/nodeca/js-yaml#load-string---options-
+        Removing the FAILSAFE_SCHEMA flag is not expected to break existing
+        project files, since the default behaviour is more liberal, or cause
+        problems down the road given we perform validation immediately after.
+        Docs for the flag:
+        https://github.com/nodeca/js-yaml#load-string---options-
       footer:
         Change-type: minor
         change-type: minor
@@ -13860,7 +13918,8 @@
                         Be more lenient with decoding compressed responses,
                         since (very rarely)
 
-                        servers send slightly invalid gzip responses that are still accepted
+                        servers send slightly invalid gzip responses that are
+                        still accepted
 
                         by common browsers.
 
@@ -14159,7 +14218,8 @@
         This change allows use of a contract and release semver when doing a
         push,
 
-        and is part of the larger feature to use the builder as part of a CI/CD pipeline.
+        and is part of the larger feature to use the builder as part of a CI/CD
+        pipeline.
       footer:
         Change-type: minor
         change-type: minor
@@ -14610,7 +14670,8 @@
       body: >
         This change will allow to build releases as draft and have them being
 
-        set as final at a later stage. This change is part of a larger feature towards
+        set as final at a later stage. This change is part of a larger feature
+        towards
 
         using the builder as part of CI/CD pipelines.
       footer:
@@ -15091,7 +15152,8 @@
       body: >
         When using deploy to create a release for a multi-container project one
 
-        needs to follow this to avoid triggering a build. Relevant for CI/CD scenarios
+        needs to follow this to avoid triggering a build. Relevant for CI/CD
+        scenarios
 
         with their own build pipeline.
       footer:
@@ -15133,7 +15195,8 @@
         users to configure the image with system connection settings.
 
 
-        This change affects both the `balena local configure` and `balena os configure` commands.
+        This change affects both the `balena local configure` and `balena os
+        configure` commands.
       footer:
         Change-type: patch
         change-type: patch
@@ -15530,10 +15593,12 @@
         The `local` logging driver captures output from container’s
         stdout/stderr
 
-        and writes them to an internal storage that is optimized for performance and disk use.
+        and writes them to an internal storage that is optimized for performance
+        and disk use.
 
 
-        We also want to capture these logs on startup to wait for success/failure.
+        We also want to capture these logs on startup to wait for
+        success/failure.
 
 
         Advise the use of `--privileged` when running Docker-in-Docker to avoid
@@ -15972,7 +16037,8 @@
       body: >
         10.4.0 improves image size estimation
 
-        10.4.1 prevents running out of space while pulling images because of temporary files
+        10.4.1 prevents running out of space while pulling images because of
+        temporary files
       footer:
         Change-type: patch
         change-type: patch
@@ -24351,7 +24417,8 @@
         This fixes a build error caused by a recent version bump of
         'patch-package':
 
-        "Patch file found for package execa which is not present at node_modules/qqjs/node_modules/execa"
+        "Patch file found for package execa which is not present at
+        node_modules/qqjs/node_modules/execa"
       footer:
         Change-type: patch
         change-type: patch
@@ -24636,7 +24703,8 @@
         any balenaOS devices' message - if the OS is Windows.
 
 
-        Also updated the INSTALL instructions with details of the dependency on Bonjour.
+        Also updated the INSTALL instructions with details of the dependency on
+        Bonjour.
       footer:
         Change-type: patch
         change-type: patch
@@ -25522,11 +25590,17 @@
       body: >
         The full warning output was:
 
-        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 drain listeners added. Use emitter.setMaxListeners() to increase limit
+        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory
+        leak detected. 11 drain listeners added. Use emitter.setMaxListeners()
+        to increase limit
 
-        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
+        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory
+        leak detected. 11 error listeners added. Use emitter.setMaxListeners()
+        to increase limit
 
-        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added. Use emitter.setMaxListeners() to increase limit
+        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory
+        leak detected. 11 close listeners added. Use emitter.setMaxListeners()
+        to increase limit
       footer:
         Change-type: patch
         change-type: patch
@@ -25628,13 +25702,17 @@
         E.g. "balena build -e -h <IP> -p 2375" with the CLI running on a Mac
         laptop,
 
-        using balenaEngine on an Intel NUC device, building an image for the RPi (ARM
+        using balenaEngine on an Intel NUC device, building an image for the RPi
+        (ARM
 
-        image arch). Previously, QEMU setup by the CLI assumed that docker ran on the
+        image arch). Previously, QEMU setup by the CLI assumed that docker ran
+        on the
 
-        same OS as the CLI (Docker for Mac has built-in binfmt_misc support and does
+        same OS as the CLI (Docker for Mac has built-in binfmt_misc support and
+        does
 
-        not require additional setup, but balenaEngine on Linux requires explicit QEMU
+        not require additional setup, but balenaEngine on Linux requires
+        explicit QEMU
 
         setup.)
       footer:
@@ -25725,7 +25803,8 @@
         Fixes #1380
 
 
-        Argument parsing of "env rm" command was improved by migrating it to oclif
+        Argument parsing of "env rm" command was improved by migrating it to
+        oclif
       footer:
         Change-type: patch
         change-type: patch
@@ -25753,16 +25832,24 @@
 
         ```
 
-        lib/actions-oclif/env/add.ts(73,16): error TS2742: The inferred type of 'flags' cannot be named without a reference to '../../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags'. This is likely not portable. A type annotation is necessary.
+        lib/actions-oclif/env/add.ts(73,16): error TS2742: The inferred type of
+        'flags' cannot be named without a reference to
+        '../../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags'.
+        This is likely not portable. A type annotation is necessary.
 
-        lib/actions-oclif/version.ts(42,16): error TS2742: The inferred type of 'flags' cannot be named without a reference to '../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags.js'. This is likely not portable. A type annotation is necessary.
+        lib/actions-oclif/version.ts(42,16): error TS2742: The inferred type of
+        'flags' cannot be named without a reference to
+        '../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags.js'.
+        This is likely not portable. A type annotation is necessary.
 
         ```
 
 
-        This appears to be reported on the Typescript repo here https://github.com/microsoft/TypeScript/issues/29221
+        This appears to be reported on the Typescript repo here
+        https://github.com/microsoft/TypeScript/issues/29221
 
-        The suggested workaround is to explicitly set the type of the `flags` static
+        The suggested workaround is to explicitly set the type of the `flags`
+        static
 
         property.
       footer:
@@ -26817,7 +26904,8 @@
         To fix the same error as here
         https://github.com/nodejs/node/issues/20285
 
-        Task changes as described at https://fettblog.eu/gulp-4-parallel-and-series/
+        Task changes as described at
+        https://fettblog.eu/gulp-4-parallel-and-series/
       footers:
         change-type: patch
         signed-off-by: Gergely Imreh <gergely@balena.io>
@@ -27724,7 +27812,11 @@
         for is to determine whether the command should issue a legacy user API
         key or a provisioning key.
 
-        This makes version optional but tries to figure it out by itself by reading os-release from the image's boot partition. This is not foul-proof however, and while it'll work with most recent images it won't work with all and in that case it'll bail out and only then warn the user to specify it via the --version argument.
+        This makes version optional but tries to figure it out by itself by
+        reading os-release from the image's boot partition. This is not
+        foul-proof however, and while it'll work with most recent images it
+        won't work with all and in that case it'll bail out and only then warn
+        the user to specify it via the --version argument.
       footers:
         change-type: minor
       hash: 8291c96e69407a4c691a35c27ff3cd406794e946
@@ -28364,9 +28456,21 @@
         compatibility merely by looking for the `os-config` executable in the
         device, and bail out if it’s not present.
 
-        `join` and `leave` accept a couple of optional arguments and implement a wizard-style interface if these are not given. They allow to interactively select the device and the application to promote to. If the user has no apps, `join` will offer the user to create one. `join` will also offer the user to login or create an account if they’re not logged in already without exiting the wizard.
+        `join` and `leave` accept a couple of optional arguments and implement a
+        wizard-style interface if these are not given. They allow to
+        interactively select the device and the application to promote to. If
+        the user has no apps, `join` will offer the user to create one. `join`
+        will also offer the user to login or create an account if they’re not
+        logged in already without exiting the wizard.
 
-        `resin-sync` (that's used internally to discover local devices) requires admin privileges. If no device has been specified as an argument, the commands will launch the device scanning process in a privileged subprocess via two new internal commands: `internal sudo` and `internal scanDevices`. This avoids having the user to invoke the commands with sudo and only request escalation if truly needed. This commit also removes the dependency to “president”, implementing “sudo” functionality within the CLI.
+        `resin-sync` (that's used internally to discover local devices) requires
+        admin privileges. If no device has been specified as an argument, the
+        commands will launch the device scanning process in a privileged
+        subprocess via two new internal commands: `internal sudo` and `internal
+        scanDevices`. This avoids having the user to invoke the commands with
+        sudo and only request escalation if truly needed. This commit also
+        removes the dependency to “president”, implementing “sudo” functionality
+        within the CLI.
       footers:
         change-type: minor
       hash: 5cbe1c410f7081ff78b41e8a6d9c0f06ad92934e
@@ -28835,7 +28939,8 @@
         image tars via the builder. It’s needed for users to avoid having to
         switch between CLI versions in order to push to legacy apps as well.
 
-        Note: this pins resin-sdk to 9.0.0-beta14 as I couldn’t get it to install otherwise — npm would always install 9.0.0-beta9 instead.
+        Note: this pins resin-sdk to 9.0.0-beta14 as I couldn’t get it to
+        install otherwise — npm would always install 9.0.0-beta9 instead.
       footers:
         change-type: minor
       hash: 62f006b89ab0fa8a1575f213579910f732f17c0f
@@ -28965,7 +29070,8 @@
 
         * all 'resin-sdk' requires replaced with 'resin-sdk-preconfigured'
 
-        * resin-sdk-preconfigured TS typings are copy pasted from the current resin-sdk master
+        * resin-sdk-preconfigured TS typings are copy pasted from the current
+        resin-sdk master
 
         The idea is to progressively replace all 'resin-sdk-preconfigured'
 
@@ -29015,7 +29121,10 @@
       body: >-
         New version is 3.1.0.
 
-        The updated version is not backwards compatible as it removes all *Async methods that are in wide use in the CLI. The workaround for now is to manually promisify the client and replace all `new Docker()` calls with a shared function that returns a promisified client.
+        The updated version is not backwards compatible as it removes all *Async
+        methods that are in wide use in the CLI. The workaround for now is to
+        manually promisify the client and replace all `new Docker()` calls with
+        a shared function that returns a promisified client.
       hash: 299bc0db132e5b04894b6b955aa469666a66ce8c
       subject: Update docker-toolbelt
     - author: Akis Kesoglou
@@ -29040,9 +29149,11 @@
 
         - Adds a utility file to retrieve the CLI version and its parts
 
-        - Adds a helper that can be used to manipulate display on capable clients
+        - Adds a helper that can be used to manipulate display on capable
+        clients
 
-        - Declares several new dependencies. Most are already indirectly installed via some dependency
+        - Declares several new dependencies. Most are already indirectly
+        installed via some dependency
       footers:
         change-type: minor
       hash: 14a3f51b730b12ad66462342888fb2b4bcf1f1ea
