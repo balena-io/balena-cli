@@ -109,10 +109,6 @@ runs:
             /c/Windows/System32/certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
             smksp_cert_sync.exe
 
-            # patches/all/oclif.patch
-            MSYSSHELLPATH="$(which bash)"
-            MSYSTEM=MSYS
-
             # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
             PATH="/c/Program Files (x86)/Windows Kits/10/bin/${runner_arch}:${PATH}"
         fi
