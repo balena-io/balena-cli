@@ -435,18 +435,20 @@ async function renameInstallerFiles() {
  * https://learn.microsoft.com/en-us/dotnet/framework/tools/signtool-exe
  */
 async function signWindowsInstaller() {
-	if (process.env.CSC_LINK && process.env.CSC_KEY_PASSWORD) {
+	if (process.env.SM_CODE_SIGNING_CERT_SHA1_HASH) {
 		const exeName = renamedOclifInstallers[process.platform];
 		console.log(`Signing installer "${exeName}"`);
 		// trust ...
 		await execFileAsync('signtool.exe', [
 			'sign',
-			'-t',
+			'-sha1',
+			process.env.SM_CODE_SIGNING_CERT_SHA1_HASH,
+			'-tr',
 			process.env.TIMESTAMP_SERVER || 'http://timestamp.comodoca.com',
-			'-f',
-			process.env.CSC_LINK,
-			'-p',
-			process.env.CSC_KEY_PASSWORD,
+			'-td',
+			'SHA256',
+			'-fd',
+			'SHA256',
 			'-d',
 			`balena-cli ${version}`,
 			exeName,
