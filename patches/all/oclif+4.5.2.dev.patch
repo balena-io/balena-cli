@@ -1,22 +1,21 @@
 diff --git a/node_modules/oclif/lib/commands/pack/macos.js b/node_modules/oclif/lib/commands/pack/macos.js
-index d06d0b3..c571fe3 100644
+index bbb4d90..23f184d 100644
 --- a/node_modules/oclif/lib/commands/pack/macos.js
 +++ b/node_modules/oclif/lib/commands/pack/macos.js
-@@ -177,7 +177,8 @@ class PackMacos extends core_1.Command {
+@@ -238,7 +238,7 @@ the CLI should already exist in a directory named after the CLI that is the root
              if (process.env.OSX_KEYCHAIN)
                  args.push('--keychain', process.env.OSX_KEYCHAIN);
              args.push(dist);
 -            await exec(`pkgbuild  ${args.join(' ')}`);
-+            console.error(`[debug] oclif pkgbuild "${args.join('" "')}"`);
 +            await exec(`pkgbuild  "${args.join('" "')}"`);
          };
-         const arches = _.uniq(buildConfig.targets
-             .filter(t => t.platform === 'darwin')
+         const arches = (0, util_1.uniq)(buildConfig.targets.filter((t) => t.platform === 'darwin').map((t) => t.arch));
+         await Promise.all(arches.map((a) => build(a)));
 diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
-index c0926bd..e4f645c 100644
+index 03d4f53..a55d27b 100644
 --- a/node_modules/oclif/lib/commands/pack/win.js
 +++ b/node_modules/oclif/lib/commands/pack/win.js
-@@ -59,6 +59,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+@@ -76,6 +76,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
  ${customization}
  
  Section "${config.name} CLI \${VERSION}"
@@ -30,33 +29,22 @@ index c0926bd..e4f645c 100644
    File /r bin
    File /r client
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..72ad66f 100644
+index c2015b3..4f2bafc 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
-@@ -21,7 +21,8 @@ const pack = async (from, to) => {
-         await exec(`tar cfJ ${to} ${(path.basename(from))}`, { cwd }));
+@@ -86,7 +86,8 @@ const copyCoreYarnFiles = async (yarnRootPath, workspacePath) => {
+     await copyYarnDirectory('./.yarn/plugins/', yarnRootPath, workspacePath);
  };
  async function build(c, options = {}) {
--    const { xz, config } = c;
-+    const { xz, config, tmp } = c;
+-    const { config, xz } = c;
++    const { config, tmp, xz } = c;
 +    console.error(`[debug] oclif c.root="${c.root}" c.workspace()="${c.workspace()}"`);
      const packCLI = async () => {
          const { stdout } = await exec('npm pack --unsafe-perm', { cwd: c.root });
          return path.join(c.root, stdout.trim().split('\n').pop());
-@@ -30,7 +31,9 @@ async function build(c, options = {}) {
-         await fs.emptyDir(c.workspace());
-         const tarballNewLocation = path.join(c.workspace(), path.basename(tarball));
-         await fs.move(tarball, tarballNewLocation);
--        await exec(`tar -xzf "${tarballNewLocation}"`, { cwd: c.workspace() });
-+        let tarCmd = `tar -xzf "${tarballNewLocation}"`;
-+        if (process.platform === 'win32') tarCmd += ' --force-local';
-+        await exec(tarCmd, { cwd: c.workspace() });
-         await Promise.all((await fs.promises.readdir(path.join(c.workspace(), 'package'), { withFileTypes: true }))
-             .map(i => fs.move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))));
-         await Promise.all([
-@@ -38,6 +41,13 @@ async function build(c, options = {}) {
-             fs.promises.rm(path.join(c.workspace(), path.basename(tarball)), { recursive: true }),
-             fs.remove(path.join(c.workspace(), 'bin', 'run.cmd')),
+@@ -106,6 +107,14 @@ async function build(c, options = {}) {
+             (0, promises_1.rm)(path.join(c.workspace(), path.basename(tarball)), { recursive: true }),
+             (0, fs_extra_1.remove)(path.join(c.workspace(), 'bin', 'run.cmd')),
          ]);
 +        // rename the original balena-cli ./bin/balena entry point for oclif compatibility
 +        await fs.move(path.join(c.workspace(), 'bin', 'balena'), path.join(c.workspace(), 'bin', 'run'));
@@ -65,17 +53,19 @@ index 384ea4b..72ad66f 100644
 +        // This has previously led to issues preventing the CLI from starting, so
 +        // delete `.fast-boot.json` (if any) from the destination folder.
 +        await fs.promises.rm(path.join(c.workspace(), 'bin', '.fast-boot.json'));
++        
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +59,20 @@ async function build(c, options = {}) {
-         await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
+@@ -117,36 +126,21 @@ async function build(c, options = {}) {
+         await (0, fs_extra_1.writeJSON)(pjsonPath, pjson, { spaces: 2 });
      };
      const addDependencies = async () => {
--        const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root;
--        if (fs.existsSync(path.join(yarnRoot, 'yarn.lock'))) {
--            await fs.copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'));
--            const yarnVersion = (await exec('yarn -v')).stdout.charAt(0);
+-        const yarnRoot = (0, find_yarn_workspace_root_1.default)(c.root) || c.root;
+-        if (isYarnProject(yarnRoot)) {
+-            await copyCoreYarnFiles(yarnRoot, c.workspace());
+-            const { stdout } = await exec('yarn -v');
+-            const yarnVersion = stdout.charAt(0);
 -            if (yarnVersion === '1') {
 -                await exec('yarn --no-progress --production --non-interactive', { cwd: c.workspace() });
 -            }
@@ -95,11 +85,12 @@ index 384ea4b..72ad66f 100644
 -            }
 -        }
 -        else {
--            const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?
--                path.join(c.root, 'package-lock.json') :
--                path.join(c.root, 'npm-shrinkwrap.json');
--            await fs.copy(lockpath, path.join(c.workspace(), path.basename(lockpath)));
+-            const lockpath = (0, node_fs_1.existsSync)(path.join(c.root, 'package-lock.json'))
+-                ? path.join(c.root, 'package-lock.json')
+-                : path.join(c.root, 'npm-shrinkwrap.json');
+-            await (0, fs_extra_1.copy)(lockpath, path.join(c.workspace(), path.basename(lockpath)));
 -            await exec('npm install --production', { cwd: c.workspace() });
+-        }
 +        const ws = c.workspace();
 +        exec(`cd ${ws}`);
 +        console.error(`[debug] oclif copying node_modules to "${ws}"`)
@@ -110,50 +101,43 @@ index 384ea4b..72ad66f 100644
 +            // use the shell's `cp` on macOS in order to preserve extended
 +            // file attributes containing `codesign` digital signatures
 +            await exec(`cp -pR "${source}" "${ws}"`);
-         }
++         }
 +        console.error(`[debug] oclif running "npm prune --production" in "${ws}"`);
 +        await exec('npm prune --production', { cwd: c.workspace() });
 +        console.error(`[debug] oclif done`);
++
      };
      const pretarball = async () => {
-         const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
-@@ -115,7 +110,8 @@ async function build(c, options = {}) {
+         const pjson = await (0, fs_extra_1.readJSON)(path.join(c.workspace(), 'package.json'));
+@@ -186,7 +180,8 @@ async function build(c, options = {}) {
+             nodeVersion: c.nodeVersion,
              output: path.join(workspace, 'bin', 'node'),
              platform: target.platform,
-             arch: target.arch,
 -            tmp: path.join(config.root, 'tmp'),
 +            tmp,
 +            projectRootPath: c.root
          });
          if (options.pack === false)
              return;
-@@ -158,6 +154,7 @@ async function build(c, options = {}) {
-         await fs.writeJSON(manifestFilepath, manifest, { spaces: 2 });
-     };
-     (0, log_1.log)(`gathering workspace for ${config.bin} to ${c.workspace()}`);
-+    console.error(`[debug] ${options.tarball}`);
-     await extractCLI(options.tarball ? options.tarball : await packCLI());
-     await updatePJSON();
-     await addDependencies();
 diff --git a/node_modules/oclif/lib/tarballs/config.js b/node_modules/oclif/lib/tarballs/config.js
-index 216759d..cab0e6e 100644
+index 4b96bb6..f132ca9 100644
 --- a/node_modules/oclif/lib/tarballs/config.js
 +++ b/node_modules/oclif/lib/tarballs/config.js
-@@ -25,7 +25,10 @@ async function gitSha(cwd, options = {}) {
+@@ -41,7 +41,10 @@ async function gitSha(cwd, options = {}) {
  }
  exports.gitSha = gitSha;
  async function Tmp(config) {
 -    const tmp = path.join(config.root, 'tmp');
-+     const tmp = process.env.BUILD_TMP
-+         ? path.join(process.env.BUILD_TMP, 'oclif')
-+         : path.join(config.root, 'tmp');
++    const tmp = process.env.BUILD_TMP
++        ? path.join(process.env.BUILD_TMP, 'oclif')
++        : path.join(config.root, 'tmp');
 +    console.error(`[debug] oclif tmp="${tmp}"`);
-     await fs.promises.mkdir(tmp, { recursive: true });
+     await (0, promises_1.mkdir)(tmp, { recursive: true });
      return tmp;
  }
-@@ -62,7 +65,7 @@ async function buildConfig(root, options = {}) {
-         s3Config: updateConfig.s3,
-         nodeVersion,
+@@ -83,7 +86,7 @@ async function buildConfig(root, options = {}) {
+         tmp,
+         updateConfig,
          workspace(target) {
 -            const base = path.join(config.root, 'tmp');
 +            const base = tmp;
@@ -161,21 +145,21 @@ index 216759d..cab0e6e 100644
                  return path.join(base, [target.platform, target.arch].join('-'), (0, upload_util_1.templateShortKey)('baseDir', { bin: config.bin }));
              return path.join(base, (0, upload_util_1.templateShortKey)('baseDir', { bin: config.bin }));
 diff --git a/node_modules/oclif/lib/upload-util.js b/node_modules/oclif/lib/upload-util.js
-index 6963e4d..430472d 100644
+index 61899a4..6637cb5 100644
 --- a/node_modules/oclif/lib/upload-util.js
 +++ b/node_modules/oclif/lib/upload-util.js
-@@ -31,10 +31,10 @@ options = { root: '.' }) {
-     const templates = {
+@@ -27,10 +27,10 @@ function templateShortKey(type, options) {
          baseDir: '<%- bin %>',
-         unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
--        versioned: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %><%- ext %>',
+         deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
+         macos: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.pkg',
 -        manifest: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %>-buildmanifest',
--        macos: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.pkg',
+-        unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
+-        versioned: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %><%- ext %>',
 -        win32: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.exe',
 +        versioned: '<%- bin %>-v<%- version %>-<%- platform %>-<%- arch %><%- ext %>',
 +        manifest: '<%- bin %>-v<%- version %>-<%- platform %>-<%- arch %>-buildmanifest',
 +        macos: '<%- bin %>-v<%- version %>.pkg',
 +        win32: '<%- bin %>-v<%- version %>-<%- arch %>.exe',
-         deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
      };
-     return _.template(templates[type])(Object.assign({}, options));
+     return template(templates[type])({ ...options });
+ }
