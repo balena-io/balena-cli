@@ -12,9 +12,8 @@
   "files": [
     "bin/.fast-boot.json",
     "bin/",
-    "build/",
+    "build/**/*.js",
     "doc/",
-    "lib/",
     "patches/",
     "!patches/**/**.dev.patch",
     "*.md",

@@ -30,7 +30,7 @@ index c0926bd..e4f645c 100644
    File /r bin
    File /r client
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..72ad66f 100644
+index 384ea4b..037a0fa 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
 @@ -21,7 +21,8 @@ const pack = async (from, to) => {
@@ -68,7 +68,7 @@ index 384ea4b..72ad66f 100644
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +59,20 @@ async function build(c, options = {}) {
+@@ -49,35 +59,23 @@ async function build(c, options = {}) {
          await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
      };
      const addDependencies = async () => {
@@ -113,11 +113,14 @@ index 384ea4b..72ad66f 100644
          }
 +        console.error(`[debug] oclif running "npm prune --production" in "${ws}"`);
 +        await exec('npm prune --production', { cwd: c.workspace() });
++        await exec('rm -rf node_modules/**/*.ts', { cwd: c.workspace() });
++        await exec('rm -rf node_modules/**/*.map', { cwd: c.workspace() });
++        await exec('rm -rf npm-shrinkwrap.json', { cwd: c.workspace() });
 +        console.error(`[debug] oclif done`);
      };
      const pretarball = async () => {
          const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
-@@ -115,7 +110,8 @@ async function build(c, options = {}) {
+@@ -115,7 +113,8 @@ async function build(c, options = {}) {
              output: path.join(workspace, 'bin', 'node'),
              platform: target.platform,
              arch: target.arch,
@@ -127,7 +130,7 @@ index 384ea4b..72ad66f 100644
          });
          if (options.pack === false)
              return;
-@@ -158,6 +154,7 @@ async function build(c, options = {}) {
+@@ -158,6 +157,7 @@ async function build(c, options = {}) {
          await fs.writeJSON(manifestFilepath, manifest, { spaces: 2 });
      };
      (0, log_1.log)(`gathering workspace for ${config.bin} to ${c.workspace()}`);
