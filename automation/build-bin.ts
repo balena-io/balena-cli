@@ -20,7 +20,7 @@ import type { JsonVersions } from '../lib/commands/version/index';
 import { run as oclifRun } from '@oclif/core';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
-import { execFile } from 'child_process';
+import { exec, execFile } from 'child_process';
 import * as filehound from 'filehound';
 import { Stats } from 'fs';
 import * as fs from 'fs-extra';
@@ -41,6 +41,7 @@ import {
 } from './utils';
 
 const execFileAsync = promisify(execFile);
+const execAsync = promisify(exec);
 
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
@@ -60,9 +61,13 @@ const standaloneZips: PathByPlatform = {
 	win32: dPath(`balena-cli-${version}-windows-${arch}-standalone.zip`),
 };
 
-const oclifInstallers: PathByPlatform = {
-	darwin: dPath('macos', `balena-${version}.pkg`),
-	win32: dPath('win32', `balena-${version}-${arch}.exe`),
+const getOclifInstallersOriginalNames = async (): Promise<PathByPlatform> => {
+	const { stdout } = await execAsync('git rev-parse --short HEAD');
+	const sha = stdout.trim();
+	return {
+		darwin: dPath('macos', `balena-${version}-${sha}-${arch}.pkg`),
+		win32: dPath('win32', `balena-${version}-${sha}-${arch}.exe`),
+	};
 };
 
 const renamedOclifInstallers: PathByPlatform = {
@@ -421,6 +426,7 @@ export async function buildStandaloneZip() {
 }
 
 async function renameInstallerFiles() {
+	const oclifInstallers = await getOclifInstallersOriginalNames();
 	if (await fs.pathExists(oclifInstallers[process.platform])) {
 		await fs.rename(
 			oclifInstallers[process.platform],
@@ -436,7 +442,7 @@ async function renameInstallerFiles() {
  */
 async function signWindowsInstaller() {
 	if (process.env.SM_CODE_SIGNING_CERT_SHA1_HASH) {
-		const exeName = renamedOclifInstallers[process.platform];
+		const exeName = (await getOclifInstallersOriginalNames())[process.platform];
 		console.log(`Signing installer "${exeName}"`);
 		// trust ...
 		await execFileAsync('signtool.exe', [
@@ -457,7 +463,7 @@ async function signWindowsInstaller() {
 		await execFileAsync('signtool.exe', ['verify', '-pa', '-v', exeName]);
 	} else {
 		console.log(
-			'Skipping installer signing step because CSC_* env vars are not set',
+			'Skipping installer signing step because SM_CODE_SIGNING_CERT_SHA1_HASH env vars are not set',
 		);
 	}
 }
@@ -471,11 +477,15 @@ async function notarizeMacInstaller(): Promise<void> {
 		process.env.XCODE_APP_LOADER_EMAIL || 'accounts+apple@balena.io';
 	const appleIdPassword = process.env.XCODE_APP_LOADER_PASSWORD;
 
-	if (appleIdPassword && teamId) {
+	const appPath = (await getOclifInstallersOriginalNames()).darwin;
+	
+	console.log(`Signing pkg "${appPath}"`, await fs.pathExists(appPath));
+
+	if (appleIdPassword && teamId && (await fs.pathExists(appPath))) {
 		await notarize({
 			tool: 'notarytool',
 			teamId,
-			appPath: renamedOclifInstallers.darwin,
+			appPath,
 			appleId,
 			appleIdPassword,
 		});
@@ -494,6 +504,7 @@ export async function buildOclifInstaller() {
 	if (process.platform === 'darwin') {
 		packOS = 'macos';
 		packOpts = packOpts.concat('--targets', 'darwin-x64');
+		packOpts = packOpts.concat('--pruneDependencies');
 	} else if (process.platform === 'win32') {
 		packOS = 'win';
 		packOpts = packOpts.concat('--targets', 'win32-x64');
@@ -519,7 +530,6 @@ export async function buildOclifInstaller() {
 		console.log('=======================================================');
 		const oclifPath = path.join(ROOT, 'node_modules', 'oclif');
 		await oclifRun([packCmd].concat(...packOpts), oclifPath);
-		await renameInstallerFiles();
 		// The Windows installer is explicitly signed here (oclif doesn't do it).
 		// The macOS installer is automatically signed by oclif (which runs the
 		// `pkgbuild` tool), using the certificate name given in package.json
@@ -531,6 +541,8 @@ export async function buildOclifInstaller() {
 			await notarizeMacInstaller(); // Notarize
 			console.log('Package notarized.');
 		}
+		await renameInstallerFiles();
+
 		console.log(`oclif installer build completed`);
 	}
 }
