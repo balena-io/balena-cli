@@ -14,13 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import type { InitializeEmitter, OperationState } from 'balena-device-init';
 import type * as BalenaSdk from 'balena-sdk';
 
 import * as _ from 'lodash';
+import * as os from 'node:os';
 import { promisify } from 'util';
 
-import { getBalenaSdk, getChalk, getVisuals } from './lazy';
+import { getBalenaSdk } from './lazy';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
@@ -30,25 +30,6 @@ export function getGroupDefaults(group: {
 		.map((question) => [question.name, question.default])
 		.fromPairs()
 		.value();
-}
-
-export function stateToString(state: OperationState) {
-	const percentage = _.padStart(`${state.percentage}`, 3, '0');
-	const chalk = getChalk();
-	const result = `${chalk.blue(percentage + '%')} ${chalk.cyan(
-		state.operation.command,
-	)}`;
-
-	switch (state.operation.command) {
-		case 'copy':
-			return `${result} ${state.operation.from.path} -> ${state.operation.to.path}`;
-		case 'replace':
-			return `${result} ${state.operation.file.path}, ${state.operation.copy} -> ${state.operation.replace}`;
-		case 'run-script':
-			return `${result} ${state.operation.script}`;
-		default:
-			throw new Error(`Unsupported operation: ${state.operation.command}`);
-	}
 }
 
 /**
@@ -107,9 +88,17 @@ export async function getManifest(
 	image: string,
 	deviceType: string,
 ): Promise<BalenaSdk.DeviceTypeJson.DeviceType> {
-	const init = await import('balena-device-init');
 	const sdk = getBalenaSdk();
-	const manifest = await init.getImageManifest(image);
+
+	const imagefs = await import ('balena-image-fs');
+	const manifest = await imagefs.interact(image, 1, async (fs) => {
+		const readFileAsync = promisify(fs.readFile);
+		const manifest = await readFileAsync('/device-type.json', {
+			encoding: 'utf8',
+		});
+		return JSON.parse(manifest) as BalenaSdk.DeviceTypeJson.DeviceType;
+	});
+
 	if (
 		manifest != null &&
 		manifest.slug !== deviceType &&
@@ -124,6 +113,13 @@ export async function getManifest(
 		manifest ??
 		(await sdk.models.config.getDeviceTypeManifestBySlug(deviceType))
 	);
+}
+
+export function getOperatingSystem():
+	| Exclude<NodeJS.Platform, 'darwin'>
+	| 'osx' {
+	const platform = os.platform();
+	return platform === 'darwin' ? 'osx' : platform;
 }
 
 export const areDeviceTypesCompatible = async (
@@ -155,31 +151,6 @@ export const areDeviceTypesCompatible = async (
 		appDeviceType.is_of__cpu_architecture[0].slug,
 	);
 };
-
-export async function osProgressHandler(step: InitializeEmitter) {
-	step.on('stdout', process.stdout.write.bind(process.stdout));
-	step.on('stderr', process.stderr.write.bind(process.stderr));
-
-	step.on('state', function (state) {
-		if (state.operation.command === 'burn') {
-			return;
-		}
-		console.log(exports.stateToString(state));
-	});
-
-	const visuals = getVisuals();
-	const progressBars = {
-		write: new visuals.Progress('Writing Device OS'),
-		check: new visuals.Progress('Validating Device OS'),
-	};
-
-	step.on('burn', (state) => progressBars[state.type].update(state));
-
-	await new Promise((resolve, reject) => {
-		step.on('error', reject);
-		step.on('end' as any, resolve);
-	});
-}
 
 export async function getAppWithArch(applicationName: string) {
 	const { getApplication } = await import('./sdk');

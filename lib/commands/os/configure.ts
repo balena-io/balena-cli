@@ -29,8 +29,19 @@ import {
 	devModeInfo,
 	secureBootInfo,
 } from '../../utils/messages';
+import { ImgConfig } from '../../utils/config';
 
 const CONNECTIONS_FOLDER = '/system-connections';
+
+type DeviceConfigDefinition = {
+	partition: number | { logical: number, primary: number },
+	image?: string,
+	path?: string
+};
+
+type Manifest = BalenaSdk.DeviceTypeJson.DeviceType & { 
+	configuration?: { config?: DeviceConfigDefinition } 
+};
 
 type FlagsDef = Interfaces.InferredFlags<typeof OsConfigureCmd.flags>;
 
@@ -172,7 +183,6 @@ export default class OsConfigureCmd extends Command {
 
 		await validateOptions(options);
 
-		const devInit = await import('balena-device-init');
 		const { promises: fs } = await import('fs');
 		const { generateDeviceConfig, generateApplicationConfig } = await import(
 			'../../utils/config'
@@ -219,11 +229,10 @@ export default class OsConfigureCmd extends Command {
 		const { normalizeOsVersion } = await import('../../utils/normalization');
 		const osVersion = normalizeOsVersion(
 			options.version ||
-				(await getOsVersionFromImage(
-					params.image,
-					deviceTypeManifest,
-					devInit,
-				)),
+			(await getOsVersionFromImage(
+				params.image,
+				deviceTypeManifest,
+			)),
 		);
 
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
@@ -270,13 +279,11 @@ export default class OsConfigureCmd extends Command {
 		console.info('Configuring operating system image');
 
 		const image = params.image;
-		await helpers.osProgressHandler(
-			await devInit.configure(
-				image,
-				deviceTypeManifest,
-				configJson || {},
-				answers,
-			),
+		await addConfigurationToImage(
+			image,
+			deviceTypeManifest,
+			configJson || {},
+			answers,
 		);
 
 		if (options['system-connection']) {
@@ -312,6 +319,21 @@ export default class OsConfigureCmd extends Command {
 	}
 }
 
+async function addConfigurationToImage(
+	image: string,
+	manifest: Manifest,
+	config: ImgConfig | object,
+	answers: Answers,
+) {
+	// TODO: check if manifest.yocto.image check is needed...
+	const osVersion = await getOsVersionFromImage(image, manifest);
+	const bSemver = await import('balena-semver');
+	const major = bSemver.major(osVersion);
+	convertFilePathDefinition(manifest.configuration?.config);
+
+	console.log(image, manifest, config, answers);
+}
+
 async function validateOptions(options: FlagsDef) {
 	// The 'device' and 'application' options are declared "exclusive" in the oclif
 	// flag definitions above, so oclif will enforce that they are not both used together.
@@ -329,6 +351,29 @@ async function validateOptions(options: FlagsDef) {
 	await Command.checkLoggedIn();
 }
 
+async function definitionForImage(imagePath: string, configDefinition: DeviceConfigDefinition) {
+	const definition = _.cloneDeep(configDefinition)
+	if (configDefinition.image != null) {
+		const path = await import('path');
+		definition.image = path.join(imagePath, configDefinition.image);
+	} else {
+		definition.image = imagePath;
+	}
+	return definition;
+};
+
+function convertFilePathDefinition(configDefinition: DeviceConfigDefinition) {
+	const definition = _.cloneDeep(configDefinition);
+	if (_.isObject(definition.partition)) {
+		if (definition.partition.logical != null) {
+			definition.partition = definition.partition.logical + 4;
+		} else {
+			definition.partition = definition.partition.primary;
+		}
+	}
+	return definition;
+}
+
 /**
  * Wrapper around balena-device-init.getImageOsVersion(). Throws ExpectedError
  * if the OS image could not be read or the OS version could not be extracted
@@ -338,13 +383,38 @@ async function validateOptions(options: FlagsDef) {
  */
 async function getOsVersionFromImage(
 	imagePath: string,
-	deviceTypeManifest: BalenaSdk.DeviceTypeJson.DeviceType,
-	devInit: typeof import('balena-device-init'),
+	deviceTypeManifest: Manifest,
 ): Promise<string> {
-	const osVersion = await devInit.getImageOsVersion(
-		imagePath,
-		deviceTypeManifest,
-	);
+
+	// TODO: check if all this is needed or if we can just assume { patition: 1 } for all
+	const config = deviceTypeManifest?.configuration?.config ?? { partition: 1 };
+	const definition = convertFilePathDefinition(await definitionForImage(imagePath, config));
+	definition.path = '/os-release';
+
+	const imagefs = await import('balena-image-fs');
+	const osReleaseString = await imagefs.interact(definition.image as string, definition.partition as number, (fs) => {
+		return promisify(fs.readFile)(definition.path as string, { encoding: 'utf8' });
+	});
+
+	const parsedOsRelease = _(osReleaseString)
+		.split('\n')
+		.map((line) => {
+			const match = line.match(/(.*)=(.*)/);
+			if (match) {
+				return [
+					match[1],
+					match[2].replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1')
+				]
+			} else {
+				return false;
+			}
+		})
+		.filter()
+		.fromPairs()
+		.value();
+
+	const osVersion = parsedOsRelease.NAME !== 'Resin OS' && parsedOsRelease.NAME !== 'balenaOS' ? null : parsedOsRelease.VERSION;
+
 	if (!osVersion) {
 		throw new ExpectedError(stripIndent`
 			Could not read OS version from the image. Please specify the balenaOS

@@ -66,7 +66,6 @@ describe('detectEncoding() function', function () {
 			'mountutils/build/Release/MountUtils.node',
 		];
 		const sampleText = [
-			'node_modules/.bin/etcher-image-write',
 			'node_modules/.bin/mocha',
 			'node_modules/.bin/rimraf',
 			'node_modules/.bin/tsc',
