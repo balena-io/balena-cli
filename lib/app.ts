@@ -157,7 +157,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 	await Promise.all([trackPromise, deprecationPromise, runPromise]);
 }
 
-/** CLI entrypoint. Called by the `bin/balena` and `bin/balena-dev` scripts. */
+/** CLI entrypoint. Called by the `bin/run.js` and `bin/dev.js` scripts. */
 export async function run(cliArgs = process.argv, options: AppOptions) {
 	try {
 		const { setOfflineModeEnvVars, normalizeEnvVars, pkgExec } = await import(

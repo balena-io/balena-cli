@@ -20,7 +20,7 @@
  * we have permissions over the cache file before even attempting to load
  * fast boot.
  * DON'T IMPORT BALENA-CLI MODULES HERE, as this module is loaded directly
- * from `bin/balena`, before the CLI's entrypoint in `lib/app.ts`.
+ * from `bin/run.js`, before the CLI's entrypoint in `lib/app.ts`.
  */
 
 import * as fs from 'fs';
