@@ -111,7 +111,7 @@
     ],
     "macos": {
       "identifier": "io.balena.cli",
-      "sign": "Developer ID Installer: Balena Ltd (66H43P8FRG)"
+      "sign": "\"Developer ID Installer: Balena Ltd (66H43P8FRG)\""
     }
   },
   "devDependencies": {
