@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependencies
+      hash: 756f6b328b10f3f5bfffbcca8078a2ad03c99287
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.0.4
+  title: ""
+  date: 2024-03-11T22:19:04.713Z
+- commits:
     - subject: Removes signing patches
       hash: f9f41eef4bae9e41531a149fed029c0cea23f3d1
       body: ""
