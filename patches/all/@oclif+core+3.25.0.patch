@@ -12,7 +12,7 @@ index 607d8dc..07ba1f2 100644
      return lines.join('\n');
  }
 diff --git a/node_modules/@oclif/core/lib/help/command.js b/node_modules/@oclif/core/lib/help/command.js
-index 6640bf9..22dac8a 100644
+index bc54de4..cb246ce 100644
 --- a/node_modules/@oclif/core/lib/help/command.js
 +++ b/node_modules/@oclif/core/lib/help/command.js
 @@ -59,7 +59,9 @@ class CommandHelp extends formatter_1.HelpFormatter {
@@ -44,10 +44,10 @@ index 6640bf9..22dac8a 100644
          }
          return (0, theme_1.colorize)(this.config.theme?.flag, label);
 diff --git a/node_modules/@oclif/core/lib/help/index.js b/node_modules/@oclif/core/lib/help/index.js
-index 2aedfd3..f3d28a6 100644
+index 1dc30a3..ceefd4c 100644
 --- a/node_modules/@oclif/core/lib/help/index.js
 +++ b/node_modules/@oclif/core/lib/help/index.js
-@@ -169,11 +169,12 @@ class Help extends HelpBase {
+@@ -171,11 +171,12 @@ class Help extends HelpBase {
          }
          this.log(this.formatCommand(command));
          this.log('');
@@ -63,12 +63,12 @@ index 2aedfd3..f3d28a6 100644
              const uniqueSubCommands = subCommands.filter((p) => {
                  aliases.push(...p.aliases);
 diff --git a/node_modules/@oclif/core/lib/parser/errors.js b/node_modules/@oclif/core/lib/parser/errors.js
-index 656ec6b..cde9e38 100644
+index af490c9..a1d4add 100644
 --- a/node_modules/@oclif/core/lib/parser/errors.js
 +++ b/node_modules/@oclif/core/lib/parser/errors.js
-@@ -14,7 +14,8 @@ Object.defineProperty(exports, "CLIError", { enumerable: true, get: function ()
- class CLIParseError extends errors_1.CLIError {
+@@ -15,7 +15,8 @@ class CLIParseError extends errors_1.CLIError {
      parse;
+     showHelp = false;
      constructor(options) {
 -        options.message += '\nSee more help with --help';
 +        const help = options.command ? `\`${options.command} --help\`` : '--help';
@@ -76,7 +76,7 @@ index 656ec6b..cde9e38 100644
          super(options.message, { exit: options.exit });
          this.parse = options.parse;
      }
-@@ -37,7 +38,9 @@ exports.InvalidArgsSpecError = InvalidArgsSpecError;
+@@ -38,7 +39,9 @@ exports.InvalidArgsSpecError = InvalidArgsSpecError;
  class RequiredArgsError extends CLIParseError {
      args;
      constructor({ args, exit, flagsWithMultiple, parse, }) {
@@ -87,13 +87,12 @@ index 656ec6b..cde9e38 100644
          const namedArgs = args.filter((a) => a.name);
          if (namedArgs.length > 0) {
              const list = (0, list_1.renderList)(namedArgs.map((a) => [a.name, a.description]));
-@@ -48,8 +51,7 @@ class RequiredArgsError extends CLIParseError {
+@@ -49,7 +52,7 @@ class RequiredArgsError extends CLIParseError {
              message += `\n\nNote: ${flags} allow${flagsWithMultiple.length === 1 ? 's' : ''} multiple values. Because of this you need to provide all arguments before providing ${flagsWithMultiple.length === 1 ? 'that flag' : 'those flags'}.`;
              message += '\nAlternatively, you can use "--" to signify the end of the flags and the beginning of arguments.';
          }
 -        super({ exit: cache_1.default.getInstance().get('exitCodes')?.requiredArgs ?? exit, message, parse });
--        this.args = args;
-+        super({ exit: cache_1.default.getInstance().get('exitCodes')?.requiredArgs ?? exit, message, parse, command });        this.args = args;
++        super({ exit: cache_1.default.getInstance().get('exitCodes')?.requiredArgs ?? exit, message, parse, command });
+         this.args = args;
+         this.showHelp = true;
      }
- }
- exports.RequiredArgsError = RequiredArgsError;

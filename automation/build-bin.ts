@@ -326,7 +326,11 @@ async function zipPkg() {
 	});
 }
 
-async function signFilesForNotarization() {
+export async function signFilesForNotarization() {
+	console.log('Signing files for notarization');
+	if (process.platform !== 'darwin') {
+		return;
+	}
 	console.log('Deleting unneeded zip files...');
 	await new Promise((resolve, reject) => {
 		klaw('node_modules/')
@@ -514,10 +518,6 @@ export async function buildOclifInstaller() {
 		for (const dir of dirs) {
 			console.log(`rimraf(${dir})`);
 			await Bluebird.fromCallback((cb) => rimraf(dir, cb));
-		}
-		if (process.platform === 'darwin') {
-			console.log('Signing files for notarization...');
-			await signFilesForNotarization();
 		}
 		console.log('=======================================================');
 		console.log(`oclif ${packCmd} ${packOpts.join(' ')}`);
