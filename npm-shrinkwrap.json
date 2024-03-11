@@ -5538,9 +5538,9 @@
       "integrity": "sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg=="
     },
     "node_modules/aws4-axios": {
-      "version": "3.3.1",
-      "resolved": "https://registry.npmjs.org/aws4-axios/-/aws4-axios-3.3.1.tgz",
-      "integrity": "sha512-z3r+enHMfNE7ZipsAx/sSTLICg6V4LGAnZeu0P8x9azbmHcygWheGFl1fxbAQwnJ7Am6X6VeMfNiF92d0XkC9Q==",
+      "version": "3.3.2",
+      "resolved": "https://registry.npmjs.org/aws4-axios/-/aws4-axios-3.3.2.tgz",
+      "integrity": "sha512-uJXEe1Zp5FjG31r3x7sZ2N9uIe7obVV48eEOhbDr7c2mEY613nmurvjZlRAwFoLDgpCJR1ZKxQyBZYjRgH/PCA==",
       "dependencies": {
         "@aws-sdk/client-sts": "^3.4.1",
         "aws4": "^1.12.0"
@@ -7802,9 +7802,9 @@
       }
     },
     "node_modules/date-fns": {
-      "version": "3.3.1",
-      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-3.3.1.tgz",
-      "integrity": "sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==",
+      "version": "3.4.0",
+      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-3.4.0.tgz",
+      "integrity": "sha512-Akz4R8J9MXBsOgF1QeWeCsbv6pntT5KCPjU0Q9prBxVmWJYPLhwAIsNg3b0QAdr0ttiozYLD3L/af7Ra0jqYXw==",
       "funding": {
         "type": "github",
         "url": "https://github.com/sponsors/kossnocorp"
@@ -9476,9 +9476,9 @@
       }
     },
     "node_modules/etcher-sdk/node_modules/drivelist": {
-      "version": "11.2.1",
-      "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.1.tgz",
-      "integrity": "sha512-6QO94SWxKxTXCpIvHpBk8NhIK+ZcgGjm9CclciB8cu7iND8JaQQk1+a4jwh8gSpIc8Uv2MTrfE+xCzI/+4O4QA==",
+      "version": "11.2.2",
+      "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.2.tgz",
+      "integrity": "sha512-shzkC4h3Q6sVkF9v9lbT1j49LN47O7h0GJk9E4VtJe81Xp6GF1O36gpnWpqRL6VvFya086eu4XcBEOwSXHHjeQ==",
       "hasInstallScript": true,
       "dependencies": {
         "bindings": "^1.5.0",
@@ -19223,9 +19223,9 @@
       }
     },
     "node_modules/resin-cli-visuals/node_modules/drivelist": {
-      "version": "11.2.1",
-      "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.1.tgz",
-      "integrity": "sha512-6QO94SWxKxTXCpIvHpBk8NhIK+ZcgGjm9CclciB8cu7iND8JaQQk1+a4jwh8gSpIc8Uv2MTrfE+xCzI/+4O4QA==",
+      "version": "11.2.2",
+      "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.2.tgz",
+      "integrity": "sha512-shzkC4h3Q6sVkF9v9lbT1j49LN47O7h0GJk9E4VtJe81Xp6GF1O36gpnWpqRL6VvFya086eu4XcBEOwSXHHjeQ==",
       "hasInstallScript": true,
       "dependencies": {
         "bindings": "^1.5.0",
@@ -29555,9 +29555,9 @@
       "integrity": "sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg=="
     },
     "aws4-axios": {
-      "version": "3.3.1",
-      "resolved": "https://registry.npmjs.org/aws4-axios/-/aws4-axios-3.3.1.tgz",
-      "integrity": "sha512-z3r+enHMfNE7ZipsAx/sSTLICg6V4LGAnZeu0P8x9azbmHcygWheGFl1fxbAQwnJ7Am6X6VeMfNiF92d0XkC9Q==",
+      "version": "3.3.2",
+      "resolved": "https://registry.npmjs.org/aws4-axios/-/aws4-axios-3.3.2.tgz",
+      "integrity": "sha512-uJXEe1Zp5FjG31r3x7sZ2N9uIe7obVV48eEOhbDr7c2mEY613nmurvjZlRAwFoLDgpCJR1ZKxQyBZYjRgH/PCA==",
       "requires": {
         "@aws-sdk/client-sts": "^3.4.1",
         "aws4": "^1.12.0"
@@ -31340,9 +31340,9 @@
       }
     },
     "date-fns": {
-      "version": "3.3.1",
-      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-3.3.1.tgz",
-      "integrity": "sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw=="
+      "version": "3.4.0",
+      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-3.4.0.tgz",
+      "integrity": "sha512-Akz4R8J9MXBsOgF1QeWeCsbv6pntT5KCPjU0Q9prBxVmWJYPLhwAIsNg3b0QAdr0ttiozYLD3L/af7Ra0jqYXw=="
     },
     "dateformat": {
       "version": "4.6.3",
@@ -32641,9 +32641,9 @@
           "integrity": "sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw=="
         },
         "drivelist": {
-          "version": "11.2.1",
-          "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.1.tgz",
-          "integrity": "sha512-6QO94SWxKxTXCpIvHpBk8NhIK+ZcgGjm9CclciB8cu7iND8JaQQk1+a4jwh8gSpIc8Uv2MTrfE+xCzI/+4O4QA==",
+          "version": "11.2.2",
+          "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.2.tgz",
+          "integrity": "sha512-shzkC4h3Q6sVkF9v9lbT1j49LN47O7h0GJk9E4VtJe81Xp6GF1O36gpnWpqRL6VvFya086eu4XcBEOwSXHHjeQ==",
           "requires": {
             "bindings": "^1.5.0",
             "debug": "^4.3.4",
@@ -40153,9 +40153,9 @@
           "integrity": "sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw=="
         },
         "drivelist": {
-          "version": "11.2.1",
-          "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.1.tgz",
-          "integrity": "sha512-6QO94SWxKxTXCpIvHpBk8NhIK+ZcgGjm9CclciB8cu7iND8JaQQk1+a4jwh8gSpIc8Uv2MTrfE+xCzI/+4O4QA==",
+          "version": "11.2.2",
+          "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.2.tgz",
+          "integrity": "sha512-shzkC4h3Q6sVkF9v9lbT1j49LN47O7h0GJk9E4VtJe81Xp6GF1O36gpnWpqRL6VvFya086eu4XcBEOwSXHHjeQ==",
           "requires": {
             "bindings": "^1.5.0",
             "debug": "^4.3.4",

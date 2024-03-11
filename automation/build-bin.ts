@@ -20,7 +20,7 @@ import type { JsonVersions } from '../lib/commands/version/index';
 import { run as oclifRun } from '@oclif/core';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
-import { execFile } from 'child_process';
+import { exec, execFile } from 'child_process';
 import * as filehound from 'filehound';
 import { Stats } from 'fs';
 import * as fs from 'fs-extra';
@@ -41,6 +41,7 @@ import {
 } from './utils';
 
 const execFileAsync = promisify(execFile);
+const execAsync = promisify(exec);
 
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
@@ -60,9 +61,13 @@ const standaloneZips: PathByPlatform = {
 	win32: dPath(`balena-cli-${version}-windows-${arch}-standalone.zip`),
 };
 
-const oclifInstallers: PathByPlatform = {
-	darwin: dPath('macos', `balena-${version}.pkg`),
-	win32: dPath('win32', `balena-${version}-${arch}.exe`),
+const getOclifInstallersOriginalNames = async (): Promise<PathByPlatform> => {
+	const { stdout } = await execAsync('git rev-parse --short HEAD');
+	const sha = stdout.trim();
+	return {
+		darwin: dPath('macos', `balena-${version}-${sha}-${arch}.pkg`),
+		win32: dPath('win32', `balena-${version}-${sha}-${arch}.exe`),
+	};
 };
 
 const renamedOclifInstallers: PathByPlatform = {
@@ -421,6 +426,7 @@ export async function buildStandaloneZip() {
 }
 
 async function renameInstallerFiles() {
+	const oclifInstallers = await getOclifInstallersOriginalNames();
 	if (await fs.pathExists(oclifInstallers[process.platform])) {
 		await fs.rename(
 			oclifInstallers[process.platform],
