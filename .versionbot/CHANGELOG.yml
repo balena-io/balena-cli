@@ -1,4 +1,16 @@
 - commits:
+    - subject: Removes signing patches
+      hash: f9f41eef4bae9e41531a149fed029c0cea23f3d1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.0.3
+  title: ""
+  date: 2024-03-11T14:25:45.117Z
+- commits:
     - subject: Remove no longer needed windows oclif patches
       hash: ecfd4a260e4734c768480b98d05cee08f366a672
       body: ""
