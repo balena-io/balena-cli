@@ -102,6 +102,7 @@
     "bin": "balena",
     "commands": "./build/commands",
     "helpClass": "./build/help",
+    "topicSeparator": " ",
     "hooks": {
       "prerun": "./build/hooks/prerun/track",
       "command_not_found": "./build/hooks/command-not-found/suggest"
@@ -199,7 +200,7 @@
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
-    "@oclif/core": "^3.14.1",
+    "@oclif/core": "^3.24.0",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^6.16.1",
     "@types/fast-levenshtein": "0.0.1",
