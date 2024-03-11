@@ -21,6 +21,6 @@ jobs:
       )
     secrets: inherit
     with:
-      custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-12"],["windows-2019"]]'
+      custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-12"],["windows-2019"],["macos-latest-xlarge"]]'
       github_prerelease: false
       restrict_custom_actions: false
