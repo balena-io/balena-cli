@@ -16,20 +16,10 @@ index c0926bd..e4f645c 100644
    File /r bin
    File /r client
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..72ad66f 100644
+index 384ea4b..8f5ed5d 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
-@@ -21,7 +21,8 @@ const pack = async (from, to) => {
-         await exec(`tar cfJ ${to} ${(path.basename(from))}`, { cwd }));
- };
- async function build(c, options = {}) {
--    const { xz, config } = c;
-+    const { xz, config, tmp } = c;
-+    console.error(`[debug] oclif c.root="${c.root}" c.workspace()="${c.workspace()}"`);
-     const packCLI = async () => {
-         const { stdout } = await exec('npm pack --unsafe-perm', { cwd: c.root });
-         return path.join(c.root, stdout.trim().split('\n').pop());
-@@ -30,7 +31,9 @@ async function build(c, options = {}) {
+@@ -30,7 +30,9 @@ async function build(c, options = {}) {
          await fs.emptyDir(c.workspace());
          const tarballNewLocation = path.join(c.workspace(), path.basename(tarball));
          await fs.move(tarball, tarballNewLocation);
@@ -40,7 +30,7 @@ index 384ea4b..72ad66f 100644
          await Promise.all((await fs.promises.readdir(path.join(c.workspace(), 'package'), { withFileTypes: true }))
              .map(i => fs.move(path.join(c.workspace(), 'package', i.name), path.join(c.workspace(), i.name))));
          await Promise.all([
-@@ -38,6 +41,13 @@ async function build(c, options = {}) {
+@@ -38,6 +40,13 @@ async function build(c, options = {}) {
              fs.promises.rm(path.join(c.workspace(), path.basename(tarball)), { recursive: true }),
              fs.remove(path.join(c.workspace(), 'bin', 'run.cmd')),
          ]);
@@ -54,7 +44,7 @@ index 384ea4b..72ad66f 100644
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +59,20 @@ async function build(c, options = {}) {
+@@ -49,35 +58,20 @@ async function build(c, options = {}) {
          await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
      };
      const addDependencies = async () => {
@@ -103,46 +93,3 @@ index 384ea4b..72ad66f 100644
      };
      const pretarball = async () => {
          const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
-@@ -115,7 +110,8 @@ async function build(c, options = {}) {
-             output: path.join(workspace, 'bin', 'node'),
-             platform: target.platform,
-             arch: target.arch,
--            tmp: path.join(config.root, 'tmp'),
-+            tmp,
-+            projectRootPath: c.root
-         });
-         if (options.pack === false)
-             return;
-@@ -158,6 +154,7 @@ async function build(c, options = {}) {
-         await fs.writeJSON(manifestFilepath, manifest, { spaces: 2 });
-     };
-     (0, log_1.log)(`gathering workspace for ${config.bin} to ${c.workspace()}`);
-+    console.error(`[debug] ${options.tarball}`);
-     await extractCLI(options.tarball ? options.tarball : await packCLI());
-     await updatePJSON();
-     await addDependencies();
-diff --git a/node_modules/oclif/lib/tarballs/config.js b/node_modules/oclif/lib/tarballs/config.js
-index 216759d..cab0e6e 100644
---- a/node_modules/oclif/lib/tarballs/config.js
-+++ b/node_modules/oclif/lib/tarballs/config.js
-@@ -25,7 +25,10 @@ async function gitSha(cwd, options = {}) {
- }
- exports.gitSha = gitSha;
- async function Tmp(config) {
--    const tmp = path.join(config.root, 'tmp');
-+     const tmp = process.env.BUILD_TMP
-+         ? path.join(process.env.BUILD_TMP, 'oclif')
-+         : path.join(config.root, 'tmp');
-+    console.error(`[debug] oclif tmp="${tmp}"`);
-     await fs.promises.mkdir(tmp, { recursive: true });
-     return tmp;
- }
-@@ -62,7 +65,7 @@ async function buildConfig(root, options = {}) {
-         s3Config: updateConfig.s3,
-         nodeVersion,
-         workspace(target) {
--            const base = path.join(config.root, 'tmp');
-+            const base = tmp;
-             if (target && target.platform)
-                 return path.join(base, [target.platform, target.arch].join('-'), (0, upload_util_1.templateShortKey)('baseDir', { bin: config.bin }));
-             return path.join(base, (0, upload_util_1.templateShortKey)('baseDir', { bin: config.bin }));

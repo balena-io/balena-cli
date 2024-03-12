@@ -65,21 +65,6 @@ async function parse(args?: string[]) {
 		}
 	}
 
-	// The BUILD_TMP env var is used as an alternative location for oclif
-	// (patched) to copy/extract the CLI files, run npm install and then
-	// create the NSIS executable installer for Windows. This was necessary
-	// to avoid issues with a 260-char limit on Windows paths (possibly a
-	// limitation of some library used by NSIS), as the "current working dir"
-	// provided by balena CI is a rather long path to start with.
-	if (process.platform === 'win32' && !process.env.BUILD_TMP) {
-		const randID = (await import('crypto'))
-			.randomBytes(6)
-			.toString('base64')
-			.replace(/\+/g, '-')
-			.replace(/\//g, '_'); // base64url (RFC 4648)
-		process.env.BUILD_TMP = `C:\\tmp\\${randID}`;
-	}
-
 	for (const arg of args) {
 		try {
 			const cmdFunc = commands[arg];
