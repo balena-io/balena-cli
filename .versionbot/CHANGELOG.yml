@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove patching tmp for windows runners
+      hash: 6515d6ae10ea9bb43793ebfc3843150bce6e8864
+      body: ""
+      footer:
+        See: https://github.com/balena-io/balena-cli/pull/1298/files#r297236577
+        see: https://github.com/balena-io/balena-cli/pull/1298/files#r297236577
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.1.1
+  title: ""
+  date: 2024-03-12T17:39:11.347Z
+- commits:
     - subject: Add support for macos arm64 builds
       hash: 38a2817587030678f316d55828b9ce73481716b8
       body: ""
