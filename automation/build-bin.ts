@@ -187,10 +187,10 @@ async function execPkg(...args: any[]) {
 async function buildPkg() {
 	// https://github.com/vercel/pkg#targets
 	let targets = `linux-${arch}`;
-	// TBC: not possible to build for macOS or Windows arm64 on x64 nodes
 	if (process.platform === 'darwin') {
-		targets = `macos-x64`;
+		targets = `macos-${arch}`;
 	}
+	// TBC: not yet possible to build for Windows arm64 on x64 nodes
 	if (process.platform === 'win32') {
 		targets = `win-x64`;
 	}
@@ -499,7 +499,7 @@ export async function buildOclifInstaller() {
 	let packOpts = ['-r', ROOT];
 	if (process.platform === 'darwin') {
 		packOS = 'macos';
-		packOpts = packOpts.concat('--targets', 'darwin-x64');
+		packOpts = packOpts.concat('--targets', `darwin-${arch}`);
 	} else if (process.platform === 'win32') {
 		packOS = 'win';
 		packOpts = packOpts.concat('--targets', 'win32-x64');

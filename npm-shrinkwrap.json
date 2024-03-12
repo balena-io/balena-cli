@@ -4030,9 +4030,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.11.25",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.11.25.tgz",
-      "integrity": "sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==",
+      "version": "20.11.26",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.11.26.tgz",
+      "integrity": "sha512-YwOMmyhNnAWijOBQweOJnQPl068Oqd4K3OFbTc6AHJwzweUwwWG3GIFY74OKks2PJUDkQPeddOQES9mLn1CTEQ==",
       "dependencies": {
         "undici-types": "~5.26.4"
       }
@@ -6098,9 +6098,9 @@
       }
     },
     "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "18.19.22",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.22.tgz",
-      "integrity": "sha512-p3pDIfuMg/aXBmhkyanPshdfJuX5c5+bQjYLIikPLXAUycEogij/c50n/C+8XOA5L93cU4ZRXtn+dNQGi0IZqQ==",
+      "version": "18.19.23",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.23.tgz",
+      "integrity": "sha512-wtE3d0OUfNKtZYAqZb8HAWGxxXsImJcPUAgZNw+dWFxO6s5tIwIjyKnY76tsTatsNCLJPkVYwUpq15D38ng9Aw==",
       "dependencies": {
         "undici-types": "~5.26.4"
       }
@@ -28545,9 +28545,9 @@
       }
     },
     "@types/node": {
-      "version": "20.11.25",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.11.25.tgz",
-      "integrity": "sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==",
+      "version": "20.11.26",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.11.26.tgz",
+      "integrity": "sha512-YwOMmyhNnAWijOBQweOJnQPl068Oqd4K3OFbTc6AHJwzweUwwWG3GIFY74OKks2PJUDkQPeddOQES9mLn1CTEQ==",
       "requires": {
         "undici-types": "~5.26.4"
       }
@@ -30152,9 +30152,9 @@
       },
       "dependencies": {
         "@types/node": {
-          "version": "18.19.22",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.22.tgz",
-          "integrity": "sha512-p3pDIfuMg/aXBmhkyanPshdfJuX5c5+bQjYLIikPLXAUycEogij/c50n/C+8XOA5L93cU4ZRXtn+dNQGi0IZqQ==",
+          "version": "18.19.23",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.23.tgz",
+          "integrity": "sha512-wtE3d0OUfNKtZYAqZb8HAWGxxXsImJcPUAgZNw+dWFxO6s5tIwIjyKnY76tsTatsNCLJPkVYwUpq15D38ng9Aw==",
           "requires": {
             "undici-types": "~5.26.4"
           }
