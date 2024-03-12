@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add support for macos arm64 builds
+      hash: 38a2817587030678f316d55828b9ce73481716b8
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otavio Jacobi
+      nested: []
+  version: 18.1.0
+  title: ""
+  date: 2024-03-12T14:21:26.866Z
+- commits:
     - subject: Update dependencies
       hash: 756f6b328b10f3f5bfffbcca8078a2ad03c99287
       body: ""
