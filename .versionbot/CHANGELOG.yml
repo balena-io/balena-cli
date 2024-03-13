@@ -1,4 +1,16 @@
 - commits:
+    - subject: Move macos binary signing to oclif pretarball lifecycle
+      hash: 7f11805a7fdd9dbfebae198321bfd0640769092b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.1.2
+  title: ""
+  date: 2024-03-13T13:49:08.000Z
+- commits:
     - subject: Remove patching tmp for windows runners
       hash: 6515d6ae10ea9bb43793ebfc3843150bce6e8864
       body: ""
