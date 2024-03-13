@@ -21,6 +21,7 @@ import {
 	buildOclifInstaller,
 	buildStandaloneZip,
 	catchUncommitted,
+	signFilesForNotarization,
 	testShrinkwrap,
 } from './build-bin';
 import {
@@ -54,6 +55,7 @@ async function parse(args?: string[]) {
 	const commands: { [cmd: string]: () => void | Promise<void> } = {
 		'build:installer': buildOclifInstaller,
 		'build:standalone': buildStandaloneZip,
+		'sign:binaries': signFilesForNotarization,
 		'catch-uncommitted': catchUncommitted,
 		'test-shrinkwrap': testShrinkwrap,
 		fix1359: updateDescriptionOfReleasesAffectedByIssue1359,

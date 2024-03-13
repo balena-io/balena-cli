@@ -16,7 +16,7 @@ index c0926bd..e4f645c 100644
    File /r bin
    File /r client
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 384ea4b..8f5ed5d 100644
+index 384ea4b..4d6593a 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
 @@ -30,7 +30,9 @@ async function build(c, options = {}) {
@@ -44,52 +44,3 @@ index 384ea4b..8f5ed5d 100644
      };
      const updatePJSON = async () => {
          const pjsonPath = path.join(c.workspace(), 'package.json');
-@@ -49,35 +58,20 @@ async function build(c, options = {}) {
-         await fs.writeJSON(pjsonPath, pjson, { spaces: 2 });
-     };
-     const addDependencies = async () => {
--        const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root;
--        if (fs.existsSync(path.join(yarnRoot, 'yarn.lock'))) {
--            await fs.copy(path.join(yarnRoot, 'yarn.lock'), path.join(c.workspace(), 'yarn.lock'));
--            const yarnVersion = (await exec('yarn -v')).stdout.charAt(0);
--            if (yarnVersion === '1') {
--                await exec('yarn --no-progress --production --non-interactive', { cwd: c.workspace() });
--            }
--            else if (yarnVersion === '2') {
--                throw new Error('Yarn 2 is not supported yet. Try using Yarn 1, or Yarn 3');
--            }
--            else {
--                try {
--                    await exec('yarn workspaces focus --production', { cwd: c.workspace() });
--                }
--                catch (error) {
--                    if (error instanceof Error && error.message.includes('Command not found')) {
--                        throw new Error('Missing workspace tools. Run `yarn plugin import workspace-tools`.');
--                    }
--                    throw error;
--                }
--            }
--        }
--        else {
--            const lockpath = fs.existsSync(path.join(c.root, 'package-lock.json')) ?
--                path.join(c.root, 'package-lock.json') :
--                path.join(c.root, 'npm-shrinkwrap.json');
--            await fs.copy(lockpath, path.join(c.workspace(), path.basename(lockpath)));
--            await exec('npm install --production', { cwd: c.workspace() });
-+        const ws = c.workspace();
-+        exec(`cd ${ws}`);
-+        console.error(`[debug] oclif copying node_modules to "${ws}"`)
-+        const source = path.join(c.root, 'node_modules');
-+        if (process.platform === 'win32') {
-+            await exec(`xcopy "${source}" "${ws}\\node_modules" /S /E /B /I /K /Q /Y`);
-+        } else {
-+            // use the shell's `cp` on macOS in order to preserve extended
-+            // file attributes containing `codesign` digital signatures
-+            await exec(`cp -pR "${source}" "${ws}"`);
-         }
-+        console.error(`[debug] oclif running "npm prune --production" in "${ws}"`);
-+        await exec('npm prune --production', { cwd: c.workspace() });
-+        console.error(`[debug] oclif done`);
-     };
-     const pretarball = async () => {
-         const pjson = await fs.readJSON(path.join(c.workspace(), 'package.json'));
