@@ -71,7 +71,14 @@ export default class DevicesCmd extends Command {
 		const balena = getBalenaSdk();
 		const devicesOptions = {
 			...devicesSelectFields,
-			...expandForAppName,
+			$expand: {
+				...(options.json && {
+					device_tag: {
+						$select: ['tag_key', 'value'],
+					},
+				}),
+				...expandForAppName.$expand,
+			},
 			$orderby: { device_name: 'asc' },
 		} satisfies PineOptions<Device>;
 
@@ -116,7 +123,9 @@ export default class DevicesCmd extends Command {
 
 		if (options.json) {
 			const { pickAndRename } = await import('../../utils/helpers');
-			const mapped = devices.map((device) => pickAndRename(device, fields));
+			const mapped = devices.map((device) =>
+				pickAndRename(device, [...fields, 'device_tag']),
+			);
 			console.log(JSON.stringify(mapped, null, 4));
 		} else {
 			const _ = await import('lodash');
