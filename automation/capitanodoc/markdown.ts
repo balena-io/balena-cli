@@ -20,7 +20,7 @@ import * as _ from 'lodash';
 
 import { getManualSortCompareFunction } from '../../lib/utils/helpers';
 import { capitanoizeOclifUsage } from '../../lib/utils/oclif-utils';
-import { Category, Document, OclifCommand } from './doc-types';
+import type { Category, Document, OclifCommand } from './doc-types';
 
 function renderOclifCommand(command: OclifCommand): string[] {
 	const result = [`## ${ent.encode(command.usage || '')}`];

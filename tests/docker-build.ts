@@ -29,15 +29,15 @@ import { URL } from 'url';
 
 import { makeImageName } from '../build/utils/compose_ts';
 import { stripIndent } from '../build/utils/lazy';
-import { BuilderMock } from './nock/builder-mock';
-import { DockerMock } from './nock/docker-mock';
+import type { BuilderMock } from './nock/builder-mock';
+import type { DockerMock } from './nock/docker-mock';
 import {
 	cleanOutput,
 	deepJsonParse,
 	deepTemplateReplace,
 	runCommand,
 } from './helpers';
-import {
+import type {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,

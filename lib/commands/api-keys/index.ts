@@ -52,7 +52,7 @@ export default class ApiKeysCmd extends Command {
 					await getApplication(getBalenaSdk(), options.fleet, {
 						$select: 'actor',
 					})
-			  ).actor
+				).actor
 			: await getBalenaSdk().auth.getActorId();
 		const keys = await getBalenaSdk().pine.get({
 			resource: 'api_key',
@@ -65,7 +65,7 @@ export default class ApiKeysCmd extends Command {
 								name: {
 									$ne: null,
 								},
-						  }
+							}
 						: {}),
 				},
 				$orderby: 'name asc',

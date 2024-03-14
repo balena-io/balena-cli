@@ -78,7 +78,7 @@ export default class ReleasesCmd extends Command {
 								$select: ['tag_key', 'value'],
 							},
 						},
-				  }
+					}
 				: { $select: fields },
 		);
 

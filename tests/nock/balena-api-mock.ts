@@ -18,7 +18,8 @@
 import * as _ from 'lodash';
 import * as path from 'path';
 
-import { NockMock, ScopeOpts } from './nock-mock';
+import type { ScopeOpts } from './nock-mock';
+import { NockMock } from './nock-mock';
 
 export const apiResponsePath = path.normalize(
 	path.join(__dirname, '..', 'test-data', 'api-response'),

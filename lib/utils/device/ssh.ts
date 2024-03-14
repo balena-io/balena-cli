@@ -17,11 +17,11 @@ limitations under the License.
 import { ExpectedError } from '../../errors';
 import { stripIndent } from '../lazy';
 
+import type { SshRemoteCommandOpts } from '../ssh';
 import {
 	findBestUsernameForDevice,
 	getRemoteCommandOutput,
 	runRemoteCommand,
-	SshRemoteCommandOpts,
 } from '../ssh';
 
 export interface DeviceSSHOpts extends SshRemoteCommandOpts {

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type { BalenaSDK } from 'balena-sdk';
-import { Socket } from 'net';
+import type { Socket } from 'net';
 import * as tls from 'tls';
 import { TypedError } from 'typed-error';
 import { ExpectedError } from '../errors';

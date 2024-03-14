@@ -132,7 +132,7 @@ export default class DeviceInitCmd extends Command {
 							$select: 'slug',
 						},
 					},
-			  })
+				})
 			: await (await import('../../utils/patterns')).selectApplication();
 
 		// Register new device

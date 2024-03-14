@@ -16,8 +16,8 @@
  */
 
 import * as packageJSON from '../package.json';
+import type { AppOptions } from './preparser';
 import {
-	AppOptions,
 	checkDeletedCommand,
 	preparseArgs,
 	unsupportedFlag,

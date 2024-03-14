@@ -76,8 +76,8 @@ export function diffLines(str1: string, str2: string): string {
 			return part.added
 				? prefix(part.value, '+')
 				: part.removed
-				? prefix(part.value, '-')
-				: prefix(part.value, ' ');
+					? prefix(part.value, '-')
+					: prefix(part.value, ' ');
 		})
 		.join('\n');
 	return diffStr;

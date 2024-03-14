@@ -23,13 +23,12 @@ import * as semver from 'semver';
 import * as sinon from 'sinon';
 
 import * as packageJSON from '../package.json';
-import {
-	DeprecationChecker,
-	ReleaseTimestampsByVersion,
-} from '../build/deprecation';
+import type { ReleaseTimestampsByVersion } from '../build/deprecation';
+import { DeprecationChecker } from '../build/deprecation';
 import { BalenaAPIMock } from './nock/balena-api-mock';
 import { NpmMock } from './nock/npm-mock';
-import { runCommand, TestOutput } from './helpers';
+import type { TestOutput } from './helpers';
+import { runCommand } from './helpers';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

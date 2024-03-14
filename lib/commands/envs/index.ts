@@ -126,7 +126,7 @@ export default class EnvsCmd extends Command {
 		let fleetSlug: string | undefined = options.fleet
 			? await (
 					await import('../../utils/sdk')
-			  ).getFleetSlug(balena, options.fleet)
+				).getFleetSlug(balena, options.fleet)
 			: undefined;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 

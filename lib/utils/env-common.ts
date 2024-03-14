@@ -85,13 +85,13 @@ export function getVarResourceName(
 		? isConfig
 			? 'device_config_variable'
 			: isService
-			? 'device_service_environment_variable'
-			: 'device_environment_variable'
+				? 'device_service_environment_variable'
+				: 'device_environment_variable'
 		: isConfig
-		? 'application_config_variable'
-		: isService
-		? 'service_environment_variable'
-		: 'application_environment_variable';
+			? 'application_config_variable'
+			: isService
+				? 'service_environment_variable'
+				: 'application_environment_variable';
 }
 
 /**

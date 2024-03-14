@@ -107,11 +107,11 @@ async function $main() {
 
 	const changeType = process.argv[4]
 		? // if the caller specified a change type, use that one
-		  validateChangeType(process.argv[4])
+			validateChangeType(process.argv[4])
 		: // use the same change type as in the dependency, but avoid major bumps
-		semverChangeType && semverChangeType !== 'major'
-		? semverChangeType
-		: 'minor';
+			semverChangeType && semverChangeType !== 'major'
+			? semverChangeType
+			: 'minor';
 	console.log(`Using Change-type: ${changeType}`);
 
 	let { stdout: currentBranch } = await run('git rev-parse --abbrev-ref HEAD');

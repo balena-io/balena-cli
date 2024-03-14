@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { spawn, StdioOptions } from 'child_process';
+import type { StdioOptions } from 'child_process';
+import { spawn } from 'child_process';
 import * as _ from 'lodash';
 
 import { ExpectedError } from '../errors';

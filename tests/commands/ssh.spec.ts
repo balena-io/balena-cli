@@ -17,7 +17,8 @@
 
 import { expect } from 'chai';
 import mock = require('mock-require');
-import { createServer, Server } from 'net';
+import type { Server } from 'net';
+import { createServer } from 'net';
 
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';

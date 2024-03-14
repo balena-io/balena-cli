@@ -18,7 +18,8 @@
 import * as path from 'path';
 import * as qs from 'querystring';
 
-import { NockMock, ScopeOpts } from './nock-mock';
+import type { ScopeOpts } from './nock-mock';
+import { NockMock } from './nock-mock';
 
 export const dockerResponsePath = path.normalize(
 	path.join(__dirname, '..', 'test-data', 'docker-response'),
