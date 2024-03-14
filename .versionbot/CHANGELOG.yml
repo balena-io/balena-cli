@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use standard oclif run.js & dev.js
+      hash: 742c015f21b36685c8dcd9ba494ef0298924bcc9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.1.3
+  title: ""
+  date: 2024-03-14T12:57:18.555Z
+- commits:
     - subject: Move macos binary signing to oclif pretarball lifecycle
       hash: 7f11805a7fdd9dbfebae198321bfd0640769092b
       body: ""
