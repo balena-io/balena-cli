@@ -60,7 +60,6 @@
         "is-root": "^2.1.0",
         "js-yaml": "^4.1.0",
         "JSONStream": "^1.0.3",
-        "klaw": "^3.0.0",
         "livepush": "^3.5.1",
         "lodash": "^4.17.21",
         "minimatch": "^3.0.4",
@@ -167,6 +166,7 @@
         "inline-source-cli": "^2.0.0",
         "intercept-stdout": "^0.1.2",
         "jsonwebtoken": "^8.5.1",
+        "klaw": "^3.0.0",
         "mkdirp": "^1.0.4",
         "mocha": "^8.4.0",
         "mock-require": "^3.0.3",
@@ -13406,6 +13406,7 @@
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/klaw/-/klaw-3.0.0.tgz",
       "integrity": "sha512-0Fo5oir+O9jnXu5EefYbVK+mHMBeEVEy2cmctR1O1NECcCkPRreJKrS6Qt/j3KC2C148Dfo9i3pCmCMsdqGr0g==",
+      "dev": true,
       "dependencies": {
         "graceful-fs": "^4.1.9"
       }
@@ -35786,6 +35787,7 @@
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/klaw/-/klaw-3.0.0.tgz",
       "integrity": "sha512-0Fo5oir+O9jnXu5EefYbVK+mHMBeEVEy2cmctR1O1NECcCkPRreJKrS6Qt/j3KC2C148Dfo9i3pCmCMsdqGr0g==",
+      "dev": true,
       "requires": {
         "graceful-fs": "^4.1.9"
       }
