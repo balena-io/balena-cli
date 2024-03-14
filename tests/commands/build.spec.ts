@@ -26,9 +26,11 @@ import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
 import { cleanOutput, runCommand } from '../helpers';
-import {
+import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
+} from '../projects';
+import {
 	getDockerignoreWarn1,
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,

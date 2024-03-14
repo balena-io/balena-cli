@@ -1,4 +1,4 @@
-import { Application, DeviceType, Device } from 'balena-sdk';
+import type { Application, DeviceType, Device } from 'balena-sdk';
 
 declare global {
 	type ApplicationWithDeviceTypeSlug = Omit<

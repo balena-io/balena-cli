@@ -17,7 +17,7 @@
 
 declare module 'balena-device-init' {
 	import { DeviceTypeJson } from 'balena-sdk';
-	import * as Bluebird from 'bluebird';
+	import type * as Bluebird from 'bluebird';
 
 	interface OperationState {
 		operation:

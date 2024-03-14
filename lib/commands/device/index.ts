@@ -91,7 +91,7 @@ export default class DeviceCmd extends Command {
 							},
 							...expandForAppName.$expand,
 						},
-				  }
+					}
 				: {
 						$select: [
 							'device_name',
@@ -118,7 +118,7 @@ export default class DeviceCmd extends Command {
 							'is_undervolted',
 						],
 						...expandForAppName,
-				  },
+					},
 		)) as ExtendedDevice;
 
 		if (options.view) {

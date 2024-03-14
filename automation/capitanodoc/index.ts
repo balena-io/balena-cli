@@ -16,7 +16,7 @@
  */
 import * as path from 'path';
 import { getCapitanoDoc } from './capitanodoc';
-import { Category, Document, OclifCommand } from './doc-types';
+import type { Category, Document, OclifCommand } from './doc-types';
 import * as markdown from './markdown';
 import { stripIndent } from '../../lib/utils/lazy';
 

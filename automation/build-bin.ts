@@ -22,7 +22,7 @@ import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import { exec, execFile } from 'child_process';
 import * as filehound from 'filehound';
-import { Stats } from 'fs';
+import type { Stats } from 'fs';
 import * as fs from 'fs-extra';
 import * as klaw from 'klaw';
 import * as path from 'path';

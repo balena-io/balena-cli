@@ -17,10 +17,8 @@
 
 import { expect } from 'chai';
 
-import {
-	GlobalTunnelNgConfig,
-	makeUrlFromTunnelNgConfig,
-} from '../build/utils/proxy';
+import type { GlobalTunnelNgConfig } from '../build/utils/proxy';
+import { makeUrlFromTunnelNgConfig } from '../build/utils/proxy';
 
 describe('makeUrlFromTunnelNgConfig() function', function () {
 	it('should return a URL given a GlobalTunnelNgConfig object', () => {

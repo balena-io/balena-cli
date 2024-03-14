@@ -88,7 +88,7 @@ async function outputDataSet(
 			...(options.json
 				? {
 						output: 'json',
-				  }
+					}
 				: {}),
 			columns: options.fields,
 			printLine,
@@ -147,7 +147,7 @@ function getLongestObjectKeyLength(o: any): number {
 	return Object.keys(o).length >= 1
 		? Object.keys(o).reduce((a, b) => {
 				return a.length > b.length ? a : b;
-		  }).length
+			}).length
 		: 0;
 }
 

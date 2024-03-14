@@ -20,7 +20,7 @@ import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
-import * as nock from 'nock';
+import type * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
@@ -28,12 +28,11 @@ import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
 import { cleanOutput, runCommand, switchSentry } from '../helpers';
-import {
+import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-	getDockerignoreWarn1,
-	getDockerignoreWarn3,
 } from '../projects';
+import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');

@@ -23,10 +23,10 @@ import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../nock/builder-mock';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
 import { cleanOutput, runCommand } from '../helpers';
+import type { ExpectedTarStreamFiles } from '../projects';
 import {
 	addRegSecretsEntries,
 	exists,
-	ExpectedTarStreamFiles,
 	getDockerignoreWarn1,
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,

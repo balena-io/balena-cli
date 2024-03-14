@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Flags } from '@oclif/core';
-import { BalenaSDK } from 'balena-sdk';
+import type { BalenaSDK } from 'balena-sdk';
 import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
 import { promises as fs } from 'fs';
@@ -32,7 +32,7 @@ import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
-import {
+import type {
 	BuiltImage,
 	ComposeOpts,
 	ComposeProject,

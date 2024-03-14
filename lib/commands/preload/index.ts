@@ -173,7 +173,7 @@ Can be repeated to add multiple certificates.\
 		const fleetSlug: string | undefined = options.fleet
 			? await (
 					await import('../../utils/sdk')
-			  ).getFleetSlug(balena, options.fleet)
+				).getFleetSlug(balena, options.fleet)
 			: undefined;
 
 		const progressBars: {

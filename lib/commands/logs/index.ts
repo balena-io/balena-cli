@@ -19,7 +19,7 @@ import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { LogMessage } from 'balena-sdk';
+import type { LogMessage } from 'balena-sdk';
 
 const MAX_RETRY = 1000;
 

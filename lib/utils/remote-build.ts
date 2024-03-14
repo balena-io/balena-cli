@@ -17,7 +17,7 @@ import type { BalenaSDK } from 'balena-sdk';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
 import * as request from 'request';
-import { RegistrySecrets } from '@balena/compose/dist/multibuild';
+import type { RegistrySecrets } from '@balena/compose/dist/multibuild';
 import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
 import type { Pack } from 'tar-stream';

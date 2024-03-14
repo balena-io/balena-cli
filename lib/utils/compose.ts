@@ -30,7 +30,7 @@ import type {
 } from './compose-types';
 import { getChalk } from './lazy';
 import Logger = require('./logger');
-import { ProgressCallback } from 'docker-progress';
+import type { ProgressCallback } from 'docker-progress';
 
 export function generateOpts(options: {
 	source?: string;

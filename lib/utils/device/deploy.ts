@@ -18,13 +18,13 @@
 import * as semver from 'balena-semver';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
-import { Composition } from '@balena/compose/dist/parse';
-import {
+import type { Composition } from '@balena/compose/dist/parse';
+import type {
 	BuildTask,
-	getAuthConfigObj,
 	LocalImage,
 	RegistrySecrets,
 } from '@balena/compose/dist/multibuild';
+import { getAuthConfigObj } from '@balena/compose/dist/multibuild';
 import type { Readable } from 'stream';
 
 import { BALENA_ENGINE_TMP_PATH } from '../../config';
@@ -37,7 +37,8 @@ import {
 	makeImageName,
 } from '../compose_ts';
 import Logger = require('../logger');
-import { DeviceAPI, DeviceInfo } from './api';
+import type { DeviceInfo } from './api';
+import { DeviceAPI } from './api';
 import * as LocalPushErrors from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';

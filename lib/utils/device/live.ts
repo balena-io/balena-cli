@@ -30,11 +30,8 @@ import Logger = require('../logger');
 import { Dockerfile } from 'livepush';
 import type DeviceAPI from './api';
 import type { DeviceInfo, Status } from './api';
-import {
-	DeviceDeployOptions,
-	generateTargetState,
-	rebuildSingleTask,
-} from './deploy';
+import type { DeviceDeployOptions } from './deploy';
+import { generateTargetState, rebuildSingleTask } from './deploy';
 import { BuildError } from './errors';
 import { getServiceColourFn } from './logs';
 import { delay } from '../helpers';

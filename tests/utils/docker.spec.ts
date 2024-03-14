@@ -17,8 +17,8 @@
 
 import { expect } from 'chai';
 
+import type { DockerConnectionCliFlags } from '../../build/utils/docker';
 import {
-	DockerConnectionCliFlags,
 	generateConnectOpts,
 	getDefaultDockerModemOpts,
 } from '../../build/utils/docker';
