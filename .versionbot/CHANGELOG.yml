@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/lint to 8.0.0
+      hash: 634ad156ce9a6557102f438715c4a90fccf2db9c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 18.1.4
+  title: ""
+  date: 2024-03-14T14:34:45.902Z
+- commits:
     - subject: Use standard oclif run.js & dev.js
       hash: 742c015f21b36685c8dcd9ba494ef0298924bcc9
       body: ""
