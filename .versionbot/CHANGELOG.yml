@@ -1,4 +1,16 @@
 - commits:
+    - subject: Move klaw library to dev dependency
+      hash: bb4713ab9a2445cc7adab24f7d9549331f1c72e8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.1.5
+  title: ""
+  date: 2024-03-14T15:52:35.043Z
+- commits:
     - subject: Update @balena/lint to 8.0.0
       hash: 634ad156ce9a6557102f438715c4a90fccf2db9c
       body: ""
