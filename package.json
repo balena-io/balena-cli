@@ -188,7 +188,7 @@
     "mocha": "^8.4.0",
     "mock-require": "^3.0.3",
     "nock": "^13.2.1",
-    "oclif": "^3.17.1",
+    "oclif": "^4.7.7",
     "parse-link-header": "^2.0.0",
     "publish-release": "^1.6.1",
     "rewire": "^5.0.0",
