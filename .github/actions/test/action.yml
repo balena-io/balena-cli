@@ -45,9 +45,9 @@ runs:
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
         if [[ -e package-lock.json ]] || [[ -e npm-shrinkwrap.json ]]; then
-            npm ci
+            CXXFLAGS='-DNODE_API_EXPERIMENTAL_NOGC_ENV_OPT_OUT' npm ci
         else
-            npm i
+            CXXFLAGS='-DNODE_API_EXPERIMENTAL_NOGC_ENV_OPT_OUT' npm i
         fi
 
         npm run build
