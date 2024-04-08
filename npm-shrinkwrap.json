@@ -43,7 +43,7 @@
         "docker-progress": "^5.1.3",
         "dockerode": "3.3.3",
         "ejs": "^3.1.6",
-        "etcher-sdk": "9.0.6",
+        "etcher-sdk": "9.0.8",
         "event-stream": "3.3.4",
         "express": "^4.17.2",
         "fast-boot2": "^1.1.0",
@@ -9523,9 +9523,9 @@
       }
     },
     "node_modules/etcher-sdk": {
-      "version": "9.0.6",
-      "resolved": "https://registry.npmjs.org/etcher-sdk/-/etcher-sdk-9.0.6.tgz",
-      "integrity": "sha512-vRZ6blG9ja1DqMX98WDmXPHLB3wdpVs5Kqy7AdCY5LoOtFngfAm+jPcJJea5gXdIY2wHxvr5SfasDd9zdrZEVw==",
+      "version": "9.0.8",
+      "resolved": "https://registry.npmjs.org/etcher-sdk/-/etcher-sdk-9.0.8.tgz",
+      "integrity": "sha512-y3MUSroJCm4M8RCyWfJ/c5GVKP6AWns96WNNda45E+TPPqpi8WBJu/w/BQBUsrG+JL30AUX4QOvOxE5M/5jtFA==",
       "dependencies": {
         "@balena/node-beaglebone-usbboot": "^3.0.0",
         "@balena/udif": "^1.1.2",
@@ -9537,7 +9537,7 @@
         "check-disk-space": "^3.4.0",
         "cyclic-32": "^1.1.0",
         "debug": "^4.3.4",
-        "drivelist": "^11.2.0",
+        "drivelist": "^12.0.0",
         "file-disk": "^8.0.1",
         "file-type": "^16.0.0",
         "glob": "^10.3.10",
@@ -9586,26 +9586,26 @@
       }
     },
     "node_modules/etcher-sdk/node_modules/detect-libc": {
-      "version": "2.0.2",
-      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.2.tgz",
-      "integrity": "sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==",
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.3.tgz",
+      "integrity": "sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==",
       "engines": {
         "node": ">=8"
       }
     },
     "node_modules/etcher-sdk/node_modules/drivelist": {
-      "version": "11.2.2",
-      "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.2.tgz",
-      "integrity": "sha512-shzkC4h3Q6sVkF9v9lbT1j49LN47O7h0GJk9E4VtJe81Xp6GF1O36gpnWpqRL6VvFya086eu4XcBEOwSXHHjeQ==",
+      "version": "12.0.0",
+      "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-12.0.0.tgz",
+      "integrity": "sha512-q7xxblgIlaQlYc2WwBqcCLXKW5XWIXSVpFCXGLABXUfDfUbmx/eg/7si+k15R3NFIFPVQbluIqZvKTXeQ50lKg==",
       "hasInstallScript": true,
       "dependencies": {
         "bindings": "^1.5.0",
         "debug": "^4.3.4",
-        "node-addon-api": "^5.0.0",
+        "node-addon-api": "^8.0.0",
         "prebuild-install": "^7.1.1"
       },
       "engines": {
-        "node": ">=16"
+        "node": ">=18"
       }
     },
     "node_modules/etcher-sdk/node_modules/glob": {
@@ -9663,9 +9663,9 @@
       }
     },
     "node_modules/etcher-sdk/node_modules/node-abi": {
-      "version": "3.56.0",
-      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.56.0.tgz",
-      "integrity": "sha512-fZjdhDOeRcaS+rcpve7XuwHBmktS1nS1gzgghwKUQQ8nTy2FdSDr6ZT8k6YhvlJeHmmQMYiT/IH9hfco5zeW2Q==",
+      "version": "3.57.0",
+      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.57.0.tgz",
+      "integrity": "sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==",
       "dependencies": {
         "semver": "^7.3.5"
       },
@@ -9674,9 +9674,12 @@
       }
     },
     "node_modules/etcher-sdk/node_modules/node-addon-api": {
-      "version": "5.1.0",
-      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-5.1.0.tgz",
-      "integrity": "sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA=="
+      "version": "8.0.0",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.0.0.tgz",
+      "integrity": "sha512-ipO7rsHEBqa9STO5C5T10fj732ml+5kLN1cAG8/jdHd56ldQeGj3Q7+scUS+VHK/qy1zLEwC4wMK5+yM0btPvw==",
+      "engines": {
+        "node": "^18 || ^20 || >= 21"
+      }
     },
     "node_modules/etcher-sdk/node_modules/prebuild-install": {
       "version": "7.1.2",
@@ -32859,9 +32862,9 @@
       }
     },
     "etcher-sdk": {
-      "version": "9.0.6",
-      "resolved": "https://registry.npmjs.org/etcher-sdk/-/etcher-sdk-9.0.6.tgz",
-      "integrity": "sha512-vRZ6blG9ja1DqMX98WDmXPHLB3wdpVs5Kqy7AdCY5LoOtFngfAm+jPcJJea5gXdIY2wHxvr5SfasDd9zdrZEVw==",
+      "version": "9.0.8",
+      "resolved": "https://registry.npmjs.org/etcher-sdk/-/etcher-sdk-9.0.8.tgz",
+      "integrity": "sha512-y3MUSroJCm4M8RCyWfJ/c5GVKP6AWns96WNNda45E+TPPqpi8WBJu/w/BQBUsrG+JL30AUX4QOvOxE5M/5jtFA==",
       "requires": {
         "@balena/node-beaglebone-usbboot": "^3.0.0",
         "@balena/udif": "^1.1.2",
@@ -32873,7 +32876,7 @@
         "check-disk-space": "^3.4.0",
         "cyclic-32": "^1.1.0",
         "debug": "^4.3.4",
-        "drivelist": "^11.2.0",
+        "drivelist": "^12.0.0",
         "file-disk": "^8.0.1",
         "file-type": "^16.0.0",
         "glob": "^10.3.10",
@@ -32911,18 +32914,18 @@
           }
         },
         "detect-libc": {
-          "version": "2.0.2",
-          "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.2.tgz",
-          "integrity": "sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw=="
+          "version": "2.0.3",
+          "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.3.tgz",
+          "integrity": "sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw=="
         },
         "drivelist": {
-          "version": "11.2.2",
-          "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-11.2.2.tgz",
-          "integrity": "sha512-shzkC4h3Q6sVkF9v9lbT1j49LN47O7h0GJk9E4VtJe81Xp6GF1O36gpnWpqRL6VvFya086eu4XcBEOwSXHHjeQ==",
+          "version": "12.0.0",
+          "resolved": "https://registry.npmjs.org/drivelist/-/drivelist-12.0.0.tgz",
+          "integrity": "sha512-q7xxblgIlaQlYc2WwBqcCLXKW5XWIXSVpFCXGLABXUfDfUbmx/eg/7si+k15R3NFIFPVQbluIqZvKTXeQ50lKg==",
           "requires": {
             "bindings": "^1.5.0",
             "debug": "^4.3.4",
-            "node-addon-api": "^5.0.0",
+            "node-addon-api": "^8.0.0",
             "prebuild-install": "^7.1.1"
           }
         },
@@ -32957,17 +32960,17 @@
           "integrity": "sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ=="
         },
         "node-abi": {
-          "version": "3.56.0",
-          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.56.0.tgz",
-          "integrity": "sha512-fZjdhDOeRcaS+rcpve7XuwHBmktS1nS1gzgghwKUQQ8nTy2FdSDr6ZT8k6YhvlJeHmmQMYiT/IH9hfco5zeW2Q==",
+          "version": "3.57.0",
+          "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.57.0.tgz",
+          "integrity": "sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==",
           "requires": {
             "semver": "^7.3.5"
           }
         },
         "node-addon-api": {
-          "version": "5.1.0",
-          "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-5.1.0.tgz",
-          "integrity": "sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA=="
+          "version": "8.0.0",
+          "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.0.0.tgz",
+          "integrity": "sha512-ipO7rsHEBqa9STO5C5T10fj732ml+5kLN1cAG8/jdHd56ldQeGj3Q7+scUS+VHK/qy1zLEwC4wMK5+yM0btPvw=="
         },
         "prebuild-install": {
           "version": "7.1.2",
