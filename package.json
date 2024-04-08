@@ -263,7 +263,7 @@
     "progress-stream": "^2.0.0",
     "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
     "request": "^2.88.2",
-    "resin-cli-form": "^2.0.2",
+    "resin-cli-form": "^3.0.0",
     "resin-cli-visuals": "^2.0.0",
     "resin-discoverable-services": "^2.0.4",
     "resin-doodles": "^0.2.0",
