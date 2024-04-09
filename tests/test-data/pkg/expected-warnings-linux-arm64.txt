@@ -8,35 +8,35 @@
   %2: path-to-executable/xdg-open
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/build/Release/drivelist.node
+  %1: node_modules/drivelist/build/Release/drivelist.node
   %2: path-to-executable/drivelist.node
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/darwin.sh
+  %1: node_modules/drivelist/scripts/darwin.sh
   %2: path-to-executable/drivelist/darwin.sh
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/linux.sh
+  %1: node_modules/drivelist/scripts/linux.sh
   %2: path-to-executable/drivelist/linux.sh
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/win32.bat
+  %1: node_modules/drivelist/scripts/win32.bat
   %2: path-to-executable/drivelist/win32.bat
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/build/Release/drivelist.node
+  %1: node_modules/drivelist/build/Release/drivelist.node
   %2: path-to-executable/drivelist.node
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/darwin.sh
+  %1: node_modules/drivelist/scripts/darwin.sh
   %2: path-to-executable/drivelist/darwin.sh
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/linux.sh
+  %1: node_modules/drivelist/scripts/linux.sh
   %2: path-to-executable/drivelist/linux.sh
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
-  %1: node_modules/etcher-sdk/node_modules/drivelist/scripts/win32.bat
+  %1: node_modules/drivelist/scripts/win32.bat
   %2: path-to-executable/drivelist/win32.bat
 > Warning Cannot resolve 'path'
   node_modules/@balena/compose/dist/parse/schemas/index.js
@@ -44,70 +44,6 @@
   is unknown at compilation time and not included into executable.
   Use a string literal as an argument for 'require', or leave it
   as is and specify the resolved file name in 'scripts' option.
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/build/Release/drivelist.node
-  %2: path-to-executable/drivelist.node
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/scripts/darwin.sh
-  %2: path-to-executable/drivelist/darwin.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/scripts/linux.sh
-  %2: path-to-executable/drivelist/linux.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/scripts/win32.bat
-  %2: path-to-executable/drivelist/win32.bat
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/build/Release/drivelist.node
-  %2: path-to-executable/drivelist.node
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/scripts/darwin.sh
-  %2: path-to-executable/drivelist/darwin.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/scripts/linux.sh
-  %2: path-to-executable/drivelist/linux.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/drivelist/scripts/win32.bat
-  %2: path-to-executable/drivelist/win32.bat
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/build/Release/drivelist.node
-  %2: path-to-executable/drivelist.node
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/darwin.sh
-  %2: path-to-executable/drivelist/darwin.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/linux.sh
-  %2: path-to-executable/drivelist/linux.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/win32.bat
-  %2: path-to-executable/drivelist/win32.bat
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/build/Release/drivelist.node
-  %2: path-to-executable/drivelist.node
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/darwin.sh
-  %2: path-to-executable/drivelist/darwin.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/linux.sh
-  %2: path-to-executable/drivelist/linux.sh
-> Warning Cannot include file %1 into executable.
-  The file must be distributed with executable as %2.
-  %1: node_modules/resin-cli-visuals/node_modules/drivelist/scripts/win32.bat
-  %2: path-to-executable/drivelist/win32.bat
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/axios.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/utils.js
@@ -158,14 +94,8 @@
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/platform/node/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/platform/node/classes/FormData.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/platform/node/classes/URLSearchParams.js
-prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=arm64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=arm64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=arm64 libc= platform=linux)
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/string-width/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/strip-ansi/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/wrap-ansi/index.js
-prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=arm64 libc= platform=linux)
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/ansi-regex/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/ansi-styles/index.js
-prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=arm64 libc= platform=linux)
-prebuild-install warn install No prebuilt binaries found (target=v20.10.0 runtime=node arch=arm64 libc= platform=linux)

@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import * as _ from 'lodash';
-import type { NodeJSSocketWithFileDescriptor } from 'net-keepalive';
-import * as os from 'os';
 import * as request from 'request';
 import type * as Stream from 'stream';
 
@@ -214,17 +212,6 @@ export class DeviceAPI {
 				}
 				try {
 					res.socket.setKeepAlive(true, 1000);
-					if (os.platform() !== 'win32') {
-						const NetKeepalive = await import('net-keepalive');
-						// Certain versions of typescript won't convert
-						// this automatically
-						const sock = res.socket as any as NodeJSSocketWithFileDescriptor;
-						// We send a tcp keepalive probe once every 5 seconds
-						NetKeepalive.setKeepAliveInterval(sock, 5000);
-						// After 5 failed probes, the connection is marked as
-						// closed
-						NetKeepalive.setKeepAliveProbes(sock, 5);
-					}
 				} catch (error) {
 					reject(error);
 				}
