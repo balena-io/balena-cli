@@ -257,7 +257,7 @@
     "node-cleanup": "^2.1.2",
     "node-unzip-2": "^0.2.8",
     "open": "^7.1.0",
-    "patch-package": "^6.4.7",
+    "patch-package": "^6.5.1",
     "prettyjson": "^1.2.5",
     "progress-stream": "^2.0.0",
     "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
