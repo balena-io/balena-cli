@@ -62,7 +62,7 @@ describe('convertEolInPlace() function', function () {
 describe('detectEncoding() function', function () {
 	it('should correctly detect the encoding of a few selected files', async () => {
 		const sampleBinary = [
-			'etcher-sdk/node_modules/drivelist/build/Release/drivelist.node',
+			'drivelist/build/Release/drivelist.node',
 			'mountutils/build/Release/MountUtils.node',
 		];
 		const sampleText = [
