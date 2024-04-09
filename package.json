@@ -254,7 +254,6 @@
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "ndjson": "^2.0.0",
-    "net-keepalive": "^3.0.0",
     "node-cleanup": "^2.1.2",
     "node-unzip-2": "^0.2.8",
     "open": "^7.1.0",
