@@ -1,4 +1,77 @@
 - commits:
+    - subject: Update @oclif/core to 3.26.2
+      hash: 48110311724767aac70485ce075a90cc816605e5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Drop the keep-alive package in favor of node's setKeepAlive defaults
+      hash: be682c742604593b986ee66a69b6a722007d76a8
+      body: |
+        Since node 12.17.0 setKeepAlive also sets
+        TCP_KEEPCNT=10 (vs 5 that we had)
+        TCP_KEEPINTVL=1 (vs 5s that we had)
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://github.com/balena-io/balena-cli/pull/1220
+        see: https://github.com/balena-io/balena-cli/pull/1220
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-preload to v15.0.4
+      hash: c6827ee51da2d919dd292516b293462986f90646
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update resin-cli-form to v3
+      hash: 2cba3bbc22bae7543ac70141fdb60d12900c007b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update resin-cli-visuals to v2
+      hash: 933eacf2754619e681dad2cfd70f732e0063c0ef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-device-init to v7.0.1
+      hash: e7869f4c6d81cfe6cd831c616546dc47f23cfb28
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update etcher-sdk to v9.0.8
+      hash: 1a246a9ba5d92fbc8abc271e6918268c353ef982
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Mark bin/dev & bin/run as executable
+      hash: e26895085d377b86268a20f72ac31090dffd9271
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 18.1.6
+  title: ""
+  date: 2024-04-09T15:04:36.569Z
+- commits:
     - subject: Move klaw library to dev dependency
       hash: bb4713ab9a2445cc7adab24f7d9549331f1c72e8
       body: ""

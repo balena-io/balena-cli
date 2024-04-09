@@ -1,6 +1,6 @@
 {
   "name": "balena-cli",
-  "version": "18.1.5",
+  "version": "18.1.6",
   "description": "The official balena Command Line Interface",
   "main": "./build/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
@@ -287,6 +287,6 @@
     "windosu": "^0.3.0"
   },
   "versionist": {
-    "publishedAt": "2024-03-14T15:52:35.905Z"
+    "publishedAt": "2024-04-09T15:04:37.535Z"
   }
 }
