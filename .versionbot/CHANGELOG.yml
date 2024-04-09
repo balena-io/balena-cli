@@ -1,4 +1,29 @@
 - commits:
+    - subject: Update balena-preload to 15.0.5
+      hash: 3caf54aa16affeb8606671dfacf58c94d2bcdc68
+      body: |
+        Update balena-preload from 15.0.4 to 15.0.5
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Remove unused dependencies
+              hash: 429315f21df769a3408610cdcacfa3a02ac3edc1
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otavio Jacobi
+              nested: []
+          version: balena-preload-15.0.5
+          title: ""
+          date: 2024-04-09T15:24:21.255Z
+  version: 18.1.7
+  title: ""
+  date: 2024-04-09T16:03:31.270Z
+- commits:
     - subject: Update @oclif/core to 3.26.2
       hash: 48110311724767aac70485ce075a90cc816605e5
       body: ""
