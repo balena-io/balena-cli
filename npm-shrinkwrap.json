@@ -14,7 +14,7 @@
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
-        "@oclif/core": "^3.24.0",
+        "@oclif/core": "^3.26.2",
         "@resin.io/valid-email": "^0.1.0",
         "@sentry/node": "^6.16.1",
         "@types/fast-levenshtein": "0.0.1",
@@ -1993,9 +1993,9 @@
       }
     },
     "node_modules/@oclif/core": {
-      "version": "3.25.0",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.25.0.tgz",
-      "integrity": "sha512-6O6Q2buS4uZcH0l5YDo3rYQyquRm6uoshEFE1O1RGQsZhT7PCXo3PAoBU8SKLBZoUIurupXZqNJpW+BHUmatBw==",
+      "version": "3.26.0",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.26.0.tgz",
+      "integrity": "sha512-TpMdfD4tfA2tVVbd4l0PrP02o5KoUXYmudBbTC7CeguDo/GLoprw4uL8cMsaVA26+cbcy7WYtOEydQiHVtJixA==",
       "dependencies": {
         "@types/cli-progress": "^3.11.5",
         "ansi-escapes": "^4.3.2",
@@ -26164,9 +26164,9 @@
       }
     },
     "@oclif/core": {
-      "version": "3.25.0",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.25.0.tgz",
-      "integrity": "sha512-6O6Q2buS4uZcH0l5YDo3rYQyquRm6uoshEFE1O1RGQsZhT7PCXo3PAoBU8SKLBZoUIurupXZqNJpW+BHUmatBw==",
+      "version": "3.26.0",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.26.0.tgz",
+      "integrity": "sha512-TpMdfD4tfA2tVVbd4l0PrP02o5KoUXYmudBbTC7CeguDo/GLoprw4uL8cMsaVA26+cbcy7WYtOEydQiHVtJixA==",
       "requires": {
         "@types/cli-progress": "^3.11.5",
         "ansi-escapes": "^4.3.2",
