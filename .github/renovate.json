@@ -1,0 +1,4 @@
+{
+	"extends": ["github>balena-io/renovate-config"],
+	"postUpdateOptions": ["npmDedupe"]
+}
