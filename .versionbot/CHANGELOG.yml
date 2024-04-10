@@ -1,4 +1,20 @@
 - commits:
+    - subject: Enable npm dedupe as part of Renovate postUpdateOptions
+      hash: 2a970478bd576d3887e64cd9398b890a8a503be6
+      body: ""
+      footer:
+        See: https://docs.renovatebot.com/configuration-options/#postupdateoptions
+        see: https://docs.renovatebot.com/configuration-options/#postupdateoptions
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 18.1.9
+  title: ""
+  date: 2024-04-10T15:24:25.946Z
+- commits:
     - subject: Bump patch-package to 6.5.1
       hash: 6178f34f88377d64d331e027d6c0da7165c0df5e
       body: ""
