@@ -29,7 +29,7 @@ const defaultSocketPath =
 		: '/var/run/docker.sock';
 
 describe('getDefaultDockerModemOpts() function', function () {
-	it('should use a Unix socket when --dockerHost is not used', () => {
+	it('should use a Unix socket when --dockerHost is not used', async () => {
 		const cliFlags: DockerConnectionCliFlags = {
 			dockerPort: 2376,
 		};
@@ -38,8 +38,15 @@ describe('getDefaultDockerModemOpts() function', function () {
 			host: undefined,
 			port: undefined,
 			protocol: 'http',
-			socketPath: defaultSocketPath,
 		});
+		if (typeof defaultOps.socketPath === 'function') {
+			// Function is always findDefaultUnixSocket(), which returns a promise.
+			// Must override type since @types/dockerode not updated yet.
+			const socketPath: () => Promise<string> = defaultOps.socketPath;
+			expect(await socketPath()).to.equal(defaultSocketPath);
+		} else {
+			expect(defaultOps.socketPath).to.equal(defaultSocketPath);
+		}
 	});
 
 	it('should use the HTTP protocol when --dockerPort is 2375', () => {
@@ -131,7 +138,14 @@ describe('generateConnectOpts() function', function () {
 			host: undefined,
 			port: undefined,
 			protocol: 'https',
-			socketPath: defaultSocketPath,
 		});
+		if (typeof connectOpts.socketPath === 'function') {
+			// Function is always findDefaultUnixSocket(), which returns a promise.
+			// Must override type since @types/dockerode not updated yet.
+			const socketPath: () => Promise<string> = connectOpts.socketPath;
+			expect(await socketPath()).to.equal(defaultSocketPath);
+		} else {
+			expect(connectOpts.socketPath).to.equal(defaultSocketPath);
+		}
 	});
 });
