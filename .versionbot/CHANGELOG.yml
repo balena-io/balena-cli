@@ -1,4 +1,16 @@
 - commits:
+    - subject: Mark node 20.6.0 as the minimum working version
+      hash: b29aae1821bbaac87ceffd5eaee775afa7277927
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 18.1.10
+  title: ""
+  date: 2024-04-16T14:17:03.542Z
+- commits:
     - subject: Enable npm dedupe as part of Renovate postUpdateOptions
       hash: 2a970478bd576d3887e64cd9398b890a8a503be6
       body: ""
