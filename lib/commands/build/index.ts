@@ -20,7 +20,13 @@ import Command from '../../command';
 import { getBalenaSdk } from '../../utils/lazy';
 import * as cf from '../../utils/common-flags';
 import * as compose from '../../utils/compose';
-import type { ApplicationType, BalenaSDK } from 'balena-sdk';
+import type {
+	ApplicationType,
+	BalenaSDK,
+	DeviceType,
+	PineOptions,
+	PineTypedResult,
+} from 'balena-sdk';
 import {
 	buildArgDeprecation,
 	dockerignoreHelp,
@@ -67,6 +73,7 @@ ${dockerignoreHelp}
 	public static examples = [
 		'$ balena build --fleet myFleet',
 		'$ balena build ./source/ --fleet myorg/myfleet',
+		'$ balena build --deviceType raspberrypi3 --emulated',
 		'$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated',
 		'$ balena build --docker /var/run/docker.sock --fleet myFleet   # Linux, Mac',
 		'$ balena build --docker //./pipe/docker_engine --fleet myFleet # Windows',
@@ -114,6 +121,8 @@ ${dockerignoreHelp}
 		options.source = params.source;
 		delete params.source;
 
+		await this.resolveArchFromDeviceType(sdk, options);
+
 		await this.validateOptions(options, sdk);
 
 		// Build args are under consideration for removal - warn user
@@ -127,7 +136,7 @@ ${dockerignoreHelp}
 
 		try {
 			await this.buildProject(docker, logger, composeOpts, {
-				app,
+				appType: app?.application_type?.[0],
 				arch: options.arch!,
 				deviceType: options.deviceType!,
 				buildEmulated: options.emulated,
@@ -150,7 +159,7 @@ ${dockerignoreHelp}
 		) {
 			const { ExpectedError } = await import('../../errors');
 			throw new ExpectedError(
-				'You must specify either a fleet (-f), or the device type (-d) and architecture (-A)',
+				'You must specify either a fleet (-f), or the device type (-d) and optionally the architecture (-A)',
 			);
 		}
 
@@ -168,6 +177,39 @@ ${dockerignoreHelp}
 
 		opts.dockerfile = dockerfilePath;
 		opts['registry-secrets'] = registrySecrets;
+	}
+
+	protected async resolveArchFromDeviceType(sdk: BalenaSDK, opts: FlagsDef) {
+		if (opts.deviceType != null && opts.arch == null) {
+			try {
+				const deviceTypeOpts = {
+					$select: 'is_of__cpu_architecture',
+					$expand: {
+						is_of__cpu_architecture: {
+							$select: 'slug',
+						},
+					},
+				} satisfies PineOptions<DeviceType>;
+				opts.arch = (
+					(await sdk.models.deviceType.get(
+						opts.deviceType,
+						deviceTypeOpts,
+					)) as PineTypedResult<DeviceType, typeof deviceTypeOpts>
+				).is_of__cpu_architecture[0].slug;
+			} catch (err) {
+				const { ExpectedError } = await import('../../errors');
+				if (err instanceof sdk.errors.BalenaInvalidDeviceType) {
+					let message = err.message;
+					if (!(await sdk.auth.isLoggedIn())) {
+						message = `${message}. In case you are trying to use a private device type, please try to log in first.`;
+					}
+					throw new ExpectedError(message);
+				}
+				throw new ExpectedError(
+					'Failed to resolve the architecture of the provided device type. If you are in an air-gapped environment please also define the architecture (-A) parameter.',
+				);
+			}
+		}
 	}
 
 	protected async getAppAndResolveArch(opts: FlagsDef) {
@@ -212,9 +254,7 @@ ${dockerignoreHelp}
 		logger: import('../../utils/logger'),
 		composeOpts: ComposeOpts,
 		opts: {
-			app?: {
-				application_type: [Pick<ApplicationType, 'supports_multicontainer'>];
-			};
+			appType?: Pick<ApplicationType, 'supports_multicontainer'>;
 			arch: string;
 			deviceType: string;
 			buildEmulated: boolean;
@@ -230,11 +270,10 @@ ${dockerignoreHelp}
 			opts.buildOpts.t,
 		);
 
-		const appType = opts.app?.application_type?.[0];
 		if (
-			appType != null &&
+			opts.appType != null &&
 			project.descriptors.length > 1 &&
-			!appType.supports_multicontainer
+			!opts.appType.supports_multicontainer
 		) {
 			logger.logWarn(
 				'Target fleet does not support multiple containers.\n' +
