@@ -1,4 +1,16 @@
 - commits:
+    - subject: "build: Auto-resolve the cpu arch when the --deviceType is provided"
+      hash: 766e6d4e5e54fed3094cf8906e773869d23dd1f1
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested: []
+  version: 18.2.0
+  title: ""
+  date: 2024-04-17T16:13:08.810Z
+- commits:
     - subject: Mark node 20.6.0 as the minimum working version
       hash: b29aae1821bbaac87ceffd5eaee775afa7277927
       body: ""
