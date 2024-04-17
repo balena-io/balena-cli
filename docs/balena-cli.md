@@ -882,6 +882,7 @@ Examples:
 
 	$ balena build --fleet myFleet
 	$ balena build ./source/ --fleet myorg/myfleet
+	$ balena build --deviceType raspberrypi3 --emulated
 	$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated
 	$ balena build --docker /var/run/docker.sock --fleet myFleet   # Linux, Mac
 	$ balena build --docker //./pipe/docker_engine --fleet myFleet # Windows
