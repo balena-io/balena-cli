@@ -21,6 +21,25 @@ jobs:
       )
     secrets: inherit
     with:
-      custom_runs_on: '[["self-hosted","Linux","distro:focal","X64"],["self-hosted","Linux","distro:focal","ARM64"],["macos-12"],["windows-2019"],["macos-latest-xlarge"]]'
+      custom_test_matrix: >
+        {
+          "os": [
+            ["actuated-4cpu-8gb"],
+            ["actuated-arm64-4cpu-8gb"],
+            ["macos-12"],
+            ["windows-2019"],
+            ["macos-latest-xlarge"]
+          ]
+        }
+      custom_publish_matrix: >
+        {
+          "os": [
+            ["actuated-4cpu-8gb"],
+            ["actuated-arm64-4cpu-8gb"],
+            ["macos-12"],
+            ["windows-2019"],
+            ["macos-latest-xlarge"]
+          ]
+        }
       github_prerelease: false
       restrict_custom_actions: false
