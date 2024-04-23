@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use Actuated runners for Linux test and publish
+      hash: 954de13b100bb78680d7797d7c34487eaa5fa2a7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 18.2.1
+  title: ""
+  date: 2024-04-23T12:08:51.532Z
+- commits:
     - subject: "build: Auto-resolve the cpu arch when the --deviceType is provided"
       hash: 766e6d4e5e54fed3094cf8906e773869d23dd1f1
       body: ""
