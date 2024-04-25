@@ -38,6 +38,7 @@ export function generateOpts(options: {
 	nologs: boolean;
 	'noconvert-eol': boolean;
 	dockerfile?: string;
+	composefile?: string;
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
 }): Promise<ComposeOpts> {
@@ -48,6 +49,7 @@ export function generateOpts(options: {
 		inlineLogs: !options.nologs,
 		convertEol: !options['noconvert-eol'],
 		dockerfilePath: options.dockerfile,
+		composefile: options.composefile,
 		multiDockerignore: !!options['multi-dockerignore'],
 		noParentCheck: options['noparent-check'],
 	}));
