@@ -1,4 +1,19 @@
 - commits:
+    - subject: Upgrade dockerode and docker-modem dependencies
+      hash: aa9a148c462d5a03d534b7fd8edc8687af82fb6c
+      body: |
+        Includes test fixes due to an interface change in docker-modem.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 18.2.2
+  title: ""
+  date: 2024-04-30T13:57:45.085Z
+- commits:
     - subject: Use Actuated runners for Linux test and publish
       hash: 954de13b100bb78680d7797d7c34487eaa5fa2a7
       body: ""
