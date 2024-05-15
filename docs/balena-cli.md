@@ -160,16 +160,13 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 # CLI Command Reference
 
-- API Key
+- API Keys
 
 	- [api-key generate &#60;name&#62;](#api-key-generate-name)
 	- [api-key revoke &#60;ids&#62;](#api-key-revoke-ids)
-
-- API Keys
-
 	- [api-keys](#api-keys)
 
-- App
+- Apps
 
 	- [app create &#60;name&#62;](#app-create-name)
 
@@ -179,7 +176,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [logout](#logout)
 	- [whoami](#whoami)
 
-- Block
+- Blocks
 
 	- [block create &#60;name&#62;](#block-create-name)
 
@@ -196,7 +193,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [build [source]](#build-source)
 	- [deploy &#60;fleet&#62; [image]](#deploy-fleet-image)
 
-- Device
+- Devices
 
 	- [device deactivate &#60;uuid&#62;](#device-deactivate-uuid)
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
@@ -217,23 +214,17 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device start-service &#60;uuid&#62;](#device-start-service-uuid)
 	- [device stop-service &#60;uuid&#62;](#device-stop-service-uuid)
 	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
-
-- Devices
-
 	- [devices](#devices)
 	- [devices supported](#devices-supported)
-
-- Environment Variable
-
-	- [env add &#60;name&#62; [value]](#env-add-name-value)
-	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
-	- [env rm &#60;id&#62;](#env-rm-id)
 
 - Environment Variables
 
 	- [envs](#envs)
+	- [env rm &#60;id&#62;](#env-rm-id)
+	- [env add &#60;name&#62; [value]](#env-add-name-value)
+	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
 
-- Fleet
+- Fleets
 
 	- [fleet create &#60;name&#62;](#fleet-create-name)
 	- [fleet &#60;fleet&#62;](#fleet-fleet)
@@ -243,9 +234,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [fleet restart &#60;fleet&#62;](#fleet-restart-fleet)
 	- [fleet rm &#60;fleet&#62;](#fleet-rm-fleet)
 	- [fleet track-latest &#60;slug&#62;](#fleet-track-latest-slug)
-
-- Fleets
-
 	- [fleets](#fleets)
 
 - Local
@@ -292,42 +280,33 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [push &#60;fleetordevice&#62;](#push-fleetordevice)
 
-- Release
+- Releases
 
 	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
 	- [release &#60;commitorid&#62;](#release-commitorid)
 	- [release invalidate &#60;commitorid&#62;](#release-invalidate-commitorid)
 	- [release validate &#60;commitorid&#62;](#release-validate-commitorid)
-
-- Releases
-
 	- [releases &#60;fleet&#62;](#releases-fleet)
 
 - Settings
 
 	- [settings](#settings)
 
-- SSH Key
+- SSH Keys
 
 	- [key add &#60;name&#62; [path]](#key-add-name-path)
 	- [key &#60;id&#62;](#key-id)
 	- [key rm &#60;id&#62;](#key-rm-id)
-
-- SSH Keys
-
 	- [keys](#keys)
 
 - Support
 
 	- [support &#60;action&#62;](#support-action)
 
-- Tag
+- Tags
 
 	- [tag rm &#60;tagkey&#62;](#tag-rm-tagkey)
 	- [tag set &#60;tagkey&#62; [value]](#tag-set-tagkey-value)
-
-- Tags
-
 	- [tags](#tags)
 
 - Utilities
@@ -338,7 +317,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [version](#version)
 
-# API Key
+# API Keys
 
 ## api-key generate &#60;name&#62;
 
@@ -380,8 +359,6 @@ the API key ids
 
 ### Options
 
-# API Keys
-
 ## api-keys
 
 Print a list of balenaCloud API keys.
@@ -402,7 +379,7 @@ show API keys for your user
 
 fleet name or slug (preferred)
 
-# App
+# Apps
 
 ## app create &#60;name&#62;
 
@@ -524,7 +501,7 @@ Examples:
 
 	$ balena whoami
 
-# Block
+# Blocks
 
 ## block create &#60;name&#62;
 
@@ -1215,7 +1192,7 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
-# Device
+# Devices
 
 ## device deactivate &#60;uuid&#62;
 
@@ -1775,8 +1752,6 @@ the uuid of the device to make track the fleet's release
 
 ### Options
 
-# Devices
-
 ## devices
 
 List all of your devices.
@@ -1836,7 +1811,149 @@ Examples:
 
 produce JSON output instead of tabular output
 
-# Environment Variable
+# Environment Variables
+
+## envs
+
+List the environment or configuration variables of a fleet, device or
+service, as selected by the respective command-line options. (A service
+corresponds to a Docker image/container in a microservices fleet.)
+
+The results include fleet-wide (multiple devices), device-specific (multiple
+services on a specific device) and service-specific variables that apply to the
+selected fleet, device or service. It can be thought of as including inherited
+variables; for example, a service inherits device-wide variables, and a device
+inherits fleet-wide variables.
+
+The printed output may include DEVICE and/or SERVICE columns to distinguish
+between fleet-wide, device-specific and service-specific variables.
+An asterisk in these columns indicates that the variable applies to
+"all devices" or "all services".
+
+The --config option is used to list "configuration variables" that control
+balena platform features, as opposed to custom environment variables defined
+by the user. The --config and the --service options are mutually exclusive
+because configuration variables cannot be set for specific services.
+
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents data
+types like lists and empty strings. The 'jq' utility may be helpful in shell
+scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
+JSON array ([]) is printed instead of an error message when no variables exist
+for the given query. When querying variables for a device, note that the fleet
+name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
+the device belonged to is no longer accessible by the current user (for example,
+in case the current user was removed from the fleet by the fleet's owner).
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena envs --fleet myorg/myfleet
+	$ balena envs --fleet MyFleet --json
+	$ balena envs --fleet MyFleet --service MyService
+	$ balena envs --fleet MyFleet --config
+	$ balena envs --device 7cf02a6
+	$ balena envs --device 7cf02a6 --json
+	$ balena envs --device 7cf02a6 --config --json
+	$ balena envs --device 7cf02a6 --service MyService
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -c, --config
+
+show configuration variables only
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+#### -s, --service SERVICE
+
+service name
+
+## env rm &#60;id&#62;
+
+Remove a configuration or environment variable from a fleet, device
+or service, as selected by command-line options.
+
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
+
+- fleet environment variable
+- fleet configuration variable (--config)
+- fleet service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
+
+The --device option selects a device-specific variable instead of a fleet
+variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (container) in a microservices (multicontainer)
+fleet.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
+
+Interactive confirmation is normally asked before the variable is deleted.
+The --yes option disables this behavior.
+
+Examples:
+
+	$ balena env rm 123123
+	$ balena env rm 234234 --yes
+	$ balena env rm 345345 --config
+	$ balena env rm 456456 --service
+	$ balena env rm 567567 --device
+	$ balena env rm 678678 --device --config
+	$ balena env rm 789789 --device --service --yes
+
+### Arguments
+
+#### ID
+
+variable's numeric database ID
+
+### Options
+
+#### -c, --config
+
+select a configuration variable (may be used together with the --device option)
+
+#### -d, --device
+
+select a device-specific variable instead of a fleet variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
+
+#### -y, --yes
+
+do not prompt for confirmation before deleting the variable
 
 ## env add &#60;name&#62; [value]
 
@@ -1976,151 +2093,7 @@ select a device-specific variable instead of a fleet variable
 
 select a service variable (may be used together with the --device option)
 
-## env rm &#60;id&#62;
-
-Remove a configuration or environment variable from a fleet, device
-or service, as selected by command-line options.
-
-Variables are selected by their database ID (as reported by the 'balena envs'
-command) and one of six database "resource types":
-
-- fleet environment variable
-- fleet configuration variable (--config)
-- fleet service variable (--service)
-- device environment variable (--device)
-- device configuration variable (--device --config)
-- device service variable (--device --service)
-
-The --device option selects a device-specific variable instead of a fleet
-variable.
-
-The --config option selects a configuration variable. Configuration variable
-names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
-configure balena platform features.
-
-The --service option selects a service variable, which is an environment variable
-that applies to a specifc service (container) in a microservices (multicontainer)
-fleet.
-
-The --service and --config options cannot be used together, but they can be
-used alongside the --device option to select a device-specific service or
-configuration variable.
-
-Interactive confirmation is normally asked before the variable is deleted.
-The --yes option disables this behavior.
-
-Examples:
-
-	$ balena env rm 123123
-	$ balena env rm 234234 --yes
-	$ balena env rm 345345 --config
-	$ balena env rm 456456 --service
-	$ balena env rm 567567 --device
-	$ balena env rm 678678 --device --config
-	$ balena env rm 789789 --device --service --yes
-
-### Arguments
-
-#### ID
-
-variable's numeric database ID
-
-### Options
-
-#### -c, --config
-
-select a configuration variable (may be used together with the --device option)
-
-#### -d, --device
-
-select a device-specific variable instead of a fleet variable
-
-#### -s, --service
-
-select a service variable (may be used together with the --device option)
-
-#### -y, --yes
-
-do not prompt for confirmation before deleting the variable
-
-# Environment Variables
-
-## envs
-
-List the environment or configuration variables of a fleet, device or
-service, as selected by the respective command-line options. (A service
-corresponds to a Docker image/container in a microservices fleet.)
-
-The results include fleet-wide (multiple devices), device-specific (multiple
-services on a specific device) and service-specific variables that apply to the
-selected fleet, device or service. It can be thought of as including inherited
-variables; for example, a service inherits device-wide variables, and a device
-inherits fleet-wide variables.
-
-The printed output may include DEVICE and/or SERVICE columns to distinguish
-between fleet-wide, device-specific and service-specific variables.
-An asterisk in these columns indicates that the variable applies to
-"all devices" or "all services".
-
-The --config option is used to list "configuration variables" that control
-balena platform features, as opposed to custom environment variables defined
-by the user. The --config and the --service options are mutually exclusive
-because configuration variables cannot be set for specific services.
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings. The 'jq' utility may be helpful in shell
-scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
-JSON array ([]) is printed instead of an error message when no variables exist
-for the given query. When querying variables for a device, note that the fleet
-name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
-the device belonged to is no longer accessible by the current user (for example,
-in case the current user was removed from the fleet by the fleet's owner).
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	$ balena envs --fleet myorg/myfleet
-	$ balena envs --fleet MyFleet --json
-	$ balena envs --fleet MyFleet --service MyService
-	$ balena envs --fleet MyFleet --config
-	$ balena envs --device 7cf02a6
-	$ balena envs --device 7cf02a6 --json
-	$ balena envs --device 7cf02a6 --config --json
-	$ balena envs --device 7cf02a6 --service MyService
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -c, --config
-
-show configuration variables only
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
-#### -s, --service SERVICE
-
-service name
-
-# Fleet
+# Fleets
 
 ## fleet create &#60;name&#62;
 
@@ -2366,8 +2339,6 @@ Examples:
 the slug of the fleet to make track the latest release
 
 ### Options
-
-# Fleets
 
 ## fleets
 
@@ -3401,7 +3372,7 @@ as final by default unless this option is given.
 
 The notes for this release
 
-# Release
+# Releases
 
 ## release finalize &#60;commitOrId&#62;
 
@@ -3500,8 +3471,6 @@ the commit or ID of the release to validate
 
 ### Options
 
-# Releases
-
 ## releases &#60;fleet&#62;
 
 List all releases of the given fleet.
@@ -3550,7 +3519,7 @@ Examples:
 
 ### Options
 
-# SSH Key
+# SSH Keys
 
 ## key add &#60;name&#62; [path]
 
@@ -3630,8 +3599,6 @@ balenaCloud ID for the SSH key
 
 answer "yes" to all questions (non interactive use)
 
-# SSH Keys
-
 ## keys
 
 List all SSH keys registered in balenaCloud for the logged in user.
@@ -3692,7 +3659,7 @@ comma-separated list (no spaces) of fleet names or slugs (preferred)
 
 length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
-# Tag
+# Tags
 
 ## tag rm &#60;tagKey&#62;
 
@@ -3788,8 +3755,6 @@ device UUID
 #### -r, --release RELEASE
 
 release id
-
-# Tags
 
 ## tags
 

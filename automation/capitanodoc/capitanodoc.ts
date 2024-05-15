@@ -54,15 +54,15 @@ interface Documentation {
 
 // Mapping folders names to custom headings in the docs
 const commandHeadings: { [key: string]: string } = {
-	'api-key': 'API Key',
+	'api-key': 'API Keys',
 	'api-keys': 'API Keys',
 	login: 'Authentication',
 	whoami: 'Authentication',
 	logout: 'Authentication',
-	env: 'Environment Variable',
+	env: 'Environment Variables',
 	envs: 'Environment Variables',
 	help: 'Help and Version',
-	key: 'SSH Key',
+	key: 'SSH Keys',
 	keys: 'SSH Keys',
 	orgs: 'Organizations',
 	os: 'OS',
@@ -73,6 +73,12 @@ const commandHeadings: { [key: string]: string } = {
 	build: 'Deploy',
 	join: 'Platform',
 	leave: 'Platform',
+	app: 'Apps',
+	block: 'Blocks',
+	device: 'Devices',
+	fleet: 'Fleets',
+	release: 'Releases',
+	tag: 'Tags',
 };
 
 // Fetch all available commands
