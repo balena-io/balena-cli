@@ -26,7 +26,7 @@ const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
 export interface TestOutput {
 	err: string[]; // stderr
 	out: string[]; // stdout
-	exitCode?: number; // process.exitCode
+	exitCode?: string | number; // process.exitCode
 }
 
 function matchesNodeEngineVersionWarn(msg: string) {
