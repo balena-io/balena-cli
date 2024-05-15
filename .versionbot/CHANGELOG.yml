@@ -1,4 +1,22 @@
 - commits:
+    - subject: Pluralize command categories in docs
+      hash: 233bc705dee0ec2e6efe4375deac1889d91f5718
+      body: >
+        Pluralize command categories, eg. "Device" -> "Devices”.
+
+
+        Results in much fewer categories in our docs pages and we no longer have
+        the somewhat silly separate singular and plural categories for commands
+        such as `devices` and `device <command>`.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: dfunckt
+      nested: []
+  version: 18.2.3
+  title: ""
+  date: 2024-05-15T13:32:49.489Z
+- commits:
     - subject: Upgrade dockerode and docker-modem dependencies
       hash: aa9a148c462d5a03d534b7fd8edc8687af82fb6c
       body: |
