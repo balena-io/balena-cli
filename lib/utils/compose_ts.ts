@@ -1255,7 +1255,16 @@ async function pushAndUpdateServiceImages(
 		tty,
 		getChalk().blue('[Push]') + '    ',
 	);
-	const reporters = progress.aggregateProgress(images.length, renderer);
+	function debugProgress(onProgress: (e: any) => void): (e: any) => void {
+		return (e) => {
+			console.log(JSON.stringify(e));
+			onProgress(e);
+		};
+	}
+	const reporters = progress.aggregateProgress(
+		images.length,
+		debugProgress(renderer),
+	);
 
 	const pushImage = async (
 		localImage: Dockerode.Image,
