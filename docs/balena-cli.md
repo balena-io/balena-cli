@@ -2834,11 +2834,6 @@ from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
 environments).
 
-Note: This command is currently not supported on Windows natively. Windows users
-are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
-the Linux release of the balena CLI:
-https://docs.microsoft.com/en-us/windows/wsl/about
-
 Examples:
 
 	$ balena os configure ../path/rpi3.img --device 7cf02a6

@@ -75,11 +75,6 @@ export default class OsConfigureCmd extends Command {
 		https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
-
-		Note: This command is currently not supported on Windows natively. Windows users
-		are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
-		the Linux release of the balena CLI:
-		https://docs.microsoft.com/en-us/windows/wsl/about
 	`;
 
 	public static examples = [
