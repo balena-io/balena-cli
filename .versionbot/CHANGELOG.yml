@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: fix outdated doc for "os configure"'
+      hash: 163dcf596e8e318570f5f1c27485b2b834c21214
+      body: |
+        There were an outdated warning for `os configure` on windows.
+        The command actually works fine on windows.
+      footer:
+        see: https://balena.zulipchat.com/#narrow/stream/403752-channel.2Fsupport-help/topic/Cytiva.20image.20downloads/near/438786503
+      author: Edwin Joassart
+      nested: []
+  version: 18.2.4
+  title: ""
+  date: 2024-05-17T12:04:06.637Z
+- commits:
     - subject: Pluralize command categories in docs
       hash: 233bc705dee0ec2e6efe4375deac1889d91f5718
       body: >
