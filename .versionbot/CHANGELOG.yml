@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/upload-artifact digest to 6546280
+      hash: 2cd455ff81fb4ddbf1d5f77e0dd46c690c4dc059
+      body: |
+        Update actions/upload-artifact
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.8
+  title: ""
+  date: 2024-06-21T18:13:43.659Z
+- commits:
     - subject: Pin dependencies
       hash: f50287873a32a00e6aec3eafbfe53ab461d95492
       body: |
