@@ -1,4 +1,24 @@
 - commits:
+    - subject: Limit @oclif/core to ~3.26 so that npm dedupe doesn't auto-bump it
+      hash: 5a3f0ea453bf88f04c883411460f188028eee5ac
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update TypeScript to 5.5.2
+      hash: 7959e23cd3e6b506750fbd841ad0893400b4e68e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 18.2.5
+  title: ""
+  date: 2024-06-21T12:11:16.888Z
+- commits:
     - subject: 'patch: fix outdated doc for "os configure"'
       hash: 163dcf596e8e318570f5f1c27485b2b834c21214
       body: |
