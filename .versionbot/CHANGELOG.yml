@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-python digest to 65d7f2d
+      hash: 73220206a25f29d9af2c042fc1a247a02bd5bae9
+      body: |
+        Update actions/setup-python
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.9
+  title: ""
+  date: 2024-06-21T19:13:40.118Z
+- commits:
     - subject: Update actions/upload-artifact digest to 6546280
       hash: 2cd455ff81fb4ddbf1d5f77e0dd46c690c4dc059
       body: |
