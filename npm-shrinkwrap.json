@@ -14,7 +14,7 @@
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
-        "@oclif/core": "~3.26.9",
+        "@oclif/core": "^3.27.0",
         "@resin.io/valid-email": "^0.1.0",
         "@sentry/node": "^6.16.1",
         "@types/fast-levenshtein": "0.0.1",
@@ -1910,10 +1910,9 @@
       }
     },
     "node_modules/@oclif/core": {
-      "version": "3.26.9",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.26.9.tgz",
-      "integrity": "sha512-yB5Yxd62DsHqqCK/60L8IiGpTRIU4J+fzCqfbPRiIYE5+agfN63kppaM+TbqyMBdsnt/PQOnYD8Bhs1quUr6fg==",
-      "license": "MIT",
+      "version": "3.27.0",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-3.27.0.tgz",
+      "integrity": "sha512-Fg93aNFvXzBq5L7ztVHFP2nYwWU1oTCq48G0TjF/qC1UN36KWa2H5Hsm72kERd5x/sjy2M2Tn4kDEorUlpXOlw==",
       "dependencies": {
         "@types/cli-progress": "^3.11.5",
         "ansi-escapes": "^4.3.2",
