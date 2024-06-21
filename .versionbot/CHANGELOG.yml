@@ -1,4 +1,17 @@
 - commits:
+    - subject: Pin dependencies
+      hash: f50287873a32a00e6aec3eafbfe53ab461d95492
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.7
+  title: ""
+  date: 2024-06-21T17:16:17.235Z
+- commits:
     - subject: Update @oclif/core from 3.26.9 to 3.27.0
       hash: 75d2d7d37543d179bc05b85de89ec7e2f33e5272
       body: ""
