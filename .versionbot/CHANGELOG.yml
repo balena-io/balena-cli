@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @oclif/core from 3.26.9 to 3.27.0
+      hash: 75d2d7d37543d179bc05b85de89ec7e2f33e5272
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.6
+  title: ""
+  date: 2024-06-21T15:23:21.818Z
+- commits:
     - subject: Limit @oclif/core to ~3.26 so that npm dedupe doesn't auto-bump it
       hash: 5a3f0ea453bf88f04c883411460f188028eee5ac
       body: ""
