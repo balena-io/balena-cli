@@ -207,6 +207,12 @@
   %2: build\commands\push\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\release\export.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\release\import.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\release\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
