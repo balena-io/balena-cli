@@ -282,7 +282,9 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Releases
 
+	- [release export &#60;commitorid&#62;](#release-export-commitorid)
 	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
+	- [release import &#60;bundlefile&#62;](#release-import-bundlefile)
 	- [release &#60;commitorid&#62;](#release-commitorid)
 	- [release invalidate &#60;commitorid&#62;](#release-invalidate-commitorid)
 	- [release validate &#60;commitorid&#62;](#release-validate-commitorid)
@@ -3369,6 +3371,28 @@ The notes for this release
 
 # Releases
 
+## release export &#60;commitOrId&#62;
+
+Exports a successful release to a release bundle file that can be used
+      to import the release to another application or fleet.
+
+Examples:
+
+	$ balena release export a777f7345fe3d655c1c981aa642e5555 -o ../path/to/release.tar
+	$ balena release export 1234567 -o ../path/to/release.tar
+
+### Arguments
+
+#### COMMITORID
+
+commit or ID of the release to export
+
+### Options
+
+#### -o, --output OUTPUT
+
+output path
+
 ## release finalize &#60;commitOrId&#62;
 
 Finalize a release. Releases can be "draft" or "final", and this command
@@ -3394,6 +3418,28 @@ Examples:
 the commit or ID of the release to finalize
 
 ### Options
+
+## release import &#60;bundleFile&#62;
+
+
+
+Examples:
+
+	$ balena release import ../path/to/release.tar -f 1234567
+	$ balena release import ../path/to/release.tar -f myFleet
+	$ balena release import ../path/to/release.tar -f myOrg/myFleet
+
+### Arguments
+
+#### BUNDLE
+
+path to a release bundle file, e.g. "release.tar"
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
 
 ## release &#60;commitOrId&#62;
 
