@@ -203,6 +203,7 @@
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
+    "@balena/release-bundle": "^0.5.0-build-add-apply-version-override-84415da02f1be136ce33aadfc4a911f99019d4b8-1",
     "@oclif/core": "^3.27.0",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^6.16.1",
