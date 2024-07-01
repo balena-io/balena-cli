@@ -195,6 +195,7 @@
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
+    "@balena/release-bundle": "^0.5.2",
     "@oclif/core": "^4.0.8",
     "@sentry/node": "^6.16.1",
     "balena-config-json": "^4.2.0",
