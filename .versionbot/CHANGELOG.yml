@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @types/fast-levenshtein to v0.0.4
+      hash: a29bd8d0ef829814faaeba08285497a1ea8d9091
+      body: |
+        Update @types/fast-levenshtein from 0.0.1 to 0.0.4
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.11
+  title: ""
+  date: 2024-07-01T17:52:41.259Z
+- commits:
     - subject: Update actions/download-artifact action to v4.1.7
       hash: 15c0c32a019f21614b75990b04759063225cdf17
       body: |
