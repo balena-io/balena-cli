@@ -17,7 +17,7 @@
         "@oclif/core": "^3.27.0",
         "@resin.io/valid-email": "^0.1.0",
         "@sentry/node": "^6.16.1",
-        "@types/fast-levenshtein": "0.0.1",
+        "@types/fast-levenshtein": "0.0.4",
         "@types/update-notifier": "^4.1.1",
         "@yao-pkg/pkg": "^5.11.1",
         "balena-config-json": "^4.2.0",
@@ -3756,9 +3756,10 @@
       }
     },
     "node_modules/@types/fast-levenshtein": {
-      "version": "0.0.1",
-      "resolved": "https://registry.npmjs.org/@types/fast-levenshtein/-/fast-levenshtein-0.0.1.tgz",
-      "integrity": "sha1-OjYVzxc2Rcj8pY0FHk4ygk5L0oY="
+      "version": "0.0.4",
+      "resolved": "https://registry.npmjs.org/@types/fast-levenshtein/-/fast-levenshtein-0.0.4.tgz",
+      "integrity": "sha512-tkDveuitddQCxut1Db8eEFfMahTjOumTJGPHmT9E7KUH+DkVq9WTpVvlfenf3S+uCBeu8j5FP2xik/KfxOEjeA==",
+      "license": "MIT"
     },
     "node_modules/@types/fs-extra": {
       "version": "9.0.13",
