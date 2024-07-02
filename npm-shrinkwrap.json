@@ -135,7 +135,7 @@
         "@types/node": "^20.0.0",
         "@types/node-cleanup": "^2.1.2",
         "@types/parse-link-header": "^1.0.1",
-        "@types/prettyjson": "^0.0.30",
+        "@types/prettyjson": "^0.0.33",
         "@types/progress-stream": "^2.0.2",
         "@types/request": "^2.48.7",
         "@types/rewire": "^2.5.28",
@@ -3992,10 +3992,11 @@
       "dev": true
     },
     "node_modules/@types/prettyjson": {
-      "version": "0.0.30",
-      "resolved": "https://registry.npmjs.org/@types/prettyjson/-/prettyjson-0.0.30.tgz",
-      "integrity": "sha512-BQ15wnnSvzlvDAVvd4t+zXjd9o6QAcfBeEUlZcinDYeb0A1xTfRBc0s8nxHlctojnsxDrbiG7amTqLWbXsiK7Q==",
-      "dev": true
+      "version": "0.0.33",
+      "resolved": "https://registry.npmjs.org/@types/prettyjson/-/prettyjson-0.0.33.tgz",
+      "integrity": "sha512-hHZMkavT9OXFq8p6pTCiaREtPxMRfy9NMp+Qa4PWH0RINQjyh0crOhoqUFA/cvIZncpjBpdvxkoe7nmVbyBJXw==",
+      "dev": true,
+      "license": "MIT"
     },
     "node_modules/@types/progress-stream": {
       "version": "2.0.2",
