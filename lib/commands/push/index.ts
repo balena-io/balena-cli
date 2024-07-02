@@ -121,6 +121,11 @@ export default class PushCmd extends Command {
 			description:
 				'Alternative Dockerfile name/path, relative to the source folder',
 		}),
+		composefile: Flags.string({
+			description: stripIndent`
+			Alternative compose file name/path, relative to the source folder.
+			Only works for local devices`,
+		}),
 		nocache: Flags.boolean({
 			description: stripIndent`
 				Don't use cached layers of previously built images for this project. This
@@ -238,6 +243,7 @@ export default class PushCmd extends Command {
 			sdk,
 			{
 				dockerfilePath: options.dockerfile,
+				composefile: options.composefile,
 				noParentCheck: options['noparent-check'],
 				projectPath: options.source,
 				registrySecretsPath: options['registry-secrets'],
@@ -247,6 +253,11 @@ export default class PushCmd extends Command {
 		switch (await this.getBuildTarget(params.fleetOrDevice)) {
 			case BuildTarget.Cloud:
 				logger.logDebug(`Pushing to cloud for fleet: ${params.fleetOrDevice}`);
+
+				if (options.composefile) {
+					throw new Error(stripIndent`
+						The use of a compose file is not permitted for cloud builds.`);
+				}
 
 				await this.pushToCloud(
 					params.fleetOrDevice,
@@ -363,6 +374,7 @@ export default class PushCmd extends Command {
 				source: options.source,
 				deviceHost: localDeviceAddress,
 				dockerfilePath,
+				composefile: options.composefile,
 				registrySecrets,
 				multiDockerignore: options['multi-dockerignore'],
 				nocache: options.nocache,

@@ -128,7 +128,12 @@ export async function loadProject(
 		composeStr = compose.defaultComposition(image);
 	} else {
 		logger.logDebug('Resolving project...');
-		[composeName, composeStr] = await resolveProject(logger, opts.projectPath);
+		[composeName, composeStr] = await resolveProject(
+			logger,
+			opts.projectPath,
+			false,
+			opts.composefile,
+		);
 
 		if (composeName) {
 			if (opts.dockerfilePath) {
@@ -143,8 +148,9 @@ export async function loadProject(
 			composeStr = compose.defaultComposition(undefined, opts.dockerfilePath);
 		}
 
-		// If local push, merge dev compose overlay
-		if (opts.isLocal) {
+		// If local push and no specific compose file has been provided,
+		// merge dev compose overlay
+		if (opts.isLocal && !opts.composefile) {
 			composeStr = await mergeDevComposeOverlay(
 				logger,
 				composeStr,
@@ -206,10 +212,22 @@ async function resolveProject(
 	logger: Logger,
 	projectRoot: string,
 	quiet = false,
+	specificComposeName?: string,
 ): Promise<[string, string]> {
 	let composeFileName = '';
 	let composeFileContents = '';
-	for (const fname of compositionFileNames) {
+
+	let compositionFileNamesLocal: string[] = [];
+	if (specificComposeName) {
+		compositionFileNamesLocal = [specificComposeName];
+		logger.logInfo(
+			`Using specified "${specificComposeName}" file in "${projectRoot}"`,
+		);
+	} else {
+		compositionFileNamesLocal = compositionFileNames;
+	}
+
+	for (const fname of compositionFileNamesLocal) {
 		const fpath = path.join(projectRoot, fname);
 		if (await exists(fpath)) {
 			logger.logDebug(`${fname} file found at "${projectRoot}"`);
@@ -1149,6 +1167,7 @@ export async function validateProjectDirectory(
 	sdk: BalenaSDK,
 	opts: {
 		dockerfilePath?: string;
+		composefile?: string;
 		noParentCheck: boolean;
 		projectPath: string;
 		registrySecretsPath?: string;
@@ -1175,21 +1194,37 @@ export async function validateProjectDirectory(
 		);
 	} else {
 		const files = await fs.readdir(opts.projectPath);
-		const projectMatch = (file: string) =>
-			/^(Dockerfile|Dockerfile\.\S+|docker-compose.ya?ml|package.json)$/.test(
-				file,
-			);
-		if (!_.some(files, projectMatch)) {
-			throw new ExpectedError(stripIndent`
-				Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file
-				found in source folder "${opts.projectPath}"
-			`);
+		const projectMatch = (file: string, composefile?: string) => {
+			let regexPattern =
+				/^(Dockerfile|Dockerfile\.\S+|docker-compose.ya?ml|package(\.json)?)$/;
+			if (composefile) {
+				regexPattern = new RegExp(
+					`^(Dockerfile|Dockerfile\\.\\S+|docker-compose.ya?ml|${composefile}|package(\\.json)?)$`,
+				);
+			}
+			return regexPattern.test(file);
+		};
+		if (!_.some(files, (file) => projectMatch(file, opts.composefile))) {
+			if (opts.composefile) {
+				throw new ExpectedError(stripIndent`
+					Error: no "${opts.composefile}" file
+					found in source folder "${opts.projectPath}"
+				`);
+			} else {
+				throw new ExpectedError(stripIndent`
+					Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file
+					found in source folder "${opts.projectPath}"
+				`);
+			}
 		}
 		if (!opts.noParentCheck) {
 			const checkCompose = async (folder: string) => {
+				const compositionFileNamesLocal = opts.composefile
+					? [opts.composefile]
+					: compositionFileNames;
 				return _.some(
 					await Promise.all(
-						compositionFileNames.map((filename) =>
+						compositionFileNamesLocal.map((filename) =>
 							exists(path.join(folder, filename)),
 						),
 					),
