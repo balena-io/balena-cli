@@ -43,7 +43,7 @@
         "docker-progress": "^5.1.3",
         "dockerode": "^4.0.2",
         "ejs": "^3.1.6",
-        "etcher-sdk": "9.0.11",
+        "etcher-sdk": "9.1.0",
         "event-stream": "3.3.5",
         "express": "^4.17.2",
         "fast-boot2": "^1.1.0",
@@ -9098,9 +9098,9 @@
       }
     },
     "node_modules/etcher-sdk": {
-      "version": "9.0.11",
-      "resolved": "https://registry.npmjs.org/etcher-sdk/-/etcher-sdk-9.0.11.tgz",
-      "integrity": "sha512-pWE+gqciw8V/NUnu/ywDLOUZZFdayx7ZJdZd5KVqIkm3pgEfAlpPgvmMNDnP9+b6/UW2wPaLy6NS8EiaDqK7tQ==",
+      "version": "9.1.0",
+      "resolved": "https://registry.npmjs.org/etcher-sdk/-/etcher-sdk-9.1.0.tgz",
+      "integrity": "sha512-vHm94c0j3QVqIvngKCdMT4acIQUPPJ10iSKwMAgZfIlfHH8vZAKoabT9xBPOmyJNvsu5/+jkUC1qzTaPNrNUSA==",
       "license": "Apache-2.0",
       "dependencies": {
         "@balena/node-beaglebone-usbboot": "^3.0.0",
@@ -9122,7 +9122,7 @@
         "lzma-native": "^8.0.6",
         "minimatch": "^9.0.3",
         "mountutils": "^1.3.20",
-        "node-raspberrypi-usbboot": "1.0.7",
+        "node-raspberrypi-usbboot": "1.1.0",
         "outdent": "^0.8.0",
         "partitioninfo": "^6.0.2",
         "rwmutex": "^1.0.0",
@@ -9134,7 +9134,7 @@
         "zip-part-stream": "^2.0.0"
       },
       "engines": {
-        "node": ">=18"
+        "node": ">=18 <22"
       },
       "optionalDependencies": {
         "winusb-driver-generator": "^2.0.0"
@@ -9194,6 +9194,16 @@
       "license": "ISC",
       "engines": {
         "node": ">=16 || 14 >=14.17"
+      }
+    },
+    "node_modules/etcher-sdk/node_modules/node-raspberrypi-usbboot": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/node-raspberrypi-usbboot/-/node-raspberrypi-usbboot-1.1.0.tgz",
+      "integrity": "sha512-X5+S+YO/jHcNosb+532shuSQAkaFrt9y0B+JiimTsH62gO+OenwBqWEEoVxrxr/fOtze30zPMe/66u/gA9WzhA==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "debug": "^4.3.4",
+        "usb": "^2.12.1"
       }
     },
     "node_modules/event-emitter": {
@@ -21788,23 +21798,28 @@
       }
     },
     "node_modules/usb": {
-      "version": "2.9.0",
-      "resolved": "https://registry.npmjs.org/usb/-/usb-2.9.0.tgz",
-      "integrity": "sha512-G0I/fPgfHUzWH8xo2KkDxTTFruUWfppgSFJ+bQxz/kVY2x15EQ/XDB7dqD1G432G4gBG4jYQuF3U7j/orSs5nw==",
+      "version": "2.13.0",
+      "resolved": "https://registry.npmjs.org/usb/-/usb-2.13.0.tgz",
+      "integrity": "sha512-pTNKyxD1DfC1DYu8kFcIdpE8f33e0c2Sbmmi0HEs28HTVC555uocvYR1g5DDv4CBibacCh4BqRyYZJylN4mBbw==",
       "hasInstallScript": true,
+      "license": "MIT",
       "dependencies": {
         "@types/w3c-web-usb": "^1.0.6",
-        "node-addon-api": "^6.0.0",
+        "node-addon-api": "^8.0.0",
         "node-gyp-build": "^4.5.0"
       },
       "engines": {
-        "node": ">=10.20.0 <11.x || >=12.17.0 <13.0 || >=14.0.0"
+        "node": ">=12.22.0 <13.0 || >=14.17.0"
       }
     },
     "node_modules/usb/node_modules/node-addon-api": {
-      "version": "6.1.0",
-      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-6.1.0.tgz",
-      "integrity": "sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA=="
+      "version": "8.0.0",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.0.0.tgz",
+      "integrity": "sha512-ipO7rsHEBqa9STO5C5T10fj732ml+5kLN1cAG8/jdHd56ldQeGj3Q7+scUS+VHK/qy1zLEwC4wMK5+yM0btPvw==",
+      "license": "MIT",
+      "engines": {
+        "node": "^18 || ^20 || >= 21"
+      }
     },
     "node_modules/util": {
       "version": "0.12.5",
