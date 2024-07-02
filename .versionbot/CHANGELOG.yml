@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency event-stream to v3.3.5
+      hash: b51806705889e23e1e1ac30352242cc950fd0f2e
+      body: |
+        Update event-stream from 3.3.4 to 3.3.5
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.15
+  title: ""
+  date: 2024-07-02T11:11:00.808Z
+- commits:
     - subject: Update dependency jsonwebtoken to v9 [SECURITY]
       hash: f05e49915dbc7ac0e14bbe215909dbcc108aa29e
       body: |
