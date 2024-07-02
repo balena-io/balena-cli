@@ -1,4 +1,47 @@
 - commits:
+    - subject: Update dependency etcher-sdk to v9.0.11
+      hash: 6b5657625ab6120f2905f3525e565eeb46c305f4
+      body: |
+        Update etcher-sdk from 9.0.8 to 9.0.11
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested:
+        - commits:
+            - subject: "patch: use http2 to fix issues with url source"
+              hash: b9acd58e82a67342b0bb1e30a6ab9d9d472552c3
+              body: ""
+              footer: {}
+              author: Edwin Joassart
+              nested: []
+          version: etcher-sdk-9.0.11
+          title: ""
+          date: 2024-04-26T12:35:55.307Z
+        - commits:
+            - subject: "patch: remove CI workaround"
+              hash: 6ee242a878514931072553f0c7ecbbe4db9423cc
+              body: ""
+              footer: {}
+              author: Edwin Joassart
+              nested: []
+          version: etcher-sdk-9.0.10
+          title: ""
+          date: 2024-04-26T11:38:50.672Z
+        - commits:
+            - subject: "patch: add option to allow listing virtual drive on Mac"
+              hash: 987f25f71c9e5ed743ebc256041f375fdea9cf18
+              body: ""
+              footer: {}
+              author: JOASSART Edwin
+              nested: []
+          version: etcher-sdk-9.0.9
+          title: ""
+          date: 2024-04-24T15:45:47.090Z
+  version: 18.2.16
+  title: ""
+  date: 2024-07-02T12:14:18.559Z
+- commits:
     - subject: Update dependency event-stream to v3.3.5
       hash: b51806705889e23e1e1ac30352242cc950fd0f2e
       body: |
