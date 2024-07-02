@@ -1,4 +1,16 @@
 - commits:
+    - subject: Deduplicate dependencies
+      hash: 7325e8d9d5ef97ff8f0d5388a6d4c9745e9ab5e3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 18.2.12
+  title: ""
+  date: 2024-07-02T07:50:12.031Z
+- commits:
     - subject: Update dependency @types/fast-levenshtein to v0.0.4
       hash: a29bd8d0ef829814faaeba08285497a1ea8d9091
       body: |
