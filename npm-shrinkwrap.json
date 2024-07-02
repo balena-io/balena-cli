@@ -164,7 +164,7 @@
         "husky": "^4.3.8",
         "inline-source-cli": "^2.0.0",
         "intercept-stdout": "^0.1.2",
-        "jsonwebtoken": "^8.5.1",
+        "jsonwebtoken": "^9.0.0",
         "klaw": "^3.0.0",
         "mkdirp": "^1.0.4",
         "mocha": "^8.4.0",
@@ -12659,10 +12659,11 @@
       }
     },
     "node_modules/jsonwebtoken": {
-      "version": "8.5.1",
-      "resolved": "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz",
-      "integrity": "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==",
+      "version": "9.0.2",
+      "resolved": "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-9.0.2.tgz",
+      "integrity": "sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==",
       "dev": true,
+      "license": "MIT",
       "dependencies": {
         "jws": "^3.2.2",
         "lodash.includes": "^4.3.0",
@@ -12673,20 +12674,11 @@
         "lodash.isstring": "^4.0.1",
         "lodash.once": "^4.0.0",
         "ms": "^2.1.1",
-        "semver": "^5.6.0"
+        "semver": "^7.5.4"
       },
       "engines": {
-        "node": ">=4",
-        "npm": ">=1.4.28"
-      }
-    },
-    "node_modules/jsonwebtoken/node_modules/semver": {
-      "version": "5.7.2",
-      "resolved": "https://registry.npmjs.org/semver/-/semver-5.7.2.tgz",
-      "integrity": "sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==",
-      "dev": true,
-      "bin": {
-        "semver": "bin/semver"
+        "node": ">=12",
+        "npm": ">=6"
       }
     },
     "node_modules/jsprim": {
