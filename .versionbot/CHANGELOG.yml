@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @types/prettyjson to ^0.0.33
+      hash: 14e1255b5f9730c66235cab169f67d84ab1a2ff5
+      body: |
+        Update @types/prettyjson from 0.0.30 to 0.0.33
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.13
+  title: ""
+  date: 2024-07-02T09:14:03.211Z
+- commits:
     - subject: Deduplicate dependencies
       hash: 7325e8d9d5ef97ff8f0d5388a6d4c9745e9ab5e3
       body: ""
