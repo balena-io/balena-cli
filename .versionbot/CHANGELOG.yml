@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency jsonwebtoken to v9 [SECURITY]
+      hash: f05e49915dbc7ac0e14bbe215909dbcc108aa29e
+      body: |
+        Update jsonwebtoken from 8.5.1 to 9.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.14
+  title: ""
+  date: 2024-07-02T10:14:43.806Z
+- commits:
     - subject: Update dependency @types/prettyjson to ^0.0.33
       hash: 14e1255b5f9730c66235cab169f67d84ab1a2ff5
       body: |
