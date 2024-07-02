@@ -1,4 +1,33 @@
 - commits:
+    - subject: Update dependency etcher-sdk to v9.1.0
+      hash: 2d47eb53cd0d53cc5c2f11c6f6521bd51fd54c30
+      body: |
+        Update etcher-sdk from 9.0.11 to 9.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested:
+        - commits:
+            - subject: "patch: etcher-sdk is not yet compatible with node22"
+              hash: 0bafb3e7ae9dcc5e035790143ed0c3655d6550c3
+              body: ""
+              footer: {}
+              author: JOASSART Edwin
+              nested: []
+            - subject: "minor: allow passing custom assets to start SB protected CM4"
+              hash: 8b9d4f344bdc42a9aa2280058274ce8df944d9f5
+              body: ""
+              footer: {}
+              author: Edwin Joassart
+              nested: []
+          version: etcher-sdk-9.1.0
+          title: ""
+          date: 2024-06-13T12:12:47.742Z
+  version: 18.2.17
+  title: ""
+  date: 2024-07-02T13:20:38.305Z
+- commits:
     - subject: Update dependency etcher-sdk to v9.0.11
       hash: 6b5657625ab6120f2905f3525e565eeb46c305f4
       body: |
