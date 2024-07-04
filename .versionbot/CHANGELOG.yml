@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node action to v4
+      hash: c30a1dc1ede52b58502653ca721e7be8c8d577e2
+      body: |
+        Update actions/setup-node from 3 to 4
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 18.2.18
+  title: ""
+  date: 2024-07-04T21:56:14.403Z
+- commits:
     - subject: Update dependency etcher-sdk to v9.1.0
       hash: 2d47eb53cd0d53cc5c2f11c6f6521bd51fd54c30
       body: |
