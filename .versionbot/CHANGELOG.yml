@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused package `publish-release`
+      hash: 93e597a596a2e6d039015c872a7ba9ae5eae3c24
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 18.2.19
+  title: ""
+  date: 2024-07-05T13:37:50.914Z
+- commits:
     - subject: Update actions/setup-node action to v4
       hash: c30a1dc1ede52b58502653ca721e7be8c8d577e2
       body: |
