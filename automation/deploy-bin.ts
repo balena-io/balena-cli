@@ -15,48 +15,10 @@
  * limitations under the License.
  */
 
-import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as semver from 'semver';
 
-import { finalReleaseAssets, version } from './build-bin';
-
 const { GITHUB_TOKEN } = process.env;
-
-/**
- * Create or update a release in GitHub's releases page, uploading the
- * installer files (standalone zip + native oclif installers).
- */
-export async function createGitHubRelease() {
-	console.log(`Publishing release ${version} to GitHub`);
-	const publishRelease = await import('publish-release');
-	const ghRelease = (await Bluebird.fromCallback(
-		publishRelease.bind(null, {
-			token: GITHUB_TOKEN || '',
-			owner: 'balena-io',
-			repo: 'balena-cli',
-			tag: version,
-			name: `balena-CLI ${version}`,
-			reuseRelease: true,
-			assets: finalReleaseAssets[process.platform],
-		}),
-	)) as { html_url: any };
-	console.log(`Release ${version} successful: ${ghRelease.html_url}`);
-}
-
-/**
- * Top-level function to create a CLI release in GitHub's releases page:
- * call zipStandaloneInstaller(), rename the files as we'd like them to
- * display on the releases page, and call createGitHubRelease() to upload
- * the files.
- */
-export async function release() {
-	try {
-		await createGitHubRelease();
-	} catch (err) {
-		throw new Error(`Error creating GitHub release:\n${err}`);
-	}
-}
 
 /** Return a cached Octokit instance, creating a new one as needed. */
 const getOctokit = _.once(function () {

@@ -24,10 +24,7 @@ import {
 	signFilesForNotarization,
 	testShrinkwrap,
 } from './build-bin';
-import {
-	release,
-	updateDescriptionOfReleasesAffectedByIssue1359,
-} from './deploy-bin';
+import { updateDescriptionOfReleasesAffectedByIssue1359 } from './deploy-bin';
 
 // DEBUG set to falsy for negative values else is truthy
 process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
@@ -41,7 +38,6 @@ process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
  * of the following strings, then call the appropriate functions:
  *     'build:installer'   (to build a native oclif installer)
  * 	   'build:standalone'  (to build a standalone pkg package)
- *     'release'           (to create/update a GitHub release)
  *
  * @param args Arguments to parse (default is process.argv.slice(2))
  */
@@ -59,7 +55,6 @@ async function parse(args?: string[]) {
 		'catch-uncommitted': catchUncommitted,
 		'test-shrinkwrap': testShrinkwrap,
 		fix1359: updateDescriptionOfReleasesAffectedByIssue1359,
-		release,
 	};
 	for (const arg of args) {
 		if (!Object.hasOwn(commands, arg)) {
