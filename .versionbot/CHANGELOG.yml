@@ -1,4 +1,16 @@
 - commits:
+    - subject: Audit fix dependencies
+      hash: b6d1afac2d950693de332185b3090cea17c540f0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.20
+  title: ""
+  date: 2024-07-05T21:12:42.192Z
+- commits:
     - subject: Remove unused package `publish-release`
       hash: 93e597a596a2e6d039015c872a7ba9ae5eae3c24
       body: ""
