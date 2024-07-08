@@ -262,7 +262,7 @@
     "request": "^2.88.2",
     "resin-cli-form": "^3.0.0",
     "resin-cli-visuals": "^2.0.0",
-    "resin-discoverable-services": "^2.0.4",
+    "resin-discoverable-services": "2.0.5-build-removes-dead-code-597388eb64d3c628328029f8cc19029bb34223df-1",
     "resin-doodles": "^0.2.0",
     "resin-stream-logger": "^0.1.2",
     "rimraf": "^3.0.2",
