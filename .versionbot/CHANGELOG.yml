@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump resin-discoverable-services from 2.0.4 to 2.0.5
+      hash: 6c89ba4b2279365ed4be132518a576b3bac9176f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.21
+  title: ""
+  date: 2024-07-09T15:10:34.487Z
+- commits:
     - subject: Audit fix dependencies
       hash: b6d1afac2d950693de332185b3090cea17c540f0
       body: ""
