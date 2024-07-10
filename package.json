@@ -142,7 +142,7 @@
     "@types/klaw": "^3.0.3",
     "@types/lodash": "^4.14.178",
     "@types/mixpanel": "^2.14.3",
-    "@types/mocha": "^8.2.3",
+    "@types/mocha": "^10.0.7",
     "@types/mock-require": "^2.0.1",
     "@types/moment-duration-format": "^2.2.3",
     "@types/ndjson": "^2.0.1",
@@ -183,7 +183,7 @@
     "jsonwebtoken": "^9.0.0",
     "klaw": "^3.0.0",
     "mkdirp": "^1.0.4",
-    "mocha": "^8.4.0",
+    "mocha": "^10.6.0",
     "mock-require": "^3.0.3",
     "nock": "^13.2.1",
     "oclif": "^3.17.1",
@@ -281,6 +281,11 @@
   },
   "optionalDependencies": {
     "windosu": "^0.3.0"
+  },
+  "overrides": {
+    "inline-source-cli": {
+      "inline-source": "^8.0.3"
+    }
   },
   "versionist": {
     "publishedAt": "2024-07-10T21:05:52.453Z"
