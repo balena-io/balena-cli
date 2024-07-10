@@ -1,4 +1,5 @@
-import { enumerateServices, findServices } from 'resin-discoverable-services';
+import Bonjour from 'bonjour-service';
+import type { Service } from 'bonjour-service';
 
 interface LocalBalenaOsDevice {
 	address: string;
@@ -7,34 +8,41 @@ interface LocalBalenaOsDevice {
 	port: number;
 }
 
-// Although we only check for 'balena-ssh', we know, implicitly, that balenaOS
-// devices come with 'rsync' installed that can be used over SSH.
-const avahiBalenaSshTag = 'resin-ssh';
+const avahiBalenaSshConfig = {
+	type: 'ssh',
+	name: '_resin-device._sub',
+	protocol: 'tcp' as const,
+};
+
+const avahiBalenaSshSubtype = 'resin-device';
 
 export async function discoverLocalBalenaOsDevices(
 	timeout = 4000,
 ): Promise<LocalBalenaOsDevice[]> {
-	const availableServices = await enumerateServices();
-	const serviceDefinitions = Array.from(availableServices)
-		.filter((s) => Array.from(s.tags).includes(avahiBalenaSshTag))
-		.map((s) => s.service);
-
-	if (serviceDefinitions.length === 0) {
-		throw new Error(
-			`Could not find any available '${avahiBalenaSshTag}' services`,
+	const services = await new Promise<Service[]>((resolve) => {
+		const bonjour = new Bonjour({}, async (err: string | Error) => {
+			await (await import('../errors')).handleError(err);
+		});
+		const resinSshServices: Service[] = [];
+		const browser = bonjour.find(avahiBalenaSshConfig, (service) =>
+			resinSshServices.push(service),
 		);
-	}
+		setTimeout(() => {
+			browser.stop();
+			bonjour.destroy();
+			resolve(resinSshServices);
+		}, timeout);
+	});
 
-	const services = await findServices(serviceDefinitions, timeout);
-	return services.map(function (service) {
-		// User referer address to get device IP. This will work fine assuming that
-		// a device only advertises own services.
-		const {
-			referer: { address },
+	return services
+		.filter(
+			({ subtypes, referer }) =>
+				subtypes?.includes(avahiBalenaSshSubtype) && referer != null,
+		)
+		.map(({ referer, host, port }) => ({
+			// We ensure referer is not null on the filter above
+			address: referer!.address,
 			host,
 			port,
-		} = service;
-
-		return { address, host, port };
-	});
+		}));
 }

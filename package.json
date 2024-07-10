@@ -33,7 +33,6 @@
     ],
     "assets": [
       "build/auth/pages/*.ejs",
-      "node_modules/resin-discoverable-services/services/**/*",
       "node_modules/balena-sdk/node_modules/balena-pine/**/*",
       "node_modules/balena-pine/**/*",
       "node_modules/pinejs-client-core/**/*",
@@ -218,6 +217,7 @@
     "balena-settings-storage": "^8.1.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.1",
+    "bonjour-service": "^1.2.1",
     "chalk": "^3.0.0",
     "chokidar": "^3.5.2",
     "cli-truncate": "^2.1.0",
@@ -261,7 +261,6 @@
     "request": "^2.88.2",
     "resin-cli-form": "^3.0.0",
     "resin-cli-visuals": "^2.0.0",
-    "resin-discoverable-services": "^2.0.5",
     "resin-doodles": "^0.2.0",
     "resin-stream-logger": "^0.1.2",
     "rimraf": "^3.0.2",
