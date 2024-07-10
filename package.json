@@ -186,7 +186,7 @@
     "mocha": "^10.6.0",
     "mock-require": "^3.0.3",
     "nock": "^13.2.1",
-    "oclif": "^3.17.1",
+    "oclif": "^4.14.0",
     "parse-link-header": "^2.0.0",
     "rewire": "^5.0.0",
     "simple-git": "^3.14.1",
