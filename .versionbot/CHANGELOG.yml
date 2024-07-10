@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update mocha from 8.4.0 to 10.6.0
+      hash: 19a60bb0ab1298fd09f557ed6c744aff3093f7c4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Override inline-source-cli with non-vulnerable dependency
+      hash: d1a6f7560c4e3d773adf3add34f2f16b68f09d55
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.24
+  title: ""
+  date: 2024-07-10T22:06:15.314Z
+- commits:
     - subject: Replace resin-discoverable-services with bonjour-service
       hash: 7273656d07dfd02d1395b87d9270679070d8df73
       body: >
