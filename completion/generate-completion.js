@@ -33,7 +33,7 @@ const commandsJson = JSON.parse(fs.readFileSync(commandsFilePath, 'utf8'));
 
 const mainCommands = [];
 const additionalCommands = [];
-for (const key of Object.keys(commandsJson.commands)) {
+for (const key of Object.keys(commandsJson.commands).sort()) {
 	const cmd = key.split(':');
 	if (cmd.length > 1) {
 		additionalCommands.push(cmd);

@@ -16,7 +16,7 @@ index ef7f90e..8264b7c 100644
    File /r bin
    File /r client
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 14d5a6e..07050bc 100644
+index 14d5a6e..7b42a6f 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
 @@ -200,6 +200,13 @@ const extractCLI = async (tarball, c) => {
@@ -28,7 +28,7 @@ index 14d5a6e..07050bc 100644
 +    // `bin` folder may contain a `.fast-boot.json` file of a dev installation.
 +    // This has previously led to issues preventing the CLI from starting, so
 +    // delete `.fast-boot.json` (if any) from the destination folder.
-+    await fs.promises.rm(path.join(c.workspace(), 'bin', '.fast-boot.json'));
++    await (0, fs_extra_1.remove)(path.join(workspace, 'bin', '.fast-boot.json'));
 +
  };
  const buildTarget = async (target, c, options) => {
