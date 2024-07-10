@@ -1,4 +1,24 @@
 - commits:
+    - subject: Replace resin-discoverable-services with bonjour-service
+      hash: 7273656d07dfd02d1395b87d9270679070d8df73
+      body: >
+        Instead of using the more generic resin-discoverable-services lib which
+        is unmantained
+
+        and currently has several vulnerabilities and forks for fixing issues
+        (that were later on fixed upstream)
+
+        we directly talk with mDNS using standard (and currently mantained)
+        bonjour-service.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.23
+  title: ""
+  date: 2024-07-10T21:05:51.497Z
+- commits:
     - subject: Remove unused dependency minimatch
       hash: 1749937373391ffa0c584663dc48fa2bdd83c4e9
       body: ""
