@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused dependency minimatch
+      hash: 1749937373391ffa0c584663dc48fa2bdd83c4e9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.22
+  title: ""
+  date: 2024-07-10T16:48:02.178Z
+- commits:
     - subject: Bump resin-discoverable-services from 2.0.4 to 2.0.5
       hash: 6c89ba4b2279365ed4be132518a576b3bac9176f
       body: ""
