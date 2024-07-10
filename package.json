@@ -282,6 +282,11 @@
   "optionalDependencies": {
     "windosu": "^0.3.0"
   },
+  "overrides": {
+    "inline-source-cli": {
+      "inline-source": "^8.0.3"
+    }
+  },
   "versionist": {
     "publishedAt": "2024-07-10T21:05:52.453Z"
   }
