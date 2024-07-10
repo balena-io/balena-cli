@@ -248,7 +248,6 @@
     "JSONStream": "^1.0.3",
     "livepush": "^3.5.1",
     "lodash": "^4.17.21",
-    "minimatch": "^3.0.4",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "ndjson": "^2.0.0",
