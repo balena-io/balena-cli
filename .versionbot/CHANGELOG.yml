@@ -1,4 +1,24 @@
 - commits:
+    - subject: Fix complete generation intermitency
+      hash: b1073ca5499193da1aa320f0fd3e1992af09a85e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Bump oclif to v4
+      hash: e659e3577a4af3a14ee20344cb0fed35a683c531
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.25
+  title: ""
+  date: 2024-07-11T10:54:45.851Z
+- commits:
     - subject: Update mocha from 8.4.0 to 10.6.0
       hash: 19a60bb0ab1298fd09f557ed6c744aff3093f7c4
       body: ""
