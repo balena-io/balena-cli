@@ -302,6 +302,21 @@ export const authorizePush = function (
 
 // utilities
 
+const formatDuration = (seconds: number): string => {
+	const SECONDS_PER_MINUTE = 60;
+	const SECONDS_PER_HOUR = 3600;
+
+	const hours = Math.floor(seconds / SECONDS_PER_HOUR);
+	seconds %= SECONDS_PER_HOUR;
+
+	const minutes = Math.floor(seconds / SECONDS_PER_MINUTE);
+	seconds = Math.floor(seconds % SECONDS_PER_MINUTE);
+
+	return hours > 0
+		? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+		: `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
+
 const renderProgressBar = function (percentage: number, stepCount: number) {
 	const _ = require('lodash') as typeof import('lodash');
 	percentage = _.clamp(percentage, 0, 100);
@@ -473,11 +488,6 @@ export class BuildProgressUI implements Renderer {
 	}
 
 	_renderStatus(end = false) {
-		const moment = require('moment') as typeof import('moment');
-		(
-			require('moment-duration-format') as typeof import('moment-duration-format')
-		)(moment);
-
 		this._tty.clearLine();
 		this._tty.write(this._prefix);
 		if (end && this._cancelled) {
@@ -489,12 +499,8 @@ export class BuildProgressUI implements Renderer {
 			const durationStr =
 				this._startTime == null
 					? 'unknown time'
-					: moment
-							.duration(
-								Math.floor((Date.now() - this._startTime) / 1000),
-								'seconds',
-							)
-							.format();
+					: formatDuration((Date.now() - this._startTime) / 1000);
+
 			this._tty.writeLine(`Built ${serviceStr} in ${durationStr}`);
 		} else {
 			this._tty.writeLine(`Building services... ${this._spinner()}`);
@@ -571,11 +577,6 @@ export class BuildProgressInline implements Renderer {
 	}
 
 	end(summary?: Dictionary<string>) {
-		const moment = require('moment') as typeof import('moment');
-		(
-			require('moment-duration-format') as typeof import('moment-duration-format')
-		)(moment);
-
 		if (this._ended) {
 			return;
 		}
@@ -593,12 +594,7 @@ export class BuildProgressInline implements Renderer {
 		const durationStr =
 			this._startTime == null
 				? 'unknown time'
-				: moment
-						.duration(
-							Math.floor((Date.now() - this._startTime) / 1000),
-							'seconds',
-						)
-						.format();
+				: formatDuration((Date.now() - this._startTime) / 1000);
 		this._outStream.write(`Built ${serviceStr} in ${durationStr}\n`);
 	}
 
