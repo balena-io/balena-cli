@@ -22,7 +22,7 @@
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.0.6",
         "balena-image-manager": "^10.0.1",
-        "balena-preload": "^15.0.5",
+        "balena-preload": "^15.0.6",
         "balena-sdk": "^19.7.2",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
@@ -5690,11 +5690,11 @@
       }
     },
     "node_modules/balena-preload": {
-      "version": "15.0.5",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-15.0.5.tgz",
-      "integrity": "sha512-JkNHu6nuX1l2YoerH634GFpWyTnbp5TMW+DG8n8MoZc42P2acFVHN89HV6xglYjT7JxdB1tuCN6vbON7SvlOvQ==",
+      "version": "15.0.6",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-15.0.6.tgz",
+      "integrity": "sha512-WQQu9Agu8usnmwZZFz5G+Qblnry/NsIwpv1hu5PCViHSOARHThQrBu6n5Yhx2LUGQ2J0e+BcoE3eEeBWD3vxuA==",
       "dependencies": {
-        "balena-sdk": "^19.0.1",
+        "balena-sdk": "^19.7.2",
         "bluebird": "^3.7.2",
         "compare-versions": "^3.6.0",
         "docker-progress": "^5.0.0",
@@ -5702,8 +5702,6 @@
         "get-port": "^3.2.0",
         "lodash": "^4.17.21",
         "node-cleanup": "^2.1.2",
-        "request": "^2.88.2",
-        "request-promise": "^4.2.6",
         "tar-fs": "^2.1.1"
       },
       "engines": {
@@ -15533,38 +15531,6 @@
         "node": ">= 6"
       }
     },
-    "node_modules/request-promise": {
-      "version": "4.2.6",
-      "resolved": "https://registry.npmjs.org/request-promise/-/request-promise-4.2.6.tgz",
-      "integrity": "sha512-HCHI3DJJUakkOr8fNoCc73E5nU5bqITjOYFMDrKHYOXWXrgD/SBaC7LjwuPymUprRyuF06UK7hd/lMHkmUXglQ==",
-      "deprecated": "request-promise has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142",
-      "dependencies": {
-        "bluebird": "^3.5.0",
-        "request-promise-core": "1.1.4",
-        "stealthy-require": "^1.1.1",
-        "tough-cookie": "^2.3.3"
-      },
-      "engines": {
-        "node": ">=0.10.0"
-      },
-      "peerDependencies": {
-        "request": "^2.34"
-      }
-    },
-    "node_modules/request-promise-core": {
-      "version": "1.1.4",
-      "resolved": "https://registry.npmjs.org/request-promise-core/-/request-promise-core-1.1.4.tgz",
-      "integrity": "sha512-TTbAfBBRdWD7aNNOoVOBH4pN/KigV6LyapYNNlAPA8JwbovRti1E88m3sYAwsLi5ryhPKsE9APwnjFTgdUjTpw==",
-      "dependencies": {
-        "lodash": "^4.17.19"
-      },
-      "engines": {
-        "node": ">=0.10.0"
-      },
-      "peerDependencies": {
-        "request": "^2.34"
-      }
-    },
     "node_modules/request/node_modules/qs": {
       "version": "6.5.3",
       "resolved": "https://registry.npmjs.org/qs/-/qs-6.5.3.tgz",
@@ -17146,14 +17112,6 @@
       "integrity": "sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==",
       "engines": {
         "node": ">= 0.8"
-      }
-    },
-    "node_modules/stealthy-require": {
-      "version": "1.1.1",
-      "resolved": "https://registry.npmjs.org/stealthy-require/-/stealthy-require-1.1.1.tgz",
-      "integrity": "sha512-ZnWpYnYugiOVEY5GkcuJK1io5V8QmNYChG62gSit9pQVGErXtrKuPC55ITaVSukmMta5qpMU7vqLt2Lnni4f/g==",
-      "engines": {
-        "node": ">=0.10.0"
       }
     },
     "node_modules/stream-combiner": {
