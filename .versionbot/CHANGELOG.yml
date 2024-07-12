@@ -1,4 +1,272 @@
 - commits:
+    - subject: Downgrade pinejs-client-request to 7.4.2 to unblock the sdk update
+      hash: 79fcd95491c151ddc136cecc7e309aaabb47ef2d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-sdk to 19.7.2
+      hash: 33199acbe8d2b98f9fe34dd462f7d4d313e13fd5
+      body: |
+        Update balena-sdk from 19.5.5 to 19.7.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Update balena-request from 13.3.1 to 13.3.2
+              hash: c971b26e942dfbf65a87f3d0f680ef03b08dedd4
+              body: |
+                Update balena-request from 13.3.1 to 13.3.2
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Fix always following redirects when followRedirect = false
+                      hash: 34db7e138eabfcfcfd822133b391c738d01de323
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-13.3.2
+                  title: ""
+                  date: 2024-07-12T09:16:13.529Z
+          version: balena-sdk-19.7.2
+          title: ""
+          date: 2024-07-12T09:52:37.233Z
+        - commits:
+            - subject: Limit pinejs-client-core to ~6.14.0, to fix errors in older TypeScript
+              hash: 75e3cc19a323718d2a97c260d732b51541a029e1
+              body: |
+                Update pinejs-client-core from 6.12.0 to 6.14.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Respect the Retry-After header when clients define the
+                        getRetryAfterHeader option
+                      hash: 04f146bbe2127f4bc140ce7c7e9d9d78f62e00dd
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.14.0
+                  title: ""
+                  date: 2023-12-05T13:05:12.092Z
+                - commits:
+                    - subject: Add support for $duration
+                      hash: 05edeeea86147ac49dd864ae6e0b46ffc73f6fc4
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.13.0
+                  title: ""
+                  date: 2023-07-11T13:16:05.245Z
+                - commits:
+                    - subject: Avoid an unnecessary function creation on each get() call
+                      hash: 782e43ef40a22fa4c8e0f3d64917b03e07c77522
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.12.4
+                  title: ""
+                  date: 2023-05-09T13:11:13.136Z
+                - commits:
+                    - subject: "CI: Convert tests to TypeScript"
+                      hash: 683efba924728fc57cbb9a43b7b65f124903661e
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Josh Bowling
+                      nested: []
+                  version: pinejs-client-js-6.12.3
+                  title: ""
+                  date: 2022-12-28T09:32:01.282Z
+                - commits:
+                    - subject: "Fix `$orderby: { a: { $count: ... }, $dir: 'asc' }` typings"
+                      hash: c62fb38c7cafa840aa799e112d96a7448e02a824
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.12.2
+                  title: ""
+                  date: 2022-11-18T10:22:54.685Z
+                - commits:
+                    - subject: Update TypeScript to 4.9.3
+                      hash: e41e987dd08a02f8805f345fa6c3e50c71f9d517
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: pinejs-client-js-6.12.1
+                  title: ""
+                  date: 2022-11-15T22:41:19.258Z
+            - subject: Fix the TypeScript incompatibility test
+              hash: 0932c3229d566cefc27480a7ebc1e10e669007e3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.7.1
+          title: ""
+          date: 2024-07-08T09:46:28.959Z
+        - commits:
+            - subject: Add identity provider & saml account model typing
+              hash: b62bf0543af2fb93888f6e10754791bf29405835
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Otavio Jacobi
+              nested: []
+          version: balena-sdk-19.7.0
+          title: ""
+          date: 2024-07-05T20:36:20.020Z
+        - commits:
+            - subject: Update TypeScript to 5.5.2
+              hash: ff4e969971edff98f6b8201c6e2729698093bf2a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.6.1
+          title: ""
+          date: 2024-06-20T22:20:08.200Z
+        - commits:
+            - subject: Add the application.getAllByOrganization() method
+              hash: 134132bc40136aee44eef597e3f1669ea498bca3
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Deprecate the application.getAppByOwner() method
+              hash: 85048417e3280434ad7f33008ed147cb3ae766c6
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.6.0
+          title: ""
+          date: 2024-06-20T21:05:52.683Z
+        - commits:
+            - subject: "tests: Make the cleanups more precise"
+              hash: 05f8575d8789c1ebd7a590749909e01f8f536438
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.5.11
+          title: ""
+          date: 2024-05-28T07:07:52.253Z
+        - commits:
+            - subject: Drop the toWritable helper in favor of TypeScript's satisfies
+              hash: 4463a5c1afa9afed0189a40ddf0cdb6037bf7ba7
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.5.10
+          title: ""
+          date: 2024-03-29T16:05:02.584Z
+        - commits:
+            - subject: "os: Update the comments on why we still need to be using the
+                release_tags"
+              hash: 31cf598ff28f6502d10c0faef01e10330c616956
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.5.9
+          title: ""
+          date: 2024-03-29T10:47:28.067Z
+        - commits:
+            - subject: Fix `application.create` method being wrongly marked as deprecated
+              hash: 166ffa8a3de0a002996bdd30c559a5e6b405d21c
+              body: The intention was to mark `options.applicationType` as deprecated
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: myarmolinsky
+              nested: []
+          version: balena-sdk-19.5.8
+          title: ""
+          date: 2024-03-18T12:32:38.508Z
+        - commits:
+            - subject: Fix missing underscore to describes__device property
+              hash: 4aa0829ceaae348803d4fa2712b145df0195e901
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Andrea Rosci
+              nested: []
+          version: balena-sdk-19.5.7
+          title: ""
+          date: 2024-03-08T12:46:33.611Z
+        - commits:
+            - subject: Update TypeScript to 5.4.2
+              hash: 8fdad04e57436f8315e5607dd6ea6b35fcfad9ce
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "device-type.getInstructions: Convert etcher link to HTTPS"
+              hash: 6a07d9114fb66f376134860118e8ca48aadf9396
+              body: |
+                device-type.getInstructions: Convert etcher link to HTTPS
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+                signed-off-by: Vipul Gupta (@vipulgupta2048) <vipulgupta2048@gmail.com>
+              author: Vipul Gupta (@vipulgupta2048)
+              nested: []
+          version: balena-sdk-19.5.6
+          title: ""
+          date: 2024-03-07T09:23:31.348Z
+  version: 18.2.28
+  title: ""
+  date: 2024-07-12T13:29:19.959Z
+- commits:
     - subject: Update balena-sdk to 19.5.5
       hash: 1702f8ba59a15d0934556038a988567de659dcb6
       body: |
