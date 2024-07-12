@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena-preload from 15.0.5 to 15.0.6
+      hash: 3c64e13fb3f06f557b105f80650615f772809d65
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.29
+  title: ""
+  date: 2024-07-12T14:54:58.781Z
+- commits:
     - subject: Downgrade pinejs-client-request to 7.4.2 to unblock the sdk update
       hash: 79fcd95491c151ddc136cecc7e309aaabb47ef2d
       body: ""
