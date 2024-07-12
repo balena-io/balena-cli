@@ -1,4 +1,24 @@
 - commits:
+    - subject: Drop unused dependencies
+      hash: 1bc0f7447fc4e294b5af753c6ab45b0f4a1a457b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Move dependencies that should be dev only as devDependencies
+      hash: f65215e144a58a106e2618ea2f5a110094567882
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.26
+  title: ""
+  date: 2024-07-12T12:03:29.138Z
+- commits:
     - subject: Fix complete generation intermitency
       hash: b1073ca5499193da1aa320f0fd3e1992af09a85e
       body: ""
