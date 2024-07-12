@@ -23,7 +23,7 @@
         "balena-image-fs": "^7.0.6",
         "balena-image-manager": "^10.0.1",
         "balena-preload": "^15.0.5",
-        "balena-sdk": "^19.5.5",
+        "balena-sdk": "^19.7.0",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
@@ -5949,9 +5949,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "19.5.5",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.5.5.tgz",
-      "integrity": "sha512-uuk2NaUAssUKqs/lIxmK/Od1ShTcMxj1xOc1RsHOp1JgbSZyKT4CxAU1OWRl9XD98LWO3Ew6NgCDP5EFLkt+qw==",
+      "version": "19.7.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.7.0.tgz",
+      "integrity": "sha512-vgxS4j8W6piPFq4f7wOEyk3JhWKj+F0DOf2viA/vhNuTWBSIQe9pJPlnpu0WHtubNXMyIzzHYXKvcvGf2zXezQ==",
       "dependencies": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",
