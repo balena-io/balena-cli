@@ -23,7 +23,7 @@
         "balena-image-fs": "^7.0.6",
         "balena-image-manager": "^10.0.1",
         "balena-preload": "^15.0.6",
-        "balena-sdk": "^19.7.2",
+        "balena-sdk": "^19.7.3",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
@@ -2414,13 +2414,13 @@
       }
     },
     "node_modules/@oclif/plugin-help/node_modules/@oclif/core": {
-      "version": "4.0.11",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.11.tgz",
-      "integrity": "sha512-cZLLdSm9tGSbuoRjjgXf128zvPZH+afjQMQcrvDfoN347KvPg75ne8YJ8qHix+T3Vl03iXfgIH6guQN0kLgmjg==",
+      "version": "4.0.12",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.12.tgz",
+      "integrity": "sha512-o2dfPtmi2uBGHgpvHr+GNfoRKysKgQGiffONoMN3R+qBVNeIkJIZhVk31HreDkAI9LAzS92BWNgp/l7lXDxdvg==",
       "dev": true,
       "dependencies": {
         "ansi-escapes": "^4.3.2",
-        "ansis": "^3.1.1",
+        "ansis": "^3.2.1",
         "clean-stack": "^3.0.1",
         "cli-spinners": "^2.9.2",
         "debug": "^4.3.5",
@@ -2532,13 +2532,13 @@
       }
     },
     "node_modules/@oclif/plugin-not-found/node_modules/@oclif/core": {
-      "version": "4.0.11",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.11.tgz",
-      "integrity": "sha512-cZLLdSm9tGSbuoRjjgXf128zvPZH+afjQMQcrvDfoN347KvPg75ne8YJ8qHix+T3Vl03iXfgIH6guQN0kLgmjg==",
+      "version": "4.0.12",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.12.tgz",
+      "integrity": "sha512-o2dfPtmi2uBGHgpvHr+GNfoRKysKgQGiffONoMN3R+qBVNeIkJIZhVk31HreDkAI9LAzS92BWNgp/l7lXDxdvg==",
       "dev": true,
       "dependencies": {
         "ansi-escapes": "^4.3.2",
-        "ansis": "^3.1.1",
+        "ansis": "^3.2.1",
         "clean-stack": "^3.0.1",
         "cli-spinners": "^2.9.2",
         "debug": "^4.3.5",
@@ -2651,13 +2651,13 @@
       }
     },
     "node_modules/@oclif/plugin-warn-if-update-available/node_modules/@oclif/core": {
-      "version": "4.0.11",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.11.tgz",
-      "integrity": "sha512-cZLLdSm9tGSbuoRjjgXf128zvPZH+afjQMQcrvDfoN347KvPg75ne8YJ8qHix+T3Vl03iXfgIH6guQN0kLgmjg==",
+      "version": "4.0.12",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.12.tgz",
+      "integrity": "sha512-o2dfPtmi2uBGHgpvHr+GNfoRKysKgQGiffONoMN3R+qBVNeIkJIZhVk31HreDkAI9LAzS92BWNgp/l7lXDxdvg==",
       "dev": true,
       "dependencies": {
         "ansi-escapes": "^4.3.2",
-        "ansis": "^3.1.1",
+        "ansis": "^3.2.1",
         "clean-stack": "^3.0.1",
         "cli-spinners": "^2.9.2",
         "debug": "^4.3.5",
@@ -5097,9 +5097,9 @@
       "integrity": "sha1-ZlWX3oap/+Oqm/vmyuXG6kJrSXk="
     },
     "node_modules/ansis": {
-      "version": "3.2.0",
-      "resolved": "https://registry.npmjs.org/ansis/-/ansis-3.2.0.tgz",
-      "integrity": "sha512-Yk3BkHH9U7oPyCN3gL5Tc7CpahG/+UFv/6UG03C311Vy9lzRmA5uoxDTpU9CO3rGHL6KzJz/pdDeXZCZ5Mu/Sg==",
+      "version": "3.2.1",
+      "resolved": "https://registry.npmjs.org/ansis/-/ansis-3.2.1.tgz",
+      "integrity": "sha512-SgzY+k2aa9UqJe3jzrPZhSVzLc2XrE4/h7rk0dMCDwhCq7ipmpPZvyODoxPCms4OpMLTiBTS+Mpl4VZQ6FDitw==",
       "dev": true,
       "engines": {
         "node": ">=15"
@@ -5750,9 +5750,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "19.7.2",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.7.2.tgz",
-      "integrity": "sha512-RGqDr10S43kTVlGTaejK6WpEVvW25YP0lIeybIcXchmweg9Mgt/rGJv/gVyLJwdSiw/9Tdgfaul0DTR6nlkD2g==",
+      "version": "19.7.3",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.7.3.tgz",
+      "integrity": "sha512-O7c+ZVZVSGOlECvkLvi1DWwbKb7bM3UgPaRlCfld0cOcp6X9S+6fcLt9ewOOhF3YsxrBksYOSYBnrmkW9VxqLQ==",
       "dependencies": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",
@@ -13639,13 +13639,13 @@
       }
     },
     "node_modules/oclif/node_modules/@oclif/core": {
-      "version": "4.0.11",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.11.tgz",
-      "integrity": "sha512-cZLLdSm9tGSbuoRjjgXf128zvPZH+afjQMQcrvDfoN347KvPg75ne8YJ8qHix+T3Vl03iXfgIH6guQN0kLgmjg==",
+      "version": "4.0.12",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.12.tgz",
+      "integrity": "sha512-o2dfPtmi2uBGHgpvHr+GNfoRKysKgQGiffONoMN3R+qBVNeIkJIZhVk31HreDkAI9LAzS92BWNgp/l7lXDxdvg==",
       "dev": true,
       "dependencies": {
         "ansi-escapes": "^4.3.2",
-        "ansis": "^3.1.1",
+        "ansis": "^3.2.1",
         "clean-stack": "^3.0.1",
         "cli-spinners": "^2.9.2",
         "debug": "^4.3.5",
