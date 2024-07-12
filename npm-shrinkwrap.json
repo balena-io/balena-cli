@@ -23,7 +23,7 @@
         "balena-image-fs": "^7.0.6",
         "balena-image-manager": "^10.0.1",
         "balena-preload": "^15.0.5",
-        "balena-sdk": "^19.5.5",
+        "balena-sdk": "^19.7.1",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
@@ -5949,9 +5949,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "19.5.5",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.5.5.tgz",
-      "integrity": "sha512-uuk2NaUAssUKqs/lIxmK/Od1ShTcMxj1xOc1RsHOp1JgbSZyKT4CxAU1OWRl9XD98LWO3Ew6NgCDP5EFLkt+qw==",
+      "version": "19.7.1",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.7.1.tgz",
+      "integrity": "sha512-XeLR9APCe2URtmjUHrnTSCX5zkaCjQoDorkUMexWKujXHZZc12mQuEE8AKIatLwu5fv6lHS9ZNBbRQDYdS973g==",
       "dependencies": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",
@@ -5971,7 +5971,7 @@
         "mime": "^3.0.0",
         "ndjson": "^2.0.0",
         "p-throttle": "^4.1.1",
-        "pinejs-client-core": "^6.12.0",
+        "pinejs-client-core": "~6.14.0",
         "tslib": "^2.1.0"
       },
       "engines": {
@@ -15065,11 +15065,10 @@
       }
     },
     "node_modules/pinejs-client-core": {
-      "version": "6.15.9",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.15.9.tgz",
-      "integrity": "sha512-8nxCr8MP0jNPRNyFCP+r2+mAVVDVb/yUjpigpCEou6jfzkN1e89Jaa1WSAysJS6XzMBqV1JnkRGVX+maerreFA==",
+      "version": "6.14.13",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.14.13.tgz",
+      "integrity": "sha512-Ca1kfbst+0C9UbvqrJFM2VZRAX/UDSgMDYiqSswzTsNoz/axOLMB3bmbrK8el+wSLb0TG2s/UsOZQTnN4MkOcQ==",
       "dependencies": {
-        "@balena/abstract-sql-to-typescript": "^3.2.3",
         "@balena/es-version": "^1.0.3"
       },
       "engines": {
@@ -15090,6 +15089,19 @@
         "pinejs-client-core": "^6.15.2",
         "request": "^2.88.2",
         "typed-error": "^3.2.2"
+      },
+      "engines": {
+        "node": ">=10.0.0",
+        "npm": ">=6.0.0"
+      }
+    },
+    "node_modules/pinejs-client-request/node_modules/pinejs-client-core": {
+      "version": "6.15.10",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.15.10.tgz",
+      "integrity": "sha512-TSv3ZWDuy/kIse+kzto+aH4S6+rpXvAIWOvnV1XvmtfsjN+GJSlrNdcMmt+CnI9x9B19H71tHzSJO6c9NPzZnQ==",
+      "dependencies": {
+        "@balena/abstract-sql-to-typescript": "^3.2.3",
+        "@balena/es-version": "^1.0.3"
       },
       "engines": {
         "node": ">=10.0.0",
