@@ -1,4 +1,200 @@
 - commits:
+    - subject: Update balena-sdk to 19.5.5
+      hash: 1702f8ba59a15d0934556038a988567de659dcb6
+      body: |
+        Update balena-sdk from 19.4.0 to 19.5.5
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Update balena-auth to 6.0.1
+              hash: ab5c3baf00a0bdec0db8120f129f158dbcb10fb1
+              body: |
+                Update balena-auth from 5.1.0 to 6.0.1
+                Update balena-request from 13.3.0 to 13.3.1
+                Update balena-register-device from 9.0.1 to 9.0.2
+              footer:
+                Depends-on: https://github.com/balena-io-modules/balena-request/pull/183
+                depends-on: https://github.com/balena-io-modules/balena-request/pull/183
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Update jwt-decode to v3
+                      hash: 8179bdfc955741da8e3064d18ce415c6c4220f00
+                      body: |
+                        This also removes the @types/jwt-decode
+                        which were incorrectly marked as prod deps
+                        and which could pollute the typings of
+                        consumer projects.
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-auth-6.0.1
+                  title: ""
+                  date: 2024-02-23T10:40:43.355Z
+                - commits:
+                    - subject: Update typescript to 5.3.3
+                      hash: cfeecc8af7afda08e673cc6bde658cfa20879c82
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Move the sources from lib to src
+                      hash: 7609bea85a91817eacd6e5783dd2fb0c47954f08
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update @balena/lint to v7
+                      hash: 315ee2b36e6567181c2bd05d1cbcf64b6840d743
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Stop publishing the lib folder
+                      hash: bc65b3930232f50b49ae071d1adc108774c681eb
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Drop support for nodejs < 18
+                      hash: 70698a30f3b915ef8fc4ffb5b1ba7ec8ee9ccabb
+                      body: ""
+                      footer:
+                        Change-type: major
+                        change-type: major
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Drop no longer used appveyor.yml
+                      hash: a47c2e7ce94c0b99d75697562e109fd87dbd641a
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-auth-6.0.0
+                  title: ""
+                  date: 2024-02-23T10:32:49.610Z
+                - commits:
+                    - subject: Update @balena/lint to v7
+                      hash: 9613c8e65e75470358ed4a435356d8856e371546
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update balena-request to 13.3.0
+                      hash: 08093a1c040ae5af58233b0529ce76b7e6246f5e
+                      body: |
+                        Update balena-request from 13.0.0 to 13.3.0
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-register-device-9.0.2
+                  title: ""
+                  date: 2024-02-23T11:25:44.648Z
+                - commits:
+                    - subject: Update balena-auth to 6.0.1
+                      hash: 1d3cd469288f2dd0e1ed70a292778b70bd518528
+                      body: |
+                        Update balena-auth from 5.1.0 to 6.0.1
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-13.3.1
+                  title: ""
+                  date: 2024-02-23T10:50:39.931Z
+          version: balena-sdk-19.5.5
+          title: ""
+          date: 2024-02-26T11:06:36.476Z
+        - commits:
+            - subject: Bump balena-request Update balena-request from 13.2.0 to 13.3.0
+              hash: 1330818adde0bc9e9a8e4c4ac9c50548ce5b1d12
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otávio Jacobi
+              nested: []
+          version: balena-sdk-19.5.4
+          title: ""
+          date: 2024-02-14T22:05:55.194Z
+        - commits:
+            - subject: Replace deprecated flowzone input tests_run_on
+              hash: 4b5e586420965a47f9357749a42b4dd9155eb8b4
+              body: |
+                The custom_runs_on array supports multiple runner labels
+                so we need to inspect the first element for our custom action.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-sdk-19.5.3
+          title: ""
+          date: 2024-02-14T19:15:23.474Z
+        - commits:
+            - subject: "tests: Reformat describe & it calls to have curly braces"
+              hash: a56364484bb17bc80990a1c070c7a414ba22430f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.5.2
+          title: ""
+          date: 2024-02-13T18:18:40.012Z
+        - commits:
+            - subject: Update @balena/lint to 7.3.0
+              hash: 936402acd7c546fab9c51a92c21218bd191ed83c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.5.1
+          title: ""
+          date: 2024-02-02T16:41:25.165Z
+        - commits:
+            - subject: "types: Add the `Organization.is_using__billing_version` property"
+              hash: 4faf4f72da474c0ed117c96516ad2afa6c333bf8
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.5.0
+          title: ""
+          date: 2024-01-26T17:03:18.219Z
+  version: 18.2.27
+  title: ""
+  date: 2024-07-12T12:45:10.114Z
+- commits:
     - subject: Drop unused dependencies
       hash: 1bc0f7447fc4e294b5af753c6ab45b0f4a1a457b
       body: ""
