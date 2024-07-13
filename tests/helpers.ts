@@ -64,18 +64,24 @@ export function filterCliOutputForTests({
 	err: string[];
 	out: string[];
 }): { err: string[]; out: string[] } {
+	// eslint-disable-next-line no-control-regex
+	const unicodeCharacterEscapesRegex = /\u001b\[3[0-9]m/g;
 	return {
-		err: err.filter(
-			(line: string) =>
-				line &&
-				!line.match(/\[debug\]/i) &&
-				// TODO stop this warning message from appearing when running
-				// sdk.setSharedOptions multiple times in the same process
-				!line.startsWith('Shared SDK options') &&
-				!line.startsWith('WARN: disabling Sentry.io error reporting') &&
-				!matchesNodeEngineVersionWarn(line),
-		),
-		out: out.filter((line: string) => line && !line.match(/\[debug\]/i)),
+		err: err
+			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
+			.filter(
+				(line: string) =>
+					line &&
+					!line.match(/\[debug\]/i) &&
+					// TODO stop this warning message from appearing when running
+					// sdk.setSharedOptions multiple times in the same process
+					!line.startsWith('Shared SDK options') &&
+					!line.startsWith('WARN: disabling Sentry.io error reporting') &&
+					!matchesNodeEngineVersionWarn(line),
+			),
+		out: out
+			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
+			.filter((line) => line && !line.match(/\[debug\]/i)),
 	};
 }
 
