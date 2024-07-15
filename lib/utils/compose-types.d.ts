@@ -80,9 +80,7 @@ export interface ComposeProject {
 }
 
 export interface Release {
-	client: ReturnType<
-		typeof import('@balena/compose/dist/release').createClient
-	>;
+	client: import('@balena/compose').release.Request['client'];
 	release: Pick<
 		ReleaseModel,
 		| 'id'

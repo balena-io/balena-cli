@@ -23,7 +23,7 @@
         "balena-image-fs": "^7.0.6",
         "balena-image-manager": "^10.0.1",
         "balena-preload": "^15.0.6",
-        "balena-sdk": "^19.7.2",
+        "balena-sdk": "^19.7.3",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
@@ -1296,9 +1296,9 @@
       }
     },
     "node_modules/@babel/template/node_modules/@babel/types": {
-      "version": "7.24.8",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.24.8.tgz",
-      "integrity": "sha512-SkSBEHwwJRU52QEVZBmMBnE5Ux2/6WU1grdYyOhpbCNxbmJrDuDCphBzKZSO3taf0zztp+qkWlymE5tVL5l0TA==",
+      "version": "7.24.9",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.24.9.tgz",
+      "integrity": "sha512-xm8XrMKz0IlUdocVbYJe0Z9xEgidU7msskG8BbhnTPK/HZ2z/7FP7ykqPgrUH+C+r414mNfNWam1f2vqOjqjYQ==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.24.8",
@@ -1331,12 +1331,12 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/generator": {
-      "version": "7.24.8",
-      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.24.8.tgz",
-      "integrity": "sha512-47DG+6F5SzOi0uEvK4wMShmn5yY0mVjVJoWTphdY2B4Rx9wHgjK7Yhtr0ru6nE+sn0v38mzrWOlah0p/YlHHOQ==",
+      "version": "7.24.9",
+      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.24.9.tgz",
+      "integrity": "sha512-G8v3jRg+z8IwY1jHFxvCNhOPYPterE4XljNgdGTYfSTtzzwjIswIzIaSPSLs3R7yFuqnqNeay5rjICfqVr+/6A==",
       "dev": true,
       "dependencies": {
-        "@babel/types": "^7.24.8",
+        "@babel/types": "^7.24.9",
         "@jridgewell/gen-mapping": "^0.3.5",
         "@jridgewell/trace-mapping": "^0.3.25",
         "jsesc": "^2.5.1"
@@ -1346,9 +1346,9 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/types": {
-      "version": "7.24.8",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.24.8.tgz",
-      "integrity": "sha512-SkSBEHwwJRU52QEVZBmMBnE5Ux2/6WU1grdYyOhpbCNxbmJrDuDCphBzKZSO3taf0zztp+qkWlymE5tVL5l0TA==",
+      "version": "7.24.9",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.24.9.tgz",
+      "integrity": "sha512-xm8XrMKz0IlUdocVbYJe0Z9xEgidU7msskG8BbhnTPK/HZ2z/7FP7ykqPgrUH+C+r414mNfNWam1f2vqOjqjYQ==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.24.8",
@@ -5750,9 +5750,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "19.7.2",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.7.2.tgz",
-      "integrity": "sha512-RGqDr10S43kTVlGTaejK6WpEVvW25YP0lIeybIcXchmweg9Mgt/rGJv/gVyLJwdSiw/9Tdgfaul0DTR6nlkD2g==",
+      "version": "19.7.3",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.7.3.tgz",
+      "integrity": "sha512-O7c+ZVZVSGOlECvkLvi1DWwbKb7bM3UgPaRlCfld0cOcp6X9S+6fcLt9ewOOhF3YsxrBksYOSYBnrmkW9VxqLQ==",
       "dependencies": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",

@@ -121,10 +121,8 @@ const getRequestRetryParameters = (): RetryParametersObj => {
 };
 
 export const createRelease = async function (
+	sdk: SDK.BalenaSDK,
 	logger: Logger,
-	apiEndpoint: string,
-	auth: string,
-	userId: number,
 	appId: number,
 	composition: Composition,
 	draft: boolean,
@@ -136,24 +134,32 @@ export const createRelease = async function (
 	const releaseMod =
 		require('@balena/compose/dist/release') as typeof import('@balena/compose/dist/release');
 
-	const client = releaseMod.createClient({
-		apiEndpoint,
-		auth,
-		retry: {
-			...getRequestRetryParameters(),
-			onRetry: (err, delayMs, attempt, maxAttempts) => {
-				const code = err?.statusCode ?? 0;
-				logger.logDebug(
-					`API call failed with code ${code}.  Attempting retry ${attempt} of ${maxAttempts} in ${
-						delayMs / 1000
-					} seconds`,
-				);
+	// @ts-expect-error - Once we start using the pinejs-client-core@^6.15.0 types in the SDK's
+	// pine instance, this ts-expect-error should no longer be needed.
+	const pinejsClient: import('@balena/compose').release.Request['client'] =
+		sdk.pine.clone(
+			{
+				retry: {
+					...getRequestRetryParameters(),
+					onRetry: (err, delayMs, attempt, maxAttempts) => {
+						const code = err?.statusCode ?? 0;
+						logger.logDebug(
+							`API call failed with code ${code}.  Attempting retry ${attempt} of ${maxAttempts} in ${
+								delayMs / 1000
+							} seconds`,
+						);
+					},
+				},
 			},
-		},
-	});
+			{
+				// @balena/compose atm works with v6, bump it once @balena/compose moves to v7.
+				apiVersion: 'v6',
+			},
+		);
 
+	const { id: userId } = await sdk.auth.getUserInfo();
 	const { release, serviceImages } = await releaseMod.create({
-		client,
+		client: pinejsClient,
 		user: userId,
 		application: appId,
 		composition,
@@ -165,7 +171,7 @@ export const createRelease = async function (
 	});
 
 	return {
-		client,
+		client: pinejsClient,
 		release: _.pick(release, [
 			'id',
 			'status',

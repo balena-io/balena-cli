@@ -162,6 +162,7 @@ export class BalenaAPIMock extends NockMock {
 				inspectRequest,
 				path.join(apiResponsePath, 'release-POST-v6.json'),
 			),
+			jHeader,
 		);
 	}
 

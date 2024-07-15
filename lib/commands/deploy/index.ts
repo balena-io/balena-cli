@@ -364,20 +364,13 @@ ${dockerignoreHelp}
 					$select: ['commit'],
 				});
 			} else {
-				const [{ id: userId }, auth, apiEndpoint] = await Promise.all([
-					sdk.auth.getUserInfo(),
-					sdk.auth.getToken(),
-					sdk.settings.get('apiUrl'),
-				]);
 				release = await $deployProject(
 					docker,
+					sdk,
 					logger,
 					project.composition,
 					images,
 					opts.app.id,
-					userId,
-					`Bearer ${auth}`,
-					apiEndpoint,
 					!opts.shouldUploadLogs,
 					composeOpts.projectPath,
 					opts.createAsDraft,
