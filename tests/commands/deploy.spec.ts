@@ -276,7 +276,7 @@ describe('balena deploy', function () {
 		);
 		const expectedResponseLines = ['[Error] Deploy failed'];
 		const errMsg = 'Patch Image Error';
-		const expectedErrorLines = [errMsg];
+		const expectedErrorLines = [`Request error: ${errMsg}`];
 		// The SDK should produce an "unexpected" BalenaRequestError, which
 		// causes the CLI to call process.exit() with process.exitCode = 1
 		const expectedExitCode = 1;

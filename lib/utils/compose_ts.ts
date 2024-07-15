@@ -1326,9 +1326,7 @@ async function pushAndUpdateServiceImages(
 async function pushServiceImages(
 	docker: Dockerode,
 	logger: Logger,
-	pineClient: ReturnType<
-		typeof import('@balena/compose/dist/release').createClient
-	>,
+	pineClient: import('@balena/compose').release.Request['client'],
 	taggedImages: TaggedImage[],
 	token: string,
 	skipLogUpload: boolean,
@@ -1353,13 +1351,11 @@ async function pushServiceImages(
 
 export async function deployProject(
 	docker: Dockerode,
+	sdk: BalenaSDK,
 	logger: Logger,
 	composition: Composition,
 	images: BuiltImage[],
 	appId: number,
-	userId: number,
-	auth: string,
-	apiEndpoint: string,
 	skipLogUpload: boolean,
 	projectPath: string,
 	isDraft: boolean,
@@ -1378,6 +1374,7 @@ export async function deployProject(
 			Error: the version field in "${contractPath}"
 			is not a valid semver`);
 	}
+	const apiEndpoint = await sdk.settings.get('apiUrl');
 
 	const $release = await runSpinner(
 		tty,
@@ -1385,10 +1382,8 @@ export async function deployProject(
 		`${prefix}Creating release...`,
 		() =>
 			createRelease(
+				sdk,
 				logger,
-				apiEndpoint,
-				auth,
-				userId,
 				appId,
 				composition,
 				isDraft,
