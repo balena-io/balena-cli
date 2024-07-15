@@ -1,4 +1,37 @@
 - commits:
+    - subject: "deploy: Use the sdk's pine instance with balena-compose"
+      hash: efa0d67f0ad3968fe1a52f929ae475a2caf08567
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-sdk to 19.7.3
+      hash: 232b9678bcac65b20c9006f749e1f8c9dcd49abd
+      body: |
+        Update balena-sdk from 19.7.2 to 19.7.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "pinejs-client-core: Add some missing methods to the custom typings"
+              hash: f052451b60e479124e8a9f494fd9855dcddb4677
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-19.7.3
+          title: ""
+          date: 2024-07-12T20:52:36.803Z
+  version: 18.2.31
+  title: ""
+  date: 2024-07-15T21:17:39.152Z
+- commits:
     - subject: Omit unicode control character escapes from test logs
       hash: 4e101e2fd9151a9e0a41f8284feba30b32e1a77a
       body: ""
