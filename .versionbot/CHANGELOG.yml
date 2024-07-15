@@ -1,4 +1,16 @@
 - commits:
+    - subject: Omit unicode control character escapes from test logs
+      hash: 4e101e2fd9151a9e0a41f8284feba30b32e1a77a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 18.2.30
+  title: ""
+  date: 2024-07-15T11:30:37.408Z
+- commits:
     - subject: Update balena-preload from 15.0.5 to 15.0.6
       hash: 3c64e13fb3f06f557b105f80650615f772809d65
       body: ""
