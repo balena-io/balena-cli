@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused code
+      hash: 0f23318367f0f14e7df52740282c75d0ac3fc6b5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.32
+  title: ""
+  date: 2024-07-16T13:10:02.704Z
+- commits:
     - subject: "deploy: Use the sdk's pine instance with balena-compose"
       hash: efa0d67f0ad3968fe1a52f929ae475a2caf08567
       body: ""
