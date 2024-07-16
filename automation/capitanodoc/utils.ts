@@ -15,40 +15,8 @@
  * limitations under the License.
  */
 
-import type { OptionDefinition } from 'capitano';
-import * as ent from 'ent';
 import * as fs from 'fs';
 import * as readline from 'readline';
-
-export function getOptionPrefix(signature: string) {
-	if (signature.length > 1) {
-		return '--';
-	} else {
-		return '-';
-	}
-}
-
-export function getOptionSignature(signature: string) {
-	return `${getOptionPrefix(signature)}${signature}`;
-}
-
-export function parseCapitanoOption(option: OptionDefinition): string {
-	let result = getOptionSignature(option.signature);
-
-	if (Array.isArray(option.alias)) {
-		for (const alias of option.alias) {
-			result += `, ${getOptionSignature(alias)}`;
-		}
-	} else if (typeof option.alias === 'string') {
-		result += `, ${getOptionSignature(option.alias)}`;
-	}
-
-	if (option.parameter) {
-		result += ` <${option.parameter}>`;
-	}
-
-	return ent.encode(result);
-}
 
 export class MarkdownFileParser {
 	constructor(public mdFilePath: string) {}
