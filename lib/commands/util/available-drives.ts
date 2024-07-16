@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { stripIndent, getChalk, getVisuals } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { stripIndent, getChalk, getVisuals } from '../../utils/lazy.js';
 
 export default class UtilAvailableDrivesCmd extends Command {
 	public static description = stripIndent`

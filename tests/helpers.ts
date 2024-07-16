@@ -15,13 +15,20 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 
-import * as packageJSON from '../package.json';
+import packageJSON from '../package.json' with { type: 'json' };
+import { getNodeEngineVersionWarn } from '../lib/utils/messages.js';
+import { warnify } from '../lib/utils/messages.js';
 
 const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
-const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
+const standalonePath = path.resolve(
+	import.meta.dirname,
+	'..',
+	'build-bin',
+	balenaExe,
+);
 
 export interface TestOutput {
 	err: string[]; // stderr
@@ -41,7 +48,6 @@ function matchesNodeEngineVersionWarn(msg: string) {
 			.map((l) => l.trim())
 			.filter((l) => l);
 
-	const { getNodeEngineVersionWarn } = require('../build/utils/messages');
 	let nodeEngineWarn: string = getNodeEngineVersionWarn(
 		'x.y.z',
 		packageJSON.engines.node,
@@ -90,8 +96,8 @@ export function filterCliOutputForTests({
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  */
 async function runCommandInProcess(cmd: string): Promise<TestOutput> {
-	const balenaCLI = await import('../build/app');
-	const intercept = await import('intercept-stdout');
+	const balenaCLI = await import('../lib/app.js');
+	const { default: intercept } = await import('intercept-stdout');
 
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
@@ -112,7 +118,7 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 
 	try {
 		await balenaCLI.run(preArgs.concat(cmd.split(' ').filter((c) => c)), {
-			dir: path.resolve(__dirname, '..'),
+			dir: path.resolve(import.meta.dirname, '..'),
 			noFlush: true,
 		});
 	} finally {
@@ -179,8 +185,6 @@ async function runCommandInSubprocess(
 					const msg = `
 Error (possibly expected) executing child CLI process "${standalonePath}"
 ${$error}`;
-					const { warnify } =
-						require('../build/utils/messages') as typeof import('../build/utils/messages');
 					console.error(warnify(msg, '[debug] '));
 				}
 				resolve();
@@ -236,7 +240,7 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 		} catch {
 			throw new Error(`Standalone executable not found: "${standalonePath}"`);
 		}
-		const proxy = await import('./nock/proxy-server');
+		const proxy = await import('./nock/proxy-server.js');
 		const [proxyPort] = await proxy.createProxyServerOnce();
 		return runCommandInSubprocess(cmd, proxyPort);
 	} else {
@@ -353,7 +357,7 @@ export function deepJsonParse(data: any): any {
 export async function switchSentry(
 	enabled: boolean | undefined,
 ): Promise<boolean | undefined> {
-	const balenaCLI = await import('../build/app');
+	const balenaCLI = await import('../lib/app.js');
 	const sentryOpts = (await balenaCLI.setupSentry()).getClient()?.getOptions();
 	if (sentryOpts) {
 		const sentryStatus = sentryOpts.enabled;

@@ -9,7 +9,6 @@ module.exports = {
 		// to avoid the `warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion`
 		'@typescript-eslint/no-non-null-assertion': 'off',
 		'@typescript-eslint/no-shadow': 'off',
-		'@typescript-eslint/no-var-requires': 'off',
 		'no-restricted-imports': [
 			'error',
 			{

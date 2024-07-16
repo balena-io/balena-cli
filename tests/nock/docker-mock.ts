@@ -22,7 +22,7 @@ import type { ScopeOpts } from './nock-mock';
 import { NockMock } from './nock-mock';
 
 export const dockerResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'docker-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'docker-response'),
 );
 
 export class DockerMock extends NockMock {

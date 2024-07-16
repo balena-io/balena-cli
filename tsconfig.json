@@ -1,8 +1,9 @@
 {
 	"compilerOptions": {
 		"declaration": true,
-		"module": "commonjs",
-		"target": "es2018",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "es2022",
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,
@@ -13,6 +14,8 @@
 		"removeComments": true,
 		"sourceMap": true,
 		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
 		"typeRoots": [
 			"./node_modules/@types",
 			"./node_modules/etcher-sdk/typings",

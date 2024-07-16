@@ -22,10 +22,12 @@ import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
 import type { Pack } from 'tar-stream';
 
-import { ExpectedError, SIGINTError } from '../errors';
-import { tarDirectory } from './compose_ts';
-import { getVisuals, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError, SIGINTError } from '../errors.js';
+import { tarDirectory } from './compose_ts.js';
+import { getVisuals, stripIndent } from './lazy.js';
+import Logger from './logger.js';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 const globalLogger = Logger.getLogger();
 
@@ -126,7 +128,7 @@ export async function startRemoteBuild(
 		}
 	};
 
-	const { addSIGINTHandler } = await import('./helpers');
+	const { addSIGINTHandler } = await import('./helpers.js');
 	addSIGINTHandler(sigintHandler);
 
 	try {

@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { createRequire } from 'node:module';
 
+const require = createRequire(import.meta.url);
 const windowSize: { width?: number; height?: number } = {};
 
 const updateWindowSize = () => {
@@ -25,7 +27,7 @@ const updateWindowSize = () => {
 
 process.stdout.on('resize', updateWindowSize);
 
-export = (stream: NodeJS.WriteStream = process.stdout) => {
+export default (stream: NodeJS.WriteStream = process.stdout) => {
 	// make sure we get initial metrics
 	updateWindowSize();
 

@@ -16,9 +16,9 @@
  */
 
 import { Flags } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class ApiKeysCmd extends Command {
 	public static description = stripIndent`
@@ -46,7 +46,7 @@ export default class ApiKeysCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(ApiKeysCmd);
 
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 		const actorId = options.fleet
 			? (
 					await getApplication(getBalenaSdk(), options.fleet, {

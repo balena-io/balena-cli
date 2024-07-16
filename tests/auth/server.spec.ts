@@ -33,7 +33,7 @@ const { expect } = chai;
 
 async function getPage(name: string): Promise<string> {
 	const pagePath = path.join(
-		__dirname,
+		import.meta.dirname,
 		'..',
 		'..',
 		'build',

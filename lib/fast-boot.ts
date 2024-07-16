@@ -26,6 +26,8 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 const stat = process.pkg ? fs.statSync : fs.promises.stat;
 
@@ -66,7 +68,7 @@ async function $start() {
 	// such as `/usr[/local]/lib/balena-cli`, while being executed by
 	// a regular user account.
 	const cacheFile = path.join(dataDir, 'cli-module-cache.json');
-	const root = path.join(__dirname, '..');
+	const root = path.join(import.meta.dirname, '..');
 	const [, pJson, pStat, nStat] = await Promise.all([
 		ensureCanWrite(dataDir, cacheFile),
 		import('../package.json'),
@@ -74,7 +76,7 @@ async function $start() {
 		stat(path.join(root, 'npm-shrinkwrap.json'), { bigint: true }),
 	]);
 	// Include timestamps to account for dev-time changes to node_modules
-	const cacheKiller = `${pJson.version}-${pStat.mtimeMs}-${nStat.mtimeMs}`;
+	const cacheKiller = `${pJson.default.version}-${pStat.mtimeMs}-${nStat.mtimeMs}`;
 	require('fast-boot2').start({
 		cacheFile,
 		cacheKiller,

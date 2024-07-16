@@ -20,7 +20,7 @@ import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
 import { promises as fs } from 'fs';
 import jsyaml = require('js-yaml');
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 import type {
 	BuildConfig,
@@ -31,18 +31,26 @@ import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 import type {
 	BuiltImage,
 	ComposeOpts,
 	ComposeProject,
 	TaggedImage,
 	TarDirectoryOptions,
-} from './compose-types';
-import type { DeviceInfo } from './device/api';
-import { getBalenaSdk, getChalk, stripIndent } from './lazy';
-import Logger = require('./logger');
-import { exists } from './which';
+} from './compose-types.js';
+import type { DeviceInfo } from './device/api.js';
+import { getBalenaSdk, getChalk, stripIndent } from './lazy.js';
+import Logger from './logger.js';
+import { exists } from './which.js';
+
+// TODO: fix typings on balena-model
+import type {
+	ImageModel,
+	ReleaseModel,
+} from '@balena/compose/dist/release/models.js';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 
@@ -117,7 +125,7 @@ export async function loadProject(
 	imageTag?: string,
 ): Promise<ComposeProject> {
 	const compose = await import('@balena/compose/dist/parse');
-	const { createProject } = await import('./compose');
+	const { createProject } = await import('./compose.js');
 	let composeName: string;
 	let composeStr: string;
 
@@ -249,7 +257,7 @@ export interface BuildProjectOpts {
 	arch: string;
 	deviceType: string;
 	emulated: boolean;
-	buildOpts: import('./docker').BuildOpts;
+	buildOpts: import('./docker.js').BuildOpts;
 	inlineLogs?: boolean;
 	convertEol: boolean;
 	dockerfilePath?: string;
@@ -265,7 +273,7 @@ export async function buildProject(
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
 	let buildSummaryByService: Dictionary<string> | undefined;
 	try {
-		const { awaitInterruptibleTask } = await import('./helpers');
+		const { awaitInterruptibleTask } = await import('./helpers.js');
 		const [images, summaryMsgByService] = await awaitInterruptibleTask(
 			$buildProject,
 			imageDescriptors,
@@ -330,7 +338,7 @@ async function $buildProject(
 
 	logger.logDebug('Prepared tasks; building...');
 
-	const { BALENA_ENGINE_TMP_PATH } = await import('../config');
+	const { BALENA_ENGINE_TMP_PATH } = await import('../config.js');
 	const builder = await import('@balena/compose/dist/multibuild');
 
 	const builtImages = await builder.performBuilds(
@@ -358,13 +366,13 @@ async function startRenderer({
 }): Promise<Renderer> {
 	let renderer: Renderer;
 	if (inlineLogs) {
-		renderer = new (await import('./compose')).BuildProgressInline(
+		renderer = new (await import('./compose.js')).BuildProgressInline(
 			logger.streams['build'],
 			imageDescriptors,
 		);
 	} else {
-		const tty = (await import('./tty'))(process.stdout);
-		renderer = new (await import('./compose')).BuildProgressUI(
+		const tty = (await import('./tty.js')).default(process.stdout);
+		renderer = new (await import('./compose.js')).BuildProgressUI(
 			tty,
 			imageDescriptors,
 		);
@@ -388,7 +396,7 @@ async function installQemuIfNeeded({
 	logger: Logger;
 	projectPath: string;
 }): Promise<boolean> {
-	const qemu = await import('./qemu');
+	const qemu = await import('./qemu.js');
 	const needsQemu = await qemu.installQemuIfNeeded(
 		emulated,
 		logger,
@@ -431,7 +439,7 @@ function setTaskAttributes({
 	projectName,
 }: {
 	tasks: BuildTaskPlus[];
-	buildOpts: import('./docker').BuildOpts;
+	buildOpts: import('./docker.js').BuildOpts;
 	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
 	projectName: string;
 }) {
@@ -471,7 +479,7 @@ async function qemuTransposeBuildStream({
 	dockerfilePath?: string;
 	projectPath: string;
 }): Promise<TransposeOptions> {
-	const qemu = await import('./qemu');
+	const qemu = await import('./qemu.js');
 	const binPath = qemu.qemuPathInContext(
 		path.join(projectPath, task.context ?? ''),
 	);
@@ -681,7 +689,7 @@ export async function getServiceDirsFromComposition(
 	sourceDir: string,
 	composition?: Composition,
 ): Promise<Dictionary<string>> {
-	const { createProject } = await import('./compose');
+	const { createProject } = await import('./compose.js');
 	const serviceDirs: Dictionary<string> = {};
 	if (!composition) {
 		const [, composeStr] = await resolveProject(
@@ -757,7 +765,7 @@ export async function tarDirectory(
 		preFinalizeCallback,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	const { filterFilesWithDockerignore } = await import('./ignore');
+	const { filterFilesWithDockerignore } = await import('./ignore.js');
 	const { toPosixPath } = (await import('@balena/compose/dist/multibuild'))
 		.PathUtils;
 
@@ -800,17 +808,17 @@ export async function tarDirectory(
  * @param multiDockerignore Whether --multi-dockerignore (-m) was provided
  */
 function printDockerignoreWarn(
-	dockerignoreFiles: Array<import('./ignore').FileStats>,
+	dockerignoreFiles: Array<import('./ignore.js').FileStats>,
 	serviceDirsByService: Dictionary<string>,
 	multiDockerignore: boolean,
 ) {
-	let rootDockerignore: import('./ignore').FileStats | undefined;
+	let rootDockerignore: import('./ignore.js').FileStats | undefined;
 	const logger = Logger.getLogger();
 	const relPrefix = '.' + path.sep;
 	const serviceDirs = Object.values(serviceDirsByService || {});
 	// compute a list of unused .dockerignore files
 	const unusedFiles = dockerignoreFiles.filter(
-		(dockerignoreStats: import('./ignore').FileStats) => {
+		(dockerignoreStats: import('./ignore.js').FileStats) => {
 			let dirname = path.dirname(dockerignoreStats.relPath);
 			dirname = dirname.startsWith(relPrefix) ? dirname.slice(2) : dirname;
 			const isProjectRootDir = !dirname || dirname === '.';
@@ -873,7 +881,7 @@ function printDockerignoreWarn(
 		}
 	}
 	if (msg.length) {
-		const { warnify } = require('./messages') as typeof import('./messages');
+		const { warnify } = require('./messages') as typeof import('./messages.js');
 		logFunc.call(logger, ' \n' + warnify(msg.join('\n'), ''));
 	}
 }
@@ -891,7 +899,7 @@ export async function checkBuildSecretsRequirements(
 ) {
 	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
 	if (metaObj && !_.isEmpty(metaObj['build-secrets'])) {
-		const dockerUtils = await import('./docker');
+		const dockerUtils = await import('./docker.js');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
 		if (!isBalenaEngine) {
 			throw new ExpectedError(stripIndent`
@@ -1222,7 +1230,7 @@ async function getTokenForPreviousRepos(
 	taggedImages: TaggedImage[],
 ): Promise<string> {
 	logger.logDebug('Authorizing push...');
-	const { authorizePush, getPreviousRepos } = await import('./compose');
+	const { authorizePush, getPreviousRepos } = await import('./compose.js');
 	const sdk = getBalenaSdk();
 	const previousRepos = await getPreviousRepos(sdk, logger, appId);
 
@@ -1240,15 +1248,12 @@ async function pushAndUpdateServiceImages(
 	docker: Dockerode,
 	token: string,
 	images: TaggedImage[],
-	afterEach: (
-		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
-		props: object,
-	) => Promise<void>,
+	afterEach: (serviceImage: ImageModel, props: object) => Promise<void>,
 ) {
 	const { DockerProgress } = await import('docker-progress');
-	const { retry } = await import('./helpers');
-	const { pushProgressRenderer } = await import('./compose');
-	const tty = (await import('./tty'))(process.stdout);
+	const { retry } = await import('./helpers.js');
+	const { pushProgressRenderer } = await import('./compose.js');
+	const tty = (await import('./tty.js')).default(process.stdout);
 	const opts = { authconfig: { registrytoken: token } };
 	const progress = new DockerProgress({ docker });
 	const renderer = pushProgressRenderer(
@@ -1331,7 +1336,7 @@ async function pushServiceImages(
 	token: string,
 	skipLogUpload: boolean,
 ): Promise<void> {
-	const releaseMod = await import('@balena/compose/dist/release');
+	const releaseMod = (await import('@balena/compose')).release;
 	logger.logInfo('Pushing images to registry...');
 	await pushAndUpdateServiceImages(
 		docker,
@@ -1359,10 +1364,10 @@ export async function deployProject(
 	skipLogUpload: boolean,
 	projectPath: string,
 	isDraft: boolean,
-): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
+): Promise<ReleaseModel> {
 	const releaseMod = await import('@balena/compose/dist/release');
-	const { createRelease, tagServiceImages } = await import('./compose');
-	const tty = (await import('./tty'))(process.stdout);
+	const { createRelease, tagServiceImages } = await import('./compose.js');
+	const tty = (await import('./tty.js')).default(process.stdout);
 
 	const prefix = getChalk().cyan('[Info]') + '    ';
 	const spinner = createSpinner();
@@ -1397,7 +1402,7 @@ export async function deployProject(
 		logger.logDebug('Tagging images...');
 		const taggedImages = await tagServiceImages(docker, images, serviceImages);
 		try {
-			const { awaitInterruptibleTask } = await import('./helpers');
+			const { awaitInterruptibleTask } = await import('./helpers.js');
 			// awaitInterruptibleTask throws SIGINTError on CTRL-C,
 			// causing the release status to be set to 'failed'
 			await awaitInterruptibleTask(async () => {
@@ -1444,7 +1449,7 @@ export function createSpinner() {
 }
 
 async function runSpinner<T>(
-	tty: ReturnType<typeof import('./tty')>,
+	tty: ReturnType<typeof import('./tty.js').default>,
 	spinner: () => string,
 	msg: string,
 	fn: () => Promise<T>,

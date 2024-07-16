@@ -17,9 +17,11 @@
 
 import type * as Dockerode from 'dockerode';
 
-import { ExpectedError } from '../errors';
-import { getBalenaSdk, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError } from '../errors.js';
+import { getBalenaSdk, stripIndent } from './lazy.js';
+import type Logger from './logger.js';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
@@ -31,9 +33,9 @@ export function qemuPathInContext(context: string) {
 	return path.relative(context, binPath);
 }
 
-export function copyQemu(context: string, arch: string) {
-	const path = require('path') as typeof import('path');
-	const fs = require('fs') as typeof import('fs');
+export async function copyQemu(context: string, arch: string) {
+	const path = await import('path');
+	const fs = await import('fs');
 	// Create a hidden directory in the build context, containing qemu
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
@@ -65,11 +67,11 @@ export function copyQemu(context: string, arch: string) {
 		.then(() => path.relative(context, binPath));
 }
 
-export const getQemuPath = function (balenaArch: string) {
+export const getQemuPath = async function (balenaArch: string) {
 	const qemuArch = balenaArchToQemuArch(balenaArch);
 	const balena = getBalenaSdk();
-	const path = require('path') as typeof import('path');
-	const { promises: fs } = require('fs') as typeof import('fs');
+	const path = await import('path');
+	const { promises: fs } = await import('fs');
 
 	return balena.settings.get('binDirectory').then((binDir) =>
 		fs
@@ -94,7 +96,7 @@ async function installQemu(arch: string, qemuPath: string) {
 	const urlVersion = encodeURIComponent(QEMU_VERSION);
 	const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
 
-	const request = await import('request');
+	const { default: request } = await import('request');
 	const fs = await import('fs');
 	const zlib = await import('zlib');
 	const tar = await import('tar-stream');

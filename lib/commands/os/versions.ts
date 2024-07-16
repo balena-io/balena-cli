@@ -16,9 +16,9 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class OsVersionsCmd extends Command {
 	public static description = stripIndent`
@@ -58,7 +58,7 @@ export default class OsVersionsCmd extends Command {
 		const { args: params, flags: options } = await this.parse(OsVersionsCmd);
 
 		if (options['include-draft']) {
-			const { warnify } = await import('../../utils/messages');
+			const { warnify } = await import('../../utils/messages.js');
 			console.error(
 				warnify(stripIndent`
 				Using pre-release balenaOS versions is only supported for OS updates
@@ -68,7 +68,7 @@ export default class OsVersionsCmd extends Command {
 		}
 
 		const { formatOsVersion, getOsVersions } = await import(
-			'../../utils/cloud'
+			'../../utils/cloud.js'
 		);
 		const vs = await getOsVersions(
 			params.type,

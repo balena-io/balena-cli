@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-const path = require('path');
-const rootDir = path.join(__dirname, '..');
-const fs = require('fs');
+import path from 'path';
+const rootDir = path.join(import.meta.dirname, '..');
+import fs from 'fs';
 const manifestFile = 'oclif.manifest.json';
 
 commandsFilePath = path.join(rootDir, manifestFile);
@@ -47,8 +47,8 @@ for (const key of Object.keys(commandsJson.commands).sort()) {
 const mainCommandsStr = mainCommands.join(' ');
 
 // GENERATE BASH COMPLETION FILE
-bashFilePathIn = path.join(__dirname, '/templates/bash.template');
-bashFilePathOut = path.join(__dirname, 'balena-completion.bash');
+bashFilePathIn = path.join(import.meta.dirname, '/templates/bash.template');
+bashFilePathOut = path.join(import.meta.dirname, 'balena-completion.bash');
 
 try {
 	fs.unlinkSync(bashFilePathOut);
@@ -109,8 +109,8 @@ fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 });
 
 // GENERATE ZSH COMPLETION FILE
-zshFilePathIn = path.join(__dirname, '/templates/zsh.template');
-zshFilePathOut = path.join(__dirname, '_balena');
+zshFilePathIn = path.join(import.meta.dirname, '/templates/zsh.template');
+zshFilePathOut = path.join(import.meta.dirname, '_balena');
 
 try {
 	fs.unlinkSync(zshFilePathOut);

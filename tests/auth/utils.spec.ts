@@ -1,4 +1,4 @@
-import * as Bluebird from 'bluebird';
+import Bluebird from 'bluebird';
 import { expect } from 'chai';
 import rewire = require('rewire');
 import * as sinon from 'sinon';

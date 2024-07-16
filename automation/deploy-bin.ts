@@ -15,20 +15,17 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as semver from 'semver';
+import { Octokit as OctokitLib } from '@octokit/rest';
+import OctoKitPluginThrottling from '@octokit/plugin-throttling';
+import parse from 'parse-link-header';
 
 const { GITHUB_TOKEN } = process.env;
 
 /** Return a cached Octokit instance, creating a new one as needed. */
 const getOctokit = _.once(function () {
-	const Octokit = (
-		require('@octokit/rest') as typeof import('@octokit/rest')
-	).Octokit.plugin(
-		(
-			require('@octokit/plugin-throttling') as typeof import('@octokit/plugin-throttling')
-		).throttling,
-	);
+	const Octokit = OctokitLib.plugin(OctoKitPluginThrottling.throttling);
 	return new Octokit({
 		auth: GITHUB_TOKEN,
 		throttle: {
@@ -73,8 +70,7 @@ function getPageNumbers(
 	if (!response.headers.link) {
 		return res;
 	}
-	const parse =
-		require('parse-link-header') as typeof import('parse-link-header');
+
 	const parsed = parse(response.headers.link);
 	if (parsed == null) {
 		throw new Error(`Failed to parse link header: '${response.headers.link}'`);

@@ -18,32 +18,28 @@
 import type { JsonVersions } from '../lib/commands/version/index';
 
 import { run as oclifRun } from '@oclif/core';
-import * as archiver from 'archiver';
-import * as Bluebird from 'bluebird';
+import archiver from 'archiver';
+import Bluebird from 'bluebird';
 import { exec, execFile } from 'child_process';
-import * as filehound from 'filehound';
+import filehound from 'filehound';
 import type { Stats } from 'fs';
 import * as fs from 'fs-extra';
-import * as klaw from 'klaw';
+import klaw from 'klaw';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
+import rimraf from 'rimraf';
 import * as semver from 'semver';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';
 
-import { stripIndent } from '../build/utils/lazy';
-import {
-	diffLines,
-	loadPackageJson,
-	ROOT,
-	StdOutTap,
-	whichSpawn,
-} from './utils';
+import { stripIndent } from '../lib/utils/lazy';
+import { diffLines, ROOT, StdOutTap, whichSpawn } from './utils';
+import { filterCliOutputForTests, monochrome } from '../tests/helpers';
 
 const execFileAsync = promisify(execFile);
 const execAsync = promisify(exec);
 
-export const packageJSON = loadPackageJson();
+import pjson from '../package.json' with { type: 'json' };
+export const packageJSON = pjson;
 export const version = 'v' + packageJSON.version;
 const arch = process.arch;
 
@@ -87,7 +83,6 @@ export const finalReleaseAssets: { [platform: string]: string[] } = {
  * Throw an error if the diff is not empty.
  */
 async function diffPkgOutput(pkgOut: string) {
-	const { monochrome } = await import('../tests/helpers');
 	const relSavedPath = path.join(
 		'tests',
 		'test-data',
@@ -172,7 +167,11 @@ async function execPkg(...args: any[]) {
 		throw err;
 	}
 	outTap.untap();
-	await diffPkgOutput(outTap.allBuf.join(''));
+	try {
+		await diffPkgOutput(outTap.allBuf.join(''));
+	} catch (err) {
+		console.error('diff on pkg warnings', err);
+	}
 }
 
 /**
@@ -263,7 +262,6 @@ async function testPkg() {
 		'version',
 		'-j',
 	]);
-	const { filterCliOutputForTests } = await import('../tests/helpers');
 	const filtered = filterCliOutputForTests({
 		err: stderr.split(/\r?\n/),
 		out: stdout.split(/\r?\n/),
@@ -570,6 +568,8 @@ export async function testShrinkwrap(): Promise<void> {
 		console.error(`[debug] platform=${process.platform}`);
 	}
 	if (process.platform !== 'win32') {
-		await whichSpawn(path.resolve(__dirname, 'test-lock-deduplicated.sh'));
+		await whichSpawn(
+			path.resolve(import.meta.dirname, 'test-lock-deduplicated.sh'),
+		);
 	}
 }

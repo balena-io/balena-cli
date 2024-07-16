@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import { commitOrIdArg } from '.';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { commitOrIdArg } from './index.js';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class ReleaseValidateCmd extends Command {
 	public static description = stripIndent`

@@ -16,13 +16,13 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 import {
 	parseAsInteger,
 	validateLocalHostnameOrIp,
-} from '../../utils/validation';
+} from '../../utils/validation.js';
 
 export default class SshCmd extends Command {
 	public static description = stripIndent`
@@ -111,7 +111,9 @@ export default class SshCmd extends Command {
 
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
-			const { performLocalDeviceSSH } = await import('../../utils/device/ssh');
+			const { performLocalDeviceSSH } = await import(
+				'../../utils/device/ssh.js'
+			);
 			return await performLocalDeviceSSH({
 				hostname: params.fleetOrDevice,
 				port: options.port || 'local',
@@ -122,8 +124,10 @@ export default class SshCmd extends Command {
 		}
 
 		// Remote connection
-		const { getProxyConfig } = await import('../../utils/helpers');
-		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns');
+		const { getProxyConfig } = await import('../../utils/helpers.js');
+		const { getOnlineTargetDeviceUuid } = await import(
+			'../../utils/patterns.js'
+		);
 		const sdk = getBalenaSdk();
 
 		const proxyConfig = getProxyConfig();
@@ -137,7 +141,7 @@ export default class SshCmd extends Command {
 			params.fleetOrDevice,
 		);
 
-		const { which } = await import('../../utils/which');
+		const { which } = await import('../../utils/which.js');
 
 		const [whichProxytunnel, { username }, proxyUrl] = await Promise.all([
 			useProxy ? which('proxytunnel', false) : undefined,
@@ -189,7 +193,7 @@ export default class SshCmd extends Command {
 		let containerId: string | undefined;
 		if (params.service != null) {
 			const { getContainerIdForService } = await import(
-				'../../utils/device/ssh'
+				'../../utils/device/ssh.js'
 			);
 			containerId = await getContainerIdForService({
 				deviceUuid,
@@ -207,7 +211,7 @@ export default class SshCmd extends Command {
 		} else {
 			accessCommand = `host ${deviceUuid}`;
 		}
-		const { runRemoteCommand } = await import('../../utils/ssh');
+		const { runRemoteCommand } = await import('../../utils/ssh.js');
 		await runRemoteCommand({
 			cmd: accessCommand,
 			hostname: `ssh.${proxyUrl}`,

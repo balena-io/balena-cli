@@ -18,7 +18,7 @@
 import type { Options as GlobalTunnelNgConfig } from 'global-tunnel-ng';
 export type { GlobalTunnelNgConfig };
 
-import type { CliSettings } from './bootstrap';
+import type { CliSettings } from './bootstrap.js';
 
 type ProxyConfig = string | GlobalTunnelNgConfig;
 

@@ -16,9 +16,9 @@
  */
 
 import { Flags } from '@oclif/core';
-import { stripIndent } from './lazy';
+import { stripIndent } from './lazy.js';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export const booleanConfig = Flags.boolean({
 	char: 'c',

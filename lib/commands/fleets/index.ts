@@ -17,9 +17,9 @@
 
 import type * as BalenaSdk from 'balena-sdk';
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 	device_count: number;

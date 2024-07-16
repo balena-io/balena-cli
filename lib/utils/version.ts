@@ -16,8 +16,11 @@
  */
 
 import * as semver from 'semver';
-import { version } from '../../package.json';
+import packageJson from '../../package.json' with { type: 'json' };
 
 export function isVersionGTE(v: string): boolean {
-	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);
+	return semver.gte(
+		process.env.BALENA_CLI_VERSION_OVERRIDE || packageJson.version,
+		v,
+	);
 }

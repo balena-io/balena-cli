@@ -16,12 +16,12 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
-import * as mock from 'mock-require';
+import _ from 'lodash';
+import mock from 'mock-require';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { stripIndent } from '../../build/utils/lazy';
+import { stripIndent } from '../../lib/utils/lazy';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
@@ -35,8 +35,10 @@ import {
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
 } from '../projects';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 const commonResponseLines: { [key: string]: string[] } = {
@@ -258,7 +260,7 @@ describe('balena build', function () {
 		const deviceType = 'raspberry-pi';
 		const fsModPath = 'fs';
 		const fsMod = await import(fsModPath);
-		const qemuModPath = '../../build/utils/qemu';
+		const qemuModPath = '../../build/utils/qemu.js';
 		const qemuMod = require(qemuModPath);
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
 		try {

@@ -21,6 +21,8 @@ import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
 import type { ux } from '@oclif/core';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {

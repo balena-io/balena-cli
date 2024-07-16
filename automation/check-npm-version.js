@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+import { execSync } from 'child_process';
 
 /**
  * Check that semver v1 is greater than or equal to semver v2.
@@ -36,7 +37,6 @@ function semverGte(v1, v2) {
 }
 
 function checkNpmVersion() {
-	const execSync = require('child_process').execSync;
 	const npmVersion = execSync('npm --version').toString().trim();
 	const requiredVersion = '6.9.0';
 	if (!semverGte(npmVersion, requiredVersion)) {

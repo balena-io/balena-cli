@@ -16,9 +16,9 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy.js';
 import type { BalenaSDK } from 'balena-sdk';
 
 export default class DeviceStartServiceCmd extends Command {
@@ -78,8 +78,8 @@ export default class DeviceStartServiceCmd extends Command {
 		deviceUuid: string,
 		serviceNames: string[],
 	) {
-		const { ExpectedError } = await import('../../errors');
-		const { getExpandedProp } = await import('../../utils/pine');
+		const { ExpectedError } = await import('../../errors.js');
+		const { getExpandedProp } = await import('../../utils/pine.js');
 
 		// Get device
 		const device = await balena.models.device.getWithServiceDetails(

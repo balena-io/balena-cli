@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import * as packageJSON from '../package.json';
-import { stripIndent } from './utils/lazy';
+import packageJSON from '../package.json' with { type: 'json' };
+import { stripIndent } from './utils/lazy.js';
 
 /**
  * Track balena CLI usage events (product improvement analytics).
@@ -44,7 +44,7 @@ export async function trackCommand(commandSignature: string) {
 				scope.setExtra('command', commandSignature);
 			});
 		}
-		const { getCachedUsername } = await import('./utils/bootstrap');
+		const { getCachedUsername } = await import('./utils/bootstrap.js');
 		let username: string | undefined;
 		try {
 			username = (await getCachedUsername())?.username;
@@ -79,7 +79,7 @@ const TIMEOUT = 4000;
  * Make the event tracking HTTPS request to balenaCloud's '/mixpanel' endpoint.
  */
 async function sendEvent(balenaUrl: string, event: string, username?: string) {
-	const { default: got } = await import('got');
+	const { default: got } = (await import('got')).default;
 	const trackData = {
 		api_key: 'balena-main',
 		events: [

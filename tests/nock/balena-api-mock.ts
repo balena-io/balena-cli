@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 
 import type { ScopeOpts } from './nock-mock';
 import { NockMock } from './nock-mock';
 
 export const apiResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'api-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'api-response'),
 );
 
 const jHeader = { 'Content-Type': 'application/json' };

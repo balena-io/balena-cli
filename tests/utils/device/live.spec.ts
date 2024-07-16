@@ -28,7 +28,9 @@ import { setupDockerignoreTestData } from '../../projects';
 const delay = promisify(setTimeout);
 const FS_WATCH_DURATION_MS = 500;
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..', '..'));
+const repoPath = path.normalize(
+	path.join(import.meta.dirname, '..', '..', '..'),
+);
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 interface ByService<T> {
@@ -83,10 +85,10 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 		changedPathHandler: (serviceName: string, changedPath: string) => void,
 	): Promise<ByService<chokidar.FSWatcher>> {
 		const { getServiceDirsFromComposition } = await import(
-			'../../../build/utils/compose_ts'
+			'../../../build/utils/compose_ts.js'
 		);
 		const { getDockerignoreByService } = await import(
-			'../../../build/utils/ignore'
+			'../../../build/utils/ignore.js'
 		);
 		const rootContext = path.resolve(projectPath);
 

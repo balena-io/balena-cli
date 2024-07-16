@@ -16,9 +16,9 @@
  */
 import type { StdioOptions } from 'child_process';
 import { spawn } from 'child_process';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export class SshPermissionDeniedError extends ExpectedError {}
 
@@ -127,7 +127,7 @@ export async function runRemoteCommand({
 	} else {
 		ignoreStdin = false;
 	}
-	const { which } = await import('./which');
+	const { which } = await import('./which.js');
 	const program = await which('ssh');
 	const args = sshArgsForRemoteCommand({
 		cmd,
@@ -140,7 +140,7 @@ export async function runRemoteCommand({
 	});
 
 	if (process.env.DEBUG) {
-		const logger = (await import('./logger')).getLogger();
+		const logger = (await import('./logger.js')).default.getLogger();
 		logger.logDebug(`Executing [${program},${args}]`);
 	}
 
@@ -296,11 +296,11 @@ export const findBestUsernameForDevice = _.memoize(
 		if (await isRootUserGood(hostname, port)) {
 			username = 'root';
 		} else {
-			const { getCachedUsername } = await import('./bootstrap');
+			const { getCachedUsername } = await import('./bootstrap.js');
 			username = (await getCachedUsername())?.username;
 		}
 		if (!username) {
-			const { stripIndent } = await import('./lazy');
+			const { stripIndent } = await import('./lazy.js');
 			throw new ExpectedError(stripIndent`
 				SSH authentication failed for 'root@${hostname}'.
 				Please login with 'balena login' for alternative authentication.`);

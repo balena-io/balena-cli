@@ -2,12 +2,13 @@
   "name": "balena-cli",
   "version": "18.2.31",
   "description": "The official balena Command Line Interface",
-  "main": "./build/app.js",
+  "main": "./build/lib/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
   "repository": {
     "type": "git",
     "url": "git@github.com:balena-io/balena-cli.git"
   },
+  "type": "module",
   "preferGlobal": true,
   "files": [
     "bin/.fast-boot.json",
@@ -32,7 +33,7 @@
       "node_modules/@balena/compose/dist/parse/schemas/*.json"
     ],
     "assets": [
-      "build/auth/pages/*.ejs",
+      "build/lib/auth/pages/*.ejs",
       "node_modules/balena-sdk/node_modules/balena-pine/**/*",
       "node_modules/balena-pine/**/*",
       "node_modules/pinejs-client-core/**/*",
@@ -51,7 +52,7 @@
     "build": "npm run build:src && npm run catch-uncommitted",
     "build:t": "npm run lint && npm run build:fast && npm run build:test",
     "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc && npm run build:completion",
-    "build:pages": "mkdirp ./build/auth/pages/&& inline-source --compress ./lib/auth/pages/error.ejs ./build/auth/pages/error.ejs && inline-source --compress ./lib/auth/pages/success.ejs ./build/auth/pages/success.ejs",
+    "build:pages": "mkdirp ./build/lib/auth/pages/&& inline-source --compress ./lib/auth/pages/error.ejs ./build/lib/auth/pages/error.ejs && inline-source --compress ./lib/auth/pages/success.ejs ./build/lib/auth/pages/success.ejs",
     "build:fast": "npm run build:pages && tsc && npx oclif manifest",
     "build:test": "tsc -P ./tsconfig.dev.json --noEmit",
     "build:doc": "ts-node --transpile-only automation/capitanodoc/index.ts > docs/balena-cli.md",
@@ -91,7 +92,7 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": "^20.6.0"
+    "node": "^20.11.0"
   },
   "husky": {
     "hooks": {
@@ -100,12 +101,12 @@
   },
   "oclif": {
     "bin": "balena",
-    "commands": "./build/commands",
-    "helpClass": "./build/help",
+    "commands": "./build/lib/commands",
+    "helpClass": "./build/lib/help",
     "topicSeparator": " ",
     "hooks": {
-      "prerun": "./build/hooks/prerun/track",
-      "command_not_found": "./build/hooks/command-not-found/suggest"
+      "prerun": "./build/lib/hooks/prerun/track",
+      "command_not_found": "./build/lib/hooks/command-not-found/suggest"
     },
     "additionalHelpFlags": [
       "help"
