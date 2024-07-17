@@ -1,4 +1,28 @@
 - commits:
+    - subject: Improve discover balena os across different networks
+      hash: 03f0f11f8b4c9fa4b5b4a9612fa9550b08d4bdd7
+      body: >
+        This is an improvement over the scan, join and leave commands removing
+        flakiness when searching over different networks. In short, instead of
+        leaving bonjour to search across all interfaces, we forcebly conduct a
+        search on each interface, this requires mDNS binding any ipv4 interface
+        (0.0.0.0), otherwise it would bind over the interface itself, which is
+        not desired as it causes services to only be able to receive information
+        over that interface, see
+        [mafintosh/multicast-dns#53](https://github.com/mafintosh/multicast-dns/issues/53).
+        This targeted approach enhances the reliability and accuracy of network
+        searches, reducing instances of missed connections or network errors
+        typically caused by flakiness when relying on bonjour's default
+        behavior.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 18.2.33
+  title: ""
+  date: 2024-07-17T07:46:23.084Z
+- commits:
     - subject: Remove unused code
       hash: 0f23318367f0f14e7df52740282c75d0ac3fc6b5
       body: ""
