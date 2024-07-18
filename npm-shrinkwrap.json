@@ -68,7 +68,6 @@
         "prettyjson": "^1.2.5",
         "progress-stream": "^2.0.0",
         "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
-        "request": "^2.88.2",
         "resin-cli-form": "^3.0.0",
         "resin-cli-visuals": "^2.0.0",
         "resin-doodles": "^0.2.0",
@@ -11120,11 +11119,10 @@
       }
     },
     "node_modules/is-core-module": {
-      "version": "2.14.0",
-      "resolved": "https://registry.npmjs.org/is-core-module/-/is-core-module-2.14.0.tgz",
-      "integrity": "sha512-a5dFJih5ZLYlRtDc0dZWP7RiKr6xIKzmn/oAYCDvdLThadVgyJwlaoQPmRtMSpz+rk0OGAgIu+TcM9HUF0fk1A==",
+      "version": "2.15.0",
+      "resolved": "https://registry.npmjs.org/is-core-module/-/is-core-module-2.15.0.tgz",
+      "integrity": "sha512-Dd+Lb2/zvk9SKy1TGCt1wFJFo/MWBPMX5x7KcvLajWTGuomczdQX61PvY5yK6SVACwpoexWo81IfFyoKY2QnTA==",
       "dev": true,
-      "license": "MIT",
       "dependencies": {
         "hasown": "^2.0.2"
       },
@@ -16391,9 +16389,9 @@
       }
     },
     "node_modules/semver": {
-      "version": "7.6.2",
-      "resolved": "https://registry.npmjs.org/semver/-/semver-7.6.2.tgz",
-      "integrity": "sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==",
+      "version": "7.6.3",
+      "resolved": "https://registry.npmjs.org/semver/-/semver-7.6.3.tgz",
+      "integrity": "sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==",
       "bin": {
         "semver": "bin/semver.js"
       },

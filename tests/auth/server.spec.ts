@@ -16,11 +16,11 @@
  */
 
 import * as chai from 'chai';
-import chaiAsPromised = require('chai-as-promised');
+import * as chaiAsPromised from 'chai-as-promised';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as request from 'request';
+import got from 'got';
 import * as sinon from 'sinon';
 
 import { LoginServer } from '../../build/auth/server';
@@ -67,32 +67,24 @@ describe('Login server:', function () {
 		expectedStatusCode: number;
 		expectedToken: string;
 		urlPath?: string;
-		verb?: string;
+		verb?: 'get' | 'post';
 	}) {
 		opt.urlPath = opt.urlPath ?? addr.urlPath;
-		const post = opt.verb
-			? ((request as any)[opt.verb] as typeof request.post)
-			: request.post;
-		await new Promise<void>((resolve, reject) => {
-			post(
-				`http://${addr.host}:${addr.port}${opt.urlPath}`,
-				{
-					form: {
-						token: opt.expectedToken,
-					},
+		const request = opt.verb != null ? got[opt.verb] : got.post;
+		const res = await request(
+			`http://${addr.host}:${addr.port}${opt.urlPath}`,
+			{
+				form: {
+					token: opt.expectedToken,
 				},
-				function (error, response, body) {
-					try {
-						expect(error).to.not.exist;
-						expect(response.statusCode).to.equal(opt.expectedStatusCode);
-						expect(body).to.equal(opt.expectedBody);
-						resolve();
-					} catch (err) {
-						reject(err);
-					}
-				},
-			);
-		});
+				throwHttpErrors: false,
+				// This ensures we can test the expected response in case we do that (a 404)
+				allowGetBody: true,
+			},
+		);
+
+		expect(res.body).to.equal(opt.expectedBody);
+		expect(res.statusCode).to.equal(opt.expectedStatusCode);
 
 		try {
 			const token = await server.awaitForToken();

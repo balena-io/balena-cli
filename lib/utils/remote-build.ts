@@ -16,7 +16,7 @@ limitations under the License.
 import type { BalenaSDK } from 'balena-sdk';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
-import * as request from 'request';
+import got from 'got';
 import type { RegistrySecrets } from '@balena/compose/dist/multibuild';
 import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
@@ -26,6 +26,8 @@ import { ExpectedError, SIGINTError } from '../errors';
 import { tarDirectory } from './compose_ts';
 import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
+
+type GotStreamRequest = ReturnType<typeof got.stream.post>;
 
 const globalLogger = Logger.getLogger();
 
@@ -119,7 +121,7 @@ export async function startRemoteBuild(
 		} catch (err) {
 			console.error(err.message);
 		} finally {
-			buildRequest.abort();
+			buildRequest.destroy();
 			const sigintErr = new SIGINTError('Build aborted on SIGINT signal');
 			sigintErr.code = 'SIGINT';
 			stream.emit('error', sigintErr);
@@ -336,32 +338,28 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 /**
  * Initiate a POST HTTP request to the remote builder and add some event
  * listeners.
- *
- * ¡! Note: this function must be synchronous because of a bug in the `request`
- *    library that requires the following two steps to take place in the same
- *    iteration of Node's event loop: (1) adding a listener for the 'response'
- *    event and (2) calling request.pipe():
- *    https://github.com/request/request/issues/887
  */
 function createRemoteBuildRequest(
 	build: RemoteBuild,
 	tarStream: Stream.Readable,
 	builderUrl: string,
 	onError: (error: Error) => void,
-): request.Request {
+) {
 	const zlib = require('zlib') as typeof import('zlib');
 	if (DEBUG_MODE) {
 		console.error(`[debug] Connecting to builder at ${builderUrl}`);
 	}
-	return request
-		.post({
-			url: builderUrl,
-			auth: { bearer: build.auth },
-			headers: { 'Content-Encoding': 'gzip' },
+	return got.stream
+		.post(builderUrl, {
+			headers: {
+				'Content-Encoding': 'gzip',
+				Authorization: `Bearer ${build.auth}`,
+			},
 			body: tarStream.pipe(zlib.createGzip({ level: 6 })),
+			throwHttpErrors: false,
 		})
 		.once('error', onError) // `.once` because the handler re-emits
-		.once('response', (response: request.RequestResponse) => {
+		.once('response', (response) => {
 			if (response.statusCode >= 100 && response.statusCode < 400) {
 				if (DEBUG_MODE) {
 					console.error(
@@ -383,7 +381,7 @@ function createRemoteBuildRequest(
 
 async function getRemoteBuildStream(
 	build: RemoteBuild,
-): Promise<[request.Request, Stream.Stream]> {
+): Promise<[GotStreamRequest, Stream.Stream]> {
 	const builderUrl = await getBuilderEndpoint(
 		build.baseUrl,
 		build.appSlug,

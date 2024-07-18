@@ -19,7 +19,7 @@ import { getVisuals } from './lazy';
 import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
 import type Logger = require('./logger');
-import type { Request } from 'request';
+import type got from 'got';
 
 const getBuilderPushEndpoint = function (
 	baseUrl: string,
@@ -75,7 +75,10 @@ const showPushProgress = function (message: string) {
 	return progressBar;
 };
 
-const uploadToPromise = (uploadRequest: Request, logger: Logger) =>
+const uploadToPromise = (
+	uploadRequest: ReturnType<typeof got.stream.post>,
+	logger: Logger,
+) =>
 	new Promise<{ buildId: number }>(function (resolve, reject) {
 		uploadRequest.on('error', reject).on('data', function handleMessage(data) {
 			let obj;
@@ -109,7 +112,7 @@ const uploadToPromise = (uploadRequest: Request, logger: Logger) =>
 /**
  * @returns {Promise<{ buildId: number }>}
  */
-const uploadImage = function (
+const uploadImage = async function (
 	imageStream: NodeJS.ReadableStream & { length: number },
 	token: string,
 	username: string,
@@ -117,7 +120,7 @@ const uploadImage = function (
 	appName: string,
 	logger: Logger,
 ): Promise<{ buildId: number }> {
-	const request = require('request') as typeof import('request');
+	const { default: got } = require('got') as typeof import('got');
 	const progressStream =
 		require('progress-stream') as typeof import('progress-stream');
 	const zlib = require('zlib') as typeof import('zlib');
@@ -141,25 +144,22 @@ const uploadImage = function (
 		),
 	);
 
-	const uploadRequest = request.post({
-		url: getBuilderPushEndpoint(url, username, appName),
-		headers: {
-			'Content-Encoding': 'gzip',
+	const uploadRequest = got.stream.post(
+		getBuilderPushEndpoint(url, username, appName),
+		{
+			headers: {
+				'Content-Encoding': 'gzip',
+				Authorization: `Bearer ${token}`,
+			},
+			body: streamWithProgress.pipe(zlib.createGzip({ level: 6 })),
+			throwHttpErrors: false,
 		},
-		auth: {
-			bearer: token,
-		},
-		body: streamWithProgress.pipe(
-			zlib.createGzip({
-				level: 6,
-			}),
-		),
-	});
+	);
 
 	return uploadToPromise(uploadRequest, logger);
 };
 
-const uploadLogs = function (
+const uploadLogs = async function (
 	logs: string,
 	token: string,
 	url: string,
@@ -167,15 +167,18 @@ const uploadLogs = function (
 	username: string,
 	appName: string,
 ) {
-	const request = require('request') as typeof import('request');
-	return request.post({
-		json: true,
-		url: getBuilderLogPushEndpoint(url, buildId, username, appName),
-		auth: {
-			bearer: token,
+	const { default: got } = await import('got');
+	return await got.post(
+		getBuilderLogPushEndpoint(url, buildId, username, appName),
+		{
+			body: Buffer.from(logs),
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+			responseType: 'json',
+			throwHttpErrors: false,
 		},
-		body: Buffer.from(logs),
-	});
+	);
 };
 
 /**

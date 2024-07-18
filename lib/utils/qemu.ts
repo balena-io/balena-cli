@@ -94,7 +94,7 @@ async function installQemu(arch: string, qemuPath: string) {
 	const urlVersion = encodeURIComponent(QEMU_VERSION);
 	const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
 
-	const request = await import('request');
+	const { default: got } = await import('got');
 	const fs = await import('fs');
 	const zlib = await import('zlib');
 	const tar = await import('tar-stream');
@@ -117,7 +117,8 @@ async function installQemu(arch: string, qemuPath: string) {
 					reject(err);
 				}
 			});
-			request(qemuUrl)
+			got.stream
+				.get(qemuUrl, { throwHttpErrors: false })
 				.on('error', reject)
 				.pipe(zlib.createGunzip())
 				.on('error', reject)
