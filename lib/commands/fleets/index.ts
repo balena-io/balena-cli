@@ -97,8 +97,8 @@ export default class FleetsCmd extends Command {
 				'app_name => NAME',
 				'slug',
 				'device_type',
-				'online_devices',
 				'device_count',
+				'online_devices',
 			]),
 		);
 	}
