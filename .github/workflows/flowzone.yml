@@ -24,8 +24,8 @@ jobs:
       custom_test_matrix: >
         {
           "os": [
-            ["actuated-4cpu-8gb"],
-            ["actuated-arm64-4cpu-8gb"],
+            ["self-hosted", "X64"],
+            ["self-hosted", "ARM64"],
             ["macos-12"],
             ["windows-2019"],
             ["macos-latest-xlarge"]
@@ -34,8 +34,8 @@ jobs:
       custom_publish_matrix: >
         {
           "os": [
-            ["actuated-4cpu-8gb"],
-            ["actuated-arm64-4cpu-8gb"],
+            ["self-hosted", "X64"],
+            ["self-hosted", "ARM64"],
             ["macos-12"],
             ["windows-2019"],
             ["macos-latest-xlarge"]
