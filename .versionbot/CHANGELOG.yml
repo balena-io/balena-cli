@@ -1,4 +1,25 @@
 - commits:
+    - subject: Run npm dedupe commands
+      hash: 1d70e6b4b4b2d1c4c8f619988bbe0e17bcf12f63
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+    - subject: Switch to self-hosted
+      hash: d3458379e614955d3def576ba07f3864ab81732a
+      body: ""
+      footer:
+        change-type: patch
+      author: Anton Belodedenko
+      nested: []
+  version: 18.2.34
+  title: ""
+  date: 2024-07-29T11:08:34.464Z
+- commits:
     - subject: Improve discover balena os across different networks
       hash: 03f0f11f8b4c9fa4b5b4a9612fa9550b08d4bdd7
       body: >
