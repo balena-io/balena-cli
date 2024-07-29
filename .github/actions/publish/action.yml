@@ -66,7 +66,7 @@ runs:
     # https://github.com/Apple-Actions/import-codesign-certs
     - name: Import Apple code signing certificate
       if: runner.os == 'macOS'
-      uses: apple-actions/import-codesign-certs@253ddeeac23f2bdad1646faac5c8c2832e800071 # v1
+      uses: apple-actions/import-codesign-certs@8f3fb608891dd2244cdab3d69cd68c0d37a7fe93 # v2
       with:
         p12-file-base64: ${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
         p12-password: ${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
