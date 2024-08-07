@@ -20,7 +20,7 @@ import { Flags } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
 export default class FleetCmd extends Command {
@@ -49,7 +49,7 @@ export default class FleetCmd extends Command {
 			default: false,
 			description: 'open fleet dashboard page',
 		}),
-		...cf.dataOutputFlags,
+		json: cf.json,
 	};
 
 	public static authenticated = true;
@@ -78,16 +78,28 @@ export default class FleetCmd extends Command {
 			return;
 		}
 
-		const outputApplication = {
-			...application,
+		const applicationToDisplay = {
+			id: application.id,
+			app_name: application.app_name,
+			slug: application.slug,
 			device_type: application.is_for__device_type[0].slug,
 			commit: application.should_be_running__release[0]?.commit,
 		};
 
-		await this.outputData(
-			outputApplication,
-			['app_name', 'id', 'device_type', 'slug', 'commit'],
-			options,
+		if (options.json) {
+			console.log(JSON.stringify(applicationToDisplay, null, 4));
+			return;
+		}
+
+		// Emulate table.vertical title output, but avoid uppercasing and inserting spaces
+		console.log(`== ${applicationToDisplay.app_name}`);
+		console.log(
+			getVisuals().table.vertical(applicationToDisplay, [
+				'id',
+				'device_type',
+				'slug',
+				'commit',
+			]),
 		);
 	}
 }

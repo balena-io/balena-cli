@@ -390,9 +390,12 @@ export class BalenaAPIMock extends NockMock {
 		serviceName: string;
 	}) {
 		const serviceId = opts.serviceId || 243768;
-		this.optGet(/^\/v\d+\/service($|\?)/, opts).reply(200, {
-			d: [{ id: serviceId, service_name: opts.serviceName }],
-		});
+		this.optGet(/^\/v\d+\/service(\(\w+=\d+,\w+=%27\w+%27\))?$/, opts).reply(
+			200,
+			{
+				d: [{ id: serviceId, service_name: opts.serviceName }],
+			},
+		);
 	}
 
 	public expectGetServiceFromApp(opts: {
@@ -407,13 +410,6 @@ export class BalenaAPIMock extends NockMock {
 			{
 				d: [{ service: [{ id: serviceId, service_name: opts.serviceName }] }],
 			},
-		);
-	}
-
-	public expectPostService409(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v\d+\/service$/, opts).reply(
-			409,
-			'Unique key constraint violated',
 		);
 	}
 

@@ -21,7 +21,6 @@ import {
 	NotAvailableInOfflineModeError,
 } from './errors';
 import { stripIndent } from './utils/lazy';
-import * as output from './framework/output';
 
 export default abstract class BalenaCommand extends Command {
 	/**
@@ -168,7 +167,4 @@ export default abstract class BalenaCommand extends Command {
 			await this.getStdin();
 		}
 	}
-
-	protected outputMessage = output.outputMessage;
-	protected outputData = output.outputData;
 }

@@ -87,7 +87,6 @@ describe('balena deploy', function () {
 		api.expectGetRelease();
 		api.expectGetUser();
 		api.expectGetService({ serviceName: 'main' });
-		api.expectPostService409();
 		api.expectGetAuth();
 		api.expectPostImage();
 		api.expectPostImageIsPartOfRelease();

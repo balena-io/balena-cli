@@ -104,36 +104,3 @@ export const json = Flags.boolean({
 	description: 'produce JSON output instead of tabular output',
 	default: false,
 });
-
-export const dataOutputFlags = {
-	fields: Flags.string({
-		description: 'only show provided fields (comma-separated)',
-	}),
-	json: Flags.boolean({
-		char: 'j',
-		exclusive: ['no-truncate'],
-		description: 'output in json format',
-		default: false,
-	}),
-};
-
-export const dataSetOutputFlags = {
-	...dataOutputFlags,
-	filter: Flags.string({
-		description:
-			'filter results by substring matching of a given field, eg: --filter field=foo',
-	}),
-	'no-header': Flags.boolean({
-		exclusive: ['json'],
-		description: 'hide table header from output',
-		default: false,
-	}),
-	'no-truncate': Flags.boolean({
-		exclusive: ['json'],
-		description: 'do not truncate output to fit screen',
-		default: false,
-	}),
-	sort: Flags.string({
-		description: `field to sort by (prepend '-' for descending order)`,
-	}),
-};
