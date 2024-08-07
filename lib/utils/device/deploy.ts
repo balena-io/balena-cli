@@ -57,6 +57,7 @@ export interface DeviceDeployOptions {
 	deviceHost: string;
 	devicePort?: number;
 	dockerfilePath?: string;
+	composefile?: string;
 	registrySecrets: RegistrySecrets;
 	multiDockerignore: boolean;
 	nocache: boolean;
@@ -183,6 +184,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const project = await loadProject(globalLogger, {
 		convertEol: opts.convertEol,
 		dockerfilePath: opts.dockerfilePath,
+		composefile: opts.composefile,
 		multiDockerignore: opts.multiDockerignore,
 		noParentCheck: opts.noParentCheck,
 		projectName: 'local',

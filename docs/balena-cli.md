@@ -3282,6 +3282,11 @@ suspected issues with the balenaCloud backend.
 
 Alternative Dockerfile name/path, relative to the source folder
 
+#### --composefile COMPOSEFILE
+
+Alternative compose file name/path, relative to the source folder.
+Only works for local devices
+
 #### -c, --nocache
 
 Don't use cached layers of previously built images for this project. This
