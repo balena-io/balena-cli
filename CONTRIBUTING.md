@@ -115,9 +115,9 @@ The content sources for the auto generation of `docs/balena-cli.md` are:
 * [Selected
   sections](https://github.com/balena-io/balena-cli/blob/v12.23.0/automation/capitanodoc/capitanodoc.ts#L199-L204)
   of the README file.
-* The CLI's command documentation in source code (`lib/commands/` folder), for example:
-  * `lib/commands/push.ts`
-  * `lib/commands/env/add.ts`
+* The CLI's command documentation in source code (`src/commands/` folder), for example:
+  * `src/commands/push.ts`
+  * `src/commands/env/add.ts`
 
 The README file is manually edited, but subsections are automatically extracted for inclusion in
 `docs/balena-cli.md` by the `getCapitanoDoc()` function in
@@ -224,7 +224,7 @@ command, or by manually editing or copying files to the `node_modules` folder.
 
 Unexpected behavior may then be observed because of the CLI's use of the
 [fast-boot2](https://www.npmjs.com/package/fast-boot2) package that caches module resolution.
-`fast-boot2` is configured in `lib/fast-boot.ts` to automatically invalidate the cache if
+`fast-boot2` is configured in `src/fast-boot.ts` to automatically invalidate the cache if
 changes are made to the `package.json` or `npm-shrinkwrap.json` files, but the cache won't
 be automatically invalidated if `npm link` is used or if manual modifications are made to the
 `node_modules` folder. In this situation:

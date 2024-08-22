@@ -20,5 +20,5 @@
 		],
 		"preserveSymlinks": true
 	},
-	"include": ["./lib/**/*", "./typings/**/*"]
+	"include": ["./src/**/*", "./typings/**/*"]
 }

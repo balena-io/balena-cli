@@ -30,7 +30,7 @@ import { stripIndent } from './utils/lazy';
  *
  * The username and command signature are also added as extra context
  * information in Sentry.io error reporting, for CLI debugging purposes
- * (mainly unexpected/unhandled exceptions -- see also `lib/errors.ts`).
+ * (mainly unexpected/unhandled exceptions -- see also `src/errors.ts`).
  *
  * For more details on the data collected by balena generally, check this page:
  * https://www.balena.io/docs/learn/more/collected-data/

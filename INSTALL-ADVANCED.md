@@ -40,7 +40,7 @@ By default, the CLI is installed to the following folders:
 OS  | Folders
 --- | ---
 Windows: | `C:\Program Files\balena-cli\`
-macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
+macOS:   | `/usr/local/src/balena-cli/` <br> `/usr/local/bin/balena`
 
 ## Standalone Zip Package
 

@@ -6,7 +6,7 @@
 	},
 	"include": [
 		"./automation/**/*",
-		"./lib/**/*",
+		"./src/**/*",
 		"./patches/*",
 		"./tests/**/*",
 		"./typings/**/*"

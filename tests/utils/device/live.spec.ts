@@ -21,7 +21,7 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import { LivepushManager } from '../../../lib/utils/device/live';
+import { LivepushManager } from '../../../src/utils/device/live';
 import { resetDockerignoreCache } from '../../docker-build';
 import { setupDockerignoreTestData } from '../../projects';
 
@@ -42,11 +42,11 @@ class MockLivepushManager extends LivepushManager {
 			composition: { version: '2.1', services: {} },
 			buildTasks: [],
 			docker: {} as import('dockerode'),
-			api: {} as import('../../../lib/utils/device/api').DeviceAPI,
-			logger: {} as import('../../../lib/utils/logger'),
+			api: {} as import('../../../src/utils/device/api').DeviceAPI,
+			logger: {} as import('../../../src/utils/logger'),
 			imageIds: {},
 			deployOpts:
-				{} as import('../../../lib/utils/device/deploy').DeviceDeployOptions,
+				{} as import('../../../src/utils/device/deploy').DeviceDeployOptions,
 		});
 	}
 

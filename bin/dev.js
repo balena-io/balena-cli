@@ -29,7 +29,7 @@ const path = require('path');
 const rootDir = path.join(__dirname, '..');
 
 // Allow balena-dev to work with oclif by temporarily
-// pointing oclif config options to lib/ instead of build/
+// pointing oclif config options to src/ instead of build/
 modifyOclifPaths();
 // Undo changes on exit
 process.on('exit', function () {
@@ -57,9 +57,9 @@ require('ts-node').register({
 	project: path.join(rootDir, 'tsconfig.json'),
 	transpileOnly: true,
 });
-require('../lib/app').run(undefined, { dir: __dirname, development: true });
+require('../src/app').run(undefined, { dir: __dirname, development: true });
 
-// Modify package.json oclif paths from build/ -> lib/, or vice versa
+// Modify package.json oclif paths from build/ -> src/, or vice versa
 function modifyOclifPaths(revert) {
 	const fs = require('fs');
 	const packageJsonPath = path.join(rootDir, 'package.json');
@@ -73,9 +73,9 @@ function modifyOclifPaths(revert) {
 
 	let oclifSectionText = JSON.stringify(packageObj.oclif);
 	if (!revert) {
-		oclifSectionText = oclifSectionText.replace(/\/build\//g, '/lib/');
+		oclifSectionText = oclifSectionText.replace(/\/build\//g, '/src/');
 	} else {
-		oclifSectionText = oclifSectionText.replace(/\/lib\//g, '/build/');
+		oclifSectionText = oclifSectionText.replace(/\/src\//g, '/build/');
 	}
 
 	packageObj.oclif = JSON.parse(oclifSectionText);
