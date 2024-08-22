@@ -1,4 +1,49 @@
 - commits:
+    - subject: Update all references of lib to src
+      hash: 4760866c7782b2651c1c319ae1a757f0ab21f1b3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Rename the lib folder to src
+      hash: 2b044348e0f5dbb40ae4a5a48a4dcf9eff0d4659
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update @balena/compose to 4.0.1 Update @balena/compose from 3.2.1 to
+        4.0.1
+      hash: c9fa10b9c640cd245312bbc6981e850628d8a6b9
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Otavio Jacobi
+      nested: []
+    - subject: Use standard visuals table component for fleet/s
+      hash: 63674c8201b2cbd2fe529a47ed3f5069e398c08a
+      body: >
+        This effectively removes the ability to filter/sort/customize the output
+        table.
+
+        The cli cannot properly handle this operations on all models and this
+        one was inconsistent.
+
+        For now we recommend that users that require parsing the CLI output use
+        the output json format and do any kind of necessary parsing on it.
+      footer:
+        Change-type: major
+        change-type: major
+      author: Otavio Jacobi
+      nested: []
+  version: 19.0.0
+  title: ""
+  date: 2024-08-22T17:43:30.658Z
+- commits:
     - subject: Run npm dedupe commands
       hash: 1d70e6b4b4b2d1c4c8f619988bbe0e17bcf12f63
       body: ""
