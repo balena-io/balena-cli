@@ -20,7 +20,7 @@
  * we have permissions over the cache file before even attempting to load
  * fast boot.
  * DON'T IMPORT BALENA-CLI MODULES HERE, as this module is loaded directly
- * from `bin/run.js`, before the CLI's entrypoint in `lib/app.ts`.
+ * from `bin/run.js`, before the CLI's entrypoint in `src/app.ts`.
  */
 
 import * as fs from 'fs';
@@ -63,7 +63,7 @@ async function $start() {
 		process.env.BALENARC_DATA_DIRECTORY || path.join(os.homedir(), dotBalena),
 	);
 	// Consider that the CLI may be installed to a folder owned by root
-	// such as `/usr[/local]/lib/balena-cli`, while being executed by
+	// such as `/usr[/local]/src/balena-cli`, while being executed by
 	// a regular user account.
 	const cacheFile = path.join(dataDir, 'cli-module-cache.json');
 	const root = path.join(__dirname, '..');

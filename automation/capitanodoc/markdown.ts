@@ -18,8 +18,8 @@ import { Parser } from '@oclif/core';
 import * as ent from 'ent';
 import * as _ from 'lodash';
 
-import { getManualSortCompareFunction } from '../../lib/utils/helpers';
-import { capitanoizeOclifUsage } from '../../lib/utils/oclif-utils';
+import { getManualSortCompareFunction } from '../../src/utils/helpers';
+import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
 import type { Category, Document, OclifCommand } from './doc-types';
 
 function renderOclifCommand(command: OclifCommand): string[] {

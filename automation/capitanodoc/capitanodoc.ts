@@ -28,7 +28,7 @@ import { GlobSync } from 'glob';
  *
  * IMPORTANT
  *
- * All commands need to be stored under a folder in lib/commands to maintain uniformity
+ * All commands need to be stored under a folder in src/commands to maintain uniformity
  * Generating docs will error out if directive not followed
  * To add a custom heading for command docs, add the heading next to the folder name
  * in the `commandHeadings` dictionary.

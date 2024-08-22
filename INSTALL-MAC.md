@@ -27,7 +27,7 @@ To update the balena CLI, repeat the steps above for the new version.
 To uninstall it, run the following command on a terminal prompt:
 
 ```text
-sudo /usr/local/lib/balena-cli/bin/uninstall
+sudo /usr/local/src/balena-cli/bin/uninstall
 ```
 
 ## Additional Dependencies

@@ -19,7 +19,7 @@ import type * as BalenaSdk from 'balena-sdk';
 
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 	device_count: number;
@@ -42,8 +42,8 @@ export default class FleetsCmd extends Command {
 	public static usage = 'fleets';
 
 	public static flags = {
-		...cf.dataSetOutputFlags,
 		help: cf.help,
+		json: cf.json,
 	};
 
 	public static authenticated = true;
@@ -77,17 +77,29 @@ export default class FleetsCmd extends Command {
 			application.device_type = application.is_for__device_type[0].slug;
 		});
 
-		await this.outputData(
-			applications,
-			[
+		const applicationsToDisplay = applications.map((application) => ({
+			id: application.id,
+			app_name: application.app_name,
+			slug: application.slug,
+			device_type: application.device_type,
+			online_devices: application.online_devices,
+			device_count: application.device_count,
+		}));
+
+		if (options.json) {
+			console.log(JSON.stringify(applicationsToDisplay, null, 4));
+			return;
+		}
+
+		console.log(
+			getVisuals().table.horizontal(applicationsToDisplay, [
 				'id',
-				'app_name',
+				'app_name => NAME',
 				'slug',
 				'device_type',
 				'device_count',
 				'online_devices',
-			],
-			options,
+			]),
 		);
 	}
 }

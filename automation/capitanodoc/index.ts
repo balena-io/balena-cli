@@ -18,7 +18,7 @@ import * as path from 'path';
 import { getCapitanoDoc } from './capitanodoc';
 import type { Category, Document, OclifCommand } from './doc-types';
 import * as markdown from './markdown';
-import { stripIndent } from '../../lib/utils/lazy';
+import { stripIndent } from '../../src/utils/lazy';
 
 /**
  * Generates the markdown document (as a string) for the CLI documentation

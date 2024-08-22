@@ -130,8 +130,8 @@ let cachedUsername: CachedUsername | undefined;
 /**
  * Return the parsed contents of the `~/.balena/cachedUsername` file. If the file
  * does not exist, create it with the details from the cloud. If not connected
- * to the internet, return undefined. This function is used by `lib/events.ts`
- * (event tracking) and `lib/utils/device/ssh.ts` and needs to gracefully handle
+ * to the internet, return undefined. This function is used by `src/events.ts`
+ * (event tracking) and `src/utils/device/ssh.ts` and needs to gracefully handle
  * the scenario of not being connected to the internet.
  */
 export async function getCachedUsername(): Promise<CachedUsername | undefined> {
