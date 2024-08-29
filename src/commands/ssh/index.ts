@@ -55,6 +55,7 @@ export default class SshCmd extends Command {
 	public static examples = [
 		'$ balena ssh MyFleet',
 		'$ balena ssh f49cefd',
+		'$ balena ssh f49cefd --usetunnel',
 		'$ balena ssh f49cefd my-service',
 		'$ balena ssh f49cefd --port <port>',
 		'$ balena ssh 192.168.0.1 --verbose',
@@ -100,6 +101,10 @@ export default class SshCmd extends Command {
 			default: false,
 			description: 'bypass global proxy configuration for the ssh connection',
 		}),
+		usetunnel: Flags.boolean({
+			default: false,
+			description: 'Use balena VPN tunnel for ssh connection',
+		}),
 		help: cf.help,
 	};
 
@@ -108,6 +113,8 @@ export default class SshCmd extends Command {
 
 	public async run() {
 		const { args: params, flags: options } = await this.parse(SshCmd);
+
+		const logger = await Command.getLogger();
 
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
@@ -187,7 +194,7 @@ export default class SshCmd extends Command {
 		// At this point, we have a long uuid of a device
 		// that we know exists and is accessible
 		let containerId: string | undefined;
-		if (params.service != null) {
+		if (params.service != null && !options.usetunnel) {
 			const { getContainerIdForService } = await import(
 				'../../utils/device/ssh'
 			);
@@ -207,14 +214,75 @@ export default class SshCmd extends Command {
 		} else {
 			accessCommand = `host ${deviceUuid}`;
 		}
-		const { runRemoteCommand } = await import('../../utils/ssh');
-		await runRemoteCommand({
-			cmd: accessCommand,
-			hostname: `ssh.${proxyUrl}`,
-			port: options.port || 'cloud',
-			proxyCommand,
-			username,
-			verbose: options.verbose,
-		});
+
+		if (options.usetunnel) {
+			logger.logInfo(`Opening a tunnel to ${deviceUuid}...`);
+			const { tunnelConnectionToDevice } = await import('../../utils/tunnel');
+
+			const tunnel = await tunnelConnectionToDevice(deviceUuid, 22222, sdk);
+			const { createServer } = await import('net');
+
+			const server = createServer(async (client) => {
+				try {
+					await tunnel(client);
+					logger.logDebug(
+						`Connection established to ${deviceUuid} via balena VPN tunnel`,
+					);
+				} catch (err) {
+					logger.logError(`Error establishing connection: ${err.message}`);
+				}
+			});
+
+			server.listen(0, '127.0.0.1', async () => {
+				const { address, port } = server.address() as {
+					address: string;
+					port: number;
+				};
+				logger.logInfo(
+					`Tunnel established to ${deviceUuid} on ${address}:${port}`,
+				);
+
+				const { performLocalDeviceSSH } = await import(
+					'../../utils/device/ssh'
+				);
+				performLocalDeviceSSH({
+					hostname: '127.0.0.1',
+					port: port,
+					forceTTY: options.tty,
+					verbose: options.verbose,
+					service: params.service,
+				})
+					.then(() => {
+						server.close();
+					})
+					.catch((err) => {
+						logger.logError(`${err.message}`);
+						server.close();
+					});
+			});
+
+			server.on('error', (err) => {
+				logger.logError(`Error establishing tunnel: ${err.message}`);
+				process.exit(1);
+			});
+
+			process.on('SIGINT', () => {
+				server.close();
+			});
+
+			process.on('SIGTERM', () => {
+				server.close();
+			});
+		} else {
+			const { runRemoteCommand } = await import('../../utils/ssh');
+			await runRemoteCommand({
+				cmd: accessCommand,
+				hostname: `ssh.${proxyUrl}`,
+				port: options.port || 'cloud',
+				proxyCommand,
+				username,
+				verbose: options.verbose,
+			});
+		}
 	}
 }
