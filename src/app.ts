@@ -137,7 +137,8 @@ async function oclifRun(command: string[], options: AppOptions) {
 			}
 		}
 		if (shouldFlush) {
-			await import('@oclif/core/flush');
+			const { flush } = await import('@oclif/core');
+			await flush();
 		}
 		// TODO: figure out why we need to call fast-boot stop() here, in
 		// addition to calling it in the main `run()` function in this file.

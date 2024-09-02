@@ -1,3 +1,237 @@
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/app.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/app.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/command.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/help.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/common-args.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/common-flags.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/compose_ts.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/docker.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/env-common.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/helpers.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/utils/lazy.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/api-key/generate.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/api-key/revoke.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/api-keys/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/app/create.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/block/create.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/config/generate.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/config/inject.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/config/reconfigure.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/config/write.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/deploy/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/deactivate.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/identify.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/init.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/local-mode.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/move.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/os-update.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/pin.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/public-url.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/purge.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/reboot.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/register.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/rename.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/restart.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/rm.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/shutdown.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/start-service.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/stop-service.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/track-fleet.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/devices/supported.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/env/add.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/env/rename.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/env/rm.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/envs/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/fleet/create.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/fleet/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/fleet/pin.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/fleet/rename.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/fleet/track-latest.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/internal/osinit.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/join/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/key/add.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/key/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/key/rm.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/leave/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/local/configure.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/local/flash.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/login/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/logs/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/notes/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/os/build-config.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/os/configure.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/os/download.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/os/initialize.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/os/versions.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/preload/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/push/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/release/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/releases/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/scan/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/ssh/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/support/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/tag/rm.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/tag/set.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/tunnel/index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
+  %2: build/commands/version/index.js
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
   %1: node_modules/open/xdg-open
