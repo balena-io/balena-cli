@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump @oclif/core from 3.27.0 to 4.0.18
+      hash: 2a357a438f896ffc4932eda90336944294237a8a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 19.0.1
+  title: ""
+  date: 2024-09-02T13:21:54.739Z
+- commits:
     - subject: Update all references of lib to src
       hash: 4760866c7782b2651c1c319ae1a757f0ab21f1b3
       body: ""
