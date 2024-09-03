@@ -140,7 +140,7 @@
     "@types/intercept-stdout": "^0.1.0",
     "@types/is-root": "^2.1.2",
     "@types/js-yaml": "^4.0.5",
-    "@types/jsonwebtoken": "^8.5.6",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/klaw": "^3.0.3",
     "@types/lodash": "^4.14.178",
     "@types/mixpanel": "^2.14.3",

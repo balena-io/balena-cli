@@ -117,7 +117,7 @@
         "@types/intercept-stdout": "^0.1.0",
         "@types/is-root": "^2.1.2",
         "@types/js-yaml": "^4.0.5",
-        "@types/jsonwebtoken": "^8.5.6",
+        "@types/jsonwebtoken": "^9.0.6",
         "@types/klaw": "^3.0.3",
         "@types/lodash": "^4.14.178",
         "@types/mixpanel": "^2.14.3",
@@ -3786,9 +3786,9 @@
       "integrity": "sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw=="
     },
     "node_modules/@types/jsonwebtoken": {
-      "version": "8.5.6",
-      "resolved": "https://registry.npmjs.org/@types/jsonwebtoken/-/jsonwebtoken-8.5.6.tgz",
-      "integrity": "sha512-+P3O/xC7nzVizIi5VbF34YtqSonFsdnbXBnWUCYRiKOi1f9gA4sEFvXkrGr/QVV23IbMYvcoerI7nnhDUiWXRQ==",
+      "version": "9.0.6",
+      "resolved": "https://registry.npmjs.org/@types/jsonwebtoken/-/jsonwebtoken-9.0.6.tgz",
+      "integrity": "sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==",
       "dev": true,
       "dependencies": {
         "@types/node": "*"
