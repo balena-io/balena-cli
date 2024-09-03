@@ -118,7 +118,7 @@
         "@types/is-root": "^2.1.2",
         "@types/js-yaml": "^4.0.5",
         "@types/jsonwebtoken": "^9.0.6",
-        "@types/klaw": "^3.0.3",
+        "@types/klaw": "^3.0.6",
         "@types/lodash": "^4.14.178",
         "@types/mixpanel": "^2.14.3",
         "@types/mocha": "^10.0.7",
@@ -161,7 +161,7 @@
         "inline-source-cli": "^2.0.0",
         "intercept-stdout": "^0.1.2",
         "jsonwebtoken": "^9.0.0",
-        "klaw": "^3.0.0",
+        "klaw": "^4.1.0",
         "mkdirp": "^1.0.4",
         "mocha": "^10.6.0",
         "mock-require": "^3.0.3",
@@ -1460,14 +1460,6 @@
       },
       "engines": {
         "node": ">=6"
-      }
-    },
-    "node_modules/@balena/compose/node_modules/klaw": {
-      "version": "4.1.0",
-      "resolved": "https://registry.npmjs.org/klaw/-/klaw-4.1.0.tgz",
-      "integrity": "sha512-1zGZ9MF9H22UnkpVeuaGKOjfA2t6WrfdrJmGjy16ykcjnKQDmHVX+KI477rpbGevz/5FD4MC3xf1oxylBgcaQw==",
-      "engines": {
-        "node": ">=14.14.0"
       }
     },
     "node_modules/@balena/compose/node_modules/stream-to-promise": {
@@ -3803,9 +3795,9 @@
       }
     },
     "node_modules/@types/klaw": {
-      "version": "3.0.3",
-      "resolved": "https://registry.npmjs.org/@types/klaw/-/klaw-3.0.3.tgz",
-      "integrity": "sha512-mXlRDFbTLpVysvxahXUQav0hFctgu3Fqr2xmSrpf/ptO/FwOp7SFEGsJkEihwshMbof3/BIiVJ/o42cuOOuv6g==",
+      "version": "3.0.6",
+      "resolved": "https://registry.npmjs.org/@types/klaw/-/klaw-3.0.6.tgz",
+      "integrity": "sha512-BErW5TrTz4nzt/c3VRGf0Bug4JyQJ1o807F4mAfXfvOzFZ8SKgFeHJ0T28Y1KtqlMEB+cUgN7S7CsyQDQ/qxqg==",
       "dev": true,
       "dependencies": {
         "@types/node": "*"
@@ -11643,12 +11635,11 @@
       }
     },
     "node_modules/klaw": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/klaw/-/klaw-3.0.0.tgz",
-      "integrity": "sha512-0Fo5oir+O9jnXu5EefYbVK+mHMBeEVEy2cmctR1O1NECcCkPRreJKrS6Qt/j3KC2C148Dfo9i3pCmCMsdqGr0g==",
-      "dev": true,
-      "dependencies": {
-        "graceful-fs": "^4.1.9"
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/klaw/-/klaw-4.1.0.tgz",
+      "integrity": "sha512-1zGZ9MF9H22UnkpVeuaGKOjfA2t6WrfdrJmGjy16ykcjnKQDmHVX+KI477rpbGevz/5FD4MC3xf1oxylBgcaQw==",
+      "engines": {
+        "node": ">=14.14.0"
       }
     },
     "node_modules/klaw-sync": {
