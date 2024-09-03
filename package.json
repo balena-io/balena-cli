@@ -76,7 +76,7 @@
     "lint-tsconfig": "balena-lint -e ts -e js -t tsconfig.dev.json --fix automation/ src/ tests/ typings/",
     "lint-other": "balena-lint -e ts -e js --fix bin/run.js bin/dev.js completion/ .mocharc.js .mocharc-standalone.js",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
-    "prepare": "echo {} > bin/.fast-boot.json",
+    "prepare": "echo {} > bin/.fast-boot.json && husky",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -92,11 +92,6 @@
   "license": "Apache-2.0",
   "engines": {
     "node": "^20.6.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "node automation/check-npm-version.js && ts-node automation/check-doc.ts"
-    }
   },
   "oclif": {
     "bin": "balena",
@@ -180,7 +175,7 @@
     "filehound": "^1.17.5",
     "fs-extra": "^9.1.0",
     "http-proxy": "^1.18.1",
-    "husky": "^4.3.8",
+    "husky": "^9.1.5",
     "inline-source-cli": "^2.0.0",
     "intercept-stdout": "^0.1.2",
     "jsonwebtoken": "^9.0.0",
