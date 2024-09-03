@@ -143,7 +143,6 @@
     "@types/mock-require": "^2.0.1",
     "@types/moment-duration-format": "^2.2.3",
     "@types/ndjson": "^2.0.1",
-    "@types/nock": "^11.1.0",
     "@types/node": "^20.0.0",
     "@types/node-cleanup": "^2.1.2",
     "@types/parse-link-header": "^1.0.1",

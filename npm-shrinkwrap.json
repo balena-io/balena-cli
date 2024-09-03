@@ -125,7 +125,6 @@
         "@types/mock-require": "^2.0.1",
         "@types/moment-duration-format": "^2.2.3",
         "@types/ndjson": "^2.0.1",
-        "@types/nock": "^11.1.0",
         "@types/node": "^20.0.0",
         "@types/node-cleanup": "^2.1.2",
         "@types/parse-link-header": "^1.0.1",
@@ -3869,16 +3868,6 @@
         "@types/through": "*"
       }
     },
-    "node_modules/@types/nock": {
-      "version": "11.1.0",
-      "resolved": "https://registry.npmjs.org/@types/nock/-/nock-11.1.0.tgz",
-      "integrity": "sha512-jI/ewavBQ7X5178262JQR0ewicPAcJhXS/iFaNJl0VHLfyosZ/kwSrsa6VNQNSO8i9d8SqdRgOtZSOKJ/+iNMw==",
-      "deprecated": "This is a stub types definition. nock provides its own type definitions, so you do not need this installed.",
-      "dev": true,
-      "dependencies": {
-        "nock": "*"
-      }
-    },
     "node_modules/@types/node": {
       "version": "20.16.3",
       "resolved": "https://registry.npmjs.org/@types/node/-/node-20.16.3.tgz",
@@ -5964,7 +5953,7 @@
     "node_modules/buffer-crc32": {
       "version": "0.2.13",
       "resolved": "https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz",
-      "integrity": "sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI=",
+      "integrity": "sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==",
       "engines": {
         "node": "*"
       }
