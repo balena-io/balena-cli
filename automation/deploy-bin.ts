@@ -85,7 +85,7 @@ function getPageNumbers(
 			perPage = parseInt(parsed.next.per_page, 10);
 		}
 		res.page = parseInt(parsed.next.page!, 10) - 1;
-		res.pages = parseInt(parsed.last!.page! , 10);
+		res.pages = parseInt(parsed.last!.page!, 10);
 	} else {
 		if (parsed.prev!.per_page) {
 			perPage = parseInt(parsed.prev!.per_page, 10);
