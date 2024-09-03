@@ -127,7 +127,7 @@
         "@types/ndjson": "^2.0.1",
         "@types/node": "^20.0.0",
         "@types/node-cleanup": "^2.1.2",
-        "@types/parse-link-header": "^1.0.1",
+        "@types/parse-link-header": "^2.0.3",
         "@types/prettyjson": "^0.0.33",
         "@types/progress-stream": "^2.0.2",
         "@types/request": "^2.48.7",
@@ -3894,9 +3894,9 @@
       "dev": true
     },
     "node_modules/@types/parse-link-header": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/@types/parse-link-header/-/parse-link-header-1.0.1.tgz",
-      "integrity": "sha512-E2+Go9rQgPbmpkeA2iFXTWSTxX38KXlXwcdiIbt71Oorqr+G5QtH4AhpuDdxwRVyiTzdUrHnaaIumW/LhiZwVg==",
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/@types/parse-link-header/-/parse-link-header-2.0.3.tgz",
+      "integrity": "sha512-ffLAxD6Xqcf2gSbtEJehj8yJ5R/2OZqD4liodQvQQ+hhO4kg1mk9ToEZQPMtNTm/zIQj2GNleQbsjPp9+UQm4Q==",
       "dev": true
     },
     "node_modules/@types/prettyjson": {
