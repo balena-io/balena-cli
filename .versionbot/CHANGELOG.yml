@@ -1,4 +1,104 @@
 - commits:
+    - subject: Update devDependency patch-package to v8.0.0
+      hash: 1640bd645774bf9b2021cd38b3e9b9550d859f00
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency mkdirp to v3.0.1
+      hash: da2ffde4835884352f280fc861757ca571dc8100
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency fs-extra(to v11) and @types/fs-extra(to v11)
+      hash: 5c9e3ad8f6de0285d9805fc84a0f6f8884e01647
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency @types/parse-link-header to v2.0.3
+      hash: 7515d4b7108948554ec008e426eef04ac9f63a0e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Remove unused devDependency @types/nock
+      hash: fae5af6b757a535ab27e3e90255f01ba6f460a52
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency klaw(to v4) and @types/klaw(to v3.0.6)
+      hash: 45aa1adacb758083e455939c05752c51e0e09216
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update husky to v9.1.5
+      hash: b34ea14413ea467b3ee996a5a7357c4a3e6c7e7e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency @types/jsonwebtoken to v9.0.6
+      hash: 90eae06017f3aa9fd5e8c823c34551e1eca81ee6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency archiver(to v7) and @types/archiver(to v6)
+      hash: 41da8f6f6f9606544526faa6805470c2449aaadf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Removes unused devDependency @types/net-keepalive
+      hash: 8d706a7d8168998e0a2db797d8404bd7e844becb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency rewire(to v7) and @types/rewire(to v2.5.30)
+      hash: d67952024cbf093710a0d2ab50f57e5d51d73d2a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Update devDependency sinon(to v18) and @types/sinon(to v17)
+      hash: 8895fc485c9e730df7f8a0bb7e6bb0db63bae28e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 19.0.2
+  title: ""
+  date: 2024-09-03T14:56:13.341Z
+- commits:
     - subject: Bump @oclif/core from 3.27.0 to 4.0.18
       hash: 2a357a438f896ffc4932eda90336944294237a8a
       body: ""
