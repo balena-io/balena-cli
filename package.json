@@ -160,7 +160,7 @@
     "@types/rimraf": "^3.0.2",
     "@types/semver": "^7.3.9",
     "@types/shell-escape": "^0.2.0",
-    "@types/sinon": "^10.0.6",
+    "@types/sinon": "^17.0.3",
     "@types/split": "^1.0.0",
     "@types/stream-to-promise": "^2.2.1",
     "@types/tar-stream": "^2.2.2",
@@ -194,7 +194,7 @@
     "parse-link-header": "^2.0.0",
     "rewire": "^5.0.0",
     "simple-git": "^3.14.1",
-    "sinon": "^11.1.2",
+    "sinon": "^18.0.0",
     "ts-node": "^10.4.0",
     "typescript": "^5.5.2"
   },
