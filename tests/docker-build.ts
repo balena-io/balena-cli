@@ -20,12 +20,12 @@ import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { PathUtils } from '@balena/compose/dist/multibuild';
-import rewire = require('rewire');
 import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
+import { diff } from 'deep-object-diff';
 
 import { makeImageName } from '../build/utils/compose_ts';
 import { stripIndent } from '../build/utils/lazy';
@@ -101,8 +101,6 @@ export async function inspectTarStream(
 	try {
 		expect($expected).to.deep.equal(found);
 	} catch (e) {
-		const { diff } =
-			require('deep-object-diff') as typeof import('deep-object-diff');
 		const diffStr = JSON.stringify(
 			diff($expected, found),
 			(_k, v) => (v === undefined ? 'undefined' : v),
@@ -202,7 +200,7 @@ export async function testDockerBuildStream(o: {
 		}
 	}
 
-	resetDockerignoreCache();
+	await resetDockerignoreCache();
 
 	const { exitCode, out, err } = await runCommand(o.commandLine);
 
@@ -254,7 +252,7 @@ export async function testPushBuildStream(o: {
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 
-	resetDockerignoreCache();
+	await resetDockerignoreCache();
 
 	const { out, err } = await runCommand(o.commandLine);
 
@@ -262,7 +260,9 @@ export async function testPushBuildStream(o: {
 	expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 }
 
-export function resetDockerignoreCache() {
+export async function resetDockerignoreCache() {
+	const rewire = await import('rewire');
+
 	if (process.env.BALENA_CLI_TEST_TYPE !== 'source') {
 		return;
 	}

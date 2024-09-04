@@ -259,7 +259,7 @@ describe('balena build', function () {
 		const fsModPath = 'fs';
 		const fsMod = await import(fsModPath);
 		const qemuModPath = '../../build/utils/qemu';
-		const qemuMod = require(qemuModPath);
+		const qemuMod = await import(qemuModPath);
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
 		try {
 			// patch fs.access and fs.stat to pretend that a copy of the Qemu binary

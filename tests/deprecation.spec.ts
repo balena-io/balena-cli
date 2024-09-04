@@ -18,7 +18,7 @@
 import * as settings from 'balena-settings-client';
 import { getStorage } from 'balena-settings-storage';
 import { expect } from 'chai';
-import mock = require('mock-require');
+import * as mock from 'mock-require';
 import * as semver from 'semver';
 import * as sinon from 'sinon';
 

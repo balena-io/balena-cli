@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Bluebird = require('bluebird');
+import * as Bluebird from 'bluebird';
 import * as path from 'path';
 import * as zlib from 'zlib';
 

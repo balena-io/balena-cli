@@ -19,6 +19,8 @@ import * as _ from 'lodash';
 import * as path from 'path';
 
 import * as packageJSON from '../package.json';
+import { getNodeEngineVersionWarn } from '../build/utils/messages';
+import { warnify } from '../build/utils/messages';
 
 const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
 const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
@@ -41,7 +43,6 @@ function matchesNodeEngineVersionWarn(msg: string) {
 			.map((l) => l.trim())
 			.filter((l) => l);
 
-	const { getNodeEngineVersionWarn } = require('../build/utils/messages');
 	let nodeEngineWarn: string = getNodeEngineVersionWarn(
 		'x.y.z',
 		packageJSON.engines.node,
@@ -179,8 +180,6 @@ async function runCommandInSubprocess(
 					const msg = `
 Error (possibly expected) executing child CLI process "${standalonePath}"
 ${$error}`;
-					const { warnify } =
-						require('../build/utils/messages') as typeof import('../build/utils/messages');
 					console.error(warnify(msg, '[debug] '));
 				}
 				resolve();
