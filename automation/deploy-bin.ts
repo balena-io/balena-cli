@@ -17,19 +17,15 @@
 
 import * as _ from 'lodash';
 import * as semver from 'semver';
+import { Octokit } from '@octokit/rest';
+import { throttling } from '@octokit/plugin-throttling';
 
 const { GITHUB_TOKEN } = process.env;
 
 /** Return a cached Octokit instance, creating a new one as needed. */
 const getOctokit = _.once(function () {
-	const Octokit = (
-		require('@octokit/rest') as typeof import('@octokit/rest')
-	).Octokit.plugin(
-		(
-			require('@octokit/plugin-throttling') as typeof import('@octokit/plugin-throttling')
-		).throttling,
-	);
-	return new Octokit({
+	const OctokitConstructor = Octokit.plugin(throttling);
+	return new OctokitConstructor({
 		auth: GITHUB_TOKEN,
 		throttle: {
 			onRateLimit: (retryAfter: number, options: any) => {
@@ -65,16 +61,16 @@ const getOctokit = _.once(function () {
  * 'pages' is the total number of pages, and 'ordinal' is the ordinal number
  * (3rd, 4th, 5th...) of the first item in the current page.
  */
-function getPageNumbers(
+async function getPageNumbers(
 	response: any,
 	perPageDefault: number,
-): { page: number; pages: number; ordinal: number } {
+): Promise<{ page: number; pages: number; ordinal: number }> {
 	const res = { page: 1, pages: 1, ordinal: 1 };
 	if (!response.headers.link) {
 		return res;
 	}
-	const parse =
-		require('parse-link-header') as typeof import('parse-link-header');
+	const parse = await import('parse-link-header');
+
 	const parsed = parse(response.headers.link);
 	if (parsed == null) {
 		throw new Error(`Failed to parse link header: '${response.headers.link}'`);
@@ -129,7 +125,7 @@ async function updateGitHubReleaseDescriptions(
 			page: thisPage,
 			pages: totalPages,
 			ordinal,
-		} = getPageNumbers(response, perPage);
+		} = await getPageNumbers(response, perPage);
 		let i = 0;
 		for (const cliRelease of response.data) {
 			const prefix = `[#${ordinal + i++} pg ${thisPage}/${totalPages}]`;

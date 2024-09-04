@@ -39,7 +39,7 @@ export async function renderMarkdown(): Promise<string> {
 		};
 
 		for (const jsFilename of commandCategory.files) {
-			category.commands.push(...importOclifCommands(jsFilename));
+			category.commands.push(...(await importOclifCommands(jsFilename)));
 		}
 		result.categories.push(category);
 	}
@@ -78,7 +78,9 @@ class FakeHelpCommand {
 	};
 }
 
-function importOclifCommands(jsFilename: string): OclifCommand[] {
+async function importOclifCommands(
+	jsFilename: string,
+): Promise<OclifCommand[]> {
 	// TODO: Currently oclif commands with no `usage` overridden will cause
 	//  an error when parsed.  This should be improved so that `usage` does not have
 	//  to be overridden if not necessary.
@@ -86,7 +88,8 @@ function importOclifCommands(jsFilename: string): OclifCommand[] {
 	const command: OclifCommand =
 		jsFilename === 'help'
 			? (new FakeHelpCommand() as unknown as OclifCommand)
-			: (require(path.join(process.cwd(), jsFilename)).default as OclifCommand);
+			: ((await import(path.join(process.cwd(), jsFilename)))
+					.default as OclifCommand);
 
 	return [command];
 }
