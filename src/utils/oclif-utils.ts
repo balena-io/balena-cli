@@ -52,6 +52,8 @@ export function capitanoizeOclifUsage(
 }
 
 export async function getCommandsFromManifest() {
+	const { Module } = await import('node:module');
+	const require = Module.createRequire(import.meta.url);
 	const manifest = require('../../oclif.manifest.json');
 
 	if (manifest.commands == null) {

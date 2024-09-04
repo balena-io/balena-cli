@@ -16,8 +16,8 @@
  */
 
 import { Flags } from '@oclif/core';
-import { stripIndent } from './lazy';
-import { lowercaseIfSlug } from './normalization';
+import { stripIndent } from './lazy.js';
+import { lowercaseIfSlug } from './normalization.js';
 
 export const fleet = Flags.string({
 	char: 'f',
@@ -25,10 +25,25 @@ export const fleet = Flags.string({
 	parse: lowercaseIfSlug,
 });
 
+export const fleetExclusive = (exclusive: string[]) =>
+	Flags.string({
+		char: 'f',
+		description: 'fleet name or slug (preferred)',
+		parse: lowercaseIfSlug,
+		exclusive,
+	});
+
 export const device = Flags.string({
 	char: 'd',
 	description: 'device UUID',
 });
+
+export const deviceExclusive = (exclusive: string[]) =>
+	Flags.string({
+		char: 'd',
+		description: 'device UUID',
+		exclusive,
+	});
 
 export const help = Flags.help({ char: 'h' });
 
@@ -43,10 +58,24 @@ export const release = Flags.string({
 	description: 'release id',
 });
 
+export const releaseExclusive = (exclusive: string[]) =>
+	Flags.string({
+		char: 'r',
+		description: 'release id',
+		exclusive,
+	});
+
 export const service = Flags.string({
 	char: 's',
 	description: 'service name',
 });
+
+export const serviceExclusive = (exclusive: string[]) =>
+	Flags.string({
+		char: 's',
+		description: 'service name',
+		exclusive,
+	});
 
 export const verbose = Flags.boolean({
 	char: 'v',

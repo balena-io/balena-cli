@@ -17,8 +17,11 @@
 
 import { spawn } from 'child_process';
 import * as path from 'path';
+import { diffTrimmedLines } from 'diff';
+import { Module } from 'node:module';
 
-export const ROOT = path.join(__dirname, '..');
+const require = Module.createRequire(import.meta.url);
+export const ROOT = path.join(import.meta.dirname, '..');
 
 /** Tap and buffer this process' stdout and stderr */
 export class StdOutTap {
@@ -64,7 +67,6 @@ export class StdOutTap {
  * https://www.npmjs.com/package/diff
  */
 export function diffLines(str1: string, str2: string): string {
-	const { diffTrimmedLines } = require('diff');
 	const diffObjs = diffTrimmedLines(str1, str2);
 	const prefix = (chunk: string, char: string) =>
 		chunk
@@ -97,7 +99,7 @@ export function loadPackageJson() {
  * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
  */
 export async function which(program: string): Promise<string> {
-	const whichMod = await import('which');
+	const { default: whichMod } = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);

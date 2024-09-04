@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-import * as chai from 'chai';
-import chaiAsPromised = require('chai-as-promised');
-import * as ejs from 'ejs';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as request from 'request';
-import * as sinon from 'sinon';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import ejs from 'ejs';
+import fs from 'fs';
+import path from 'path';
+import request from 'request';
+import sinon from 'sinon';
 
-import { LoginServer } from '../../build/auth/server';
-import * as utils from '../../build/auth/utils';
-import tokens from './tokens';
+import { LoginServer } from '../../build/auth/server.js';
+import * as utils from '../../build/auth/utils.js';
+import tokens from './tokens.js';
 
 chai.use(chaiAsPromised);
 
@@ -33,7 +33,7 @@ const { expect } = chai;
 
 async function getPage(name: string): Promise<string> {
 	const pagePath = path.join(
-		__dirname,
+		import.meta.dirname,
 		'..',
 		'..',
 		'build',

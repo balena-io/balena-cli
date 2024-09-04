@@ -15,12 +15,12 @@ limitations under the License.
 */
 
 import type { BalenaError } from 'balena-errors';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
-import { getChalk, stripIndent } from './utils/lazy';
-import { getHelp } from './utils/messages';
-import { CliSettings } from './utils/bootstrap';
+import { getChalk, stripIndent } from './utils/lazy.js';
+import { getHelp } from './utils/messages.js';
+import { CliSettings } from './utils/bootstrap.js';
 
 export class ExpectedError extends TypedError {
 	public code?: string;
@@ -161,17 +161,17 @@ const messages: {
 	ETIMEDOUT: () =>
 		'Oops something went wrong, please check your connection and try again.',
 
-	MODULE_NOT_FOUND: () => stripIndent`
-		Part of the CLI could not be loaded. This typically means your CLI install is in a broken state.
-		${
-			os.arch() === 'x64'
-				? 'You can normally fix this by uninstalling and reinstalling the CLI.'
-				: stripIndent`
-				You're using an unsupported architecture (${os.arch()}), so this is typically caused by missing native modules.
-				Reinstalling may help, but pay attention to errors in native module build steps en route.
-			`
-		}
-	`,
+	// MODULE_NOT_FOUND: () => stripIndent`
+	// 	Part of the CLI could not be loaded. This typically means your CLI install is in a broken state.
+	// 	${
+	// 		os.arch() === 'x64'
+	// 			? 'You can normally fix this by uninstalling and reinstalling the CLI.'
+	// 			: stripIndent`
+	// 			You're using an unsupported architecture (${os.arch()}), so this is typically caused by missing native modules.
+	// 			Reinstalling may help, but pay attention to errors in native module build steps en route.
+	// 		`
+	// 	}
+	// `,
 
 	BalenaExpiredToken: () => stripIndent`
 		Looks like the session token has expired.

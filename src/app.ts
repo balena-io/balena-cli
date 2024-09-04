@@ -15,23 +15,26 @@
  * limitations under the License.
  */
 
-import * as packageJSON from '../package.json';
-import type { AppOptions } from './preparser';
+import type { AppOptions } from './preparser.js';
 import {
 	checkDeletedCommand,
 	preparseArgs,
 	unsupportedFlag,
-} from './preparser';
-import { CliSettings } from './utils/bootstrap';
-import { onceAsync } from './utils/lazy';
+} from './preparser.js';
+import { CliSettings } from './utils/bootstrap.js';
+import { onceAsync, getPackageJson } from './utils/lazy.js';
 import { run as mainRun, settings } from '@oclif/core';
+import { Module } from 'node:module';
+
+const require = Module.createRequire(import.meta.url);
+const packageJSON = getPackageJson();
 
 /**
  * Sentry.io setup
  * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
  */
 export const setupSentry = onceAsync(async () => {
-	const config = await import('./config');
+	const config = await import('./config.js');
 	const Sentry = await import('@sentry/node');
 	Sentry.init({
 		autoSessionTracking: false,
@@ -51,7 +54,7 @@ export const setupSentry = onceAsync(async () => {
 async function checkNodeVersion() {
 	const validNodeVersions = packageJSON.engines.node;
 	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
-		const { getNodeEngineVersionWarn } = await import('./utils/messages');
+		const { getNodeEngineVersionWarn } = await import('./utils/messages.js');
 		console.warn(getNodeEngineVersionWarn(process.version, validNodeVersions));
 	}
 }
@@ -89,13 +92,13 @@ async function init() {
 	const settings = new CliSettings();
 
 	// Proxy setup should be done early on, before loading balena-sdk
-	await (await import('./utils/proxy')).setupGlobalHttpProxy(settings);
+	await (await import('./utils/proxy.js')).setupGlobalHttpProxy(settings);
 
 	setupBalenaSdkSharedOptions(settings);
 
 	// check for CLI updates once a day
 	if (!process.env.BALENARC_OFFLINE_MODE) {
-		(await import('./utils/update')).notify();
+		(await import('./utils/update.js')).notify();
 	}
 }
 
@@ -106,7 +109,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 	if (unsupportedFlag || process.env.BALENARC_UNSUPPORTED) {
 		deprecationPromise = Promise.resolve();
 	} else {
-		const { DeprecationChecker } = await import('./deprecation');
+		const { DeprecationChecker } = await import('./deprecation.js');
 		const deprecationChecker = new DeprecationChecker(packageJSON.version);
 		// warnAndAbortIfDeprecated uses previously cached data only
 		await deprecationChecker.warnAndAbortIfDeprecated();
@@ -149,11 +152,11 @@ async function oclifRun(command: string[], options: AppOptions) {
 		// the try/catch block above, execution does not get past the
 		// Promise.all() call below, but I don't understand why.
 		if (isEEXIT) {
-			(await import('./fast-boot')).stop();
+			(await import('./fast-boot.js')).stop();
 		}
 	})(!options.noFlush);
 
-	const { trackPromise } = await import('./hooks/prerun/track');
+	const { trackPromise } = await import('./hooks/prerun/track.js');
 
 	await Promise.all([trackPromise, deprecationPromise, runPromise]);
 }
@@ -162,7 +165,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 export async function run(cliArgs = process.argv, options: AppOptions) {
 	try {
 		const { setOfflineModeEnvVars, normalizeEnvVars, pkgExec } = await import(
-			'./utils/bootstrap'
+			'./utils/bootstrap.js'
 		);
 		setOfflineModeEnvVars();
 		normalizeEnvVars();
@@ -176,15 +179,15 @@ export async function run(cliArgs = process.argv, options: AppOptions) {
 		await init();
 
 		// Look for commands that have been removed and if so, exit with a notice
-		checkDeletedCommand(cliArgs.slice(2));
+		await checkDeletedCommand(cliArgs.slice(2));
 
 		const args = await preparseArgs(cliArgs);
 		await oclifRun(args, options);
 	} catch (err) {
-		await (await import('./errors')).handleError(err);
+		await (await import('./errors.js')).handleError(err);
 	} finally {
 		try {
-			(await import('./fast-boot')).stop();
+			(await import('./fast-boot.js')).stop();
 		} catch (e) {
 			if (process.env.DEBUG) {
 				console.error(`[debug] Stopping fast-boot: ${e}`);

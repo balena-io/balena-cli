@@ -16,32 +16,33 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 import { PathUtils } from '@balena/compose/dist/multibuild';
-import rewire = require('rewire');
-import * as sinon from 'sinon';
+import rewire from 'rewire';
+import sinon from 'sinon';
 import { Readable } from 'stream';
-import * as tar from 'tar-stream';
+import tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 
-import { makeImageName } from '../build/utils/compose_ts';
-import { stripIndent } from '../build/utils/lazy';
-import type { BuilderMock } from './nock/builder-mock';
-import type { DockerMock } from './nock/docker-mock';
+import { makeImageName } from '../build/utils/compose_ts.js';
+import { stripIndent } from '../build/utils/lazy.js';
+import type { BuilderMock } from './nock/builder-mock.js';
+import type { DockerMock } from './nock/docker-mock.js';
 import {
 	cleanOutput,
 	deepJsonParse,
 	deepTemplateReplace,
 	runCommand,
-} from './helpers';
+} from './helpers.js';
 import type {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-} from './projects';
+} from './projects.js';
+import { diff } from 'deep-object-diff';
 
 /**
  * Run a few chai.expect() test assertions on a tar stream/buffer produced by
@@ -101,8 +102,6 @@ export async function inspectTarStream(
 	try {
 		expect($expected).to.deep.equal(found);
 	} catch (e) {
-		const { diff } =
-			require('deep-object-diff') as typeof import('deep-object-diff');
 		const diffStr = JSON.stringify(
 			diff($expected, found),
 			(_k, v) => (v === undefined ? 'undefined' : v),
@@ -126,7 +125,12 @@ async function defaultTestStream(
 	}
 	if (header.name === '.balena/registry-secrets.json') {
 		expectedContents = await fs.readFile(
-			path.join(__dirname, 'test-data', 'projects', 'registry-secrets.json'),
+			path.join(
+				import.meta.dirname,
+				'test-data',
+				'projects',
+				'registry-secrets.json',
+			),
 		);
 	}
 	const [buf, buf2] = await Promise.all([

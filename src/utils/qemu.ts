@@ -17,9 +17,9 @@
 
 import type * as Dockerode from 'dockerode';
 
-import { ExpectedError } from '../errors';
-import { getBalenaSdk, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError } from '../errors.js';
+import { getBalenaSdk, stripIndent } from './lazy.js';
+import type Logger from './logger.js';
 
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
@@ -94,7 +94,7 @@ async function installQemu(arch: string, qemuPath: string) {
 	const urlVersion = encodeURIComponent(QEMU_VERSION);
 	const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
 
-	const request = await import('request');
+	const { default: request } = await import('request');
 	const fs = await import('fs');
 	const zlib = await import('zlib');
 	const tar = await import('tar-stream');

@@ -17,8 +17,8 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
-import { runCommand } from '../../helpers';
+import { BalenaAPIMock } from '../../nock/balena-api-mock.js';
+import { runCommand } from '../../helpers.js';
 
 describe('balena tag set', function () {
 	let api: BalenaAPIMock;

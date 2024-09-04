@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 
-import * as nock from 'nock';
-import * as fs from 'fs';
+import nock from 'nock';
+import fs from 'fs';
+import { interceptorServerPort } from './proxy-server.js';
 
 export interface ScopeOpts {
 	optional?: boolean;
@@ -170,8 +171,6 @@ export class NockMock {
 	}
 
 	protected handleUnexpectedRequest(req: any) {
-		const { interceptorServerPort } =
-			require('./proxy-server') as typeof import('./proxy-server');
 		const o = req.options || {};
 		const u = o.uri || {};
 		const method = req.method;

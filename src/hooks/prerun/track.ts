@@ -33,7 +33,7 @@ export const trackPromise = new Promise((resolve) => {
  * literally so: 'NAME' and 'VALUE' are NOT replaced with actual values.
  */
 const hook: Hook<'prerun'> = async function (options) {
-	const events = await import('../../events');
+	const events = await import('../../events.js');
 	const usage: string | string[] | undefined = options.Command.usage;
 	const cmdSignature =
 		usage == null ? '*' : typeof usage === 'string' ? usage : usage.join(' ');

@@ -26,6 +26,10 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { getPackageJson } from './utils/lazy.js';
+
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 const stat = process.pkg ? fs.statSync : fs.promises.stat;
 
@@ -67,14 +71,13 @@ async function $start() {
 	// a regular user account.
 	const cacheFile = path.join(dataDir, 'cli-module-cache.json');
 	const root = path.join(__dirname, '..');
-	const [, pJson, pStat, nStat] = await Promise.all([
+	const [, pStat, nStat] = await Promise.all([
 		ensureCanWrite(dataDir, cacheFile),
-		import('../package.json'),
 		stat(path.join(root, 'package.json'), { bigint: true }),
 		stat(path.join(root, 'npm-shrinkwrap.json'), { bigint: true }),
 	]);
 	// Include timestamps to account for dev-time changes to node_modules
-	const cacheKiller = `${pJson.version}-${pStat.mtimeMs}-${nStat.mtimeMs}`;
+	const cacheKiller = `${getPackageJson().version}-${pStat.mtimeMs}-${nStat.mtimeMs}`;
 	require('fast-boot2').start({
 		cacheFile,
 		cacheKiller,

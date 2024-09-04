@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as semver from 'semver';
 
 const { GITHUB_TOKEN } = process.env;

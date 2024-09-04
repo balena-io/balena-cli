@@ -22,9 +22,9 @@ import {
 	BalenaExpiredToken,
 } from 'balena-errors';
 import { expect } from 'chai';
-import * as sinon from 'sinon';
-import * as ErrorsModule from '../build/errors';
-import { getHelp } from '../build/utils/messages';
+import sinon from 'sinon';
+import * as ErrorsModule from '../build/errors.js';
+import { getHelp } from '../build/utils/messages.js';
 
 function red(s: string) {
 	if (process.env.CI) {

@@ -22,7 +22,7 @@ describe('@balena/compose/multibuild consistency', function () {
 		const { QEMU_BIN_NAME: MQEMU_BIN_NAME } = await import(
 			'@balena/compose/dist/multibuild'
 		);
-		const { QEMU_BIN_NAME } = await import('../../build/utils/qemu');
+		const { QEMU_BIN_NAME } = await import('../../build/utils/qemu.js');
 		expect(QEMU_BIN_NAME).to.equal(MQEMU_BIN_NAME);
 	});
 });

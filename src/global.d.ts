@@ -18,11 +18,3 @@
 interface Dictionary<T> {
 	[key: string]: T;
 }
-
-declare module '*/package.json' {
-	export const engines: {
-		node: string;
-	};
-	export const name: string;
-	export const version: string;
-}

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import * as path from 'path';
-import * as qs from 'querystring';
+import path from 'path';
+import qs from 'querystring';
 
-import type { ScopeOpts } from './nock-mock';
-import { NockMock } from './nock-mock';
+import type { ScopeOpts } from './nock-mock.js';
+import { NockMock } from './nock-mock.js';
 
 export const dockerResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'docker-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'docker-response'),
 );
 
 export class DockerMock extends NockMock {

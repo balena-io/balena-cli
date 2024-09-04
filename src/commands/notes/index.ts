@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class NoteCmd extends Command {
 	public static description = stripIndent`
@@ -45,7 +45,7 @@ export default class NoteCmd extends Command {
 	public static usage = 'note <|note>';
 
 	public static flags = {
-		device: { exclusive: ['dev'], ...cf.device },
+		device: cf.deviceExclusive(['dev']),
 		dev: Flags.string({
 			exclusive: ['device'],
 			hidden: true,

@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import validEmail = require('@resin.io/valid-email');
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 const APPNAME_REGEX = new RegExp(/^[a-zA-Z0-9_-]+$/);
 // An regex to detect an IP address, from https://www.regular-expressions.info/ip.html

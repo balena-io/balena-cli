@@ -16,8 +16,9 @@
  */
 
 import * as semver from 'semver';
-import { version } from '../../package.json';
+import { getPackageJson } from './lazy.js';
 
 export function isVersionGTE(v: string): boolean {
+	const { version } = getPackageJson();
 	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);
 }

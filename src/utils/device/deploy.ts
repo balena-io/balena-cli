@@ -16,8 +16,8 @@
  */
 
 import * as semver from 'balena-semver';
-import * as Docker from 'dockerode';
-import * as _ from 'lodash';
+import Docker from 'dockerode';
+import _ from 'lodash';
 import type { Composition } from '@balena/compose/dist/parse';
 import type {
 	BuildTask,
@@ -27,22 +27,22 @@ import type {
 import { getAuthConfigObj } from '@balena/compose/dist/multibuild';
 import type { Readable } from 'stream';
 
-import { BALENA_ENGINE_TMP_PATH } from '../../config';
-import { ExpectedError } from '../../errors';
+import { BALENA_ENGINE_TMP_PATH } from '../../config.js';
+import { ExpectedError } from '../../errors.js';
 import {
 	checkBuildSecretsRequirements,
 	loadProject,
 	makeBuildTasks,
 	tarDirectory,
 	makeImageName,
-} from '../compose_ts';
-import Logger = require('../logger');
-import type { DeviceInfo } from './api';
-import { DeviceAPI } from './api';
-import * as LocalPushErrors from './errors';
-import LivepushManager from './live';
-import { displayBuildLog } from './logs';
-import { stripIndent } from '../lazy';
+} from '../compose_ts.js';
+import Logger from '../logger.js';
+import type { DeviceInfo } from './api.js';
+import { DeviceAPI } from './api.js';
+import * as LocalPushErrors from './errors.js';
+import LivepushManager from './live.js';
+import { displayBuildLog } from './logs.js';
+import { stripIndent } from '../lazy.js';
 
 const LOCAL_APPNAME = 'localapp';
 const LOCAL_RELEASEHASH = '10ca12e1ea5e';
@@ -215,7 +215,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		imageIds = {};
 	}
 
-	const { awaitInterruptibleTask } = await import('../helpers');
+	const { awaitInterruptibleTask } = await import('../helpers.js');
 	const buildTasks = await awaitInterruptibleTask<typeof performBuilds>(
 		performBuilds,
 		project.composition,
@@ -295,7 +295,7 @@ async function streamDeviceLogs(
 		return;
 	}
 	globalLogger.logInfo('Streaming device logs...');
-	const { connectAndDisplayDeviceLogs } = await import('./logs');
+	const { connectAndDisplayDeviceLogs } = await import('./logs.js');
 	return connectAndDisplayDeviceLogs({
 		deviceApi,
 		logger: globalLogger,

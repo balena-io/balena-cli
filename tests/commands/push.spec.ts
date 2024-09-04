@@ -19,11 +19,11 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { BuilderMock, builderResponsePath } from '../nock/builder-mock';
-import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
-import { cleanOutput, runCommand } from '../helpers';
-import type { ExpectedTarStreamFiles } from '../projects';
+import { BalenaAPIMock } from '../nock/balena-api-mock.js';
+import { BuilderMock, builderResponsePath } from '../nock/builder-mock.js';
+import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build.js';
+import { cleanOutput, runCommand } from '../helpers.js';
+import type { ExpectedTarStreamFiles } from '../projects.js';
 import {
 	addRegSecretsEntries,
 	exists,
@@ -31,9 +31,9 @@ import {
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
 	setupDockerignoreTestData,
-} from '../projects';
+} from '../projects.js';
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 const itNoWin = process.platform === 'win32' ? it.skip : it;

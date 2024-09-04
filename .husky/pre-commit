@@ -1,1 +1,1 @@
-node automation/check-npm-version.js && ts-node automation/check-doc.ts
+node automation/check-npm-version.cjs && npx tsc automation/check-doc.ts

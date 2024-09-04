@@ -1,10 +1,10 @@
-import * as Bluebird from 'bluebird';
+import Bluebird from 'bluebird';
 import { expect } from 'chai';
-import rewire = require('rewire');
-import * as sinon from 'sinon';
-import * as url from 'url';
-import { getBalenaSdk } from '../../build/utils/lazy';
-import tokens from './tokens';
+import rewire from 'rewire';
+import sinon from 'sinon';
+import url from 'url';
+import { getBalenaSdk } from '../../build/utils/lazy.js';
+import tokens from './tokens.js';
 
 const utils = rewire('../../build/auth/utils');
 const balena = getBalenaSdk();

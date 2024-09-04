@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import {
 	buildOclifInstaller,
@@ -23,8 +23,8 @@ import {
 	catchUncommitted,
 	signFilesForNotarization,
 	testShrinkwrap,
-} from './build-bin';
-import { updateDescriptionOfReleasesAffectedByIssue1359 } from './deploy-bin';
+} from './build-bin.js';
+import { updateDescriptionOfReleasesAffectedByIssue1359 } from './deploy-bin.js';
 
 // DEBUG set to falsy for negative values else is truthy
 process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(

@@ -76,14 +76,14 @@ export async function which(
 	program: string,
 	rejectOnMissing = true,
 ): Promise<string> {
-	const whichMod = await import('which');
+	const { default: whichMod } = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);
 	} catch (err) {
 		if (err.code === 'ENOENT') {
 			if (rejectOnMissing) {
-				const { ExpectedError } = await import('../errors');
+				const { ExpectedError } = await import('../errors.js');
 				throw new ExpectedError(
 					`'${program}' program not found. Is it installed?`,
 				);

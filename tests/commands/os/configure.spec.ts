@@ -18,14 +18,14 @@
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as process from 'process';
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
+import { BalenaAPIMock } from '../../nock/balena-api-mock.js';
 
 if (process.platform !== 'win32') {
 	describe('balena os configure', function () {

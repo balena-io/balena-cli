@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import type { Renderer } from './compose_ts';
+import type { Renderer } from './compose_ts.js';
 import type * as SDK from 'balena-sdk';
-import type Dockerode = require('dockerode');
+import type Dockerode from 'dockerode';
 import * as path from 'path';
 import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type { RetryParametersObj } from 'pinejs-client-core';
@@ -27,9 +27,9 @@ import type {
 	ComposeProject,
 	Release,
 	TaggedImage,
-} from './compose-types';
-import { getChalk } from './lazy';
-import Logger = require('./logger');
+} from './compose-types.js';
+import { getChalk } from './lazy.js';
+import type Logger from './logger.js';
 import type { ProgressCallback } from 'docker-progress';
 
 export function generateOpts(options: {
@@ -82,7 +82,7 @@ export function createProject(
 			descr.image.tag == null
 		) {
 			const { makeImageName } =
-				require('./compose_ts') as typeof import('./compose_ts');
+				require('./compose_ts') as typeof import('./compose_ts.js');
 			descr.image.tag = makeImageName(projectName, descr.serviceName, imageTag);
 		}
 		return descr;
@@ -318,7 +318,7 @@ const renderProgressBar = function (percentage: number, stepCount: number) {
 };
 
 export const pushProgressRenderer = function (
-	tty: ReturnType<typeof import('./tty')>,
+	tty: ReturnType<typeof import('./tty.js').default>,
 	prefix: string,
 ): ProgressCallback & { end: () => void } {
 	const fn: ProgressCallback & { end: () => void } = function (e) {
@@ -352,14 +352,14 @@ export class BuildProgressUI implements Renderer {
 	private _spinner;
 	private _runloop:
 		| undefined
-		| ReturnType<typeof import('./compose_ts').createRunLoop>;
+		| ReturnType<typeof import('./compose_ts.js').createRunLoop>;
 
 	// these are to handle window wrapping
 	private _maxLineWidth: undefined | number;
 	private _lineWidths: number[] = [];
 
 	constructor(
-		tty: ReturnType<typeof import('./tty')>,
+		tty: ReturnType<typeof import('./tty.js').default>,
 		descriptors: ImageDescriptor[],
 	) {
 		this._handleEvent = this._handleEvent.bind(this);
@@ -400,7 +400,7 @@ export class BuildProgressUI implements Renderer {
 		this._ended = false;
 		this._cancelled = false;
 		this._spinner = (
-			require('./compose_ts') as typeof import('./compose_ts')
+			require('./compose_ts') as typeof import('./compose_ts.js')
 		).createSpinner();
 
 		this.streams = streams;
@@ -419,7 +419,7 @@ export class BuildProgressUI implements Renderer {
 			this.streams[service].write({ status: 'Preparing...' });
 		});
 		this._runloop = (
-			require('./compose_ts') as typeof import('./compose_ts')
+			require('./compose_ts') as typeof import('./compose_ts.js')
 		).createRunLoop(this._display);
 		this._startTime = Date.now();
 	}
@@ -479,10 +479,8 @@ export class BuildProgressUI implements Renderer {
 	}
 
 	_renderStatus(end = false) {
-		const moment = require('moment') as typeof import('moment');
-		(
-			require('moment-duration-format') as typeof import('moment-duration-format')
-		)(moment);
+		const moment = require('moment');
+		require('moment-duration-format')(moment);
 
 		this._tty.clearLine();
 		this._tty.write(this._prefix);
@@ -577,10 +575,8 @@ export class BuildProgressInline implements Renderer {
 	}
 
 	end(summary?: Dictionary<string>) {
-		const moment = require('moment') as typeof import('moment');
-		(
-			require('moment-duration-format') as typeof import('moment-duration-format')
-		)(moment);
+		const moment = require('moment');
+		require('moment-duration-format')(moment);
 
 		if (this._ended) {
 			return;

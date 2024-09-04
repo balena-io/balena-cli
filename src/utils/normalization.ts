@@ -16,7 +16,7 @@
  */
 
 import type { BalenaSDK } from 'balena-sdk';
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 /**
  * Takes a string which may represent one of:

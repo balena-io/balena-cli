@@ -16,27 +16,29 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
-import * as mock from 'mock-require';
+import _ from 'lodash';
+import mock from 'mock-require';
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
-import { stripIndent } from '../../build/utils/lazy';
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
-import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
-import { cleanOutput, runCommand } from '../helpers';
+import { stripIndent } from '../../build/utils/lazy.js';
+import { BalenaAPIMock } from '../nock/balena-api-mock.js';
+import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build.js';
+import { DockerMock, dockerResponsePath } from '../nock/docker-mock.js';
+import { cleanOutput, runCommand } from '../helpers.js';
 import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-} from '../projects';
+} from '../projects.js';
 import {
 	getDockerignoreWarn1,
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
-} from '../projects';
+} from '../projects.js';
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+import * as qemuMod from '../../build/utils/qemu.js';
+
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 const commonResponseLines: { [key: string]: string[] } = {
@@ -258,8 +260,7 @@ describe('balena build', function () {
 		const deviceType = 'raspberry-pi';
 		const fsModPath = 'fs';
 		const fsMod = await import(fsModPath);
-		const qemuModPath = '../../build/utils/qemu';
-		const qemuMod = require(qemuModPath);
+		const qemuModPath = '../../build/utils/qemu.js';
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
 		try {
 			// patch fs.access and fs.stat to pretend that a copy of the Qemu binary

@@ -16,9 +16,9 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 import type { LogMessage } from 'balena-sdk';
 
 const MAX_RETRY = 1000;
@@ -96,14 +96,14 @@ export default class LogsCmd extends Command {
 		const { args: params, flags: options } = await this.parse(LogsCmd);
 
 		const balena = getBalenaSdk();
-		const { serviceIdToName } = await import('../../utils/cloud');
+		const { serviceIdToName } = await import('../../utils/cloud.js');
 		const { connectAndDisplayDeviceLogs, displayLogObject } = await import(
-			'../../utils/device/logs'
+			'../../utils/device/logs.js'
 		);
 		const { validateIPAddress, validateDotLocalUrl } = await import(
-			'../../utils/validation'
+			'../../utils/validation.js'
 		);
-		const Logger = await import('../../utils/logger');
+		const { default: Logger } = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 
@@ -132,13 +132,13 @@ export default class LogsCmd extends Command {
 			validateDotLocalUrl(params.device)
 		) {
 			// Logs from local device
-			const { DeviceAPI } = await import('../../utils/device/api');
+			const { DeviceAPI } = await import('../../utils/device/api.js');
 			const deviceApi = new DeviceAPI(logger, params.device);
 			logger.logDebug('Checking we can access device');
 			try {
 				await deviceApi.ping();
 			} catch (e) {
-				const { ExpectedError } = await import('../../errors');
+				const { ExpectedError } = await import('../../errors.js');
 				throw new ExpectedError(
 					`Cannot access device at address ${params.device}.  Device may not be in local mode.`,
 				);

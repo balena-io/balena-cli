@@ -16,10 +16,10 @@
  */
 
 import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { parseAsInteger } from '../../utils/validation';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { parseAsInteger } from '../../utils/validation.js';
 
 export default class KeyRmCmd extends Command {
 	public static description = stripIndent`
@@ -52,7 +52,7 @@ export default class KeyRmCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(KeyRmCmd);
 
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 
 		await patterns.confirm(
 			options.yes ?? false,

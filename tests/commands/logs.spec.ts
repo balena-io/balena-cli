@@ -17,9 +17,9 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../helpers';
-import { SupervisorMock } from '../nock/supervisor-mock';
+import { BalenaAPIMock } from '../nock/balena-api-mock.js';
+import { cleanOutput, runCommand } from '../helpers.js';
+import { SupervisorMock } from '../nock/supervisor-mock.js';
 
 const itS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it : it.skip;
 

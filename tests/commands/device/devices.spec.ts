@@ -18,8 +18,8 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../../helpers';
+import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock.js';
+import { cleanOutput, runCommand } from '../../helpers.js';
 
 describe('balena devices', function () {
 	let api: BalenaAPIMock;

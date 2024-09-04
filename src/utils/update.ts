@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import isRoot = require('is-root');
-import * as UpdateNotifier from 'update-notifier';
-
-import packageJSON = require('../../package.json');
+import isRoot from 'is-root';
+import updateNotifier from 'update-notifier';
+import type { UpdateNotifier, UpdateInfo } from 'update-notifier';
+import { getPackageJson } from './lazy.js';
 
 // Check for an update at most once a day. 1 day granularity should be
 // enough, rather than every run. Note because we show the information
@@ -25,7 +25,7 @@ import packageJSON = require('../../package.json');
 // the update info can be out of date.
 const balenaUpdateInterval = 1000 * 60 * 60 * 24 * 1;
 
-let notifier: UpdateNotifier.UpdateNotifier;
+let notifier: UpdateNotifier;
 
 export function notify() {
 	if (!notifier) {
@@ -35,8 +35,8 @@ export function notify() {
 		if (isRoot()) {
 			return;
 		} else {
-			notifier = UpdateNotifier({
-				pkg: packageJSON,
+			notifier = updateNotifier({
+				pkg: getPackageJson(),
 				updateCheckInterval: balenaUpdateInterval,
 			});
 		}
@@ -48,7 +48,7 @@ export function notify() {
 	}
 }
 
-export function getNotifierMessage(updateInfo: UpdateNotifier.UpdateInfo) {
+export function getNotifierMessage(updateInfo: UpdateInfo) {
 	const semver = require('semver') as typeof import('semver');
 	const message: string[] = [];
 	const [current, latest] = [updateInfo.current, updateInfo.latest];

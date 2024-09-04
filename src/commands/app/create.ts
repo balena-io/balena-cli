@@ -17,9 +17,9 @@
 
 import { Flags, Args } from '@oclif/core';
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
-import { stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import * as cf from '../../utils/common-flags.js';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class AppCreateCmd extends Command {
 	public static description = stripIndent`
@@ -77,7 +77,7 @@ export default class AppCreateCmd extends Command {
 		const { args: params, flags: options } = await this.parse(AppCreateCmd);
 
 		await (
-			await import('../../utils/application-create')
+			await import('../../utils/application-create.js')
 		).applicationCreateBase('app', options, params);
 	}
 }

@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import * as path from 'path';
-import { getCapitanoDoc } from './capitanodoc';
-import type { Category, Document, OclifCommand } from './doc-types';
-import * as markdown from './markdown';
-import { stripIndent } from '../../src/utils/lazy';
+import { getCapitanoDoc } from './capitanodoc.js';
+import type { Category, Document, OclifCommand } from './doc-types.js';
+import * as markdown from './markdown.js';
+import { stripIndent } from '../../src/utils/lazy.js';
+import { Module } from 'node:module';
 
+const require = Module.createRequire(import.meta.url);
 /**
  * Generates the markdown document (as a string) for the CLI documentation
  * page on the web: https://www.balena.io/docs/reference/cli/

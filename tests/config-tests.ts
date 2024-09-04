@@ -17,7 +17,7 @@
 
 import { set as setEsVersion } from '@balena/es-version';
 // Set the desired es version for downstream modules that support it
-setEsVersion('es2018');
+setEsVersion('es2022');
 
 // Disable Sentry.io error reporting while running test code
 process.env.BALENARC_NO_SENTRY = '1';

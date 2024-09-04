@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class LogoutCmd extends Command {
 	public static description = stripIndent`

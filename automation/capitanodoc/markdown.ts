@@ -16,11 +16,11 @@
  */
 import { Parser } from '@oclif/core';
 import * as ent from 'ent';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
-import { getManualSortCompareFunction } from '../../src/utils/helpers';
-import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
-import type { Category, Document, OclifCommand } from './doc-types';
+import { getManualSortCompareFunction } from '../../src/utils/helpers.js';
+import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils.js';
+import type { Category, Document, OclifCommand } from './doc-types.js';
 
 function renderOclifCommand(command: OclifCommand): string[] {
 	const result = [`## ${ent.encode(command.usage || '')}`];

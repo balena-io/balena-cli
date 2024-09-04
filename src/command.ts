@@ -19,8 +19,8 @@ import { Command } from '@oclif/core';
 import {
 	InsufficientPrivilegesError,
 	NotAvailableInOfflineModeError,
-} from './errors';
-import { stripIndent } from './utils/lazy';
+} from './errors.js';
+import { stripIndent } from './utils/lazy.js';
 
 export default abstract class BalenaCommand extends Command {
 	/**
@@ -70,7 +70,7 @@ export default abstract class BalenaCommand extends Command {
 	 *  - other code needs to execute before check
 	 */
 	protected static async checkElevatedPrivileges() {
-		const isElevated = await (await import('is-elevated'))();
+		const isElevated = await (await import('is-elevated')).default();
 		if (!isElevated) {
 			throw new InsufficientPrivilegesError(
 				'You need root/admin privileges to run this command',
@@ -93,7 +93,7 @@ export default abstract class BalenaCommand extends Command {
 	 * @throws {NotLoggedInError}
 	 */
 	public static async checkLoggedIn() {
-		await (await import('./utils/patterns')).checkLoggedIn();
+		await (await import('./utils/patterns.js')).checkLoggedIn();
 	}
 
 	/**
@@ -138,14 +138,14 @@ export default abstract class BalenaCommand extends Command {
 	 * values from stdin based in configuration, minimising command implementation.
 	 */
 	protected async getStdin() {
-		this.stdin = await (await import('get-stdin'))();
+		this.stdin = await (await import('get-stdin')).default();
 	}
 
 	/**
 	 * Get a logger instance.
 	 */
 	protected static async getLogger() {
-		return (await import('./utils/logger')).getLogger();
+		return (await import('./utils/logger.js')).default.getLogger();
 	}
 
 	protected async init() {

@@ -16,11 +16,11 @@
  */
 import type * as BalenaSdk from 'balena-sdk';
 
-import { ExpectedError, printErrorMessage } from '../errors';
-import { getVisuals, stripIndent, getCliForm } from './lazy';
-import Logger = require('./logger');
-import { confirm } from './patterns';
-import { getLocalDeviceCmdStdout, getDeviceOsRelease } from './ssh';
+import { ExpectedError, printErrorMessage } from '../errors.js';
+import { getVisuals, stripIndent, getCliForm } from './lazy.js';
+import type Logger from './logger.js';
+import { confirm } from './patterns.js';
+import { getLocalDeviceCmdStdout, getDeviceOsRelease } from './ssh.js';
 
 const MIN_BALENAOS_VERSION = 'v2.14.0';
 
@@ -167,7 +167,7 @@ const dockerPort = 2375;
 const dockerTimeout = 2000;
 
 async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
-	const { discoverLocalBalenaOsDevices } = await import('../utils/discover');
+	const { discoverLocalBalenaOsDevices } = await import('../utils/discover.js');
 	const { SpinnerPromise } = getVisuals();
 	const devices = await new SpinnerPromise({
 		promise: discoverLocalBalenaOsDevices(timeout),
@@ -176,7 +176,7 @@ async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	});
 
 	const responsiveDevices: typeof devices = [];
-	const Docker = await import('dockerode');
+	const Docker = (await import('dockerode')).default;
 	await Promise.all(
 		devices.map(async function (device) {
 			const address = device?.address;
@@ -231,11 +231,11 @@ async function selectAppFromList(
 	applications: ApplicationWithDeviceTypeSlug[],
 ): Promise<ApplicationWithDeviceTypeSlug> {
 	const _ = await import('lodash');
-	const { selectFromList } = await import('../utils/patterns');
+	const { selectFromList } = await import('../utils/patterns.js');
 
 	// Present a list to the user which shows the fully qualified fleet
 	// name (user/fleetname) and allows them to select.
-	return selectFromList(
+	return await selectFromList(
 		'Select fleet',
 		_.map(applications, (app) => {
 			return { name: app.slug, ...app };
@@ -384,7 +384,7 @@ async function createApplication(
 	deviceType: string,
 	name?: string,
 ): Promise<ApplicationWithDeviceTypeSlug> {
-	const validation = await import('./validation');
+	const validation = await import('./validation.js');
 
 	let username: string;
 	try {
@@ -447,7 +447,7 @@ async function generateApplicationConfig(
 		appUpdatePollInterval?: number;
 	},
 ) {
-	const { generateApplicationConfig: configGen } = await import('./config');
+	const { generateApplicationConfig: configGen } = await import('./config.js');
 
 	const manifest = await sdk.models.config.getDeviceTypeManifestBySlug(
 		app.is_for__device_type[0].slug,

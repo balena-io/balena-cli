@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as request from 'request';
 import type * as Stream from 'stream';
 
-import { retry } from '../helpers';
-import Logger = require('../logger');
-import * as ApiErrors from './errors';
+import { retry } from '../helpers.js';
+import type Logger from '../logger.js';
+import * as ApiErrors from './errors.js';
 
 export interface DeviceResponse {
 	[key: string]: any;
@@ -227,7 +227,7 @@ export class DeviceAPI {
 	// A helper method for promisifying general (non-streaming) requests. Streaming
 	// requests should use a seperate setup
 	private static async promisifiedRequest<
-		T extends Parameters<typeof request>[0],
+		T extends Parameters<typeof request.default>[0],
 	>(opts: T, logger?: Logger): Promise<any> {
 		interface ObjectWithUrl {
 			url?: string;
@@ -250,7 +250,7 @@ export class DeviceAPI {
 
 		const doRequest = async () => {
 			return await new Promise((resolve, reject) => {
-				return request(opts, (err, response, body) => {
+				return request.default(opts, (err, response, body) => {
 					if (err) {
 						return reject(err);
 					}

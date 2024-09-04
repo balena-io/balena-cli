@@ -15,20 +15,22 @@
  * limitations under the License.
  */
 
-import * as settings from 'balena-settings-client';
+import settings from 'balena-settings-client';
 import { getStorage } from 'balena-settings-storage';
 import { expect } from 'chai';
-import mock = require('mock-require');
-import * as semver from 'semver';
-import * as sinon from 'sinon';
+import mock from 'mock-require';
+import semver from 'semver';
+import sinon from 'sinon';
 
-import * as packageJSON from '../package.json';
-import type { ReleaseTimestampsByVersion } from '../build/deprecation';
-import { DeprecationChecker } from '../build/deprecation';
-import { BalenaAPIMock } from './nock/balena-api-mock';
-import { NpmMock } from './nock/npm-mock';
-import type { TestOutput } from './helpers';
-import { runCommand } from './helpers';
+import type { ReleaseTimestampsByVersion } from '../build/deprecation.js';
+import { DeprecationChecker } from '../build/deprecation.js';
+import { BalenaAPIMock } from './nock/balena-api-mock.js';
+import { NpmMock } from './nock/npm-mock.js';
+import { getPackageJson } from '../build/utils/lazy.js';
+import type { TestOutput } from './helpers.js';
+import { runCommand } from './helpers.js';
+
+const packageJSON = getPackageJson();
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

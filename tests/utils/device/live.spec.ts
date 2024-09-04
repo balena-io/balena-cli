@@ -21,14 +21,16 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import { LivepushManager } from '../../../src/utils/device/live';
-import { resetDockerignoreCache } from '../../docker-build';
-import { setupDockerignoreTestData } from '../../projects';
+import { LivepushManager } from '../../../src/utils/device/live.js';
+import { resetDockerignoreCache } from '../../docker-build.js';
+import { setupDockerignoreTestData } from '../../projects.js';
 
 const delay = promisify(setTimeout);
 const FS_WATCH_DURATION_MS = 500;
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..', '..'));
+const repoPath = path.normalize(
+	path.join(import.meta.dirname, '..', '..', '..'),
+);
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 interface ByService<T> {
@@ -42,11 +44,11 @@ class MockLivepushManager extends LivepushManager {
 			composition: { version: '2.1', services: {} },
 			buildTasks: [],
 			docker: {} as import('dockerode'),
-			api: {} as import('../../../src/utils/device/api').DeviceAPI,
-			logger: {} as import('../../../src/utils/logger'),
+			api: {} as import('../../../src/utils/device/api.js').DeviceAPI,
+			logger: {} as import('../../../src/utils/logger.js').default,
 			imageIds: {},
 			deployOpts:
-				{} as import('../../../src/utils/device/deploy').DeviceDeployOptions,
+				{} as import('../../../src/utils/device/deploy.js').DeviceDeployOptions,
 		});
 	}
 
@@ -83,10 +85,10 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 		changedPathHandler: (serviceName: string, changedPath: string) => void,
 	): Promise<ByService<chokidar.FSWatcher>> {
 		const { getServiceDirsFromComposition } = await import(
-			'../../../build/utils/compose_ts'
+			'../../../build/utils/compose_ts.js'
 		);
 		const { getDockerignoreByService } = await import(
-			'../../../build/utils/ignore'
+			'../../../build/utils/ignore.js'
 		);
 		const rootContext = path.resolve(projectPath);
 

@@ -17,11 +17,11 @@
 
 import { expect } from 'chai';
 
-import type { DockerConnectionCliFlags } from '../../build/utils/docker';
+import type { DockerConnectionCliFlags } from '../../build/utils/docker.js';
 import {
 	generateConnectOpts,
 	getDefaultDockerModemOpts,
-} from '../../build/utils/docker';
+} from '../../build/utils/docker.js';
 
 const defaultSocketPath =
 	process.platform === 'win32'
@@ -122,7 +122,7 @@ describe('generateConnectOpts() function', function () {
 	it('should use the HTTPS protocol when ca/cert/key are used', async () => {
 		const path = await import('path');
 		const aFile = path.join(
-			__dirname,
+			import.meta.dirname,
 			'../test-data/projects/no-docker-compose/dockerignore1/a.txt',
 		);
 		const cliFlags: DockerConnectionCliFlags = {

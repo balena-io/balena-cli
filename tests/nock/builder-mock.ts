@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import Bluebird = require('bluebird');
+import Bluebird from 'bluebird';
 import * as path from 'path';
 import * as zlib from 'zlib';
 
-import { NockMock } from './nock-mock';
+import { NockMock } from './nock-mock.js';
 
 export const builderResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'builder-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'builder-response'),
 );
 
 export class BuilderMock extends NockMock {

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import { getVisuals } from './lazy';
+import { getVisuals } from './lazy.js';
 import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
-import type Logger = require('./logger');
+import type Logger from './logger.js';
 import type { Request } from 'request';
 
 const getBuilderPushEndpoint = function (
@@ -52,7 +52,7 @@ const bufferImage = function (
 	imageId: string,
 	bufferFile: string,
 ): Promise<NodeJS.ReadableStream & { length: number }> {
-	const streamUtils = require('./streams') as typeof import('./streams');
+	const streamUtils = require('./streams') as typeof import('./streams.js');
 
 	const image = docker.getImage(imageId);
 	const sizePromise = image.inspect().then((img) => img.Size);

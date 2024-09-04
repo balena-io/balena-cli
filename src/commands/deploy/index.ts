@@ -18,31 +18,31 @@
 import { Args, Flags } from '@oclif/core';
 import type { ImageDescriptor } from '@balena/compose/dist/parse';
 
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, getChalk, stripIndent } from '../../utils/lazy';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, getChalk, stripIndent } from '../../utils/lazy.js';
 import {
 	dockerignoreHelp,
 	registrySecretsHelp,
 	buildArgDeprecation,
-} from '../../utils/messages';
-import * as ca from '../../utils/common-args';
-import * as compose from '../../utils/compose';
+} from '../../utils/messages.js';
+import * as ca from '../../utils/common-args.js';
+import * as compose from '../../utils/compose.js';
 import type {
 	BuiltImage,
 	ComposeCliFlags,
 	ComposeOpts,
 	Release as ComposeReleaseInfo,
-} from '../../utils/compose-types';
-import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
+} from '../../utils/compose-types.js';
+import type { BuildOpts, DockerCliFlags } from '../../utils/docker.js';
 import {
 	applyReleaseTagKeysAndValues,
 	buildProject,
 	composeCliFlags,
 	isBuildConfig,
 	parseReleaseTagKeysAndValues,
-} from '../../utils/compose_ts';
-import { dockerCliFlags } from '../../utils/docker';
+} from '../../utils/compose_ts.js';
+import { dockerCliFlags } from '../../utils/docker.js';
 import type { ApplicationType, DeviceType, Release } from 'balena-sdk';
 
 interface ApplicationWithArch {
@@ -175,7 +175,7 @@ ${dockerignoreHelp}
 
 		const sdk = getBalenaSdk();
 		const { getRegistrySecrets, validateProjectDirectory } = await import(
-			'../../utils/compose_ts'
+			'../../utils/compose_ts.js'
 		);
 
 		const { releaseTagKeys, releaseTagValues } = parseReleaseTagKeysAndValues(
@@ -199,10 +199,10 @@ ${dockerignoreHelp}
 			(options as FlagsDef)['registry-secrets'] = registrySecrets;
 		}
 
-		const helpers = await import('../../utils/helpers');
+		const helpers = await import('../../utils/helpers.js');
 		const app = await helpers.getAppWithArch(fleet);
 
-		const dockerUtils = await import('../../utils/docker');
+		const dockerUtils = await import('../../utils/docker.js');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			dockerUtils.getDocker(options),
 			dockerUtils.generateBuildOpts(options as FlagsDef),
@@ -232,7 +232,7 @@ ${dockerignoreHelp}
 
 	async deployProject(
 		docker: import('dockerode'),
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger.js').default,
 		composeOpts: ComposeOpts,
 		opts: {
 			app: ApplicationWithArch; // the application instance to deploy to
@@ -250,7 +250,7 @@ ${dockerignoreHelp}
 		const doodles = await import('resin-doodles');
 		const sdk = getBalenaSdk();
 		const { deployProject: $deployProject, loadProject } = await import(
-			'../../utils/compose_ts'
+			'../../utils/compose_ts.js'
 		);
 
 		const appType = opts.app.application_type[0];
@@ -321,7 +321,7 @@ ${dockerignoreHelp}
 				builtImagesByService = _.keyBy(builtImages, 'serviceName');
 			}
 			const images: BuiltImage[] = project.descriptors.map(
-				(d) =>
+				(d: ImageDescriptor) =>
 					builtImagesByService[d.serviceName] ?? {
 						serviceName: d.serviceName,
 						name: (isBuildConfig(d.image) ? d.image.tag : d.image) || '',

@@ -19,16 +19,16 @@ import { Flags, Args } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import { promisify } from 'util';
-import * as _ from 'lodash';
-import Command from '../../command';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import _ from 'lodash';
+import Command from '../../command.js';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
 import {
 	applicationIdInfo,
 	devModeInfo,
 	secureBootInfo,
-} from '../../utils/messages';
+} from '../../utils/messages.js';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -100,7 +100,7 @@ export default class OsConfigureCmd extends Command {
 			description:
 				'ask advanced configuration questions (when in interactive mode)',
 		}),
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: cf.fleetExclusive(['device']),
 		config: Flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
@@ -122,14 +122,11 @@ export default class OsConfigureCmd extends Command {
 		}),
 		dev: cf.dev,
 		secureBoot: cf.secureBoot,
-		device: {
-			...cf.device,
-			exclusive: [
-				'fleet',
-				'provisioning-key-name',
-				'provisioning-key-expiry-date',
-			],
-		},
+		device: cf.deviceExclusive([
+			'fleet',
+			'provisioning-key-name',
+			'provisioning-key-expiry-date',
+		]),
 		'device-type': Flags.string({
 			description:
 				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
@@ -170,10 +167,10 @@ export default class OsConfigureCmd extends Command {
 		const devInit = await import('balena-device-init');
 		const { promises: fs } = await import('fs');
 		const { generateDeviceConfig, generateApplicationConfig } = await import(
-			'../../utils/config'
+			'../../utils/config.js'
 		);
-		const helpers = await import('../../utils/helpers');
-		const { getApplication } = await import('../../utils/sdk');
+		const helpers = await import('../../utils/helpers.js');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		let app: ApplicationWithDeviceTypeSlug | undefined;
 		let device;
@@ -205,13 +202,13 @@ export default class OsConfigureCmd extends Command {
 			deviceTypeSlug,
 		);
 
-		let configJson: import('../../utils/config').ImgConfig | undefined;
+		let configJson: import('../../utils/config.js').ImgConfig | undefined;
 		if (options.config) {
 			const rawConfig = await fs.readFile(options.config, 'utf8');
 			configJson = JSON.parse(rawConfig);
 		}
 
-		const { normalizeOsVersion } = await import('../../utils/normalization');
+		const { normalizeOsVersion } = await import('../../utils/normalization.js');
 		const osVersion = normalizeOsVersion(
 			options.version ||
 				(await getOsVersionFromImage(
@@ -221,11 +218,11 @@ export default class OsConfigureCmd extends Command {
 				)),
 		);
 
-		const { validateDevOptionAndWarn } = await import('../../utils/config');
+		const { validateDevOptionAndWarn } = await import('../../utils/config.js');
 		await validateDevOptionAndWarn(options.dev, osVersion);
 
 		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
+			'../../utils/config.js'
 		);
 		await validateSecureBootOptionAndWarn(
 			options.secureBoot,
@@ -363,7 +360,7 @@ async function checkDeviceTypeCompatibility(
 	},
 ) {
 	if (options['device-type']) {
-		const helpers = await import('../../utils/helpers');
+		const helpers = await import('../../utils/helpers.js');
 		if (
 			!(await helpers.areDeviceTypesCompatible(
 				app.is_for__device_type[0].slug,
@@ -394,7 +391,7 @@ async function checkDeviceTypeCompatibility(
 async function askQuestionsForDeviceType(
 	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 	options: FlagsDef,
-	configJson?: import('../../utils/config').ImgConfig,
+	configJson?: import('../../utils/config.js').ImgConfig,
 ): Promise<Answers> {
 	const answerSources: any[] = [
 		{
@@ -417,7 +414,7 @@ async function askQuestionsForDeviceType(
 			isGroup: true,
 		});
 		if (!_.isEmpty(advancedGroup)) {
-			const helpers = await import('../../utils/helpers');
+			const helpers = await import('../../utils/helpers.js');
 			answerSources.push(helpers.getGroupDefaults(advancedGroup));
 		}
 	}

@@ -55,6 +55,7 @@
  */
 
 import * as http from 'http';
+import httpProxy from 'http-proxy';
 
 const proxyServers: http.Server[] = [];
 
@@ -81,8 +82,6 @@ export async function createProxyServerOnce(): Promise<[number, number]> {
 }
 
 async function createProxyServer(): Promise<[number, number]> {
-	const httpProxy = require('http-proxy') as typeof import('http-proxy');
-
 	const interceptorPort = await createInterceptorServer();
 
 	const proxy = httpProxy.createProxyServer();

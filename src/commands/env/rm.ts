@@ -16,11 +16,11 @@
  */
 
 import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import Command from '../../command.js';
 
-import * as ec from '../../utils/env-common';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { parseAsInteger } from '../../utils/validation';
+import * as ec from '../../utils/env-common.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { parseAsInteger } from '../../utils/validation.js';
 
 export default class EnvRmCmd extends Command {
 	public static description = stripIndent`
@@ -71,7 +71,7 @@ export default class EnvRmCmd extends Command {
 
 		await Command.checkLoggedIn();
 
-		const { confirm } = await import('../../utils/patterns');
+		const { confirm } = await import('../../utils/patterns.js');
 		await confirm(
 			opt.yes || false,
 			'Are you sure you want to delete the environment variable?',

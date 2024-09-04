@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Args } from '@oclif/core';
-import { lowercaseIfSlug } from './normalization';
+import { lowercaseIfSlug } from './normalization.js';
 
 export const fleetRequired = Args.string({
 	description: 'fleet name or slug (preferred)',
