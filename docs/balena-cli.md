@@ -196,6 +196,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 - Devices
 
 	- [device deactivate &#60;uuid&#62;](#device-deactivate-uuid)
+	- [device download-update &#60;uuid(s)&#62;](#device-download-update-uuid-s)
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
 	- [device &#60;uuid&#62;](#device-uuid)
 	- [device init](#device-init)
@@ -1217,6 +1218,26 @@ the UUID of the device to be deactivated
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
+
+## device download-update &#60;uuid(s)&#62;
+
+
+
+Examples:
+
+	$ balena device download-update fd3a6a1,e573ad5
+
+### Arguments
+
+#### UUIDS
+
+comma-separated list (no blank spaces) of device UUIDs
+
+### Options
+
+#### -o, --output OUTPUT
+
+output path
 
 ## device identify &#60;uuid&#62;
 
