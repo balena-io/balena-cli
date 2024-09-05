@@ -19,7 +19,7 @@ import type { BalenaSDK } from 'balena-sdk';
 import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
 import { promises as fs } from 'fs';
-import jsyaml = require('js-yaml');
+import * as yaml from 'js-yaml';
 import * as _ from 'lodash';
 import * as path from 'path';
 import type {
@@ -180,7 +180,6 @@ async function mergeDevComposeOverlay(
 		interface ComposeObj {
 			services?: object;
 		}
-		const yaml = await import('js-yaml');
 		const loadObj = (inputStr: string): ComposeObj =>
 			(yaml.load(inputStr) || {}) as ComposeObj;
 		try {
@@ -659,7 +658,7 @@ async function loadBuildMetatada(
 		if (metadataPath.endsWith('json')) {
 			buildMetadata = JSON.parse(rawString);
 		} else {
-			buildMetadata = require('js-yaml').load(rawString);
+			buildMetadata = yaml.load(rawString) as MultiBuild.ParsedBalenaYml;
 		}
 	} catch (err) {
 		throw new ExpectedError(
@@ -944,7 +943,7 @@ async function parseRegistrySecrets(
 		const multiBuild = await import('@balena/compose/dist/multibuild');
 		const registrySecrets =
 			new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
-				isYaml ? require('js-yaml').load(raw) : JSON.parse(raw),
+				isYaml ? yaml.load(raw) : JSON.parse(raw),
 			);
 		multiBuild.addCanonicalDockerHubEntry(registrySecrets);
 		return registrySecrets;
@@ -1494,7 +1493,7 @@ async function getContractContent(
 
 	let asJson;
 	try {
-		asJson = jsyaml.load(fileContentAsString);
+		asJson = yaml.load(fileContentAsString);
 	} catch (err) {
 		throw new ExpectedError(
 			`Error parsing file "${filePath}":\n ${err.message}`,

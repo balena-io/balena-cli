@@ -16,7 +16,7 @@
  */
 
 import * as chai from 'chai';
-import chaiAsPromised = require('chai-as-promised');
+import * as chaiAsPromised from 'chai-as-promised';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';

@@ -1,15 +1,15 @@
 import * as Bluebird from 'bluebird';
 import { expect } from 'chai';
-import rewire = require('rewire');
 import * as sinon from 'sinon';
 import * as url from 'url';
 import { getBalenaSdk } from '../../build/utils/lazy';
 import tokens from './tokens';
 
-const utils = rewire('../../build/auth/utils');
 const balena = getBalenaSdk();
 
-describe('Utils:', function () {
+describe('Utils:', async function () {
+	const rewire = await import('rewire');
+	const utils = rewire('../../build/auth/utils');
 	describe('.getDashboardLoginURL()', function () {
 		it('should eventually be a valid url', () =>
 			utils
