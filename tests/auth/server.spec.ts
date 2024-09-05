@@ -20,7 +20,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as request from 'request';
+import got from 'got';
 import * as sinon from 'sinon';
 
 import { LoginServer } from '../../build/auth/server';
@@ -67,32 +67,22 @@ describe('Login server:', function () {
 		expectedStatusCode: number;
 		expectedToken: string;
 		urlPath?: string;
-		verb?: string;
+		verb?: 'get' | 'post';
 	}) {
 		opt.urlPath = opt.urlPath ?? addr.urlPath;
-		const post = opt.verb
-			? ((request as any)[opt.verb] as typeof request.post)
-			: request.post;
-		await new Promise<void>((resolve, reject) => {
-			post(
-				`http://${addr.host}:${addr.port}${opt.urlPath}`,
-				{
-					form: {
-						token: opt.expectedToken,
-					},
+		const request = opt.verb != null ? got[opt.verb] : got.post;
+		const res = await request(
+			`http://${addr.host}:${addr.port}${opt.urlPath}`,
+			{
+				form: {
+					token: opt.expectedToken,
 				},
-				function (error, response, body) {
-					try {
-						expect(error).to.not.exist;
-						expect(response.statusCode).to.equal(opt.expectedStatusCode);
-						expect(body).to.equal(opt.expectedBody);
-						resolve();
-					} catch (err) {
-						reject(err as Error);
-					}
-				},
-			);
-		});
+				throwHttpErrors: false,
+			},
+		);
+
+		expect(res.body).to.equal(opt.expectedBody);
+		expect(res.statusCode).to.equal(opt.expectedStatusCode);
 
 		try {
 			const token = await server.awaitForToken();
@@ -118,16 +108,6 @@ describe('Login server:', function () {
 			expectedToken: tokens.johndoe.token,
 			expectedErrorMsg: 'Unknown path or verb',
 			urlPath: '/foobarbaz',
-		});
-	});
-
-	it('should get 404 if not using the correct verb', async () => {
-		await testLogin({
-			expectedBody: 'Not found',
-			expectedStatusCode: 404,
-			expectedToken: tokens.johndoe.token,
-			expectedErrorMsg: 'Unknown path or verb',
-			verb: 'get',
 		});
 	});
 
