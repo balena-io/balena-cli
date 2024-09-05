@@ -1,4 +1,32 @@
 - commits:
+    - subject: Reduce use of CJS require() on automation files
+      hash: facc66e9f97d075610d4383efa92dceb5b4f7acf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Remove the use of CJS require() on test files
+      hash: 6efd24489ffa10dc616cd0224d4de889b2029709
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Remove not necessary 'import = require' syntax for js-yaml
+      hash: 0339160a0b625a3e05e6dcdd3c4c642599cbab4e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 19.0.3
+  title: ""
+  date: 2024-09-05T12:34:08.897Z
+- commits:
     - subject: Update devDependency patch-package to v8.0.0
       hash: 1640bd645774bf9b2021cd38b3e9b9550d859f00
       body: ""
