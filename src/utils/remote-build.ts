@@ -16,7 +16,6 @@ limitations under the License.
 import type { BalenaSDK } from 'balena-sdk';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
-import * as request from 'request';
 import type { RegistrySecrets } from '@balena/compose/dist/multibuild';
 import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
@@ -26,6 +25,8 @@ import { ExpectedError, SIGINTError } from '../errors';
 import { tarDirectory } from './compose_ts';
 import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
+import type { PlainResponse } from 'got';
+import type got from 'got';
 
 const globalLogger = Logger.getLogger();
 
@@ -119,7 +120,7 @@ export async function startRemoteBuild(
 		} catch (err) {
 			console.error(err.message);
 		} finally {
-			buildRequest.abort();
+			buildRequest.destroy();
 			const sigintErr = new SIGINTError('Build aborted on SIGINT signal');
 			sigintErr.code = 'SIGINT';
 			stream.emit('error', sigintErr);
@@ -343,25 +344,28 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
  *    event and (2) calling request.pipe():
  *    https://github.com/request/request/issues/887
  */
-function createRemoteBuildRequest(
+async function createRemoteBuildRequest(
 	build: RemoteBuild,
 	tarStream: Stream.Readable,
 	builderUrl: string,
 	onError: (error: Error) => void,
-): request.Request {
-	const zlib = require('zlib') as typeof import('zlib');
+) {
+	const { default: got } = await import('got');
+	const zlib = await import('zlib');
 	if (DEBUG_MODE) {
 		console.error(`[debug] Connecting to builder at ${builderUrl}`);
 	}
-	return request
-		.post({
-			url: builderUrl,
-			auth: { bearer: build.auth },
-			headers: { 'Content-Encoding': 'gzip' },
+	return got.stream
+		.post(builderUrl, {
+			headers: {
+				Authorization: `Bearer ${build.auth}`,
+				'Content-Encoding': 'gzip',
+			},
 			body: tarStream.pipe(zlib.createGzip({ level: 6 })),
+			throwHttpErrors: false,
 		})
 		.once('error', onError) // `.once` because the handler re-emits
-		.once('response', (response: request.RequestResponse) => {
+		.once('response', (response: PlainResponse) => {
 			if (response.statusCode >= 100 && response.statusCode < 400) {
 				if (DEBUG_MODE) {
 					console.error(
@@ -373,8 +377,8 @@ function createRemoteBuildRequest(
 					'Remote builder responded with HTTP error:',
 					`${response.statusCode} ${response.statusMessage}`,
 				];
-				if (response.body) {
-					msgArr.push(response.body);
+				if (response.rawBody) {
+					msgArr.push(response.rawBody.toString());
 				}
 				onError(new ExpectedError(msgArr.join('\n')));
 			}
@@ -383,7 +387,7 @@ function createRemoteBuildRequest(
 
 async function getRemoteBuildStream(
 	build: RemoteBuild,
-): Promise<[request.Request, Stream.Stream]> {
+): Promise<[ReturnType<typeof got.stream.post>, Stream.Stream]> {
 	const builderUrl = await getBuilderEndpoint(
 		build.baseUrl,
 		build.appSlug,
@@ -411,7 +415,7 @@ async function getRemoteBuildStream(
 	}
 
 	const tarStream = await getTarStream(build);
-	const buildRequest = createRemoteBuildRequest(
+	const buildRequest = await createRemoteBuildRequest(
 		build,
 		tarStream,
 		builderUrl,
