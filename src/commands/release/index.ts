@@ -20,7 +20,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import type * as BalenaSdk from 'balena-sdk';
-import jsyaml = require('js-yaml');
+import * as yaml from 'js-yaml';
 import { tryAsInteger } from '../../utils/validation';
 import { jsonInfo } from '../../utils/messages';
 
@@ -82,7 +82,7 @@ export default class ReleaseCmd extends Command {
 			$select: 'composition',
 		});
 
-		console.log(jsyaml.dump(release.composition));
+		console.log(yaml.dump(release.composition));
 	}
 
 	async showReleaseInfo(

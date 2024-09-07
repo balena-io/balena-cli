@@ -17,6 +17,8 @@
 
 import { spawn } from 'child_process';
 import * as path from 'path';
+import * as fs from 'fs';
+import { diffTrimmedLines } from 'diff';
 
 export const ROOT = path.join(__dirname, '..');
 
@@ -64,7 +66,6 @@ export class StdOutTap {
  * https://www.npmjs.com/package/diff
  */
 export function diffLines(str1: string, str2: string): string {
-	const { diffTrimmedLines } = require('diff');
 	const diffObjs = diffTrimmedLines(str1, str2);
 	const prefix = (chunk: string, char: string) =>
 		chunk
@@ -84,7 +85,10 @@ export function diffLines(str1: string, str2: string): string {
 }
 
 export function loadPackageJson() {
-	return require(path.join(ROOT, 'package.json'));
+	const packageJsonPath = path.join(ROOT, 'package.json');
+
+	const packageJson = fs.readFileSync(packageJsonPath, 'utf8');
+	return JSON.parse(packageJson);
 }
 
 /**

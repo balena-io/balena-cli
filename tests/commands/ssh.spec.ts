@@ -16,7 +16,7 @@
  */
 
 import { expect } from 'chai';
-import mock = require('mock-require');
+import * as mock from 'mock-require';
 import type { Server } from 'net';
 import { createServer } from 'net';
 
