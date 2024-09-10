@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update apple-actions/import-codesign-certs action to v2
+      hash: 9242a3493af4c518c4d1328f19ddf2d95c182af7
+      body: |
+        Update apple-actions/import-codesign-certs from 1 to 2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.0.5
+  title: ""
+  date: 2024-09-10T15:13:23.938Z
+- commits:
     - subject: Update TypeScript to 5.6.2
       hash: 5f92bbc846fe93cc03ebe7717baafe24f17d4e0d
       body: ""
