@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update TypeScript to 5.6.2
+      hash: 5f92bbc846fe93cc03ebe7717baafe24f17d4e0d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 19.0.4
+  title: ""
+  date: 2024-09-10T14:44:39.949Z
+- commits:
     - subject: Reduce use of CJS require() on automation files
       hash: facc66e9f97d075610d4383efa92dceb5b4f7acf
       body: ""
