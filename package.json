@@ -189,7 +189,7 @@
     "simple-git": "^3.14.1",
     "sinon": "^18.0.0",
     "ts-node": "^10.4.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.6.2"
   },
   "dependencies": {
     "@balena/compose": "^4.0.1",
