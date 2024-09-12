@@ -15,7 +15,6 @@
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^4.0.8",
-        "@resin.io/valid-email": "^0.1.0",
         "@sentry/node": "^6.16.1",
         "balena-config-json": "^4.2.0",
         "balena-device-init": "^7.0.1",
@@ -2561,14 +2560,6 @@
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/@resin.io/types-home-or-tmp/-/types-home-or-tmp-3.0.0.tgz",
       "integrity": "sha1-PsiRM0Nv7msb7jkC8fluJgXXnU0="
-    },
-    "node_modules/@resin.io/valid-email": {
-      "version": "0.1.0",
-      "resolved": "https://registry.npmjs.org/@resin.io/valid-email/-/valid-email-0.1.0.tgz",
-      "integrity": "sha1-DnUwmoQ8AUqAqhSC+WmQYvL6UV0=",
-      "engines": {
-        "node": ">=0.8.0"
-      }
     },
     "node_modules/@ronomon/direct-io": {
       "version": "3.0.1",

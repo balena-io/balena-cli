@@ -13,9 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-import validEmail = require('@resin.io/valid-email');
 import { ExpectedError } from '../errors';
+
+// Sufficiently good email regex in order not to bring in another dependency.
+const isValidEmail = (email: string): boolean => {
+	return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
 
 const APPNAME_REGEX = new RegExp(/^[a-zA-Z0-9_-]+$/);
 // An regex to detect an IP address, from https://www.regular-expressions.info/ip.html
@@ -26,7 +29,7 @@ const DOTLOCAL_REGEX = new RegExp(/^([a-zA-Z0-9-]+\.)+local$/);
 const UUID_REGEX = new RegExp(/^[0-9a-f]+$/);
 
 export function validateEmail(input: string) {
-	if (!validEmail(input)) {
+	if (!isValidEmail(input)) {
 		return 'Email is not valid';
 	}
 
