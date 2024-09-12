@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node digest to 1e60f62
+      hash: 314e8800d0c6dfeade2140125cb3dd996713713e
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.0.7
+  title: ""
+  date: 2024-09-12T14:13:18.381Z
+- commits:
     - subject: Remove moment and moment-duration-format in favor of native time parsing
       hash: 707b249e972a6943d75014f487285c0dd8085b15
       body: ""
