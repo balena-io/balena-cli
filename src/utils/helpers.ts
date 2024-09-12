@@ -410,7 +410,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 		if (proxyUrl) {
 			const { URL } = require('url') as typeof import('url');
-			let url: URL;
+			let url: InstanceType<typeof URL>;
 			try {
 				url = new URL(proxyUrl);
 			} catch (_e) {
