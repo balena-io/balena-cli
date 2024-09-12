@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove package `@resin.io/valid-email`
+      hash: a2b4f76c94e7fda3f122adf721e0a12d9a0e9164
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.10
+  title: ""
+  date: 2024-09-12T23:00:13.119Z
+- commits:
     - subject: Update actions/download-artifact action to v4.1.8
       hash: 58f480ad7c097952b3ff4e0a5daebc163f2ce7c1
       body: |
