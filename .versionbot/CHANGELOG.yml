@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove moment and moment-duration-format in favor of native time parsing
+      hash: 707b249e972a6943d75014f487285c0dd8085b15
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 19.0.6
+  title: ""
+  date: 2024-09-12T13:47:25.357Z
+- commits:
     - subject: Update apple-actions/import-codesign-certs action to v2
       hash: 9242a3493af4c518c4d1328f19ddf2d95c182af7
       body: |
