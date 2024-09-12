@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/download-artifact action to v4.1.8
+      hash: 58f480ad7c097952b3ff4e0a5daebc163f2ce7c1
+      body: |
+        Update actions/download-artifact from 4.1.7 to 4.1.8
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.0.9
+  title: ""
+  date: 2024-09-12T16:12:08.049Z
+- commits:
     - subject: Update actions/upload-artifact digest to 5076954
       hash: e101e0f46663585d2999c1bd59c5335a2d012ae4
       body: |
