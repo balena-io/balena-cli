@@ -26,6 +26,8 @@ import { ExpectedError } from '../../errors';
 
 export default class ReleaseImportCmd extends Command {
 	public static description = stripIndent`
+		Imports a release from a file to an app or fleet.
+
 		Imports a release from a file to an app or fleet. The revision field of the release
 		is automatically omitted when importing a release. The backend will auto-increment
 		the revision field of the imported release if a release exists with the same semver.

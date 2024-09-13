@@ -1,10 +1,12 @@
+import * as os from 'node:os';
+import * as path from 'node:path';
 import * as stream from 'node:stream';
 import { cleanOutput, runCommand } from '../../helpers';
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { expect } from 'chai';
 import * as mock from 'mock-require';
 import * as sinon from 'sinon';
-import { promises as fs } from 'fs';
+import { promises as fs } from 'node:fs';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
@@ -13,14 +15,17 @@ describe('balena release export', function () {
 	const appCommit = 'badc0ffe';
 	const appSlug = 'testOrg/testApp';
 	const appVersion = '1.2.3+rev1';
-	const outputPath = '/tmp/release.tar';
+	const tmpDir = os.tmpdir();
+	const outputPath = path.resolve(tmpDir, 'release.tar');
 	let api: BalenaAPIMock;
 	let releaseFileBuffer: Buffer;
 	const releaseBundleCreateStub = sinon.stub();
 
 	this.beforeEach(async function () {
 		api = new BalenaAPIMock();
-		releaseFileBuffer = await fs.readFile('./tests/test-data/release.tar');
+		releaseFileBuffer = await fs.readFile(
+			path.join('tests', 'test-data', 'release.tar'),
+		);
 		mock('@balena/release-bundle', {
 			create: releaseBundleCreateStub,
 		});

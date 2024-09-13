@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { commitOrIdArg } from '.';
-import { Flags } from '@oclif/core';
+import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -29,7 +28,7 @@ export default class ReleaseExportCmd extends Command {
 	public static description = stripIndent`
 		Exports a release into a file.
 
-        Exporting a release to a file allows you to import an exact 
+		Exports a release to a file that you can use to import an exact 
 		copy of the original release into another app.
 
 		If the SemVer of a release is provided using the --version option,
@@ -42,7 +41,7 @@ export default class ReleaseExportCmd extends Command {
 		'$ balena release export myOrg/myFleet --version 1.2.3 -o ../path/to/release.tar',
 	];
 
-	public static usage = 'release export <commitOrId>';
+	public static usage = 'release export <commitOrFleet>';
 
 	public static flags = {
 		output: Flags.string({
@@ -57,8 +56,9 @@ export default class ReleaseExportCmd extends Command {
 	};
 
 	public static args = {
-		commitOrId: commitOrIdArg({
-			description: 'commit, ID, or version of the release to export',
+		commitOrFleet: Args.string({
+			description:
+				'release commit or fleet if used in conjunction with the --version option',
 			required: true,
 		}),
 	};
@@ -76,21 +76,17 @@ export default class ReleaseExportCmd extends Command {
 				| string
 				| number
 				| { application: string | number; rawVersion: string }; // ReleaseRawVersionApplicationPair
-			if (typeof options.version === 'string') {
+			if (options.version != null) {
 				versionInfo = ` version ${options.version}`;
-				const application = params.commitOrId;
+				const application = params.commitOrFleet;
 				const parsedVersion = semver.parse(options.version);
 				if (parsedVersion == null) {
 					throw new ExpectedError(`version must be valid SemVer`);
 				} else {
-					const rawVersion =
-						parsedVersion.build.length === 0
-							? parsedVersion.version
-							: `${parsedVersion.version}+${parsedVersion.build[0]}`;
-					releaseDetails = { application, rawVersion };
+					releaseDetails = { application, rawVersion: parsedVersion.raw };
 				}
 			} else {
-				releaseDetails = params.commitOrId;
+				releaseDetails = params.commitOrFleet;
 			}
 
 			const release = await balena.models.release.get(releaseDetails, {
@@ -102,11 +98,11 @@ export default class ReleaseExportCmd extends Command {
 			});
 			await fs.writeFile(options.output, releaseBundle);
 			console.log(
-				`Release ${params.commitOrId}${versionInfo} has been exported to ${options.output}.`,
+				`Release ${params.commitOrFleet}${versionInfo} has been exported to ${options.output}.`,
 			);
 		} catch (error) {
 			throw new ExpectedError(
-				`Release ${params.commitOrId}${versionInfo} could not be exported: ${error.message}`,
+				`Release ${params.commitOrFleet}${versionInfo} could not be exported: ${error.message}`,
 			);
 		}
 	}

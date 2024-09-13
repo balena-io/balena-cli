@@ -282,7 +282,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Releases
 
-	- [release export &#60;commitorid&#62;](#release-export-commitorid)
+	- [release export &#60;commitorfleet&#62;](#release-export-commitorfleet)
 	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
 	- [release import &#60;file&#62; &#60;fleet&#62;](#release-import-file-fleet)
 	- [release &#60;commitorid&#62;](#release-commitorid)
@@ -3347,9 +3347,9 @@ The notes for this release
 
 # Releases
 
-## release export &#60;commitOrId&#62;
+## release export &#60;commitOrFleet&#62;
 
-Exporting a release to a file allows you to import an exact 
+Exports a release to a file that you can use to import an exact 
 copy of the original release into another app.
 
 If the SemVer of a release is provided using the --version option,
@@ -3364,9 +3364,9 @@ Examples:
 
 ### Arguments
 
-#### COMMITORID
+#### COMMITORFLEET
 
-commit, ID, or version of the release to export
+release commit or fleet if used in conjunction with the --version option
 
 ### Options
 
@@ -3406,6 +3406,7 @@ the commit or ID of the release to finalize
 
 ## release import &#60;file&#62; &#60;fleet&#62;
 
+Imports a release from a file to an app or fleet. The revision field of the release
 is automatically omitted when importing a release. The backend will auto-increment
 the revision field of the imported release if a release exists with the same semver.
 A release will not be imported if a successful release with the same commit already

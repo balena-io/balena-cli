@@ -3,6 +3,7 @@ import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { expect } from 'chai';
 import * as mock from 'mock-require';
 import * as sinon from 'sinon';
+import * as path from 'node:path';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
@@ -11,7 +12,7 @@ describe('balena release import', function () {
 	const appCommit = '4c8becf0780ca69d33b638ea8fa163d7';
 	const appSlug = 'myOrg/myFleet';
 	// const appVersion = '1.2.3+rev1';
-	const releasePath = './tests/test-data/release.tar';
+	const releasePath = path.join('tests', 'test-data', 'release.tar');
 	let api: BalenaAPIMock;
 	const releaseBundleApplyStub = sinon.stub();
 
@@ -65,7 +66,11 @@ describe('balena release import', function () {
 
 	it('should fail if release file does not exist', async () => {
 		api.expectGetWhoAmI();
-		const nonExistentFile = './tests/test-data/non-existent-file.tar';
+		const nonExistentFile = path.join(
+			'tests',
+			'test-data',
+			'non-existent-file.tar',
+		);
 
 		const { out, err } = await runCommand(
 			`release import ${nonExistentFile} ${appSlug}`,
