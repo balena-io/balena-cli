@@ -282,9 +282,9 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Releases
 
-	- [release export &#60;commitorfleet&#62;](#release-export-commitorfleet)
+	- [release export &#60;commitorapplication&#62;](#release-export-commitorapplication)
 	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
-	- [release import &#60;file&#62; &#60;fleet&#62;](#release-import-file-fleet)
+	- [release import &#60;file&#62; &#60;applicapplication&#62;](#release-import-file-applicapplication)
 	- [release &#60;commitorid&#62;](#release-commitorid)
 	- [release invalidate &#60;commitorid&#62;](#release-invalidate-commitorid)
 	- [release validate &#60;commitorid&#62;](#release-validate-commitorid)
@@ -3347,27 +3347,29 @@ The notes for this release
 
 # Releases
 
-## release export &#60;commitOrFleet&#62;
+## release export &#60;commitOrApplication&#62;
 
 Exports a release to a file that you can use to import an exact 
-copy of the original release into another app.
+copy of the original release into another app, block, or fleet.
 
 If the SemVer of a release is provided using the --version option,
-the first argument is assumed to be the fleet's slug.
+the first argument is assumed to be the app's slug.
 
 Only successful releases can be exported.
+
+To import a release to an app, block, or fleet, use 'balena release import'.
 
 Examples:
 
 	$ balena release export a777f7345fe3d655c1c981aa642e5555 -o ../path/to/release.tar
 	$ balena release export myOrg/myFleet --version 1.2.3 -o ../path/to/release.tar
-	$ balena release export myFleet --version 1.2.3 -o ../path/to/release.tar
+	$ balena release export myApp --version 1.2.3 -o ../path/to/release.tar
 
 ### Arguments
 
-#### COMMITORFLEET
+#### COMMITORAPPLICATION
 
-release commit or fleet if used in conjunction with the --version option
+release commit or app if used in conjunction with the --version option
 
 ### Options
 
@@ -3377,7 +3379,7 @@ output path
 
 #### --version VERSION
 
-version of the release to export from the specified fleet
+version of the release to export from the specified app, block, or fleet
 
 ## release finalize &#60;commitOrId&#62;
 
@@ -3405,22 +3407,22 @@ the commit or ID of the release to finalize
 
 ### Options
 
-## release import &#60;file&#62; &#60;fleet&#62;
+## release import &#60;file&#62; &#60;applicapplication&#62;
 
-Imports a release from a file to an app or fleet. The revision field of the release
-is automatically omitted when importing a release. The backend will auto-increment
-the revision field of the imported release if a release exists with the same semver.
-A release will not be imported if a successful release with the same commit already
-exists.
-
-To export a release to a file, use 'balena release export'.
+Imports a release from a file to an app, block, or fleet. The revision field of the
+release is automatically omitted when importing a release. The balena API will
+auto-increment the revision field of the imported release if a release exists with
+the same semver. A release will not be imported if a successful release with the
+same commit already exists.
 
 Use the --override-version option to specify the version 
 of the imported release, overriding the one saved in the file.
 
+To export a release to a file, use 'balena release export'.
+
 Examples:
 
-	$ balena release import ../path/to/release.tar myFleet
+	$ balena release import ../path/to/release.tar myApp
 	$ balena release import ../path/to/release.tar myOrg/myFleet
 	$ balena release import ../path/to/release.tar myOrg/myFleet --override-version 1.2.3
 
@@ -3430,9 +3432,9 @@ Examples:
 
 path to a file, e.g. "./release.tar"
 
-#### FLEET
+#### APPLICATION
 
-fleet that the release will be imported to, e.g. "myOrg/myFleet"
+app, block, or fleet that the release will be imported to, e.g. "myOrg/myFleet"
 
 ### Options
 

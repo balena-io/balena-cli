@@ -11,13 +11,13 @@ const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 describe('balena release import', function () {
 	const appCommit = '4c8becf0780ca69d33b638ea8fa163d7';
 	const appSlug = 'myOrg/myFleet';
-	// const appVersion = '1.2.3+rev1';
 	const releasePath = path.join('tests', 'test-data', 'release.tar');
 	let api: BalenaAPIMock;
 	const releaseBundleApplyStub = sinon.stub();
 
 	this.beforeEach(async function () {
 		api = new BalenaAPIMock();
+		api.expectGetWhoAmI();
 		mock('@balena/release-bundle', {
 			apply: releaseBundleApplyStub,
 		});
@@ -30,7 +30,6 @@ describe('balena release import', function () {
 	});
 
 	itSS('should import a release to an app', async () => {
-		api.expectGetWhoAmI();
 		api.expectGetApplication();
 		releaseBundleApplyStub.resolves(123);
 
@@ -48,7 +47,6 @@ describe('balena release import', function () {
 	itSS(
 		'should import a release to an app with a version override',
 		async () => {
-			api.expectGetWhoAmI();
 			api.expectGetApplication();
 			releaseBundleApplyStub.resolves(123);
 
@@ -65,7 +63,6 @@ describe('balena release import', function () {
 	);
 
 	it('should fail if release file does not exist', async () => {
-		api.expectGetWhoAmI();
 		const nonExistentFile = path.join(
 			'tests',
 			'test-data',
@@ -83,7 +80,6 @@ describe('balena release import', function () {
 	});
 
 	itSS('should fail if overriding version is not a valid semver', async () => {
-		api.expectGetWhoAmI();
 		api.expectGetApplication();
 		const expectedError = `Manifest is malformed: Expected version to be a valid semantic version but found '${appCommit}'`;
 		releaseBundleApplyStub.rejects(new Error(expectedError));
@@ -100,7 +96,6 @@ describe('balena release import', function () {
 	itSS(
 		'should fail if a successful release with the same commit already exists',
 		async () => {
-			api.expectGetWhoAmI();
 			api.expectGetApplication();
 			const expectedError = `A successful release with commit ${appCommit} (1.2.3) already exists; nothing to do`;
 			releaseBundleApplyStub.rejects(new Error(expectedError));

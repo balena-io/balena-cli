@@ -23,6 +23,7 @@ describe('balena release export', function () {
 
 	this.beforeEach(async function () {
 		api = new BalenaAPIMock();
+		api.expectGetWhoAmI();
 		releaseFileBuffer = await fs.readFile(
 			path.join('tests', 'test-data', 'release.tar'),
 		);
@@ -38,7 +39,6 @@ describe('balena release export', function () {
 	});
 
 	itSS('should export a release to a file', async () => {
-		api.expectGetWhoAmI();
 		api.expectGetRelease();
 		releaseBundleCreateStub.resolves(stream.Readable.from(releaseFileBuffer));
 
@@ -54,7 +54,6 @@ describe('balena release export', function () {
 	});
 
 	itSS('should fail if the create throws an error', async () => {
-		api.expectGetWhoAmI();
 		api.expectGetRelease();
 		const expectedError = `BalenaReleaseNotFound: Release not found: ${appCommit}`;
 		releaseBundleCreateStub.rejects(new Error(expectedError));
@@ -69,7 +68,6 @@ describe('balena release export', function () {
 	});
 
 	itSS('should parse with application slug and version', async () => {
-		api.expectGetWhoAmI();
 		api.expectGetRelease();
 		api.expectGetApplication({ times: 2 });
 		releaseBundleCreateStub.resolves(stream.Readable.from(releaseFileBuffer));
@@ -86,7 +84,6 @@ describe('balena release export', function () {
 	});
 
 	it('should fail if the app slug is provided without the release version', async () => {
-		api.expectGetWhoAmI();
 		api.expectGetRelease({ notFound: true });
 		const expectedError = `Release not found: ${appSlug}`;
 
@@ -100,7 +97,6 @@ describe('balena release export', function () {
 	});
 
 	it('should fail if the semver is invalid', async () => {
-		api.expectGetWhoAmI();
 		const expectedError = 'version must be valid SemVer';
 
 		const { err } = await runCommand(

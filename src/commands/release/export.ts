@@ -29,20 +29,22 @@ export default class ReleaseExportCmd extends Command {
 		Exports a release into a file.
 
 		Exports a release to a file that you can use to import an exact 
-		copy of the original release into another app.
+		copy of the original release into another app, block, or fleet.
 
 		If the SemVer of a release is provided using the --version option,
-		the first argument is assumed to be the fleet's slug.
+		the first argument is assumed to be the app's slug.
 
 		Only successful releases can be exported.
+
+		To import a release to an app, block, or fleet, use 'balena release import'.
 `;
 	public static examples = [
 		'$ balena release export a777f7345fe3d655c1c981aa642e5555 -o ../path/to/release.tar',
 		'$ balena release export myOrg/myFleet --version 1.2.3 -o ../path/to/release.tar',
-		'$ balena release export myFleet --version 1.2.3 -o ../path/to/release.tar',
+		'$ balena release export myApp --version 1.2.3 -o ../path/to/release.tar',
 	];
 
-	public static usage = 'release export <commitOrFleet>';
+	public static usage = 'release export <commitOrApplication>';
 
 	public static flags = {
 		output: Flags.string({
@@ -51,15 +53,16 @@ export default class ReleaseExportCmd extends Command {
 			required: true,
 		}),
 		version: Flags.string({
-			description: 'version of the release to export from the specified fleet',
+			description:
+				'version of the release to export from the specified app, block, or fleet',
 		}),
 		help: cf.help,
 	};
 
 	public static args = {
-		commitOrFleet: Args.string({
+		commitOrApplication: Args.string({
 			description:
-				'release commit or fleet if used in conjunction with the --version option',
+				'release commit or app if used in conjunction with the --version option',
 			required: true,
 		}),
 	};
@@ -69,44 +72,46 @@ export default class ReleaseExportCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ReleaseExportCmd);
 
-		const balena = getBalenaSdk();
-
 		let versionInfo = '';
+
 		try {
-			let releaseDetails:
-				| string
-				| number
-				| { application: string | number; rawVersion: string }; // ReleaseRawVersionApplicationPair
+			const balena = getBalenaSdk();
+
+			let releaseDetails: string | { application: number; rawVersion: string }; // ReleaseRawVersionApplicationPair
+
 			if (options.version != null) {
 				versionInfo = ` version ${options.version}`;
 				const parsedVersion = semver.parse(options.version);
 				if (parsedVersion == null) {
 					throw new ExpectedError(`version must be valid SemVer`);
-				} else {
-					const { getApplication } = await import('../../utils/sdk');
-					const application = (
-						await getApplication(balena, params.commitOrFleet)
-					).id;
-					releaseDetails = { application, rawVersion: parsedVersion.raw };
 				}
+				const { getApplication } = await import('../../utils/sdk');
+				const { id: application } = await getApplication(
+					balena,
+					params.commitOrApplication,
+				);
+				releaseDetails = { application, rawVersion: parsedVersion.raw };
 			} else {
-				releaseDetails = params.commitOrFleet;
+				releaseDetails = params.commitOrApplication;
 			}
 
-			const release = await balena.models.release.get(releaseDetails, {
-				$select: ['id'],
-			});
+			const { id: releaseId } = await balena.models.release.get(
+				releaseDetails,
+				{
+					$select: ['id'],
+				},
+			);
 			const releaseBundle = await create({
 				sdk: balena,
-				releaseId: release.id,
+				releaseId,
 			});
 			await fs.writeFile(options.output, releaseBundle);
 			console.log(
-				`Release ${params.commitOrFleet}${versionInfo} has been exported to ${options.output}.`,
+				`Release ${params.commitOrApplication}${versionInfo} has been exported to ${options.output}.`,
 			);
 		} catch (error) {
 			throw new ExpectedError(
-				`Release ${params.commitOrFleet}${versionInfo} could not be exported: ${error.message}`,
+				`Release ${params.commitOrApplication}${versionInfo} could not be exported: ${error.message}`,
 			);
 		}
 	}

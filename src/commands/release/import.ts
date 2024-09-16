@@ -26,26 +26,26 @@ import { ExpectedError } from '../../errors';
 
 export default class ReleaseImportCmd extends Command {
 	public static description = stripIndent`
-		Imports a release from a file to an app or fleet.
+		Imports a release from a file to an app, block, or fleet.
 
-		Imports a release from a file to an app or fleet. The revision field of the release
-		is automatically omitted when importing a release. The backend will auto-increment
-		the revision field of the imported release if a release exists with the same semver.
-		A release will not be imported if a successful release with the same commit already
-		exists.
-
-		To export a release to a file, use 'balena release export'.
+		Imports a release from a file to an app, block, or fleet. The revision field of the
+		release is automatically omitted when importing a release. The balena API will
+		auto-increment the revision field of the imported release if a release exists with
+		the same semver. A release will not be imported if a successful release with the
+		same commit already exists.
 
 		Use the --override-version option to specify the version 
 		of the imported release, overriding the one saved in the file.
+
+		To export a release to a file, use 'balena release export'.
 `;
 	public static examples = [
-		'$ balena release import ../path/to/release.tar myFleet',
+		'$ balena release import ../path/to/release.tar myApp',
 		'$ balena release import ../path/to/release.tar myOrg/myFleet',
 		'$ balena release import ../path/to/release.tar myOrg/myFleet --override-version 1.2.3',
 	];
 
-	public static usage = 'release import <file> <fleet>';
+	public static usage = 'release import <file> <applicapplication>';
 
 	public static flags = {
 		'override-version': Flags.string({
@@ -61,10 +61,10 @@ export default class ReleaseImportCmd extends Command {
 			required: true,
 			description: 'path to a file, e.g. "./release.tar"',
 		}),
-		fleet: Args.string({
+		application: Args.string({
 			required: true,
 			description:
-				'fleet that the release will be imported to, e.g. "myOrg/myFleet"',
+				'app, block, or fleet that the release will be imported to, e.g. "myOrg/myFleet"',
 		}),
 	};
 
@@ -73,23 +73,24 @@ export default class ReleaseImportCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ReleaseImportCmd);
 
-		const balena = getBalenaSdk();
-
-		let bundle: ReadStream;
 		try {
+			const balena = getBalenaSdk();
+
+			let bundle: ReadStream;
 			try {
 				const fileHandle = await fs.open(params.bundle);
 				bundle = fileHandle.createReadStream();
 			} catch (error) {
-				throw new ExpectedError(
-					`${params.bundle} does not exist or is not accessible`,
-				);
+				throw new Error(`${params.bundle} does not exist or is not accessible`);
 			}
 
 			const { getApplication } = await import('../../utils/sdk');
-			const application = (await getApplication(balena, params.fleet)).id;
+			const { id: application } = await getApplication(
+				balena,
+				params.application,
+			);
 			if (application == null) {
-				throw new ExpectedError(`Fleet ${params.fleet} not found`);
+				throw new ExpectedError(`Fleet ${params.application} not found`);
 			}
 			await apply({
 				sdk: balena,
@@ -98,11 +99,11 @@ export default class ReleaseImportCmd extends Command {
 				version: options['override-version'],
 			});
 			console.log(
-				`Release bundle ${params.bundle} has been imported to ${params.fleet}.`,
+				`Release bundle ${params.bundle} has been imported to ${params.application}.`,
 			);
 		} catch (error) {
 			throw new ExpectedError(
-				`Could not import release bundle ${params.bundle} to ${params.fleet}: ${error.message}`,
+				`Could not import release bundle ${params.bundle} to ${params.application}: ${error.message}`,
 			);
 		}
 	}
