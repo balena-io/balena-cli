@@ -86,15 +86,14 @@ export default class ReleaseImportCmd extends Command {
 				);
 			}
 
-			const application = await balena.models.application.get(params.fleet, {
-				$select: ['id'],
-			});
+			const { getApplication } = await import('../../utils/sdk');
+			const application = (await getApplication(balena, params.fleet)).id;
 			if (application == null) {
 				throw new ExpectedError(`Fleet ${params.fleet} not found`);
 			}
 			await apply({
 				sdk: balena,
-				application: application.id,
+				application,
 				stream: bundle,
 				version: options['override-version'],
 			});
