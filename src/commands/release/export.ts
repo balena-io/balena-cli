@@ -39,6 +39,7 @@ export default class ReleaseExportCmd extends Command {
 	public static examples = [
 		'$ balena release export a777f7345fe3d655c1c981aa642e5555 -o ../path/to/release.tar',
 		'$ balena release export myOrg/myFleet --version 1.2.3 -o ../path/to/release.tar',
+		'$ balena release export myFleet --version 1.2.3 -o ../path/to/release.tar',
 	];
 
 	public static usage = 'release export <commitOrFleet>';
@@ -78,11 +79,14 @@ export default class ReleaseExportCmd extends Command {
 				| { application: string | number; rawVersion: string }; // ReleaseRawVersionApplicationPair
 			if (options.version != null) {
 				versionInfo = ` version ${options.version}`;
-				const application = params.commitOrFleet;
 				const parsedVersion = semver.parse(options.version);
 				if (parsedVersion == null) {
 					throw new ExpectedError(`version must be valid SemVer`);
 				} else {
+					const { getApplication } = await import('../../utils/sdk');
+					const application = (
+						await getApplication(balena, params.commitOrFleet)
+					).id;
 					releaseDetails = { application, rawVersion: parsedVersion.raw };
 				}
 			} else {

@@ -3361,6 +3361,7 @@ Examples:
 
 	$ balena release export a777f7345fe3d655c1c981aa642e5555 -o ../path/to/release.tar
 	$ balena release export myOrg/myFleet --version 1.2.3 -o ../path/to/release.tar
+	$ balena release export myFleet --version 1.2.3 -o ../path/to/release.tar
 
 ### Arguments
 

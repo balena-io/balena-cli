@@ -71,7 +71,7 @@ describe('balena release export', function () {
 	itSS('should parse with application slug and version', async () => {
 		api.expectGetWhoAmI();
 		api.expectGetRelease();
-		api.expectGetApplication();
+		api.expectGetApplication({ times: 2 });
 		releaseBundleCreateStub.resolves(stream.Readable.from(releaseFileBuffer));
 
 		const { out, err } = await runCommand(
