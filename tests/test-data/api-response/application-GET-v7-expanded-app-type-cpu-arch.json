@@ -6,8 +6,7 @@
 					"name": "Starter",
 					"slug": "microservices-starter",
 					"supports_multicontainer": true,
-					"is_legacy": true,
-					"__metadata": {}
+					"is_legacy": true
 				}
 			],
 			"id": 1301645,
@@ -44,10 +43,7 @@
 			"should_track_latest_release": true,
 			"is_accessible_by_support_until__date": null,
 			"is_public": false,
-			"is_host": false,
-			"__metadata": {
-				"uri": "/resin/application(@id)?@id=1301645"
-			}
+			"is_host": false
 		}
 	]
 }

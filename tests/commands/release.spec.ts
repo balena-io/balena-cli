@@ -85,6 +85,5 @@ describe('balena release', function () {
 		expect(json[0].contains__image[0].image[0].start_timestamp).to.equal(
 			'2020-01-04T01:13:08.583Z',
 		);
-		expect(json[0].__metadata.uri).to.equal('/resin/release(@id)?@id=142334');
 	});
 });

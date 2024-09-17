@@ -8,8 +8,5 @@
 		"__id": 1774668
 	},
 	"label_name": "io.resin.features.firmware",
-	"value": "1",
-	"__metadata": {
-		"uri": "/resin/image_label(@id)?@id=99699617"
-	}
+	"value": "1"
 }
