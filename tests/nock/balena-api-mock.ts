@@ -416,11 +416,11 @@ export class BalenaAPIMock extends NockMock {
 	 * Mocks balena-release call
 	 */
 	public expectGetUser(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v6\/user/, opts).reply(200, {
+		this.optGet(/^\/v7\/user/, opts).reply(200, {
 			d: [
 				{
 					id: 99999,
-					actor: 1234567,
+					actor: { __id: 1234567 },
 					username: 'gh_user',
 					created_at: '2018-08-19T13:55:04.485Z',
 					__metadata: {

@@ -51,7 +51,7 @@ export default class APIKeyListCmd extends Command {
 					await getApplication(getBalenaSdk(), options.fleet, {
 						$select: 'actor',
 					})
-				).actor
+				).actor.__id
 			: await getBalenaSdk().auth.getActorId();
 		const keys = await getBalenaSdk().pine.get({
 			resource: 'api_key',
