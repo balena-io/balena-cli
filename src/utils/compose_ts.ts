@@ -1404,7 +1404,7 @@ export async function deployProject(
 				composition,
 				isDraft,
 				contract?.version,
-				contract ? JSON.stringify(contract) : undefined,
+				contract,
 			),
 	);
 	const { client: pineClient, release, serviceImages } = $release;
@@ -1500,7 +1500,9 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 
 async function getContractContent(
 	filePath: string,
-): Promise<Dictionary<any> | undefined> {
+): Promise<
+	import('@balena/compose/dist/release/models').ReleaseModel['contract']
+> {
 	let fileContentAsString;
 	try {
 		fileContentAsString = await fs.readFile(filePath, 'utf8');

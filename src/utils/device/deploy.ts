@@ -636,6 +636,7 @@ export function generateTargetState(
 		services[idx] = {
 			...defaults,
 			...opts,
+			// TODO: is this affected by the `contract` typing change?
 			...(contract != null ? { contract } : {}),
 			...{
 				imageId: idx,
