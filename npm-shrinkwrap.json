@@ -20,7 +20,7 @@
         "balena-device-init": "^7.0.1",
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.0.6",
-        "balena-preload": "^15.0.6",
+        "balena-preload": "^16.0.0",
         "balena-sdk": "^20.3.0",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
@@ -5526,11 +5526,11 @@
       }
     },
     "node_modules/balena-preload": {
-      "version": "15.0.6",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-15.0.6.tgz",
-      "integrity": "sha512-WQQu9Agu8usnmwZZFz5G+Qblnry/NsIwpv1hu5PCViHSOARHThQrBu6n5Yhx2LUGQ2J0e+BcoE3eEeBWD3vxuA==",
+      "version": "16.0.0",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-16.0.0.tgz",
+      "integrity": "sha512-IP+4Op6LHJW5ip/oomQmERjbNroKqi5atDI3s07aokgv/mH8J7jy4BOOW6JwnrHb560IQy/oPf4yM4h3qQlLEA==",
       "dependencies": {
-        "balena-sdk": "^19.7.2",
+        "balena-sdk": "^20.1.3",
         "bluebird": "^3.7.2",
         "compare-versions": "^3.6.0",
         "docker-progress": "^5.0.0",
@@ -5542,58 +5542,6 @@
       },
       "engines": {
         "node": ">=18"
-      }
-    },
-    "node_modules/balena-preload/node_modules/@types/node": {
-      "version": "18.19.50",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.50.tgz",
-      "integrity": "sha512-xonK+NRrMBRtkL1hVCc3G+uXtjh1Al4opBLjqVmipe5ZAaBYWW6cNAiBVZ1BvmkBhep698rP3UM3aRAdSALuhg==",
-      "license": "MIT",
-      "dependencies": {
-        "undici-types": "~5.26.4"
-      }
-    },
-    "node_modules/balena-preload/node_modules/balena-sdk": {
-      "version": "19.10.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-19.10.0.tgz",
-      "integrity": "sha512-9q+NzwTJgiTp6ucFA5wqbsqKQS0lFhFYsjGPyqkdQhjciPX7SyhUHlurHUsesDKhFbY0waFLelSIP5sKpN7z4Q==",
-      "license": "Apache-2.0",
-      "dependencies": {
-        "@balena/es-version": "^1.0.0",
-        "@types/json-schema": "^7.0.9",
-        "@types/node": "^18.0.0",
-        "abortcontroller-polyfill": "^1.7.1",
-        "balena-auth": "^6.0.1",
-        "balena-errors": "^4.9.0",
-        "balena-hup-action-utils": "~6.1.0",
-        "balena-register-device": "^9.0.2",
-        "balena-request": "^13.3.2",
-        "balena-semver": "^2.3.0",
-        "balena-settings-client": "^5.0.0",
-        "date-fns": "^3.0.5",
-        "handlebars": "^4.7.7",
-        "lodash": "^4.17.21",
-        "memoizee": "^0.4.15",
-        "mime": "^3.0.0",
-        "ndjson": "^2.0.0",
-        "p-throttle": "^4.1.1",
-        "pinejs-client-core": "~6.14.0",
-        "tslib": "^2.1.0"
-      },
-      "engines": {
-        "node": ">=18.0"
-      }
-    },
-    "node_modules/balena-preload/node_modules/mime": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz",
-      "integrity": "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==",
-      "license": "MIT",
-      "bin": {
-        "mime": "cli.js"
-      },
-      "engines": {
-        "node": ">=10.0.0"
       }
     },
     "node_modules/balena-register-device": {
@@ -5686,20 +5634,6 @@
       },
       "engines": {
         "node": ">=10.0.0"
-      }
-    },
-    "node_modules/balena-sdk/node_modules/pinejs-client-core": {
-      "version": "6.15.11",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.15.11.tgz",
-      "integrity": "sha512-EUhXx+UpyKJnkw7E5Y5fEwYMNx6SstBJdE21Rwsvs783oXPeoQ1Gmo1Lh5Ct67YaDQLoA6Dab4KoqycwrZPGSA==",
-      "license": "MIT",
-      "dependencies": {
-        "@balena/abstract-sql-to-typescript": "^3.2.3",
-        "@balena/es-version": "^1.0.3"
-      },
-      "engines": {
-        "node": ">=10.0.0",
-        "npm": ">=6.0.0"
       }
     },
     "node_modules/balena-semver": {
@@ -14380,10 +14314,11 @@
       }
     },
     "node_modules/pinejs-client-core": {
-      "version": "6.14.13",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.14.13.tgz",
-      "integrity": "sha512-Ca1kfbst+0C9UbvqrJFM2VZRAX/UDSgMDYiqSswzTsNoz/axOLMB3bmbrK8el+wSLb0TG2s/UsOZQTnN4MkOcQ==",
+      "version": "6.15.11",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.15.11.tgz",
+      "integrity": "sha512-EUhXx+UpyKJnkw7E5Y5fEwYMNx6SstBJdE21Rwsvs783oXPeoQ1Gmo1Lh5Ct67YaDQLoA6Dab4KoqycwrZPGSA==",
       "dependencies": {
+        "@balena/abstract-sql-to-typescript": "^3.2.3",
         "@balena/es-version": "^1.0.3"
       },
       "engines": {
