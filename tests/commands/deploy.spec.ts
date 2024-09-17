@@ -388,7 +388,7 @@ describe('balena deploy', function () {
 		let failedImagePatchRequests = 0;
 		let succesfullImagePatchRequests = 0;
 		api
-			.optPatch(/^\/v6\/image($|[(?])/, { times: maxRequestRetries })
+			.optPatch(/^\/v7\/image($|[(?])/, { times: maxRequestRetries })
 			.reply((_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
 					import('@balena/compose/dist/release/models').ImageModel

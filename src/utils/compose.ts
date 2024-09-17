@@ -152,8 +152,7 @@ export const createRelease = async function (
 				},
 			},
 			{
-				// @balena/compose atm works with v6, bump it once @balena/compose moves to v7.
-				apiVersion: 'v6',
+				apiVersion: 'v7',
 			},
 		);
 
