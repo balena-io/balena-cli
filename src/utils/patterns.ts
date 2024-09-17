@@ -319,7 +319,7 @@ export async function awaitDeviceOsUpdate(
 		}
 
 		if (osUpdateProgress !== null) {
-			// Avoid resetting to 0% at end of process when device goes offline.
+			// Avoid resetting to 0% at end of process when device goes disconnected.
 			progressBar.update({ percentage: osUpdateProgress });
 		}
 
@@ -358,7 +358,9 @@ export async function getOnlineTargetDeviceUuid(
 			});
 
 			if (!device.is_online) {
-				throw new ExpectedError(`Device with UUID ${fleetOrDevice} is offline`);
+				throw new ExpectedError(
+					`Device with UUID ${fleetOrDevice} is disconnected`,
+				);
 			}
 
 			return device.uuid;

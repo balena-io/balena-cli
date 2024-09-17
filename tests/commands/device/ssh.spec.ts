@@ -121,7 +121,7 @@ describe('balena device ssh', function () {
 
 	itSS('should fail if device not online (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
-		const expectedErrLines = ['Device with UUID abc1234 is offline'];
+		const expectedErrLines = ['Device with UUID abc1234 is disconnected'];
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: false });
 		mockedExitCode = 0;
