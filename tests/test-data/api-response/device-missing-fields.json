@@ -9,7 +9,6 @@
 				}
 			],
 			"id": 1747415,
-			"is_managed_by__device": null,
 			"device_name": "sparkling-wood",
 			"is_of__device_type": [{ "slug": "raspberrypi4-64" }],
 			"uuid": "fda508c8583011b8466c26abdd5159f2",
