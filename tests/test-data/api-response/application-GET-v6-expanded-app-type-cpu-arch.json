@@ -23,7 +23,7 @@
 				}
 			],
 			"depends_on__application": null,
-			"actor": 3423895,
+			"actor": { "__id": 3423895 },
 			"app_name": "testApp",
 			"slug": "gh_user/testApp",
 			"should_be__running_release": [
