@@ -1292,7 +1292,7 @@ async function pushAndUpdateServiceImages(
 				localImage.inspect(),
 				pushImage(localImage, index),
 			]);
-			serviceImage.image_size = imgInfo.Size;
+			serviceImage.image_size = `${imgInfo.Size}`;
 			serviceImage.content_hash = imgDigest;
 			serviceImage.build_log = logs;
 			serviceImage.dockerfile = props.dockerfile;
