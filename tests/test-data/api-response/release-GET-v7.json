@@ -28,7 +28,7 @@
 				  },
 				  "__id": 233455
 				},
-				"image_size": 134320410,
+				"image_size": "134320410",
 				"is_stored_at__image_location": "registry2.balena-cloud.com/v2/9c00c9413942cd15cfc9189c5dac359d",
 				"project_type": "Standard Dockerfile",
 				"error_message": null,
