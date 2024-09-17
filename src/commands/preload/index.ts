@@ -84,9 +84,9 @@ export default class PreloadCmd extends Command {
 			description: `\
 The commit hash of the release to preload. Use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the
-latest, but can be pinned to a specific release. See:  
-https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/  
-https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api  
+latest, but can be pinned to a specific release. See:
+https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api
 https://github.com/balena-io-examples/staged-releases\
 `,
 			char: 'c',
@@ -413,6 +413,8 @@ Can be repeated to add multiple certificates.\
 		const DEFAULT_CHOICE = { name: 'current', value: 'current' };
 		const choices = [DEFAULT_CHOICE].concat(
 			releases.map((release) => ({
+				// TODO: [next-major] consider changing this to use the release semver
+				// and maybe the commit as well
 				name: `${release.end_timestamp} - ${release.commit}`,
 				value: release.commit,
 			})),
