@@ -27,7 +27,7 @@
 			"os_version": "balenaOS 2.44.0+rev3",
 			"supervisor_version": "10.3.7",
 			"is_web_accessible": false,
-			"overall_status": "offline",
+			"overall_status": "disconnected",
 			"cpu_usage": 34,
 			"cpu_temp": 56.2,
 			"cpu_id": "some cpu id",
