@@ -10,9 +10,6 @@
 		"build_log": null,
 		"start_timestamp": "2021-08-25T22:18:33.624Z",
 		"end_timestamp": "2021-08-25T22:18:48.820Z",
-		"__metadata": {
-		  "uri": "/resin/release(@id)?@id=142334"
-		},
 		"contains__image": [
 		  {
 			"image": [
@@ -36,10 +33,7 @@
 				"push_timestamp": "2020-01-04T01:13:14.415Z",
 				"status": "success",
 				"content_hash": "sha256:6b5471aae43ae81e8f69e10d1a516cb412569a6d5020a57eae311f8fa16d688a",
-				"contract": null,
-				"__metadata": {
-				  "uri": "/resin/image(@id)?@id=1820810"
-				}
+				"contract": null
 			  }
 			],
 			"id": 1738663,
@@ -49,17 +43,13 @@
 				"uri": "/resin/release(1203844)"
 			  },
 			  "__id": 1203844
-			},
-			"__metadata": {
-			  "uri": "/resin/image__is_part_of__release(@id)?@id=1738663"
 			}
 		  }
 		],
 		"release_tag": [
 		  {
 			"tag_key": "testtag1",
-			"value": "val1",
-			"__metadata": {}
+			"value": "val1"
 		  }
 		],
 		"composition": {

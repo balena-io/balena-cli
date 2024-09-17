@@ -95,7 +95,7 @@ export interface Release {
 		| 'end_timestamp'
 	>;
 	serviceImages: Dictionary<
-		Omit<ImageModel, 'created_at' | 'is_a_build_of__service' | '__metadata'>
+		Omit<ImageModel, 'created_at' | 'is_a_build_of__service'>
 	>;
 }
 

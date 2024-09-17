@@ -90,9 +90,8 @@ export class BalenaAPIMock extends NockMock {
 		this.optGet(/^\/v7\/my_application($|[(?])/, opts).reply(
 			200,
 			JSON.parse(`{"d": [{
-				"organization": [{ "handle": "bob", "__metadata": {} }],
-				"id": 1301645,
-				"__metadata": { "uri": "/resin/my_application(@id)?@id=1301645" }}]}
+				"organization": [{ "handle": "bob" }],
+				"id": 1301645}]}
 			`),
 		);
 	}
@@ -423,9 +422,6 @@ export class BalenaAPIMock extends NockMock {
 					actor: { __id: 1234567 },
 					username: 'gh_user',
 					created_at: '2018-08-19T13:55:04.485Z',
-					__metadata: {
-						uri: '/resin/user(@id)?@id=43699',
-					},
 				},
 			],
 		});
