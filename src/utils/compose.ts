@@ -186,13 +186,9 @@ export const createRelease = async function (
 		serviceImages: _.mapValues(
 			serviceImages,
 			(serviceImage) =>
-				_.omit(serviceImage, [
-					'created_at',
-					'is_a_build_of__service',
-					'__metadata',
-				]) as Omit<
+				_.omit(serviceImage, ['created_at', 'is_a_build_of__service']) as Omit<
 					typeof serviceImage,
-					'created_at' | 'is_a_build_of__service' | '__metadata'
+					'created_at' | 'is_a_build_of__service'
 				>,
 		),
 	};
