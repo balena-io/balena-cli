@@ -10,7 +10,7 @@
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose": "^4.0.1",
+        "@balena/compose": "^5.0.0",
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
@@ -1454,9 +1454,9 @@
       }
     },
     "node_modules/@balena/compose": {
-      "version": "4.0.1",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-4.0.1.tgz",
-      "integrity": "sha512-yUaML0V58nl7/3xbCJ5eDJyGMWL8H+iPHD6Fc4GkLco5kFMiySkvlGy7+7cJoBa/p2+7GggQO0vCaOKpI7+GJQ==",
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-5.0.0.tgz",
+      "integrity": "sha512-jfp08uSw999cGX8v7tuO6cYD99Ge6yq1cIow1EvmRtKQ8PTkeUh5rxUbaMyUN8/meDnqlyAYpXgwwNUuuePKGQ==",
       "dependencies": {
         "ajv": "^6.12.3",
         "docker-file-parser": "^1.0.7",
