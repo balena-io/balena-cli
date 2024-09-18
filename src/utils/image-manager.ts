@@ -23,8 +23,6 @@ const BALENAOS_VERSION_REGEX = /v?\d+\.\d+\.\d+(\.rev\d+)?((\-|\+).+)?/;
 
 /**
  * @summary Check if the string is a valid balenaOS version number
- * @function
- * @protected
  * @description Throws an error if the version is invalid
  *
  * @param {String} version - version number to validate
@@ -38,17 +36,15 @@ const validateVersion = (version: string) => {
 
 /**
  * @summary Get file created date
- * @function
- * @protected
  *
  * @param {String} filePath - file path
  * @returns {Promise<Date>} date since creation
  *
  * @example
- * utils.getFileCreatedDate('foo/bar').then (createdTime) ->
+ * getFileCreatedDate('foo/bar').then (createdTime) ->
  * 	console.log("The file was created in #{createdTime}")
  */
-const getFileCreatedDate = async (filePath: string) => {
+export const getFileCreatedDate = async (filePath: string) => {
 	const { promises: fs } = await import('fs');
 	const { ctime } = await fs.stat(filePath);
 	return ctime;
@@ -56,18 +52,16 @@ const getFileCreatedDate = async (filePath: string) => {
 
 /**
  * @summary Get path to image in cache
- * @function
- * @protected
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} version - the exact balenaOS version number
  * @returns {Promise<String>} image path
  *
  * @example
- * cache.getImagePath('raspberry-pi', '1.2.3').then (imagePath) ->
+ * getImagePath('raspberry-pi', '1.2.3').then (imagePath) ->
  * 	console.log(imagePath)
  */
-const getImagePath = async (deviceType: string, version?: string) => {
+export const getImagePath = async (deviceType: string, version?: string) => {
 	if (typeof version === 'string') {
 		validateVersion(version);
 	}
@@ -83,8 +77,6 @@ const getImagePath = async (deviceType: string, version?: string) => {
 
 /**
  * @summary Determine if a device image is fresh
- * @function
- * @protected
  *
  * @description
  * If the device image does not exist, return false.
@@ -94,17 +86,17 @@ const getImagePath = async (deviceType: string, version?: string) => {
  * @returns {Promise<Boolean>} is image fresh
  *
  * @example
- * utils.isImageFresh('raspberry-pi', '1.2.3').then (isFresh) ->
+ * isImageFresh('raspberry-pi', '1.2.3').then (isFresh) ->
  * 	if isFresh
  * 		console.log('The Raspberry Pi image v1.2.3 is fresh!')
  */
-const isImageFresh = async (deviceType: string, version: string) => {
+export const isImageFresh = async (deviceType: string, version: string) => {
 	const imagePath = await getImagePath(deviceType, version);
 	let createdDate;
 	try {
 		createdDate = await getFileCreatedDate(imagePath);
 	} catch {
-		// Swallow errors from utils.getFileCreatedTime.
+		// Swallow errors from getFileCreatedTime.
 	}
 	if (createdDate == null) {
 		return false;
@@ -132,13 +124,11 @@ export const isESR = (version: string) => {
 
 /**
  * @summary Get the most recent compatible version
- * @function
- * @protected
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} versionOrRange - supports the same version options
  * as `balena.models.os.getMaxSatisfyingVersion`.
- * See `manager.get` for the detailed explanation.
+ * See `getStream` for the detailed explanation.
  * @returns {Promise<String>} the most recent compatible version.
  */
 const resolveVersion = async (deviceType: string, versionOrRange: string) => {
@@ -156,18 +146,16 @@ const resolveVersion = async (deviceType: string, versionOrRange: string) => {
 
 /**
  * @summary Get an image from the cache
- * @function
- * @protected
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} version - the exact balenaOS version number
  * @returns {Promise<fs.ReadStream>} image readable stream
  *
  * @example
- * utils.getImage('raspberry-pi', '1.2.3').then (stream) ->
+ * getImage('raspberry-pi', '1.2.3').then (stream) ->
  * 	stream.pipe(fs.createWriteStream('foo/bar.img'))
  */
-const getImage = async (deviceType: string, version: string) => {
+export const getImage = async (deviceType: string, version: string) => {
 	const imagePath = await getImagePath(deviceType, version);
 	const fs = await import('fs');
 	const stream = fs.createReadStream(imagePath) as ReturnType<
@@ -182,18 +170,19 @@ const getImage = async (deviceType: string, version: string) => {
 
 /**
  * @summary Get a writable stream for an image in the cache
- * @function
- * @protected
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} version - the exact balenaOS version number
  * @returns {Promise<fs.WriteStream & { persistCache: () => Promise<void>, removeCache: () => Promise<void> }>} image writable stream
  *
  * @example
- * utils.getImageWritableStream('raspberry-pi', '1.2.3').then (stream) ->
+ * getImageWritableStream('raspberry-pi', '1.2.3').then (stream) ->
  * 	fs.createReadStream('foo/bar').pipe(stream)
  */
-const getImageWritableStream = async (deviceType: string, version?: string) => {
+export const getImageWritableStream = async (
+	deviceType: string,
+	version?: string,
+) => {
 	const imagePath = await getImagePath(deviceType, version);
 
 	// Ensure the cache directory exists, to prevent
@@ -260,7 +249,6 @@ const doDownload = async (options: DownloadConfig) => {
 
 /**
  * @summary Get a device operating system image
- * @function
  * @public
  *
  * @description
@@ -286,12 +274,12 @@ const doDownload = async (options: DownloadConfig) => {
  * @returns {Promise<NodeJS.ReadableStream>} image readable stream
  *
  * @example
- * manager.get('raspberry-pi', 'default').then (stream) ->
+ * getStream('raspberry-pi', 'default').then (stream) ->
  * 	stream.pipe(fs.createWriteStream('foo/bar.img'))
  */
 export const getStream = async (
 	deviceType: string,
-	versionOrRange: string,
+	versionOrRange?: string,
 	options: Omit<DownloadConfig, 'deviceType' | 'version'> = {},
 ) => {
 	if (versionOrRange == null) {
