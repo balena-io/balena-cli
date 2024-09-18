@@ -145,8 +145,8 @@ export async function downloadOSImage(
 	// some ongoing issues with the os download stream.
 	process.env.ZLIB_FLUSH = 'Z_NO_FLUSH';
 
-	const manager = await import('balena-image-manager');
-	const stream = await manager.get(deviceType, OSVersion);
+	const { getStream } = await import('./image-manager');
+	const stream = await getStream(deviceType, OSVersion);
 
 	const displayVersion = await new Promise((resolve, reject) => {
 		stream.on('error', reject);
