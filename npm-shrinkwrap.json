@@ -94,7 +94,6 @@
         "@octokit/plugin-throttling": "^3.5.1",
         "@octokit/rest": "^18.6.7",
         "@types/archiver": "^6.0.2",
-        "@types/bluebird": "^3.5.36",
         "@types/body-parser": "^1.19.2",
         "@types/chai": "^4.3.0",
         "@types/chai-as-promised": "^7.1.4",
@@ -3557,12 +3556,6 @@
       "dependencies": {
         "@types/readdir-glob": "*"
       }
-    },
-    "node_modules/@types/bluebird": {
-      "version": "3.5.36",
-      "resolved": "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.5.36.tgz",
-      "integrity": "sha512-HBNx4lhkxN7bx6P0++W8E289foSu8kO8GCk2unhuVggO+cE7rh9DhZUyPhUxNRG9m+5B5BTKxZQ5ZP92x/mx9Q==",
-      "dev": true
     },
     "node_modules/@types/body-parser": {
       "version": "1.19.2",
