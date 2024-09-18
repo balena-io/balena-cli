@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-import * as Bluebird from 'bluebird';
 import * as path from 'path';
 import * as zlib from 'zlib';
 
 import { NockMock } from './nock-mock';
+import { promisify } from 'util';
+
+const gunzipAsync = promisify(zlib.gunzip);
 
 export const builderResponsePath = path.normalize(
 	path.join(__dirname, '..', 'test-data', 'builder-response'),
@@ -45,9 +47,7 @@ export class BuilderMock extends NockMock {
 					await opts.checkURI(uri);
 					if (typeof requestBody === 'string') {
 						const gzipped = Buffer.from(requestBody, 'hex');
-						const gunzipped = await Bluebird.fromCallback<Buffer>((cb) => {
-							zlib.gunzip(gzipped, cb);
-						});
+						const gunzipped = await gunzipAsync(gzipped);
 						await opts.checkBuildRequestBody(gunzipped);
 					} else {
 						throw new Error(

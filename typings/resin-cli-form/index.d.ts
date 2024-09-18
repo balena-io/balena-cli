@@ -16,8 +16,6 @@
  */
 
 declare module 'resin-cli-form' {
-	import Bluebird = require('bluebird');
-
 	export type TypeOrPromiseLike<T> = T | PromiseLike<T>;
 
 	export type Validate = (
@@ -43,9 +41,13 @@ declare module 'resin-cli-form' {
 		validate?: Validate;
 	}
 
-	export const ask: <T = string>(options: AskOptions<T>) => Bluebird<T>;
+	// As of writing this, these are Bluebird promises, but we are typing then
+	// as normal Promises so that we do not rely on Bluebird specific methods,
+	// so that the CLI will not require any change once the package drops Bluebird.
+
+	export const ask: <T = string>(options: AskOptions<T>) => Promise<T>;
 	export const run: <T = any>(
 		questions?: RunQuestion[],
 		extraOptions?: { override?: object },
-	) => Bluebird<T>;
+	) => Promise<T>;
 }

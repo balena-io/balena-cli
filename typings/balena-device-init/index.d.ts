@@ -17,7 +17,6 @@
 
 declare module 'balena-device-init' {
 	import { DeviceTypeJson } from 'balena-sdk';
-	import type * as Bluebird from 'bluebird';
 
 	interface OperationState {
 		operation:
@@ -78,25 +77,29 @@ declare module 'balena-device-init' {
 		on(event: 'error', callback: (error: Error) => void): void;
 	}
 
+	// As of writing this, these are Bluebird promises, but we are typing then
+	// as normal Promises so that we do not rely on Bluebird specific methods,
+	// so that the CLI will not require any change once the package drops Bluebird.
+
 	export function configure(
 		image: string,
 		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
 		config: object,
 		options?: object,
-	): Bluebird<InitializeEmitter>;
+	): Promise<InitializeEmitter>;
 
 	export function initialize(
 		image: string,
 		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
 		config: object,
-	): Bluebird<InitializeEmitter>;
+	): Promise<InitializeEmitter>;
 
 	export function getImageOsVersion(
 		image: string,
 		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
-	): Bluebird<string | null>;
+	): Promise<string | null>;
 
 	export function getImageManifest(
 		image: string,
-	): Bluebird<BalenaSdk.DeviceTypeJson.DeviceType.DeviceType | null>;
+	): Promise<BalenaSdk.DeviceTypeJson.DeviceType.DeviceType | null>;
 }

@@ -19,7 +19,6 @@ import type { JsonVersions } from '../src/commands/version/index';
 
 import { run as oclifRun } from '@oclif/core';
 import * as archiver from 'archiver';
-import * as Bluebird from 'bluebird';
 import { exec, execFile } from 'child_process';
 import * as filehound from 'filehound';
 import type { Stats } from 'fs';
@@ -42,6 +41,7 @@ import {
 
 const execFileAsync = promisify(execFile);
 const execAsync = promisify(exec);
+const rimrafAsync = promisify(rimraf);
 
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
@@ -517,7 +517,7 @@ export async function buildOclifInstaller() {
 		}
 		for (const dir of dirs) {
 			console.log(`rimraf(${dir})`);
-			await Bluebird.fromCallback((cb) => rimraf(dir, cb));
+			await rimrafAsync(dir);
 		}
 		console.log('=======================================================');
 		console.log(`oclif ${packCmd} ${packOpts.join(' ')}`);
