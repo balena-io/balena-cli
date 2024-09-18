@@ -1,4 +1,67 @@
 - commits:
+    - subject: Remove package `@resin.io/valid-email`
+      hash: a2b4f76c94e7fda3f122adf721e0a12d9a0e9164
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.10
+  title: ""
+  date: 2024-09-12T23:00:13.119Z
+- commits:
+    - subject: Update actions/download-artifact action to v4.1.8
+      hash: 58f480ad7c097952b3ff4e0a5daebc163f2ce7c1
+      body: |
+        Update actions/download-artifact from 4.1.7 to 4.1.8
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.0.9
+  title: ""
+  date: 2024-09-12T16:12:08.049Z
+- commits:
+    - subject: Update actions/upload-artifact digest to 5076954
+      hash: e101e0f46663585d2999c1bd59c5335a2d012ae4
+      body: |
+        Update actions/upload-artifact
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.0.8
+  title: ""
+  date: 2024-09-12T15:07:51.366Z
+- commits:
+    - subject: Update actions/setup-node digest to 1e60f62
+      hash: 314e8800d0c6dfeade2140125cb3dd996713713e
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.0.7
+  title: ""
+  date: 2024-09-12T14:13:18.381Z
+- commits:
+    - subject: Remove moment and moment-duration-format in favor of native time parsing
+      hash: 707b249e972a6943d75014f487285c0dd8085b15
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 19.0.6
+  title: ""
+  date: 2024-09-12T13:47:25.357Z
+- commits:
     - subject: Update apple-actions/import-codesign-certs action to v2
       hash: 9242a3493af4c518c4d1328f19ddf2d95c182af7
       body: |
