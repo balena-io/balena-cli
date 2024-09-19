@@ -309,7 +309,6 @@ function connectToDocker(host: string, port: number): Docker {
 	return new Docker({
 		host,
 		port,
-		Promise: require('bluebird'),
 	});
 }
 

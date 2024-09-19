@@ -1,4 +1,3 @@
-import * as Bluebird from 'bluebird';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as url from 'url';
@@ -19,28 +18,28 @@ describe('Utils:', async function () {
 				));
 
 		it('should eventually contain an https protocol', () =>
-			Bluebird.props({
-				dashboardUrl: balena.settings.get('dashboardUrl'),
-				loginUrl: utils.getDashboardLoginURL('https://127.0.0.1:3000/callback'),
-			}).then(function ({ dashboardUrl, loginUrl }) {
+			Promise.all([
+				balena.settings.get('dashboardUrl'),
+				utils.getDashboardLoginURL('https://127.0.0.1:3000/callback'),
+			]).then(function ([dashboardUrl, loginUrl]) {
 				const { protocol } = url.parse(loginUrl);
 				return expect(protocol).to.equal(url.parse(dashboardUrl).protocol);
 			}));
 
 		it('should correctly escape a callback url without a path', () =>
-			Bluebird.props({
-				dashboardUrl: balena.settings.get('dashboardUrl'),
-				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000'),
-			}).then(function ({ dashboardUrl, loginUrl }) {
+			Promise.all([
+				balena.settings.get('dashboardUrl'),
+				utils.getDashboardLoginURL('http://127.0.0.1:3000'),
+			]).then(function ([dashboardUrl, loginUrl]) {
 				const expectedUrl = `${dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000`;
 				return expect(loginUrl).to.equal(expectedUrl);
 			}));
 
 		return it('should correctly escape a callback url with a path', () =>
-			Bluebird.props({
-				dashboardUrl: balena.settings.get('dashboardUrl'),
-				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000/callback'),
-			}).then(function ({ dashboardUrl, loginUrl }) {
+			Promise.all([
+				balena.settings.get('dashboardUrl'),
+				utils.getDashboardLoginURL('http://127.0.0.1:3000/callback'),
+			]).then(function ([dashboardUrl, loginUrl]) {
 				const expectedUrl = `${dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000%252Fcallback`;
 				return expect(loginUrl).to.equal(expectedUrl);
 			}));

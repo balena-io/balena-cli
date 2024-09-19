@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove Bluebird as a direct dependency
+      hash: d39dc5a39ad0ec25e0a690b881c8212699f64162
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 19.0.11
+  title: ""
+  date: 2024-09-18T16:38:55.929Z
+- commits:
     - subject: Remove package `@resin.io/valid-email`
       hash: a2b4f76c94e7fda3f122adf721e0a12d9a0e9164
       body: ""

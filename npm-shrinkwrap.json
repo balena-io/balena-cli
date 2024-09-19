@@ -1,12 +1,12 @@
 {
   "name": "balena-cli",
-  "version": "19.0.10",
+  "version": "19.0.11",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "balena-cli",
-      "version": "19.0.10",
+      "version": "19.0.11",
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -26,7 +26,6 @@
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
-        "bluebird": "^3.7.2",
         "body-parser": "^1.19.1",
         "bonjour-service": "^1.2.1",
         "chalk": "^3.0.0",
