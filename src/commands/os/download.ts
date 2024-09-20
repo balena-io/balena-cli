@@ -89,7 +89,7 @@ export default class OsDownloadCmd extends Command {
 
 		// balenaOS ESR versions require user authentication
 		if (options.version) {
-			const { isESR } = await import('balena-image-manager');
+			const { isESR } = await import('../../utils/image-manager');
 			if (options.version === 'menu-esr' || isESR(options.version)) {
 				try {
 					await OsDownloadCmd.checkLoggedIn();
