@@ -1,4 +1,40 @@
 - commits:
+    - subject: skip
+      hash: c7441b06ac97a50d8ffefebff3af55e1d12d4035
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Add `image-manager` tests
+      hash: 251d64eb8831555e2cfc8a54c73701eadb8c4f06
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Remove `balena-image-manager` dependency
+      hash: ff9bb52a20b3f21281189ddfbbe1b800e104be1d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Embed `balena-image-manager` instead of having it as a dependency
+      hash: c799c3f10d1491227fe770ceace46b26ae209b19
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.12
+  title: ""
+  date: 2024-09-20T17:48:39.881Z
+- commits:
     - subject: Remove Bluebird as a direct dependency
       hash: d39dc5a39ad0ec25e0a690b881c8212699f64162
       body: ""
