@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove extra line from recent changelog entry
+      hash: 127bd7ec722133d81cd94a5e028d9f2e5219df7c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.13
+  title: ""
+  date: 2024-09-23T11:35:45.475Z
+- commits:
     - subject: skip
       hash: c7441b06ac97a50d8ffefebff3af55e1d12d4035
       body: ""
