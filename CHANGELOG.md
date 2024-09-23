@@ -6,7 +6,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 19.0.12 - 2024-09-20
 
-* skip [myarmolinsky]
 * Add `image-manager` tests [myarmolinsky]
 * Remove `balena-image-manager` dependency [myarmolinsky]
 * Embed `balena-image-manager` instead of having it as a dependency [myarmolinsky]
