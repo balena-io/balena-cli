@@ -32,7 +32,6 @@ PRIMARY COMMANDS
   ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
   apps                                   list all applications
   app <name>                             display information about a single application
-  devices                                list all devices
   device <uuid>                          show info about a single device
   tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
   preload <image>                        preload an app on a disk image (or Edison zip archive)
