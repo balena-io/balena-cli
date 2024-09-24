@@ -56,7 +56,6 @@ const commandHeadings: { [key: string]: string } = {
 	whoami: 'Authentication',
 	logout: 'Authentication',
 	env: 'Environment Variables',
-	envs: 'Environment Variables',
 	help: 'Help and Version',
 	'ssh-key': 'SSH Keys',
 	orgs: 'Organizations',

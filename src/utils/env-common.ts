@@ -43,7 +43,7 @@ export const booleanService = Flags.boolean({
 });
 
 export const rmRenameHelp = stripIndent`
-	Variables are selected by their database ID (as reported by the 'balena envs'
+	Variables are selected by their database ID (as reported by the 'balena env list'
 	command) and one of six database "resource types":
 
 	- fleet environment variable
