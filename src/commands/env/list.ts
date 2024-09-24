@@ -23,7 +23,7 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
-type FlagsDef = Interfaces.InferredFlags<typeof EnvsCmd.flags>;
+type FlagsDef = Interfaces.InferredFlags<typeof EnvListCmd.flags>;
 
 interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
 	fleet?: string | null; // fleet slug
@@ -45,7 +45,9 @@ interface ServiceEnvironmentVariableInfo
 	serviceName?: string; // service name
 }
 
-export default class EnvsCmd extends Command {
+export default class EnvListCmd extends Command {
+	public static aliases = ['envs'];
+
 	public static description = stripIndent`
 		List the environment or config variables of a fleet, device or service.
 
@@ -83,14 +85,14 @@ export default class EnvsCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena envs --fleet myorg/myfleet',
-		'$ balena envs --fleet MyFleet --json',
-		'$ balena envs --fleet MyFleet --service MyService',
-		'$ balena envs --fleet MyFleet --config',
-		'$ balena envs --device 7cf02a6',
-		'$ balena envs --device 7cf02a6 --json',
-		'$ balena envs --device 7cf02a6 --config --json',
-		'$ balena envs --device 7cf02a6 --service MyService',
+		'$ balena env list --fleet myorg/myfleet',
+		'$ balena env list --fleet MyFleet --json',
+		'$ balena env list --fleet MyFleet --service MyService',
+		'$ balena env list --fleet MyFleet --config',
+		'$ balena env list --device 7cf02a6',
+		'$ balena env list --device 7cf02a6 --json',
+		'$ balena env list --device 7cf02a6 --config --json',
+		'$ balena env list --device 7cf02a6 --service MyService',
 	];
 
 	public static flags = {
@@ -108,7 +110,7 @@ export default class EnvsCmd extends Command {
 	};
 
 	public async run() {
-		const { flags: options } = await this.parse(EnvsCmd);
+		const { flags: options } = await this.parse(EnvListCmd);
 
 		const variables: EnvironmentVariableInfo[] = [];
 

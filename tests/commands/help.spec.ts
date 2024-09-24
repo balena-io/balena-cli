@@ -67,9 +67,9 @@ ADDITIONAL COMMANDS
   device shutdown <uuid>                 shutdown a device
   devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
   env add <name> [value]                 add env or config variable to application(s), device(s) or service(s)
+  env list                               list the environment or config variables of an application, device or service
   env rename <name> <value>              change the value of a config or env var for an app, device or service
   env rm <id>                            remove a config or env var from an application, device or service
-  envs                                   list the environment or config variables of an application, device or service
   ssh-key <id>                           display an SSH key
   ssh-key add <name> [path]              add an SSH key to balenaCloud
   ssh-key list                           list the SSH keys in balenaCloud
