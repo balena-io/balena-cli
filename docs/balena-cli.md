@@ -3647,7 +3647,7 @@ the commit or ID of the release to invalidate
 
 ### Aliases
 
-- `releases`
+- `releases` *(deprecated)*
 
 
 To use one of the aliases, replace `release list` with the alias.
