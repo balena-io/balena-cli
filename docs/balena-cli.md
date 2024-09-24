@@ -3803,8 +3803,8 @@ balenaCloud ID for the SSH key
 
 ### Aliases
 
-- `keys`
-- `key list`
+- `keys` *(deprecated)*
+- `key list` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key list` with the alias.
