@@ -28,6 +28,7 @@ interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 
 export default class FleetListCmd extends Command {
 	public static aliases = ['fleets'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List all fleets.
