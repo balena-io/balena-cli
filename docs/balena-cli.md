@@ -261,11 +261,11 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - OS
 
-	- [os versions &#60;type&#62;](#os-versions-type)
-	- [os download &#60;type&#62;](#os-download-type)
 	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image-device-type)
 	- [os configure &#60;image&#62;](#os-configure-image)
+	- [os download &#60;type&#62;](#os-download-type)
 	- [os initialize &#60;image&#62;](#os-initialize-image)
+	- [os versions &#60;type&#62;](#os-versions-type)
 
 - Platform
 
@@ -2652,89 +2652,6 @@ Examples:
 
 # OS
 
-## os versions &#60;type&#62;
-
-Show the available balenaOS versions for the given device type.
-Check available types with `balena devices supported`.
-
-balenaOS ESR versions can be listed with the '--esr' option. See also:
-https://www.balena.io/docs/reference/OS/extended-support-release/
-
-Examples:
-
-	$ balena os versions raspberrypi3
-
-### Arguments
-
-#### TYPE
-
-device type
-
-### Options
-
-#### --esr
-
-select balenaOS ESR versions
-
-#### --include-draft
-
-include pre-release balenaOS versions
-
-## os download &#60;type&#62;
-
-Download an unconfigured OS image for the specified device type.
-Check available device types with 'balena devices supported'.
-
-Note: Currently this command only works with balenaCloud, not openBalena.
-If using openBalena, please download the OS from: https://www.balena.io/os/
-
-The '--version' option is used to select the balenaOS version. If omitted,
-the latest released version is downloaded (and if only pre-release versions
-exist, the latest pre-release version is downloaded).
-
-Use '--version menu' or '--version menu-esr' to interactively select the
-OS version. The latter lists ESR versions which are only available for
-download on Production and Enterprise plans. See also:
-https://www.balena.io/docs/reference/OS/extended-support-release/
-
-Development images can be selected by appending `.dev` to the version.
-
-Examples:
-
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.101.7
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2022.7.0
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.90.0
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr
-
-### Arguments
-
-#### TYPE
-
-the device type
-
-### Options
-
-#### -o, --output OUTPUT
-
-output path
-
-#### --version VERSION
-
-version number (ESR or non-ESR versions),
-or semver range (non-ESR versions only),
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one released version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-or 'menu' (interactive menu, non-ESR versions),
-or 'menu-esr' (interactive menu, ESR versions)
-
 ## os build-config &#60;image&#62; &#60;device-type&#62;
 
 Interactively generate a configuration file that can then be used as
@@ -2890,6 +2807,61 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
+## os download &#60;type&#62;
+
+Download an unconfigured OS image for the specified device type.
+Check available device types with 'balena devices supported'.
+
+Note: Currently this command only works with balenaCloud, not openBalena.
+If using openBalena, please download the OS from: https://www.balena.io/os/
+
+The '--version' option is used to select the balenaOS version. If omitted,
+the latest released version is downloaded (and if only pre-release versions
+exist, the latest pre-release version is downloaded).
+
+Use '--version menu' or '--version menu-esr' to interactively select the
+OS version. The latter lists ESR versions which are only available for
+download on Production and Enterprise plans. See also:
+https://www.balena.io/docs/reference/OS/extended-support-release/
+
+Development images can be selected by appending `.dev` to the version.
+
+Examples:
+
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.101.7
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2022.7.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.90.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr
+
+### Arguments
+
+#### TYPE
+
+the device type
+
+### Options
+
+#### -o, --output OUTPUT
+
+output path
+
+#### --version VERSION
+
+version number (ESR or non-ESR versions),
+or semver range (non-ESR versions only),
+or 'latest' (includes pre-releases),
+or 'default' (excludes pre-releases if at least one released version is available),
+or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'menu' (interactive menu, non-ESR versions),
+or 'menu-esr' (interactive menu, ESR versions)
+
 ## os initialize &#60;image&#62;
 
 Initialize an os image for a device with a previously
@@ -2926,6 +2898,34 @@ Check `balena util available-drives` for available options.
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
+
+## os versions &#60;type&#62;
+
+Show the available balenaOS versions for the given device type.
+Check available types with `balena devices supported`.
+
+balenaOS ESR versions can be listed with the '--esr' option. See also:
+https://www.balena.io/docs/reference/OS/extended-support-release/
+
+Examples:
+
+	$ balena os versions raspberrypi3
+
+### Arguments
+
+#### TYPE
+
+device type
+
+### Options
+
+#### --esr
+
+select balenaOS ESR versions
+
+#### --include-draft
+
+include pre-release balenaOS versions
 
 # Platform
 
