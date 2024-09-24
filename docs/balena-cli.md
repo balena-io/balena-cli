@@ -1473,7 +1473,7 @@ expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
 ### Aliases
 
-- `devices`
+- `devices` *(deprecated)*
 
 
 To use one of the aliases, replace `device list` with the alias.
