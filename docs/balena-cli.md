@@ -163,8 +163,8 @@ are encouraged to regularly update the balena CLI to the latest version.
 - API Keys
 
 	- [api-key generate &#60;name&#62;](#api-key-generate-name)
+	- [api-key list](#api-key-list)
 	- [api-key revoke &#60;ids&#62;](#api-key-revoke-ids)
-	- [api-keys](#api-keys)
 
 - Apps
 
@@ -339,6 +339,26 @@ the API key name
 
 ### Options
 
+## api-key list
+
+Print a list of balenaCloud API keys.
+
+Print a list of balenaCloud API keys for the current user or for a specific fleet with the `--fleet` option.
+
+Examples:
+
+	$ balena api-key list
+
+### Options
+
+#### -u, --user
+
+show API keys for your user
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
 ## api-key revoke &#60;ids&#62;
 
 Revoke balenaCloud API keys with the given
@@ -358,26 +378,6 @@ Examples:
 the API key ids
 
 ### Options
-
-## api-keys
-
-Print a list of balenaCloud API keys.
-
-Print a list of balenaCloud API keys for the current user or for a specific fleet with the `--fleet` option.
-
-Examples:
-
-	$ balena api-keys
-
-### Options
-
-#### -u, --user
-
-show API keys for your user
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
 
 # Apps
 

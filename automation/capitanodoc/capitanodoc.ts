@@ -52,7 +52,6 @@ interface Documentation {
 // Mapping folders names to custom headings in the docs
 const commandHeadings: { [key: string]: string } = {
 	'api-key': 'API Keys',
-	'api-keys': 'API Keys',
 	login: 'Authentication',
 	whoami: 'Authentication',
 	logout: 'Authentication',
