@@ -339,7 +339,7 @@ the API key name
 
 ### Aliases
 
-- `api-keys`
+- `api-keys` *(deprecated)*
 
 
 To use one of the aliases, replace `api-key list` with the alias.
