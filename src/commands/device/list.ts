@@ -35,7 +35,9 @@ const devicesSelectFields = {
 	],
 } satisfies PineOptions<Device>;
 
-export default class DevicesCmd extends Command {
+export default class DeviceListCmd extends Command {
+	public static aliases = ['devices'];
+
 	public static description = stripIndent`
 		List all devices.
 
@@ -48,9 +50,9 @@ export default class DevicesCmd extends Command {
 		${jsonInfo.split('\n').join('\n\t\t')}
 	`;
 	public static examples = [
-		'$ balena devices',
-		'$ balena devices --fleet MyFleet',
-		'$ balena devices -f myorg/myfleet',
+		'$ balena device list',
+		'$ balena device list --fleet MyFleet',
+		'$ balena device list -f myorg/myfleet',
 	];
 
 	public static flags = {
@@ -64,7 +66,7 @@ export default class DevicesCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = await this.parse(DevicesCmd);
+		const { flags: options } = await this.parse(DeviceListCmd);
 
 		const balena = getBalenaSdk();
 		const devicesOptions = {
