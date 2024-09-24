@@ -21,6 +21,7 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class SSHKeyListCmd extends Command {
 	public static aliases = ['keys', 'key list'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List the SSH keys in balenaCloud.
