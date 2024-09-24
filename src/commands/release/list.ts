@@ -22,7 +22,9 @@ import { applicationNameNote } from '../../utils/messages';
 import type * as BalenaSdk from 'balena-sdk';
 import { jsonInfo } from '../../utils/messages';
 
-export default class ReleasesCmd extends Command {
+export default class ReleaseListCmd extends Command {
+	public static aliases = ['releases'];
+
 	public static description = stripIndent`
 		List all releases of a fleet.
 
@@ -33,8 +35,8 @@ export default class ReleasesCmd extends Command {
 		${jsonInfo.split('\n').join('\n\t\t')}
 `;
 	public static examples = [
-		'$ balena releases myorg/myfleet',
-		'$ balena releases myorg/myfleet --json',
+		'$ balena release list myorg/myfleet',
+		'$ balena release list myorg/myfleet --json',
 	];
 
 	public static flags = {
@@ -52,7 +54,7 @@ export default class ReleasesCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(ReleasesCmd);
+		const { args: params, flags: options } = await this.parse(ReleaseListCmd);
 
 		const fields: Array<keyof BalenaSdk.Release> = [
 			'id',
