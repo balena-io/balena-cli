@@ -296,8 +296,8 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [key add &#60;name&#62; [path]](#key-add-name-path)
 	- [key &#60;id&#62;](#key-id)
+	- [key list](#key-list)
 	- [key rm &#60;id&#62;](#key-rm-id)
-	- [keys](#keys)
 
 - Support
 
@@ -3547,6 +3547,16 @@ balenaCloud ID for the SSH key
 
 ### Options
 
+## key list
+
+List all SSH keys registered in balenaCloud for the logged in user.
+
+Examples:
+
+	$ balena key list
+
+### Options
+
 ## key rm &#60;id&#62;
 
 Remove a single SSH key registered in balenaCloud for the logged in user.
@@ -3569,16 +3579,6 @@ balenaCloud ID for the SSH key
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
-
-## keys
-
-List all SSH keys registered in balenaCloud for the logged in user.
-
-Examples:
-
-	$ balena keys
-
-### Options
 
 # Support
 
