@@ -18,9 +18,8 @@ import { Parser } from '@oclif/core';
 import * as ent from 'ent';
 import * as _ from 'lodash';
 
-import { getManualSortCompareFunction } from '../../src/utils/helpers';
 import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
-import type { Category, Document, OclifCommand } from './doc-types';
+import type { Category, Document } from './doc-types';
 
 function renderOclifCommand(command: Category['commands'][0]): string[] {
 	const result = [`## ${ent.encode(command.name || '')}`];
@@ -98,33 +97,7 @@ function renderToc(categories: Category[]): string[] {
 	return result;
 }
 
-const manualCategorySorting: { [category: string]: string[] } = {
-	'Environment Variables': ['envs', 'env rm', 'env add', 'env rename'],
-	OS: [
-		'os versions',
-		'os download',
-		'os build config',
-		'os configure',
-		'os initialize',
-	],
-};
-
-function sortCommands(doc: Document): void {
-	for (const category of doc.categories) {
-		if (category.title in manualCategorySorting) {
-			category.commands = category.commands.sort(
-				getManualSortCompareFunction<OclifCommand, string>(
-					manualCategorySorting[category.title],
-					(cmd: OclifCommand, x: string) =>
-						(cmd.usage || '').toString().replace(/\W+/g, ' ').includes(x),
-				),
-			);
-		}
-	}
-}
-
 export function render(doc: Document) {
-	sortCommands(doc);
 	const result = [
 		`# ${doc.title}`,
 		doc.introduction,
