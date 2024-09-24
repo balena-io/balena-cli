@@ -21,6 +21,7 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class APIKeyListCmd extends Command {
 	public static aliases = ['api-keys'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Print a list of balenaCloud API keys.
