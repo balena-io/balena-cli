@@ -2188,7 +2188,7 @@ port mapping in the format <remotePort>[:[localIP:]localPort]
 
 ### Aliases
 
-- `envs`
+- `envs` *(deprecated)*
 
 
 To use one of the aliases, replace `env list` with the alias.

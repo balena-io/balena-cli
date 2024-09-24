@@ -47,6 +47,7 @@ interface ServiceEnvironmentVariableInfo
 
 export default class EnvListCmd extends Command {
 	public static aliases = ['envs'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List the environment or config variables of a fleet, device or service.
