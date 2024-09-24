@@ -2573,7 +2573,7 @@ produce JSON output instead of tabular output
 
 ### Aliases
 
-- `fleets`
+- `fleets` *(deprecated)*
 
 
 To use one of the aliases, replace `fleet list` with the alias.
