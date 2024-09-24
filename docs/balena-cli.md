@@ -285,8 +285,8 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
 	- [release &#60;commitorid&#62;](#release-commitorid)
 	- [release invalidate &#60;commitorid&#62;](#release-invalidate-commitorid)
+	- [release list &#60;fleet&#62;](#release-list-fleet)
 	- [release validate &#60;commitorid&#62;](#release-validate-commitorid)
-	- [releases &#60;fleet&#62;](#releases-fleet)
 
 - Settings
 
@@ -3422,27 +3422,7 @@ the commit or ID of the release to invalidate
 
 ### Options
 
-## release validate &#60;commitOrId&#62;
-
-Validate a release.
-
-Valid releases are automatically deployed to devices tracking the latest
-release if they are finalized.
-
-Examples:
-
-	$ balena release validate a777f7345fe3d655c1c981aa642e5555
-	$ balena release validate 1234567
-
-### Arguments
-
-#### COMMITORID
-
-the commit or ID of the release to validate
-
-### Options
-
-## releases &#60;fleet&#62;
+## release list &#60;fleet&#62;
 
 List all releases of the given fleet.
 
@@ -3463,8 +3443,8 @@ The 'jq' utility may be helpful for querying JSON fields in shell scripts
 
 Examples:
 
-	$ balena releases myorg/myfleet
-	$ balena releases myorg/myfleet --json
+	$ balena release list myorg/myfleet
+	$ balena release list myorg/myfleet --json
 
 ### Arguments
 
@@ -3477,6 +3457,26 @@ fleet name or slug (preferred)
 #### -j, --json
 
 produce JSON output instead of tabular output
+
+## release validate &#60;commitOrId&#62;
+
+Validate a release.
+
+Valid releases are automatically deployed to devices tracking the latest
+release if they are finalized.
+
+Examples:
+
+	$ balena release validate a777f7345fe3d655c1c981aa642e5555
+	$ balena release validate 1234567
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release to validate
+
+### Options
 
 # Settings
 

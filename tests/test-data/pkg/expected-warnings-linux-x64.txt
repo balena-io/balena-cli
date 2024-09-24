@@ -210,7 +210,7 @@
   %2: build/commands/release/index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
-  %2: build/commands/releases/index.js
+  %2: build/commands/release/list.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
   %2: build/commands/scan/index.js

@@ -68,7 +68,7 @@ describe('balena release', function () {
 	it('should list releases', async () => {
 		api.expectGetRelease();
 		api.expectGetApplication();
-		const { out } = await runCommand('releases someapp');
+		const { out } = await runCommand('release list someapp');
 		const lines = cleanOutput(out);
 		expect(lines.length).to.be.equal(2);
 		expect(lines[1]).to.contain('142334');
@@ -78,7 +78,7 @@ describe('balena release', function () {
 	it('should list releases as JSON with the -j/--json flag', async () => {
 		api.expectGetRelease();
 		api.expectGetApplication();
-		const { err, out } = await runCommand('releases someapp --json');
+		const { err, out } = await runCommand('release list someapp --json');
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
 		expect(json[0].commit).to.equal('90247b54de4fa7a0a3cbc85e73c68039');
