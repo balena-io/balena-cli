@@ -27,7 +27,10 @@ interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 	device_type?: string;
 }
 
-export default class FleetsCmd extends Command {
+export default class FleetListCmd extends Command {
+	public static aliases = ['fleets'];
+	public static deprecateAliases = true;
+
 	public static description = stripIndent`
 		List all fleets.
 
@@ -37,9 +40,9 @@ export default class FleetsCmd extends Command {
 		\`balena fleet <fleet>\`
 	`;
 
-	public static examples = ['$ balena fleets'];
+	public static examples = ['$ balena fleet list'];
 
-	public static usage = 'fleets';
+	public static usage = 'fleet list';
 
 	public static flags = {
 		help: cf.help,
@@ -50,7 +53,7 @@ export default class FleetsCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { flags: options } = await this.parse(FleetsCmd);
+		const { flags: options } = await this.parse(FleetListCmd);
 
 		const balena = getBalenaSdk();
 

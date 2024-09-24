@@ -139,7 +139,7 @@ adding exception patterns to the applicable .dockerignore file(s), for example
 export const applicationIdInfo = `\
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the \`balena fleets\` command. Note that slugs may change if the
+listed with the \`balena fleet list\` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -149,7 +149,7 @@ environments).`;
 
 export const applicationNameNote = `\
 Fleets may be specified by fleet name or slug. Slugs are recommended because
-they are unique and unambiguous. Slugs can be listed with the \`balena fleets\`
+they are unique and unambiguous. Slugs can be listed with the \`balena fleet list\`
 command. Note that slugs may change if the fleet is renamed. Fleet names are
 not unique and may result in "Fleet is ambiguous" errors at any time (even if
 "it used to work in the past"), for example if the name clashes with a newly
