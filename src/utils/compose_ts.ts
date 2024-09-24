@@ -1343,7 +1343,24 @@ async function pushServiceImages(
 			if (skipLogUpload) {
 				delete serviceImage.build_log;
 			}
-			await releaseMod.updateImage(pineClient, serviceImage.id, serviceImage);
+
+			await releaseMod.updateImage(
+				pineClient,
+				serviceImage.id,
+				// These are the only update-able image fields in bC atm, and passing
+				// the whole image object in v7+ would result the allowlist to reject the request.
+				_.pick(serviceImage, [
+					'end_timestamp',
+					'project_type',
+					'error_message',
+					'build_log',
+					'push_timestamp',
+					'status',
+					'content_hash',
+					'dockerfile',
+					'image_size',
+				]),
+			);
 		},
 	);
 }
@@ -1429,7 +1446,10 @@ export async function deployProject(
 		await runSpinner(tty, spinner, `${prefix}Saving release...`, async () => {
 			release.end_timestamp = new Date();
 			if (release.id != null) {
-				await releaseMod.updateRelease(pineClient, release.id, release);
+				await releaseMod.updateRelease(pineClient, release.id, {
+					status: release.status,
+					end_timestamp: release.end_timestamp,
+				});
 			}
 		});
 	}
