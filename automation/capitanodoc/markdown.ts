@@ -90,7 +90,6 @@ function renderToc(categories: Category[]): string[] {
 }
 
 const manualCategorySorting: { [category: string]: string[] } = {
-	'Environment Variables': ['envs', 'env rm', 'env add', 'env rename'],
 	OS: [
 		'os versions',
 		'os download',

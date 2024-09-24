@@ -22,7 +22,7 @@ import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
 import { randomBytes } from 'node:crypto';
 
-describe('balena envs', function () {
+describe('balena env list', function () {
 	const appName = 'test';
 	let fullUUID: string;
 	let shortUUID: string;
@@ -46,7 +46,7 @@ describe('balena envs', function () {
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
 
-		const { out, err } = await runCommand(`envs -f ${appName}`);
+		const { out, err } = await runCommand(`env list -f ${appName}`);
 
 		expect(out.join('')).to.equal(
 			stripIndent`
@@ -64,7 +64,7 @@ describe('balena envs', function () {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();
 
-		const { out, err } = await runCommand(`envs -f ${appName} --config`);
+		const { out, err } = await runCommand(`env list -f ${appName} --config`);
 
 		expect(out.join('')).to.equal(
 			stripIndent`
@@ -80,7 +80,7 @@ describe('balena envs', function () {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();
 
-		const { out, err } = await runCommand(`envs -cjf ${appName}`);
+		const { out, err } = await runCommand(`env list -cjf ${appName}`);
 
 		expect(JSON.parse(out.join(''))).to.deep.equal([
 			{
@@ -101,7 +101,7 @@ describe('balena envs', function () {
 		api.expectGetAppServiceVars();
 
 		const { out, err } = await runCommand(
-			`envs -f ${appName} -s ${serviceName}`,
+			`env list -f ${appName} -s ${serviceName}`,
 		);
 
 		expect(out.join('')).to.equal(
@@ -123,7 +123,7 @@ describe('balena envs', function () {
 		api.expectGetAppServiceVars();
 
 		const { out, err } = await runCommand(
-			`envs -f ${appName} -s ${serviceName}`,
+			`env list -f ${appName} -s ${serviceName}`,
 		);
 
 		expect(out.join('')).to.equal(
@@ -146,7 +146,7 @@ describe('balena envs', function () {
 		api.expectGetAppServiceVars();
 		api.expectGetDeviceServiceVars();
 
-		const result = await runCommand(`envs -d ${shortUUID}`);
+		const result = await runCommand(`env list -d ${shortUUID}`);
 		let { out } = result;
 		let expected =
 			stripIndent`
@@ -176,7 +176,7 @@ describe('balena envs', function () {
 		api.expectGetAppServiceVars();
 		api.expectGetDeviceServiceVars();
 
-		const { out, err } = await runCommand(`envs -jd ${shortUUID}`);
+		const { out, err } = await runCommand(`env list -jd ${shortUUID}`);
 		const expected = `[
 			{ "id": 120101, "fleet": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
 			{ "id": 120102, "fleet": "org/test", "deviceUUID": "*", "name": "var2", "value": "22", "serviceName": "*" },
@@ -199,7 +199,7 @@ describe('balena envs', function () {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();
 
-		const result = await runCommand(`envs -d ${shortUUID} --config`);
+		const result = await runCommand(`env list -d ${shortUUID} --config`);
 		let { out } = result;
 		let expected =
 			stripIndent`
@@ -225,7 +225,9 @@ describe('balena envs', function () {
 		api.expectGetAppServiceVars();
 		api.expectGetDeviceEnvVars();
 
-		const result = await runCommand(`envs -d ${shortUUID} -s ${serviceName}`);
+		const result = await runCommand(
+			`env list -d ${shortUUID} -s ${serviceName}`,
+		);
 		let { out } = result;
 		let expected =
 			stripIndent`
@@ -250,7 +252,7 @@ describe('balena envs', function () {
 		api.expectGetDeviceEnvVars();
 		api.expectGetDeviceServiceVars();
 
-		const result = await runCommand(`envs -d ${shortUUID}`);
+		const result = await runCommand(`env list -d ${shortUUID}`);
 		let { out } = result;
 		let expected =
 			stripIndent`
@@ -278,7 +280,9 @@ describe('balena envs', function () {
 		api.expectGetDeviceEnvVars();
 		api.expectGetDeviceServiceVars();
 
-		const result = await runCommand(`envs -d ${shortUUID} -s ${serviceName}`);
+		const result = await runCommand(
+			`env list -d ${shortUUID} -s ${serviceName}`,
+		);
 		let { out } = result;
 		let expected =
 			stripIndent`
@@ -309,7 +313,7 @@ describe('balena envs', function () {
 		api.expectGetDeviceServiceVars();
 
 		const { out, err } = await runCommand(
-			`envs -d ${shortUUID} -js ${serviceName}`,
+			`env list -d ${shortUUID} -js ${serviceName}`,
 		);
 		const expected = `[
 			{ "id": 120101, "fleet": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
