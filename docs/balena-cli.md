@@ -3909,7 +3909,7 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
 ### Aliases
 
-- `tags`
+- `tags` *(deprecated)*
 
 
 To use one of the aliases, replace `tag list` with the alias.
