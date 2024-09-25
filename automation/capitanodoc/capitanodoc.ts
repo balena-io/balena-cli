@@ -36,9 +36,6 @@ import { GlobSync } from 'glob';
  * This dictionary is the source of truth that creates the docs config which is used
  * to generate the CLI documentation. By default, the folder name will be used.
  *
- * Resources with plural names needs to have 2 sections if they have commands like:
- * "fleet, fleets" or "device, devices" or "tag, tags"
- *
  */
 
 interface Category {
