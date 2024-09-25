@@ -21,14 +21,17 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
 
-export default class KeyCmd extends Command {
+export default class SSHKeyCmd extends Command {
+	public static aliases = ['key'];
+	public static deprecateAliases = true;
+
 	public static description = stripIndent`
 		Display an SSH key.
 
 		Display a single SSH key registered in balenaCloud for the logged in user.
 	`;
 
-	public static examples = ['$ balena key 17'];
+	public static examples = ['$ balena ssh-key 17'];
 
 	public static args = {
 		id: Args.integer({
@@ -38,7 +41,7 @@ export default class KeyCmd extends Command {
 		}),
 	};
 
-	public static usage = 'key <id>';
+	public static usage = 'ssh-key <id>';
 
 	public static flags = {
 		help: cf.help,
@@ -47,7 +50,7 @@ export default class KeyCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = await this.parse(KeyCmd);
+		const { args: params } = await this.parse(SSHKeyCmd);
 
 		const key = await getBalenaSdk().models.key.get(params.id);
 

@@ -21,7 +21,10 @@ import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
-export default class KeyAddCmd extends Command {
+export default class SSHKeyAddCmd extends Command {
+	public static aliases = ['key add'];
+	public static deprecateAliases = true;
+
 	public static description = stripIndent`
 		Add an SSH key to balenaCloud.
 
@@ -29,7 +32,7 @@ export default class KeyAddCmd extends Command {
 
 		If \`path\` is omitted, the command will attempt to read the SSH key from stdin.
 
-		About SSH keys  
+		About SSH keys
 		An "SSH key" actually consists of a public/private key pair. A typical name
 		for the private key file is "id_rsa", and a typical name for the public key
 		file is "id_rsa.pub". Both key files are saved to your computer (with the
@@ -37,7 +40,7 @@ export default class KeyAddCmd extends Command {
 		saved to your balena account.  This means that if you change computers or
 		otherwise lose the private key, you cannot recover the private key through
 		your balena account. You can however add new keys, and delete the old ones.
-		
+
 		To generate a new SSH key pair, a nice guide can be found in GitHub's docs:
 		https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 		Skip the step about adding the key to a GitHub account, and instead add it to
@@ -45,10 +48,10 @@ export default class KeyAddCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena key add Main ~/.ssh/id_rsa.pub',
-		'$ cat ~/.ssh/id_rsa.pub | balena key add Main',
+		'$ balena ssh-key add Main ~/.ssh/id_rsa.pub',
+		'$ cat ~/.ssh/id_rsa.pub | balena ssh-key add Main',
 		'# Windows 10 (cmd.exe prompt) example',
-		'$ balena key add Main %userprofile%.sshid_rsa.pub',
+		'$ balena ssh-key add Main %userprofile%.sshid_rsa.pub',
 	];
 
 	public static args = {
@@ -61,7 +64,7 @@ export default class KeyAddCmd extends Command {
 		}),
 	};
 
-	public static usage = 'key add <name> [path]';
+	public static usage = 'ssh-key add <name> [path]';
 
 	public static flags = {
 		help: cf.help,
@@ -72,7 +75,7 @@ export default class KeyAddCmd extends Command {
 	public static readStdin = true;
 
 	public async run() {
-		const { args: params } = await this.parse(KeyAddCmd);
+		const { args: params } = await this.parse(SSHKeyAddCmd);
 
 		let key: string;
 		if (params.path != null) {

@@ -19,7 +19,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class KeyListCmd extends Command {
+export default class SSHKeyListCmd extends Command {
 	public static aliases = ['keys'];
 	public static deprecateAliases = true;
 
@@ -28,9 +28,9 @@ export default class KeyListCmd extends Command {
 
 		List all SSH keys registered in balenaCloud for the logged in user.
 	`;
-	public static examples = ['$ balena key list'];
+	public static examples = ['$ balena ssh-key list'];
 
-	public static usage = 'key list';
+	public static usage = 'ssh-key list';
 
 	public static flags = {
 		help: cf.help,
@@ -39,7 +39,7 @@ export default class KeyListCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		await this.parse(KeyListCmd);
+		await this.parse(SSHKeyListCmd);
 
 		const keys = await getBalenaSdk().models.key.getAll();
 

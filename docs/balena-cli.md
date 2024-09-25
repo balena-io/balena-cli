@@ -294,10 +294,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - SSH Keys
 
-	- [key add &#60;name&#62; [path]](#key-add-name-path)
-	- [key &#60;id&#62;](#key-id)
-	- [key list](#key-list)
-	- [key rm &#60;id&#62;](#key-rm-id)
+	- [ssh-key add &#60;name&#62; [path]](#ssh-key-add-name-path)
+	- [ssh-key &#60;id&#62;](#ssh-key-id)
+	- [ssh-key list](#ssh-key-list)
+	- [ssh-key rm &#60;id&#62;](#ssh-key-rm-id)
 
 - Support
 
@@ -3492,13 +3492,13 @@ Examples:
 
 # SSH Keys
 
-## key add &#60;name&#62; [path]
+## ssh-key add &#60;name&#62; [path]
 
 Add an SSH key to the balenaCloud account of the logged in user.
 
 If `path` is omitted, the command will attempt to read the SSH key from stdin.
 
-About SSH keys  
+About SSH keys
 An "SSH key" actually consists of a public/private key pair. A typical name
 for the private key file is "id_rsa", and a typical name for the public key
 file is "id_rsa.pub". Both key files are saved to your computer (with the
@@ -3514,10 +3514,10 @@ your balena account.
 
 Examples:
 
-	$ balena key add Main ~/.ssh/id_rsa.pub
-	$ cat ~/.ssh/id_rsa.pub | balena key add Main
+	$ balena ssh-key add Main ~/.ssh/id_rsa.pub
+	$ cat ~/.ssh/id_rsa.pub | balena ssh-key add Main
 	# Windows 10 (cmd.exe prompt) example
-	$ balena key add Main %userprofile%.sshid_rsa.pub
+	$ balena ssh-key add Main %userprofile%.sshid_rsa.pub
 
 ### Arguments
 
@@ -3531,13 +3531,13 @@ the path to the public key file
 
 ### Options
 
-## key &#60;id&#62;
+## ssh-key &#60;id&#62;
 
 Display a single SSH key registered in balenaCloud for the logged in user.
 
 Examples:
 
-	$ balena key 17
+	$ balena ssh-key 17
 
 ### Arguments
 
@@ -3547,17 +3547,17 @@ balenaCloud ID for the SSH key
 
 ### Options
 
-## key list
+## ssh-key list
 
 List all SSH keys registered in balenaCloud for the logged in user.
 
 Examples:
 
-	$ balena key list
+	$ balena ssh-key list
 
 ### Options
 
-## key rm &#60;id&#62;
+## ssh-key rm &#60;id&#62;
 
 Remove a single SSH key registered in balenaCloud for the logged in user.
 
@@ -3565,8 +3565,8 @@ The --yes option may be used to avoid interactive confirmation.
 
 Examples:
 
-	$ balena key rm 17
-	$ balena key rm 17 --yes
+	$ balena ssh-key rm 17
+	$ balena ssh-key rm 17 --yes
 
 ### Arguments
 
