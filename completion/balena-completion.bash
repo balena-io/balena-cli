@@ -7,7 +7,7 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key app block build config deploy device devices env fleet internal join leave local login logout logs notes orgs os preload push release scan settings ssh ssh-key support tag tags tunnel util version whoami"
+  main_commands="api-key app block build config deploy device devices env fleet internal join leave local login logout logs notes orgs os preload push release scan settings ssh ssh-key support tag tunnel util version whoami"
   # Sub-completions
   api_key_cmds="generate list revoke"
   app_cmds="create"
@@ -22,7 +22,7 @@ _balena_complete()
   os_cmds="build-config configure download initialize versions"
   release_cmds="finalize invalidate list validate"
   ssh_key_cmds="add list rm"
-  tag_cmds="rm set"
+  tag_cmds="list rm set"
 
 
 
