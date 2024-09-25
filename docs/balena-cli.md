@@ -3730,7 +3730,7 @@ Examples:
 
 ### Aliases
 
-- `key add`
+- `key add` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key add` with the alias.
@@ -3778,7 +3778,7 @@ the path to the public key file
 
 ### Aliases
 
-- `key`
+- `key` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key` with the alias.
@@ -3823,7 +3823,7 @@ Examples:
 
 ### Aliases
 
-- `key rm`
+- `key rm` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key rm` with the alias.
