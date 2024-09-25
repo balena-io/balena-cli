@@ -22,6 +22,7 @@ import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class SSHKeyAddCmd extends Command {
 	public static aliases = ['key add'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Add an SSH key to balenaCloud.

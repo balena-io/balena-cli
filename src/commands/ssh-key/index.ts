@@ -22,6 +22,7 @@ import { parseAsInteger } from '../../utils/validation';
 
 export default class SSHKeyCmd extends Command {
 	public static aliases = ['key'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Display an SSH key.
