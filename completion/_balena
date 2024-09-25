@@ -8,7 +8,7 @@ _balena() {
   local context state line curcontext="$curcontext"
 
   # Valid top-level completions
-  main_commands=( api-key app block build config deploy device devices env envs fleet internal join key leave local login logout logs notes orgs os preload push release scan settings ssh support tag tags tunnel util version whoami )
+  main_commands=( api-key app block build config deploy device devices env envs fleet internal join leave local login logout logs notes orgs os preload push release scan settings ssh ssh-key support tag tags tunnel util version whoami )
   # Sub-completions
   api_key_cmds=( generate list revoke )
   app_cmds=( create )
@@ -19,10 +19,10 @@ _balena() {
   env_cmds=( add rename rm )
   fleet_cmds=( create list pin purge rename restart rm track-latest )
   internal_cmds=( osinit )
-  key_cmds=( add list rm )
   local_cmds=( configure flash )
   os_cmds=( build-config configure download initialize versions )
   release_cmds=( finalize invalidate list validate )
+  ssh_key_cmds=( add list rm )
   tag_cmds=( rm set )
 
 
@@ -69,9 +69,6 @@ _balena_sec_cmds() {
       "internal")
         _describe -t internal_cmds 'internal_cmd' internal_cmds "$@" && ret=0
       ;;
-      "key")
-        _describe -t key_cmds 'key_cmd' key_cmds "$@" && ret=0
-      ;;
       "local")
         _describe -t local_cmds 'local_cmd' local_cmds "$@" && ret=0
       ;;
@@ -80,6 +77,9 @@ _balena_sec_cmds() {
       ;;
       "release")
         _describe -t release_cmds 'release_cmd' release_cmds "$@" && ret=0
+      ;;
+      "ssh-key")
+        _describe -t ssh_key_cmds 'ssh-key_cmd' ssh_key_cmds "$@" && ret=0
       ;;
       "tag")
         _describe -t tag_cmds 'tag_cmd' tag_cmds "$@" && ret=0

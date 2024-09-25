@@ -7,7 +7,7 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key app block build config deploy device devices env envs fleet internal join key leave local login logout logs notes orgs os preload push release scan settings ssh support tag tags tunnel util version whoami"
+  main_commands="api-key app block build config deploy device devices env envs fleet internal join leave local login logout logs notes orgs os preload push release scan settings ssh ssh-key support tag tags tunnel util version whoami"
   # Sub-completions
   api_key_cmds="generate list revoke"
   app_cmds="create"
@@ -18,10 +18,10 @@ _balena_complete()
   env_cmds="add rename rm"
   fleet_cmds="create list pin purge rename restart rm track-latest"
   internal_cmds="osinit"
-  key_cmds="add list rm"
   local_cmds="configure flash"
   os_cmds="build-config configure download initialize versions"
   release_cmds="finalize invalidate list validate"
+  ssh_key_cmds="add list rm"
   tag_cmds="rm set"
 
 
@@ -63,9 +63,6 @@ _balena_complete()
       internal)
         COMPREPLY=( $(compgen -W "$internal_cmds" -- $cur) )
         ;;
-      key)
-        COMPREPLY=( $(compgen -W "$key_cmds" -- $cur) )
-        ;;
       local)
         COMPREPLY=( $(compgen -W "$local_cmds" -- $cur) )
         ;;
@@ -74,6 +71,9 @@ _balena_complete()
         ;;
       release)
         COMPREPLY=( $(compgen -W "$release_cmds" -- $cur) )
+        ;;
+      ssh-key)
+        COMPREPLY=( $(compgen -W "$ssh_key_cmds" -- $cur) )
         ;;
       tag)
         COMPREPLY=( $(compgen -W "$tag_cmds" -- $cur) )
