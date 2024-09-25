@@ -305,9 +305,9 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Tags
 
+	- [tag list](#tag-list)
 	- [tag rm](#tag-rm)
 	- [tag set](#tag-set)
-	- [tags](#tags)
 
 - Utilities
 
@@ -3850,6 +3850,51 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
 # Tags
 
+## tag list
+
+### Aliases
+
+- `tags`
+
+
+To use one of the aliases, replace `tag list` with the alias.
+
+### Description
+
+List all tags and their values for the specified fleet, device or release.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena tag list --fleet MyFleet
+	$ balena tag list -f myorg/myfleet
+	$ balena tag list --device 7cf02a6
+	$ balena tag list --release 1234
+	$ balena tag list --release b376b0e544e9429483b656490e5b9443b4349bd6
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -r, --release RELEASE
+
+release id
+
 ## tag rm
 
 ### Description
@@ -3934,44 +3979,6 @@ the key string of the tag
 #### VALUE
 
 the optional value associated with the tag
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### -r, --release RELEASE
-
-release id
-
-## tags
-
-### Description
-
-List all tags and their values for the specified fleet, device or release.
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleet list` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	$ balena tags --fleet MyFleet
-	$ balena tags -f myorg/myfleet
-	$ balena tags --device 7cf02a6
-	$ balena tags --release 1234
-	$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6
 
 ### Options
 

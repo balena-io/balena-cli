@@ -84,9 +84,9 @@ ADDITIONAL COMMANDS
   os initialize <image>                  initialize an os image for a device
   os versions <type>                     show available balenaOS versions for the given device type
   settings                               print current settings
-  tag rm <tagKey>                        remove a tag from an application, device or release
-  tag set <tagKey> [value]               set a tag on an application, device or release
-  tags                                   list all tags for an application, device or release
+  tag list                               list all tags for a app, block, fleet, device or release
+  tag rm <tagKey>                        remove a tag from an app, block, fleet, device or release
+  tag set <tagKey> [value]               set a tag on an app, block, fleet, device or release
   util available-drives                  list available drives
   version                                display version information for the balena CLI and/or Node.js
   whoami                                 display account information for current user

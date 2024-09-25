@@ -258,13 +258,13 @@
   %2: build/commands/support/index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
+  %2: build/commands/tag/list.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
   %2: build/commands/tag/rm.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
   %2: build/commands/tag/set.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules/@oclif/core/package.json
-  %2: build/commands/tags/index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
   %2: build/commands/tunnel/index.js
