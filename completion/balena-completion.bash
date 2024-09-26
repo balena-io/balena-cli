@@ -7,13 +7,13 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key app block build config deploy device devices env fleet internal join leave local login logout logs notes organization os preload push release settings ssh ssh-key support tag tunnel util version whoami"
+  main_commands="api-key app block build config deploy device devices env fleet internal join leave local login logout notes organization os preload push release settings ssh ssh-key support tag tunnel util version whoami"
   # Sub-completions
   api_key_cmds="generate list revoke"
   app_cmds="create"
   block_cmds="create"
   config_cmds="generate inject read reconfigure write"
-  device_cmds="deactivate detect identify init list local-mode move os-update pin public-url purge reboot register rename restart rm shutdown start-service stop-service track-fleet"
+  device_cmds="deactivate detect identify init list local-mode logs move os-update pin public-url purge reboot register rename restart rm shutdown start-service stop-service track-fleet"
   devices_cmds="supported"
   env_cmds="add list rename rm"
   fleet_cmds="create list pin purge rename restart rm track-latest"
