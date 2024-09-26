@@ -1296,7 +1296,7 @@ answer "yes" to all questions (non interactive use)
 
 ### Aliases
 
-- `scan`
+- `scan` *(deprecated)*
 
 
 To use one of the aliases, replace `device detect` with the alias.
