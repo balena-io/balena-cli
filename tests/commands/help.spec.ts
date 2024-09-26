@@ -30,7 +30,6 @@ PRIMARY COMMANDS
   push <applicationOrDevice>             start a remote build on the balenaCloud build servers or a local mode device
   logs <device>                          show device logs
   ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
-  apps                                   list all applications
   app <name>                             display information about a single application
   device <uuid>                          show info about a single device
   tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
