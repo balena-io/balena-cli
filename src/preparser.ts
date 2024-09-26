@@ -128,7 +128,7 @@ Please use "balena ${alternative}" instead.`);
 		throw new ExpectedError(msg);
 	}
 	const stopAlternative =
-		'Please use "balena ssh -s" to access the host OS, then use `balena-engine stop`.';
+		'Please use "balena device ssh -s" to access the host OS, then use `balena-engine stop`.';
 	const cmds: { [cmd: string]: [(...args: any) => void, ...string[]] } = {
 		sync: [replaced, 'push', 'v11.0.0', 'removed'],
 		'local logs': [replaced, 'logs', 'v11.0.0'],

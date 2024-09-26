@@ -19,7 +19,7 @@ Selected operating system: **Windows**
    - On the command prompt, type `balena version` and hit Enter. It should display
      the version of the balena CLI that you have installed.
 
-No further steps are required to run most CLI commands. The `balena ssh`, `device detect`, `build`,
+No further steps are required to run most CLI commands. The `balena device ssh`, `device detect`, `build`,
 `deploy` and `preload` commands may require additional software to be installed, as
 described below.
 
@@ -34,9 +34,9 @@ instructions](https://docs.docker.com/install/overview/) to install Docker on th
 workstation as the balena CLI. The [advanced installation
 options](./INSTALL-ADVANCED.md#additional-dependencies) document describes other possibilities.
 
-### balena ssh
+### balena device ssh
 
-The `balena ssh` command requires the `ssh` command-line tool to be available. Microsoft started
+The `balena device ssh` command requires the `ssh` command-line tool to be available. Microsoft started
 distributing an SSH client with Windows 10, which is automatically installed through Windows
 Update. To check whether it is installed, run `ssh` on a Windows Command Prompt or PowerShell. It
 can also be [manually
@@ -44,7 +44,7 @@ installed](https://docs.microsoft.com/en-us/windows-server/administration/openss
 if needed. For older versions of Windows, there are several ssh/OpenSSH clients provided by 3rd
 parties.
 
-The `balena ssh` command also requires an SSH key to be added to your balena account: see [SSH
+The `balena device ssh` command also requires an SSH key to be added to your balena account: see [SSH
 Access documentation](https://www.balena.io/docs/learn/manage/ssh-access/). The `balena key*`
 command set can also be used to list and manage SSH keys: see `balena help -v`.
 
