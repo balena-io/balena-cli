@@ -1192,6 +1192,9 @@ Docker host TLS key file
 
 List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
 
+The --all option can be used to list all device types, including those that are
+no longer supported by balena.
+
 The --json option is recommended when scripting the output of this command,
 because the JSON format is less likely to change and it better represents data
 types like lists and empty strings (for example, the ALIASES column contains a
@@ -1201,6 +1204,7 @@ list of zero or more values). The 'jq' utility may be helpful in shell scripts
 Examples:
 
 	$ balena device-type list
+	$ balena device-type list --all
 	$ balena device-type list --json
 
 ### Options
@@ -1208,6 +1212,10 @@ Examples:
 #### -j, --json
 
 produce JSON output instead of tabular output
+
+#### --all
+
+include device types no longer supported by balena
 
 # Devices
 
