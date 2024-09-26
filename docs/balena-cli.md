@@ -204,6 +204,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device local-mode &#60;uuid&#62;](#device-local-mode-uuid)
 	- [device logs &#60;device&#62;](#device-logs-device)
 	- [device move &#60;uuid(s)&#62;](#device-move-uuid-s)
+	- [device note &#60;|note&#62;](#device-note-note)
 	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
 	- [device pin &#60;uuid&#62; [releasetopinto]](#device-pin-uuid-releasetopinto)
 	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
@@ -244,10 +245,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [local configure &#60;target&#62;](#local-configure-target)
 	- [local flash &#60;image&#62;](#local-flash-image)
-
-- Notes
-
-	- [note &#60;|note&#62;](#note-note)
 
 - Organizations
 
@@ -1534,6 +1531,34 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 fleet name or slug (preferred)
 
+## device note &#60;|note&#62;
+
+Set or update a device note. If the note argument is not provided,
+it will be read from stdin.
+
+To view device notes, use the `balena device <uuid>` command.
+
+Examples:
+
+	$ balena device note "My useful note" --device 7cf02a6
+	$ cat note.txt | balena device note --device 7cf02a6
+
+### Arguments
+
+#### NOTE
+
+note content
+
+### Options
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### --dev DEV
+
+
+
 ## device os-update &#60;uuid&#62;
 
 Start a Host OS update for a device.
@@ -2597,36 +2622,6 @@ Check `balena util available-drives` for available options.
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
-
-# Notes
-
-## note &#60;|note&#62;
-
-Set or update a device note. If the note argument is not provided,
-it will be read from stdin.
-
-To view device notes, use the `balena device <uuid>` command.
-
-Examples:
-
-	$ balena note "My useful note" --device 7cf02a6
-	$ cat note.txt | balena note --device 7cf02a6
-
-### Arguments
-
-#### NOTE
-
-note content
-
-### Options
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### --dev DEV
-
-
 
 # Organizations
 
