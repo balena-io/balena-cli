@@ -24,7 +24,7 @@ export default class OsDownloadCmd extends Command {
 		Download an unconfigured OS image.
 
 		Download an unconfigured OS image for the specified device type.
-		Check available device types with 'balena devices supported'.
+		Check available device types with 'balena device-type list'.
 
 		Note: Currently this command only works with balenaCloud, not openBalena.
 		If using openBalena, please download the OS from: https://www.balena.io/os/

@@ -64,7 +64,7 @@ ADDITIONAL COMMANDS
   device shutdown                        shutdown a device
   device ssh                             SSH into the host or application container of a device
   device tunnel                          tunnel local ports to your balenaOS device
-  devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
+  device-type list                       list the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
   env set                                add or update env or config variable to application(s), device(s) or service(s)
   env list                               list the environment or config variables of an application, device or service
   env rename                             change the value of a config or env var for an app, device or service

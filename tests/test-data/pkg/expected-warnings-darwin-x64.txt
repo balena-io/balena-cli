@@ -141,7 +141,7 @@
   %2: build/commands/device/tunnel.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
-  %2: build/commands/devices/supported.js
+  %2: build/commands/device-type/list.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
   %2: build/commands/env/list.js
