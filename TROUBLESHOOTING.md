@@ -79,10 +79,10 @@ Try resetting the ownership by running:
 $ sudo chown -R <user> $HOME/.balena
 ```
 
-## Broken line wrapping / cursor behavior with `balena ssh`
+## Broken line wrapping / cursor behavior with `balena device ssh`
 
 Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example
-when long command lines are typed in a `balena ssh` session, or when using text editors like `vim`
+when long command lines are typed in a `balena device ssh` session, or when using text editors like `vim`
 or `nano`. This is not something specific to the balena CLI, being also a commonly reported issue
 with standard remote terminal tools like `ssh` or `telnet`.  It is often a remote shell
 configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile`

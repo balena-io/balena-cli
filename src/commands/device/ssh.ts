@@ -24,7 +24,10 @@ import {
 	validateLocalHostnameOrIp,
 } from '../../utils/validation';
 
-export default class SshCmd extends Command {
+export default class DeviceSSHCmd extends Command {
+	public static aliases = ['ssh'];
+	public static deprecateAliases = true;
+
 	public static description = stripIndent`
 		Open a SSH prompt on a device's host OS or service container.
 
@@ -53,14 +56,14 @@ export default class SshCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena ssh MyFleet',
-		'$ balena ssh f49cefd',
-		'$ balena ssh f49cefd my-service',
-		'$ balena ssh f49cefd --port <port>',
-		'$ balena ssh 192.168.0.1 --verbose',
-		'$ balena ssh f49cefd.local my-service',
-		'$ echo "uptime; exit;" | balena ssh f49cefd',
-		'$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService',
+		'$ balena device ssh MyFleet',
+		'$ balena device ssh f49cefd',
+		'$ balena device ssh f49cefd my-service',
+		'$ balena device ssh f49cefd --port <port>',
+		'$ balena device ssh 192.168.0.1 --verbose',
+		'$ balena device ssh f49cefd.local my-service',
+		'$ echo "uptime; exit;" | balena device ssh f49cefd',
+		'$ echo "uptime; exit;" | balena device ssh 192.168.0.1 myService',
 	];
 
 	public static args = {
@@ -75,7 +78,7 @@ export default class SshCmd extends Command {
 		}),
 	};
 
-	public static usage = 'ssh <fleetOrDevice> [service]';
+	public static usage = 'device ssh <fleetOrDevice> [service]';
 
 	public static flags = {
 		port: Flags.integer({
@@ -107,7 +110,7 @@ export default class SshCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(SshCmd);
+		const { args: params, flags: options } = await this.parse(DeviceSSHCmd);
 
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
