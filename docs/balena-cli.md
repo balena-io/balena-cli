@@ -2832,7 +2832,7 @@ answer "yes" to all questions (non interactive use)
 
 ### Aliases
 
-- `orgs`
+- `orgs` *(deprecated)*
 
 
 To use one of the aliases, replace `organization list` with the alias.
