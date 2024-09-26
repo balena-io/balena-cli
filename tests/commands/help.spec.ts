@@ -30,7 +30,6 @@ PRIMARY COMMANDS
   push <applicationOrDevice>             start a remote build on the balenaCloud build servers or a local mode device
   app <name>                             display information about a single application
   device <uuid>                          show info about a single device
-  tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
   preload <image>                        preload an app on a disk image (or Edison zip archive)
   build [source]                         build a project locally
   deploy <appName> [image]               deploy a single image or a multicontainer project to a balena application
@@ -64,6 +63,7 @@ ADDITIONAL COMMANDS
   device rm <uuid(s)>                    remove one or more devices
   device shutdown <uuid>                 shutdown a device
   device ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
+  device tunnel <deviceOrApplication>    tunnel local ports to your balenaOS device
   devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
   env set <name> [value]                 add or update env or config variable to application(s), device(s) or service(s)
   env list                               list the environment or config variables of an application, device or service
