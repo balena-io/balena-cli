@@ -28,7 +28,6 @@ $ balena [COMMAND] [OPTIONS]
 PRIMARY COMMANDS
   login                                  login to balena
   push <applicationOrDevice>             start a remote build on the balenaCloud build servers or a local mode device
-  logs <device>                          show device logs
   ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
   app <name>                             display information about a single application
   device <uuid>                          show info about a single device
@@ -56,6 +55,7 @@ ADDITIONAL COMMANDS
   device identify <uuid>                 identify a device
   device init                            initialise a device with balenaOS
   device list                            list all devices
+  device logs <device>                   show device logs
   device move <uuid(s)>                  move one or more devices to another application
   device os-update <uuid>                start a Host OS update for a device
   device public-url <uuid>               get or manage the public URL for a device
