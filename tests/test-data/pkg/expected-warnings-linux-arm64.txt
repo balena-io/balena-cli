@@ -279,6 +279,9 @@
   %2: build/commands/tunnel/index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
+  %2: build/commands/device/tunnel.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules/@oclif/core/package.json
   %2: build/commands/util/available-drives.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json

@@ -61,7 +61,6 @@ const commandHeadings: { [key: string]: string } = {
 	organization: 'Organizations',
 	os: 'OS',
 	util: 'Utilities',
-	tunnel: 'Network',
 	build: 'Deploy',
 	join: 'Platform',
 	leave: 'Platform',
