@@ -204,6 +204,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device local-mode](#device-local-mode)
 	- [device logs](#device-logs)
 	- [device move](#device-move)
+	- [device note](#device-note)
 	- [device os-update](#device-os-update)
 	- [device pin](#device-pin)
 	- [device public-url](#device-public-url)
@@ -244,10 +245,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [local configure](#local-configure)
 	- [local flash](#local-flash)
-
-- Notes
-
-	- [notes](#notes)
 
 - Organizations
 
@@ -1610,6 +1607,43 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 fleet name or slug (preferred)
 
+## device note
+
+### Aliases
+
+- `notes`
+
+
+To use one of the aliases, replace `device note` with the alias.
+
+### Description
+
+Set or update a device note. If the note argument is not provided,
+it will be read from stdin.
+
+To view device notes, use the `balena device <uuid>` command.
+
+Examples:
+
+	$ balena device note "My useful note" --device 7cf02a6
+	$ cat note.txt | balena device note --device 7cf02a6
+
+### Arguments
+
+#### NOTE
+
+note content
+
+### Options
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### --dev DEV
+
+
+
 ## device os-update
 
 ### Description
@@ -2770,38 +2804,6 @@ Check `balena util available-drives` for available options.
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
-
-# Notes
-
-## notes
-
-### Description
-
-Set or update a device note. If the note argument is not provided,
-it will be read from stdin.
-
-To view device notes, use the `balena device <uuid>` command.
-
-Examples:
-
-	$ balena note "My useful note" --device 7cf02a6
-	$ cat note.txt | balena note --device 7cf02a6
-
-### Arguments
-
-#### NOTE
-
-note content
-
-### Options
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### --dev DEV
-
-
 
 # Organizations
 
