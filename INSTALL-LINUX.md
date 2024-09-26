@@ -61,13 +61,13 @@ instructions](https://docs.docker.com/install/overview/) to install Docker on th
 workstation as the balena CLI. The [advanced installation
 options](./INSTALL-ADVANCED.md#additional-dependencies) document describes other possibilities.
 
-### balena ssh
+### balena device ssh
 
-The `balena ssh` command requires the `ssh` command-line tool to be available. Most Linux
+The `balena device ssh` command requires the `ssh` command-line tool to be available. Most Linux
 distributions will already have it installed. Otherwise, `sudo apt-get install openssh-client`
 should do the trick on Debian or Ubuntu.
 
-The `balena ssh` command also requires an SSH key to be added to your balena account: see [SSH
+The `balena device ssh` command also requires an SSH key to be added to your balena account: see [SSH
 Access documentation](https://www.balena.io/docs/learn/manage/ssh-access/). The `balena key*`
 command set can also be used to list and manage SSH keys: see `balena help -v`.
 

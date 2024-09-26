@@ -20,13 +20,13 @@ import * as mock from 'mock-require';
 import type { Server } from 'net';
 import { createServer } from 'net';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../helpers';
+import { BalenaAPIMock } from '../../nock/balena-api-mock';
+import { cleanOutput, runCommand } from '../../helpers';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
-describe('balena ssh', function () {
+describe('balena device ssh', function () {
 	let api: BalenaAPIMock;
 	let sshServer: Server | undefined;
 	let sshServerPort: number;
@@ -37,8 +37,8 @@ describe('balena ssh', function () {
 		const childProcessPath = 'child_process';
 		if (revert) {
 			mock.stop(childProcessPath);
-			mock.reRequire('../../build/utils/ssh');
-			mock.reRequire('../../build/utils/device/ssh');
+			mock.reRequire('../../../build/utils/ssh');
+			mock.reRequire('../../../build/utils/device/ssh');
 			return;
 		}
 		const { EventEmitter } = await import('stream');
@@ -89,7 +89,7 @@ describe('balena ssh', function () {
 		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
 		mockedExitCode = 0;
 
-		const { err, out } = await runCommand(`ssh ${deviceUUID}`);
+		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
 
 		expect(err).to.be.empty;
 		expect(out).to.be.empty;
@@ -97,7 +97,7 @@ describe('balena ssh', function () {
 
 	itSS('should succeed (mocked, device IP address)', async () => {
 		mockedExitCode = 0;
-		const { err, out } = await runCommand(`ssh 1.2.3.4`);
+		const { err, out } = await runCommand(`device ssh 1.2.3.4`);
 		expect(err).to.be.empty;
 		expect(out).to.be.empty;
 	});
@@ -113,7 +113,7 @@ describe('balena ssh', function () {
 			api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
 			mockedExitCode = 255;
 
-			const { err, out } = await runCommand(`ssh ${deviceUUID}`);
+			const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
 			expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
 			expect(out).to.be.empty;
 		},
@@ -126,7 +126,7 @@ describe('balena ssh', function () {
 		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: false });
 		mockedExitCode = 0;
 
-		const { err, out } = await runCommand(`ssh ${deviceUUID}`);
+		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
 
 		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
 		expect(out).to.be.empty;
@@ -139,7 +139,7 @@ describe('balena ssh', function () {
 			'SSH: Process exited with non-zero status code "255"',
 		];
 		const { err, out } = await runCommand(
-			`ssh 127.0.0.1 -p ${sshServerPort} --noproxy`,
+			`device ssh 127.0.0.1 -p ${sshServerPort} --noproxy`,
 		);
 		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
 		expect(out).to.be.empty;
@@ -148,7 +148,7 @@ describe('balena ssh', function () {
 
 /** Check whether the 'ssh' tool (executable) exists in the PATH */
 async function checkSsh(): Promise<boolean> {
-	const { which } = await import('../../build/utils/which');
+	const { which } = await import('../../../build/utils/which');
 	const sshPath = await which('ssh', false);
 	if ((sshPath || '').includes('\\Windows\\System32\\OpenSSH\\ssh')) {
 		// don't use Windows' built-in ssh tool for these test cases
