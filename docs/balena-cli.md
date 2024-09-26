@@ -2406,7 +2406,7 @@ do not prompt for confirmation before deleting the variable
 
 ### Aliases
 
-- `env add`
+- `env add` *(deprecated)*
 
 
 To use one of the aliases, replace `env set` with the alias.
