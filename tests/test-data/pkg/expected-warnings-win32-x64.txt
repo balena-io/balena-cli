@@ -138,9 +138,6 @@
   %2: build\commands\devices\supported.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\env\add.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
   %2: build\commands\env\list.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
@@ -148,6 +145,9 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\env\rm.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\env\set.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\fleet\create.js

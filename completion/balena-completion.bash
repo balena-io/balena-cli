@@ -15,7 +15,7 @@ _balena_complete()
   config_cmds="generate inject read reconfigure write"
   device_cmds="deactivate detect identify init list local-mode logs move os-update pin public-url purge reboot register rename restart rm shutdown ssh start-service stop-service track-fleet"
   devices_cmds="supported"
-  env_cmds="add list rename rm"
+  env_cmds="list rename rm set"
   fleet_cmds="create list pin purge rename restart rm track-latest"
   internal_cmds="osinit"
   local_cmds="configure flash"

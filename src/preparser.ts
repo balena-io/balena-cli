@@ -44,7 +44,7 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		else if (['--help', '-h'].includes(cmdSlice[0])) {
 			cmdSlice[0] = 'help';
 		}
-		// convert e.g. 'balena help env add' to 'balena env add --help'
+		// convert e.g. 'balena help env set' to 'balena env set --help'
 		if (
 			cmdSlice.length > 1 &&
 			cmdSlice[0] === 'help' &&

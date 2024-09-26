@@ -65,7 +65,7 @@ ADDITIONAL COMMANDS
   device shutdown                        shutdown a device
   device ssh                             SSH into the host or application container of a device
   devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
-  env add                                add env or config variable to application(s), device(s) or service(s)
+  env set                                add or update env or config variable to application(s), device(s) or service(s)
   env list                               list the environment or config variables of an application, device or service
   env rename                             change the value of a config or env var for an app, device or service
   env rm                                 remove a config or env var from an application, device or service

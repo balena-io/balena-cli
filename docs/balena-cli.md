@@ -222,10 +222,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Environment Variables
 
-	- [env add](#env-add)
 	- [env list](#env-list)
 	- [env rename](#env-rename)
 	- [env rm](#env-rm)
+	- [env set](#env-set)
 
 - Fleets
 
@@ -2072,83 +2072,6 @@ produce JSON output instead of tabular output
 
 # Environment Variables
 
-## env add
-
-### Description
-
-Add an environment or config variable to one or more fleets, devices or
-services, as selected by the respective command-line options. Either the
---fleet or the --device option must be provided,  and either may be be
-used alongside the --service option to define a service-specific variable.
-(A service corresponds to a Docker image/container in a microservices fleet.)
-When the --service option is used in conjunction with the --device option,
-the service variable applies to the selected device only.  Otherwise, it
-applies to all devices of the selected fleet. If the --service option is
-omitted, the variable applies to all services.
-
-If VALUE is omitted, the CLI will attempt to use the value of the environment
-variable of same name in the CLI process' environment. In this case, a warning
-message will be printed. Use `--quiet` to suppress it.
-
-'BALENA_' or 'RESIN_' are reserved variable name prefixes used to identify
-"configuration variables". Configuration variables control balena platform
-features and are treated specially by balenaOS and the balena supervisor
-running on devices. They are also stored differently in the balenaCloud API
-database. Configuration variables cannot be set for specific services,
-therefore the --service option cannot be used when the variable name starts
-with a reserved prefix. When defining custom fleet variables, please avoid
-these reserved prefixes.
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleet list` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	$ balena env add TERM --fleet MyFleet
-	$ balena env add EDITOR vim -f myorg/myfleet
-	$ balena env add EDITOR vim --fleet MyFleet,MyFleet2
-	$ balena env add EDITOR vim --fleet MyFleet --service MyService
-	$ balena env add EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2
-	$ balena env add EDITOR vim --device 7cf02a6
-	$ balena env add EDITOR vim --device 7cf02a6,d6f1433
-	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
-	$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
-
-### Arguments
-
-#### NAME
-
-environment or config variable name
-
-#### VALUE
-
-variable value; if omitted, use value from this process' environment
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### -q, --quiet
-
-suppress warning messages
-
-#### -s, --service SERVICE
-
-service name
-
 ## env list
 
 ### Aliases
@@ -2366,6 +2289,90 @@ select a service variable (may be used together with the --device option)
 #### -y, --yes
 
 do not prompt for confirmation before deleting the variable
+
+## env set
+
+### Aliases
+
+- `env add`
+
+
+To use one of the aliases, replace `env set` with the alias.
+
+### Description
+
+Add or update an environment or config variable to one or more fleets, devices or
+services, as selected by the respective command-line options. Either the
+--fleet or the --device option must be provided,  and either may be be
+used alongside the --service option to define a service-specific variable.
+(A service corresponds to a Docker image/container in a microservices fleet.)
+When the --service option is used in conjunction with the --device option,
+the service variable applies to the selected device only.  Otherwise, it
+applies to all devices of the selected fleet. If the --service option is
+omitted, the variable applies to all services.
+
+If VALUE is omitted, the CLI will attempt to use the value of the environment
+variable of same name in the CLI process' environment. In this case, a warning
+message will be printed. Use `--quiet` to suppress it.
+
+'BALENA_' or 'RESIN_' are reserved variable name prefixes used to identify
+"configuration variables". Configuration variables control balena platform
+features and are treated specially by balenaOS and the balena supervisor
+running on devices. They are also stored differently in the balenaCloud API
+database. Configuration variables cannot be set for specific services,
+therefore the --service option cannot be used when the variable name starts
+with a reserved prefix. When defining custom fleet variables, please avoid
+these reserved prefixes.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena env set TERM --fleet MyFleet
+	$ balena env set EDITOR vim -f myorg/myfleet
+	$ balena env set EDITOR vim --fleet MyFleet,MyFleet2
+	$ balena env set EDITOR vim --fleet MyFleet --service MyService
+	$ balena env set EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2
+	$ balena env set EDITOR vim --device 7cf02a6
+	$ balena env set EDITOR vim --device 7cf02a6,d6f1433
+	$ balena env set EDITOR vim --device 7cf02a6 --service MyService
+	$ balena env set EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
+
+### Arguments
+
+#### NAME
+
+environment or config variable name
+
+#### VALUE
+
+variable value; if omitted, use value from this process' environment
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -q, --quiet
+
+suppress warning messages
+
+#### -s, --service SERVICE
+
+service name
 
 # Fleets
 
