@@ -27,7 +27,9 @@ import { lowercaseIfSlug } from '../../utils/normalization';
 
 import type { Server, Socket } from 'net';
 
-export default class TunnelCmd extends Command {
+export default class DeviceTunnelCmd extends Command {
+	public static aliases = ['tunnel'];
+
 	public static description = stripIndent`
 		Tunnel local ports to your balenaOS device.
 
@@ -54,19 +56,19 @@ export default class TunnelCmd extends Command {
 
 	public static examples = [
 		'# map remote port 22222 to localhost:22222',
-		'$ balena tunnel myFleet -p 22222',
+		'$ balena device tunnel myFleet -p 22222',
 		'',
 		'# map remote port 22222 to localhost:222',
-		'$ balena tunnel 2ead211 -p 22222:222',
+		'$ balena device tunnel 2ead211 -p 22222:222',
 		'',
 		'# map remote port 22222 to any address on your host machine, port 22222',
-		'$ balena tunnel 1546690 -p 22222:0.0.0.0',
+		'$ balena device tunnel 1546690 -p 22222:0.0.0.0',
 		'',
 		'# map remote port 22222 to any address on your host machine, port 222',
-		'$ balena tunnel myFleet -p 22222:0.0.0.0:222',
+		'$ balena device tunnel myFleet -p 22222:0.0.0.0:222',
 		'',
 		'# multiple port tunnels can be specified at any one time',
-		'$ balena tunnel myFleet -p 8080:3000 -p 8081:9000',
+		'$ balena device tunnel myFleet -p 8080:3000 -p 8081:9000',
 	];
 
 	public static args = {
@@ -91,7 +93,7 @@ export default class TunnelCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(TunnelCmd);
+		const { args: params, flags: options } = await this.parse(DeviceTunnelCmd);
 
 		const Logger = await import('../../utils/logger');
 
