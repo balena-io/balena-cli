@@ -29,7 +29,7 @@ export const trackPromise = new Promise((resolve) => {
  * See: https://oclif.io/docs/hooks
  *
  * This hook is used to track CLI command signatures (usage analytics).
- * A command signature is something like "env add NAME [VALUE]". That's
+ * A command signature is something like "env set NAME [VALUE]". That's
  * literally so: 'NAME' and 'VALUE' are NOT replaced with actual values.
  */
 const hook: Hook<'prerun'> = async function (options) {

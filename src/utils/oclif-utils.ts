@@ -41,7 +41,7 @@ export class CommandHelp {
 	}
 }
 
-/** Convert e.g. 'env add NAME [VALUE]' to 'env add <name> [value]' */
+/** Convert e.g. 'env set NAME [VALUE]' to 'env set <name> [value]' */
 export function capitanoizeOclifUsage(
 	oclifUsage: string | string[] | undefined,
 ): string {
