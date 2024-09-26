@@ -31,7 +31,7 @@ export default class FleetCreateCmd extends Command {
 		\`balena organization list\` command.
 
 		The fleet's default device type is specified with the \`--type\` option.
-		The \`balena devices supported\` command can be used to list the available
+		The \`balena device-type list\` command can be used to list the available
 		device types.
 
 		Interactive dropdowns will be shown for selection if no device type or
@@ -62,7 +62,7 @@ export default class FleetCreateCmd extends Command {
 		type: Flags.string({
 			char: 't',
 			description:
-				'fleet device type (Check available types with `balena devices supported`)',
+				'fleet device type (Check available types with `balena device-type list`)',
 		}),
 		help: cf.help,
 	};

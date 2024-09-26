@@ -24,7 +24,7 @@ export default class OsVersionsCmd extends Command {
 		Show available balenaOS versions for the given device type.
 
 		Show the available balenaOS versions for the given device type.
-		Check available types with \`balena devices supported\`.
+		Check available types with \`balena device-type list\`.
 
 		balenaOS ESR versions can be listed with the '--esr' option. See also:
 		https://www.balena.io/docs/reference/OS/extended-support-release/
