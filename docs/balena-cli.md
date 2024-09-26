@@ -193,6 +193,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [build [source]](#build-source)
 	- [deploy &#60;fleet&#62; [image]](#deploy-fleet-image)
 
+- Device-type
+
+	- [device-type list](#device-type-list)
+
 - Devices
 
 	- [device deactivate &#60;uuid&#62;](#device-deactivate-uuid)
@@ -220,7 +224,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device stop-service &#60;uuid&#62;](#device-stop-service-uuid)
 	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
 	- [device tunnel &#60;deviceorfleet&#62;](#device-tunnel-deviceorfleet)
-	- [devices supported](#devices-supported)
 
 - Environment Variables
 
@@ -382,7 +385,7 @@ should be provided. Organization handles can be listed with the
 `balena organization list` command.
 
 The app's default device type is specified with the `--type` option.
-The `balena devices supported` command can be used to list the available
+The `balena device-type list` command can be used to list the available
 device types.
 
 Interactive dropdowns will be shown for selection if no device type or
@@ -411,7 +414,7 @@ handle of the organization the app should belong to
 
 #### -t, --type TYPE
 
-app device type (Check available types with `balena devices supported`)
+app device type (Check available types with `balena device-type list`)
 
 # Authentication
 
@@ -504,7 +507,7 @@ should be provided. Organization handles can be listed with the
 `balena organization list` command.
 
 The block's default device type is specified with the `--type` option.
-The `balena devices supported` command can be used to list the available
+The `balena device-type list` command can be used to list the available
 device types.
 
 Interactive dropdowns will be shown for selection if no device type or
@@ -533,7 +536,7 @@ handle of the organization the block should belong to
 
 #### -t, --type TYPE
 
-block device type (Check available types with `balena devices supported`)
+block device type (Check available types with `balena device-type list`)
 
 # Config
 
@@ -613,7 +616,7 @@ custom device key - note that this is only supported on balenaOS 2.0.3+
 
 #### --deviceType DEVICETYPE
 
-device type slug (run 'balena devices supported' for possible values)
+device type slug (run 'balena device-type list' for possible values)
 
 #### --generate-device-api-key
 
@@ -1183,6 +1186,29 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
+# Device-type
+
+## device-type list
+
+List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
+
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents data
+types like lists and empty strings (for example, the ALIASES column contains a
+list of zero or more values). The 'jq' utility may be helpful in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
+Examples:
+
+	$ balena device-type list
+	$ balena device-type list --json
+
+### Options
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 # Devices
 
 ## device deactivate &#60;uuid&#62;
@@ -1729,7 +1755,7 @@ custom uuid
 
 #### --deviceType DEVICETYPE
 
-device type slug (run 'balena devices supported' for possible values)
+device type slug (run 'balena device-type list' for possible values)
 
 ## device rename &#60;uuid&#62; [newName]
 
@@ -2008,27 +2034,6 @@ device UUID or fleet name/slug
 #### -p, --port PORT
 
 port mapping in the format <remotePort>[:[localIP:]localPort]
-
-## devices supported
-
-List the supported device types (like 'raspberrypi3' or 'intel-nuc').
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings (for example, the ALIASES column contains a
-list of zero or more values). The 'jq' utility may be helpful in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
-Examples:
-
-	$ balena devices supported
-	$ balena devices supported --json
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 # Environment Variables
 
@@ -2324,7 +2329,7 @@ should be provided. Organization handles can be listed with the
 `balena organization list` command.
 
 The fleet's default device type is specified with the `--type` option.
-The `balena devices supported` command can be used to list the available
+The `balena device-type list` command can be used to list the available
 device types.
 
 Interactive dropdowns will be shown for selection if no device type or
@@ -2353,7 +2358,7 @@ handle of the organization the fleet should belong to
 
 #### -t, --type TYPE
 
-fleet device type (Check available types with `balena devices supported`)
+fleet device type (Check available types with `balena device-type list`)
 
 ## fleet &#60;fleet&#62;
 
@@ -2795,7 +2800,7 @@ expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 ## os download &#60;type&#62;
 
 Download an unconfigured OS image for the specified device type.
-Check available device types with 'balena devices supported'.
+Check available device types with 'balena device-type list'.
 
 Note: Currently this command only works with balenaCloud, not openBalena.
 If using openBalena, please download the OS from: https://www.balena.io/os/
@@ -2872,7 +2877,7 @@ path to OS image
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+device type (Check available types with `balena device-type list`)
 
 #### -d, --drive DRIVE
 
@@ -2887,7 +2892,7 @@ answer "yes" to all questions (non interactive use)
 ## os versions &#60;type&#62;
 
 Show the available balenaOS versions for the given device type.
-Check available types with `balena devices supported`.
+Check available types with `balena device-type list`.
 
 balenaOS ESR versions can be listed with the '--esr' option. See also:
 https://www.balena.io/docs/reference/OS/extended-support-release/

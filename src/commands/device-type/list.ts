@@ -23,11 +23,11 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
-export default class DevicesSupportedCmd extends Command {
+export default class DeviceTypeListCmd extends Command {
 	public static description = stripIndent`
-		List the supported device types (like 'raspberrypi3' or 'intel-nuc').
+		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
 
-		List the supported device types (like 'raspberrypi3' or 'intel-nuc').
+		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
 
 		The --json option is recommended when scripting the output of this command,
 		because the JSON format is less likely to change and it better represents data
@@ -36,13 +36,13 @@ export default class DevicesSupportedCmd extends Command {
 		(https://stedolan.github.io/jq/manual/).
 `;
 	public static examples = [
-		'$ balena devices supported',
-		'$ balena devices supported --json',
+		'$ balena device-type list',
+		'$ balena device-type list --json',
 	];
 
 	public static usage = (
-		'devices supported ' +
-		new CommandHelp({ args: DevicesSupportedCmd.args }).defaultUsage()
+		'device-type list ' +
+		new CommandHelp({ args: DeviceTypeListCmd.args }).defaultUsage()
 	).trim();
 
 	public static flags = {
@@ -54,7 +54,7 @@ export default class DevicesSupportedCmd extends Command {
 	};
 
 	public async run() {
-		const { flags: options } = await this.parse(DevicesSupportedCmd);
+		const { flags: options } = await this.parse(DeviceTypeListCmd);
 		const pineOptions = {
 			$select: ['slug', 'name'],
 			$expand: {

@@ -7,14 +7,14 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key app block build config deploy device devices env fleet internal join leave local login logout organization os preload push release settings ssh-key support tag util version whoami"
+  main_commands="api-key app block build config deploy device device-type env fleet internal join leave local login logout organization os preload push release settings ssh-key support tag util version whoami"
   # Sub-completions
   api_key_cmds="generate list revoke"
   app_cmds="create"
   block_cmds="create"
   config_cmds="generate inject read reconfigure write"
+  device_type_cmds="list"
   device_cmds="deactivate detect identify init list local-mode logs move note os-update pin public-url purge reboot register rename restart rm shutdown ssh start-service stop-service track-fleet tunnel"
-  devices_cmds="supported"
   env_cmds="list rename rm set"
   fleet_cmds="create list pin purge rename restart rm track-latest"
   internal_cmds="osinit"
@@ -49,11 +49,11 @@ _balena_complete()
       config)
         COMPREPLY=( $(compgen -W "$config_cmds" -- $cur) )
         ;;
+      device-type)
+        COMPREPLY=( $(compgen -W "$device_type_cmds" -- $cur) )
+        ;;
       device)
         COMPREPLY=( $(compgen -W "$device_cmds" -- $cur) )
-        ;;
-      devices)
-        COMPREPLY=( $(compgen -W "$devices_cmds" -- $cur) )
         ;;
       env)
         COMPREPLY=( $(compgen -W "$env_cmds" -- $cur) )
