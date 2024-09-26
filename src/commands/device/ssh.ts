@@ -25,6 +25,7 @@ import {
 
 export default class DeviceSSHCmd extends Command {
 	public static aliases = ['ssh'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Open a SSH prompt on a device's host OS or service container.

@@ -1982,7 +1982,7 @@ force action if the update lock is set
 
 ### Aliases
 
-- `ssh`
+- `ssh` *(deprecated)*
 
 
 To use one of the aliases, replace `device ssh` with the alias.
