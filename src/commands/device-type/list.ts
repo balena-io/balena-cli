@@ -22,6 +22,7 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class DeviceTypeListCmd extends Command {
 	public static aliases = ['devices supported'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
