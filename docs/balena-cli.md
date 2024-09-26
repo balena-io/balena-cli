@@ -1229,7 +1229,7 @@ Docker host TLS key file
 
 ### Aliases
 
-- `devices supported`
+- `devices supported` *(deprecated)*
 
 
 To use one of the aliases, replace `device-type list` with the alias.
