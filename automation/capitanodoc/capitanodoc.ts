@@ -62,7 +62,6 @@ const commandHeadings: { [key: string]: string } = {
 	os: 'OS',
 	util: 'Utilities',
 	ssh: 'Network',
-	scan: 'Network',
 	tunnel: 'Network',
 	build: 'Deploy',
 	join: 'Platform',

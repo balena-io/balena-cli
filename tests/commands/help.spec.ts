@@ -39,7 +39,6 @@ PRIMARY COMMANDS
   deploy <appName> [image]               deploy a single image or a multicontainer project to a balena application
   join [deviceIpOrHostname]              move a local device to an application on another balena server
   leave [deviceIpOrHostname]             remove a local device from its balena application
-  scan                                   scan for balenaOS devices on your local network
 
 `;
 
@@ -54,6 +53,7 @@ ADDITIONAL COMMANDS
   config read                            read the configuration of a device or OS image
   config reconfigure                     interactively reconfigure a device or OS image
   config write <key> <value>             write a key-value pair to configuration of a device or OS image
+  device detect                          scan for balenaOS devices on your local network
   device identify <uuid>                 identify a device
   device init                            initialise a device with balenaOS
   device move <uuid(s)>                  move one or more devices to another application

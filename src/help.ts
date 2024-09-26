@@ -233,6 +233,5 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		'deploy',
 		'join',
 		'leave',
-		'scan',
 	];
 }
