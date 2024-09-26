@@ -28,7 +28,7 @@ export default class FleetCreateCmd extends Command {
 		You can specify the organization the fleet should belong to using
 		the \`--organization\` option. The organization's handle, not its name,
 		should be provided. Organization handles can be listed with the
-		\`balena orgs\` command.
+		\`balena organization list\` command.
 
 		The fleet's default device type is specified with the \`--type\` option.
 		The \`balena devices supported\` command can be used to list the available

@@ -58,7 +58,7 @@ const commandHeadings: { [key: string]: string } = {
 	env: 'Environment Variables',
 	help: 'Help and Version',
 	'ssh-key': 'SSH Keys',
-	orgs: 'Organizations',
+	organization: 'Organizations',
 	os: 'OS',
 	util: 'Utilities',
 	ssh: 'Network',
