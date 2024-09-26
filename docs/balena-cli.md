@@ -1655,7 +1655,7 @@ fleet name or slug (preferred)
 
 ### Aliases
 
-- `notes`
+- `notes` *(deprecated)*
 
 
 To use one of the aliases, replace `device note` with the alias.

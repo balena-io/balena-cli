@@ -22,6 +22,7 @@ import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class DeviceNoteCmd extends Command {
 	public static aliases = ['notes'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Set a device note.
