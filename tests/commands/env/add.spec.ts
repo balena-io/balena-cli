@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
 
-describe('balena env add', function () {
+describe('balena env set', function () {
 	let api: BalenaAPIMock;
 
 	const fullUUID = 'f63fd7d7812c34c4c14ae023fdff05f5';
@@ -42,7 +42,7 @@ describe('balena env add', function () {
 			.post(/^\/v\d+\/device_environment_variable($|\?)/)
 			.reply(200, 'OK');
 
-		const { out, err } = await runCommand(`env add TEST 1 -d ${fullUUID}`);
+		const { out, err } = await runCommand(`env set TEST 1 -d ${fullUUID}`);
 
 		expect(out.join('')).to.equal('');
 		expect(err.join('')).to.equal('');
@@ -53,7 +53,7 @@ describe('balena env add', function () {
 		delete process.env.TEST_ENV_VAR_ADD_NO_VALUE_REJECTED;
 
 		const { out, err } = await runCommand(
-			`env add TEST_ENV_VAR_ADD_NO_VALUE_REJECTED -d ${fullUUID}`,
+			`env set TEST_ENV_VAR_ADD_NO_VALUE_REJECTED -d ${fullUUID}`,
 		);
 
 		expect(out.join('')).to.equal('');
@@ -74,7 +74,7 @@ describe('balena env add', function () {
 		process.env.TEST_ENV_VAR_ADD_NO_VALUE = '4';
 
 		const { out, err } = await runCommand(
-			`env add TEST_ENV_VAR_ADD_NO_VALUE -d ${fullUUID}`,
+			`env set TEST_ENV_VAR_ADD_NO_VALUE -d ${fullUUID}`,
 		);
 
 		delete process.env.TEST_ENV_VAR_ADD_NO_VALUE;
@@ -95,7 +95,7 @@ describe('balena env add', function () {
 			.reply(200, 'OK');
 
 		const { out, err } = await runCommand(
-			`env add TEST_EMPTY_STRING '' -d ${fullUUID}`,
+			`env set TEST_EMPTY_STRING '' -d ${fullUUID}`,
 		);
 
 		expect(out.join('')).to.equal('');

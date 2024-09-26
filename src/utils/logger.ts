@@ -48,7 +48,7 @@ interface LoggerAdapter {
 class Logger {
 	public static readonly Level = Level;
 	// `Logger.command` is currently set in `preparser.ts`
-	public static command: string; // CLI cmd, e.g. 'push', 'env add', ...
+	public static command: string; // CLI cmd, e.g. 'push', 'env set', ...
 
 	public streams: {
 		build: NodeJS.ReadWriteStream;
