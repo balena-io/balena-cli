@@ -26,6 +26,9 @@ export default class DeviceTypeListCmd extends Command {
 
 		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
 
+		The --all option can be used to list all device types, including those that are
+		no longer supported by balena.
+
 		The --json option is recommended when scripting the output of this command,
 		because the JSON format is less likely to change and it better represents data
 		types like lists and empty strings (for example, the ALIASES column contains a
@@ -34,6 +37,7 @@ export default class DeviceTypeListCmd extends Command {
 `;
 	public static examples = [
 		'$ balena device-type list',
+		'$ balena device-type list --all',
 		'$ balena device-type list --json',
 	];
 
@@ -42,6 +46,10 @@ export default class DeviceTypeListCmd extends Command {
 		json: Flags.boolean({
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
+		}),
+		all: Flags.boolean({
+			description: 'include device types no longer supported by balena',
+			default: false,
 		}),
 	};
 
@@ -57,9 +65,11 @@ export default class DeviceTypeListCmd extends Command {
 				},
 			},
 		} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
-		const dts = (await getBalenaSdk().models.deviceType.getAllSupported(
-			pineOptions,
-		)) as Array<
+		const dts = (
+			options.all
+				? await getBalenaSdk().models.deviceType.getAll(pineOptions)
+				: await getBalenaSdk().models.deviceType.getAllSupported(pineOptions)
+		) as Array<
 			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
 		>;
 		interface DT {
