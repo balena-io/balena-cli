@@ -19,15 +19,18 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class OrgsCmd extends Command {
+export default class OrganizationListCmd extends Command {
+	public static aliases = ['orgs'];
+	public static deprecateAliases = true;
+
 	public static description = stripIndent`
 		List all organizations.
 
 		list all the organizations that you are a member of.
 `;
-	public static examples = ['$ balena orgs'];
+	public static examples = ['$ balena organization list'];
 
-	public static usage = 'orgs';
+	public static usage = 'organization list';
 
 	public static flags = {
 		help: cf.help,
@@ -36,7 +39,7 @@ export default class OrgsCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		await this.parse(OrgsCmd);
+		await this.parse(OrganizationListCmd);
 
 		const { getOwnOrganizations } = await import('../../utils/sdk');
 

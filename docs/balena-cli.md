@@ -255,9 +255,9 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [note &#60;|note&#62;](#note-note)
 
-- Organization
+- Organizations
 
-	- [orgs](#orgs)
+	- [organization list](#organization-list)
 
 - OS
 
@@ -388,7 +388,7 @@ Create a new balena app.
 You can specify the organization the app should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
-`balena orgs` command.
+`balena organization list` command.
 
 The app's default device type is specified with the `--type` option.
 The `balena devices supported` command can be used to list the available
@@ -510,7 +510,7 @@ Create a new balena block.
 You can specify the organization the block should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
-`balena orgs` command.
+`balena organization list` command.
 
 The block's default device type is specified with the `--type` option.
 The `balena devices supported` command can be used to list the available
@@ -2102,7 +2102,7 @@ Create a new balena fleet.
 You can specify the organization the fleet should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
-`balena orgs` command.
+`balena organization list` command.
 
 The fleet's default device type is specified with the `--type` option.
 The `balena devices supported` command can be used to list the available
@@ -2638,15 +2638,15 @@ device UUID
 
 
 
-# Organization
+# Organizations
 
-## orgs
+## organization list
 
 list all the organizations that you are a member of.
 
 Examples:
 
-	$ balena orgs
+	$ balena organization list
 
 ### Options
 
