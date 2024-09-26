@@ -196,6 +196,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 - Devices
 
 	- [device deactivate](#device-deactivate)
+	- [device detect](#device-detect)
 	- [device identify](#device-identify)
 	- [device](#device)
 	- [device init](#device-init)
@@ -247,7 +248,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Network
 
-	- [scan](#scan)
 	- [ssh](#ssh)
 	- [tunnel](#tunnel)
 
@@ -1256,6 +1256,44 @@ the UUID of the device to be deactivated
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
+
+## device detect
+
+### Aliases
+
+- `scan`
+
+
+To use one of the aliases, replace `device detect` with the alias.
+
+### Description
+
+Scan for balenaOS devices on your local network.
+
+The output includes device information collected through balenaEngine for
+devices running a development image of balenaOS. Devices running a production
+image do not expose balenaEngine (on TCP port 2375), which is why less
+information is printed about them.
+
+Examples:
+
+	$ balena device detect
+	$ balena device detect --timeout 120
+	$ balena device detect --verbose
+
+### Options
+
+#### -v, --verbose
+
+display full info
+
+#### -t, --timeout TIMEOUT
+
+scan timeout in seconds
+
+#### -j, --json
+
+produce JSON output instead of tabular output
 
 ## device identify
 
@@ -2594,37 +2632,6 @@ This can be used in combination with --system or other --service flags.
 Only show system logs. This can be used in combination with --service.
 
 # Network
-
-## scan
-
-### Description
-
-Scan for balenaOS devices on your local network.
-
-The output includes device information collected through balenaEngine for
-devices running a development image of balenaOS. Devices running a production
-image do not expose balenaEngine (on TCP port 2375), which is why less
-information is printed about them.
-
-Examples:
-
-	$ balena scan
-	$ balena scan --timeout 120
-	$ balena scan --verbose
-
-### Options
-
-#### -v, --verbose
-
-display full info
-
-#### -t, --timeout TIMEOUT
-
-scan timeout in seconds
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## ssh
 
