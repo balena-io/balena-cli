@@ -28,7 +28,6 @@ $ balena [COMMAND] [OPTIONS]
 PRIMARY COMMANDS
   login                                  login to balena
   push <applicationOrDevice>             start a remote build on the balenaCloud build servers or a local mode device
-  ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
   app <name>                             display information about a single application
   device <uuid>                          show info about a single device
   tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
@@ -64,6 +63,7 @@ ADDITIONAL COMMANDS
   device rename <uuid> [newName]         rename a device
   device rm <uuid(s)>                    remove one or more devices
   device shutdown <uuid>                 shutdown a device
+  device ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
   devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
   env add <name> [value]                 add env or config variable to application(s), device(s) or service(s)
   env list                               list the environment or config variables of an application, device or service

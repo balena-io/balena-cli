@@ -42,7 +42,7 @@ const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then echo "bal
  *   - Obtaining container IDs using 'dockerode' connected directly to
  *     balenaEngine on a device, TCP port 2375.
  *
- * The problem with using the supervisor API is that it means that 'balena ssh'
+ * The problem with using the supervisor API is that it means that 'balena device ssh'
  * becomes dependent on the supervisor being up an running, but sometimes ssh
  * is needed to investigate devices issues where the supervisor has got into
  * trouble (e.g. supervisor in restart loop). This is the subject of CLI issue
@@ -50,7 +50,7 @@ const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then echo "bal
  *
  * The problem with using dockerode to connect directly to port 2375 (balenaEngine)
  * is that it only works with development variants of balenaOS. Production variants
- * block access to port 2375 for security reasons. 'balena ssh' should support
+ * block access to port 2375 for security reasons. 'balena device ssh' should support
  * production variants as well, especially after balenaOS v2.44.0 that introduced
  * support for using the cloud account username for ssh authentication.
  *
@@ -149,7 +149,7 @@ export async function performLocalDeviceSSH(
 
 		const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
 		// stdin (fd=0) is not a tty when data is piped in, for example
-		// echo 'ls -la; exit;' | balena ssh 192.168.0.20 service1
+		// echo 'ls -la; exit;' | balena device ssh 192.168.0.20 service1
 		// See https://www.balena.io/blog/balena-monthly-roundup-january-2020/#charliestipsntricks
 		//     https://assets.balena.io/newsletter/2020-01/pipe.png
 		const isTTY = !!opts.forceTTY || (await import('tty')).isatty(0);

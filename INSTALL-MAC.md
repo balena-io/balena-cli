@@ -19,7 +19,7 @@ Selected operating system: **macOS**
    - On the terminal prompt, type `balena version` and hit Enter. It should display
      the version of the balena CLI that you have installed.
 
-No further steps are required to run most CLI commands. The `balena ssh`, `build`, `deploy`
+No further steps are required to run most CLI commands. The `balena device ssh`, `build`, `deploy`
 and `preload` commands may require additional software to be installed, as described
 in the next section.
 
@@ -41,9 +41,9 @@ instructions](https://docs.docker.com/install/overview/) to install Docker on th
 workstation as the balena CLI. The [advanced installation
 options](./INSTALL-ADVANCED.md#additional-dependencies) document describes other possibilities.
 
-### balena ssh
+### balena device ssh
 
-The `balena ssh` command requires the `ssh` command-line tool to be available. To check whether
+The `balena device ssh` command requires the `ssh` command-line tool to be available. To check whether
 it is already installed, run `ssh` on a Terminal window. If it is not yet installed, the options
 include:
 
@@ -52,7 +52,7 @@ include:
   Components → Command Line Tools → Install.
 * Or, install [Homebrew](https://brew.sh/), then `brew install openssh`
 
-The `balena ssh` command also requires an SSH key to be added to your balena account: see [SSH
+The `balena device ssh` command also requires an SSH key to be added to your balena account: see [SSH
 Access documentation](https://www.balena.io/docs/learn/manage/ssh-access/). The `balena key*`
 command set can also be used to list and manage SSH keys: see `balena help -v`.
 
