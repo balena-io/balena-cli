@@ -37,6 +37,7 @@ interface ArgsDef {
 
 export default class EnvSetCmd extends Command {
 	public static aliases = ['env add'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Add or update env or config variable to fleets, devices or services.
