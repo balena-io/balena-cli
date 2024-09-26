@@ -29,6 +29,7 @@ import type { Server, Socket } from 'net';
 
 export default class DeviceTunnelCmd extends Command {
 	public static aliases = ['tunnel'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Tunnel local ports to your balenaOS device.

@@ -2126,7 +2126,7 @@ the uuid of the device to make track the fleet's release
 
 ### Aliases
 
-- `tunnel`
+- `tunnel` *(deprecated)*
 
 
 To use one of the aliases, replace `device tunnel` with the alias.
