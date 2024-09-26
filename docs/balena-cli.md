@@ -255,7 +255,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [note &#60;|note&#62;](#note-note)
 
-- Organizations
+- Organization
 
 	- [orgs](#orgs)
 
@@ -2638,7 +2638,7 @@ device UUID
 
 
 
-# Organizations
+# Organization
 
 ## orgs
 
