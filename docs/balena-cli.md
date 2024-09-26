@@ -1554,7 +1554,7 @@ output boolean indicating local mode status
 
 ### Aliases
 
-- `logs`
+- `logs` *(deprecated)*
 
 
 To use one of the aliases, replace `device logs` with the alias.

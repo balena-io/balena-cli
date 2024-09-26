@@ -24,6 +24,7 @@ const MAX_RETRY = 1000;
 
 export default class DeviceLogsCmd extends Command {
 	public static aliases = ['logs'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Show device logs.
