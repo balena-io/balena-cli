@@ -366,7 +366,7 @@ export async function signFilesForNotarization() {
 						'-d',
 						'-f',
 						'-s',
-						'Developer ID Application: Balena Ltd (66H43P8FRG)',
+						'Developer ID Installer: Balena Ltd (66H43P8FRG)',
 						item.path,
 					]);
 					await whichSpawn('codesign', [
