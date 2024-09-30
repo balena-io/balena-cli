@@ -16,7 +16,6 @@
  */
 
 import { Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class OrganizationListCmd extends Command {
@@ -29,10 +28,6 @@ export default class OrganizationListCmd extends Command {
 		list all the organizations that you are a member of.
 `;
 	public static examples = ['$ balena organization list'];
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public static authenticated = true;
 
