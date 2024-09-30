@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Command } from '@oclif/core';
 import { Help } from '@oclif/core';
 import * as indent from 'indent-string';
 import { getChalk } from './utils/lazy';
+import type { ResolvableReturnType } from 'balena-sdk/typings/utils';
 
 // Partially overrides standard implementation of help plugin
 // https://github.com/oclif/plugin-help/blob/master/src/index.ts
@@ -94,9 +96,9 @@ export default class BalenaHelp extends Help {
 			})
 			.filter((c): c is (typeof commands)[0] => !!c);
 
-		let usageLength = 0;
+		let cmdLength = 0;
 		for (const cmd of primaryCommands) {
-			usageLength = Math.max(usageLength, cmd.usage?.length || 0);
+			cmdLength = Math.max(cmdLength, cmd.id.length);
 		}
 
 		let additionalCmdSection: string[];
@@ -110,16 +112,15 @@ export default class BalenaHelp extends Help {
 			// Find longest usage, and pad usage of first command in each category
 			// This is to ensure that both categories align visually
 			for (const cmd of additionalCommands) {
-				usageLength = Math.max(usageLength, cmd.usage?.length || 0);
+				cmdLength = Math.max(cmdLength, cmd.id.length);
 			}
 
 			if (
-				typeof primaryCommands[0].usage === 'string' &&
-				typeof additionalCommands[0].usage === 'string'
+				typeof primaryCommands[0].id === 'string' &&
+				typeof additionalCommands[0].id === 'string'
 			) {
-				primaryCommands[0].usage = primaryCommands[0].usage.padEnd(usageLength);
-				additionalCommands[0].usage =
-					additionalCommands[0].usage.padEnd(usageLength);
+				primaryCommands[0].id = primaryCommands[0].id.padEnd(cmdLength);
+				additionalCommands[0].id = additionalCommands[0].id.padEnd(cmdLength);
 			}
 
 			additionalCmdSection = [
@@ -143,7 +144,7 @@ prevent exit with an error as per Deprecation Policy
 See: https://git.io/JRHUW#deprecation-policy`,
 			],
 		];
-		globalOps[0][0] = globalOps[0][0].padEnd(usageLength);
+		globalOps[0][0] = globalOps[0][0].padEnd(cmdLength);
 
 		const { deprecationPolicyNote, reachingOut } =
 			require('./utils/messages') as typeof import('./utils/messages');
@@ -183,15 +184,20 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		return outLines.join('\n');
 	}
 
-	protected formatCommands(commands: any[]): string {
+	protected formatCommands(
+		commands: Array<
+			Command.Loadable | ResolvableReturnType<Command.Loadable['load']>
+		>,
+	): string {
 		if (commands.length === 0) {
 			return '';
 		}
 
 		const body = this.renderList(
-			commands
-				.filter((c) => c.usage != null && c.usage !== '')
-				.map((c) => [c.usage, this.formatDescription(c.description)]),
+			commands.map((c) => [
+				c.id.replaceAll(':', ' '),
+				this.formatDescription(c.description),
+			]),
 			{
 				spacer: '\n',
 				stripAnsi: this.opts.stripAnsi,
