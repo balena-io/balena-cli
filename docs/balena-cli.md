@@ -162,158 +162,158 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - API Keys
 
-	- [](#)
-	- [](#)
-	- [](#)
+	- [api-key generate](#api-key-generate)
+	- [api-key list](#api-key-list)
+	- [api-key revoke](#api-key-revoke)
 
 - Apps
 
-	- [](#)
+	- [app create](#app-create)
 
 - Authentication
 
-	- [](#)
-	- [](#)
-	- [](#)
+	- [login](#login)
+	- [logout](#logout)
+	- [whoami](#whoami)
 
 - Blocks
 
-	- [](#)
+	- [block create](#block-create)
 
 - Config
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
+	- [config generate](#config-generate)
+	- [config inject](#config-inject)
+	- [config read](#config-read)
+	- [config reconfigure](#config-reconfigure)
+	- [config write](#config-write)
 
 - Deploy
 
-	- [](#)
-	- [](#)
+	- [build](#build)
+	- [deploy](#deploy)
 
 - Device-type
 
-	- [](#)
+	- [device-type list](#device-type-list)
 
 - Devices
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
+	- [device deactivate](#device-deactivate)
+	- [device detect](#device-detect)
+	- [device identify](#device-identify)
+	- [device](#device)
+	- [device init](#device-init)
+	- [device list](#device-list)
+	- [device local-mode](#device-local-mode)
+	- [device logs](#device-logs)
+	- [device move](#device-move)
+	- [device note](#device-note)
+	- [device os-update](#device-os-update)
+	- [device pin](#device-pin)
+	- [device public-url](#device-public-url)
+	- [device purge](#device-purge)
+	- [device reboot](#device-reboot)
+	- [device register](#device-register)
+	- [device rename](#device-rename)
+	- [device restart](#device-restart)
+	- [device rm](#device-rm)
+	- [device shutdown](#device-shutdown)
+	- [device ssh](#device-ssh)
+	- [device start-service](#device-start-service)
+	- [device stop-service](#device-stop-service)
+	- [device track-fleet](#device-track-fleet)
+	- [device tunnel](#device-tunnel)
 
 - Environment Variables
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
+	- [env list](#env-list)
+	- [env rename](#env-rename)
+	- [env rm](#env-rm)
+	- [env set](#env-set)
 
 - Fleets
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
+	- [fleet create](#fleet-create)
+	- [fleet](#fleet)
+	- [fleet list](#fleet-list)
+	- [fleet pin](#fleet-pin)
+	- [fleet purge](#fleet-purge)
+	- [fleet rename](#fleet-rename)
+	- [fleet restart](#fleet-restart)
+	- [fleet rm](#fleet-rm)
+	- [fleet track-latest](#fleet-track-latest)
 
 - Local
 
-	- [](#)
-	- [](#)
+	- [local configure](#local-configure)
+	- [local flash](#local-flash)
 
 - Organizations
 
-	- [](#)
+	- [organization list](#organization-list)
 
 - OS
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
+	- [os build-config](#os-build-config)
+	- [os configure](#os-configure)
+	- [os download](#os-download)
+	- [os initialize](#os-initialize)
+	- [os versions](#os-versions)
 
 - Platform
 
-	- [](#)
-	- [](#)
+	- [join](#join)
+	- [leave](#leave)
 
 - Preload
 
-	- [](#)
+	- [preload](#preload)
 
 - Push
 
-	- [](#)
+	- [push](#push)
 
 - Releases
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [release list &#60;fleet&#62;](#release-list-fleet)
-	- [](#)
+	- [release finalize](#release-finalize)
+	- [release](#release)
+	- [release invalidate](#release-invalidate)
+	- [release list](#release-list)
+	- [release validate](#release-validate)
 
 - Settings
 
-	- [](#)
+	- [settings](#settings)
 
 - SSH Keys
 
-	- [](#)
-	- [](#)
-	- [](#)
-	- [](#)
+	- [ssh-key add](#ssh-key-add)
+	- [ssh-key](#ssh-key)
+	- [ssh-key list](#ssh-key-list)
+	- [ssh-key rm](#ssh-key-rm)
 
 - Support
 
-	- [](#)
+	- [support](#support)
 
 - Tags
 
-	- [](#)
-	- [](#)
-	- [](#)
+	- [tag list](#tag-list)
+	- [tag rm](#tag-rm)
+	- [tag set](#tag-set)
 
 - Utilities
 
-	- [](#)
+	- [util available-drives](#util-available-drives)
 
 - Version
 
-	- [](#)
+	- [version](#version)
 
 # API Keys
 
-## 
+## api-key generate
 
 Generate a new balenaCloud API key for the current user, with the given
 name. The key will be logged to the console.
@@ -333,7 +333,7 @@ the API key name
 
 ### Options
 
-## 
+## api-key list
 
 Print a list of balenaCloud API keys.
 
@@ -353,7 +353,7 @@ show API keys for your user
 
 fleet name or slug (preferred)
 
-## 
+## api-key revoke
 
 Revoke balenaCloud API keys with the given
 comma-separated list of ids.
@@ -375,7 +375,7 @@ the API key ids
 
 # Apps
 
-## 
+## app create
 
 Create a new balena app.
 
@@ -418,7 +418,7 @@ app device type (Check available types with `balena device-type list`)
 
 # Authentication
 
-## 
+## login
 
 Login to your balena account.
 
@@ -479,7 +479,7 @@ TCP port number of local HTTP login server (--web auth only)
 
 Hides warning for experimental features
 
-## 
+## logout
 
 Logout from your balena account.
 
@@ -487,7 +487,7 @@ Examples:
 
 	$ balena logout
 
-## 
+## whoami
 
 Get the username and email address of the currently logged in user.
 
@@ -497,7 +497,7 @@ Examples:
 
 # Blocks
 
-## 
+## block create
 
 Create a new balena block.
 
@@ -540,7 +540,7 @@ block device type (Check available types with `balena device-type list`)
 
 # Config
 
-## 
+## config generate
 
 Generate a config.json file for a device or fleet.
 
@@ -650,7 +650,7 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
-## 
+## config inject
 
 Inject a 'config.json' file to a balenaOS image file or attached SD card or
 USB stick.
@@ -675,7 +675,7 @@ the path to the config.json file to inject
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
-## 
+## config read
 
 Read the 'config.json' file of a balenaOS image file or attached SD card or
 USB stick.
@@ -699,7 +699,7 @@ path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 produce JSON output instead of tabular output
 
-## 
+## config reconfigure
 
 Interactively reconfigure a balenaOS image file or attached media.
 
@@ -730,7 +730,7 @@ show advanced commands
 
 balenaOS version, for example "2.32.0" or "2.44.0+rev1"
 
-## 
+## config write
 
 Write a key-value pair to the 'config.json' file of a balenaOS image file or
 attached SD card or USB stick.
@@ -762,7 +762,7 @@ path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 # Deploy
 
-## 
+## build
 
 Use this command to build an image or a complete multicontainer project with
 the provided docker daemon in your development machine or balena device.
@@ -961,7 +961,7 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
-## 
+## deploy
 
 Usage: `deploy <fleet> ([image] | --build [--source build-dir])`
 
@@ -1188,7 +1188,7 @@ Docker host TLS key file
 
 # Device-type
 
-## 
+## device-type list
 
 List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
 
@@ -1219,7 +1219,7 @@ include device types no longer supported by balena
 
 # Devices
 
-## 
+## device deactivate
 
 Deactivate a device.
 
@@ -1243,7 +1243,7 @@ the UUID of the device to be deactivated
 
 answer "yes" to all questions (non interactive use)
 
-## 
+## device detect
 
 Scan for balenaOS devices on your local network.
 
@@ -1272,7 +1272,7 @@ scan timeout in seconds
 
 produce JSON output instead of tabular output
 
-## 
+## device identify
 
 Identify a device by making the ACT LED blink (Raspberry Pi).
 
@@ -1288,7 +1288,7 @@ the uuid of the device to identify
 
 ### Options
 
-## 
+## device
 
 Show information about a single device.
 
@@ -1320,7 +1320,7 @@ produce JSON output instead of tabular output
 
 open device dashboard page
 
-## 
+## device init
 
 Register a new device in the selected fleet, download the OS image for the
 fleet's default device type, configure the image and write it to an SD card.
@@ -1405,7 +1405,7 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
-## 
+## device list
 
 List all of your devices.
 
@@ -1443,7 +1443,7 @@ fleet name or slug (preferred)
 
 produce JSON output instead of tabular output
 
-## 
+## device local-mode
 
 Output current local mode status, or enable/disable local mode
 for specified device.
@@ -1475,7 +1475,7 @@ disable local mode
 
 output boolean indicating local mode status
 
-## 
+## device logs
 
 Show logs for a specific device.
 
@@ -1530,7 +1530,7 @@ This can be used in combination with --system or other --service flags.
 
 Only show system logs. This can be used in combination with --service.
 
-## 
+## device move
 
 Move one or more devices to another fleet.
 
@@ -1565,7 +1565,7 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 fleet name or slug (preferred)
 
-## 
+## device note
 
 Set or update a device note. If the note argument is not provided,
 it will be read from stdin.
@@ -1593,7 +1593,7 @@ device UUID
 
 
 
-## 
+## device os-update
 
 Start a Host OS update for a device.
 
@@ -1629,7 +1629,7 @@ include pre-release balenaOS versions
 
 answer "yes" to all questions (non interactive use)
 
-## 
+## device pin
 
 Pin a device to a release.
 
@@ -1652,7 +1652,7 @@ the commit of the release for the device to get pinned to
 
 ### Options
 
-## 
+## device public-url
 
 This command will output the current public URL for the
 specified device.  It can also enable or disable the URL,
@@ -1685,7 +1685,7 @@ disable the public URL
 
 determine if public URL is enabled
 
-## 
+## device purge
 
 Purge data from a device.
 This will clear the device's "/data" directory.
@@ -1706,7 +1706,7 @@ comma-separated list (no blank spaces) of device UUIDs
 
 ### Options
 
-## 
+## device reboot
 
 Remotely reboot a device.
 
@@ -1726,7 +1726,7 @@ the uuid of the device to reboot
 
 force action if the update lock is set
 
-## 
+## device register
 
 Register a new device with a balena fleet.
 
@@ -1765,7 +1765,7 @@ custom uuid
 
 device type slug (run 'balena device-type list' for possible values)
 
-## 
+## device rename
 
 Rename a device.
 
@@ -1788,7 +1788,7 @@ the new name for the device
 
 ### Options
 
-## 
+## device restart
 
 Restart containers on a device.
 If the --service flag is provided, then only those services' containers
@@ -1818,7 +1818,7 @@ comma-separated list (no blank spaces) of device UUIDs to restart
 
 comma-separated list (no blank spaces) of service names to restart
 
-## 
+## device rm
 
 Remove one or more devices from balena.
 
@@ -1843,7 +1843,7 @@ comma-separated list (no blank spaces) of device UUIDs to be removed
 
 answer "yes" to all questions (non interactive use)
 
-## 
+## device shutdown
 
 Remotely shutdown a device.
 
@@ -1863,7 +1863,7 @@ the uuid of the device to shutdown
 
 force action if the update lock is set
 
-## 
+## device ssh
 
 Start a shell on a local or remote device. If a service name is not provided,
 a shell will be opened on the host OS.
@@ -1928,7 +1928,7 @@ increase verbosity
 
 bypass global proxy configuration for the ssh connection
 
-## 
+## device start-service
 
 Start containers on a device.
 
@@ -1952,7 +1952,7 @@ comma-separated list (no blank spaces) of service names
 
 ### Options
 
-## 
+## device stop-service
 
 Stop containers on a device.
 
@@ -1976,7 +1976,7 @@ comma-separated list (no blank spaces) of service names
 
 ### Options
 
-## 
+## device track-fleet
 
 Make a device track the fleet's pinned release.
 
@@ -1992,7 +1992,7 @@ the uuid of the device to make track the fleet's release
 
 ### Options
 
-## 
+## device tunnel
 
 Use this command to open local TCP ports that tunnel to listening sockets in a
 balenaOS device.
@@ -2045,7 +2045,7 @@ port mapping in the format <remotePort>[:[localIP:]localPort]
 
 # Environment Variables
 
-## 
+## env list
 
 List the environment or configuration variables of a fleet, device or
 service, as selected by the respective command-line options. (A service
@@ -2120,7 +2120,7 @@ produce JSON output instead of tabular output
 
 service name
 
-## 
+## env rename
 
 Change the value of a configuration or environment variable for a fleet,
 device or service, as selected by command-line options.
@@ -2183,7 +2183,7 @@ select a device-specific variable instead of a fleet variable
 
 select a service variable (may be used together with the --device option)
 
-## 
+## env rm
 
 Remove a configuration or environment variable from a fleet, device
 or service, as selected by command-line options.
@@ -2250,7 +2250,7 @@ select a service variable (may be used together with the --device option)
 
 do not prompt for confirmation before deleting the variable
 
-## 
+## env set
 
 Add or update an environment or config variable to one or more fleets, devices or
 services, as selected by the respective command-line options. Either the
@@ -2327,7 +2327,7 @@ service name
 
 # Fleets
 
-## 
+## fleet create
 
 Create a new balena fleet.
 
@@ -2368,7 +2368,7 @@ handle of the organization the fleet should belong to
 
 fleet device type (Check available types with `balena device-type list`)
 
-## 
+## fleet
 
 Display detailed information about a single fleet.
 
@@ -2404,7 +2404,7 @@ open fleet dashboard page
 
 produce JSON output instead of tabular output
 
-## 
+## fleet list
 
 List all your balena fleets.
 
@@ -2421,7 +2421,7 @@ Examples:
 
 produce JSON output instead of tabular output
 
-## 
+## fleet pin
 
 Pin a fleet to a release.
 
@@ -2444,7 +2444,7 @@ the commit of the release for the fleet to get pinned to
 
 ### Options
 
-## 
+## fleet purge
 
 Purge data from all devices belonging to a fleet.
 This will clear the fleet's '/data' directory.
@@ -2472,7 +2472,7 @@ fleet name or slug (preferred)
 
 ### Options
 
-## 
+## fleet rename
 
 Rename a fleet.
 
@@ -2507,7 +2507,7 @@ the new name for the fleet
 
 ### Options
 
-## 
+## fleet restart
 
 Restart all devices belonging to a fleet.
 
@@ -2534,7 +2534,7 @@ fleet name or slug (preferred)
 
 ### Options
 
-## 
+## fleet rm
 
 Permanently remove a fleet.
 
@@ -2568,7 +2568,7 @@ fleet name or slug (preferred)
 
 answer "yes" to all questions (non interactive use)
 
-## 
+## fleet track-latest
 
 Make this fleet track the latest release.
 
@@ -2587,7 +2587,7 @@ the slug of the fleet to make track the latest release
 
 # Local
 
-## 
+## local configure
 
 Configure or reconfigure a balenaOS drive or image.
 
@@ -2604,7 +2604,7 @@ path of drive or image to configure
 
 ### Options
 
-## 
+## local flash
 
 Flash a balenaOS image to a drive.
 Image file may be one of: .img|.zip|.gz|.bz2|.xz
@@ -2638,7 +2638,7 @@ answer "yes" to all questions (non interactive use)
 
 # Organizations
 
-## 
+## organization list
 
 list all the organizations that you are a member of.
 
@@ -2650,7 +2650,7 @@ Examples:
 
 # OS
 
-## 
+## os build-config
 
 Interactively generate a configuration file that can then be used as
 non-interactive input by the 'balena os configure' command.
@@ -2680,7 +2680,7 @@ show advanced configuration options
 
 path to output JSON file
 
-## 
+## os configure
 
 Configure a previously downloaded balenaOS image for a specific device type
 or fleet.
@@ -2805,7 +2805,7 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
-## 
+## os download
 
 Download an unconfigured OS image for the specified device type.
 Check available device types with 'balena device-type list'.
@@ -2860,7 +2860,7 @@ or 'recommended' (excludes pre-releases, will fail if only pre-release versions 
 or 'menu' (interactive menu, non-ESR versions),
 or 'menu-esr' (interactive menu, ESR versions)
 
-## 
+## os initialize
 
 Initialize an os image for a device with a previously
 		configured operating system image and flash the
@@ -2897,7 +2897,7 @@ Check `balena util available-drives` for available options.
 
 answer "yes" to all questions (non interactive use)
 
-## 
+## os versions
 
 Show the available balenaOS versions for the given device type.
 Check available types with `balena device-type list`.
@@ -2927,7 +2927,7 @@ include pre-release balenaOS versions
 
 # Platform
 
-## 
+## join
 
 Move a local device to a fleet on another balena server, causing
 the device to "join" the new server. The device must be running balenaOS.
@@ -2979,7 +2979,7 @@ fleet name or slug (preferred)
 
 the interval in minutes to check for updates
 
-## 
+## leave
 
 Remove a local device from its balena fleet, causing the device to
 "leave" the server it is provisioned on. This effectively makes the device
@@ -3008,7 +3008,7 @@ the device IP or hostname
 
 # Preload
 
-## 
+## preload
 
 Preload a release (service images/containers) from a balena fleet, and optionally
 a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
@@ -3116,7 +3116,7 @@ Docker host TLS key file
 
 # Push
 
-## 
+## push
 
 Build release images on balenaCloud servers or on a local mode device.
 
@@ -3343,7 +3343,7 @@ The notes for this release
 
 # Releases
 
-## 
+## release finalize
 
 Finalize a release. Releases can be "draft" or "final", and this command
 changes a draft release into a final release. Draft releases can be created
@@ -3369,7 +3369,7 @@ the commit or ID of the release to finalize
 
 ### Options
 
-## 
+## release
 
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it
@@ -3399,7 +3399,7 @@ produce JSON output instead of tabular output
 
 Return the release composition
 
-## 
+## release invalidate
 
 Invalidate a release.
 
@@ -3420,7 +3420,7 @@ the commit or ID of the release to invalidate
 
 ### Options
 
-## release list &#60;fleet&#62;
+## release list
 
 List all releases of the given fleet.
 
@@ -3456,7 +3456,7 @@ fleet name or slug (preferred)
 
 produce JSON output instead of tabular output
 
-## 
+## release validate
 
 Validate a release.
 
@@ -3478,7 +3478,7 @@ the commit or ID of the release to validate
 
 # Settings
 
-## 
+## settings
 
 Use this command to display the current balena CLI settings.
 
@@ -3490,7 +3490,7 @@ Examples:
 
 # SSH Keys
 
-## 
+## ssh-key add
 
 Add an SSH key to the balenaCloud account of the logged in user.
 
@@ -3529,7 +3529,7 @@ the path to the public key file
 
 ### Options
 
-## 
+## ssh-key
 
 Display a single SSH key registered in balenaCloud for the logged in user.
 
@@ -3545,7 +3545,7 @@ balenaCloud ID for the SSH key
 
 ### Options
 
-## 
+## ssh-key list
 
 List all SSH keys registered in balenaCloud for the logged in user.
 
@@ -3555,7 +3555,7 @@ Examples:
 
 ### Options
 
-## 
+## ssh-key rm
 
 Remove a single SSH key registered in balenaCloud for the logged in user.
 
@@ -3580,7 +3580,7 @@ answer "yes" to all questions (non interactive use)
 
 # Support
 
-## 
+## support
 
 Grant or revoke balena support agent access to devices or fleets
 on balenaCloud. (This command does not apply to openBalena.)
@@ -3630,7 +3630,7 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
 # Tags
 
-## 
+## tag list
 
 List all tags and their values for the specified fleet, device or release.
 
@@ -3666,7 +3666,7 @@ device UUID
 
 release id
 
-## 
+## tag rm
 
 Remove a tag from a fleet, device or release.
 
@@ -3708,7 +3708,7 @@ device UUID
 
 release id
 
-## 
+## tag set
 
 Set a tag on a fleet, device or release.
 
@@ -3763,7 +3763,7 @@ release id
 
 # Utilities
 
-## 
+## util available-drives
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
@@ -3772,7 +3772,7 @@ Does not list system drives.
 
 # Version
 
-## 
+## version
 
 Display version information for the balena CLI and/or Node.js. Note that the
 balena CLI executable installers for Windows and macOS, and the standalone
