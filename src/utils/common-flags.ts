@@ -30,8 +30,6 @@ export const device = Flags.string({
 	description: 'device UUID',
 });
 
-export const help = Flags.help({ char: 'h' });
-
 export const quiet = Flags.boolean({
 	char: 'q',
 	description: 'suppress warning messages',

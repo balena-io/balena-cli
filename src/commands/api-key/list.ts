@@ -33,7 +33,6 @@ export default class APIKeyListCmd extends Command {
 	public static examples = ['$ balena api-key list'];
 
 	public static flags = {
-		help: cf.help,
 		user: Flags.boolean({
 			char: 'u',
 			description: 'show API keys for your user',

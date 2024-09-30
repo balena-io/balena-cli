@@ -105,7 +105,6 @@ export default class EnvListCmd extends Command {
 			exclusive: ['service'],
 		}),
 		device: { ...cf.device, exclusive: ['fleet'] },
-		help: cf.help,
 		json: cf.json,
 		service: { ...cf.service, exclusive: ['config'] },
 	};

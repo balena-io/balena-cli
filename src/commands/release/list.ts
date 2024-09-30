@@ -42,7 +42,6 @@ export default class ReleaseListCmd extends Command {
 
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 	};
 
 	public static args = {

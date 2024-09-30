@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getCliForm, stripIndent } from '../../utils/lazy';
 import * as _ from 'lodash';
 import type { DeviceTypeJson } from 'balena-sdk';
@@ -55,7 +54,6 @@ export default class OsBuildConfigCmd extends Command {
 			char: 'o',
 			required: true,
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

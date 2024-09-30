@@ -40,7 +40,6 @@ export default class FleetCmd extends Command {
 	};
 
 	public static flags = {
-		help: cf.help,
 		view: Flags.boolean({
 			default: false,
 			description: 'open fleet dashboard page',

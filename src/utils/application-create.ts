@@ -4,7 +4,6 @@ import { getBalenaSdk } from './lazy';
 export interface FlagsDef {
 	organization?: string;
 	type?: string; // application device type
-	help: void;
 }
 
 export interface ArgsDef {

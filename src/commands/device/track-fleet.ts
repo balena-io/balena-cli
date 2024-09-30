@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class DeviceTrackFleetCmd extends Command {
@@ -32,10 +31,6 @@ export default class DeviceTrackFleetCmd extends Command {
 			description: "the uuid of the device to make track the fleet's release",
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

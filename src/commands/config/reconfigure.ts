@@ -44,7 +44,6 @@ export default class ConfigReconfigureCmd extends Command {
 			description: 'show advanced commands',
 			char: 'v',
 		}),
-		help: cf.help,
 		version: Flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
 		}),

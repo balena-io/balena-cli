@@ -55,7 +55,6 @@ export default class DeviceMoveCmd extends Command {
 
 	public static flags = {
 		fleet: cf.fleet,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

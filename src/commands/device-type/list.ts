@@ -17,7 +17,6 @@
 import { Flags, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import * as _ from 'lodash';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class DeviceTypeListCmd extends Command {
@@ -46,7 +45,6 @@ export default class DeviceTypeListCmd extends Command {
 	];
 
 	public static flags = {
-		help: cf.help,
 		json: Flags.boolean({
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
