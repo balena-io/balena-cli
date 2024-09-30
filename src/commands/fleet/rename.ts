@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -44,10 +43,6 @@ export default class FleetRenameCmd extends Command {
 		newName: Args.string({
 			description: 'the new name for the fleet',
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

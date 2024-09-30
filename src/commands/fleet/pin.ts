@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
 
@@ -41,10 +40,6 @@ export default class FleetPinCmd extends Command {
 		releaseToPinTo: Args.string({
 			description: 'the commit of the release for the fleet to get pinned to',
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

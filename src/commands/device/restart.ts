@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 import type {
 	BalenaSDK,
@@ -58,7 +57,6 @@ export default class DeviceRestartCmd extends Command {
 				'comma-separated list (no blank spaces) of service names to restart',
 			char: 's',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

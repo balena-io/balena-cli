@@ -333,8 +333,6 @@ Examples:
 
 the API key name
 
-### Options
-
 ## api-key list
 
 ### Aliases
@@ -383,8 +381,6 @@ Examples:
 #### IDS
 
 the API key ids
-
-### Options
 
 # Apps
 
@@ -1346,8 +1342,6 @@ Examples:
 
 the uuid of the device to identify
 
-### Options
-
 ## device
 
 ### Description
@@ -1749,8 +1743,6 @@ the uuid of the device to pin to a release
 
 the commit of the release for the device to get pinned to
 
-### Options
-
 ## device public-url
 
 ### Description
@@ -1806,8 +1798,6 @@ Examples:
 #### UUID
 
 comma-separated list (no blank spaces) of device UUIDs
-
-### Options
 
 ## device reboot
 
@@ -1894,8 +1884,6 @@ the uuid of the device to rename
 #### NEWNAME
 
 the new name for the device
-
-### Options
 
 ## device restart
 
@@ -2076,8 +2064,6 @@ comma-separated list (no blank spaces) of device UUIDs
 
 comma-separated list (no blank spaces) of service names
 
-### Options
-
 ## device stop-service
 
 ### Description
@@ -2102,8 +2088,6 @@ comma-separated list (no blank spaces) of device UUIDs
 
 comma-separated list (no blank spaces) of service names
 
-### Options
-
 ## device track-fleet
 
 ### Description
@@ -2119,8 +2103,6 @@ Examples:
 #### UUID
 
 the uuid of the device to make track the fleet's release
-
-### Options
 
 ## device tunnel
 
@@ -2618,8 +2600,6 @@ the slug of the fleet to pin to a release
 
 the commit of the release for the fleet to get pinned to
 
-### Options
-
 ## fleet purge
 
 ### Description
@@ -2647,8 +2627,6 @@ Examples:
 #### FLEET
 
 fleet name or slug (preferred)
-
-### Options
 
 ## fleet rename
 
@@ -2685,8 +2663,6 @@ fleet name or slug (preferred)
 
 the new name for the fleet
 
-### Options
-
 ## fleet restart
 
 ### Description
@@ -2713,8 +2689,6 @@ Examples:
 #### FLEET
 
 fleet name or slug (preferred)
-
-### Options
 
 ## fleet rm
 
@@ -2769,8 +2743,6 @@ Examples:
 
 the slug of the fleet to make track the latest release
 
-### Options
-
 # Local
 
 ## local configure
@@ -2789,8 +2761,6 @@ Examples:
 #### TARGET
 
 path of drive or image to configure
-
-### Options
 
 ## local flash
 
@@ -2844,8 +2814,6 @@ list all the organizations that you are a member of.
 Examples:
 
 	$ balena organization list
-
-### Options
 
 # OS
 
@@ -3217,8 +3185,6 @@ Examples:
 
 the device IP or hostname
 
-### Options
-
 # Preload
 
 ## preload
@@ -3586,8 +3552,6 @@ Examples:
 
 the commit or ID of the release to finalize
 
-### Options
-
 ## release
 
 ### Description
@@ -3640,8 +3604,6 @@ Examples:
 #### COMMITORID
 
 the commit or ID of the release to invalidate
-
-### Options
 
 ## release list
 
@@ -3708,8 +3670,6 @@ Examples:
 
 the commit or ID of the release to validate
 
-### Options
-
 # Settings
 
 ## settings
@@ -3721,8 +3681,6 @@ Use this command to display the current balena CLI settings.
 Examples:
 
 	$ balena settings
-
-### Options
 
 # SSH Keys
 
@@ -3772,8 +3730,6 @@ the SSH key name
 
 the path to the public key file
 
-### Options
-
 ## ssh-key
 
 ### Aliases
@@ -3797,8 +3753,6 @@ Examples:
 
 balenaCloud ID for the SSH key
 
-### Options
-
 ## ssh-key list
 
 ### Aliases
@@ -3816,8 +3770,6 @@ List all SSH keys registered in balenaCloud for the logged in user.
 Examples:
 
 	$ balena ssh-key list
-
-### Options
 
 ## ssh-key rm
 
@@ -4057,8 +4009,6 @@ release id
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
-
-### Options
 
 # Version
 

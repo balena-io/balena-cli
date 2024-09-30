@@ -63,7 +63,6 @@ export default class VersionCmd extends Command {
 			description:
 				'output version information in JSON format for programmatic use',
 		}),
-		help: Flags.help({ char: 'h' }),
 	};
 
 	public async run() {
