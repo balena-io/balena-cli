@@ -35,8 +35,6 @@ export default class DeviceRebootCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device reboot <uuid>';
-
 	public static flags = {
 		force: cf.force,
 		help: cf.help,

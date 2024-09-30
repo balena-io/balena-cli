@@ -43,8 +43,6 @@ export default class DeviceRmCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device rm <uuid(s)>';
-
 	public static flags = {
 		yes: cf.yes,
 		help: cf.help,

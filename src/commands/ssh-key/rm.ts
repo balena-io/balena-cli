@@ -46,8 +46,6 @@ export default class SSHKeyRmCmd extends Command {
 		}),
 	};
 
-	public static usage = 'ssh-key rm <id>';
-
 	public static flags = {
 		yes: cf.yes,
 		help: cf.help,

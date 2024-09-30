@@ -42,8 +42,6 @@ export default class FleetRmCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'fleet rm <fleet>';
-
 	public static flags = {
 		yes: cf.yes,
 		help: cf.help,

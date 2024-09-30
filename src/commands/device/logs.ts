@@ -64,8 +64,6 @@ export default class DeviceLogsCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device logs <device>';
-
 	public static flags = {
 		'max-retry': Flags.integer({
 			description: stripIndent`

@@ -36,8 +36,6 @@ export default class DeviceShutdownCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device shutdown <uuid>';
-
 	public static flags = {
 		force: cf.force,
 		help: cf.help,

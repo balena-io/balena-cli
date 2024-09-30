@@ -21,7 +21,6 @@ import Command from '../../command';
 
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 
 export default class DeviceTypeListCmd extends Command {
 	public static description = stripIndent`
@@ -43,11 +42,6 @@ export default class DeviceTypeListCmd extends Command {
 		'$ balena device-type list --all',
 		'$ balena device-type list --json',
 	];
-
-	public static usage = (
-		'device-type list ' +
-		new CommandHelp({ args: DeviceTypeListCmd.args }).defaultUsage()
-	).trim();
 
 	public static flags = {
 		help: cf.help,

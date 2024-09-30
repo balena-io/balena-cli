@@ -50,8 +50,6 @@ export default class LeaveCmd extends Command {
 		}),
 	};
 
-	public static usage = 'leave [deviceIpOrHostname]';
-
 	public static flags = {
 		help: cf.help,
 	};

@@ -56,8 +56,6 @@ export default class FleetCreateCmd extends Command {
 		}),
 	};
 
-	public static usage = 'fleet create <name>';
-
 	public static flags = {
 		organization: Flags.string({
 			char: 'o',

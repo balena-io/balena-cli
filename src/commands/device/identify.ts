@@ -36,8 +36,6 @@ export default class DeviceIdentifyCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device identify <uuid>';
-
 	public static flags = {
 		help: cf.help,
 	};

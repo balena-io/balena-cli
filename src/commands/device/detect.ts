@@ -41,8 +41,6 @@ export default class DeviceDetectCmd extends Command {
 		'$ balena device detect --verbose',
 	];
 
-	public static usage = 'device detect';
-
 	public static flags = {
 		verbose: Flags.boolean({
 			default: false,

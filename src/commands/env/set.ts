@@ -95,7 +95,6 @@ export default class EnvSetCmd extends Command {
 
 	// Required for supporting empty string ('') `value` args.
 	public static strict = false;
-	public static usage = 'env set <name> [value]';
 
 	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },

@@ -108,8 +108,6 @@ ${dockerignoreHelp}
 		image: Args.string({ description: 'the image to deploy' }),
 	};
 
-	public static usage = 'deploy <fleet> [image]';
-
 	public static flags = {
 		source: Flags.string({
 			description:

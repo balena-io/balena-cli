@@ -56,8 +56,6 @@ export default class DeviceListCmd extends Command {
 		'$ balena device list -f myorg/myfleet',
 	];
 
-	public static usage = 'device list';
-
 	public static flags = {
 		fleet: cf.fleet,
 		json: cf.json,

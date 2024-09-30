@@ -42,8 +42,6 @@ export default class DeviceLocalModeCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device local-mode <uuid>';
-
 	public static flags = {
 		enable: Flags.boolean({
 			description: 'enable local mode',

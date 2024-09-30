@@ -45,8 +45,6 @@ export default class TagRmCmd extends Command {
 		}),
 	};
 
-	public static usage = 'tag rm <tagKey>';
-
 	public static flags = {
 		fleet: {
 			...cf.fleet,

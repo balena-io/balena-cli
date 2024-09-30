@@ -42,8 +42,6 @@ export default class DeviceNoteCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device note <|note>';
-
 	public static flags = {
 		device: { exclusive: ['dev'], ...cf.device },
 		dev: Flags.string({

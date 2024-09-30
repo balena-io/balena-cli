@@ -30,8 +30,6 @@ export default class OrganizationListCmd extends Command {
 `;
 	public static examples = ['$ balena organization list'];
 
-	public static usage = 'organization list';
-
 	public static flags = {
 		help: cf.help,
 	};

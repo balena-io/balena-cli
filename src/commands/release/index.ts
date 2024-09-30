@@ -42,8 +42,6 @@ export default class ReleaseCmd extends Command {
 		'$ balena release d3f3151f5ad25ca6b070aa4d08296aca --json',
 	];
 
-	public static usage = 'release <commitOrId>';
-
 	public static flags = {
 		json: cf.json,
 		help: cf.help,

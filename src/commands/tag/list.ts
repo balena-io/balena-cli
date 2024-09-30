@@ -41,8 +41,6 @@ export default class TagListCmd extends Command {
 		'$ balena tag list --release b376b0e544e9429483b656490e5b9443b4349bd6',
 	];
 
-	public static usage = 'tag list';
-
 	public static flags = {
 		fleet: {
 			...cf.fleet,

@@ -41,8 +41,6 @@ export default class SSHKeyCmd extends Command {
 		}),
 	};
 
-	public static usage = 'ssh-key <id>';
-
 	public static flags = {
 		help: cf.help,
 	};

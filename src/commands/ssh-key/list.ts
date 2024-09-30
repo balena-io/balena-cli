@@ -30,8 +30,6 @@ export default class SSHKeyListCmd extends Command {
 	`;
 	public static examples = ['$ balena ssh-key list'];
 
-	public static usage = 'ssh-key list';
-
 	public static flags = {
 		help: cf.help,
 	};

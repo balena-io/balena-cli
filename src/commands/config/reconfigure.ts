@@ -39,8 +39,6 @@ export default class ConfigReconfigureCmd extends Command {
 		'$ balena config reconfigure --drive balena.img --advanced',
 	];
 
-	public static usage = 'config reconfigure';
-
 	public static flags = {
 		drive: cf.driveOrImg,
 		advanced: Flags.boolean({

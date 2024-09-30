@@ -64,8 +64,6 @@ export default class SSHKeyAddCmd extends Command {
 		}),
 	};
 
-	public static usage = 'ssh-key add <name> [path]';
-
 	public static flags = {
 		help: cf.help,
 	};

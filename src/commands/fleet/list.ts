@@ -42,8 +42,6 @@ export default class FleetListCmd extends Command {
 
 	public static examples = ['$ balena fleet list'];
 
-	public static usage = 'fleet list';
-
 	public static flags = {
 		help: cf.help,
 		json: cf.json,

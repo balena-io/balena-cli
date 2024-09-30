@@ -60,9 +60,6 @@ export default class JoinCmd extends Command {
 		}),
 	};
 
-	// Hardcoded to preserve camelcase
-	public static usage = 'join [deviceIpOrHostname]';
-
 	public static flags = {
 		fleet: cf.fleet,
 		pollInterval: Flags.integer({

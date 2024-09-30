@@ -46,8 +46,6 @@ export default class DeviceStartServiceCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device start-service <uuid>';
-
 	public static flags = {
 		help: cf.help,
 	};

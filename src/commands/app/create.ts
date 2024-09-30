@@ -56,8 +56,6 @@ export default class AppCreateCmd extends Command {
 		}),
 	};
 
-	public static usage = 'app create <name>';
-
 	public static flags = {
 		organization: Flags.string({
 			char: 'o',
