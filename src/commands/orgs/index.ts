@@ -16,7 +16,6 @@
  */
 
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class OrgsCmd extends Command {
@@ -26,10 +25,6 @@ export default class OrgsCmd extends Command {
 		list all the organizations that you are a member of.
 `;
 	public static examples = ['$ balena orgs'];
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public static authenticated = true;
 

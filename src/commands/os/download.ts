@@ -17,7 +17,6 @@
 
 import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 
 export default class OsDownloadCmd extends Command {
@@ -79,7 +78,6 @@ export default class OsDownloadCmd extends Command {
 				or 'menu-esr' (interactive menu, ESR versions)
 				`,
 		}),
-		help: cf.help,
 	};
 
 	public async run() {

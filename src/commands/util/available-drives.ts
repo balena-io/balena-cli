@@ -16,7 +16,6 @@
  */
 
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { stripIndent, getChalk, getVisuals } from '../../utils/lazy';
 
 export default class UtilAvailableDrivesCmd extends Command {
@@ -26,10 +25,6 @@ export default class UtilAvailableDrivesCmd extends Command {
 		List available drives which are usable for writing an OS image to.
 		Does not list system drives.
 	`;
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public static offlineCompatible = true;
 

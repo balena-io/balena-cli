@@ -18,7 +18,6 @@
 import { Args } from '@oclif/core';
 import { promisify } from 'util';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 
 export default class LocalConfigureCmd extends Command {
@@ -38,10 +37,6 @@ export default class LocalConfigureCmd extends Command {
 			description: 'path of drive or image to configure',
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static root = true;

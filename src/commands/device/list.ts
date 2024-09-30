@@ -58,7 +58,6 @@ export default class DeviceListCmd extends Command {
 	public static flags = {
 		fleet: cf.fleet,
 		json: cf.json,
-		help: cf.help,
 	};
 
 	public static primary = true;

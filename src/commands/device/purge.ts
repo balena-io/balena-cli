@@ -17,7 +17,6 @@
 
 import { Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class DevicePurgeCmd extends Command {
@@ -40,10 +39,6 @@ export default class DevicePurgeCmd extends Command {
 			description: 'comma-separated list (no blank spaces) of device UUIDs',
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

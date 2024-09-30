@@ -38,7 +38,6 @@ export default class ConfigReadCmd extends Command {
 
 	public static flags = {
 		drive: cf.driveOrImg,
-		help: cf.help,
 		json: cf.json,
 	};
 

@@ -50,7 +50,6 @@ export default class ConfigWriteCmd extends Command {
 
 	public static flags = {
 		drive: cf.driveOrImg,
-		help: cf.help,
 	};
 
 	public static root = true;

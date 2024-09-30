@@ -40,7 +40,6 @@ export default class FleetsCmd extends Command {
 	public static examples = ['$ balena fleets'];
 
 	public static flags = {
-		help: cf.help,
 		json: cf.json,
 	};
 

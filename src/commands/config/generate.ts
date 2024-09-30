@@ -118,7 +118,6 @@ export default class ConfigGenerateCmd extends Command {
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['device'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
