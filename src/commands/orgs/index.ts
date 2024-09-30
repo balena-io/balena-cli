@@ -27,8 +27,6 @@ export default class OrgsCmd extends Command {
 `;
 	public static examples = ['$ balena orgs'];
 
-	public static usage = 'orgs';
-
 	public static flags = {
 		help: cf.help,
 	};

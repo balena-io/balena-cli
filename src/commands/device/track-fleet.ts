@@ -35,8 +35,6 @@ export default class DeviceTrackFleetCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device track-fleet <uuid>';
-
 	public static flags = {
 		help: cf.help,
 	};

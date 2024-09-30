@@ -48,8 +48,6 @@ export default class FleetRenameCmd extends Command {
 		}),
 	};
 
-	public static usage = 'fleet rename <fleet> [newName]';
-
 	public static flags = {
 		help: cf.help,
 	};

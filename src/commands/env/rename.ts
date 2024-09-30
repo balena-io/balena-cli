@@ -53,8 +53,6 @@ export default class EnvRenameCmd extends Command {
 		}),
 	};
 
-	public static usage = 'env rename <id> <value>';
-
 	public static flags = {
 		config: ec.booleanConfig,
 		device: ec.booleanDevice,

@@ -41,8 +41,6 @@ export default class RevokeCmd extends Command {
 		}),
 	};
 
-	public static usage = 'api-key revoke <ids>';
-
 	public static flags = {
 		help: cf.help,
 	};

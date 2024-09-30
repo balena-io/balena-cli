@@ -37,8 +37,6 @@ function getHelpSubject(args: string[]): string | undefined {
 }
 
 export default class BalenaHelp extends Help {
-	public static usage: 'help [command]';
-
 	public async showHelp(argv: string[]) {
 		const chalk = getChalk();
 		const subject = getHelpSubject(argv);
