@@ -58,7 +58,6 @@ export default class DeviceOsUpdateCmd extends Command {
 			exclusive: ['version'],
 		}),
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

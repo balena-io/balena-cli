@@ -67,7 +67,6 @@ export default class SupportCmd extends Command {
 				'length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d',
 			char: 't',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

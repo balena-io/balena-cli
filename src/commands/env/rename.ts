@@ -16,8 +16,6 @@
  */
 import { Args } from '@oclif/core';
 import Command from '../../command';
-
-import * as cf from '../../utils/common-flags';
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
@@ -57,7 +55,6 @@ export default class EnvRenameCmd extends Command {
 		config: ec.booleanConfig,
 		device: ec.booleanDevice,
 		service: ec.booleanService,
-		help: cf.help,
 	};
 
 	public async run() {

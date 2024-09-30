@@ -17,7 +17,6 @@
 
 import { Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
 
@@ -39,10 +38,6 @@ export default class SSHKeyCmd extends Command {
 			parse: async (x) => parseAsInteger(x, 'id'),
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

@@ -38,7 +38,6 @@ export default class DeviceShutdownCmd extends Command {
 
 	public static flags = {
 		force: cf.force,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

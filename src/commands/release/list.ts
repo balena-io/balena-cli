@@ -41,11 +41,8 @@ export default class ReleaseListCmd extends Command {
 		'$ balena release list myorg/myfleet --json',
 	];
 
-	public static usage = 'release list <fleet>';
-
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 	};
 
 	public static args = {

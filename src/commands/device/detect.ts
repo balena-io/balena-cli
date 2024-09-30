@@ -17,7 +17,6 @@
 
 import { Flags } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class DeviceDetectCmd extends Command {
@@ -51,7 +50,6 @@ export default class DeviceDetectCmd extends Command {
 			char: 't',
 			description: 'scan timeout in seconds',
 		}),
-		help: cf.help,
 		json: Flags.boolean({
 			default: false,
 			char: 'j',

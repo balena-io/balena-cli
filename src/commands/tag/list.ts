@@ -54,7 +54,6 @@ export default class TagListCmd extends Command {
 			...cf.release,
 			exclusive: ['fleet', 'device'],
 		},
-		help: cf.help,
 	};
 
 	public static authenticated = true;

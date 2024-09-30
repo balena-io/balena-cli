@@ -155,7 +155,6 @@ export default class OsConfigureCmd extends Command {
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['config', 'device'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

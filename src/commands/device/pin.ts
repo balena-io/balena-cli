@@ -17,7 +17,6 @@
 
 import { Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
 
@@ -42,10 +41,6 @@ export default class DevicePinCmd extends Command {
 		releaseToPinTo: Args.string({
 			description: 'the commit of the release for the device to get pinned to',
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;
