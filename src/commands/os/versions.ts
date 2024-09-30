@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 
 export default class OsVersionsCmd extends Command {
@@ -40,7 +39,6 @@ export default class OsVersionsCmd extends Command {
 	};
 
 	public static flags = {
-		help: cf.help,
 		esr: Flags.boolean({
 			description: 'select balenaOS ESR versions',
 			default: false,

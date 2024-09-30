@@ -60,7 +60,6 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	'release-tag'?: string[];
 	draft: boolean;
 	note?: string;
-	help: void;
 }
 
 export default class DeployCmd extends Command {
@@ -139,9 +138,6 @@ ${dockerignoreHelp}
 		note: Flags.string({ description: 'The notes for this release' }),
 		...composeCliFlags,
 		...dockerCliFlags,
-		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
-		// Revisit this in future release.
-		help: Flags.help({}),
 	};
 
 	public static authenticated = true;

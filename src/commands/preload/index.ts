@@ -128,9 +128,6 @@ Can be repeated to add multiple certificates.\
 				'Docker daemon TCP port number (hint: 2375 for balena devices)',
 			parse: async (p) => parseAsInteger(p, 'dockerPort'),
 		}),
-		// Not supporting -h for help, because of clash with -h in DockerCliFlags
-		// Revisit this in future release.
-		help: Flags.help({}),
 	};
 
 	public static authenticated = true;
