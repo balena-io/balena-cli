@@ -26,7 +26,7 @@ export interface Document {
 
 export interface Category {
 	title: string;
-	commands: OclifCommand[];
+	commands: Array<OclifCommand & { name: string }>;
 }
 
 export { OclifCommand };
