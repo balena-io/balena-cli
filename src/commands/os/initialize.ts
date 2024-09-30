@@ -48,8 +48,6 @@ export default class OsInitializeCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os initialize <image>';
-
 	public static flags = {
 		type: cf.deviceType,
 		drive: cf.drive,

@@ -46,8 +46,6 @@ export default class DeviceStopServiceCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device stop-service <uuid>';
-
 	public static flags = {
 		help: cf.help,
 	};

@@ -62,8 +62,6 @@ export default class DeviceCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device <uuid>';
-
 	public static flags = {
 		json: cf.json,
 		help: cf.help,

@@ -44,8 +44,6 @@ export default class FleetPinCmd extends Command {
 		}),
 	};
 
-	public static usage = 'fleet pin <slug> [releaseToPinTo]';
-
 	public static flags = {
 		help: cf.help,
 	};

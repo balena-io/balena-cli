@@ -38,8 +38,6 @@ export default class ScanCmd extends Command {
 		'$ balena scan --verbose',
 	];
 
-	public static usage = 'scan';
-
 	public static flags = {
 		verbose: Flags.boolean({
 			default: false,

@@ -52,8 +52,6 @@ export default class SupportCmd extends Command {
 		}),
 	};
 
-	public static usage = 'support <action>';
-
 	public static flags = {
 		device: Flags.string({
 			description: 'comma-separated list (no spaces) of device UUIDs',

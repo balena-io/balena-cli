@@ -40,8 +40,6 @@ export default class FleetPurgeCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'fleet purge <fleet>';
-
 	public static flags = {
 		help: cf.help,
 	};

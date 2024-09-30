@@ -60,8 +60,6 @@ export default class ConfigGenerateCmd extends Command {
 		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15',
 	];
 
-	public static usage = 'config generate';
-
 	public static flags = {
 		version: Flags.string({
 			description: 'a balenaOS version',

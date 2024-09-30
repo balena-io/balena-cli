@@ -99,8 +99,6 @@ export default class PushCmd extends Command {
 		}),
 	};
 
-	public static usage = 'push <fleetOrDevice>';
-
 	public static flags = {
 		source: Flags.string({
 			description: stripIndent`

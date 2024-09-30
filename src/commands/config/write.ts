@@ -48,8 +48,6 @@ export default class ConfigWriteCmd extends Command {
 		}),
 	};
 
-	public static usage = 'config write <key> <value>';
-
 	public static flags = {
 		drive: cf.driveOrImg,
 		help: cf.help,

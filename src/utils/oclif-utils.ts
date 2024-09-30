@@ -15,33 +15,7 @@
  * limitations under the License.
  */
 
-/**
- * This class is a partial copy-and-paste of
- * @oclif/plugin-help/command/CommandHelp, which is used to generate oclif's
- * command help output.
- */
-export class CommandHelp {
-	constructor(public command: { args?: { [name: string]: any } }) {}
-
-	protected arg(name: string, required: boolean): string {
-		name = name.toUpperCase();
-		if (required) {
-			return `${name}`;
-		}
-		return `[${name}]`;
-	}
-
-	public defaultUsage(): string {
-		const argsObject = this.command.args ?? {};
-
-		return Object.entries(argsObject)
-			.filter(([_name, { hidden }]) => !hidden)
-			.map(([name, { required }]) => this.arg(name, required))
-			.join(' ');
-	}
-}
-
-/** Convert e.g. 'env add NAME [VALUE]' to 'env add <name> [value]' */
+/** Convert e.g. 'env set NAME [VALUE]' to 'env set <name> [value]' */
 export function capitanoizeOclifUsage(
 	oclifUsage: string | string[] | undefined,
 ): string {

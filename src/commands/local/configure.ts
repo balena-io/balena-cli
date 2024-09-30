@@ -40,8 +40,6 @@ export default class LocalConfigureCmd extends Command {
 		}),
 	};
 
-	public static usage = 'local configure <target>';
-
 	public static flags = {
 		help: cf.help,
 	};

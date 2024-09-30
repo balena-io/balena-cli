@@ -38,8 +38,6 @@ export default class FleetTrackLatestCmd extends Command {
 		}),
 	};
 
-	public static usage = 'fleet track-latest <slug>';
-
 	public static flags = {
 		help: cf.help,
 	};

@@ -92,8 +92,6 @@ export default class OsConfigureCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os configure <image>';
-
 	public static flags = {
 		advanced: Flags.boolean({
 			char: 'v',

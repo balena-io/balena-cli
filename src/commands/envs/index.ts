@@ -94,8 +94,6 @@ export default class EnvsCmd extends Command {
 		'$ balena envs --device 7cf02a6 --service MyService',
 	];
 
-	public static usage = 'envs';
-
 	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },
 		config: Flags.boolean({

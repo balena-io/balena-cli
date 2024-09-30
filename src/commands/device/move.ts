@@ -54,8 +54,6 @@ export default class DeviceMoveCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device move <uuid(s)>';
-
 	public static flags = {
 		fleet: cf.fleet,
 		help: cf.help,

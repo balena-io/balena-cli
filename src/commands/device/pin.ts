@@ -44,8 +44,6 @@ export default class DevicePinCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device pin <uuid> [releaseToPinTo]';
-
 	public static flags = {
 		help: cf.help,
 	};

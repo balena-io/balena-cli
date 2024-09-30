@@ -38,8 +38,6 @@ export default class KeyCmd extends Command {
 		}),
 	};
 
-	public static usage = 'key <id>';
-
 	public static flags = {
 		help: cf.help,
 	};
