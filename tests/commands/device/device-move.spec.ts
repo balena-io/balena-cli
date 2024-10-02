@@ -36,9 +36,9 @@ describe('balena device move', function () {
 		const { out, err } = await runCommand('device move');
 		const errLines = cleanOutput(err);
 
-		expect(errLines[0]).to.equal('Missing 1 required argument:');
+		expect(errLines[0]).to.equal('Missing 1 required arg:');
 		expect(errLines[1]).to.equal(
-			'uuid : comma-separated list (no blank spaces) of device UUIDs to be moved',
+			'uuid  comma-separated list (no blank spaces) of device UUIDs to be moved',
 		);
 		expect(out).to.eql([]);
 	});

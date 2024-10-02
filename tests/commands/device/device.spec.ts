@@ -38,8 +38,8 @@ describe('balena device', function () {
 		const { out, err } = await runCommand('device');
 		const errLines = cleanOutput(err);
 
-		expect(errLines[0]).to.equal('Missing 1 required argument:');
-		expect(errLines[1]).to.equal('uuid : the device uuid');
+		expect(errLines[0]).to.equal('Missing 1 required arg:');
+		expect(errLines[1]).to.equal('uuid  the device uuid');
 		expect(out).to.eql([]);
 	});
 
