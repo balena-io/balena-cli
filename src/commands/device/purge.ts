@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class DevicePurgeCmd extends Command {

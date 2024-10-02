@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 import { parseAsLocalHostnameOrIp } from '../../utils/validation';
 
@@ -56,7 +55,8 @@ export default class LeaveCmd extends Command {
 		const { args: params } = await this.parse(LeaveCmd);
 
 		const promote = await import('../../utils/promote');
-		const logger = await Command.getLogger();
+		const Logger = await import('../../utils/logger');
+		const logger = Logger.getLogger();
 		return promote.leave(logger, params.deviceIpOrHostname);
 	}
 }

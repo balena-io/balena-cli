@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
+import { Command } from '@oclif/core';
 import { commitOrIdArg } from '.';
-import Command from '../../command';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class ReleaseInvalidateCmd extends Command {

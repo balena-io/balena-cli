@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -112,7 +111,9 @@ export default class EnvSetCmd extends Command {
 			);
 		}
 
-		await Command.checkLoggedIn();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		if (params.value == null) {
 			params.value = process.env[params.name];

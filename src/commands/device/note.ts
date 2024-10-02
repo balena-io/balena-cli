@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -52,14 +51,10 @@ export default class DeviceNoteCmd extends Command {
 
 	public static authenticated = true;
 
-	public static readStdin = true;
-
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeviceNoteCmd);
 
-		params.note = params.note || this.stdin;
-
-		if (params.note.length === 0) {
+		if (params.note?.length === 0) {
 			throw new ExpectedError('Missing note content');
 		}
 
@@ -72,6 +67,6 @@ export default class DeviceNoteCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		return balena.models.device.setNote(options.device, params.note);
+		return balena.models.device.setNote(options.device, params.note ?? '');
 	}
 }

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 
 // 'Internal' commands are called during the execution of other commands.

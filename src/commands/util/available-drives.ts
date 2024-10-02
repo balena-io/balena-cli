@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
+import { Command } from '@oclif/core';
 import { stripIndent, getChalk, getVisuals } from '../../utils/lazy';
 
 export default class UtilAvailableDrivesCmd extends Command {

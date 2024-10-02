@@ -15,156 +15,74 @@
  * limitations under the License.
  */
 
-import { Command } from '@oclif/core';
-import {
-	InsufficientPrivilegesError,
-	NotAvailableInOfflineModeError,
-} from './errors';
-import { stripIndent } from './utils/lazy';
+import type { Hook } from '@oclif/core';
+import { InsufficientPrivilegesError } from '../errors';
+import { checkLoggedIn, checkNotUsingOfflineMode } from '../utils/patterns';
 
-export default abstract class BalenaCommand extends Command {
-	/**
-	 * When set to true, command will be listed in `help`,
-	 * otherwise listed in `help --verbose` with secondary commands.
-	 */
-	public static primary = false;
-
-	/**
-	 * Require elevated privileges to run.
-	 * When set to true, command will exit with an error
-	 * if executed without root on Mac/Linux
-	 * or if executed by non-Administrator on Windows.
-	 */
-	public static root = false;
-
-	/**
-	 * Require authentication to run.
-	 * When set to true, command will exit with an error
-	 * if user is not already logged in.
-	 */
-	public static authenticated = false;
-
-	/**
-	 * Require an internet connection to run.
-	 * When set to true, command will exit with an error
-	 * if user is running in offline mode (BALENARC_OFFLINE_MODE).
-	 */
-	public static offlineCompatible = false;
-
-	/**
-	 * Accept piped input.
-	 * When set to true, command will read from stdin during init
-	 * and make contents available on member `stdin`.
-	 */
-	public static readStdin = false;
-
-	public stdin: string;
-
-	/**
-	 * Throw InsufficientPrivilegesError if not root on Mac/Linux
-	 * or non-Administrator on Windows.
-	 *
-	 * Called automatically if `root=true`.
-	 * Can be called explicitly by command implementation, if e.g.:
-	 *  - check should only be done conditionally
-	 *  - other code needs to execute before check
-	 */
-	protected static async checkElevatedPrivileges() {
-		const isElevated = await (await import('is-elevated'))();
-		if (!isElevated) {
-			throw new InsufficientPrivilegesError(
-				'You need root/admin privileges to run this command',
-			);
-		}
+/**
+ * Throw InsufficientPrivilegesError if not root on Mac/Linux
+ * or non-Administrator on Windows.
+ *
+ * Called automatically if `root=true`.
+ * Can be called explicitly by command implementation, if e.g.:
+ *  - check should only be done conditionally
+ *  - other code needs to execute before check
+ */
+const checkElevatedPrivileges = async () => {
+	const isElevated = await (await import('is-elevated'))();
+	if (!isElevated) {
+		throw new InsufficientPrivilegesError(
+			'You need root/admin privileges to run this command',
+		);
 	}
+};
 
-	/**
-	 * Throw NotLoggedInError if not logged in.
-	 *
-	 * Called automatically if `authenticated=true`.
-	 * Can be called explicitly by command implementation, if e.g.:
-	 *  - check should only be done conditionally
-	 *  - other code needs to execute before check
-	 *
-	 *  Note, currently public to allow use outside of derived commands
-	 *  (as some command implementations require this. Can be made protected
-	 *  if this changes).
-	 *
-	 * @throws {NotLoggedInError}
-	 */
-	public static async checkLoggedIn() {
-		await (await import('./utils/patterns')).checkLoggedIn();
+/**
+ * Require elevated privileges to run.
+ * When set to true, command will exit with an error
+ * if executed without root on Mac/Linux
+ * or if executed by non-Administrator on Windows.
+ */
+const DEFAULT_ROOT = false;
+
+/**
+ * Require authentication to run.
+ * When set to true, command will exit with an error
+ * if user is not already logged in.
+ */
+const DEFAULT_AUTHENTICATED = false;
+
+/**
+ * Require an internet connection to run.
+ * When set to true, command will exit with an error
+ * if user is running in offline mode (BALENARC_OFFLINE_MODE).
+ */
+const DEFAULT_OFFLINE_COMPATIBLE = false;
+
+const hook: Hook<'init'> = async function (options) {
+	if (!options.id) {
+		return;
 	}
-
-	/**
-	 * Throw NotLoggedInError if not logged in when condition true.
-	 *
-	 * @param {boolean} doCheck - will check if true.
-	 * @throws {NotLoggedInError}
-	 */
-	public static async checkLoggedInIf(doCheck: boolean) {
-		if (doCheck) {
-			await this.checkLoggedIn();
-		}
+	const command = this.config.findCommand(options.id);
+	if (!command) {
+		return;
 	}
-
-	/**
-	 * Throw NotAvailableInOfflineModeError if in offline mode.
-	 *
-	 * Called automatically if `onlineOnly=true`.
-	 * Can be called explicitly by command implementation, if e.g.:
-	 *  - check should only be done conditionally
-	 *  - other code needs to execute before check
-	 *
-	 *  Note, currently public to allow use outside of derived commands
-	 *  (as some command implementations require this. Can be made protected
-	 *  if this changes).
-	 *
-	 * @throws {NotAvailableInOfflineModeError}
-	 */
-	public static checkNotUsingOfflineMode() {
-		if (process.env.BALENARC_OFFLINE_MODE) {
-			throw new NotAvailableInOfflineModeError(stripIndent`
-		This command requires an internet connection, and cannot be used in offline mode.
-		To leave offline mode, unset the BALENARC_OFFLINE_MODE environment variable.
-		`);
-		}
-	}
-
-	/**
-	 * Read stdin contents and make available to command.
-	 *
-	 * This approach could be improved in the future to automatically set argument
-	 * values from stdin based in configuration, minimising command implementation.
-	 */
-	protected async getStdin() {
-		this.stdin = await (await import('get-stdin'))();
-	}
-
-	/**
-	 * Get a logger instance.
-	 */
-	protected static async getLogger() {
-		return (await import('./utils/logger')).getLogger();
-	}
-
-	protected async init() {
-		const ctr = this.constructor as typeof BalenaCommand;
-
-		if (ctr.root) {
-			await BalenaCommand.checkElevatedPrivileges();
+	try {
+		if (command.root ?? DEFAULT_ROOT) {
+			await checkElevatedPrivileges();
 		}
 
-		if (ctr.authenticated) {
-			await BalenaCommand.checkLoggedIn();
+		if (command.authenticated ?? DEFAULT_AUTHENTICATED) {
+			await checkLoggedIn();
 		}
 
-		if (!ctr.offlineCompatible) {
-			BalenaCommand.checkNotUsingOfflineMode();
+		if (!(command.offlineCompatible ?? DEFAULT_OFFLINE_COMPATIBLE)) {
+			await checkNotUsingOfflineMode();
 		}
-
-		if (ctr.readStdin) {
-			await this.getStdin();
-		}
+	} catch (error) {
+		console.error(typeof error === 'string' ? error : error.message);
+		throw error;
 	}
-}
+};
+
+export default hook;

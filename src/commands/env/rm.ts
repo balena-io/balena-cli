@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-
+import { Flags, Args, Command } from '@oclif/core';
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
@@ -67,7 +65,9 @@ export default class EnvRmCmd extends Command {
 	public async run() {
 		const { args: params, flags: opt } = await this.parse(EnvRmCmd);
 
-		await Command.checkLoggedIn();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		const { confirm } = await import('../../utils/patterns');
 		await confirm(

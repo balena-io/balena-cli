@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import {
 	parseAsInteger,
@@ -122,15 +121,19 @@ export default class DeviceSSHCmd extends Command {
 
 		// Remote connection
 		const { getProxyConfig } = await import('../../utils/helpers');
-		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns');
+		const {
+			getOnlineTargetDeviceUuid,
+			checkLoggedIn,
+			checkNotUsingOfflineMode,
+		} = await import('../../utils/patterns');
 		const sdk = getBalenaSdk();
 
 		const proxyConfig = getProxyConfig();
 		const useProxy = !!proxyConfig && !options.noproxy;
 
 		// this will be a tunnelled SSH connection...
-		await Command.checkNotUsingOfflineMode();
-		await Command.checkLoggedIn();
+		await checkNotUsingOfflineMode();
+		await checkLoggedIn();
 		const deviceUuid = await getOnlineTargetDeviceUuid(
 			sdk,
 			params.fleetOrDevice,

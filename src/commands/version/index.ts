@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 
 export interface JsonVersions {

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
+import { Command } from '@oclif/core';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';

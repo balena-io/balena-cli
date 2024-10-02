@@ -16,10 +16,9 @@
  */
 
 import type * as BalenaSdk from 'balena-sdk';
-
-import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { Command } from '@oclif/core';
 
 interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
 	device_count: number;
