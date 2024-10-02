@@ -15,156 +15,105 @@
  * limitations under the License.
  */
 
-import { Command } from '@oclif/core';
 import {
-	InsufficientPrivilegesError,
-	NotAvailableInOfflineModeError,
-} from './errors';
-import { stripIndent } from './utils/lazy';
+	type Hook,
+	type Command,
+	// ux
+} from '@oclif/core';
+import { InsufficientPrivilegesError } from '../errors';
+import { checkLoggedIn, checkNotUsingOfflineMode } from '../utils/patterns';
 
-export default abstract class BalenaCommand extends Command {
-	/**
-	 * When set to true, command will be listed in `help`,
-	 * otherwise listed in `help --verbose` with secondary commands.
-	 */
-	public static primary = false;
+let trackResolve: (result: Promise<any>) => void;
 
-	/**
-	 * Require elevated privileges to run.
-	 * When set to true, command will exit with an error
-	 * if executed without root on Mac/Linux
-	 * or if executed by non-Administrator on Windows.
-	 */
-	public static root = false;
+// note: trackPromise is subject to a Bluebird.timeout, defined in events.ts
+export const trackPromise = new Promise((resolve) => {
+	trackResolve = resolve;
+});
 
-	/**
-	 * Require authentication to run.
-	 * When set to true, command will exit with an error
-	 * if user is not already logged in.
-	 */
-	public static authenticated = false;
-
-	/**
-	 * Require an internet connection to run.
-	 * When set to true, command will exit with an error
-	 * if user is running in offline mode (BALENARC_OFFLINE_MODE).
-	 */
-	public static offlineCompatible = false;
-
-	/**
-	 * Accept piped input.
-	 * When set to true, command will read from stdin during init
-	 * and make contents available on member `stdin`.
-	 */
-	public static readStdin = false;
-
-	public stdin: string;
-
-	/**
-	 * Throw InsufficientPrivilegesError if not root on Mac/Linux
-	 * or non-Administrator on Windows.
-	 *
-	 * Called automatically if `root=true`.
-	 * Can be called explicitly by command implementation, if e.g.:
-	 *  - check should only be done conditionally
-	 *  - other code needs to execute before check
-	 */
-	protected static async checkElevatedPrivileges() {
-		const isElevated = await (await import('is-elevated'))();
-		if (!isElevated) {
-			throw new InsufficientPrivilegesError(
-				'You need root/admin privileges to run this command',
-			);
-		}
+/**
+ * Throw InsufficientPrivilegesError if not root on Mac/Linux
+ * or non-Administrator on Windows.
+ *
+ * Called automatically if `root=true`.
+ * Can be called explicitly by command implementation, if e.g.:
+ *  - check should only be done conditionally
+ *  - other code needs to execute before check
+ */
+const checkElevatedPrivileges = async () => {
+	const isElevated = await (await import('is-elevated'))();
+	if (!isElevated) {
+		throw new InsufficientPrivilegesError(
+			'You need root/admin privileges to run this command',
+		);
 	}
+};
 
-	/**
-	 * Throw NotLoggedInError if not logged in.
-	 *
-	 * Called automatically if `authenticated=true`.
-	 * Can be called explicitly by command implementation, if e.g.:
-	 *  - check should only be done conditionally
-	 *  - other code needs to execute before check
-	 *
-	 *  Note, currently public to allow use outside of derived commands
-	 *  (as some command implementations require this. Can be made protected
-	 *  if this changes).
-	 *
-	 * @throws {NotLoggedInError}
-	 */
-	public static async checkLoggedIn() {
-		await (await import('./utils/patterns')).checkLoggedIn();
-	}
+/**
+ * Require elevated privileges to run.
+ * When set to true, command will exit with an error
+ * if executed without root on Mac/Linux
+ * or if executed by non-Administrator on Windows.
+ */
+const DEFAULT_ROOT = false;
 
-	/**
-	 * Throw NotLoggedInError if not logged in when condition true.
-	 *
-	 * @param {boolean} doCheck - will check if true.
-	 * @throws {NotLoggedInError}
-	 */
-	public static async checkLoggedInIf(doCheck: boolean) {
-		if (doCheck) {
-			await this.checkLoggedIn();
-		}
-	}
+/**
+ * Require authentication to run.
+ * When set to true, command will exit with an error
+ * if user is not already logged in.
+ */
+const DEFAULT_AUTHENTICATED = false;
 
-	/**
-	 * Throw NotAvailableInOfflineModeError if in offline mode.
-	 *
-	 * Called automatically if `onlineOnly=true`.
-	 * Can be called explicitly by command implementation, if e.g.:
-	 *  - check should only be done conditionally
-	 *  - other code needs to execute before check
-	 *
-	 *  Note, currently public to allow use outside of derived commands
-	 *  (as some command implementations require this. Can be made protected
-	 *  if this changes).
-	 *
-	 * @throws {NotAvailableInOfflineModeError}
-	 */
-	public static checkNotUsingOfflineMode() {
-		if (process.env.BALENARC_OFFLINE_MODE) {
-			throw new NotAvailableInOfflineModeError(stripIndent`
-		This command requires an internet connection, and cannot be used in offline mode.
-		To leave offline mode, unset the BALENARC_OFFLINE_MODE environment variable.
-		`);
-		}
-	}
+/**
+ * Require an internet connection to run.
+ * When set to true, command will exit with an error
+ * if user is running in offline mode (BALENARC_OFFLINE_MODE).
+ */
+const DEFAULT_OFFLINE_COMPATIBLE = false;
 
-	/**
-	 * Read stdin contents and make available to command.
-	 *
-	 * This approach could be improved in the future to automatically set argument
-	 * values from stdin based in configuration, minimising command implementation.
-	 */
-	protected async getStdin() {
-		this.stdin = await (await import('get-stdin'))();
-	}
+/**
+ * This is an oclif 'prerun' hook. This hook runs after the command line is
+ * parsed by oclif, but before the command's run() function is called.
+ * See: https://oclif.io/docs/hooks
+ *
+ * This hook is used to track CLI command signatures (usage analytics).
+ * A command signature is something like "env add NAME [VALUE]". That's
+ * literally so: 'NAME' and 'VALUE' are NOT replaced with actual values.
+ */
 
-	/**
-	 * Get a logger instance.
-	 */
-	protected static async getLogger() {
-		return (await import('./utils/logger')).getLogger();
-	}
-
-	protected async init() {
-		const ctr = this.constructor as typeof BalenaCommand;
-
-		if (ctr.root) {
-			await BalenaCommand.checkElevatedPrivileges();
+const hook: Hook<'prerun'> = async function (options) {
+	try {
+		if (
+			(options.Command as Command.Class & { root: boolean }).root ??
+			DEFAULT_ROOT
+		) {
+			await checkElevatedPrivileges();
 		}
 
-		if (ctr.authenticated) {
-			await BalenaCommand.checkLoggedIn();
+		if (
+			(options.Command as Command.Class & { authenticated: boolean })
+				.authenticated ??
+			DEFAULT_AUTHENTICATED
+		) {
+			await checkLoggedIn();
 		}
 
-		if (!ctr.offlineCompatible) {
-			BalenaCommand.checkNotUsingOfflineMode();
+		if (
+			!(
+				(options.Command as Command.Class & { offlineCompatible: boolean })
+					.offlineCompatible ?? DEFAULT_OFFLINE_COMPATIBLE
+			)
+		) {
+			await checkNotUsingOfflineMode();
 		}
-
-		if (ctr.readStdin) {
-			await this.getStdin();
-		}
+	} catch (error) {
+		this.error(error);
 	}
-}
+	const events = await import('../events');
+	const cmd = options.Command.id;
+
+	// Intentionally do not await for the track promise here, in order to
+	// run the command tracking and the command itself in parallel.
+	trackResolve(events.trackCommand(cmd));
+};
+
+export default hook;

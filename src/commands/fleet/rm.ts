@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
+import { Command } from '@oclif/core';
 
 export default class FleetRmCmd extends Command {
 	public static description = stripIndent`

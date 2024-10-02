@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Flags } from '@oclif/core';
+import { Flags, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import * as _ from 'lodash';
-import Command from '../../command';
-
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 

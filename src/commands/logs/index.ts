@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import type { LogMessage } from 'balena-sdk';
@@ -151,8 +150,9 @@ export default class LogsCmd extends Command {
 				maxAttempts: 1 + (options['max-retry'] ?? MAX_RETRY),
 			});
 		} else {
+			const { checkLoggedIn } = await import('../../utils/patterns');
 			// Logs from cloud
-			await Command.checkLoggedIn();
+			await checkLoggedIn();
 			if (options.tail) {
 				const logStream = await balena.logs.subscribe(params.device, {
 					count: 100,

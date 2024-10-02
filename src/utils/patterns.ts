@@ -24,7 +24,12 @@ import type {
 	PineTypedResult,
 } from 'balena-sdk';
 
-import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
+import {
+	instanceOf,
+	NotLoggedInError,
+	ExpectedError,
+	NotAvailableInOfflineModeError,
+} from '../errors';
 import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
@@ -88,6 +93,41 @@ export async function checkLoggedIn(): Promise<void> {
 		`);
 	}
 }
+
+/**
+ * Throw NotLoggedInError if not logged in when condition true.
+ *
+ * @param {boolean} doCheck - will check if true.
+ * @throws {NotLoggedInError}
+ */
+export const checkLoggedInIf = async (doCheck: boolean) => {
+	if (doCheck) {
+		await checkLoggedIn();
+	}
+};
+
+/**
+ * Throw NotAvailableInOfflineModeError if in offline mode.
+ *
+ * Called automatically if `onlineOnly=true`.
+ * Can be called explicitly by command implementation, if e.g.:
+ *  - check should only be done conditionally
+ *  - other code needs to execute before check
+ *
+ *  Note, currently public to allow use outside of derived commands
+ *  (as some command implementations require this. Can be made protected
+ *  if this changes).
+ *
+ * @throws {NotAvailableInOfflineModeError}
+ */
+export const checkNotUsingOfflineMode = async () => {
+	if (process.env.BALENARC_OFFLINE_MODE) {
+		throw new NotAvailableInOfflineModeError(stripIndent`
+	This command requires an internet connection, and cannot be used in offline mode.
+	To leave offline mode, unset the BALENARC_OFFLINE_MODE environment variable.
+	`);
+	}
+};
 
 export function askLoginType() {
 	return getCliForm().ask<'web' | 'credentials' | 'token' | 'register'>({

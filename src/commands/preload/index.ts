@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import {
@@ -27,8 +26,7 @@ import {
 import { applicationIdInfo } from '../../utils/messages';
 import { dockerConnectionCliFlags } from '../../utils/docker';
 import { parseAsInteger } from '../../utils/validation';
-
-import { Flags, Args } from '@oclif/core';
+import { Flags, Args, Command } from '@oclif/core';
 import * as _ from 'lodash';
 import type {
 	Application,

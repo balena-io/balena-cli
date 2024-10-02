@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Flags } from '@oclif/core';
+import { Flags, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as SDK from 'balena-sdk';
 import * as _ from 'lodash';
-import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
@@ -113,7 +112,9 @@ export default class EnvsCmd extends Command {
 
 		const variables: EnvironmentVariableInfo[] = [];
 
-		await Command.checkLoggedIn();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		if (!options.fleet && !options.device) {
 			throw new ExpectedError('Missing --fleet or --device option');

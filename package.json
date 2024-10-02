@@ -99,7 +99,7 @@
     "helpClass": "./build/help",
     "topicSeparator": " ",
     "hooks": {
-      "prerun": "./build/hooks/prerun/track",
+      "prerun": "./build/hooks/prerun",
       "command_not_found": "./build/hooks/command-not-found/suggest"
     },
     "additionalHelpFlags": [
