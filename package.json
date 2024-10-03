@@ -113,7 +113,6 @@
   "devDependencies": {
     "@balena/lint": "^8.0.0",
     "@electron/notarize": "^2.0.0",
-    "@octokit/plugin-throttling": "^3.5.1",
     "@octokit/rest": "^18.6.7",
     "@types/archiver": "^6.0.2",
     "@types/bluebird": "^3.5.36",

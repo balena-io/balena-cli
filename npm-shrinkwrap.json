@@ -92,7 +92,6 @@
       "devDependencies": {
         "@balena/lint": "^8.0.0",
         "@electron/notarize": "^2.0.0",
-        "@octokit/plugin-throttling": "^3.5.1",
         "@octokit/rest": "^18.6.7",
         "@types/archiver": "^6.0.2",
         "@types/bluebird": "^3.5.36",
@@ -2494,19 +2493,6 @@
       },
       "peerDependencies": {
         "@octokit/core": ">=3"
-      }
-    },
-    "node_modules/@octokit/plugin-throttling": {
-      "version": "3.5.1",
-      "resolved": "https://registry.npmjs.org/@octokit/plugin-throttling/-/plugin-throttling-3.5.1.tgz",
-      "integrity": "sha512-d2jh3/RZo98DRw2J0jFxhKz7nrTGalGdkfRtxM+pI5k1wRb4BKBjiuE9cuZnhZyj+zLC1EcIptj7K+28LJZ3eA==",
-      "dev": true,
-      "dependencies": {
-        "@octokit/types": "^6.0.1",
-        "bottleneck": "^2.15.3"
-      },
-      "peerDependencies": {
-        "@octokit/core": "^3.5.0"
       }
     },
     "node_modules/@octokit/request": {
@@ -5849,12 +5835,6 @@
       "version": "3.1.4",
       "resolved": "https://registry.npmjs.org/boolean/-/boolean-3.1.4.tgz",
       "integrity": "sha512-3hx0kwU3uzG6ReQ3pnaFQPSktpBw6RHN3/ivDKEuU8g1XSfafowyvDnadjv1xp8IZqhtSukxlwv9bF6FhX8m0w=="
-    },
-    "node_modules/bottleneck": {
-      "version": "2.19.5",
-      "resolved": "https://registry.npmjs.org/bottleneck/-/bottleneck-2.19.5.tgz",
-      "integrity": "sha512-VHiNCbI1lKdl44tGrhNfU3lup0Tj/ZBMJB5/2ZbNXRCPuRCO7ed2mgcK4r17y+KB2EfuYuRaVlwNbAeaWGSpbw==",
-      "dev": true
     },
     "node_modules/bowser": {
       "version": "2.11.0",
