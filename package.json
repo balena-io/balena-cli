@@ -139,7 +139,6 @@
     "@types/klaw": "^3.0.6",
     "@types/lodash": "^4.14.178",
     "@types/mime": "^3.0.4",
-    "@types/mixpanel": "^2.14.3",
     "@types/mocha": "^10.0.7",
     "@types/mock-fs": "^4.13.4",
     "@types/mock-require": "^2.0.1",

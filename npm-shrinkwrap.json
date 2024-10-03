@@ -118,7 +118,6 @@
         "@types/klaw": "^3.0.6",
         "@types/lodash": "^4.14.178",
         "@types/mime": "^3.0.4",
-        "@types/mixpanel": "^2.14.3",
         "@types/mocha": "^10.0.7",
         "@types/mock-fs": "^4.13.4",
         "@types/mock-require": "^2.0.1",
@@ -3844,12 +3843,6 @@
       "version": "3.0.3",
       "resolved": "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.3.tgz",
       "integrity": "sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==",
-      "dev": true
-    },
-    "node_modules/@types/mixpanel": {
-      "version": "2.14.3",
-      "resolved": "https://registry.npmjs.org/@types/mixpanel/-/mixpanel-2.14.3.tgz",
-      "integrity": "sha512-pc/3bFJNX74nCVFyx4jd606k9hNi6rdeU9qyqbiws5/Q8YwoExdzpOl1qp7oLbSigl1jju1b/f0XcP/b/THj2A==",
       "dev": true
     },
     "node_modules/@types/mocha": {
