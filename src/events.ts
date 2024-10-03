@@ -59,7 +59,6 @@ export async function trackCommand(commandSignature: string) {
 				});
 			});
 		}
-		// Don't actually call mixpanel.track() while running test cases, or if suppressed
 		if (
 			!process.env.BALENA_CLI_TEST_TYPE &&
 			!process.env.BALENARC_NO_ANALYTICS
@@ -75,9 +74,6 @@ export async function trackCommand(commandSignature: string) {
 
 const TIMEOUT = 4000;
 
-/**
- * Make the event tracking HTTPS request to balenaCloud's '/mixpanel' endpoint.
- */
 async function sendEvent(balenaUrl: string, event: string, username?: string) {
 	const { default: got } = await import('got');
 	const trackData = {

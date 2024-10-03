@@ -35,7 +35,6 @@ if (process.platform !== 'win32') {
 		beforeEach(async () => {
 			api = new BalenaAPIMock();
 			api.expectGetWhoAmI({ optional: true, persist: true });
-			api.expectGetMixpanel({ optional: true });
 			tmpPath = (await tmpNameAsync()) as string;
 			await fs.copyFile('./tests/test-data/dummy.img', tmpPath);
 		});

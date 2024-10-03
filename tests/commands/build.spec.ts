@@ -91,7 +91,6 @@ describe('balena build', function () {
 		api = new BalenaAPIMock();
 		docker = new DockerMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		docker.expectGetPing();
 		docker.expectGetVersion({ persist: true });
 	});
@@ -619,7 +618,6 @@ describe('balena build: project validation', function () {
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(() => {

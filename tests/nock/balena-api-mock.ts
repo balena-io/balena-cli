@@ -74,7 +74,6 @@ export class BalenaAPIMock extends NockMock {
 				"vpnEndpoint":"vpn.balena-cloud.com",
 				"registryEndpoint":"registry2.balena-cloud.com",
 				"deltaEndpoint":"https://delta.balena-cloud.com",
-				"mixpanelToken":"",
 				"apiKey":"nothingtoseehere"
 			}`),
 		);
@@ -464,10 +463,6 @@ export class BalenaAPIMock extends NockMock {
 
 	public expectWhoAmIFail(opts: ScopeOpts = { optional: true }) {
 		this.optGet('/actor/v1/whoami', opts).reply(401);
-	}
-
-	public expectGetMixpanel(opts: ScopeOpts = {}) {
-		this.optGet(/^\/mixpanel\/track/, opts).reply(200, {});
 	}
 }
 

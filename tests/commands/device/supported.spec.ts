@@ -26,7 +26,6 @@ describe('balena devices supported', function () {
 	beforeEach(() => {
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true });
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {

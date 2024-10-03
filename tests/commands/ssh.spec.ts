@@ -76,7 +76,6 @@ describe('balena ssh', function () {
 
 	this.beforeEach(function () {
 		api = new BalenaAPIMock();
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(function () {

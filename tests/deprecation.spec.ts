@@ -68,7 +68,6 @@ describe('DeprecationChecker', function () {
 		npm = new NpmMock();
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		checker = new DeprecationChecker(packageJSON.version);
 
 		getStub = sandbox.stub(mockStorage, 'get').withArgs(checker.cacheFile);

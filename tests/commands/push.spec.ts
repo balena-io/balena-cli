@@ -89,7 +89,6 @@ describe('balena push', function () {
 		api = new BalenaAPIMock();
 		builder = new BuilderMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		api.expectGetApplication();
 	});
 
@@ -518,7 +517,6 @@ describe('balena push: project validation', function () {
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(() => {

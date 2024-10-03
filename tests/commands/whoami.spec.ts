@@ -24,7 +24,6 @@ describe('balena whoami', function () {
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(async () => {

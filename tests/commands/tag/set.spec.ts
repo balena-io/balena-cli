@@ -28,7 +28,6 @@ describe('balena tag set', function () {
 	beforeEach(() => {
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {
