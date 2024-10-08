@@ -122,7 +122,6 @@
         "@types/mocha": "^10.0.7",
         "@types/mock-fs": "^4.13.4",
         "@types/mock-require": "^2.0.1",
-        "@types/mockery": "^1.4.33",
         "@types/ndjson": "^2.0.1",
         "@types/node": "^20.0.0",
         "@types/node-cleanup": "^2.1.2",
@@ -163,7 +162,6 @@
         "mocha": "^10.6.0",
         "mock-fs": "^5.2.0",
         "mock-require": "^3.0.3",
-        "mockery": "^2.1.0",
         "nock": "^13.2.1",
         "oclif": "^4.14.0",
         "parse-link-header": "^2.0.0",
@@ -3877,12 +3875,6 @@
       "dependencies": {
         "@types/node": "*"
       }
-    },
-    "node_modules/@types/mockery": {
-      "version": "1.4.33",
-      "resolved": "https://registry.npmjs.org/@types/mockery/-/mockery-1.4.33.tgz",
-      "integrity": "sha512-vpuuVxCnCEM0OakYNoyFs40mjJFJFJahBHyx0Z0Piysof+YwlDJzNO4V1weRvYySAmtAvlb0UHtxVO2IfTcykw==",
-      "dev": true
     },
     "node_modules/@types/mute-stream": {
       "version": "0.0.4",
@@ -12689,12 +12681,6 @@
       "engines": {
         "node": ">=0.10.0"
       }
-    },
-    "node_modules/mockery": {
-      "version": "2.1.0",
-      "resolved": "https://registry.npmjs.org/mockery/-/mockery-2.1.0.tgz",
-      "integrity": "sha512-9VkOmxKlWXoDO/h1jDZaS4lH33aWfRiJiNT/tKj+8OGzrcFDLo8d0syGdbsc3Bc4GvRXPb+NMMvojotmuGJTvA==",
-      "dev": true
     },
     "node_modules/moment": {
       "version": "2.30.1",
