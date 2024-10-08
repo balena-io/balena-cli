@@ -1,4 +1,16 @@
 - commits:
+    - subject: "Contributing: No longer request separate folders for plural commands"
+      hash: 276d61cf6c3dfac44796736ff4570f2aeaec971e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.18
+  title: ""
+  date: 2024-10-08T15:25:03.766Z
+- commits:
     - subject: Remove dev dependency `parse-link-header`
       hash: da95baa70cc2dc72e6d529fa25c42cd2e1739c10
       body: ""
