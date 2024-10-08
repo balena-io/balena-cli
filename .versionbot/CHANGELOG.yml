@@ -1,4 +1,16 @@
 - commits:
+    - subject: Temporarily skip broken image-manager tests on Windows and Mac
+      hash: 77b9514442ab81ef1375a2517eb3e9aab7e724da
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.14
+  title: ""
+  date: 2024-10-08T12:44:14.300Z
+- commits:
     - subject: Remove extra line from recent changelog entry
       hash: 127bd7ec722133d81cd94a5e028d9f2e5219df7c
       body: ""
