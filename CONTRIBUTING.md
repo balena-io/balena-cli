@@ -314,3 +314,7 @@ gotchas to bear in mind:
 	replace: `spec: 'tests/**/*.spec.ts',`
 
 	with: `spec: ['tests/auth/*.spec.ts', 'tests/**/deploy.spec.ts'],`
+
+## Signing and Notarizing for Apple
+
+* The build will be signed and notarized for both standalone and installer (pkg), to do that it need both a *Development* and an *Installer* certificate to be present in the chain. As we run the certs import only once, we need both certs exported in a single `PK12`.
