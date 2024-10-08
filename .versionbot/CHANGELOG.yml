@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused `mockery` dev dependency
+      hash: 1245b1c99bab2d504a025f489451710cc140bc55
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.15
+  title: ""
+  date: 2024-10-08T13:11:01.319Z
+- commits:
     - subject: Temporarily skip broken image-manager tests on Windows and Mac
       hash: 77b9514442ab81ef1375a2517eb3e9aab7e724da
       body: ""
