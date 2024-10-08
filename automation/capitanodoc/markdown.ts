@@ -24,6 +24,16 @@ import type { Category, Document, OclifCommand } from './doc-types';
 
 function renderOclifCommand(command: OclifCommand): string[] {
 	const result = [`## ${ent.encode(command.usage || '')}`];
+	if (!_.isEmpty(command.aliases)) {
+		result.push('### Aliases');
+		result.push(
+			'\n',
+			command.aliases.map((alias) => `- \`${alias}\``).join('\n'),
+		);
+		result.push(
+			`\nTo use one of the aliases, replace \`${command.id?.replaceAll(':', ' ')}\` with the alias.`,
+		);
+	}
 	const description = (command.description || '')
 		.split('\n')
 		.slice(1) // remove the first line, which oclif uses as help header

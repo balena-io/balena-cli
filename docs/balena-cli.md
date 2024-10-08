@@ -1353,6 +1353,16 @@ expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
 ## device list
 
+### Aliases
+
+
+
+
+- `devices`
+
+
+To use one of the aliases, replace `undefined` with the alias.
+
 List all of your devices.
 
 Devices can be filtered by fleet with the `--fleet` option.
