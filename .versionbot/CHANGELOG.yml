@@ -1,4 +1,48 @@
 - commits:
+    - subject: Remove dev dependency `parse-link-header`
+      hash: da95baa70cc2dc72e6d529fa25c42cd2e1739c10
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Remove dev dependency @octokit/rest
+      hash: a3ec75c2c752f734f07e84e9213887b4aec4e7fd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Remove dev dependency @octokit/plugin-throttling
+      hash: f6f6be8ee8be80048e621a4e75d2fbecacce47e4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Remove no longer needed references and tests for mixpanel
+      hash: 09e653692b00777aa56625751110305223bc5917
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Remove dev dependency `@types/mixpanel`
+      hash: 3ac89b236abe3392c185010c3b3851a6923d083a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.17
+  title: ""
+  date: 2024-10-08T14:04:42.011Z
+- commits:
     - subject: "compose: Reduce the properties updated to only the necessary"
       hash: 7e2b5abe600ab13f5f55fc86f0850b54a66debe5
       body: ""
