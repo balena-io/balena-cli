@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
+import { Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class LogoutCmd extends Command {
@@ -25,8 +25,6 @@ export default class LogoutCmd extends Command {
 		Logout from your balena account.
 `;
 	public static examples = ['$ balena logout'];
-
-	public static usage = 'logout';
 
 	public async run() {
 		await this.parse(LogoutCmd);

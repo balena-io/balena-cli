@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args, type Interfaces } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, type Interfaces, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import type * as BalenaSdk from 'balena-sdk';
@@ -42,11 +41,8 @@ export default class ReleaseCmd extends Command {
 		'$ balena release d3f3151f5ad25ca6b070aa4d08296aca --json',
 	];
 
-	public static usage = 'release <commitOrId>';
-
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 		composition: Flags.boolean({
 			default: false,
 			char: 'c',

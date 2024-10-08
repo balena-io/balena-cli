@@ -1292,7 +1292,7 @@ async function pushAndUpdateServiceImages(
 				localImage.inspect(),
 				pushImage(localImage, index),
 			]);
-			serviceImage.image_size = imgInfo.Size;
+			serviceImage.image_size = `${imgInfo.Size}`;
 			serviceImage.content_hash = imgDigest;
 			serviceImage.build_log = logs;
 			serviceImage.dockerfile = props.dockerfile;
@@ -1404,7 +1404,7 @@ export async function deployProject(
 				composition,
 				isDraft,
 				contract?.version,
-				contract ? JSON.stringify(contract) : undefined,
+				contract,
 			),
 	);
 	const { client: pineClient, release, serviceImages } = $release;
@@ -1500,7 +1500,9 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 
 async function getContractContent(
 	filePath: string,
-): Promise<Dictionary<any> | undefined> {
+): Promise<
+	import('@balena/compose/dist/release/models').ReleaseModel['contract']
+> {
 	let fileContentAsString;
 	try {
 		fileContentAsString = await fs.readFile(filePath, 'utf8');

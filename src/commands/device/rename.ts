@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 
 export default class DeviceRenameCmd extends Command {
@@ -41,12 +39,6 @@ export default class DeviceRenameCmd extends Command {
 		newName: Args.string({
 			description: 'the new name for the device',
 		}),
-	};
-
-	public static usage = 'device rename <uuid> [newName]';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

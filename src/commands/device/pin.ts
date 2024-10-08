@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
 
@@ -44,12 +42,6 @@ export default class DevicePinCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device pin <uuid> [releaseToPinTo]';
-
-	public static flags = {
-		help: cf.help,
-	};
-
 	public static authenticated = true;
 
 	public async run() {
@@ -59,7 +51,7 @@ export default class DevicePinCmd extends Command {
 
 		const device = await balena.models.device.get(params.uuid, {
 			$expand: {
-				should_be_running__release: {
+				is_pinned_on__release: {
 					$select: 'commit',
 				},
 				belongs_to__application: {
@@ -69,7 +61,7 @@ export default class DevicePinCmd extends Command {
 		});
 
 		const pinnedRelease = getExpandedProp(
-			device.should_be_running__release,
+			device.is_pinned_on__release,
 			'commit',
 		);
 		const appSlug = getExpandedProp(device.belongs_to__application, 'slug');
@@ -82,7 +74,7 @@ export default class DevicePinCmd extends Command {
 					pinnedRelease
 						? `This device is currently pinned to ${pinnedRelease}.`
 						: 'This device is not currently pinned to any release.'
-				} \n\nTo see a list of all releases this device can be pinned to, run \`balena releases ${appSlug}\`.`,
+				} \n\nTo see a list of all releases this device can be pinned to, run \`balena release list ${appSlug}\`.`,
 			);
 		} else {
 			await balena.models.device.pinToRelease(params.uuid, releaseToPinTo);

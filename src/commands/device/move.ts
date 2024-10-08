@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
 import type {
 	BalenaSDK,
 	Device,
 	PineOptions,
 	PineTypedResult,
 } from 'balena-sdk';
-import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -54,11 +53,8 @@ export default class DeviceMoveCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device move <uuid(s)>';
-
 	public static flags = {
 		fleet: cf.fleet,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

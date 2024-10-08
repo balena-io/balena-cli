@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
+import { Command } from '@oclif/core';
 import { commitOrIdArg } from '.';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class ReleaseInvalidateCmd extends Command {
@@ -34,12 +33,6 @@ export default class ReleaseInvalidateCmd extends Command {
 		'$ balena release invalidate a777f7345fe3d655c1c981aa642e5555',
 		'$ balena release invalidate 1234567',
 	];
-
-	public static usage = 'release invalidate <commitOrId>';
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public static args = {
 		commitOrId: commitOrIdArg({

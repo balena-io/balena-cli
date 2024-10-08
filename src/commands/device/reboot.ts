@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
@@ -35,11 +34,8 @@ export default class DeviceRebootCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device reboot <uuid>';
-
 	public static flags = {
 		force: cf.force,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

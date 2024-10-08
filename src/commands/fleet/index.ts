@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
@@ -41,10 +39,7 @@ export default class FleetCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'fleet <fleet>';
-
 	public static flags = {
-		help: cf.help,
 		view: Flags.boolean({
 			default: false,
 			description: 'open fleet dashboard page',

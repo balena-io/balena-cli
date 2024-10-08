@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getCliForm, stripIndent } from '../../utils/lazy';
 
@@ -48,13 +47,10 @@ export default class OsInitializeCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os initialize <image>';
-
 	public static flags = {
 		type: cf.deviceType,
 		drive: cf.drive,
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

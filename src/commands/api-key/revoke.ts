@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class RevokeCmd extends Command {
@@ -39,12 +37,6 @@ export default class RevokeCmd extends Command {
 			description: 'the API key ids',
 			required: true,
 		}),
-	};
-
-	public static usage = 'api-key revoke <ids>';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

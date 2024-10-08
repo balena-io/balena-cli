@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 import { parseAsLocalHostnameOrIp } from '../../utils/validation';
 
@@ -50,12 +48,6 @@ export default class LeaveCmd extends Command {
 		}),
 	};
 
-	public static usage = 'leave [deviceIpOrHostname]';
-
-	public static flags = {
-		help: cf.help,
-	};
-
 	public static authenticated = true;
 	public static primary = true;
 
@@ -63,7 +55,8 @@ export default class LeaveCmd extends Command {
 		const { args: params } = await this.parse(LeaveCmd);
 
 		const promote = await import('../../utils/promote');
-		const logger = await Command.getLogger();
+		const Logger = await import('../../utils/logger');
+		const logger = Logger.getLogger();
 		return promote.leave(logger, params.deviceIpOrHostname);
 	}
 }

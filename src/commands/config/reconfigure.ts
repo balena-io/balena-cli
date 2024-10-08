@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
@@ -39,15 +38,12 @@ export default class ConfigReconfigureCmd extends Command {
 		'$ balena config reconfigure --drive balena.img --advanced',
 	];
 
-	public static usage = 'config reconfigure';
-
 	public static flags = {
 		drive: cf.driveOrImg,
 		advanced: Flags.boolean({
 			description: 'show advanced commands',
 			char: 'v',
 		}),
-		help: cf.help,
 		version: Flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
 		}),

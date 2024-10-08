@@ -3,8 +3,7 @@
 		{
 			"belongs_to__application": [
 				{
-					"slug": "org/test app",
-					"__metadata": {}
+					"slug": "org/test app"
 				}
 			],
 			"id": 1747415,
@@ -19,10 +18,7 @@
 			"status": "Idle",
 			"is_online": false,
 			"os_version": "balenaOS 2.44.0+rev3",
-			"supervisor_version": "10.3.7",
-			"__metadata": {
-				"uri": "/resin/device(@id)?@id=1747415"
-			}
+			"supervisor_version": "10.3.7"
 		},
 		{
 			"belongs_to__application": [],
@@ -38,10 +34,7 @@
 			"status": "Idle",
 			"is_online": false,
 			"os_version": "balenaOS 2.44.0+rev3",
-			"supervisor_version": "10.3.7",
-			"__metadata": {
-				"uri": "/resin/device(@id)?@id=1747415"
-			}
+			"supervisor_version": "10.3.7"
 		}
 	]
 }

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args, Flags } from '@oclif/core';
-import Command from '../../command';
+import { Args, Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -60,16 +59,12 @@ export default class JoinCmd extends Command {
 		}),
 	};
 
-	// Hardcoded to preserve camelcase
-	public static usage = 'join [deviceIpOrHostname]';
-
 	public static flags = {
 		fleet: cf.fleet,
 		pollInterval: Flags.integer({
 			description: 'the interval in minutes to check for updates',
 			char: 'i',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
@@ -80,7 +75,8 @@ export default class JoinCmd extends Command {
 
 		const promote = await import('../../utils/promote');
 		const sdk = getBalenaSdk();
-		const logger = await Command.getLogger();
+		const Logger = await import('../../utils/logger');
+		const logger = Logger.getLogger();
 		return promote.join(
 			logger,
 			sdk,

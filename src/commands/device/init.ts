@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -29,7 +28,6 @@ interface FlagsDef {
 	'os-version'?: string;
 	drive?: string;
 	config?: string;
-	help: void;
 	'provisioning-key-name'?: string;
 	'provisioning-key-expiry-date'?: string;
 }
@@ -43,17 +41,17 @@ export default class DeviceInitCmd extends Command {
 		This command effectively combines several other balena CLI commands in one,
 		namely:
 
-		'balena device register'  
-		'balena os download'  
-		'balena os build-config' or 'balena config generate'  
-		'balena os configure'  
+		'balena device register'
+		'balena os download'
+		'balena os build-config' or 'balena config generate'
+		'balena os configure'
 		'balena os local flash'
 
 		Possible arguments for the '--fleet', '--os-version' and '--drive' options can
 		be listed respectively with the commands:
 
-		'balena fleets'  
-		'balena os versions'  
+		'balena fleet list'
+		'balena os versions'
 		'balena util available-drives'
 
 		If the '--fleet' or '--drive' options are omitted, interactive menus will be
@@ -73,8 +71,6 @@ export default class DeviceInitCmd extends Command {
 		'$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes',
 		'$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes',
 	];
-
-	public static usage = 'device init';
 
 	public static flags = {
 		fleet: cf.fleet,
@@ -103,7 +99,6 @@ export default class DeviceInitCmd extends Command {
 			description:
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
@@ -119,8 +114,9 @@ export default class DeviceInitCmd extends Command {
 		tmp.setGracefulCleanup();
 		const { downloadOSImage } = await import('../../utils/cloud');
 		const { getApplication } = await import('../../utils/sdk');
+		const Logger = await import('../../utils/logger');
 
-		const logger = await Command.getLogger();
+		const logger = Logger.getLogger();
 		const balena = getBalenaSdk();
 
 		// Get application and

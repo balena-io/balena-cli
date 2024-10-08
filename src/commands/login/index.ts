@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Flags, Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { ExpectedError } from '../../errors';
 import type { WhoamiResult } from 'balena-sdk';
@@ -30,7 +28,6 @@ interface FlagsDef {
 	user?: string;
 	password?: string;
 	port?: number;
-	help: void;
 	hideExperimentalWarning: boolean;
 }
 
@@ -62,8 +59,6 @@ export default class LoginCmd extends Command {
 			hidden: true,
 		}),
 	};
-
-	public static usage = 'login';
 
 	public static flags = {
 		web: Flags.boolean({
@@ -114,7 +109,6 @@ export default class LoginCmd extends Command {
 			default: false,
 			description: 'Hides warning for experimental features',
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;

@@ -37,8 +37,6 @@ function getHelpSubject(args: string[]): string | undefined {
 }
 
 export default class BalenaHelp extends Help {
-	public static usage: 'help [command]';
-
 	public async showHelp(argv: string[]) {
 		const chalk = getChalk();
 		const subject = getHelpSubject(argv);
@@ -98,7 +96,7 @@ export default class BalenaHelp extends Help {
 
 		let usageLength = 0;
 		for (const cmd of primaryCommands) {
-			usageLength = Math.max(usageLength, cmd.usage?.length || 0);
+			usageLength = Math.max(usageLength, cmd.id?.length || 0);
 		}
 
 		let additionalCmdSection: string[];
@@ -112,16 +110,15 @@ export default class BalenaHelp extends Help {
 			// Find longest usage, and pad usage of first command in each category
 			// This is to ensure that both categories align visually
 			for (const cmd of additionalCommands) {
-				usageLength = Math.max(usageLength, cmd.usage?.length || 0);
+				usageLength = Math.max(usageLength, cmd.id?.length || 0);
 			}
 
 			if (
-				typeof primaryCommands[0].usage === 'string' &&
-				typeof additionalCommands[0].usage === 'string'
+				typeof primaryCommands[0].id === 'string' &&
+				typeof additionalCommands[0].id === 'string'
 			) {
-				primaryCommands[0].usage = primaryCommands[0].usage.padEnd(usageLength);
-				additionalCommands[0].usage =
-					additionalCommands[0].usage.padEnd(usageLength);
+				primaryCommands[0].id = primaryCommands[0].id.padEnd(usageLength);
+				additionalCommands[0].id = additionalCommands[0].id.padEnd(usageLength);
 			}
 
 			additionalCmdSection = [
@@ -192,8 +189,8 @@ See: https://git.io/JRHUW#deprecation-policy`,
 
 		const body = this.renderList(
 			commands
-				.filter((c) => c.usage != null && c.usage !== '')
-				.map((c) => [c.usage, this.formatDescription(c.description)]),
+				.filter((c) => c.id != null && c.id !== '')
+				.map((c) => [c.id, this.formatDescription(c.description)]),
 			{
 				spacer: '\n',
 				stripAnsi: this.opts.stripAnsi,
@@ -223,18 +220,12 @@ See: https://git.io/JRHUW#deprecation-policy`,
 	readonly manuallySortedPrimaryCommands = [
 		'login',
 		'push',
-		'logs',
-		'ssh',
-		'fleets',
 		'fleet',
-		'devices',
 		'device',
-		'tunnel',
 		'preload',
 		'build',
 		'deploy',
 		'join',
 		'leave',
-		'scan',
 	];
 }

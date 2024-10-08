@@ -28,19 +28,13 @@ $ balena [COMMAND] [OPTIONS]
 PRIMARY COMMANDS
   login                                  login to balena
   push <applicationOrDevice>             start a remote build on the balenaCloud build servers or a local mode device
-  logs <device>                          show device logs
-  ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
-  apps                                   list all applications
   app <name>                             display information about a single application
-  devices                                list all devices
   device <uuid>                          show info about a single device
-  tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
   preload <image>                        preload an app on a disk image (or Edison zip archive)
   build [source]                         build a project locally
   deploy <appName> [image]               deploy a single image or a multicontainer project to a balena application
   join [deviceIpOrHostname]              move a local device to an application on another balena server
   leave [deviceIpOrHostname]             remove a local device from its balena application
-  scan                                   scan for balenaOS devices on your local network
 
 `;
 
@@ -55,8 +49,10 @@ ADDITIONAL COMMANDS
   config read                            read the configuration of a device or OS image
   config reconfigure                     interactively reconfigure a device or OS image
   config write <key> <value>             write a key-value pair to configuration of a device or OS image
+  device detect                          scan for balenaOS devices on your local network
   device identify <uuid>                 identify a device
   device init                            initialise a device with balenaOS
+  device logs <device>                   show device logs
   device move <uuid(s)>                  move one or more devices to another application
   device os-update <uuid>                start a Host OS update for a device
   device public-url <uuid>               get or manage the public URL for a device
@@ -65,15 +61,17 @@ ADDITIONAL COMMANDS
   device rename <uuid> [newName]         rename a device
   device rm <uuid(s)>                    remove one or more devices
   device shutdown <uuid>                 shutdown a device
-  devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
-  env add <name> [value]                 add env or config variable to application(s), device(s) or service(s)
+  device ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
+  device tunnel <deviceOrApplication>    tunnel local ports to your balenaOS device
+  device-type list                       list the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
+  env set <name> [value]                 add or update env or config variable to application(s), device(s) or service(s)
+  env list                               list the environment or config variables of an application, device or service
   env rename <name> <value>              change the value of a config or env var for an app, device or service
   env rm <id>                            remove a config or env var from an application, device or service
-  envs                                   list the environment or config variables of an application, device or service
-  key <id>                               display an SSH key
-  key add <name> [path]                  add an SSH key to balenaCloud
-  key rm <id>                            remove an SSH key from balenaCloud
-  keys                                   list the SSH keys in balenaCloud
+  ssh-key <id>                           display an SSH key
+  ssh-key add <name> [path]              add an SSH key to balenaCloud
+  ssh-key list                           list the SSH keys in balenaCloud
+  ssh-key rm <id>                        remove an SSH key from balenaCloud
   local configure <target>               (Re)configure a balenaOS drive or image
   local flash <image>                    flash an image to a drive
   logout                                 logout from balena
@@ -84,9 +82,9 @@ ADDITIONAL COMMANDS
   os initialize <image>                  initialize an os image for a device
   os versions <type>                     show available balenaOS versions for the given device type
   settings                               print current settings
-  tag rm <tagKey>                        remove a tag from an application, device or release
-  tag set <tagKey> [value]               set a tag on an application, device or release
-  tags                                   list all tags for an application, device or release
+  tag list                               list all tags for a app, block, fleet, device or release
+  tag rm <tagKey>                        remove a tag from an app, block, fleet, device or release
+  tag set <tagKey> [value]               set a tag on an app, block, fleet, device or release
   util available-drives                  list available drives
   version                                display version information for the balena CLI and/or Node.js
   whoami                                 display account information for current user

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -45,8 +44,6 @@ export default class TagRmCmd extends Command {
 		}),
 	};
 
-	public static usage = 'tag rm <tagKey>';
-
 	public static flags = {
 		fleet: {
 			...cf.fleet,
@@ -60,7 +57,6 @@ export default class TagRmCmd extends Command {
 			...cf.release,
 			exclusive: ['fleet', 'device'],
 		},
-		help: cf.help,
 	};
 
 	public static authenticated = true;

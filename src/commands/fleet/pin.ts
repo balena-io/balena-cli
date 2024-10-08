@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
 
@@ -42,12 +40,6 @@ export default class FleetPinCmd extends Command {
 		releaseToPinTo: Args.string({
 			description: 'the commit of the release for the fleet to get pinned to',
 		}),
-	};
-
-	public static usage = 'fleet pin <slug> [releaseToPinTo]';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;
@@ -79,7 +71,7 @@ export default class FleetPinCmd extends Command {
 					pinnedRelease
 						? `This fleet is currently pinned to ${pinnedRelease}.`
 						: 'This fleet is not currently pinned to any release.'
-				} \n\nTo see a list of all releases this fleet can be pinned to, run \`balena releases ${slug}\`.`,
+				} \n\nTo see a list of all releases this fleet can be pinned to, run \`balena release list ${slug}\`.`,
 			);
 		} else {
 			await balena.models.application.pinToRelease(slug, releaseToPinTo);

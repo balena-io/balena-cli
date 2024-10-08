@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Flags, Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class DeviceLocalModeCmd extends Command {
@@ -42,8 +40,6 @@ export default class DeviceLocalModeCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device local-mode <uuid>';
-
 	public static flags = {
 		enable: Flags.boolean({
 			description: 'enable local mode',
@@ -57,7 +53,6 @@ export default class DeviceLocalModeCmd extends Command {
 			description: 'output boolean indicating local mode status',
 			exclusive: ['enable', 'disable'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

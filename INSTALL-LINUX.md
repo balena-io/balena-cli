@@ -33,7 +33,7 @@ as described above.
 
 ## sudo configuration
 
-A few CLI commands require execution through sudo, e.g. `sudo balena scan`.  
+A few CLI commands require execution through sudo, e.g. `sudo balena device detect`.  
 If your Linux distribution has an `/etc/sudoers` file that defines a `secure_path`
 setting, run `sudo visudo` to edit it and add the balena CLI's installation folder to
 the ***pre-existing*** `secure_path` setting, for example:
@@ -61,19 +61,19 @@ instructions](https://docs.docker.com/install/overview/) to install Docker on th
 workstation as the balena CLI. The [advanced installation
 options](./INSTALL-ADVANCED.md#additional-dependencies) document describes other possibilities.
 
-### balena ssh
+### balena device ssh
 
-The `balena ssh` command requires the `ssh` command-line tool to be available. Most Linux
+The `balena device ssh` command requires the `ssh` command-line tool to be available. Most Linux
 distributions will already have it installed. Otherwise, `sudo apt-get install openssh-client`
 should do the trick on Debian or Ubuntu.
 
-The `balena ssh` command also requires an SSH key to be added to your balena account: see [SSH
+The `balena device ssh` command also requires an SSH key to be added to your balena account: see [SSH
 Access documentation](https://www.balena.io/docs/learn/manage/ssh-access/). The `balena key*`
 command set can also be used to list and manage SSH keys: see `balena help -v`.
 
-### balena scan
+### balena device detect
 
-The `balena scan` command requires a multicast DNS (mDNS) service like
+The `balena device detect` command requires a multicast DNS (mDNS) service like
 [Avahi](https://en.wikipedia.org/wiki/Avahi_(software)), which is installed by default on most
 desktop Linux distributions. Otherwise, on Debian or Ubuntu, the installation command would be
 `sudo apt-get install avahi-daemon`.

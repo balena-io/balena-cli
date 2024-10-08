@@ -81,9 +81,9 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-### Proxy setup for balena ssh
+### Proxy setup for balena device ssh
 
-In order to work behind a proxy server, the `balena ssh` command requires the
+In order to work behind a proxy server, the `balena device ssh` command requires the
 [`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) to be installed.
 `proxytunnel` is available for Linux distributions like Ubuntu/Debian (`apt install proxytunnel`),
 and for macOS through [Homebrew](https://brew.sh/). Windows support is limited to the [Windows
@@ -103,7 +103,7 @@ The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations f
 > * This feature requires CLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
-> * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
+> * To exclude a `balena device ssh` target from proxying (IP address or `.local` hostname), the
 >   `--noproxy` option should be specified in addition to the `BALENARC_NO_PROXY` variable.
 
 By default (if `BALENARC_NO_PROXY` is not defined), all [private IPv4
@@ -162,13 +162,13 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - API Keys
 
-	- [api-key generate &#60;name&#62;](#api-key-generate-name)
-	- [api-key revoke &#60;ids&#62;](#api-key-revoke-ids)
-	- [api-keys](#api-keys)
+	- [api-key generate](#api-key-generate)
+	- [api-key list](#api-key-list)
+	- [api-key revoke](#api-key-revoke)
 
 - Apps
 
-	- [app create &#60;name&#62;](#app-create-name)
+	- [app create](#app-create)
 
 - Authentication
 
@@ -178,115 +178,109 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Blocks
 
-	- [block create &#60;name&#62;](#block-create-name)
+	- [block create](#block-create)
 
 - Config
 
 	- [config generate](#config-generate)
-	- [config inject &#60;file&#62;](#config-inject-file)
+	- [config inject](#config-inject)
 	- [config read](#config-read)
 	- [config reconfigure](#config-reconfigure)
-	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key-value)
+	- [config write](#config-write)
 
 - Deploy
 
-	- [build [source]](#build-source)
-	- [deploy &#60;fleet&#62; [image]](#deploy-fleet-image)
+	- [build](#build)
+	- [deploy](#deploy)
+
+- Device-type
+
+	- [device-type list](#device-type-list)
 
 - Devices
 
-	- [device deactivate &#60;uuid&#62;](#device-deactivate-uuid)
-	- [device identify &#60;uuid&#62;](#device-identify-uuid)
-	- [device &#60;uuid&#62;](#device-uuid)
+	- [device deactivate](#device-deactivate)
+	- [device detect](#device-detect)
+	- [device identify](#device-identify)
+	- [device](#device)
 	- [device init](#device-init)
-	- [device local-mode &#60;uuid&#62;](#device-local-mode-uuid)
-	- [device move &#60;uuid(s)&#62;](#device-move-uuid-s)
-	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
-	- [device pin &#60;uuid&#62; [releasetopinto]](#device-pin-uuid-releasetopinto)
-	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
-	- [device purge &#60;uuid&#62;](#device-purge-uuid)
-	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
-	- [device register &#60;fleet&#62;](#device-register-fleet)
-	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
-	- [device restart &#60;uuid&#62;](#device-restart-uuid)
-	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
-	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
-	- [device start-service &#60;uuid&#62;](#device-start-service-uuid)
-	- [device stop-service &#60;uuid&#62;](#device-stop-service-uuid)
-	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
-	- [devices](#devices)
-	- [devices supported](#devices-supported)
+	- [device list](#device-list)
+	- [device local-mode](#device-local-mode)
+	- [device logs](#device-logs)
+	- [device move](#device-move)
+	- [device note](#device-note)
+	- [device os-update](#device-os-update)
+	- [device pin](#device-pin)
+	- [device public-url](#device-public-url)
+	- [device purge](#device-purge)
+	- [device reboot](#device-reboot)
+	- [device register](#device-register)
+	- [device rename](#device-rename)
+	- [device restart](#device-restart)
+	- [device rm](#device-rm)
+	- [device shutdown](#device-shutdown)
+	- [device ssh](#device-ssh)
+	- [device start-service](#device-start-service)
+	- [device stop-service](#device-stop-service)
+	- [device track-fleet](#device-track-fleet)
+	- [device tunnel](#device-tunnel)
 
 - Environment Variables
 
-	- [envs](#envs)
-	- [env rm &#60;id&#62;](#env-rm-id)
-	- [env add &#60;name&#62; [value]](#env-add-name-value)
-	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
+	- [env list](#env-list)
+	- [env rename](#env-rename)
+	- [env rm](#env-rm)
+	- [env set](#env-set)
 
 - Fleets
 
-	- [fleet create &#60;name&#62;](#fleet-create-name)
-	- [fleet &#60;fleet&#62;](#fleet-fleet)
-	- [fleet pin &#60;slug&#62; [releasetopinto]](#fleet-pin-slug-releasetopinto)
-	- [fleet purge &#60;fleet&#62;](#fleet-purge-fleet)
-	- [fleet rename &#60;fleet&#62; [newname]](#fleet-rename-fleet-newname)
-	- [fleet restart &#60;fleet&#62;](#fleet-restart-fleet)
-	- [fleet rm &#60;fleet&#62;](#fleet-rm-fleet)
-	- [fleet track-latest &#60;slug&#62;](#fleet-track-latest-slug)
-	- [fleets](#fleets)
+	- [fleet create](#fleet-create)
+	- [fleet](#fleet)
+	- [fleet list](#fleet-list)
+	- [fleet pin](#fleet-pin)
+	- [fleet purge](#fleet-purge)
+	- [fleet rename](#fleet-rename)
+	- [fleet restart](#fleet-restart)
+	- [fleet rm](#fleet-rm)
+	- [fleet track-latest](#fleet-track-latest)
 
 - Local
 
-	- [local configure &#60;target&#62;](#local-configure-target)
-	- [local flash &#60;image&#62;](#local-flash-image)
-
-- Logs
-
-	- [logs &#60;device&#62;](#logs-device)
-
-- Network
-
-	- [scan](#scan)
-	- [ssh &#60;fleetordevice&#62; [service]](#ssh-fleetordevice-service)
-	- [tunnel &#60;deviceorfleet&#62;](#tunnel-deviceorfleet)
-
-- Notes
-
-	- [note &#60;|note&#62;](#note-note)
+	- [local configure](#local-configure)
+	- [local flash](#local-flash)
 
 - Organizations
 
-	- [orgs](#orgs)
+	- [organization list](#organization-list)
 
 - OS
 
-	- [os versions &#60;type&#62;](#os-versions-type)
-	- [os download &#60;type&#62;](#os-download-type)
-	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image-device-type)
-	- [os configure &#60;image&#62;](#os-configure-image)
-	- [os initialize &#60;image&#62;](#os-initialize-image)
+	- [os build-config](#os-build-config)
+	- [os configure](#os-configure)
+	- [os download](#os-download)
+	- [os initialize](#os-initialize)
+	- [os versions](#os-versions)
 
 - Platform
 
-	- [join [deviceiporhostname]](#join-deviceiporhostname)
-	- [leave [deviceiporhostname]](#leave-deviceiporhostname)
+	- [join](#join)
+	- [leave](#leave)
 
 - Preload
 
-	- [preload &#60;image&#62;](#preload-image)
+	- [preload](#preload)
 
 - Push
 
-	- [push &#60;fleetordevice&#62;](#push-fleetordevice)
+	- [push](#push)
 
 - Releases
 
-	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
-	- [release &#60;commitorid&#62;](#release-commitorid)
-	- [release invalidate &#60;commitorid&#62;](#release-invalidate-commitorid)
-	- [release validate &#60;commitorid&#62;](#release-validate-commitorid)
-	- [releases &#60;fleet&#62;](#releases-fleet)
+	- [release finalize](#release-finalize)
+	- [release](#release)
+	- [release invalidate](#release-invalidate)
+	- [release list](#release-list)
+	- [release validate](#release-validate)
 
 - Settings
 
@@ -294,20 +288,20 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - SSH Keys
 
-	- [key add &#60;name&#62; [path]](#key-add-name-path)
-	- [key &#60;id&#62;](#key-id)
-	- [key rm &#60;id&#62;](#key-rm-id)
-	- [keys](#keys)
+	- [ssh-key add](#ssh-key-add)
+	- [ssh-key](#ssh-key)
+	- [ssh-key list](#ssh-key-list)
+	- [ssh-key rm](#ssh-key-rm)
 
 - Support
 
-	- [support &#60;action&#62;](#support-action)
+	- [support](#support)
 
 - Tags
 
-	- [tag rm &#60;tagkey&#62;](#tag-rm-tagkey)
-	- [tag set &#60;tagkey&#62; [value]](#tag-set-tagkey-value)
-	- [tags](#tags)
+	- [tag list](#tag-list)
+	- [tag rm](#tag-rm)
+	- [tag set](#tag-set)
 
 - Utilities
 
@@ -319,7 +313,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 # API Keys
 
-## api-key generate &#60;name&#62;
+## api-key generate
 
 Generate a new balenaCloud API key for the current user, with the given
 name. The key will be logged to the console.
@@ -337,9 +331,27 @@ Examples:
 
 the API key name
 
+## api-key list
+
+Print a list of balenaCloud API keys.
+
+Print a list of balenaCloud API keys for the current user or for a specific fleet with the `--fleet` option.
+
+Examples:
+
+	$ balena api-key list
+
 ### Options
 
-## api-key revoke &#60;ids&#62;
+#### -u, --user
+
+show API keys for your user
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+## api-key revoke
 
 Revoke balenaCloud API keys with the given
 comma-separated list of ids.
@@ -357,41 +369,19 @@ Examples:
 
 the API key ids
 
-### Options
-
-## api-keys
-
-Print a list of balenaCloud API keys.
-
-Print a list of balenaCloud API keys for the current user or for a specific fleet with the `--fleet` option.
-
-Examples:
-
-	$ balena api-keys
-
-### Options
-
-#### -u, --user
-
-show API keys for your user
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
 # Apps
 
-## app create &#60;name&#62;
+## app create
 
 Create a new balena app.
 
 You can specify the organization the app should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
-`balena orgs` command.
+`balena organization list` command.
 
 The app's default device type is specified with the `--type` option.
-The `balena devices supported` command can be used to list the available
+The `balena device-type list` command can be used to list the available
 device types.
 
 Interactive dropdowns will be shown for selection if no device type or
@@ -420,7 +410,7 @@ handle of the organization the app should belong to
 
 #### -t, --type TYPE
 
-app device type (Check available types with `balena devices supported`)
+app device type (Check available types with `balena device-type list`)
 
 # Authentication
 
@@ -503,17 +493,17 @@ Examples:
 
 # Blocks
 
-## block create &#60;name&#62;
+## block create
 
 Create a new balena block.
 
 You can specify the organization the block should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
-`balena orgs` command.
+`balena organization list` command.
 
 The block's default device type is specified with the `--type` option.
-The `balena devices supported` command can be used to list the available
+The `balena device-type list` command can be used to list the available
 device types.
 
 Interactive dropdowns will be shown for selection if no device type or
@@ -542,7 +532,7 @@ handle of the organization the block should belong to
 
 #### -t, --type TYPE
 
-block device type (Check available types with `balena devices supported`)
+block device type (Check available types with `balena device-type list`)
 
 # Config
 
@@ -574,7 +564,7 @@ would otherwise be asked.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -622,7 +612,7 @@ custom device key - note that this is only supported on balenaOS 2.0.3+
 
 #### --deviceType DEVICETYPE
 
-device type slug (run 'balena devices supported' for possible values)
+device type slug (run 'balena device-type list' for possible values)
 
 #### --generate-device-api-key
 
@@ -656,7 +646,7 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
-## config inject &#60;file&#62;
+## config inject
 
 Inject a 'config.json' file to a balenaOS image file or attached SD card or
 USB stick.
@@ -736,7 +726,7 @@ show advanced commands
 
 balenaOS version, for example "2.32.0" or "2.44.0+rev1"
 
-## config write &#60;key&#62; &#60;value&#62;
+## config write
 
 Write a key-value pair to the 'config.json' file of a balenaOS image file or
 attached SD card or USB stick.
@@ -768,7 +758,7 @@ path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 # Deploy
 
-## build [source]
+## build
 
 Use this command to build an image or a complete multicontainer project with
 the provided docker daemon in your development machine or balena device.
@@ -967,7 +957,7 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
-## deploy &#60;fleet&#62; [image]
+## deploy
 
 Usage: `deploy <fleet> ([image] | --build [--source build-dir])`
 
@@ -1192,9 +1182,40 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
+# Device-type
+
+## device-type list
+
+List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
+
+The --all option can be used to list all device types, including those that are
+no longer supported by balena.
+
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents data
+types like lists and empty strings (for example, the ALIASES column contains a
+list of zero or more values). The 'jq' utility may be helpful in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
+Examples:
+
+	$ balena device-type list
+	$ balena device-type list --all
+	$ balena device-type list --json
+
+### Options
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+#### --all
+
+include device types no longer supported by balena
+
 # Devices
 
-## device deactivate &#60;uuid&#62;
+## device deactivate
 
 Deactivate a device.
 
@@ -1218,7 +1239,36 @@ the UUID of the device to be deactivated
 
 answer "yes" to all questions (non interactive use)
 
-## device identify &#60;uuid&#62;
+## device detect
+
+Scan for balenaOS devices on your local network.
+
+The output includes device information collected through balenaEngine for
+devices running a development image of balenaOS. Devices running a production
+image do not expose balenaEngine (on TCP port 2375), which is why less
+information is printed about them.
+
+Examples:
+
+	$ balena device detect
+	$ balena device detect --timeout 120
+	$ balena device detect --verbose
+
+### Options
+
+#### -v, --verbose
+
+display full info
+
+#### -t, --timeout TIMEOUT
+
+scan timeout in seconds
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+## device identify
 
 Identify a device by making the ACT LED blink (Raspberry Pi).
 
@@ -1232,9 +1282,7 @@ Examples:
 
 the uuid of the device to identify
 
-### Options
-
-## device &#60;uuid&#62;
+## device
 
 Show information about a single device.
 
@@ -1273,17 +1321,17 @@ fleet's default device type, configure the image and write it to an SD card.
 This command effectively combines several other balena CLI commands in one,
 namely:
 
-'balena device register'  
-'balena os download'  
-'balena os build-config' or 'balena config generate'  
-'balena os configure'  
+'balena device register'
+'balena os download'
+'balena os build-config' or 'balena config generate'
+'balena os configure'
 'balena os local flash'
 
 Possible arguments for the '--fleet', '--os-version' and '--drive' options can
 be listed respectively with the commands:
 
-'balena fleets'  
-'balena os versions'  
+'balena fleet list'
+'balena os versions'
 'balena util available-drives'
 
 If the '--fleet' or '--drive' options are omitted, interactive menus will be
@@ -1292,7 +1340,7 @@ the latest released OS version for the fleet's default device type will be used.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1351,7 +1399,45 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
-## device local-mode &#60;uuid&#62;
+## device list
+
+List all of your devices.
+
+Devices can be filtered by fleet with the `--fleet` option.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+The --json option is recommended when scripting the output of this command,
+because field names are less likely to change in JSON format and because it
+better represents data types like arrays, empty strings and null values.
+The 'jq' utility may be helpful for querying JSON fields in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
+Examples:
+
+	$ balena device list
+	$ balena device list --fleet MyFleet
+	$ balena device list -f myorg/myfleet
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+## device local-mode
 
 Output current local mode status, or enable/disable local mode
 for specified device.
@@ -1383,7 +1469,62 @@ disable local mode
 
 output boolean indicating local mode status
 
-## device move &#60;uuid(s)&#62;
+## device logs
+
+Show logs for a specific device.
+
+By default, the command prints all log messages and exits.
+
+To continuously stream output, and see new logs in real time, use the `--tail` option.
+
+If an IP or .local address is passed to this command, logs are displayed from
+a local mode device with that address. Note that --tail is implied
+when this command is provided a local mode device.
+
+Logs from a single service can be displayed with the --service flag. Just system logs
+can be shown with the --system flag. Note that these flags can be used together.
+
+Note: --service and --system flags must come after the device parameter, as per examples.
+
+Examples:
+
+	$ balena device logs 23c73a1
+	$ balena device logs 23c73a1 --tail
+	
+	$ balena device logs 192.168.0.31
+	$ balena device logs 192.168.0.31 --service my-service
+	$ balena device logs 192.168.0.31 --service my-service-1 --service my-service-2
+	
+	$ balena device logs 23c73a1.local --system
+	$ balena device logs 23c73a1.local --system --service my-service
+
+### Arguments
+
+#### DEVICE
+
+device UUID, IP, or .local address
+
+### Options
+
+#### --max-retry MAX-RETRY
+
+Maximum number of reconnection attempts on "connection lost" errors
+(use 0 to disable auto reconnection).
+
+#### -t, --tail
+
+continuously stream output
+
+#### -s, --service SERVICE
+
+Reject logs not originating from this service.
+This can be used in combination with --system or other --service flags.
+
+#### -S, --system
+
+Only show system logs. This can be used in combination with --service.
+
+## device move
 
 Move one or more devices to another fleet.
 
@@ -1391,7 +1532,7 @@ If --fleet is omitted, the fleet will be prompted for interactively.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1418,7 +1559,35 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 fleet name or slug (preferred)
 
-## device os-update &#60;uuid&#62;
+## device note
+
+Set or update a device note. If the note argument is not provided,
+it will be read from stdin.
+
+To view device notes, use the `balena device <uuid>` command.
+
+Examples:
+
+	$ balena device note "My useful note" --device 7cf02a6
+	$ cat note.txt | balena device note --device 7cf02a6
+
+### Arguments
+
+#### NOTE
+
+note content
+
+### Options
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### --dev DEV
+
+
+
+## device os-update
 
 Start a Host OS update for a device.
 
@@ -1454,7 +1623,7 @@ include pre-release balenaOS versions
 
 answer "yes" to all questions (non interactive use)
 
-## device pin &#60;uuid&#62; [releaseToPinTo]
+## device pin
 
 Pin a device to a release.
 
@@ -1475,9 +1644,7 @@ the uuid of the device to pin to a release
 
 the commit of the release for the device to get pinned to
 
-### Options
-
-## device public-url &#60;uuid&#62;
+## device public-url
 
 This command will output the current public URL for the
 specified device.  It can also enable or disable the URL,
@@ -1510,7 +1677,7 @@ disable the public URL
 
 determine if public URL is enabled
 
-## device purge &#60;uuid&#62;
+## device purge
 
 Purge data from a device.
 This will clear the device's "/data" directory.
@@ -1529,9 +1696,7 @@ Examples:
 
 comma-separated list (no blank spaces) of device UUIDs
 
-### Options
-
-## device reboot &#60;uuid&#62;
+## device reboot
 
 Remotely reboot a device.
 
@@ -1551,7 +1716,7 @@ the uuid of the device to reboot
 
 force action if the update lock is set
 
-## device register &#60;fleet&#62;
+## device register
 
 Register a new device with a balena fleet.
 
@@ -1559,7 +1724,7 @@ If --uuid is not provided, a new UUID will be automatically assigned.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1588,9 +1753,9 @@ custom uuid
 
 #### --deviceType DEVICETYPE
 
-device type slug (run 'balena devices supported' for possible values)
+device type slug (run 'balena device-type list' for possible values)
 
-## device rename &#60;uuid&#62; [newName]
+## device rename
 
 Rename a device.
 
@@ -1611,9 +1776,7 @@ the uuid of the device to rename
 
 the new name for the device
 
-### Options
-
-## device restart &#60;uuid&#62;
+## device restart
 
 Restart containers on a device.
 If the --service flag is provided, then only those services' containers
@@ -1643,7 +1806,7 @@ comma-separated list (no blank spaces) of device UUIDs to restart
 
 comma-separated list (no blank spaces) of service names to restart
 
-## device rm &#60;uuid(s)&#62;
+## device rm
 
 Remove one or more devices from balena.
 
@@ -1668,7 +1831,7 @@ comma-separated list (no blank spaces) of device UUIDs to be removed
 
 answer "yes" to all questions (non interactive use)
 
-## device shutdown &#60;uuid&#62;
+## device shutdown
 
 Remotely shutdown a device.
 
@@ -1688,7 +1851,72 @@ the uuid of the device to shutdown
 
 force action if the update lock is set
 
-## device start-service &#60;uuid&#62;
+## device ssh
+
+Start a shell on a local or remote device. If a service name is not provided,
+a shell will be opened on the host OS.
+
+If a fleet is provided, an interactive menu will be presented for the selection
+of an online device. A shell will then be opened for the host OS or service
+container of the chosen device.
+
+For local devices, the IP address and .local domain name are supported.
+If the device is referenced by IP or `.local` address, the connection
+is initiated directly to balenaOS on port `22222` via an
+openssh-compatible client. Otherwise, any connection initiated remotely
+traverses the balenaCloud VPN.
+
+Commands may be piped to the standard input for remote execution (see examples).
+Note however that remote command execution on service containers (as opposed to
+the host OS) is not currently possible when a device UUID is used (instead of
+an IP address) because of a balenaCloud backend limitation.
+
+Note: `balena ssh` requires an openssh-compatible client to be correctly
+installed in your shell environment. For more information (including Windows
+support) please check:
+	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
+
+Examples:
+
+	$ balena device ssh MyFleet
+	$ balena device ssh f49cefd
+	$ balena device ssh f49cefd my-service
+	$ balena device ssh f49cefd --port <port>
+	$ balena device ssh 192.168.0.1 --verbose
+	$ balena device ssh f49cefd.local my-service
+	$ echo "uptime; exit;" | balena device ssh f49cefd
+	$ echo "uptime; exit;" | balena device ssh 192.168.0.1 myService
+
+### Arguments
+
+#### FLEETORDEVICE
+
+fleet name/slug, device uuid, or address of local device
+
+#### SERVICE
+
+service name, if connecting to a container
+
+### Options
+
+#### -p, --port PORT
+
+SSH server port number (default 22222) if the target is an IP address or .local
+hostname. Otherwise, port number for the balenaCloud gateway (default 22).
+
+#### -t, --tty
+
+force pseudo-terminal allocation (bypass TTY autodetection for stdin)
+
+#### -v, --verbose
+
+increase verbosity
+
+#### --noproxy
+
+bypass global proxy configuration for the ssh connection
+
+## device start-service
 
 Start containers on a device.
 
@@ -1710,9 +1938,7 @@ comma-separated list (no blank spaces) of device UUIDs
 
 comma-separated list (no blank spaces) of service names
 
-### Options
-
-## device stop-service &#60;uuid&#62;
+## device stop-service
 
 Stop containers on a device.
 
@@ -1734,9 +1960,7 @@ comma-separated list (no blank spaces) of device UUIDs
 
 comma-separated list (no blank spaces) of service names
 
-### Options
-
-## device track-fleet &#60;uuid&#62;
+## device track-fleet
 
 Make a device track the fleet's pinned release.
 
@@ -1750,70 +1974,60 @@ Examples:
 
 the uuid of the device to make track the fleet's release
 
-### Options
+## device tunnel
 
-## devices
+Use this command to open local TCP ports that tunnel to listening sockets in a
+balenaOS device.
 
-List all of your devices.
+For example, this command could be used to expose the ssh server of a balenaOS
+device (port number 22222) on the local machine, or to expose a web server
+running on the device. The port numbers do not have be the same between the
+device and the local machine, and multiple ports may be tunneled in a single
+command line.
 
-Devices can be filtered by fleet with the `--fleet` option.
+Port mappings are specified in the format: <remotePort>[:[localIP:]localPort]
+localIP defaults to 'localhost', and localPort defaults to the specified
+remotePort value.
 
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
+Note: the -p (--port) flag must be provided at the end of the command line,
+as per examples.
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
+In the case of openBalena, the tunnel command in CLI v12.38.5 or later requires
+openBalena v3.1.2 or later. Older CLI versions work with older openBalena
+versions.
 
 Examples:
 
-	$ balena devices
-	$ balena devices --fleet MyFleet
-	$ balena devices -f myorg/myfleet
+	# map remote port 22222 to localhost:22222
+	$ balena device tunnel myFleet -p 22222
+	
+	# map remote port 22222 to localhost:222
+	$ balena device tunnel 2ead211 -p 22222:222
+	
+	# map remote port 22222 to any address on your host machine, port 22222
+	$ balena device tunnel 1546690 -p 22222:0.0.0.0
+	
+	# map remote port 22222 to any address on your host machine, port 222
+	$ balena device tunnel myFleet -p 22222:0.0.0.0:222
+	
+	# multiple port tunnels can be specified at any one time
+	$ balena device tunnel myFleet -p 8080:3000 -p 8081:9000
+
+### Arguments
+
+#### DEVICEORFLEET
+
+device UUID or fleet name/slug
 
 ### Options
 
-#### -f, --fleet FLEET
+#### -p, --port PORT
 
-fleet name or slug (preferred)
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
-## devices supported
-
-List the supported device types (like 'raspberrypi3' or 'intel-nuc').
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings (for example, the ALIASES column contains a
-list of zero or more values). The 'jq' utility may be helpful in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
-Examples:
-
-	$ balena devices supported
-	$ balena devices supported --json
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
+port mapping in the format <remotePort>[:[localIP:]localPort]
 
 # Environment Variables
 
-## envs
+## env list
 
 List the environment or configuration variables of a fleet, device or
 service, as selected by the respective command-line options. (A service
@@ -1847,7 +2061,7 @@ in case the current user was removed from the fleet by the fleet's owner).
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1857,14 +2071,14 @@ environments).
 
 Examples:
 
-	$ balena envs --fleet myorg/myfleet
-	$ balena envs --fleet MyFleet --json
-	$ balena envs --fleet MyFleet --service MyService
-	$ balena envs --fleet MyFleet --config
-	$ balena envs --device 7cf02a6
-	$ balena envs --device 7cf02a6 --json
-	$ balena envs --device 7cf02a6 --config --json
-	$ balena envs --device 7cf02a6 --service MyService
+	$ balena env list --fleet myorg/myfleet
+	$ balena env list --fleet MyFleet --json
+	$ balena env list --fleet MyFleet --service MyService
+	$ balena env list --fleet MyFleet --config
+	$ balena env list --device 7cf02a6
+	$ balena env list --device 7cf02a6 --json
+	$ balena env list --device 7cf02a6 --config --json
+	$ balena env list --device 7cf02a6 --service MyService
 
 ### Options
 
@@ -1888,12 +2102,75 @@ produce JSON output instead of tabular output
 
 service name
 
-## env rm &#60;id&#62;
+## env rename
+
+Change the value of a configuration or environment variable for a fleet,
+device or service, as selected by command-line options.
+
+Variables are selected by their database ID (as reported by the 'balena env list'
+command) and one of six database "resource types":
+
+- fleet environment variable
+- fleet configuration variable (--config)
+- fleet service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
+
+The --device option selects a device-specific variable instead of a fleet
+variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (container) in a microservices (multicontainer)
+fleet.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
+
+Examples:
+
+	$ balena env rename 123123 emacs
+	$ balena env rename 234234 emacs --service
+	$ balena env rename 345345 emacs --device
+	$ balena env rename 456456 emacs --device --service
+	$ balena env rename 567567 1 --config
+	$ balena env rename 678678 1 --device --config
+
+### Arguments
+
+#### ID
+
+variable's numeric database ID
+
+#### VALUE
+
+variable value; if omitted, use value from this process' environment
+
+### Options
+
+#### -c, --config
+
+select a configuration variable (may be used together with the --device option)
+
+#### -d, --device
+
+select a device-specific variable instead of a fleet variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
+
+## env rm
 
 Remove a configuration or environment variable from a fleet, device
 or service, as selected by command-line options.
 
-Variables are selected by their database ID (as reported by the 'balena envs'
+Variables are selected by their database ID (as reported by the 'balena env list'
 command) and one of six database "resource types":
 
 - fleet environment variable
@@ -1955,9 +2232,9 @@ select a service variable (may be used together with the --device option)
 
 do not prompt for confirmation before deleting the variable
 
-## env add &#60;name&#62; [value]
+## env set
 
-Add an environment or config variable to one or more fleets, devices or
+Add or update an environment or config variable to one or more fleets, devices or
 services, as selected by the respective command-line options. Either the
 --fleet or the --device option must be provided,  and either may be be
 used alongside the --service option to define a service-specific variable.
@@ -1982,7 +2259,7 @@ these reserved prefixes.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1992,15 +2269,15 @@ environments).
 
 Examples:
 
-	$ balena env add TERM --fleet MyFleet
-	$ balena env add EDITOR vim -f myorg/myfleet
-	$ balena env add EDITOR vim --fleet MyFleet,MyFleet2
-	$ balena env add EDITOR vim --fleet MyFleet --service MyService
-	$ balena env add EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2
-	$ balena env add EDITOR vim --device 7cf02a6
-	$ balena env add EDITOR vim --device 7cf02a6,d6f1433
-	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
-	$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
+	$ balena env set TERM --fleet MyFleet
+	$ balena env set EDITOR vim -f myorg/myfleet
+	$ balena env set EDITOR vim --fleet MyFleet,MyFleet2
+	$ balena env set EDITOR vim --fleet MyFleet --service MyService
+	$ balena env set EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2
+	$ balena env set EDITOR vim --device 7cf02a6
+	$ balena env set EDITOR vim --device 7cf02a6,d6f1433
+	$ balena env set EDITOR vim --device 7cf02a6 --service MyService
+	$ balena env set EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
 
 ### Arguments
 
@@ -2030,82 +2307,19 @@ suppress warning messages
 
 service name
 
-## env rename &#60;id&#62; &#60;value&#62;
-
-Change the value of a configuration or environment variable for a fleet,
-device or service, as selected by command-line options.
-
-Variables are selected by their database ID (as reported by the 'balena envs'
-command) and one of six database "resource types":
-
-- fleet environment variable
-- fleet configuration variable (--config)
-- fleet service variable (--service)
-- device environment variable (--device)
-- device configuration variable (--device --config)
-- device service variable (--device --service)
-
-The --device option selects a device-specific variable instead of a fleet
-variable.
-
-The --config option selects a configuration variable. Configuration variable
-names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
-configure balena platform features.
-
-The --service option selects a service variable, which is an environment variable
-that applies to a specifc service (container) in a microservices (multicontainer)
-fleet.
-
-The --service and --config options cannot be used together, but they can be
-used alongside the --device option to select a device-specific service or
-configuration variable.
-
-Examples:
-
-	$ balena env rename 123123 emacs
-	$ balena env rename 234234 emacs --service
-	$ balena env rename 345345 emacs --device
-	$ balena env rename 456456 emacs --device --service
-	$ balena env rename 567567 1 --config
-	$ balena env rename 678678 1 --device --config
-
-### Arguments
-
-#### ID
-
-variable's numeric database ID
-
-#### VALUE
-
-variable value; if omitted, use value from this process' environment
-
-### Options
-
-#### -c, --config
-
-select a configuration variable (may be used together with the --device option)
-
-#### -d, --device
-
-select a device-specific variable instead of a fleet variable
-
-#### -s, --service
-
-select a service variable (may be used together with the --device option)
-
 # Fleets
 
-## fleet create &#60;name&#62;
+## fleet create
 
 Create a new balena fleet.
 
 You can specify the organization the fleet should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
-`balena orgs` command.
+`balena organization list` command.
 
 The fleet's default device type is specified with the `--type` option.
-The `balena devices supported` command can be used to list the available
+The `balena device-type list` command can be used to list the available
 device types.
 
 Interactive dropdowns will be shown for selection if no device type or
@@ -2134,15 +2348,15 @@ handle of the organization the fleet should belong to
 
 #### -t, --type TYPE
 
-fleet device type (Check available types with `balena devices supported`)
+fleet device type (Check available types with `balena device-type list`)
 
-## fleet &#60;fleet&#62;
+## fleet
 
 Display detailed information about a single fleet.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2172,7 +2386,24 @@ open fleet dashboard page
 
 produce JSON output instead of tabular output
 
-## fleet pin &#60;slug&#62; [releaseToPinTo]
+## fleet list
+
+List all your balena fleets.
+
+For detailed information on a particular fleet, use
+`balena fleet <fleet>`
+
+Examples:
+
+	$ balena fleet list
+
+### Options
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+## fleet pin
 
 Pin a fleet to a release.
 
@@ -2193,16 +2424,14 @@ the slug of the fleet to pin to a release
 
 the commit of the release for the fleet to get pinned to
 
-### Options
-
-## fleet purge &#60;fleet&#62;
+## fleet purge
 
 Purge data from all devices belonging to a fleet.
 This will clear the fleet's '/data' directory.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2221,9 +2450,7 @@ Examples:
 
 fleet name or slug (preferred)
 
-### Options
-
-## fleet rename &#60;fleet&#62; [newName]
+## fleet rename
 
 Rename a fleet.
 
@@ -2232,7 +2459,7 @@ prompted for interactively.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2256,15 +2483,13 @@ fleet name or slug (preferred)
 
 the new name for the fleet
 
-### Options
-
-## fleet restart &#60;fleet&#62;
+## fleet restart
 
 Restart all devices belonging to a fleet.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2283,9 +2508,7 @@ Examples:
 
 fleet name or slug (preferred)
 
-### Options
-
-## fleet rm &#60;fleet&#62;
+## fleet rm
 
 Permanently remove a fleet.
 
@@ -2293,7 +2516,7 @@ The --yes option may be used to avoid interactive confirmation.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2319,7 +2542,7 @@ fleet name or slug (preferred)
 
 answer "yes" to all questions (non interactive use)
 
-## fleet track-latest &#60;slug&#62;
+## fleet track-latest
 
 Make this fleet track the latest release.
 
@@ -2334,28 +2557,9 @@ Examples:
 
 the slug of the fleet to make track the latest release
 
-### Options
-
-## fleets
-
-List all your balena fleets.
-
-For detailed information on a particular fleet, use
-`balena fleet <fleet>`
-
-Examples:
-
-	$ balena fleets
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 # Local
 
-## local configure &#60;target&#62;
+## local configure
 
 Configure or reconfigure a balenaOS drive or image.
 
@@ -2370,9 +2574,7 @@ Examples:
 
 path of drive or image to configure
 
-### Options
-
-## local flash &#60;image&#62;
+## local flash
 
 Flash a balenaOS image to a drive.
 Image file may be one of: .img|.zip|.gz|.bz2|.xz
@@ -2404,338 +2606,19 @@ Check `balena util available-drives` for available options.
 
 answer "yes" to all questions (non interactive use)
 
-# Logs
-
-## logs &#60;device&#62;
-
-Show logs for a specific device.
-
-By default, the command prints all log messages and exits.
-
-To continuously stream output, and see new logs in real time, use the `--tail` option.
-
-If an IP or .local address is passed to this command, logs are displayed from
-a local mode device with that address. Note that --tail is implied
-when this command is provided a local mode device.
-
-Logs from a single service can be displayed with the --service flag. Just system logs
-can be shown with the --system flag. Note that these flags can be used together.
-
-Note: --service and --system flags must come after the device parameter, as per examples.
-
-Examples:
-
-	$ balena logs 23c73a1
-	$ balena logs 23c73a1 --tail
-	
-	$ balena logs 192.168.0.31
-	$ balena logs 192.168.0.31 --service my-service
-	$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
-	
-	$ balena logs 23c73a1.local --system
-	$ balena logs 23c73a1.local --system --service my-service
-
-### Arguments
-
-#### DEVICE
-
-device UUID, IP, or .local address
-
-### Options
-
-#### --max-retry MAX-RETRY
-
-Maximum number of reconnection attempts on "connection lost" errors
-(use 0 to disable auto reconnection).
-
-#### -t, --tail
-
-continuously stream output
-
-#### -s, --service SERVICE
-
-Reject logs not originating from this service.
-This can be used in combination with --system or other --service flags.
-
-#### -S, --system
-
-Only show system logs. This can be used in combination with --service.
-
-# Network
-
-## scan
-
-Scan for balenaOS devices on your local network.
-
-The output includes device information collected through balenaEngine for
-devices running a development image of balenaOS. Devices running a production
-image do not expose balenaEngine (on TCP port 2375), which is why less
-information is printed about them.
-
-Examples:
-
-	$ balena scan
-	$ balena scan --timeout 120
-	$ balena scan --verbose
-
-### Options
-
-#### -v, --verbose
-
-display full info
-
-#### -t, --timeout TIMEOUT
-
-scan timeout in seconds
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
-## ssh &#60;fleetOrDevice&#62; [service]
-
-Start a shell on a local or remote device. If a service name is not provided,
-a shell will be opened on the host OS.
-
-If a fleet is provided, an interactive menu will be presented for the selection
-of an online device. A shell will then be opened for the host OS or service
-container of the chosen device.
-
-For local devices, the IP address and .local domain name are supported.
-If the device is referenced by IP or `.local` address, the connection
-is initiated directly to balenaOS on port `22222` via an
-openssh-compatible client. Otherwise, any connection initiated remotely
-traverses the balenaCloud VPN.
-
-Commands may be piped to the standard input for remote execution (see examples).
-Note however that remote command execution on service containers (as opposed to
-the host OS) is not currently possible when a device UUID is used (instead of
-an IP address) because of a balenaCloud backend limitation.
-
-Note: `balena ssh` requires an openssh-compatible client to be correctly
-installed in your shell environment. For more information (including Windows
-support) please check:
-	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
-
-Examples:
-
-	$ balena ssh MyFleet
-	$ balena ssh f49cefd
-	$ balena ssh f49cefd my-service
-	$ balena ssh f49cefd --port <port>
-	$ balena ssh 192.168.0.1 --verbose
-	$ balena ssh f49cefd.local my-service
-	$ echo "uptime; exit;" | balena ssh f49cefd
-	$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService
-
-### Arguments
-
-#### FLEETORDEVICE
-
-fleet name/slug, device uuid, or address of local device
-
-#### SERVICE
-
-service name, if connecting to a container
-
-### Options
-
-#### -p, --port PORT
-
-SSH server port number (default 22222) if the target is an IP address or .local
-hostname. Otherwise, port number for the balenaCloud gateway (default 22).
-
-#### -t, --tty
-
-force pseudo-terminal allocation (bypass TTY autodetection for stdin)
-
-#### -v, --verbose
-
-increase verbosity
-
-#### --noproxy
-
-bypass global proxy configuration for the ssh connection
-
-## tunnel &#60;deviceOrFleet&#62;
-
-Use this command to open local TCP ports that tunnel to listening sockets in a
-balenaOS device.
-
-For example, this command could be used to expose the ssh server of a balenaOS
-device (port number 22222) on the local machine, or to expose a web server
-running on the device. The port numbers do not have be the same between the
-device and the local machine, and multiple ports may be tunneled in a single
-command line.
-
-Port mappings are specified in the format: <remotePort>[:[localIP:]localPort]
-localIP defaults to 'localhost', and localPort defaults to the specified
-remotePort value.
-
-Note: the -p (--port) flag must be provided at the end of the command line,
-as per examples.
-
-In the case of openBalena, the tunnel command in CLI v12.38.5 or later requires
-openBalena v3.1.2 or later. Older CLI versions work with older openBalena
-versions.
-
-Examples:
-
-	# map remote port 22222 to localhost:22222
-	$ balena tunnel myFleet -p 22222
-	
-	# map remote port 22222 to localhost:222
-	$ balena tunnel 2ead211 -p 22222:222
-	
-	# map remote port 22222 to any address on your host machine, port 22222
-	$ balena tunnel 1546690 -p 22222:0.0.0.0
-	
-	# map remote port 22222 to any address on your host machine, port 222
-	$ balena tunnel myFleet -p 22222:0.0.0.0:222
-	
-	# multiple port tunnels can be specified at any one time
-	$ balena tunnel myFleet -p 8080:3000 -p 8081:9000
-
-### Arguments
-
-#### DEVICEORFLEET
-
-device UUID or fleet name/slug
-
-### Options
-
-#### -p, --port PORT
-
-port mapping in the format <remotePort>[:[localIP:]localPort]
-
-# Notes
-
-## note &#60;|note&#62;
-
-Set or update a device note. If the note argument is not provided,
-it will be read from stdin.
-
-To view device notes, use the `balena device <uuid>` command.
-
-Examples:
-
-	$ balena note "My useful note" --device 7cf02a6
-	$ cat note.txt | balena note --device 7cf02a6
-
-### Arguments
-
-#### NOTE
-
-note content
-
-### Options
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### --dev DEV
-
-
-
 # Organizations
 
-## orgs
+## organization list
 
 list all the organizations that you are a member of.
 
 Examples:
 
-	$ balena orgs
-
-### Options
+	$ balena organization list
 
 # OS
 
-## os versions &#60;type&#62;
-
-Show the available balenaOS versions for the given device type.
-Check available types with `balena devices supported`.
-
-balenaOS ESR versions can be listed with the '--esr' option. See also:
-https://www.balena.io/docs/reference/OS/extended-support-release/
-
-Examples:
-
-	$ balena os versions raspberrypi3
-
-### Arguments
-
-#### TYPE
-
-device type
-
-### Options
-
-#### --esr
-
-select balenaOS ESR versions
-
-#### --include-draft
-
-include pre-release balenaOS versions
-
-## os download &#60;type&#62;
-
-Download an unconfigured OS image for the specified device type.
-Check available device types with 'balena devices supported'.
-
-Note: Currently this command only works with balenaCloud, not openBalena.
-If using openBalena, please download the OS from: https://www.balena.io/os/
-
-The '--version' option is used to select the balenaOS version. If omitted,
-the latest released version is downloaded (and if only pre-release versions
-exist, the latest pre-release version is downloaded).
-
-Use '--version menu' or '--version menu-esr' to interactively select the
-OS version. The latter lists ESR versions which are only available for
-download on Production and Enterprise plans. See also:
-https://www.balena.io/docs/reference/OS/extended-support-release/
-
-Development images can be selected by appending `.dev` to the version.
-
-Examples:
-
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.101.7
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2022.7.0
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.90.0
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr
-
-### Arguments
-
-#### TYPE
-
-the device type
-
-### Options
-
-#### -o, --output OUTPUT
-
-output path
-
-#### --version VERSION
-
-version number (ESR or non-ESR versions),
-or semver range (non-ESR versions only),
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one released version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-or 'menu' (interactive menu, non-ESR versions),
-or 'menu-esr' (interactive menu, ESR versions)
-
-## os build-config &#60;image&#62; &#60;device-type&#62;
+## os build-config
 
 Interactively generate a configuration file that can then be used as
 non-interactive input by the 'balena os configure' command.
@@ -2765,7 +2648,7 @@ show advanced configuration options
 
 path to output JSON file
 
-## os configure &#60;image&#62;
+## os configure
 
 Configure a previously downloaded balenaOS image for a specific device type
 or fleet.
@@ -2802,7 +2685,7 @@ https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2890,7 +2773,62 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
-## os initialize &#60;image&#62;
+## os download
+
+Download an unconfigured OS image for the specified device type.
+Check available device types with 'balena device-type list'.
+
+Note: Currently this command only works with balenaCloud, not openBalena.
+If using openBalena, please download the OS from: https://www.balena.io/os/
+
+The '--version' option is used to select the balenaOS version. If omitted,
+the latest released version is downloaded (and if only pre-release versions
+exist, the latest pre-release version is downloaded).
+
+Use '--version menu' or '--version menu-esr' to interactively select the
+OS version. The latter lists ESR versions which are only available for
+download on Production and Enterprise plans. See also:
+https://www.balena.io/docs/reference/OS/extended-support-release/
+
+Development images can be selected by appending `.dev` to the version.
+
+Examples:
+
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.101.7
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2022.7.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.90.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr
+
+### Arguments
+
+#### TYPE
+
+the device type
+
+### Options
+
+#### -o, --output OUTPUT
+
+output path
+
+#### --version VERSION
+
+version number (ESR or non-ESR versions),
+or semver range (non-ESR versions only),
+or 'latest' (includes pre-releases),
+or 'default' (excludes pre-releases if at least one released version is available),
+or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'menu' (interactive menu, non-ESR versions),
+or 'menu-esr' (interactive menu, ESR versions)
+
+## os initialize
 
 Initialize an os image for a device with a previously
 		configured operating system image and flash the
@@ -2915,7 +2853,7 @@ path to OS image
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+device type (Check available types with `balena device-type list`)
 
 #### -d, --drive DRIVE
 
@@ -2927,9 +2865,37 @@ Check `balena util available-drives` for available options.
 
 answer "yes" to all questions (non interactive use)
 
+## os versions
+
+Show the available balenaOS versions for the given device type.
+Check available types with `balena device-type list`.
+
+balenaOS ESR versions can be listed with the '--esr' option. See also:
+https://www.balena.io/docs/reference/OS/extended-support-release/
+
+Examples:
+
+	$ balena os versions raspberrypi3
+
+### Arguments
+
+#### TYPE
+
+device type
+
+### Options
+
+#### --esr
+
+select balenaOS ESR versions
+
+#### --include-draft
+
+include pre-release balenaOS versions
+
 # Platform
 
-## join [deviceIpOrHostname]
+## join
 
 Move a local device to a fleet on another balena server, causing
 the device to "join" the new server. The device must be running balenaOS.
@@ -2948,7 +2914,7 @@ Likewise, if the fleet option is not provided then a picker will be shown.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2981,7 +2947,7 @@ fleet name or slug (preferred)
 
 the interval in minutes to check for updates
 
-## leave [deviceIpOrHostname]
+## leave
 
 Remove a local device from its balena fleet, causing the device to
 "leave" the server it is provisioned on. This effectively makes the device
@@ -3006,11 +2972,9 @@ Examples:
 
 the device IP or hostname
 
-### Options
-
 # Preload
 
-## preload &#60;image&#62;
+## preload
 
 Preload a release (service images/containers) from a balena fleet, and optionally
 a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
@@ -3026,7 +2990,7 @@ https://www.balena.io/docs/learn/more/masterclasses/advanced-cli/#5-preloading-a
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3064,9 +3028,9 @@ fleet name or slug (preferred)
 
 The commit hash of the release to preload. Use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the
-latest, but can be pinned to a specific release. See:  
-https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/  
-https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api  
+latest, but can be pinned to a specific release. See:
+https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api
 https://github.com/balena-io-examples/staged-releases
 
 #### -s, --splash-image SPLASH-IMAGE
@@ -3118,7 +3082,7 @@ Docker host TLS key file
 
 # Push
 
-## push &#60;fleetOrDevice&#62;
+## push
 
 Build release images on balenaCloud servers or on a local mode device.
 
@@ -3345,7 +3309,7 @@ The notes for this release
 
 # Releases
 
-## release finalize &#60;commitOrId&#62;
+## release finalize
 
 Finalize a release. Releases can be "draft" or "final", and this command
 changes a draft release into a final release. Draft releases can be created
@@ -3369,9 +3333,7 @@ Examples:
 
 the commit or ID of the release to finalize
 
-### Options
-
-## release &#60;commitOrId&#62;
+## release
 
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it
@@ -3401,7 +3363,7 @@ produce JSON output instead of tabular output
 
 Return the release composition
 
-## release invalidate &#60;commitOrId&#62;
+## release invalidate
 
 Invalidate a release.
 
@@ -3420,9 +3382,43 @@ Examples:
 
 the commit or ID of the release to invalidate
 
+## release list
+
+List all releases of the given fleet.
+
+Fleets may be specified by fleet name or slug. Slugs are recommended because
+they are unique and unambiguous. Slugs can be listed with the `balena fleet list`
+command. Note that slugs may change if the fleet is renamed. Fleet names are
+not unique and may result in "Fleet is ambiguous" errors at any time (even if
+"it used to work in the past"), for example if the name clashes with a newly
+created public/open fleet, or with fleets from other balena accounts that you
+may be invited to join under any role.  For this reason, fleet names are
+especially discouraged in scripts (e.g. CI environments).
+
+The --json option is recommended when scripting the output of this command,
+because field names are less likely to change in JSON format and because it
+better represents data types like arrays, empty strings and null values.
+The 'jq' utility may be helpful for querying JSON fields in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
+Examples:
+
+	$ balena release list myorg/myfleet
+	$ balena release list myorg/myfleet --json
+
+### Arguments
+
+#### FLEET
+
+fleet name or slug (preferred)
+
 ### Options
 
-## release validate &#60;commitOrId&#62;
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+## release validate
 
 Validate a release.
 
@@ -3440,44 +3436,6 @@ Examples:
 
 the commit or ID of the release to validate
 
-### Options
-
-## releases &#60;fleet&#62;
-
-List all releases of the given fleet.
-
-Fleets may be specified by fleet name or slug. Slugs are recommended because
-they are unique and unambiguous. Slugs can be listed with the `balena fleets`
-command. Note that slugs may change if the fleet is renamed. Fleet names are
-not unique and may result in "Fleet is ambiguous" errors at any time (even if
-"it used to work in the past"), for example if the name clashes with a newly
-created public/open fleet, or with fleets from other balena accounts that you
-may be invited to join under any role.  For this reason, fleet names are
-especially discouraged in scripts (e.g. CI environments).
-
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
-Examples:
-
-	$ balena releases myorg/myfleet
-	$ balena releases myorg/myfleet --json
-
-### Arguments
-
-#### FLEET
-
-fleet name or slug (preferred)
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 # Settings
 
 ## settings
@@ -3488,17 +3446,15 @@ Examples:
 
 	$ balena settings
 
-### Options
-
 # SSH Keys
 
-## key add &#60;name&#62; [path]
+## ssh-key add
 
 Add an SSH key to the balenaCloud account of the logged in user.
 
 If `path` is omitted, the command will attempt to read the SSH key from stdin.
 
-About SSH keys  
+About SSH keys
 An "SSH key" actually consists of a public/private key pair. A typical name
 for the private key file is "id_rsa", and a typical name for the public key
 file is "id_rsa.pub". Both key files are saved to your computer (with the
@@ -3514,10 +3470,10 @@ your balena account.
 
 Examples:
 
-	$ balena key add Main ~/.ssh/id_rsa.pub
-	$ cat ~/.ssh/id_rsa.pub | balena key add Main
+	$ balena ssh-key add Main ~/.ssh/id_rsa.pub
+	$ cat ~/.ssh/id_rsa.pub | balena ssh-key add Main
 	# Windows 10 (cmd.exe prompt) example
-	$ balena key add Main %userprofile%.sshid_rsa.pub
+	$ balena ssh-key add Main %userprofile%.sshid_rsa.pub
 
 ### Arguments
 
@@ -3529,15 +3485,13 @@ the SSH key name
 
 the path to the public key file
 
-### Options
-
-## key &#60;id&#62;
+## ssh-key
 
 Display a single SSH key registered in balenaCloud for the logged in user.
 
 Examples:
 
-	$ balena key 17
+	$ balena ssh-key 17
 
 ### Arguments
 
@@ -3545,9 +3499,15 @@ Examples:
 
 balenaCloud ID for the SSH key
 
-### Options
+## ssh-key list
 
-## key rm &#60;id&#62;
+List all SSH keys registered in balenaCloud for the logged in user.
+
+Examples:
+
+	$ balena ssh-key list
+
+## ssh-key rm
 
 Remove a single SSH key registered in balenaCloud for the logged in user.
 
@@ -3555,8 +3515,8 @@ The --yes option may be used to avoid interactive confirmation.
 
 Examples:
 
-	$ balena key rm 17
-	$ balena key rm 17 --yes
+	$ balena ssh-key rm 17
+	$ balena ssh-key rm 17 --yes
 
 ### Arguments
 
@@ -3570,19 +3530,9 @@ balenaCloud ID for the SSH key
 
 answer "yes" to all questions (non interactive use)
 
-## keys
-
-List all SSH keys registered in balenaCloud for the logged in user.
-
-Examples:
-
-	$ balena keys
-
-### Options
-
 # Support
 
-## support &#60;action&#62;
+## support
 
 Grant or revoke balena support agent access to devices or fleets
 on balenaCloud. (This command does not apply to openBalena.)
@@ -3596,7 +3546,7 @@ a comma-separated list (with no spaces).
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3632,13 +3582,49 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
 # Tags
 
-## tag rm &#60;tagKey&#62;
+## tag list
+
+List all tags and their values for the specified fleet, device or release.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena tag list --fleet MyFleet
+	$ balena tag list -f myorg/myfleet
+	$ balena tag list --device 7cf02a6
+	$ balena tag list --release 1234
+	$ balena tag list --release b376b0e544e9429483b656490e5b9443b4349bd6
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -r, --release RELEASE
+
+release id
+
+## tag rm
 
 Remove a tag from a fleet, device or release.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3674,7 +3660,7 @@ device UUID
 
 release id
 
-## tag set &#60;tagKey&#62; [value]
+## tag set
 
 Set a tag on a fleet, device or release.
 
@@ -3684,7 +3670,7 @@ provided, a tag with an empty value is created.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3727,50 +3713,12 @@ device UUID
 
 release id
 
-## tags
-
-List all tags and their values for the specified fleet, device or release.
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	$ balena tags --fleet MyFleet
-	$ balena tags -f myorg/myfleet
-	$ balena tags --device 7cf02a6
-	$ balena tags --release 1234
-	$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### -r, --release RELEASE
-
-release id
-
 # Utilities
 
 ## util available-drives
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
-
-### Options
 
 # Version
 

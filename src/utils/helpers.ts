@@ -272,53 +272,6 @@ export async function retry<T>({
 }
 
 /**
- * Return a compare(a, b) function suitable for use as the argument for the
- * sort() method of an array. That function will use the given manuallySortedArray
- * as "sorting guidance":
- *   - If both a and b are found in the manuallySortedArray, the returned
- *     compare(a, b) function will follow that ordering.
- *   - If neither a nor b are found in the manuallySortedArray, the returned
- *     compare(a, b) function will compare a and b using the standard '<' and
- *     '>' Javascript operators.
- *   - If only a or only b are found in the manuallySortedArray, the returned
- *     compare(a, b) function will treat the element that was found as being
- *     "smaller than" the not-found element (i.e. found elements appear before
- *     not-found elements in sorted order).
- *
- * The equalityFunc(a, x) argument is a function used to compare the items
- * being sorted against the items in the manuallySortedArray. For example, if
- * equalityFunc was (a, x) => a.startsWith(x), where a is an item being sorted
- * and x is an item in the manuallySortedArray, then the manuallySortedArray
- * could contain prefix substrings to guide the sorting.
- *
- * @param manuallySortedArray A pre-sorted array to guide the sorting
- * @param equalityFunc An optional function used to compare the items being
- *   sorted against items in manuallySortedArray. It should return true if
- *   the two items compare equal, otherwise false. The arguments are the
- *   same as provided by the standard Javascript array.findIndex() method.
- */
-export function getManualSortCompareFunction<T, U = T>(
-	manuallySortedArray: U[],
-	equalityFunc: (a: T, x: U, index: number, array: U[]) => boolean,
-): (a: T, b: T) => number {
-	return function (a: T, b: T): number {
-		const indexA = manuallySortedArray.findIndex((x, index, array) =>
-			equalityFunc(a, x, index, array),
-		);
-		const indexB = manuallySortedArray.findIndex((x, index, array) =>
-			equalityFunc(b, x, index, array),
-		);
-		if (indexA >= 0 && indexB >= 0) {
-			return indexA - indexB;
-		} else if (indexA < 0 && indexB < 0) {
-			return a < b ? -1 : a > b ? 1 : 0;
-		} else {
-			return indexA < 0 ? 1 : -1;
-		}
-	};
-}
-
-/**
  * Decide whether the current shell (that executed the CLI process) is a Windows
  * 'cmd.exe' shell, including PowerShell, by checking a few environment
  * variables.

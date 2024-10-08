@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
@@ -62,11 +61,8 @@ export default class DeviceCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device <uuid>';
-
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 		view: Flags.boolean({
 			default: false,
 			description: 'open device dashboard page',

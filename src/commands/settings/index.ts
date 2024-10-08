@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class SettingsCmd extends Command {
@@ -26,12 +25,6 @@ export default class SettingsCmd extends Command {
 		Use this command to display the current balena CLI settings.
 `;
 	public static examples = ['$ balena settings'];
-
-	public static usage = 'settings';
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public async run() {
 		await this.parse(SettingsCmd);

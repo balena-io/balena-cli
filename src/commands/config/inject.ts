@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
@@ -43,11 +42,8 @@ export default class ConfigInjectCmd extends Command {
 		}),
 	};
 
-	public static usage = 'config inject <file>';
-
 	public static flags = {
 		drive: cf.driveOrImg,
-		help: cf.help,
 	};
 
 	public static root = true;

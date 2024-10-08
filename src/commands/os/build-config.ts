@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Flags, Args, Command } from '@oclif/core';
 import { getCliForm, stripIndent } from '../../utils/lazy';
 import * as _ from 'lodash';
 import type { DeviceTypeJson } from 'balena-sdk';
@@ -46,8 +44,6 @@ export default class OsBuildConfigCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os build-config <image> <device-type>';
-
 	public static flags = {
 		advanced: Flags.boolean({
 			description: 'show advanced configuration options',
@@ -58,7 +54,6 @@ export default class OsBuildConfigCmd extends Command {
 			char: 'o',
 			required: true,
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

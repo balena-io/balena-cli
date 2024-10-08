@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 
 export interface JsonVersions {
@@ -48,8 +47,6 @@ export default class VersionCmd extends Command {
 		`$ balena --version`,
 		`$ balena -v`,
 	];
-
-	public static usage = 'version';
 
 	public static offlineCompatible = true;
 

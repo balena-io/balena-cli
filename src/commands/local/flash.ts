@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
 import type { BlockDevice } from 'etcher-sdk/build/source-destination';
-import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
@@ -46,12 +45,9 @@ export default class LocalFlashCmd extends Command {
 		}),
 	};
 
-	public static usage = 'local flash <image>';
-
 	public static flags = {
 		drive: cf.drive,
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static offlineCompatible = true;

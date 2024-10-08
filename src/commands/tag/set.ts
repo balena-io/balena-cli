@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -58,7 +57,6 @@ export default class TagSetCmd extends Command {
 
 	// Required for supporting empty string ('') `value` args.
 	public static strict = false;
-	public static usage = 'tag set <tagKey> [value]';
 
 	public static flags = {
 		fleet: {
@@ -73,7 +71,6 @@ export default class TagSetCmd extends Command {
 			...cf.release,
 			exclusive: ['fleet', 'device'],
 		},
-		help: cf.help,
 	};
 
 	public static authenticated = true;

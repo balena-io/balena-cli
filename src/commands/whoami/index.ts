@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
+import { Command } from '@oclif/core';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class WhoamiCmd extends Command {
@@ -26,8 +26,6 @@ export default class WhoamiCmd extends Command {
 	`;
 
 	public static examples = ['$ balena whoami'];
-
-	public static usage = 'whoami';
 
 	public static authenticated = true;
 

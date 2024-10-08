@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Flags, Args, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 
 export default class FleetCreateCmd extends Command {
@@ -30,10 +27,10 @@ export default class FleetCreateCmd extends Command {
 		You can specify the organization the fleet should belong to using
 		the \`--organization\` option. The organization's handle, not its name,
 		should be provided. Organization handles can be listed with the
-		\`balena orgs\` command.
+		\`balena organization list\` command.
 
 		The fleet's default device type is specified with the \`--type\` option.
-		The \`balena devices supported\` command can be used to list the available
+		The \`balena device-type list\` command can be used to list the available
 		device types.
 
 		Interactive dropdowns will be shown for selection if no device type or
@@ -56,8 +53,6 @@ export default class FleetCreateCmd extends Command {
 		}),
 	};
 
-	public static usage = 'fleet create <name>';
-
 	public static flags = {
 		organization: Flags.string({
 			char: 'o',
@@ -66,9 +61,8 @@ export default class FleetCreateCmd extends Command {
 		type: Flags.string({
 			char: 't',
 			description:
-				'fleet device type (Check available types with `balena devices supported`)',
+				'fleet device type (Check available types with `balena device-type list`)',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

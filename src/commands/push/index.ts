@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
+import { Flags, Args, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../../utils/messages';
 import type { BalenaSDK } from 'balena-sdk';
@@ -98,8 +96,6 @@ export default class PushCmd extends Command {
 			parse: lowercaseIfSlug,
 		}),
 	};
-
-	public static usage = 'push <fleetOrDevice>';
 
 	public static flags = {
 		source: Flags.string({
@@ -221,7 +217,6 @@ export default class PushCmd extends Command {
 			default: false,
 		}),
 		note: Flags.string({ description: 'The notes for this release' }),
-		help: cf.help,
 	};
 
 	public static primary = true;
@@ -229,7 +224,9 @@ export default class PushCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(PushCmd);
 
-		const logger = await Command.getLogger();
+		const Logger = await import('../../utils/logger');
+
+		const logger = Logger.getLogger();
 		logger.logDebug(`Using build source directory: ${options.source} `);
 
 		const sdk = getBalenaSdk();
@@ -296,7 +293,9 @@ export default class PushCmd extends Command {
 			options['release-tag'] ?? [],
 		);
 
-		await Command.checkLoggedIn();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 		const [token, baseUrl] = await Promise.all([
 			sdk.auth.getToken(),
 			sdk.settings.get('balenaUrl'),

@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Flags, Args, Command } from '@oclif/core';
 import { stripIndent } from '../../utils/lazy';
 
 export default class OsDownloadCmd extends Command {
@@ -25,7 +23,7 @@ export default class OsDownloadCmd extends Command {
 		Download an unconfigured OS image.
 
 		Download an unconfigured OS image for the specified device type.
-		Check available device types with 'balena devices supported'.
+		Check available device types with 'balena device-type list'.
 
 		Note: Currently this command only works with balenaCloud, not openBalena.
 		If using openBalena, please download the OS from: https://www.balena.io/os/
@@ -62,8 +60,6 @@ export default class OsDownloadCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os download <type>';
-
 	public static flags = {
 		output: Flags.string({
 			description: 'output path',
@@ -81,7 +77,6 @@ export default class OsDownloadCmd extends Command {
 				or 'menu-esr' (interactive menu, ESR versions)
 				`,
 		}),
-		help: cf.help,
 	};
 
 	public async run() {
@@ -92,7 +87,8 @@ export default class OsDownloadCmd extends Command {
 			const { isESR } = await import('../../utils/image-manager');
 			if (options.version === 'menu-esr' || isESR(options.version)) {
 				try {
-					await OsDownloadCmd.checkLoggedIn();
+					const { checkLoggedIn } = await import('../../utils/patterns');
+					await checkLoggedIn();
 				} catch (e) {
 					const { ExpectedError, NotLoggedInError } = await import(
 						'../../errors'

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import type { Device } from 'balena-sdk';
@@ -47,8 +46,6 @@ export default class DeviceOsUpdateCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device os-update <uuid>';
-
 	public static flags = {
 		version: Flags.string({
 			description: 'a balenaOS version',
@@ -60,7 +57,6 @@ export default class DeviceOsUpdateCmd extends Command {
 			exclusive: ['version'],
 		}),
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

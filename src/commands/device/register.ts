@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Flags, Command } from '@oclif/core';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -44,8 +42,6 @@ export default class DeviceRegisterCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'device register <fleet>';
-
 	public static flags = {
 		uuid: Flags.string({
 			description: 'custom uuid',
@@ -53,9 +49,8 @@ export default class DeviceRegisterCmd extends Command {
 		}),
 		deviceType: Flags.string({
 			description:
-				"device type slug (run 'balena devices supported' for possible values)",
+				"device type slug (run 'balena device-type list' for possible values)",
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

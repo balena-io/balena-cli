@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class GenerateCmd extends Command {
@@ -38,12 +36,6 @@ export default class GenerateCmd extends Command {
 			description: 'the API key name',
 			required: true,
 		}),
-	};
-
-	public static usage = 'api-key generate <name>';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

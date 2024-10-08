@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Args } from '@oclif/core';
-import Command from '../../command';
-
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
@@ -53,19 +50,18 @@ export default class EnvRenameCmd extends Command {
 		}),
 	};
 
-	public static usage = 'env rename <id> <value>';
-
 	public static flags = {
 		config: ec.booleanConfig,
 		device: ec.booleanDevice,
 		service: ec.booleanService,
-		help: cf.help,
 	};
 
 	public async run() {
 		const { args: params, flags: opt } = await this.parse(EnvRenameCmd);
 
-		await Command.checkLoggedIn();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		await getBalenaSdk().pine.patch({
 			resource: ec.getVarResourceName(opt.config, opt.device, opt.service),

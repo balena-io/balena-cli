@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
@@ -43,11 +42,8 @@ export default class DeviceRmCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device rm <uuid(s)>';
-
 	public static flags = {
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

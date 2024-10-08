@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
+import { Flags, Args, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import { promisify } from 'util';
 import * as _ from 'lodash';
-import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
@@ -92,8 +91,6 @@ export default class OsConfigureCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os configure <image>';
-
 	public static flags = {
 		advanced: Flags.boolean({
 			char: 'v',
@@ -157,7 +154,6 @@ export default class OsConfigureCmd extends Command {
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['config', 'device'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
@@ -321,7 +317,9 @@ async function validateOptions(options: FlagsDef) {
 		);
 	}
 
-	await Command.checkLoggedIn();
+	const { checkLoggedIn } = await import('../../utils/patterns');
+
+	await checkLoggedIn();
 }
 
 /**

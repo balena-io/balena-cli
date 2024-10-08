@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args, Flags } from '@oclif/core';
-import Command from '../../command';
+import { Args, Flags, Command } from '@oclif/core';
 import { getBalenaSdk } from '../../utils/lazy';
 import * as cf from '../../utils/common-flags';
 import * as compose from '../../utils/compose';
@@ -84,8 +83,6 @@ ${dockerignoreHelp}
 		source: Args.string({ description: 'path of project source directory' }),
 	};
 
-	public static usage = 'build [source]';
-
 	public static flags = {
 		arch: Flags.string({
 			description: 'the architecture to build for',
@@ -108,13 +105,16 @@ ${dockerignoreHelp}
 	public async run() {
 		const { args: params, flags: options } = await this.parse(BuildCmd);
 
-		await Command.checkLoggedInIf(!!options.fleet);
+		const Logger = await import('../../utils/logger');
+		const { checkLoggedInIf } = await import('../../utils/patterns');
+
+		await checkLoggedInIf(!!options.fleet);
 
 		(await import('events')).defaultMaxListeners = 1000;
 
 		const sdk = getBalenaSdk();
 
-		const logger = await Command.getLogger();
+		const logger = Logger.getLogger();
 		logger.logDebug('Parsing input...');
 
 		// `build` accepts `source` as a parameter, but compose expects it as an option

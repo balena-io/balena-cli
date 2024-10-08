@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
@@ -52,8 +51,6 @@ export default class SupportCmd extends Command {
 		}),
 	};
 
-	public static usage = 'support <action>';
-
 	public static flags = {
 		device: Flags.string({
 			description: 'comma-separated list (no spaces) of device UUIDs',
@@ -69,7 +66,6 @@ export default class SupportCmd extends Command {
 				'length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d',
 			char: 't',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

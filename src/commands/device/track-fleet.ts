@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class DeviceTrackFleetCmd extends Command {
@@ -33,12 +31,6 @@ export default class DeviceTrackFleetCmd extends Command {
 			description: "the uuid of the device to make track the fleet's release",
 			required: true,
 		}),
-	};
-
-	public static usage = 'device track-fleet <uuid>';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Args, Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { ExpectedError } from '../../errors';
 
@@ -34,12 +32,6 @@ export default class DeviceIdentifyCmd extends Command {
 			description: 'the uuid of the device to identify',
 			required: true,
 		}),
-	};
-
-	public static usage = 'device identify <uuid>';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

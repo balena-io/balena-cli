@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
-import * as cf from '../../utils/common-flags';
+import { Command } from '@oclif/core';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -38,12 +37,6 @@ export default class FleetPurgeCmd extends Command {
 
 	public static args = {
 		fleet: ca.fleetRequired,
-	};
-
-	public static usage = 'fleet purge <fleet>';
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;
