@@ -24,7 +24,6 @@ import {
 	signFilesForNotarization,
 	testShrinkwrap,
 } from './build-bin';
-import { updateDescriptionOfReleasesAffectedByIssue1359 } from './deploy-bin';
 
 // DEBUG set to falsy for negative values else is truthy
 process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
@@ -54,7 +53,6 @@ async function parse(args?: string[]) {
 		'sign:binaries': signFilesForNotarization,
 		'catch-uncommitted': catchUncommitted,
 		'test-shrinkwrap': testShrinkwrap,
-		fix1359: updateDescriptionOfReleasesAffectedByIssue1359,
 	};
 	for (const arg of args) {
 		if (!Object.hasOwn(commands, arg)) {

@@ -31,7 +31,6 @@ describe('balena logs', function () {
 		api = new BalenaAPIMock();
 		supervisor = new SupervisorMock();
 		api.expectGetWhoAmI();
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(() => {

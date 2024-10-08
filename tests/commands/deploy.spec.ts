@@ -82,7 +82,6 @@ describe('balena deploy', function () {
 		api = new BalenaAPIMock();
 		docker = new DockerMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		api.expectGetApplication({ expandArchitecture: true });
 		api.expectGetRelease();
 		api.expectGetUser();
@@ -515,7 +514,6 @@ describe('balena deploy: project validation', function () {
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(() => {

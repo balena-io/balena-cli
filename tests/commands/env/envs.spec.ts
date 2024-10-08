@@ -31,7 +31,6 @@ describe('balena envs', function () {
 	beforeEach(() => {
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		// Random device UUID used to frustrate _.memoize() in utils/cloud.ts
 		fullUUID = randomBytes(16).toString('hex');
 		shortUUID = fullUUID.substring(0, 7);
