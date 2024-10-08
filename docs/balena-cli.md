@@ -199,6 +199,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
 	- [device &#60;uuid&#62;](#device-uuid)
 	- [device init](#device-init)
+	- [device list](#device-list)
 	- [device local-mode &#60;uuid&#62;](#device-local-mode-uuid)
 	- [device move &#60;uuid(s)&#62;](#device-move-uuid-s)
 	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
@@ -214,7 +215,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device start-service &#60;uuid&#62;](#device-start-service-uuid)
 	- [device stop-service &#60;uuid&#62;](#device-stop-service-uuid)
 	- [device track-fleet &#60;uuid&#62;](#device-track-fleet-uuid)
-	- [devices](#devices)
 	- [devices supported](#devices-supported)
 
 - Environment Variables
@@ -1351,6 +1351,54 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
+## device list
+
+### Aliases
+
+
+
+
+- `devices`
+
+
+To use one of the aliases, replace `undefined` with the alias.
+
+List all of your devices.
+
+Devices can be filtered by fleet with the `--fleet` option.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+The --json option is recommended when scripting the output of this command,
+because field names are less likely to change in JSON format and because it
+better represents data types like arrays, empty strings and null values.
+The 'jq' utility may be helpful for querying JSON fields in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
+Examples:
+
+	$ balena device list
+	$ balena device list --fleet MyFleet
+	$ balena device list -f myorg/myfleet
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 ## device local-mode &#60;uuid&#62;
 
 Output current local mode status, or enable/disable local mode
@@ -1751,44 +1799,6 @@ Examples:
 the uuid of the device to make track the fleet's release
 
 ### Options
-
-## devices
-
-List all of your devices.
-
-Devices can be filtered by fleet with the `--fleet` option.
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
-Examples:
-
-	$ balena devices
-	$ balena devices --fleet MyFleet
-	$ balena devices -f myorg/myfleet
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## devices supported
 

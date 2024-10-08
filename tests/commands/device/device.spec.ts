@@ -121,4 +121,29 @@ describe('balena device', function () {
 		expect(json.belongs_to__application[0].app_name).to.equal('test app');
 		expect(json.device_tag[0].tag_key).to.equal('example');
 	});
+
+	it('should list devices from own and collaborator apps', async () => {
+		api.scope
+			.get(
+				'/v6/device?$orderby=device_name%20asc&$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+			)
+			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
+				'Content-Type': 'application/json',
+			});
+
+		const { out } = await runCommand('device list');
+
+		const lines = cleanOutput(out);
+
+		expect(lines[0].replace(/  +/g, ' ')).to.equal(
+			'ID UUID DEVICE NAME DEVICE TYPE FLEET STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
+		);
+		expect(lines).to.have.lengthOf.at.least(2);
+
+		expect(lines.some((l) => l.includes('org/test app'))).to.be.true;
+
+		// Devices with missing applications will have application name set to `N/a`.
+		// e.g. When user has a device associated with app that user is no longer a collaborator of.
+		expect(lines.some((l) => l.includes('N/a'))).to.be.true;
+	});
 });
