@@ -133,7 +133,6 @@ To add a new command to be documented,
 1. Find the resource which it is part of or create a new one. 
 2. List the location of the build file 
 3. Make sure to add your files in alphabetical order
-4. Resources with plural names needs to have 2 sections if they have commands like: "fleet, fleets" or "device, devices" or "tag, tags"
 
 Once added, run the command `npm run build` to generate the documentation
 
