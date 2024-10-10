@@ -62,8 +62,6 @@ export default class OsDownloadCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os download <type>';
-
 	public static flags = {
 		output: Flags.string({
 			description: 'output path',

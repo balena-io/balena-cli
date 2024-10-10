@@ -58,7 +58,6 @@ export default class TagSetCmd extends Command {
 
 	// Required for supporting empty string ('') `value` args.
 	public static strict = false;
-	public static usage = 'tag set <tagKey> [value]';
 
 	public static flags = {
 		fleet: {

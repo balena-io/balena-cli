@@ -75,8 +75,6 @@ export default class SshCmd extends Command {
 		}),
 	};
 
-	public static usage = 'ssh <fleetOrDevice> [service]';
-
 	public static flags = {
 		port: Flags.integer({
 			description: stripIndent`

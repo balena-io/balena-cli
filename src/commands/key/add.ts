@@ -29,7 +29,7 @@ export default class KeyAddCmd extends Command {
 
 		If \`path\` is omitted, the command will attempt to read the SSH key from stdin.
 
-		About SSH keys  
+		About SSH keys
 		An "SSH key" actually consists of a public/private key pair. A typical name
 		for the private key file is "id_rsa", and a typical name for the public key
 		file is "id_rsa.pub". Both key files are saved to your computer (with the
@@ -37,7 +37,7 @@ export default class KeyAddCmd extends Command {
 		saved to your balena account.  This means that if you change computers or
 		otherwise lose the private key, you cannot recover the private key through
 		your balena account. You can however add new keys, and delete the old ones.
-		
+
 		To generate a new SSH key pair, a nice guide can be found in GitHub's docs:
 		https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 		Skip the step about adding the key to a GitHub account, and instead add it to
@@ -60,8 +60,6 @@ export default class KeyAddCmd extends Command {
 			description: `the path to the public key file`,
 		}),
 	};
-
-	public static usage = 'key add <name> [path]';
 
 	public static flags = {
 		help: cf.help,

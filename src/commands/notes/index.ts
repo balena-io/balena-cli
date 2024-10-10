@@ -42,8 +42,6 @@ export default class NoteCmd extends Command {
 		}),
 	};
 
-	public static usage = 'note <|note>';
-
 	public static flags = {
 		device: { exclusive: ['dev'], ...cf.device },
 		dev: Flags.string({

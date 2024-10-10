@@ -40,8 +40,6 @@ export default class KeyRmCmd extends Command {
 		}),
 	};
 
-	public static usage = 'key rm <id>';
-
 	public static flags = {
 		yes: cf.yes,
 		help: cf.help,

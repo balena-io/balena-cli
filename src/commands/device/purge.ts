@@ -35,8 +35,6 @@ export default class DevicePurgeCmd extends Command {
 		'$ balena device purge 55d43b3,23c73a1',
 	];
 
-	public static usage = 'device purge <uuid>';
-
 	public static args = {
 		uuid: Args.string({
 			description: 'comma-separated list (no blank spaces) of device UUIDs',

@@ -22,8 +22,8 @@ import { getManualSortCompareFunction } from '../../src/utils/helpers';
 import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
 import type { Category, Document, OclifCommand } from './doc-types';
 
-function renderOclifCommand(command: OclifCommand): string[] {
-	const result = [`## ${ent.encode(command.usage || '')}`];
+function renderOclifCommand(command: Category['commands'][0]): string[] {
+	const result = [`## ${ent.encode(command.name || '')}`];
 	const description = (command.description || '')
 		.split('\n')
 		.slice(1) // remove the first line, which oclif uses as help header
@@ -80,7 +80,7 @@ function renderToc(categories: Category[]): string[] {
 		result.push(
 			category.commands
 				.map((command) => {
-					const signature = capitanoizeOclifUsage(command.usage);
+					const signature = capitanoizeOclifUsage(command.name);
 					return `\t- [${ent.encode(signature)}](${getAnchor(signature)})`;
 				})
 				.join('\n'),

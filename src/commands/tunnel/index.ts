@@ -78,8 +78,6 @@ export default class TunnelCmd extends Command {
 		}),
 	};
 
-	public static usage = 'tunnel <deviceOrFleet>';
-
 	public static flags = {
 		port: Flags.string({
 			description:

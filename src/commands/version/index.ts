@@ -49,8 +49,6 @@ export default class VersionCmd extends Command {
 		`$ balena -v`,
 	];
 
-	public static usage = 'version';
-
 	public static offlineCompatible = true;
 
 	public static flags = {

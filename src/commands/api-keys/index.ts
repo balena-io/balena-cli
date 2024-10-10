@@ -30,8 +30,6 @@ export default class ApiKeysCmd extends Command {
 `;
 	public static examples = ['$ balena api-keys'];
 
-	public static usage = 'api-keys';
-
 	public static flags = {
 		help: cf.help,
 		user: Flags.boolean({

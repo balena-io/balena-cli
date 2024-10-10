@@ -40,8 +40,6 @@ export default class ReleaseFinalizeCmd extends Command {
 		'$ balena release finalize 1234567',
 	];
 
-	public static usage = 'release finalize <commitOrId>';
-
 	public static flags = {
 		help: cf.help,
 	};

@@ -43,8 +43,6 @@ export default class DeviceRenameCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device rename <uuid> [newName]';
-
 	public static flags = {
 		help: cf.help,
 	};
