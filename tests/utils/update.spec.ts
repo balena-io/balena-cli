@@ -54,7 +54,7 @@ describe('getNotifierMessage() unit test', function () {
 			https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
 
 			Check the v13 release notes at:
-			https://github.com/balena-io/balena-cli/wiki/CLI-v13-Release-Notes`);
+			https://github.com/balena-io/balena-cli/releases/tag/v13.0.0`);
 	});
 
 	it('should return an empty string if no updates are available', () => {
