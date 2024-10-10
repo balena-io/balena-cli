@@ -72,5 +72,5 @@ export function getNotifierMessage(updateInfo: UpdateNotifier.UpdateInfo) {
 }
 
 function getReleaseNotesUrl(majorVersion: number) {
-	return `https://github.com/balena-io/balena-cli/wiki/CLI-v${majorVersion}-Release-Notes`;
+	return `https://github.com/balena-io/balena-cli/releases/tag/v${majorVersion}.0.0`;
 }

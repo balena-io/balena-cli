@@ -1263,12 +1263,12 @@
       "dev": true
     },
     "node_modules/@babel/parser": {
-      "version": "7.25.7",
-      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.25.7.tgz",
-      "integrity": "sha512-aZn7ETtQsjjGG5HruveUK06cU3Hljuhd9Iojm4M8WWv3wLE6OkE5PWbDUkItmMgegmccaITudyuW5RPYrYlgWw==",
+      "version": "7.25.8",
+      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.25.8.tgz",
+      "integrity": "sha512-HcttkxzdPucv3nNFmfOOMfFf64KgdJVqm1KaCm25dPGMLElo9nsLvXeJECQg8UzPuBGLyTSA0ZzqCtDSzKTEoQ==",
       "dev": true,
       "dependencies": {
-        "@babel/types": "^7.25.7"
+        "@babel/types": "^7.25.8"
       },
       "bin": {
         "parser": "bin/babel-parser.js"
@@ -1278,9 +1278,9 @@
       }
     },
     "node_modules/@babel/parser/node_modules/@babel/types": {
-      "version": "7.25.7",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.7.tgz",
-      "integrity": "sha512-vwIVdXG+j+FOpkwqHRcBgHLYNL7XMkufrlaFvL9o6Ai9sJn9+PdyIL5qa0XzTZw084c+u9LOls53eoZWP/W5WQ==",
+      "version": "7.25.8",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.8.tgz",
+      "integrity": "sha512-JWtuCu8VQsMladxVz/P4HzHUGCAwpuqacmowgXFs5XjxIgKuNjnLokQzuVjlTvIzODaDmpjT3oxcC48vyk9EWg==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.7",
@@ -1306,9 +1306,9 @@
       }
     },
     "node_modules/@babel/template/node_modules/@babel/types": {
-      "version": "7.25.7",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.7.tgz",
-      "integrity": "sha512-vwIVdXG+j+FOpkwqHRcBgHLYNL7XMkufrlaFvL9o6Ai9sJn9+PdyIL5qa0XzTZw084c+u9LOls53eoZWP/W5WQ==",
+      "version": "7.25.8",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.8.tgz",
+      "integrity": "sha512-JWtuCu8VQsMladxVz/P4HzHUGCAwpuqacmowgXFs5XjxIgKuNjnLokQzuVjlTvIzODaDmpjT3oxcC48vyk9EWg==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.7",
@@ -1356,9 +1356,9 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/types": {
-      "version": "7.25.7",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.7.tgz",
-      "integrity": "sha512-vwIVdXG+j+FOpkwqHRcBgHLYNL7XMkufrlaFvL9o6Ai9sJn9+PdyIL5qa0XzTZw084c+u9LOls53eoZWP/W5WQ==",
+      "version": "7.25.8",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.8.tgz",
+      "integrity": "sha512-JWtuCu8VQsMladxVz/P4HzHUGCAwpuqacmowgXFs5XjxIgKuNjnLokQzuVjlTvIzODaDmpjT3oxcC48vyk9EWg==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.7",
@@ -3814,18 +3814,39 @@
       }
     },
     "node_modules/@types/request/node_modules/form-data": {
-      "version": "2.5.1",
-      "resolved": "https://registry.npmjs.org/form-data/-/form-data-2.5.1.tgz",
-      "integrity": "sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==",
+      "version": "2.5.2",
+      "resolved": "https://registry.npmjs.org/form-data/-/form-data-2.5.2.tgz",
+      "integrity": "sha512-GgwY0PS7DbXqajuGf4OYlsrIu3zgxD6Vvql43IBhm6MahqA5SK/7mwhtNj2AdH2z35YR34ujJ7BN+3fFC3jP5Q==",
       "dev": true,
       "dependencies": {
         "asynckit": "^0.4.0",
         "combined-stream": "^1.0.6",
-        "mime-types": "^2.1.12"
+        "mime-types": "^2.1.12",
+        "safe-buffer": "^5.2.1"
       },
       "engines": {
         "node": ">= 0.12"
       }
+    },
+    "node_modules/@types/request/node_modules/safe-buffer": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+      "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==",
+      "dev": true,
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ]
     },
     "node_modules/@types/responselike": {
       "version": "1.0.0",
@@ -5250,9 +5271,9 @@
       }
     },
     "node_modules/axios/node_modules/form-data": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.0.tgz",
-      "integrity": "sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==",
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.1.tgz",
+      "integrity": "sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==",
       "dependencies": {
         "asynckit": "^0.4.0",
         "combined-stream": "^1.0.8",
