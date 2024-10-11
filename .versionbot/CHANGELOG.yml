@@ -1,4 +1,24 @@
 - commits:
+    - subject: Deduplicate dependencies
+      hash: 55dbe42e84ebb14dac9c1da189594e345f69d7cd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Fix update notification release notes link
+      hash: 3e8bc57fdba35f7cbd4e357c5b8f0395c7bb0eef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.19
+  title: ""
+  date: 2024-10-11T11:18:22.541Z
+- commits:
     - subject: "Contributing: No longer request separate folders for plural commands"
       hash: 276d61cf6c3dfac44796736ff4570f2aeaec971e
       body: ""
