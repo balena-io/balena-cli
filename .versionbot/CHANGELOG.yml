@@ -1,4 +1,24 @@
 - commits:
+    - subject: "Docs: Generate CLI command references from file names instead of usage"
+      hash: f52e6bd8b436d4243e39c9069b8ee885bb6401ff
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Use default oclif `USAGE` message for all commands
+      hash: 0847daba1b58f807a222c5163b8383cc44cd13fc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.0.20
+  title: ""
+  date: 2024-10-11T11:48:49.138Z
+- commits:
     - subject: Deduplicate dependencies
       hash: 55dbe42e84ebb14dac9c1da189594e345f69d7cd
       body: ""
