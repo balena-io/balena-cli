@@ -80,8 +80,6 @@ export default class PreloadCmd extends Command {
 		}),
 	};
 
-	public static usage = 'preload <image>';
-
 	public static flags = {
 		fleet: cf.fleet,
 		commit: Flags.string({

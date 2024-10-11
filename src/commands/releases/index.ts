@@ -38,8 +38,6 @@ export default class ReleasesCmd extends Command {
 		'$ balena releases myorg/myfleet --json',
 	];
 
-	public static usage = 'releases <fleet>';
-
 	public static flags = {
 		json: cf.json,
 		help: cf.help,

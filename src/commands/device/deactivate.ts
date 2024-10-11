@@ -41,8 +41,6 @@ export default class DeviceDeactivateCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device deactivate <uuid>';
-
 	public static flags = {
 		yes: cf.yes,
 		help: cf.help,

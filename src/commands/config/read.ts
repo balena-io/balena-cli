@@ -36,8 +36,6 @@ export default class ConfigReadCmd extends Command {
 		'$ balena config read --drive balena.img',
 	];
 
-	public static usage = 'config read';
-
 	public static flags = {
 		drive: cf.driveOrImg,
 		help: cf.help,

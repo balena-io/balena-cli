@@ -40,8 +40,6 @@ export default class OsVersionsCmd extends Command {
 		}),
 	};
 
-	public static usage = 'os versions <type>';
-
 	public static flags = {
 		help: cf.help,
 		esr: Flags.boolean({

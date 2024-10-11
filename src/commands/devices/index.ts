@@ -53,8 +53,6 @@ export default class DevicesCmd extends Command {
 		'$ balena devices -f myorg/myfleet',
 	];
 
-	public static usage = 'devices';
-
 	public static flags = {
 		fleet: cf.fleet,
 		json: cf.json,

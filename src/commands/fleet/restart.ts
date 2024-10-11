@@ -39,8 +39,6 @@ export default class FleetRestartCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'fleet restart <fleet>';
-
 	public static flags = {
 		help: cf.help,
 	};

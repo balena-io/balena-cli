@@ -41,8 +41,6 @@ export default class FleetCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'fleet <fleet>';
-
 	public static flags = {
 		help: cf.help,
 		view: Flags.boolean({

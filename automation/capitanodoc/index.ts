@@ -18,7 +18,6 @@ import * as path from 'path';
 import { getCapitanoDoc } from './capitanodoc';
 import type { Category, Document, OclifCommand } from './doc-types';
 import * as markdown from './markdown';
-import { stripIndent } from '../../src/utils/lazy';
 
 /**
  * Generates the markdown document (as a string) for the CLI documentation
@@ -39,7 +38,7 @@ export async function renderMarkdown(): Promise<string> {
 		};
 
 		for (const jsFilename of commandCategory.files) {
-			category.commands.push(...(await importOclifCommands(jsFilename)));
+			category.commands.push(await importOclifCommands(jsFilename));
 		}
 		result.categories.push(category);
 	}
@@ -47,51 +46,23 @@ export async function renderMarkdown(): Promise<string> {
 	return markdown.render(result);
 }
 
-// Help is now managed via a plugin
-// This fake command allows capitanodoc to include help in docs
-class FakeHelpCommand {
-	description = stripIndent`
-		List balena commands, or get detailed help for a specific command.
+async function importOclifCommands(jsFilename: string) {
+	const command = (await import(path.join(process.cwd(), jsFilename)))
+		.default as OclifCommand;
 
-		List balena commands, or get detailed help for a specific command.
-	`;
-
-	examples = [
-		'$ balena help',
-		'$ balena help login',
-		'$ balena help os download',
-	];
-
-	args = {
-		command: {
-			description: 'command to show help for',
-		},
-	};
-
-	usage = 'help [command]';
-
-	flags = {
-		verbose: {
-			description: 'show additional commands',
-			char: '-v',
-		},
-	};
-}
-
-async function importOclifCommands(
-	jsFilename: string,
-): Promise<OclifCommand[]> {
-	// TODO: Currently oclif commands with no `usage` overridden will cause
-	//  an error when parsed.  This should be improved so that `usage` does not have
-	//  to be overridden if not necessary.
-
-	const command: OclifCommand =
-		jsFilename === 'help'
-			? (new FakeHelpCommand() as unknown as OclifCommand)
-			: ((await import(path.join(process.cwd(), jsFilename)))
-					.default as OclifCommand);
-
-	return [command];
+	return {
+		...command,
+		// build/commands/device/index.js -> device
+		// build/commands/device/list.js -> device list
+		name: jsFilename
+			.split('/')
+			.slice(2)
+			.join(' ')
+			.split('.')
+			.slice(0, 1)
+			.join(' ')
+			.split(' index')[0],
+	} as Category['commands'][0];
 }
 
 /**

@@ -92,7 +92,6 @@ export default class EnvAddCmd extends Command {
 
 	// Required for supporting empty string ('') `value` args.
 	public static strict = false;
-	public static usage = 'env add <name> [value]';
 
 	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },

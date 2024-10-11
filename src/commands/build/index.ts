@@ -84,8 +84,6 @@ ${dockerignoreHelp}
 		source: Args.string({ description: 'path of project source directory' }),
 	};
 
-	public static usage = 'build [source]';
-
 	public static flags = {
 		arch: Flags.string({
 			description: 'the architecture to build for',

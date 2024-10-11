@@ -44,8 +44,6 @@ export default class DeviceRegisterCmd extends Command {
 		fleet: ca.fleetRequired,
 	};
 
-	public static usage = 'device register <fleet>';
-
 	public static flags = {
 		uuid: Flags.string({
 			description: 'custom uuid',

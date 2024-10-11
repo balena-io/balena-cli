@@ -34,13 +34,11 @@ export const trackPromise = new Promise((resolve) => {
  */
 const hook: Hook<'prerun'> = async function (options) {
 	const events = await import('../../events');
-	const usage: string | string[] | undefined = options.Command.usage;
-	const cmdSignature =
-		usage == null ? '*' : typeof usage === 'string' ? usage : usage.join(' ');
+	const cmd = options.Command.id;
 
 	// Intentionally do not await for the track promise here, in order to
 	// run the command tracking and the command itself in parallel.
-	trackResolve(events.trackCommand(cmdSignature));
+	trackResolve(events.trackCommand(cmd));
 };
 
 export default hook;

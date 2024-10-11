@@ -74,8 +74,6 @@ export default class DeviceInitCmd extends Command {
 		'$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes',
 	];
 
-	public static usage = 'device init';
-
 	public static flags = {
 		fleet: cf.fleet,
 		yes: cf.yes,

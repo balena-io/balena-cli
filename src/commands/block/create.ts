@@ -56,8 +56,6 @@ export default class BlockCreateCmd extends Command {
 		}),
 	};
 
-	public static usage = 'block create <name>';
-
 	public static flags = {
 		organization: Flags.string({
 			char: 'o',

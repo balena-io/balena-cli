@@ -53,8 +53,6 @@ export default class DeviceRestartCmd extends Command {
 		}),
 	};
 
-	public static usage = 'device restart <uuid>';
-
 	public static flags = {
 		service: Flags.string({
 			description:

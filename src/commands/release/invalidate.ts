@@ -35,8 +35,6 @@ export default class ReleaseInvalidateCmd extends Command {
 		'$ balena release invalidate 1234567',
 	];
 
-	public static usage = 'release invalidate <commitOrId>';
-
 	public static flags = {
 		help: cf.help,
 	};

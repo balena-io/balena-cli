@@ -63,8 +63,6 @@ export default class LoginCmd extends Command {
 		}),
 	};
 
-	public static usage = 'login';
-
 	public static flags = {
 		web: Flags.boolean({
 			default: false,
