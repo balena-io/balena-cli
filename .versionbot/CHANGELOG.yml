@@ -1,4 +1,32 @@
 - commits:
+    - subject: "Docs: Show aliases for commands"
+      hash: 12cdb1463860a1ffef4e8ad44dde32f00369e3b5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `devices` command in favor of `device list`
+      hash: b936c51941808db8c832678e11af86e2136cfea6
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+    - subject: Deduplicate dependencies
+      hash: 87c52c55eda0c7b6f9fa72e20b2298fa9ffefef2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.1.0
+  title: ""
+  date: 2024-10-11T17:15:02.716Z
+- commits:
     - subject: "Docs: Generate CLI command references from file names instead of usage"
       hash: f52e6bd8b436d4243e39c9069b8ee885bb6401ff
       body: ""
