@@ -7430,9 +7430,9 @@
       }
     },
     "node_modules/drivelist/node_modules/node-addon-api": {
-      "version": "8.1.0",
-      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.1.0.tgz",
-      "integrity": "sha512-yBY+qqWSv3dWKGODD6OGE6GnTX7Q2r+4+DfpqxHSHh8x0B4EKP9+wVGLS6U/AM1vxSNNmUEuIV5EGhYwPpfOwQ==",
+      "version": "8.2.1",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.2.1.tgz",
+      "integrity": "sha512-vmEOvxwiH8tlOcv4SyE8RH34rI5/nWVaigUeAUPawC6f0+HoDthwI0vkMu4tbtsZrXq6QXFfrkhjofzKEs5tpA==",
       "engines": {
         "node": "^18 || ^20 || >= 21"
       }
@@ -17306,9 +17306,9 @@
       }
     },
     "node_modules/usb/node_modules/node-addon-api": {
-      "version": "8.1.0",
-      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.1.0.tgz",
-      "integrity": "sha512-yBY+qqWSv3dWKGODD6OGE6GnTX7Q2r+4+DfpqxHSHh8x0B4EKP9+wVGLS6U/AM1vxSNNmUEuIV5EGhYwPpfOwQ==",
+      "version": "8.2.1",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.2.1.tgz",
+      "integrity": "sha512-vmEOvxwiH8tlOcv4SyE8RH34rI5/nWVaigUeAUPawC6f0+HoDthwI0vkMu4tbtsZrXq6QXFfrkhjofzKEs5tpA==",
       "engines": {
         "node": "^18 || ^20 || >= 21"
       }

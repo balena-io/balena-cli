@@ -32,7 +32,6 @@ PRIMARY COMMANDS
   ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
   apps                                   list all applications
   app <name>                             display information about a single application
-  devices                                list all devices
   device <uuid>                          show info about a single device
   tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
   preload <image>                        preload an app on a disk image (or Edison zip archive)
@@ -57,6 +56,7 @@ ADDITIONAL COMMANDS
   config write <key> <value>             write a key-value pair to configuration of a device or OS image
   device identify <uuid>                 identify a device
   device init                            initialise a device with balenaOS
+  device list                            list all devices
   device move <uuid(s)>                  move one or more devices to another application
   device os-update <uuid>                start a Host OS update for a device
   device public-url <uuid>               get or manage the public URL for a device
