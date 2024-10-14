@@ -103,7 +103,8 @@
       "command_not_found": "./build/hooks/command-not-found/suggest"
     },
     "additionalHelpFlags": [
-      "help"
+      "help",
+      "-h"
     ],
     "macos": {
       "identifier": "io.balena.cli",

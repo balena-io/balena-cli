@@ -17,7 +17,6 @@
 
 import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import type { LogMessage } from 'balena-sdk';
 
@@ -85,7 +84,6 @@ export default class LogsCmd extends Command {
 				'Only show system logs. This can be used in combination with --service.',
 			char: 'S',
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;

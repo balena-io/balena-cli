@@ -42,7 +42,6 @@ export default class KeyRmCmd extends Command {
 
 	public static flags = {
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

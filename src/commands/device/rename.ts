@@ -17,7 +17,6 @@
 
 import { Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 
 export default class DeviceRenameCmd extends Command {
@@ -41,10 +40,6 @@ export default class DeviceRenameCmd extends Command {
 		newName: Args.string({
 			description: 'the new name for the device',
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

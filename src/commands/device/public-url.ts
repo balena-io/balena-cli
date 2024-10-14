@@ -18,7 +18,6 @@
 import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class DevicePublicUrlCmd extends Command {
@@ -57,7 +56,6 @@ export default class DevicePublicUrlCmd extends Command {
 			description: 'determine if public URL is enabled',
 			exclusive: ['enable', 'disable'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

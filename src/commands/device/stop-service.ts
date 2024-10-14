@@ -17,7 +17,6 @@
 
 import { Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 import type { BalenaSDK } from 'balena-sdk';
 
@@ -44,10 +43,6 @@ export default class DeviceStopServiceCmd extends Command {
 			description: 'comma-separated list (no blank spaces) of service names',
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

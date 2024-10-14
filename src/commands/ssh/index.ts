@@ -17,7 +17,6 @@
 
 import { Flags, Args } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import {
 	parseAsInteger,
@@ -98,7 +97,6 @@ export default class SshCmd extends Command {
 			default: false,
 			description: 'bypass global proxy configuration for the ssh connection',
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;

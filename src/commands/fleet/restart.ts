@@ -16,7 +16,6 @@
  */
 
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -37,10 +36,6 @@ export default class FleetRestartCmd extends Command {
 
 	public static args = {
 		fleet: ca.fleetRequired,
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

@@ -18,7 +18,6 @@
 import { Flags, Args } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../../utils/messages';
 import type { BalenaSDK } from 'balena-sdk';
@@ -219,7 +218,6 @@ export default class PushCmd extends Command {
 			default: false,
 		}),
 		note: Flags.string({ description: 'The notes for this release' }),
-		help: cf.help,
 	};
 
 	public static primary = true;

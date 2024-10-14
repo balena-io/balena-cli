@@ -17,7 +17,6 @@
 
 import { Flags } from '@oclif/core';
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -53,7 +52,6 @@ export default class DeviceRegisterCmd extends Command {
 			description:
 				"device type slug (run 'balena devices supported' for possible values)",
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

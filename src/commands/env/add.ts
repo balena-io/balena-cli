@@ -26,7 +26,6 @@ import { applicationIdInfo } from '../../utils/messages';
 interface FlagsDef {
 	fleet?: string;
 	device?: string; // device UUID
-	help: void;
 	quiet: boolean;
 	service?: string; // service name
 }
@@ -96,7 +95,6 @@ export default class EnvAddCmd extends Command {
 	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },
 		device: { ...cf.device, exclusive: ['fleet'] },
-		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,
 	};

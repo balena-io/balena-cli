@@ -18,7 +18,6 @@
 import { Flags, Args } from '@oclif/core';
 
 import Command from '../../command';
-import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 
 export default class AppCreateCmd extends Command {
@@ -66,7 +65,6 @@ export default class AppCreateCmd extends Command {
 			description:
 				'app device type (Check available types with `balena devices supported`)',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

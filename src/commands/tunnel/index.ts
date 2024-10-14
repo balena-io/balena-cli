@@ -22,7 +22,6 @@ import {
 	InvalidPortMappingError,
 	ExpectedError,
 } from '../../errors';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { lowercaseIfSlug } from '../../utils/normalization';
 
@@ -85,7 +84,6 @@ export default class TunnelCmd extends Command {
 			char: 'p',
 			multiple: true,
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;

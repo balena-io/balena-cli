@@ -64,7 +64,6 @@ export default class DeviceCmd extends Command {
 
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 		view: Flags.boolean({
 			default: false,
 			description: 'open device dashboard page',

@@ -48,7 +48,6 @@ export default class NoteCmd extends Command {
 			exclusive: ['device'],
 			hidden: true,
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
