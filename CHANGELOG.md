@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 19.1.0 - 2024-10-11
 
 * Docs: Show aliases for commands [myarmolinsky]
-* Deprecate `devices` command in favor of `device list` [myarmolinsky]
+* Add alias `device list` for `devices` command [myarmolinsky]
 * Deduplicate dependencies [myarmolinsky]
 
 ## 19.0.20 - 2024-10-11
