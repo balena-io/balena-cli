@@ -1,4 +1,24 @@
 - commits:
+    - subject: Deduplicate dependencies
+      hash: 0eb5c78e33979e7fbe7beb4e407949d53af6004b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Fix changelog entry for v19.1.0
+      hash: 067232b5c4d757913d4fb1c8f9611ed8eb394124
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.1.1
+  title: ""
+  date: 2024-10-14T13:06:38.383Z
+- commits:
     - subject: "Docs: Show aliases for commands"
       hash: 12cdb1463860a1ffef4e8ad44dde32f00369e3b5
       body: ""
