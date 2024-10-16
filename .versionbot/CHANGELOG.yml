@@ -1,4 +1,24 @@
 - commits:
+    - subject: Remove no longer needed dependency `get-stdin`
+      hash: d323c0742cfbbcc017f11f9fd30a9539b1c46f84
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Remove custom override of oclif Command class in favor of `prerun` hook
+      hash: 9cdde4f6c21ea1593de83107794a5b7323ed4cfe
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.1.2
+  title: ""
+  date: 2024-10-16T13:35:36.846Z
+- commits:
     - subject: Deduplicate dependencies
       hash: 0eb5c78e33979e7fbe7beb4e407949d53af6004b
       body: ""
