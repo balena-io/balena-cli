@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `api-key list` for command `api-keys`
+      hash: cad5543863b9f3e2b9c5883083dc3051b9e50ecf
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.2.0
+  title: ""
+  date: 2024-10-16T16:11:48.485Z
+- commits:
     - subject: Remove custom sorting of OS commands in docs in favor of alphabetizing
       hash: af2c04540f41428b668ab0890dd498dfd28a4f11
       body: ""
