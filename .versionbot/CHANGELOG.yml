@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add `release list` alias for `releases` command
+      hash: 8d1394a77d8cca4f18d162a3f522e80e8092ffa7
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.4.0
+  title: ""
+  date: 2024-10-16T19:12:05.274Z
+- commits:
     - subject: Add alias `fleet list` for `fleets` command
       hash: 5243803342203ebac2a04c2fcfe1e9aa4a126a21
       body: ""
