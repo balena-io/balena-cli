@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `fleet list` for `fleets` command
+      hash: 5243803342203ebac2a04c2fcfe1e9aa4a126a21
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.3.0
+  title: ""
+  date: 2024-10-16T18:03:16.667Z
+- commits:
     - subject: Add alias `api-key list` for command `api-keys`
       hash: cad5543863b9f3e2b9c5883083dc3051b9e50ecf
       body: ""
