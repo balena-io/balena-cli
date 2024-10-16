@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -67,8 +66,6 @@ export default class KeyAddCmd extends Command {
 
 	public static authenticated = true;
 
-	public static readStdin = true;
-
 	public async run() {
 		const { args: params } = await this.parse(KeyAddCmd);
 
@@ -76,8 +73,6 @@ export default class KeyAddCmd extends Command {
 		if (params.path != null) {
 			const { readFile } = (await import('fs')).promises;
 			key = await readFile(params.path, 'utf8');
-		} else if (this.stdin.length > 0) {
-			key = this.stdin;
 		} else {
 			throw new ExpectedError('No public key file or path provided.');
 		}

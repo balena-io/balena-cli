@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 
@@ -90,7 +89,8 @@ export default class OsDownloadCmd extends Command {
 			const { isESR } = await import('../../utils/image-manager');
 			if (options.version === 'menu-esr' || isESR(options.version)) {
 				try {
-					await OsDownloadCmd.checkLoggedIn();
+					const { checkLoggedIn } = await import('../../utils/patterns');
+					await checkLoggedIn();
 				} catch (e) {
 					const { ExpectedError, NotLoggedInError } = await import(
 						'../../errors'

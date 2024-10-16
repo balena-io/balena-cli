@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Command from '../../command';
+import { Command } from '@oclif/core';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class LogoutCmd extends Command {

@@ -99,7 +99,7 @@
     "helpClass": "./build/help",
     "topicSeparator": " ",
     "hooks": {
-      "prerun": "./build/hooks/prerun/track",
+      "prerun": "./build/hooks/prerun",
       "command_not_found": "./build/hooks/command-not-found/suggest"
     },
     "additionalHelpFlags": [
@@ -221,7 +221,6 @@
     "fast-boot2": "^1.1.0",
     "fast-levenshtein": "^3.0.0",
     "filenamify": "^4.3.0",
-    "get-stdin": "^8.0.0",
     "glob": "^7.2.0",
     "global-agent": "^2.2.0",
     "global-tunnel-ng": "^2.1.1",

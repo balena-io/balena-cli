@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 

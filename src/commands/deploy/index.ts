@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-import { Args, Flags } from '@oclif/core';
+import { Args, Flags, Command } from '@oclif/core';
 import type { ImageDescriptor } from '@balena/compose/dist/parse';
-
-import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, getChalk, stripIndent } from '../../utils/lazy';
 import {
@@ -155,7 +153,9 @@ ${dockerignoreHelp}
 
 		(await import('events')).defaultMaxListeners = 1000;
 
-		const logger = await Command.getLogger();
+		const Logger = await import('../../utils/logger');
+
+		const logger = Logger.getLogger();
 		logger.logDebug('Parsing input...');
 
 		const { fleet, image } = params;

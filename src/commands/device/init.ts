@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
@@ -117,8 +116,9 @@ export default class DeviceInitCmd extends Command {
 		tmp.setGracefulCleanup();
 		const { downloadOSImage } = await import('../../utils/cloud');
 		const { getApplication } = await import('../../utils/sdk');
+		const Logger = await import('../../utils/logger');
 
-		const logger = await Command.getLogger();
+		const logger = Logger.getLogger();
 		const balena = getBalenaSdk();
 
 		// Get application and

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Args } from '@oclif/core';
-import Command from '../../command';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 

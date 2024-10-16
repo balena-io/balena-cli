@@ -153,7 +153,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 		}
 	})(!options.noFlush);
 
-	const { trackPromise } = await import('./hooks/prerun/track');
+	const { trackPromise } = await import('./hooks/prerun');
 
 	await Promise.all([trackPromise, deprecationPromise, runPromise]);
 }

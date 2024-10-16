@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args } from '@oclif/core';
-import Command from '../../command';
+import { Flags, Args, Command } from '@oclif/core';
 import {
 	NoPortsDefinedError,
 	InvalidPortMappingError,
@@ -94,7 +93,9 @@ export default class TunnelCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(TunnelCmd);
 
-		const logger = await Command.getLogger();
+		const Logger = await import('../../utils/logger');
+
+		const logger = Logger.getLogger();
 		const sdk = getBalenaSdk();
 
 		const logConnection = (
