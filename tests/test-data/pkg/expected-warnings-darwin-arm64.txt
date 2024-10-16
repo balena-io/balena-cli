@@ -33,10 +33,10 @@
   %2: build/commands/api-key/generate.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
-  %2: build/commands/api-key/revoke.js
+  %2: build/commands/api-key/list.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
-  %2: build/commands/api-keys/index.js
+  %2: build/commands/api-key/revoke.js
 > Warning Entry 'main' not found in %1
   %1: node_modules/@oclif/core/package.json
   %2: build/commands/app/create.js

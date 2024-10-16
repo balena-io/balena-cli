@@ -19,7 +19,9 @@ import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class ApiKeysCmd extends Command {
+export default class APIKeyListCmd extends Command {
+	public static aliases = ['api-keys'];
+
 	public static description = stripIndent`
 		Print a list of balenaCloud API keys.
 
@@ -27,7 +29,7 @@ export default class ApiKeysCmd extends Command {
 
 		Print a list of balenaCloud API keys for the current user or for a specific fleet with the \`--fleet\` option.
 `;
-	public static examples = ['$ balena api-keys'];
+	public static examples = ['$ balena api-key list'];
 
 	public static flags = {
 		help: cf.help,
@@ -41,7 +43,7 @@ export default class ApiKeysCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = await this.parse(ApiKeysCmd);
+		const { flags: options } = await this.parse(APIKeyListCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
 		const actorId = options.fleet
