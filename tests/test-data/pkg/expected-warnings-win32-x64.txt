@@ -147,6 +147,9 @@
   %2: build\commands\fleet\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\fleet\list.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\fleet\pin.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
@@ -163,9 +166,6 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\fleet\track-latest.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\fleets\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\internal\osinit.js

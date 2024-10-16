@@ -42,17 +42,17 @@ export default class DeviceInitCmd extends Command {
 		This command effectively combines several other balena CLI commands in one,
 		namely:
 
-		'balena device register'  
-		'balena os download'  
-		'balena os build-config' or 'balena config generate'  
-		'balena os configure'  
+		'balena device register'
+		'balena os download'
+		'balena os build-config' or 'balena config generate'
+		'balena os configure'
 		'balena os local flash'
 
 		Possible arguments for the '--fleet', '--os-version' and '--drive' options can
 		be listed respectively with the commands:
 
-		'balena fleets'  
-		'balena os versions'  
+		'balena fleet list'
+		'balena os versions'
 		'balena util available-drives'
 
 		If the '--fleet' or '--drive' options are omitted, interactive menus will be

@@ -228,13 +228,13 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [fleet create](#fleet-create)
 	- [fleet](#fleet)
+	- [fleet list](#fleet-list)
 	- [fleet pin](#fleet-pin)
 	- [fleet purge](#fleet-purge)
 	- [fleet rename](#fleet-rename)
 	- [fleet restart](#fleet-restart)
 	- [fleet rm](#fleet-rm)
 	- [fleet track-latest](#fleet-track-latest)
-	- [fleets](#fleets)
 
 - Local
 
@@ -599,7 +599,7 @@ would otherwise be asked.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1318,17 +1318,17 @@ fleet's default device type, configure the image and write it to an SD card.
 This command effectively combines several other balena CLI commands in one,
 namely:
 
-'balena device register'  
-'balena os download'  
-'balena os build-config' or 'balena config generate'  
-'balena os configure'  
+'balena device register'
+'balena os download'
+'balena os build-config' or 'balena config generate'
+'balena os configure'
 'balena os local flash'
 
 Possible arguments for the '--fleet', '--os-version' and '--drive' options can
 be listed respectively with the commands:
 
-'balena fleets'  
-'balena os versions'  
+'balena fleet list'
+'balena os versions'
 'balena util available-drives'
 
 If the '--fleet' or '--drive' options are omitted, interactive menus will be
@@ -1337,7 +1337,7 @@ the latest released OS version for the fleet's default device type will be used.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1413,7 +1413,7 @@ Devices can be filtered by fleet with the `--fleet` option.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1487,7 +1487,7 @@ If --fleet is omitted, the fleet will be prompted for interactively.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1667,7 +1667,7 @@ If --uuid is not provided, a new UUID will be automatically assigned.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -1928,7 +1928,7 @@ these reserved prefixes.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2146,7 +2146,7 @@ in case the current user was removed from the fleet by the fleet's owner).
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2240,7 +2240,7 @@ Display detailed information about a single fleet.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2265,6 +2265,32 @@ fleet name or slug (preferred)
 #### --view
 
 open fleet dashboard page
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+## fleet list
+
+### Aliases
+
+- `fleets`
+
+
+To use one of the aliases, replace `fleet list` with the alias.
+
+### Description
+
+List all your balena fleets.
+
+For detailed information on a particular fleet, use
+`balena fleet <fleet>`
+
+Examples:
+
+	$ balena fleet list
+
+### Options
 
 #### -j, --json
 
@@ -2304,7 +2330,7 @@ This will clear the fleet's '/data' directory.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2336,7 +2362,7 @@ prompted for interactively.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2370,7 +2396,7 @@ Restart all devices belonging to a fleet.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2401,7 +2427,7 @@ The --yes option may be used to avoid interactive confirmation.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -2445,25 +2471,6 @@ Examples:
 the slug of the fleet to make track the latest release
 
 ### Options
-
-## fleets
-
-### Description
-
-List all your balena fleets.
-
-For detailed information on a particular fleet, use
-`balena fleet <fleet>`
-
-Examples:
-
-	$ balena fleets
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 # Local
 
@@ -2851,7 +2858,7 @@ https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3088,7 +3095,7 @@ Likewise, if the fleet option is not provided then a picker will be shown.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3170,7 +3177,7 @@ https://www.balena.io/docs/learn/more/masterclasses/advanced-cli/#5-preloading-a
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3603,7 +3610,7 @@ the commit or ID of the release to validate
 List all releases of the given fleet.
 
 Fleets may be specified by fleet name or slug. Slugs are recommended because
-they are unique and unambiguous. Slugs can be listed with the `balena fleets`
+they are unique and unambiguous. Slugs can be listed with the `balena fleet list`
 command. Note that slugs may change if the fleet is renamed. Fleet names are
 not unique and may result in "Fleet is ambiguous" errors at any time (even if
 "it used to work in the past"), for example if the name clashes with a newly
@@ -3764,7 +3771,7 @@ a comma-separated list (with no spaces).
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3808,7 +3815,7 @@ Remove a tag from a fleet, device or release.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3856,7 +3863,7 @@ provided, a tag with an empty value is created.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
@@ -3907,7 +3914,7 @@ List all tags and their values for the specified fleet, device or release.
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleets` command. Note that slugs may change if the
+listed with the `balena fleet list` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
 ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
