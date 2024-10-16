@@ -79,7 +79,7 @@ export default class DevicePinCmd extends Command {
 					pinnedRelease
 						? `This device is currently pinned to ${pinnedRelease}.`
 						: 'This device is not currently pinned to any release.'
-				} \n\nTo see a list of all releases this device can be pinned to, run \`balena releases ${appSlug}\`.`,
+				} \n\nTo see a list of all releases this device can be pinned to, run \`balena release list ${appSlug}\`.`,
 			);
 		} else {
 			await balena.models.device.pinToRelease(params.uuid, releaseToPinTo);
