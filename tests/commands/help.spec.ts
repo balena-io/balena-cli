@@ -72,8 +72,8 @@ ADDITIONAL COMMANDS
   envs                                   list the environment or config variables of an application, device or service
   key <id>                               display an SSH key
   key add <name> [path]                  add an SSH key to balenaCloud
+  key list                               list the SSH keys in balenaCloud
   key rm <id>                            remove an SSH key from balenaCloud
-  keys                                   list the SSH keys in balenaCloud
   local configure <target>               (Re)configure a balenaOS drive or image
   local flash <image>                    flash an image to a drive
   logout                                 logout from balena

@@ -180,10 +180,10 @@
   %2: build\commands\key\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\key\rm.js
+  %2: build\commands\key\list.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\keys\index.js
+  %2: build\commands\key\rm.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\leave\index.js

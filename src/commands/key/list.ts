@@ -19,13 +19,15 @@ import { Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class KeysCmd extends Command {
+export default class KeyListCmd extends Command {
+	public static aliases = ['keys'];
+
 	public static description = stripIndent`
 		List the SSH keys in balenaCloud.
 
 		List all SSH keys registered in balenaCloud for the logged in user.
 	`;
-	public static examples = ['$ balena keys'];
+	public static examples = ['$ balena key list'];
 
 	public static flags = {
 		help: cf.help,
@@ -34,7 +36,7 @@ export default class KeysCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		await this.parse(KeysCmd);
+		await this.parse(KeyListCmd);
 
 		const keys = await getBalenaSdk().models.key.getAll();
 
