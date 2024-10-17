@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add `key list` alias for `keys` command
+      hash: 6b5c6e072b426a1e9517376ee756afa31ed96cfa
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.5.0
+  title: ""
+  date: 2024-10-17T14:56:38.422Z
+- commits:
     - subject: Add `release list` alias for `releases` command
       hash: 8d1394a77d8cca4f18d162a3f522e80e8092ffa7
       body: ""
