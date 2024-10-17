@@ -20,7 +20,9 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
 
-export default class KeyRmCmd extends Command {
+export default class SSHKeyRmCmd extends Command {
+	public static aliases = ['key rm'];
+
 	public static description = stripIndent`
 		Remove an SSH key from balenaCloud.
 
@@ -29,7 +31,10 @@ export default class KeyRmCmd extends Command {
 		The --yes option may be used to avoid interactive confirmation.
 	`;
 
-	public static examples = ['$ balena key rm 17', '$ balena key rm 17 --yes'];
+	public static examples = [
+		'$ balena ssh-key rm 17',
+		'$ balena ssh-key rm 17 --yes',
+	];
 
 	public static args = {
 		id: Args.integer({
@@ -47,7 +52,7 @@ export default class KeyRmCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(KeyRmCmd);
+		const { args: params, flags: options } = await this.parse(SSHKeyRmCmd);
 
 		const patterns = await import('../../utils/patterns');
 

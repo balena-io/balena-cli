@@ -294,10 +294,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - SSH Keys
 
-	- [key add](#key-add)
-	- [key](#key)
-	- [key list](#key-list)
-	- [key rm](#key-rm)
+	- [ssh-key add](#ssh-key-add)
+	- [ssh-key](#ssh-key)
+	- [ssh-key list](#ssh-key-list)
+	- [ssh-key rm](#ssh-key-rm)
 
 - Support
 
@@ -3664,7 +3664,14 @@ Examples:
 
 # SSH Keys
 
-## key add
+## ssh-key add
+
+### Aliases
+
+- `key add`
+
+
+To use one of the aliases, replace `ssh-key add` with the alias.
 
 ### Description
 
@@ -3688,10 +3695,10 @@ your balena account.
 
 Examples:
 
-	$ balena key add Main ~/.ssh/id_rsa.pub
-	$ cat ~/.ssh/id_rsa.pub | balena key add Main
+	$ balena ssh-key add Main ~/.ssh/id_rsa.pub
+	$ cat ~/.ssh/id_rsa.pub | balena ssh-key add Main
 	# Windows 10 (cmd.exe prompt) example
-	$ balena key add Main %userprofile%.sshid_rsa.pub
+	$ balena ssh-key add Main %userprofile%.sshid_rsa.pub
 
 ### Arguments
 
@@ -3705,7 +3712,14 @@ the path to the public key file
 
 ### Options
 
-## key
+## ssh-key
+
+### Aliases
+
+- `key`
+
+
+To use one of the aliases, replace `ssh-key` with the alias.
 
 ### Description
 
@@ -3713,7 +3727,7 @@ Display a single SSH key registered in balenaCloud for the logged in user.
 
 Examples:
 
-	$ balena key 17
+	$ balena ssh-key 17
 
 ### Arguments
 
@@ -3723,14 +3737,15 @@ balenaCloud ID for the SSH key
 
 ### Options
 
-## key list
+## ssh-key list
 
 ### Aliases
 
 - `keys`
+- `key list`
 
 
-To use one of the aliases, replace `key list` with the alias.
+To use one of the aliases, replace `ssh-key list` with the alias.
 
 ### Description
 
@@ -3738,11 +3753,18 @@ List all SSH keys registered in balenaCloud for the logged in user.
 
 Examples:
 
-	$ balena key list
+	$ balena ssh-key list
 
 ### Options
 
-## key rm
+## ssh-key rm
+
+### Aliases
+
+- `key rm`
+
+
+To use one of the aliases, replace `ssh-key rm` with the alias.
 
 ### Description
 
@@ -3752,8 +3774,8 @@ The --yes option may be used to avoid interactive confirmation.
 
 Examples:
 
-	$ balena key rm 17
-	$ balena key rm 17 --yes
+	$ balena ssh-key rm 17
+	$ balena ssh-key rm 17 --yes
 
 ### Arguments
 

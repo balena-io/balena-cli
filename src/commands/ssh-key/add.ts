@@ -20,7 +20,9 @@ import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
-export default class KeyAddCmd extends Command {
+export default class SSHKeyAddCmd extends Command {
+	public static aliases = ['key add'];
+
 	public static description = stripIndent`
 		Add an SSH key to balenaCloud.
 
@@ -44,10 +46,10 @@ export default class KeyAddCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena key add Main ~/.ssh/id_rsa.pub',
-		'$ cat ~/.ssh/id_rsa.pub | balena key add Main',
+		'$ balena ssh-key add Main ~/.ssh/id_rsa.pub',
+		'$ cat ~/.ssh/id_rsa.pub | balena ssh-key add Main',
 		'# Windows 10 (cmd.exe prompt) example',
-		'$ balena key add Main %userprofile%.sshid_rsa.pub',
+		'$ balena ssh-key add Main %userprofile%.sshid_rsa.pub',
 	];
 
 	public static args = {
@@ -67,7 +69,7 @@ export default class KeyAddCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = await this.parse(KeyAddCmd);
+		const { args: params } = await this.parse(SSHKeyAddCmd);
 
 		let key: string;
 		if (params.path != null) {
