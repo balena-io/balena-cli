@@ -183,9 +183,11 @@ describe('balena deploy', function () {
 		api.expectPostRelease({
 			inspectRequest: (_uri: string, requestBody: nock.Body) => {
 				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
-				expect(body.contract).to.be.equal(
-					'{"name":"testContract","type":"sw.application","version":"1.5.2"}',
-				);
+				expect(body.contract).to.deep.equal({
+					name: 'testContract',
+					type: 'sw.application',
+					version: '1.5.2',
+				});
 				expect(body.is_final).to.be.true;
 			},
 		});
@@ -232,9 +234,11 @@ describe('balena deploy', function () {
 		api.expectPostRelease({
 			inspectRequest: (_uri: string, requestBody: nock.Body) => {
 				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
-				expect(body.contract).to.be.equal(
-					'{"name":"testContract","type":"sw.application","version":"1.5.2"}',
-				);
+				expect(body.contract).to.deep.equal({
+					name: 'testContract',
+					type: 'sw.application',
+					version: '1.5.2',
+				});
 				expect(body.semver).to.be.equal('1.5.2');
 				expect(body.is_final).to.be.false;
 			},
@@ -384,7 +388,7 @@ describe('balena deploy', function () {
 		let failedImagePatchRequests = 0;
 		let succesfullImagePatchRequests = 0;
 		api
-			.optPatch(/^\/v6\/image($|[(?])/, { times: maxRequestRetries })
+			.optPatch(/^\/v7\/image($|[(?])/, { times: maxRequestRetries })
 			.reply((_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
 					import('@balena/compose/dist/release/models').ImageModel

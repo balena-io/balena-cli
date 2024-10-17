@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { ExpectedError } from '../../errors';
 
@@ -33,10 +32,6 @@ export default class DeviceIdentifyCmd extends Command {
 			description: 'the uuid of the device to identify',
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

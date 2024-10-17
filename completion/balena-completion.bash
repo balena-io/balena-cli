@@ -7,22 +7,23 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key app block build config deploy device devices env envs fleet internal join key leave local login logout logs notes orgs os preload push release scan settings ssh support tag tags tunnel util version whoami"
+  main_commands="api-key app block build config deploy device device-type env fleet internal join leave local login logout organization os preload push release settings ssh-key support tag util version whoami"
   # Sub-completions
   api_key_cmds="generate list revoke"
   app_cmds="create"
   block_cmds="create"
   config_cmds="generate inject read reconfigure write"
-  device_cmds="deactivate identify init list local-mode move os-update pin public-url purge reboot register rename restart rm shutdown start-service stop-service track-fleet"
-  devices_cmds="supported"
-  env_cmds="add rename rm"
+  device_type_cmds="list"
+  device_cmds="deactivate detect identify init list local-mode logs move note os-update pin public-url purge reboot register rename restart rm shutdown ssh start-service stop-service track-fleet tunnel"
+  env_cmds="list rename rm set"
   fleet_cmds="create list pin purge rename restart rm track-latest"
   internal_cmds="osinit"
-  key_cmds="add list rm"
   local_cmds="configure flash"
+  organization_cmds="list"
   os_cmds="build-config configure download initialize versions"
   release_cmds="finalize invalidate list validate"
-  tag_cmds="rm set"
+  ssh_key_cmds="add list rm"
+  tag_cmds="list rm set"
 
 
 
@@ -48,11 +49,11 @@ _balena_complete()
       config)
         COMPREPLY=( $(compgen -W "$config_cmds" -- $cur) )
         ;;
+      device-type)
+        COMPREPLY=( $(compgen -W "$device_type_cmds" -- $cur) )
+        ;;
       device)
         COMPREPLY=( $(compgen -W "$device_cmds" -- $cur) )
-        ;;
-      devices)
-        COMPREPLY=( $(compgen -W "$devices_cmds" -- $cur) )
         ;;
       env)
         COMPREPLY=( $(compgen -W "$env_cmds" -- $cur) )
@@ -63,17 +64,20 @@ _balena_complete()
       internal)
         COMPREPLY=( $(compgen -W "$internal_cmds" -- $cur) )
         ;;
-      key)
-        COMPREPLY=( $(compgen -W "$key_cmds" -- $cur) )
-        ;;
       local)
         COMPREPLY=( $(compgen -W "$local_cmds" -- $cur) )
+        ;;
+      organization)
+        COMPREPLY=( $(compgen -W "$organization_cmds" -- $cur) )
         ;;
       os)
         COMPREPLY=( $(compgen -W "$os_cmds" -- $cur) )
         ;;
       release)
         COMPREPLY=( $(compgen -W "$release_cmds" -- $cur) )
+        ;;
+      ssh-key)
+        COMPREPLY=( $(compgen -W "$ssh_key_cmds" -- $cur) )
         ;;
       tag)
         COMPREPLY=( $(compgen -W "$tag_cmds" -- $cur) )

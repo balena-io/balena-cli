@@ -43,7 +43,6 @@ export default class ReleaseCmd extends Command {
 
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 		composition: Flags.boolean({
 			default: false,
 			char: 'c',

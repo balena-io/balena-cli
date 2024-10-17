@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 
 export default class OsVersionsCmd extends Command {
@@ -24,7 +23,7 @@ export default class OsVersionsCmd extends Command {
 		Show available balenaOS versions for the given device type.
 
 		Show the available balenaOS versions for the given device type.
-		Check available types with \`balena devices supported\`.
+		Check available types with \`balena device-type list\`.
 
 		balenaOS ESR versions can be listed with the '--esr' option. See also:
 		https://www.balena.io/docs/reference/OS/extended-support-release/
@@ -40,7 +39,6 @@ export default class OsVersionsCmd extends Command {
 	};
 
 	public static flags = {
-		help: cf.help,
 		esr: Flags.boolean({
 			description: 'select balenaOS ESR versions',
 			default: false,

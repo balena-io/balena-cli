@@ -204,7 +204,10 @@
   %2: build\commands\logs\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\notes\index.js
+  %2: build\commands\device\logs.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\note.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\orgs\index.js
@@ -246,13 +249,19 @@
   %2: build\commands\release\validate.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\scan\index.js
+  %2: build\commands\release\list.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\detect.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\settings\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\ssh\index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\ssh.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\support\index.js
@@ -268,6 +277,9 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\tunnel\index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\tunnel.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\util\available-drives.js

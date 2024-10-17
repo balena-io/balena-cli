@@ -17,7 +17,6 @@
 
 import { Command } from '@oclif/core';
 import { commitOrIdArg } from '.';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class ReleaseValidateCmd extends Command {
@@ -33,10 +32,6 @@ export default class ReleaseValidateCmd extends Command {
 		'$ balena release validate a777f7345fe3d655c1c981aa642e5555',
 		'$ balena release validate 1234567',
 	];
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public static args = {
 		commitOrId: commitOrIdArg({

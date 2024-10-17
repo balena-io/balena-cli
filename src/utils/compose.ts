@@ -127,7 +127,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: string | undefined,
+	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
 ): Promise<Release> {
 	const _ = require('lodash') as typeof import('lodash');
 	const crypto = require('crypto') as typeof import('crypto');
@@ -152,8 +152,7 @@ export const createRelease = async function (
 				},
 			},
 			{
-				// @balena/compose atm works with v6, bump it once @balena/compose moves to v7.
-				apiVersion: 'v6',
+				apiVersion: 'v7',
 			},
 		);
 
@@ -187,13 +186,9 @@ export const createRelease = async function (
 		serviceImages: _.mapValues(
 			serviceImages,
 			(serviceImage) =>
-				_.omit(serviceImage, [
-					'created_at',
-					'is_a_build_of__service',
-					'__metadata',
-				]) as Omit<
+				_.omit(serviceImage, ['created_at', 'is_a_build_of__service']) as Omit<
 					typeof serviceImage,
-					'created_at' | 'is_a_build_of__service' | '__metadata'
+					'created_at' | 'is_a_build_of__service'
 				>,
 		),
 	};

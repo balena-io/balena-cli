@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
 import { parseAsLocalHostnameOrIp } from '../../utils/validation';
 
@@ -47,10 +46,6 @@ export default class LeaveCmd extends Command {
 			description: 'the device IP or hostname',
 			parse: parseAsLocalHostnameOrIp,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

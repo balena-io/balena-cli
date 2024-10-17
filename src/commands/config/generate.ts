@@ -82,7 +82,7 @@ export default class ConfigGenerateCmd extends Command {
 		}),
 		deviceType: Flags.string({
 			description:
-				"device type slug (run 'balena devices supported' for possible values)",
+				"device type slug (run 'balena device-type list' for possible values)",
 		}),
 		'generate-device-api-key': Flags.boolean({
 			description: 'generate a fresh device key for the device',
@@ -117,7 +117,6 @@ export default class ConfigGenerateCmd extends Command {
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['device'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
