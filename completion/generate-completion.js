@@ -33,7 +33,7 @@ const commandsJson = JSON.parse(fs.readFileSync(commandsFilePath, 'utf8'));
 
 const mainCommands = [];
 const additionalCommands = [];
-for (const key of Object.keys(commandsJson.commands).sort()) {
+for (const [key, { aliases }] of Object.entries(commandsJson.commands).sort()) {
 	const cmd = key.split(':');
 	if (cmd.length > 1) {
 		additionalCommands.push(cmd);
@@ -42,6 +42,17 @@ for (const key of Object.keys(commandsJson.commands).sort()) {
 		}
 	} else {
 		mainCommands.push(cmd[0]);
+	}
+	for (const alias of aliases) {
+		const splitAlias = alias.split(' ');
+		if (splitAlias.length > 1) {
+			additionalCommands.push(splitAlias);
+			if (!mainCommands.includes(splitAlias[0])) {
+				mainCommands.push(splitAlias[0]);
+			}
+		} else {
+			mainCommands.push(splitAlias[0]);
+		}
 	}
 }
 const mainCommandsStr = mainCommands.join(' ');
@@ -73,29 +84,33 @@ fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 		'main_commands="' + mainCommandsStr + '"',
 	);
 	let subCommands = [];
-	let prevElement = additionalCommands[0][0];
-	additionalCommands.forEach(function (element) {
-		if (element[0] === prevElement) {
-			subCommands.push(element[1]);
-		} else {
-			const prevElement2 = prevElement.replace(/-/g, '_') + '_cmds';
-			data = data.replace(
-				/\$sub_cmds\$/g,
-				'  ' + prevElement2 + '="' + subCommands.join(' ') + '"\n$sub_cmds$',
-			);
-			data = data.replace(
-				/\$sub_cmds_prev\$/g,
-				'      ' +
-					prevElement +
-					')\n        COMPREPLY=( $(compgen -W "$' +
-					prevElement2 +
-					'" -- $cur) )\n        ;;\n$sub_cmds_prev$',
-			);
-			prevElement = element[0];
-			subCommands = [];
-			subCommands.push(element[1]);
-		}
-	});
+	let prevElement = additionalCommands.sort((cmd1, cmd2) =>
+		cmd1[0].localeCompare(cmd2[0]),
+	)[0][0];
+	additionalCommands
+		.sort((cmd1, cmd2) => cmd1[0].localeCompare(cmd2[0]))
+		.forEach(function (element) {
+			if (element[0] === prevElement) {
+				subCommands.push(element[1]);
+			} else {
+				const prevElement2 = prevElement.replace(/-/g, '_') + '_cmds';
+				data = data.replace(
+					/\$sub_cmds\$/g,
+					'  ' + prevElement2 + '="' + subCommands.join(' ') + '"\n$sub_cmds$',
+				);
+				data = data.replace(
+					/\$sub_cmds_prev\$/g,
+					'      ' +
+						prevElement +
+						')\n        COMPREPLY=( $(compgen -W "$' +
+						prevElement2 +
+						'" -- $cur) )\n        ;;\n$sub_cmds_prev$',
+				);
+				prevElement = element[0];
+				subCommands = [];
+				subCommands.push(element[1]);
+			}
+		});
 	// cleanup placeholders
 	data = data.replace(/\$sub_cmds\$/g, '');
 	data = data.replace(/\$sub_cmds_prev\$/g, '');
