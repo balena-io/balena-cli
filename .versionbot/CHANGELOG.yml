@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add `ssh-key` as aliases for all `key` commands
+      hash: e853b15f12af429265b1e9e20ce60db19438df4b
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.6.0
+  title: ""
+  date: 2024-10-18T11:04:26.745Z
+- commits:
     - subject: Add `key list` alias for `keys` command
       hash: 6b5c6e072b426a1e9517376ee756afa31ed96cfa
       body: ""
