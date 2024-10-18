@@ -220,9 +220,9 @@ are encouraged to regularly update the balena CLI to the latest version.
 - Environment Variables
 
 	- [env add](#env-add)
+	- [env list](#env-list)
 	- [env rename](#env-rename)
 	- [env rm](#env-rm)
-	- [envs](#envs)
 
 - Fleets
 
@@ -1976,6 +1976,90 @@ suppress warning messages
 
 service name
 
+## env list
+
+### Aliases
+
+- `envs`
+
+
+To use one of the aliases, replace `env list` with the alias.
+
+### Description
+
+List the environment or configuration variables of a fleet, device or
+service, as selected by the respective command-line options. (A service
+corresponds to a Docker image/container in a microservices fleet.)
+
+The results include fleet-wide (multiple devices), device-specific (multiple
+services on a specific device) and service-specific variables that apply to the
+selected fleet, device or service. It can be thought of as including inherited
+variables; for example, a service inherits device-wide variables, and a device
+inherits fleet-wide variables.
+
+The printed output may include DEVICE and/or SERVICE columns to distinguish
+between fleet-wide, device-specific and service-specific variables.
+An asterisk in these columns indicates that the variable applies to
+"all devices" or "all services".
+
+The --config option is used to list "configuration variables" that control
+balena platform features, as opposed to custom environment variables defined
+by the user. The --config and the --service options are mutually exclusive
+because configuration variables cannot be set for specific services.
+
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents data
+types like lists and empty strings. The 'jq' utility may be helpful in shell
+scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
+JSON array ([]) is printed instead of an error message when no variables exist
+for the given query. When querying variables for a device, note that the fleet
+name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
+the device belonged to is no longer accessible by the current user (for example,
+in case the current user was removed from the fleet by the fleet's owner).
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena env list --fleet myorg/myfleet
+	$ balena env list --fleet MyFleet --json
+	$ balena env list --fleet MyFleet --service MyService
+	$ balena env list --fleet MyFleet --config
+	$ balena env list --device 7cf02a6
+	$ balena env list --device 7cf02a6 --json
+	$ balena env list --device 7cf02a6 --config --json
+	$ balena env list --device 7cf02a6 --service MyService
+
+### Options
+
+#### -f, --fleet FLEET
+
+fleet name or slug (preferred)
+
+#### -c, --config
+
+show configuration variables only
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+#### -s, --service SERVICE
+
+service name
+
 ## env rename
 
 ### Description
@@ -1983,7 +2067,7 @@ service name
 Change the value of a configuration or environment variable for a fleet,
 device or service, as selected by command-line options.
 
-Variables are selected by their database ID (as reported by the 'balena envs'
+Variables are selected by their database ID (as reported by the 'balena env list'
 command) and one of six database "resource types":
 
 - fleet environment variable
@@ -2048,7 +2132,7 @@ select a service variable (may be used together with the --device option)
 Remove a configuration or environment variable from a fleet, device
 or service, as selected by command-line options.
 
-Variables are selected by their database ID (as reported by the 'balena envs'
+Variables are selected by their database ID (as reported by the 'balena env list'
 command) and one of six database "resource types":
 
 - fleet environment variable
@@ -2109,83 +2193,6 @@ select a service variable (may be used together with the --device option)
 #### -y, --yes
 
 do not prompt for confirmation before deleting the variable
-
-## envs
-
-### Description
-
-List the environment or configuration variables of a fleet, device or
-service, as selected by the respective command-line options. (A service
-corresponds to a Docker image/container in a microservices fleet.)
-
-The results include fleet-wide (multiple devices), device-specific (multiple
-services on a specific device) and service-specific variables that apply to the
-selected fleet, device or service. It can be thought of as including inherited
-variables; for example, a service inherits device-wide variables, and a device
-inherits fleet-wide variables.
-
-The printed output may include DEVICE and/or SERVICE columns to distinguish
-between fleet-wide, device-specific and service-specific variables.
-An asterisk in these columns indicates that the variable applies to
-"all devices" or "all services".
-
-The --config option is used to list "configuration variables" that control
-balena platform features, as opposed to custom environment variables defined
-by the user. The --config and the --service options are mutually exclusive
-because configuration variables cannot be set for specific services.
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings. The 'jq' utility may be helpful in shell
-scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
-JSON array ([]) is printed instead of an error message when no variables exist
-for the given query. When querying variables for a device, note that the fleet
-name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
-the device belonged to is no longer accessible by the current user (for example,
-in case the current user was removed from the fleet by the fleet's owner).
-
-Fleets may be specified by fleet name or slug. Fleet slugs are
-the recommended option, as they are unique and unambiguous. Slugs can be
-listed with the `balena fleet list` command. Note that slugs may change if the
-fleet is renamed. Fleet names are not unique and may result in  "Fleet is
-ambiguous" errors at any time (even if it "used to work in the past"), for
-example if the name clashes with a newly created public fleet, or with fleets
-from other balena accounts that you may be invited to join under any role.
-For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments).
-
-Examples:
-
-	$ balena envs --fleet myorg/myfleet
-	$ balena envs --fleet MyFleet --json
-	$ balena envs --fleet MyFleet --service MyService
-	$ balena envs --fleet MyFleet --config
-	$ balena envs --device 7cf02a6
-	$ balena envs --device 7cf02a6 --json
-	$ balena envs --device 7cf02a6 --config --json
-	$ balena envs --device 7cf02a6 --service MyService
-
-### Options
-
-#### -f, --fleet FLEET
-
-fleet name or slug (preferred)
-
-#### -c, --config
-
-show configuration variables only
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
-#### -s, --service SERVICE
-
-service name
 
 # Fleets
 
