@@ -3739,9 +3739,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.16.11",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.16.11.tgz",
-      "integrity": "sha512-y+cTCACu92FyA5fgQSAI8A1H429g7aSK2HsO7K4XYUWc4dY5IUz55JSDIYT6/VsOLfGy8vmvQYC2hfb0iF16Uw==",
+      "version": "20.16.12",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.16.12.tgz",
+      "integrity": "sha512-LfPFB0zOeCeCNQV3i+67rcoVvoN5n0NVuR2vLG0O5ySQMgchuZlC4lgz546ZOJyDtj5KIgOxy+lacOimfqZAIA==",
       "dependencies": {
         "undici-types": "~6.19.2"
       }
@@ -5475,9 +5475,9 @@
       }
     },
     "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "18.19.55",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.55.tgz",
-      "integrity": "sha512-zzw5Vw52205Zr/nmErSEkN5FLqXPuKX/k5d1D7RKHATGqU7y6YfX9QxZraUzUrFGqH6XzOzG196BC35ltJC4Cw==",
+      "version": "18.19.56",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.56.tgz",
+      "integrity": "sha512-4EMJlWwwGnVPflJAtM14p9eVSa6BOv5b92mCsh5zcM1UagNtEtrbbtaE6WE1tw2TabavatnwqXjlIpcAEuJJNg==",
       "dependencies": {
         "undici-types": "~5.26.4"
       }

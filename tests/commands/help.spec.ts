@@ -70,10 +70,10 @@ ADDITIONAL COMMANDS
   env rename <name> <value>              change the value of a config or env var for an app, device or service
   env rm <id>                            remove a config or env var from an application, device or service
   envs                                   list the environment or config variables of an application, device or service
-  key <id>                               display an SSH key
-  key add <name> [path]                  add an SSH key to balenaCloud
-  key list                               list the SSH keys in balenaCloud
-  key rm <id>                            remove an SSH key from balenaCloud
+  ssh-key <id>                           display an SSH key
+  ssh-key add <name> [path]              add an SSH key to balenaCloud
+  ssh-key list                           list the SSH keys in balenaCloud
+  ssh-key rm <id>                        remove an SSH key from balenaCloud
   local configure <target>               (Re)configure a balenaOS drive or image
   local flash <image>                    flash an image to a drive
   logout                                 logout from balena
