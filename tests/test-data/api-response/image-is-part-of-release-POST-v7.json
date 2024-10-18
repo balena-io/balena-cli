@@ -12,8 +12,5 @@
 			"uri": "/resin/release(1218643)"
 		},
 		"__id": 1218643
-	},
-	"__metadata": {
-		"uri": "/resin/image__is_part_of__release(@id)?@id=1774668"
 	}
 }

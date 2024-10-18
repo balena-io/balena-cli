@@ -190,7 +190,7 @@ const messages: {
 		const slug = error.deviceTypeSlug ? `"${error.deviceTypeSlug}"` : 'slug';
 		return stripIndent`
 			Device type ${slug} not recognized. Perhaps misspelled?
-			Check available device types with "balena devices supported"`;
+			Check available device types with "balena device-type list"`;
 	},
 };
 

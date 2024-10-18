@@ -88,9 +88,9 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-### Proxy setup for balena ssh
+### Proxy setup for balena device ssh
 
-In order to work behind a proxy server, the `balena ssh` command requires the
+In order to work behind a proxy server, the `balena device ssh` command requires the
 [`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) to be installed.
 `proxytunnel` is available for Linux distributions like Ubuntu/Debian (`apt install proxytunnel`),
 and for macOS through [Homebrew](https://brew.sh/). Windows support is limited to the [Windows
@@ -110,7 +110,7 @@ The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations f
 > * This feature requires CLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
-> * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
+> * To exclude a `balena device ssh` target from proxying (IP address or `.local` hostname), the
 >   `--noproxy` option should be specified in addition to the `BALENARC_NO_PROXY` variable.
 
 By default (if `BALENARC_NO_PROXY` is not defined), all [private IPv4

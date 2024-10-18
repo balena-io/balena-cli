@@ -16,11 +16,11 @@
  */
 
 import { Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class SSHKeyListCmd extends Command {
 	public static aliases = ['keys', 'key list'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List the SSH keys in balenaCloud.
@@ -28,10 +28,6 @@ export default class SSHKeyListCmd extends Command {
 		List all SSH keys registered in balenaCloud for the logged in user.
 	`;
 	public static examples = ['$ balena ssh-key list'];
-
-	public static flags = {
-		help: cf.help,
-	};
 
 	public static authenticated = true;
 

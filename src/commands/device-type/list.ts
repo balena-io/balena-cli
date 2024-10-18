@@ -17,14 +17,16 @@
 import { Flags, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
 import * as _ from 'lodash';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
-export default class DevicesSupportedCmd extends Command {
+export default class DeviceTypeListCmd extends Command {
 	public static description = stripIndent`
-		List the supported device types (like 'raspberrypi3' or 'intel-nuc').
+		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
 
-		List the supported device types (like 'raspberrypi3' or 'intel-nuc').
+		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
+
+		The --all option can be used to list all device types, including those that are
+		no longer supported by balena.
 
 		The --json option is recommended when scripting the output of this command,
 		because the JSON format is less likely to change and it better represents data
@@ -33,20 +35,24 @@ export default class DevicesSupportedCmd extends Command {
 		(https://stedolan.github.io/jq/manual/).
 `;
 	public static examples = [
-		'$ balena devices supported',
-		'$ balena devices supported --json',
+		'$ balena device-type list',
+		'$ balena device-type list --all',
+		'$ balena device-type list --json',
 	];
 
 	public static flags = {
-		help: cf.help,
 		json: Flags.boolean({
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
 		}),
+		all: Flags.boolean({
+			description: 'include device types no longer supported by balena',
+			default: false,
+		}),
 	};
 
 	public async run() {
-		const { flags: options } = await this.parse(DevicesSupportedCmd);
+		const { flags: options } = await this.parse(DeviceTypeListCmd);
 		const pineOptions = {
 			$select: ['slug', 'name'],
 			$expand: {
@@ -57,9 +63,11 @@ export default class DevicesSupportedCmd extends Command {
 				},
 			},
 		} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
-		const dts = (await getBalenaSdk().models.deviceType.getAllSupported(
-			pineOptions,
-		)) as Array<
+		const dts = (
+			options.all
+				? await getBalenaSdk().models.deviceType.getAll(pineOptions)
+				: await getBalenaSdk().models.deviceType.getAllSupported(pineOptions)
+		) as Array<
 			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
 		>;
 		interface DT {

@@ -46,7 +46,7 @@ describe('balena device', function () {
 	it('should list device details for provided uuid', async () => {
 		api.scope
 			.get(
-				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
+				/^\/v7\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
 			)
 			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
 				'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ describe('balena device', function () {
 	it.skip('correctly handles devices with missing fields', async () => {
 		api.scope
 			.get(
-				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
+				/^\/v7\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
 			)
 			.replyWithFile(
 				200,
@@ -88,7 +88,7 @@ describe('balena device', function () {
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		api.scope
 			.get(
-				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
+				/^\/v7\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
 			)
 			.replyWithFile(
 				200,
@@ -109,7 +109,7 @@ describe('balena device', function () {
 
 	it('outputs device as JSON with the -j/--json flag', async () => {
 		api.scope
-			.get(/^\/v6\/device\?.+&\$expand=device_tag\(\$select=tag_key,value\)/)
+			.get(/^\/v7\/device\?.+&\$expand=device_tag\(\$select=tag_key,value\)/)
 			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
 				'Content-Type': 'application/json',
 			});
@@ -125,7 +125,7 @@ describe('balena device', function () {
 	it('should list devices from own and collaborator apps', async () => {
 		api.scope
 			.get(
-				'/v6/device?$orderby=device_name%20asc&$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+				'/v7/device?$orderby=device_name%20asc&$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
 			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
 				'Content-Type': 'application/json',

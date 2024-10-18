@@ -1,8 +1,7 @@
 {
 	"d": [
 		{
-			"overall_status": "offline",
-			"__metadata": {}
+			"overall_status": "disconnected"
 		}
 	]
 }

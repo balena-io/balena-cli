@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 import type {
 	BalenaSDK,
@@ -58,7 +57,6 @@ export default class DeviceRestartCmd extends Command {
 				'comma-separated list (no blank spaces) of service names to restart',
 			char: 's',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
@@ -156,7 +154,7 @@ export default class DeviceRestartCmd extends Command {
 
 	async restartAllServices(balena: BalenaSDK, deviceUuid: string) {
 		// Note: device.restartApplication throws `BalenaDeviceNotFound: Device not found` if device not online.
-		// Need to use device.get first to distinguish between non-existant and offline devices.
+		// Need to use device.get first to distinguish between non-existant and disconnected devices.
 		// Remove this workaround when SDK issue resolved: https://github.com/balena-io/balena-sdk/issues/649
 		const { instanceOf, ExpectedError } = await import('../../errors');
 		try {

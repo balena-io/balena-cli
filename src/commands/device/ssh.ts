@@ -16,14 +16,16 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import {
 	parseAsInteger,
 	validateLocalHostnameOrIp,
 } from '../../utils/validation';
 
-export default class SshCmd extends Command {
+export default class DeviceSSHCmd extends Command {
+	public static aliases = ['ssh'];
+	public static deprecateAliases = true;
+
 	public static description = stripIndent`
 		Open a SSH prompt on a device's host OS or service container.
 
@@ -52,14 +54,14 @@ export default class SshCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena ssh MyFleet',
-		'$ balena ssh f49cefd',
-		'$ balena ssh f49cefd my-service',
-		'$ balena ssh f49cefd --port <port>',
-		'$ balena ssh 192.168.0.1 --verbose',
-		'$ balena ssh f49cefd.local my-service',
-		'$ echo "uptime; exit;" | balena ssh f49cefd',
-		'$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService',
+		'$ balena device ssh MyFleet',
+		'$ balena device ssh f49cefd',
+		'$ balena device ssh f49cefd my-service',
+		'$ balena device ssh f49cefd --port <port>',
+		'$ balena device ssh 192.168.0.1 --verbose',
+		'$ balena device ssh f49cefd.local my-service',
+		'$ echo "uptime; exit;" | balena device ssh f49cefd',
+		'$ echo "uptime; exit;" | balena device ssh 192.168.0.1 myService',
 	];
 
 	public static args = {
@@ -97,14 +99,13 @@ export default class SshCmd extends Command {
 			default: false,
 			description: 'bypass global proxy configuration for the ssh connection',
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;
 	public static offlineCompatible = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(SshCmd);
+		const { args: params, flags: options } = await this.parse(DeviceSSHCmd);
 
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {

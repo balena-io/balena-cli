@@ -25,7 +25,6 @@ import { applicationIdInfo } from '../../utils/messages';
 interface FlagsDef {
 	fleet?: string;
 	device?: string; // device UUID
-	help: void;
 	quiet: boolean;
 	service?: string; // service name
 }
@@ -35,11 +34,14 @@ interface ArgsDef {
 	value?: string;
 }
 
-export default class EnvAddCmd extends Command {
-	public static description = stripIndent`
-		Add env or config variable to fleets, devices or services.
+export default class EnvSetCmd extends Command {
+	public static aliases = ['env add'];
+	public static deprecateAliases = true;
 
-		Add an environment or config variable to one or more fleets, devices or
+	public static description = stripIndent`
+		Add or update env or config variable to fleets, devices or services.
+
+		Add or update an environment or config variable to one or more fleets, devices or
 		services, as selected by the respective command-line options. Either the
 		--fleet or the --device option must be provided,  and either may be be
 		used alongside the --service option to define a service-specific variable.
@@ -66,15 +68,15 @@ export default class EnvAddCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena env add TERM --fleet MyFleet',
-		'$ balena env add EDITOR vim -f myorg/myfleet',
-		'$ balena env add EDITOR vim --fleet MyFleet,MyFleet2',
-		'$ balena env add EDITOR vim --fleet MyFleet --service MyService',
-		'$ balena env add EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2',
-		'$ balena env add EDITOR vim --device 7cf02a6',
-		'$ balena env add EDITOR vim --device 7cf02a6,d6f1433',
-		'$ balena env add EDITOR vim --device 7cf02a6 --service MyService',
-		'$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2',
+		'$ balena env set TERM --fleet MyFleet',
+		'$ balena env set EDITOR vim -f myorg/myfleet',
+		'$ balena env set EDITOR vim --fleet MyFleet,MyFleet2',
+		'$ balena env set EDITOR vim --fleet MyFleet --service MyService',
+		'$ balena env set EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2',
+		'$ balena env set EDITOR vim --device 7cf02a6',
+		'$ balena env set EDITOR vim --device 7cf02a6,d6f1433',
+		'$ balena env set EDITOR vim --device 7cf02a6 --service MyService',
+		'$ balena env set EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2',
 	];
 
 	public static args = {
@@ -95,13 +97,12 @@ export default class EnvAddCmd extends Command {
 	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },
 		device: { ...cf.device, exclusive: ['fleet'] },
-		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,
 	};
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(EnvAddCmd);
+		const { args: params, flags: options } = await this.parse(EnvSetCmd);
 		const cmd = this;
 
 		if (!options.fleet && !options.device) {

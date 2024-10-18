@@ -30,8 +30,6 @@ export const device = Flags.string({
 	description: 'device UUID',
 });
 
-export const help = Flags.help({ char: 'h' });
-
 export const quiet = Flags.boolean({
 	char: 'q',
 	description: 'suppress warning messages',
@@ -94,7 +92,7 @@ export const driveOrImg = Flags.string({
 
 export const deviceType = Flags.string({
 	description:
-		'device type (Check available types with `balena devices supported`)',
+		'device type (Check available types with `balena device-type list`)',
 	char: 't',
 	required: true,
 });

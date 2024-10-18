@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class DeviceLocalModeCmd extends Command {
@@ -54,7 +53,6 @@ export default class DeviceLocalModeCmd extends Command {
 			description: 'output boolean indicating local mode status',
 			exclusive: ['enable', 'disable'],
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
