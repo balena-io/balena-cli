@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `organization list` for `orgs` command
+      hash: 082cce332a497c15b34467f9ed22514ebaafaec9
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.9.0
+  title: ""
+  date: 2024-10-18T14:25:39.691Z
+- commits:
     - subject: Add alias `tag list` for `tags` command
       hash: 5eba175bf1a0e016b98757848e0c345489f686c1
       body: ""
