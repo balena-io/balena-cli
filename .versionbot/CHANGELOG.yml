@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `env list` for command `envs`
+      hash: 417c75484b1ac6c216323248b50ba00fc3fe5a7f
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.7.0
+  title: ""
+  date: 2024-10-18T12:35:31.416Z
+- commits:
     - subject: Add `ssh-key` as aliases for all `key` commands
       hash: e853b15f12af429265b1e9e20ce60db19438df4b
       body: ""
