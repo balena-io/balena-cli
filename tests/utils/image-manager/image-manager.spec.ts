@@ -129,13 +129,19 @@ describe('image-manager', function () {
 
 				describe('given a failing download', function () {
 					beforeEach(function () {
+						console.info('*** 1 ');
 						this.osDownloadStream = new stream.PassThrough();
+						console.info('*** 2');
 						this.osDownloadStub = stub(balena.models.os, 'download');
+						console.info('*** 3');
 						this.osDownloadStub.returns(Promise.resolve(this.osDownloadStream));
+						console.info('*** 4');
 					});
 
 					afterEach(function () {
+						console.info('*** 5');
 						this.osDownloadStub.restore();
+						console.info('*** 6');
 					});
 
 					it('should clean up the in progress cached stream if an error occurs', function (done) {
@@ -143,21 +149,28 @@ describe('image-manager', function () {
 							// Skipping test on Windows because we get `EPERM: operation not permitted, rename` for `getImageWritableStream` on the windows runner
 							this.skip();
 						}
+						console.info('*** 7');
 						void imageManager.getStream('raspberry-pi').then((stream) => {
+							console.info('*** 8');
 							stream.on('data', () => {
 								// After the first chunk, error
+								console.info('*** 9');
 								return this.osDownloadStream.emit('error');
 							});
+							console.info('*** 10');
 
 							stream.on('error', async () => {
+								console.info('*** 11');
 								const contents = await fsAsync
 									.stat(this.image.name + '.inprogress')
 									.then(function () {
+										console.info('*** 12');
 										throw new AssertionError(
 											'Image cache should be deleted on failure',
 										);
 									})
 									.catch((err) => {
+										console.info('*** 13 err', err);
 										if (err.code !== 'ENOENT') {
 											throw err;
 										}
@@ -165,11 +178,14 @@ describe('image-manager', function () {
 											encoding: 'utf8',
 										});
 									});
+								console.info('*** 14');
 								expect(contents).to.equal('Cache image');
 								done();
 							});
+							console.info('*** 15');
 
 							stringToStream('Download image').pipe(this.osDownloadStream);
+							console.info('*** 16');
 						});
 					});
 				});
