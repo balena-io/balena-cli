@@ -69,6 +69,9 @@
   %2: build\commands\device\deactivate.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\detect.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\identify.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
@@ -232,9 +235,6 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\release\validate.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\scan\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\settings\index.js
