@@ -21,7 +21,9 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
-export default class TagsCmd extends Command {
+export default class TagListCmd extends Command {
+	public static aliases = ['tags'];
+
 	public static description = stripIndent`
 		List all tags for a fleet, device or release.
 
@@ -31,11 +33,11 @@ export default class TagsCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena tags --fleet MyFleet',
-		'$ balena tags -f myorg/myfleet',
-		'$ balena tags --device 7cf02a6',
-		'$ balena tags --release 1234',
-		'$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6',
+		'$ balena tag list --fleet MyFleet',
+		'$ balena tag list -f myorg/myfleet',
+		'$ balena tag list --device 7cf02a6',
+		'$ balena tag list --release 1234',
+		'$ balena tag list --release b376b0e544e9429483b656490e5b9443b4349bd6',
 	];
 
 	public static flags = {
@@ -57,7 +59,7 @@ export default class TagsCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { flags: options } = await this.parse(TagsCmd);
+		const { flags: options } = await this.parse(TagListCmd);
 
 		const balena = getBalenaSdk();
 
@@ -105,6 +107,6 @@ export default class TagsCmd extends Command {
 
 					See the help page for examples:
 
-					  $ balena help tags
+					  $ balena help tag list
 	`;
 }
