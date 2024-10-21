@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency chalk to v4
+      hash: 8ded517dd96fe6237cb356ebc5c3a6263ba8edee
+      body: |
+        Update chalk from 3.0.0 to 4.1.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.13.1
+  title: ""
+  date: 2024-10-21T19:13:31.221Z
+- commits:
     - subject: Add alias `env set` for command `env add`
       hash: f1924bba6b1c4fe4ba57f3a63ddc98f4fa5290ba
       body: ""
