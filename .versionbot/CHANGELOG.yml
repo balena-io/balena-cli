@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `device detect` for `scan`
+      hash: ba5bb7b12c797e024b82232a323afecf1659de19
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.10.0
+  title: ""
+  date: 2024-10-21T11:13:04.550Z
+- commits:
     - subject: Add alias `organization list` for `orgs` command
       hash: 082cce332a497c15b34467f9ed22514ebaafaec9
       body: ""
