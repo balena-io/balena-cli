@@ -1,4 +1,24 @@
 - commits:
+    - subject: Add alias `device logs` for `logs`
+      hash: b77f266bd757d62f110d4fc61128b5aa592f7a4e
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+    - subject: git mv `logs/index` to `device/logs`
+      hash: 3c9ac769827da50d7c3617cba13aeaa01bccbba7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.11.0
+  title: ""
+  date: 2024-10-21T12:08:55.576Z
+- commits:
     - subject: Add alias `device detect` for `scan`
       hash: ba5bb7b12c797e024b82232a323afecf1659de19
       body: ""
