@@ -150,7 +150,10 @@ export default class DeviceOsUpdateCmd extends Command {
 			'Host OS updates require a device restart when they complete. Are you sure you want to proceed?',
 		);
 
-		await sdk.models.device.startOsUpdate(uuid, targetOsVersion);
-		await patterns.awaitDeviceOsUpdate(uuid, targetOsVersion);
+		await sdk.models.device.startOsUpdate(
+			uuid,
+			targetOsVersion,
+			'{ runDetached: true }',
+		);
 	}
 }
