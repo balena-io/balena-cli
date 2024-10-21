@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency sinon to v19
+      hash: e7761a616bfdfb193f8617b3ba023fb3fce4ed05
+      body: |
+        Update sinon from 18.0.0 to 19.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.11.1
+  title: ""
+  date: 2024-10-21T13:05:14.018Z
+- commits:
     - subject: Add alias `device logs` for `logs`
       hash: b77f266bd757d62f110d4fc61128b5aa592f7a4e
       body: ""
