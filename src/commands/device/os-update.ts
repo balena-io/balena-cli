@@ -146,7 +146,18 @@ export default class DeviceOsUpdateCmd extends Command {
 			'Host OS updates require a device restart when they complete. Are you sure you want to proceed?',
 		);
 
-		await sdk.models.device.startOsUpdate(uuid, targetOsVersion);
-		await patterns.awaitDeviceOsUpdate(uuid, targetOsVersion);
+		await sdk.models.device
+			.startOsUpdate(uuid, targetOsVersion, {
+				runDetached: true,
+			})
+			.then(() => {
+				console.log(
+					`The balena OS update has started. You can keep track of the progress via the dashboard.\n` +
+						`To open the dashboard page related to a device via the CLI, you can use \`balena device UUID --view\``,
+				);
+			})
+			.catch((error) => {
+				console.error(`Failed to start OS update for device ${uuid}:`, error);
+			});
 	}
 }
