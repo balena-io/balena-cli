@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update `@oclif/core`
+      hash: 147ce8067a679d320fc8ef741266b8a5d6008a7e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.12.1
+  title: ""
+  date: 2024-10-21T16:04:14.283Z
+- commits:
     - subject: Add alias `device ssh` for `ssh` command
       hash: 76c08b6c13bd07f657ff5774863425e629d11f0a
       body: ""
