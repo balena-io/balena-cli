@@ -81,9 +81,9 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-### Proxy setup for balena ssh
+### Proxy setup for balena device ssh
 
-In order to work behind a proxy server, the `balena ssh` command requires the
+In order to work behind a proxy server, the `balena device ssh` command requires the
 [`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) to be installed.
 `proxytunnel` is available for Linux distributions like Ubuntu/Debian (`apt install proxytunnel`),
 and for macOS through [Homebrew](https://brew.sh/). Windows support is limited to the [Windows
@@ -103,7 +103,7 @@ The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations f
 > * This feature requires CLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
-> * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
+> * To exclude a `balena device ssh` target from proxying (IP address or `.local` hostname), the
 >   `--noproxy` option should be specified in addition to the `BALENARC_NO_PROXY` variable.
 
 By default (if `BALENARC_NO_PROXY` is not defined), all [private IPv4
@@ -214,6 +214,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device restart](#device-restart)
 	- [device rm](#device-rm)
 	- [device shutdown](#device-shutdown)
+	- [device ssh](#device-ssh)
 	- [device start-service](#device-start-service)
 	- [device stop-service](#device-stop-service)
 	- [device track-fleet](#device-track-fleet)
@@ -245,7 +246,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Network
 
-	- [ssh](#ssh)
 	- [tunnel](#tunnel)
 
 - Notes
@@ -1903,6 +1903,80 @@ the uuid of the device to shutdown
 
 force action if the update lock is set
 
+## device ssh
+
+### Aliases
+
+- `ssh`
+
+
+To use one of the aliases, replace `device ssh` with the alias.
+
+### Description
+
+Start a shell on a local or remote device. If a service name is not provided,
+a shell will be opened on the host OS.
+
+If a fleet is provided, an interactive menu will be presented for the selection
+of an online device. A shell will then be opened for the host OS or service
+container of the chosen device.
+
+For local devices, the IP address and .local domain name are supported.
+If the device is referenced by IP or `.local` address, the connection
+is initiated directly to balenaOS on port `22222` via an
+openssh-compatible client. Otherwise, any connection initiated remotely
+traverses the balenaCloud VPN.
+
+Commands may be piped to the standard input for remote execution (see examples).
+Note however that remote command execution on service containers (as opposed to
+the host OS) is not currently possible when a device UUID is used (instead of
+an IP address) because of a balenaCloud backend limitation.
+
+Note: `balena ssh` requires an openssh-compatible client to be correctly
+installed in your shell environment. For more information (including Windows
+support) please check:
+	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
+
+Examples:
+
+	$ balena device ssh MyFleet
+	$ balena device ssh f49cefd
+	$ balena device ssh f49cefd my-service
+	$ balena device ssh f49cefd --port <port>
+	$ balena device ssh 192.168.0.1 --verbose
+	$ balena device ssh f49cefd.local my-service
+	$ echo "uptime; exit;" | balena device ssh f49cefd
+	$ echo "uptime; exit;" | balena device ssh 192.168.0.1 myService
+
+### Arguments
+
+#### FLEETORDEVICE
+
+fleet name/slug, device uuid, or address of local device
+
+#### SERVICE
+
+service name, if connecting to a container
+
+### Options
+
+#### -p, --port PORT
+
+SSH server port number (default 22222) if the target is an IP address or .local
+hostname. Otherwise, port number for the balenaCloud gateway (default 22).
+
+#### -t, --tty
+
+force pseudo-terminal allocation (bypass TTY autodetection for stdin)
+
+#### -v, --verbose
+
+increase verbosity
+
+#### --noproxy
+
+bypass global proxy configuration for the ssh connection
+
 ## device start-service
 
 ### Description
@@ -2634,73 +2708,6 @@ Check `balena util available-drives` for available options.
 answer "yes" to all questions (non interactive use)
 
 # Network
-
-## ssh
-
-### Description
-
-Start a shell on a local or remote device. If a service name is not provided,
-a shell will be opened on the host OS.
-
-If a fleet is provided, an interactive menu will be presented for the selection
-of an online device. A shell will then be opened for the host OS or service
-container of the chosen device.
-
-For local devices, the IP address and .local domain name are supported.
-If the device is referenced by IP or `.local` address, the connection
-is initiated directly to balenaOS on port `22222` via an
-openssh-compatible client. Otherwise, any connection initiated remotely
-traverses the balenaCloud VPN.
-
-Commands may be piped to the standard input for remote execution (see examples).
-Note however that remote command execution on service containers (as opposed to
-the host OS) is not currently possible when a device UUID is used (instead of
-an IP address) because of a balenaCloud backend limitation.
-
-Note: `balena ssh` requires an openssh-compatible client to be correctly
-installed in your shell environment. For more information (including Windows
-support) please check:
-	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
-
-Examples:
-
-	$ balena ssh MyFleet
-	$ balena ssh f49cefd
-	$ balena ssh f49cefd my-service
-	$ balena ssh f49cefd --port <port>
-	$ balena ssh 192.168.0.1 --verbose
-	$ balena ssh f49cefd.local my-service
-	$ echo "uptime; exit;" | balena ssh f49cefd
-	$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService
-
-### Arguments
-
-#### FLEETORDEVICE
-
-fleet name/slug, device uuid, or address of local device
-
-#### SERVICE
-
-service name, if connecting to a container
-
-### Options
-
-#### -p, --port PORT
-
-SSH server port number (default 22222) if the target is an IP address or .local
-hostname. Otherwise, port number for the balenaCloud gateway (default 22).
-
-#### -t, --tty
-
-force pseudo-terminal allocation (bypass TTY autodetection for stdin)
-
-#### -v, --verbose
-
-increase verbosity
-
-#### --noproxy
-
-bypass global proxy configuration for the ssh connection
 
 ## tunnel
 

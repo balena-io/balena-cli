@@ -227,7 +227,6 @@ See: https://git.io/JRHUW#deprecation-policy`,
 	readonly manuallySortedPrimaryCommands = [
 		'login',
 		'push',
-		'ssh',
 		'fleet',
 		'device',
 		'tunnel',

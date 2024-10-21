@@ -123,6 +123,9 @@
   %2: build\commands\device\shutdown.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\ssh.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\start-service.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
@@ -238,9 +241,6 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\settings\index.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\ssh\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\ssh-key\add.js

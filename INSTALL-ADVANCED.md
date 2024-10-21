@@ -145,7 +145,7 @@ container) in order to allow npm scripts like `postinstall` to be executed.
 
 ## Additional Dependencies
 
-The `balena ssh`, `device detect`, `build`, `deploy` and `preload` commands may require
+The `balena device ssh`, `device detect`, `build`, `deploy` and `preload` commands may require
 additional software to be installed. Check the Additional Dependencies sections for each operating
 system:
 
