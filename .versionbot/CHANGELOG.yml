@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `env set` for command `env add`
+      hash: f1924bba6b1c4fe4ba57f3a63ddc98f4fa5290ba
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.13.0
+  title: ""
+  date: 2024-10-21T18:14:01.461Z
+- commits:
     - subject: Update `@oclif/core`
       hash: 147ce8067a679d320fc8ef741266b8a5d6008a7e
       body: ""
