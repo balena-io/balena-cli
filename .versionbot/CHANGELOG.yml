@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `device ssh` for `ssh` command
+      hash: 76c08b6c13bd07f657ff5774863425e629d11f0a
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.12.0
+  title: ""
+  date: 2024-10-21T15:07:43.707Z
+- commits:
     - subject: Update dependency sinon to v19
       hash: e7761a616bfdfb193f8617b3ba023fb3fce4ed05
       body: |
