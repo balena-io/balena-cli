@@ -76,7 +76,7 @@ const DEFAULT_OFFLINE_COMPATIBLE = false;
  * See: https://oclif.io/docs/hooks
  *
  * This hook is used to track CLI command signatures (usage analytics).
- * A command signature is something like "env add NAME [VALUE]". That's
+ * A command signature is something like "env set NAME [VALUE]". That's
  * literally so: 'NAME' and 'VALUE' are NOT replaced with actual values.
  */
 
