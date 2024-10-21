@@ -19,7 +19,7 @@ Selected operating system: **Windows**
    - On the command prompt, type `balena version` and hit Enter. It should display
      the version of the balena CLI that you have installed.
 
-No further steps are required to run most CLI commands. The `balena ssh`, `scan`, `build`,
+No further steps are required to run most CLI commands. The `balena ssh`, `device detect`, `build`,
 `deploy` and `preload` commands may require additional software to be installed, as
 described below.
 
@@ -48,9 +48,9 @@ The `balena ssh` command also requires an SSH key to be added to your balena acc
 Access documentation](https://www.balena.io/docs/learn/manage/ssh-access/). The `balena key*`
 command set can also be used to list and manage SSH keys: see `balena help -v`.
 
-### balena scan
+### balena device detect
 
-The `balena scan` command requires a multicast DNS (mDNS) service like Apple's Bonjour.
+The `balena device detect` command requires a multicast DNS (mDNS) service like Apple's Bonjour.
 Many Windows machines will already have this service installed, as it is bundled in popular
 applications such as Skype (Wikipedia lists [several others](https://en.wikipedia.org/wiki/Bonjour_(software))).
 Otherwise, Bonjour for Windows can be downloaded and installed from: https://support.apple.com/kb/DL999

@@ -19,7 +19,9 @@ import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getCliUx, stripIndent } from '../../utils/lazy';
 
-export default class ScanCmd extends Command {
+export default class DeviceDetectCmd extends Command {
+	public static aliases = ['scan'];
+
 	public static description = stripIndent`
 		Scan for balenaOS devices on your local network.
 
@@ -32,9 +34,9 @@ export default class ScanCmd extends Command {
 `;
 
 	public static examples = [
-		'$ balena scan',
-		'$ balena scan --timeout 120',
-		'$ balena scan --verbose',
+		'$ balena device detect',
+		'$ balena device detect --timeout 120',
+		'$ balena device detect --verbose',
 	];
 
 	public static flags = {
@@ -70,7 +72,7 @@ export default class ScanCmd extends Command {
 		const dockerPort = 2375;
 		const dockerTimeout = 2000;
 
-		const { flags: options } = await this.parse(ScanCmd);
+		const { flags: options } = await this.parse(DeviceDetectCmd);
 
 		const discoverTimeout =
 			options.timeout != null ? options.timeout * 1000 : undefined;
@@ -144,10 +146,10 @@ export default class ScanCmd extends Command {
 		if (!options.verbose) {
 			devicesInfo.forEach((d: any) => {
 				d.dockerInfo = _.isObject(d.dockerInfo)
-					? _.pick(d.dockerInfo, ScanCmd.dockerInfoProperties)
+					? _.pick(d.dockerInfo, DeviceDetectCmd.dockerInfoProperties)
 					: d.dockerInfo;
 				d.dockerVersion = _.isObject(d.dockerVersion)
-					? _.pick(d.dockerVersion, ScanCmd.dockerVersionProperties)
+					? _.pick(d.dockerVersion, DeviceDetectCmd.dockerVersionProperties)
 					: d.dockerVersion;
 			});
 		}
@@ -164,8 +166,9 @@ export default class ScanCmd extends Command {
 		if (!options.json && cmdOutput.length === 0) {
 			console.error(
 				process.platform === 'win32'
-					? ScanCmd.noDevicesFoundMessage + ScanCmd.windowsTipMessage
-					: ScanCmd.noDevicesFoundMessage,
+					? DeviceDetectCmd.noDevicesFoundMessage +
+							DeviceDetectCmd.windowsTipMessage
+					: DeviceDetectCmd.noDevicesFoundMessage,
 			);
 			return;
 		}
@@ -197,11 +200,11 @@ export default class ScanCmd extends Command {
 	protected static windowsTipMessage = `
 
 Note for Windows users:
-  The 'scan' command relies on the Bonjour service. Check whether Bonjour is
+  The 'device detect' command relies on the Bonjour service. Check whether Bonjour is
   installed (Control Panel > Programs and Features). If not, you can download
   Bonjour for Windows (included with Bonjour Print Services) from here:
   https://support.apple.com/kb/DL999
 
-  After installing Bonjour, restart your PC and run the 'balena scan' command
+  After installing Bonjour, restart your PC and run the 'balena device detect' command
   again.`;
 }

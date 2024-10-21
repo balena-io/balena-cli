@@ -30,7 +30,6 @@ PRIMARY COMMANDS
   push <applicationOrDevice>             start a remote build on the balenaCloud build servers or a local mode device
   logs <device>                          show device logs
   ssh <applicationOrDevice> [service]    SSH into the host or application container of a device
-  apps                                   list all applications
   app <name>                             display information about a single application
   device <uuid>                          show info about a single device
   tunnel <deviceOrApplication>           tunnel local ports to your balenaOS device
@@ -39,7 +38,6 @@ PRIMARY COMMANDS
   deploy <appName> [image]               deploy a single image or a multicontainer project to a balena application
   join [deviceIpOrHostname]              move a local device to an application on another balena server
   leave [deviceIpOrHostname]             remove a local device from its balena application
-  scan                                   scan for balenaOS devices on your local network
 
 `;
 
@@ -54,6 +52,7 @@ ADDITIONAL COMMANDS
   config read                            read the configuration of a device or OS image
   config reconfigure                     interactively reconfigure a device or OS image
   config write <key> <value>             write a key-value pair to configuration of a device or OS image
+  device detect                          scan for balenaOS devices on your local network
   device identify <uuid>                 identify a device
   device init                            initialise a device with balenaOS
   device list                            list all devices
