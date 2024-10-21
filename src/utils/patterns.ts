@@ -30,9 +30,8 @@ import {
 	ExpectedError,
 	NotAvailableInOfflineModeError,
 } from '../errors';
-import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
+import { getBalenaSdk, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
-import { delay } from './helpers';
 
 export function authenticate(options: object): Promise<void> {
 	const balena = getBalenaSdk();
@@ -284,51 +283,6 @@ export async function getAndSelectOrganization() {
 		// User is a member of multiple organizations -
 		return selectOrganization(organizations);
 	}
-}
-
-export async function awaitDeviceOsUpdate(
-	uuid: string,
-	targetOsVersion: string,
-) {
-	const balena = getBalenaSdk();
-
-	const deviceName = await balena.models.device.getName(uuid);
-	const visuals = getVisuals();
-	const progressBar = new visuals.Progress(
-		`Updating the OS of ${deviceName} to v${targetOsVersion}`,
-	);
-	progressBar.update({ percentage: 0 });
-
-	const poll = async (): Promise<void> => {
-		const [osUpdateStatus, { overall_progress: osUpdateProgress }] =
-			await Promise.all([
-				balena.models.device.getOsUpdateStatus(uuid),
-				balena.models.device.get(uuid, { $select: 'overall_progress' }),
-			]);
-		if (osUpdateStatus.status === 'done') {
-			console.info(
-				`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,
-			);
-			return;
-		}
-
-		if (osUpdateStatus.error) {
-			throw new ExpectedError(
-				`Failed to complete Host OS update on device ${deviceName}\n${osUpdateStatus.error}`,
-			);
-		}
-
-		if (osUpdateProgress !== null) {
-			// Avoid resetting to 0% at end of process when device goes disconnected.
-			progressBar.update({ percentage: osUpdateProgress });
-		}
-
-		await delay(3000);
-		await poll();
-	};
-
-	await poll();
-	return uuid;
 }
 
 /*
