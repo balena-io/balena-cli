@@ -17,13 +17,13 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../helpers';
-import { SupervisorMock } from '../nock/supervisor-mock';
+import { BalenaAPIMock } from '../../nock/balena-api-mock';
+import { cleanOutput, runCommand } from '../../helpers';
+import { SupervisorMock } from '../../nock/supervisor-mock';
 
 const itS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it : it.skip;
 
-describe('balena logs', function () {
+describe('balena device logs', function () {
 	let api: BalenaAPIMock;
 	let supervisor: SupervisorMock;
 
@@ -47,7 +47,7 @@ describe('balena logs', function () {
 		supervisor.expectGetLogs();
 		supervisor.expectGetLogs();
 
-		const { err, out } = await runCommand('logs 1.2.3.4 --max-retry 1');
+		const { err, out } = await runCommand('device logs 1.2.3.4 --max-retry 1');
 
 		const errLines = cleanOutput(err, true);
 		const errMsg =

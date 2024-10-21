@@ -202,6 +202,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device init](#device-init)
 	- [device list](#device-list)
 	- [device local-mode](#device-local-mode)
+	- [device logs](#device-logs)
 	- [device move](#device-move)
 	- [device os-update](#device-os-update)
 	- [device pin](#device-pin)
@@ -241,10 +242,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [local configure](#local-configure)
 	- [local flash](#local-flash)
-
-- Logs
-
-	- [logs](#logs)
 
 - Network
 
@@ -1515,6 +1512,70 @@ disable local mode
 
 output boolean indicating local mode status
 
+## device logs
+
+### Aliases
+
+- `logs`
+
+
+To use one of the aliases, replace `device logs` with the alias.
+
+### Description
+
+Show logs for a specific device.
+
+By default, the command prints all log messages and exits.
+
+To continuously stream output, and see new logs in real time, use the `--tail` option.
+
+If an IP or .local address is passed to this command, logs are displayed from
+a local mode device with that address. Note that --tail is implied
+when this command is provided a local mode device.
+
+Logs from a single service can be displayed with the --service flag. Just system logs
+can be shown with the --system flag. Note that these flags can be used together.
+
+Note: --service and --system flags must come after the device parameter, as per examples.
+
+Examples:
+
+	$ balena device logs 23c73a1
+	$ balena device logs 23c73a1 --tail
+	
+	$ balena device logs 192.168.0.31
+	$ balena device logs 192.168.0.31 --service my-service
+	$ balena device logs 192.168.0.31 --service my-service-1 --service my-service-2
+	
+	$ balena device logs 23c73a1.local --system
+	$ balena device logs 23c73a1.local --system --service my-service
+
+### Arguments
+
+#### DEVICE
+
+device UUID, IP, or .local address
+
+### Options
+
+#### --max-retry MAX-RETRY
+
+Maximum number of reconnection attempts on "connection lost" errors
+(use 0 to disable auto reconnection).
+
+#### -t, --tail
+
+continuously stream output
+
+#### -s, --service SERVICE
+
+Reject logs not originating from this service.
+This can be used in combination with --system or other --service flags.
+
+#### -S, --system
+
+Only show system logs. This can be used in combination with --service.
+
 ## device move
 
 ### Description
@@ -2571,65 +2632,6 @@ Check `balena util available-drives` for available options.
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
-
-# Logs
-
-## logs
-
-### Description
-
-Show logs for a specific device.
-
-By default, the command prints all log messages and exits.
-
-To continuously stream output, and see new logs in real time, use the `--tail` option.
-
-If an IP or .local address is passed to this command, logs are displayed from
-a local mode device with that address. Note that --tail is implied
-when this command is provided a local mode device.
-
-Logs from a single service can be displayed with the --service flag. Just system logs
-can be shown with the --system flag. Note that these flags can be used together.
-
-Note: --service and --system flags must come after the device parameter, as per examples.
-
-Examples:
-
-	$ balena logs 23c73a1
-	$ balena logs 23c73a1 --tail
-	
-	$ balena logs 192.168.0.31
-	$ balena logs 192.168.0.31 --service my-service
-	$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
-	
-	$ balena logs 23c73a1.local --system
-	$ balena logs 23c73a1.local --system --service my-service
-
-### Arguments
-
-#### DEVICE
-
-device UUID, IP, or .local address
-
-### Options
-
-#### --max-retry MAX-RETRY
-
-Maximum number of reconnection attempts on "connection lost" errors
-(use 0 to disable auto reconnection).
-
-#### -t, --tail
-
-continuously stream output
-
-#### -s, --service SERVICE
-
-Reject logs not originating from this service.
-This can be used in combination with --system or other --service flags.
-
-#### -S, --system
-
-Only show system logs. This can be used in combination with --service.
 
 # Network
 

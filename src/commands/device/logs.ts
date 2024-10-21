@@ -22,7 +22,9 @@ import type { LogMessage } from 'balena-sdk';
 
 const MAX_RETRY = 1000;
 
-export default class LogsCmd extends Command {
+export default class DeviceLogsCmd extends Command {
+	public static aliases = ['logs'];
+
 	public static description = stripIndent`
 		Show device logs.
 
@@ -42,15 +44,15 @@ export default class LogsCmd extends Command {
 		Note: --service and --system flags must come after the device parameter, as per examples.
 `;
 	public static examples = [
-		'$ balena logs 23c73a1',
-		'$ balena logs 23c73a1 --tail',
+		'$ balena device logs 23c73a1',
+		'$ balena device logs 23c73a1 --tail',
 		'',
-		'$ balena logs 192.168.0.31',
-		'$ balena logs 192.168.0.31 --service my-service',
-		'$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2',
+		'$ balena device logs 192.168.0.31',
+		'$ balena device logs 192.168.0.31 --service my-service',
+		'$ balena device logs 192.168.0.31 --service my-service-1 --service my-service-2',
 		'',
-		'$ balena logs 23c73a1.local --system',
-		'$ balena logs 23c73a1.local --system --service my-service',
+		'$ balena device logs 23c73a1.local --system',
+		'$ balena device logs 23c73a1.local --system --service my-service',
 	];
 
 	public static args = {
@@ -90,7 +92,7 @@ export default class LogsCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(LogsCmd);
+		const { args: params, flags: options } = await this.parse(DeviceLogsCmd);
 
 		const balena = getBalenaSdk();
 		const { serviceIdToName } = await import('../../utils/cloud');
