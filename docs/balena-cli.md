@@ -218,6 +218,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device start-service](#device-start-service)
 	- [device stop-service](#device-stop-service)
 	- [device track-fleet](#device-track-fleet)
+	- [device tunnel](#device-tunnel)
 	- [devices supported](#devices-supported)
 
 - Environment Variables
@@ -243,10 +244,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [local configure](#local-configure)
 	- [local flash](#local-flash)
-
-- Network
-
-	- [tunnel](#tunnel)
 
 - Notes
 
@@ -2047,6 +2044,66 @@ the uuid of the device to make track the fleet's release
 
 ### Options
 
+## device tunnel
+
+### Aliases
+
+- `tunnel`
+
+
+To use one of the aliases, replace `device tunnel` with the alias.
+
+### Description
+
+Use this command to open local TCP ports that tunnel to listening sockets in a
+balenaOS device.
+
+For example, this command could be used to expose the ssh server of a balenaOS
+device (port number 22222) on the local machine, or to expose a web server
+running on the device. The port numbers do not have be the same between the
+device and the local machine, and multiple ports may be tunneled in a single
+command line.
+
+Port mappings are specified in the format: <remotePort>[:[localIP:]localPort]
+localIP defaults to 'localhost', and localPort defaults to the specified
+remotePort value.
+
+Note: the -p (--port) flag must be provided at the end of the command line,
+as per examples.
+
+In the case of openBalena, the tunnel command in CLI v12.38.5 or later requires
+openBalena v3.1.2 or later. Older CLI versions work with older openBalena
+versions.
+
+Examples:
+
+	# map remote port 22222 to localhost:22222
+	$ balena device tunnel myFleet -p 22222
+	
+	# map remote port 22222 to localhost:222
+	$ balena device tunnel 2ead211 -p 22222:222
+	
+	# map remote port 22222 to any address on your host machine, port 22222
+	$ balena device tunnel 1546690 -p 22222:0.0.0.0
+	
+	# map remote port 22222 to any address on your host machine, port 222
+	$ balena device tunnel myFleet -p 22222:0.0.0.0:222
+	
+	# multiple port tunnels can be specified at any one time
+	$ balena device tunnel myFleet -p 8080:3000 -p 8081:9000
+
+### Arguments
+
+#### DEVICEORFLEET
+
+device UUID or fleet name/slug
+
+### Options
+
+#### -p, --port PORT
+
+port mapping in the format <remotePort>[:[localIP:]localPort]
+
 ## devices supported
 
 ### Description
@@ -2713,61 +2770,6 @@ Check `balena util available-drives` for available options.
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
-
-# Network
-
-## tunnel
-
-### Description
-
-Use this command to open local TCP ports that tunnel to listening sockets in a
-balenaOS device.
-
-For example, this command could be used to expose the ssh server of a balenaOS
-device (port number 22222) on the local machine, or to expose a web server
-running on the device. The port numbers do not have be the same between the
-device and the local machine, and multiple ports may be tunneled in a single
-command line.
-
-Port mappings are specified in the format: <remotePort>[:[localIP:]localPort]
-localIP defaults to 'localhost', and localPort defaults to the specified
-remotePort value.
-
-Note: the -p (--port) flag must be provided at the end of the command line,
-as per examples.
-
-In the case of openBalena, the tunnel command in CLI v12.38.5 or later requires
-openBalena v3.1.2 or later. Older CLI versions work with older openBalena
-versions.
-
-Examples:
-
-	# map remote port 22222 to localhost:22222
-	$ balena tunnel myFleet -p 22222
-	
-	# map remote port 22222 to localhost:222
-	$ balena tunnel 2ead211 -p 22222:222
-	
-	# map remote port 22222 to any address on your host machine, port 22222
-	$ balena tunnel 1546690 -p 22222:0.0.0.0
-	
-	# map remote port 22222 to any address on your host machine, port 222
-	$ balena tunnel myFleet -p 22222:0.0.0.0:222
-	
-	# multiple port tunnels can be specified at any one time
-	$ balena tunnel myFleet -p 8080:3000 -p 8081:9000
-
-### Arguments
-
-#### DEVICEORFLEET
-
-device UUID or fleet name/slug
-
-### Options
-
-#### -p, --port PORT
-
-port mapping in the format <remotePort>[:[localIP:]localPort]
 
 # Notes
 
