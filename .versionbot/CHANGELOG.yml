@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `device tunnel` for command `tunnel`
+      hash: bff589704762f726abcbf3f7371ddfed7204a47a
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.14.0
+  title: ""
+  date: 2024-10-22T00:51:11.619Z
+- commits:
     - subject: Update dependency chalk to v4
       hash: 8ded517dd96fe6237cb356ebc5c3a6263ba8edee
       body: |
