@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add alias `device note` for command `notes`
+      hash: 3eb3b3b584ce16c4811245b52817d3e6cf0270c5
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.15.0
+  title: ""
+  date: 2024-10-23T11:01:50.290Z
+- commits:
     - subject: Add alias `device tunnel` for command `tunnel`
       hash: bff589704762f726abcbf3f7371ddfed7204a47a
       body: ""
