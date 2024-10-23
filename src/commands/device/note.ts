@@ -20,7 +20,9 @@ import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
-export default class NoteCmd extends Command {
+export default class DeviceNoteCmd extends Command {
+	public static aliases = ['notes'];
+
 	public static description = stripIndent`
 		Set a device note.
 
@@ -31,8 +33,8 @@ export default class NoteCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena note "My useful note" --device 7cf02a6',
-		'$ cat note.txt | balena note --device 7cf02a6',
+		'$ balena device note "My useful note" --device 7cf02a6',
+		'$ cat note.txt | balena device note --device 7cf02a6',
 	];
 
 	public static args = {
@@ -53,7 +55,7 @@ export default class NoteCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(NoteCmd);
+		const { args: params, flags: options } = await this.parse(DeviceNoteCmd);
 
 		if (params.note?.length === 0) {
 			throw new ExpectedError('Missing note content');
