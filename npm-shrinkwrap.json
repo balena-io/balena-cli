@@ -3940,10 +3940,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.16.15",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.16.15.tgz",
-      "integrity": "sha512-DV58qQz9dBMqVVn+qnKwGa51QzCD4YM/tQM16qLKxdf5tqz5W4QwtrMzjSTbabN1cFTSuyxVYBy+QWHjWW8X/g==",
-      "license": "MIT",
+      "version": "20.17.0",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.0.tgz",
+      "integrity": "sha512-a7zRo0f0eLo9K5X9Wp5cAqTUNGzuFLDG2R7C4HY2BhcMAsxgSPuRvAC1ZB6QkuUQXf0YZAgfOX2ZyrBa2n4nHQ==",
       "dependencies": {
         "undici-types": "~6.19.2"
       }
@@ -5741,12 +5740,6 @@
       "integrity": "sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==",
       "license": "MIT",
       "optional": true
-    },
-    "node_modules/before-after-hook": {
-      "version": "2.2.2",
-      "resolved": "https://registry.npmjs.org/before-after-hook/-/before-after-hook-2.2.2.tgz",
-      "integrity": "sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ==",
-      "dev": true
     },
     "node_modules/binary": {
       "version": "0.3.0",
