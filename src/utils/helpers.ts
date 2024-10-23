@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 import { promisify } from 'util';
 
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
+import { ExpectedError } from '../errors';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
@@ -478,3 +479,25 @@ export function pickAndRename<T extends Dictionary<any>>(
 	});
 	return _.mapKeys(_.pick(obj, fields), (_val, key) => rename[key]);
 }
+
+export const parseDuration = (duration: string) => {
+	const parseErrorMsg =
+		'Duration must be specified as number followed by h or d, e.g. 24h, 1d';
+	const unit = duration.slice(duration.length - 1);
+	const amount = Number(duration.substring(0, duration.length - 1));
+
+	if (isNaN(amount)) {
+		throw new ExpectedError(parseErrorMsg);
+	}
+
+	let durationMs;
+	if (['h', 'H'].includes(unit)) {
+		durationMs = amount * 60 * 60 * 1000;
+	} else if (['d', 'D'].includes(unit)) {
+		durationMs = amount * 24 * 60 * 60 * 1000;
+	} else {
+		throw new ExpectedError(parseErrorMsg);
+	}
+
+	return durationMs;
+};
