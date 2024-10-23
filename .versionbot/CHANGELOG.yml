@@ -1,4 +1,25 @@
 - commits:
+    - subject: "device-type list: Add `--all` flag for including no longer supported
+        device types in the list"
+      hash: 09d52c504d901109eb7753f26f4ff05eda67d71b
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+    - subject: Add alias `device-type list` for command `devices supported`
+      hash: e5cee648f25329bceaea6661a8065c5e2e6eccf4
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.16.0
+  title: ""
+  date: 2024-10-23T13:18:18.698Z
+- commits:
     - subject: Add alias `device note` for command `notes`
       hash: 3eb3b3b584ce16c4811245b52817d3e6cf0270c5
       body: ""
