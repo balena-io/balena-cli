@@ -50,7 +50,7 @@ export default class DeviceRegisterCmd extends Command {
 		}),
 		deviceType: Flags.string({
 			description:
-				"device type slug (run 'balena devices supported' for possible values)",
+				"device type slug (run 'balena device-type list' for possible values)",
 		}),
 		help: cf.help,
 	};

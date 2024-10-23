@@ -31,7 +31,7 @@ export default class AppCreateCmd extends Command {
 		\`balena organization list\` command.
 
 		The app's default device type is specified with the \`--type\` option.
-		The \`balena devices supported\` command can be used to list the available
+		The \`balena device-type list\` command can be used to list the available
 		device types.
 
 		Interactive dropdowns will be shown for selection if no device type or
@@ -62,7 +62,7 @@ export default class AppCreateCmd extends Command {
 		type: Flags.string({
 			char: 't',
 			description:
-				'app device type (Check available types with `balena devices supported`)',
+				'app device type (Check available types with `balena device-type list`)',
 		}),
 		help: cf.help,
 	};

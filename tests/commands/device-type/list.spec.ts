@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-describe('balena devices supported', function () {
+describe('balena device-type list', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {
@@ -34,9 +34,9 @@ describe('balena devices supported', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		const { out, err } = await runCommand('devices supported -h');
+		const { out, err } = await runCommand('device-type list -h');
 
-		expect(cleanOutput(out)).to.contain('$ balena devices supported');
+		expect(cleanOutput(out)).to.contain('$ balena device-type list');
 
 		expect(err).to.eql([]);
 	});
@@ -44,7 +44,7 @@ describe('balena devices supported', function () {
 	it('should list currently supported devices, with correct filtering', async () => {
 		api.expectGetDeviceTypes();
 
-		const { out, err } = await runCommand('devices supported');
+		const { out, err } = await runCommand('device-type list');
 
 		const lines = cleanOutput(out, true);
 
