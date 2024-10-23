@@ -222,6 +222,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device ssh](#device-ssh)
 	- [device start-service](#device-start-service)
 	- [device stop-service](#device-stop-service)
+	- [device support](#device-support)
 	- [device track-fleet](#device-track-fleet)
 	- [device tunnel](#device-tunnel)
 
@@ -242,6 +243,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [fleet rename](#fleet-rename)
 	- [fleet restart](#fleet-restart)
 	- [fleet rm](#fleet-rm)
+	- [fleet support](#fleet-support)
 	- [fleet track-latest](#fleet-track-latest)
 
 - Local
@@ -2104,6 +2106,40 @@ comma-separated list (no blank spaces) of service names
 
 ### Options
 
+## device support
+
+### Description
+
+Grant or revoke balena support agent access to devices
+on balenaCloud. (This command does not apply to openBalena.)
+Access will be automatically revoked once the specified duration has elapsed.
+
+Duration defaults to 24h, but can be specified using --duration flag in days
+or hours, e.g. '12h', '2d'.
+
+Multiple values can specified as a comma-separated list (with no spaces).
+
+Examples:
+
+	balena support enable ab346f,cd457a --duration 3d
+	balena support disable ab346f,cd457a
+
+### Arguments
+
+#### ACTION
+
+enable|disable support access
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs to be moved
+
+### Options
+
+#### -t, --duration DURATION
+
+length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
+
 ## device track-fleet
 
 ### Description
@@ -2751,6 +2787,50 @@ fleet name or slug (preferred)
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
+
+## fleet support
+
+### Description
+
+Grant or revoke balena support agent access to fleets
+on balenaCloud. (This command does not apply to openBalena.)
+Access will be automatically revoked once the specified duration has elapsed.
+
+Duration defaults to 24h, but can be specified using --duration flag in days
+or hours, e.g. '12h', '2d'.
+
+Multiple values can specified as a comma-separated list (with no spaces).
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	balena support enable myorg/myfleet,notmyorg/notmyfleet --duration 3d
+	balena support disable myorg/myfleet
+
+### Arguments
+
+#### ACTION
+
+enable|disable support access
+
+#### FLEET
+
+comma-separated list (no spaces) of fleet names or slugs (preferred)
+
+### Options
+
+#### -t, --duration DURATION
+
+length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
 ## fleet track-latest
 
