@@ -86,16 +86,6 @@ export class BalenaAPIMock extends NockMock {
 		this.optPost(/^\/api-key\/v[0-9]\/?$/, opts).reply(200, 'dummykey');
 	}
 
-	public expectGetMyApplication(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v7\/my_application($|[(?])/, opts).reply(
-			200,
-			JSON.parse(`{"d": [{
-				"organization": [{ "handle": "bob" }],
-				"id": 1301645}]}
-			`),
-		);
-	}
-
 	public expectGetAuth(opts: ScopeOpts = {}) {
 		this.optGet(/^\/auth\/v1\//, opts).reply(200, {
 			token: 'test',
