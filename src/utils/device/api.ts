@@ -93,7 +93,7 @@ export class DeviceAPI {
 		);
 	}
 
-	public async getTargetState(): Promise<any> {
+	public async getTargetState() {
 		const url = this.getUrlForAction('getTargetState');
 
 		return DeviceAPI.promisifiedRequest(

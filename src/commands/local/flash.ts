@@ -48,7 +48,6 @@ export default class LocalFlashCmd extends Command {
 	public static flags = {
 		drive: cf.drive,
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static offlineCompatible = true;

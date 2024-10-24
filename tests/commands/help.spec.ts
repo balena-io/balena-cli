@@ -98,7 +98,7 @@ const LIST_ADDITIONAL = `
 
 const GLOBAL_OPTIONS = `
 GLOBAL OPTIONS
-  --help, -h
+  --help
   --debug
 
 `;

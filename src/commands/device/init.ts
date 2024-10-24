@@ -28,7 +28,6 @@ interface FlagsDef {
 	'os-version'?: string;
 	drive?: string;
 	config?: string;
-	help: void;
 	'provisioning-key-name'?: string;
 	'provisioning-key-expiry-date'?: string;
 }
@@ -100,7 +99,6 @@ export default class DeviceInitCmd extends Command {
 			description:
 				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;

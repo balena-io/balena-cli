@@ -51,7 +51,6 @@ export default class OsInitializeCmd extends Command {
 		type: cf.deviceType,
 		drive: cf.drive,
 		yes: cf.yes,
-		help: cf.help,
 	};
 
 	public static authenticated = true;

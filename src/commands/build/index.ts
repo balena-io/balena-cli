@@ -44,7 +44,6 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	deviceType?: string;
 	fleet?: string;
 	source?: string; // Not part of command profile - source param copied here.
-	help: void;
 }
 
 export default class BuildCmd extends Command {
@@ -95,9 +94,6 @@ ${dockerignoreHelp}
 		fleet: cf.fleet,
 		...composeCliFlags,
 		...dockerCliFlags,
-		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
-		// Revisit this in future release.
-		help: Flags.help({}),
 	};
 
 	public static primary = true;

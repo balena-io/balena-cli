@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class FleetTrackLatestCmd extends Command {
@@ -35,10 +34,6 @@ export default class FleetTrackLatestCmd extends Command {
 			description: 'the slug of the fleet to make track the latest release',
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		help: cf.help,
 	};
 
 	public static authenticated = true;

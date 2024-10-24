@@ -25,7 +25,6 @@ import { applicationIdInfo } from '../../utils/messages';
 interface FlagsDef {
 	fleet?: string;
 	device?: string; // device UUID
-	help: void;
 	quiet: boolean;
 	service?: string; // service name
 }
@@ -37,6 +36,7 @@ interface ArgsDef {
 
 export default class EnvSetCmd extends Command {
 	public static aliases = ['env add'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Add or update env or config variable to fleets, devices or services.
@@ -97,7 +97,6 @@ export default class EnvSetCmd extends Command {
 	public static flags = {
 		fleet: { ...cf.fleet, exclusive: ['device'] },
 		device: { ...cf.device, exclusive: ['fleet'] },
-		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,
 	};

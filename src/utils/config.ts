@@ -208,9 +208,8 @@ export async function validateSecureBootOptionAndWarn(
 		throw new ExpectedError(`Error: No ${version} release for ${slug}`);
 	}
 
-	const contract = osRelease.contract ? JSON.parse(osRelease.contract) : null;
 	if (
-		contract?.provides.some((entry: Dictionary<string>) => {
+		osRelease.contract?.provides.some((entry: Dictionary<string>) => {
 			return entry.type === 'sw.feature' && entry.slug === 'secureboot';
 		})
 	) {

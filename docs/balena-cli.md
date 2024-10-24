@@ -333,13 +333,11 @@ Examples:
 
 the API key name
 
-### Options
-
 ## api-key list
 
 ### Aliases
 
-- `api-keys`
+- `api-keys` *(deprecated)*
 
 
 To use one of the aliases, replace `api-key list` with the alias.
@@ -383,8 +381,6 @@ Examples:
 #### IDS
 
 the API key ids
-
-### Options
 
 # Apps
 
@@ -1229,7 +1225,7 @@ Docker host TLS key file
 
 ### Aliases
 
-- `devices supported`
+- `devices supported` *(deprecated)*
 
 
 To use one of the aliases, replace `device-type list` with the alias.
@@ -1296,7 +1292,7 @@ answer "yes" to all questions (non interactive use)
 
 ### Aliases
 
-- `scan`
+- `scan` *(deprecated)*
 
 
 To use one of the aliases, replace `device detect` with the alias.
@@ -1345,8 +1341,6 @@ Examples:
 #### UUID
 
 the uuid of the device to identify
-
-### Options
 
 ## device
 
@@ -1473,7 +1467,7 @@ expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
 ### Aliases
 
-- `devices`
+- `devices` *(deprecated)*
 
 
 To use one of the aliases, replace `device list` with the alias.
@@ -1554,7 +1548,7 @@ output boolean indicating local mode status
 
 ### Aliases
 
-- `logs`
+- `logs` *(deprecated)*
 
 
 To use one of the aliases, replace `device logs` with the alias.
@@ -1655,7 +1649,7 @@ fleet name or slug (preferred)
 
 ### Aliases
 
-- `notes`
+- `notes` *(deprecated)*
 
 
 To use one of the aliases, replace `device note` with the alias.
@@ -1749,8 +1743,6 @@ the uuid of the device to pin to a release
 
 the commit of the release for the device to get pinned to
 
-### Options
-
 ## device public-url
 
 ### Description
@@ -1806,8 +1798,6 @@ Examples:
 #### UUID
 
 comma-separated list (no blank spaces) of device UUIDs
-
-### Options
 
 ## device reboot
 
@@ -1895,8 +1885,6 @@ the uuid of the device to rename
 
 the new name for the device
 
-### Options
-
 ## device restart
 
 ### Description
@@ -1982,7 +1970,7 @@ force action if the update lock is set
 
 ### Aliases
 
-- `ssh`
+- `ssh` *(deprecated)*
 
 
 To use one of the aliases, replace `device ssh` with the alias.
@@ -2076,8 +2064,6 @@ comma-separated list (no blank spaces) of device UUIDs
 
 comma-separated list (no blank spaces) of service names
 
-### Options
-
 ## device stop-service
 
 ### Description
@@ -2102,8 +2088,6 @@ comma-separated list (no blank spaces) of device UUIDs
 
 comma-separated list (no blank spaces) of service names
 
-### Options
-
 ## device track-fleet
 
 ### Description
@@ -2120,13 +2104,11 @@ Examples:
 
 the uuid of the device to make track the fleet's release
 
-### Options
-
 ## device tunnel
 
 ### Aliases
 
-- `tunnel`
+- `tunnel` *(deprecated)*
 
 
 To use one of the aliases, replace `device tunnel` with the alias.
@@ -2188,7 +2170,7 @@ port mapping in the format <remotePort>[:[localIP:]localPort]
 
 ### Aliases
 
-- `envs`
+- `envs` *(deprecated)*
 
 
 To use one of the aliases, replace `env list` with the alias.
@@ -2406,7 +2388,7 @@ do not prompt for confirmation before deleting the variable
 
 ### Aliases
 
-- `env add`
+- `env add` *(deprecated)*
 
 
 To use one of the aliases, replace `env set` with the alias.
@@ -2573,7 +2555,7 @@ produce JSON output instead of tabular output
 
 ### Aliases
 
-- `fleets`
+- `fleets` *(deprecated)*
 
 
 To use one of the aliases, replace `fleet list` with the alias.
@@ -2618,8 +2600,6 @@ the slug of the fleet to pin to a release
 
 the commit of the release for the fleet to get pinned to
 
-### Options
-
 ## fleet purge
 
 ### Description
@@ -2647,8 +2627,6 @@ Examples:
 #### FLEET
 
 fleet name or slug (preferred)
-
-### Options
 
 ## fleet rename
 
@@ -2685,8 +2663,6 @@ fleet name or slug (preferred)
 
 the new name for the fleet
 
-### Options
-
 ## fleet restart
 
 ### Description
@@ -2713,8 +2689,6 @@ Examples:
 #### FLEET
 
 fleet name or slug (preferred)
-
-### Options
 
 ## fleet rm
 
@@ -2769,8 +2743,6 @@ Examples:
 
 the slug of the fleet to make track the latest release
 
-### Options
-
 # Local
 
 ## local configure
@@ -2789,8 +2761,6 @@ Examples:
 #### TARGET
 
 path of drive or image to configure
-
-### Options
 
 ## local flash
 
@@ -2832,7 +2802,7 @@ answer "yes" to all questions (non interactive use)
 
 ### Aliases
 
-- `orgs`
+- `orgs` *(deprecated)*
 
 
 To use one of the aliases, replace `organization list` with the alias.
@@ -2844,8 +2814,6 @@ list all the organizations that you are a member of.
 Examples:
 
 	$ balena organization list
-
-### Options
 
 # OS
 
@@ -3217,8 +3185,6 @@ Examples:
 
 the device IP or hostname
 
-### Options
-
 # Preload
 
 ## preload
@@ -3277,9 +3243,9 @@ fleet name or slug (preferred)
 
 The commit hash of the release to preload. Use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the
-latest, but can be pinned to a specific release. See:  
-https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/  
-https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api  
+latest, but can be pinned to a specific release. See:
+https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api
 https://github.com/balena-io-examples/staged-releases
 
 #### -s, --splash-image SPLASH-IMAGE
@@ -3586,8 +3552,6 @@ Examples:
 
 the commit or ID of the release to finalize
 
-### Options
-
 ## release
 
 ### Description
@@ -3641,13 +3605,11 @@ Examples:
 
 the commit or ID of the release to invalidate
 
-### Options
-
 ## release list
 
 ### Aliases
 
-- `releases`
+- `releases` *(deprecated)*
 
 
 To use one of the aliases, replace `release list` with the alias.
@@ -3708,8 +3670,6 @@ Examples:
 
 the commit or ID of the release to validate
 
-### Options
-
 # Settings
 
 ## settings
@@ -3722,15 +3682,13 @@ Examples:
 
 	$ balena settings
 
-### Options
-
 # SSH Keys
 
 ## ssh-key add
 
 ### Aliases
 
-- `key add`
+- `key add` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key add` with the alias.
@@ -3772,13 +3730,11 @@ the SSH key name
 
 the path to the public key file
 
-### Options
-
 ## ssh-key
 
 ### Aliases
 
-- `key`
+- `key` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key` with the alias.
@@ -3797,14 +3753,12 @@ Examples:
 
 balenaCloud ID for the SSH key
 
-### Options
-
 ## ssh-key list
 
 ### Aliases
 
-- `keys`
-- `key list`
+- `keys` *(deprecated)*
+- `key list` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key list` with the alias.
@@ -3817,13 +3771,11 @@ Examples:
 
 	$ balena ssh-key list
 
-### Options
-
 ## ssh-key rm
 
 ### Aliases
 
-- `key rm`
+- `key rm` *(deprecated)*
 
 
 To use one of the aliases, replace `ssh-key rm` with the alias.
@@ -3909,7 +3861,7 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 
 ### Aliases
 
-- `tags`
+- `tags` *(deprecated)*
 
 
 To use one of the aliases, replace `tag list` with the alias.
@@ -4057,8 +4009,6 @@ release id
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
-
-### Options
 
 # Version
 

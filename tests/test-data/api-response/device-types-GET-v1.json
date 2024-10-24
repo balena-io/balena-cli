@@ -4073,7 +4073,7 @@
 		"state": "DISCONTINUED",
 		"stateInstructions": {
 			"postProvisioning": [
-				"The device is performing a shutdown. Please wait until the device is offline in the dashboard and disconnect the power cable.",
+				"The device is performing a shutdown. Please wait until the device is disconnected in the dashboard and disconnect the power cable.",
 				"Remove the resinOS installation media.",
 				"Set J11 (just next to the micro SD card slot) to position 1-2 (the position closest to the edge of the board).",
 				"Remove and re-connect power to the board."
@@ -4084,7 +4084,7 @@
 			"Insert the freshly burnt SD card into the VIA VAB 820-quad.",
 			"<strong role=\"alert\">Warning!</strong> This will also completely erase internal storage media, so please make a backup first.",
 			"Set J11 (just next to the micro SD card slot) to position 2-3 (the position furthest away from the edge of the board) and then power on the board.",
-			"The device is performing a shutdown. Please wait until the device is offline in the dashboard and disconnect the power cable.",
+			"The device is performing a shutdown. Please wait until the device is disconnected in the dashboard and disconnect the power cable.",
 			"Remove the resinOS installation media.",
 			"Set J11 (just next to the micro SD card slot) to position 1-2 (the position closest to the edge of the board).",
 			"Remove and re-connect power to the board."

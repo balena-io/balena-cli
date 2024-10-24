@@ -33,8 +33,8 @@ describe('balena device-type list', function () {
 		api.done();
 	});
 
-	it('should print help text with the -h flag', async () => {
-		const { out, err } = await runCommand('device-type list -h');
+	it('should print help text with the --help flag', async () => {
+		const { out, err } = await runCommand('device-type list --help');
 
 		expect(cleanOutput(out)).to.contain('$ balena device-type list');
 

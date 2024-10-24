@@ -16,11 +16,11 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class DeviceDetectCmd extends Command {
 	public static aliases = ['scan'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Scan for balenaOS devices on your local network.
@@ -49,7 +49,6 @@ export default class DeviceDetectCmd extends Command {
 			char: 't',
 			description: 'scan timeout in seconds',
 		}),
-		help: cf.help,
 		json: Flags.boolean({
 			default: false,
 			char: 'j',

@@ -29,9 +29,7 @@
 				"tty": true,
 				"restart": "always",
 				"network_mode": "host",
-				"volumes": [
-					"resin-data:/data"
-				],
+				"volumes": ["resin-data:/data"],
 				"labels": {
 					"io.resin.features.kernel-modules": "1",
 					"io.resin.features.firmware": "1",
@@ -47,8 +45,5 @@
 	"build_log": null,
 	"start_timestamp": "2020-01-16T17:08:52.710Z",
 	"end_timestamp": null,
-	"update_timestamp": "2020-01-16T17:08:53.017Z",
-	"__metadata": {
-		"uri": "/resin/release(@id)?@id=1218643"
-	}
+	"update_timestamp": "2020-01-16T17:08:53.017Z"
 }

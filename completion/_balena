@@ -29,7 +29,7 @@ _balena() {
 
   _arguments -C \
     '(- 1 *)--version[show version and exit]' \
-    '(- 1 *)'{-h,--help}'[show help options and exit]' \
+    '(- 1 *)--help[show help options and exit]' \
     '1:first command:_balena_main_cmds' \
     '2:second command:_balena_sec_cmds' \
   && ret=0

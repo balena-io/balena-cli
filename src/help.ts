@@ -28,7 +28,7 @@ function getHelpSubject(args: string[]): string | undefined {
 		if (arg === '--') {
 			return;
 		}
-		if (arg === 'help' || arg === '--help' || arg === '-h') {
+		if (arg === 'help' || arg === '--help') {
 			continue;
 		}
 		if (arg.startsWith('-')) {
@@ -135,7 +135,7 @@ export default class BalenaHelp extends Help {
 		}
 
 		const globalOps = [
-			['--help, -h', 'display command help'],
+			['--help', 'display command help'],
 			['--debug', 'enable debug output'],
 			[
 				'--unsupported',

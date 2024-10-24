@@ -16,7 +16,6 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import {
 	parseAsInteger,
@@ -25,6 +24,7 @@ import {
 
 export default class DeviceSSHCmd extends Command {
 	public static aliases = ['ssh'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Open a SSH prompt on a device's host OS or service container.
@@ -99,7 +99,6 @@ export default class DeviceSSHCmd extends Command {
 			default: false,
 			description: 'bypass global proxy configuration for the ssh connection',
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;

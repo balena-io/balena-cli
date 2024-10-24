@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { getExpandedProp } from '../../utils/pine';
 
@@ -43,10 +42,6 @@ export default class DevicePinCmd extends Command {
 		}),
 	};
 
-	public static flags = {
-		help: cf.help,
-	};
-
 	public static authenticated = true;
 
 	public async run() {
@@ -56,7 +51,7 @@ export default class DevicePinCmd extends Command {
 
 		const device = await balena.models.device.get(params.uuid, {
 			$expand: {
-				should_be_running__release: {
+				is_pinned_on__release: {
 					$select: 'commit',
 				},
 				belongs_to__application: {
@@ -66,7 +61,7 @@ export default class DevicePinCmd extends Command {
 		});
 
 		const pinnedRelease = getExpandedProp(
-			device.should_be_running__release,
+			device.is_pinned_on__release,
 			'commit',
 		);
 		const appSlug = getExpandedProp(device.belongs_to__application, 'slug');

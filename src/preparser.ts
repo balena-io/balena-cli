@@ -40,8 +40,8 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		if (['--version', '-v'].includes(cmdSlice[0])) {
 			cmdSlice[0] = 'version';
 		}
-		// convert 'balena --help' or 'balena -h' to 'balena help'
-		else if (['--help', '-h'].includes(cmdSlice[0])) {
+		// convert 'balena --help' to 'balena help'
+		else if ('--help' === cmdSlice[0]) {
 			cmdSlice[0] = 'help';
 		}
 		// convert e.g. 'balena help env set' to 'balena env set --help'
@@ -110,14 +110,9 @@ export function checkDeletedCommand(argvSlice: string[]): void {
 	if (argvSlice[0] === 'help') {
 		argvSlice = argvSlice.slice(1);
 	}
-	function replaced(
-		oldCmd: string,
-		alternative: string,
-		version: string,
-		verb = 'replaced',
-	) {
+	function replaced(oldCmd: string, alternative: string, version: string) {
 		throw new ExpectedError(`\
-Note: the command "balena ${oldCmd}" was ${verb} in CLI version ${version}.
+Note: the command "balena ${oldCmd}" was replaced in CLI version ${version}.
 Please use "balena ${alternative}" instead.`);
 	}
 	function removed(oldCmd: string, alternative: string, version: string) {
@@ -127,22 +122,7 @@ Please use "balena ${alternative}" instead.`);
 		}
 		throw new ExpectedError(msg);
 	}
-	const stopAlternative =
-		'Please use "balena device ssh -s" to access the host OS, then use `balena-engine stop`.';
-	const cmds: { [cmd: string]: [(...args: any) => void, ...string[]] } = {
-		sync: [replaced, 'push', 'v11.0.0', 'removed'],
-		'local logs': [replaced, 'logs', 'v11.0.0'],
-		'local push': [replaced, 'push', 'v11.0.0'],
-		'local scan': [replaced, 'scan', 'v11.0.0'],
-		'local ssh': [replaced, 'ssh', 'v11.0.0'],
-		'local stop': [removed, stopAlternative, 'v11.0.0'],
-		app: [replaced, 'fleet', 'v13.0.0'],
-		apps: [replaced, 'fleets', 'v13.0.0'],
-		'app purge': [replaced, 'fleet purge', 'v13.0.0'],
-		'app rename': [replaced, 'fleet rename', 'v13.0.0'],
-		'app restart': [replaced, 'fleet restart', 'v13.0.0'],
-		'app rm': [replaced, 'fleet rm', 'v13.0.0'],
-	};
+	const cmds: { [cmd: string]: ['replaced' | 'removed', string, string] } = {};
 	let cmd: string | undefined;
 	if (argvSlice.length > 1) {
 		cmd = [argvSlice[0], argvSlice[1]].join(' ');
@@ -150,7 +130,9 @@ Please use "balena ${alternative}" instead.`);
 		cmd = argvSlice[0];
 	}
 	if (cmd && Object.getOwnPropertyNames(cmds).includes(cmd)) {
-		cmds[cmd][0](cmd, ...cmds[cmd].slice(1));
+		const changeType = cmds[cmd][0];
+		const changeTypeFn = changeType === 'replaced' ? replaced : removed;
+		changeTypeFn(cmd, cmds[cmd][1], cmds[cmd][2]);
 	}
 }
 

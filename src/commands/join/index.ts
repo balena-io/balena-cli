@@ -65,7 +65,6 @@ export default class JoinCmd extends Command {
 			description: 'the interval in minutes to check for updates',
 			char: 'i',
 		}),
-		help: cf.help,
 	};
 
 	public static authenticated = true;
