@@ -21,7 +21,6 @@ import {
 	InvalidPortMappingError,
 	ExpectedError,
 } from '../../errors';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { lowercaseIfSlug } from '../../utils/normalization';
 
@@ -29,6 +28,7 @@ import type { Server, Socket } from 'net';
 
 export default class DeviceTunnelCmd extends Command {
 	public static aliases = ['tunnel'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Tunnel local ports to your balenaOS device.
@@ -86,7 +86,6 @@ export default class DeviceTunnelCmd extends Command {
 			char: 'p',
 			multiple: true,
 		}),
-		help: cf.help,
 	};
 
 	public static primary = true;

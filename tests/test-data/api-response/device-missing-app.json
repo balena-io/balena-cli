@@ -3,7 +3,6 @@
 		{
 			"belongs_to__application": [],
 			"id": 1747415,
-			"is_managed_by__device": null,
 			"device_name": "sparkling-wood",
 			"is_of__device_type": [{ "slug": "raspberrypi4-64" }],
 			"uuid": "fda508c8583011b8466c26abdd5159f2",
@@ -16,19 +15,16 @@
 			"os_version": "balenaOS 2.44.0+rev3",
 			"supervisor_version": "10.3.7",
 			"is_web_accessible": false,
-			"overall_status": "idle",
-			"cpu_usage" : 34,
-			"cpu_temp" : 56.2,
-			"cpu_id" :  "some cpu id",
-			"memory_usage" : 1000,
-			"memory_total" : 4000,
-			"storage_block_device" : "/dev/mmcblk0",
-			"storage_usage" :  1000,
-			"storage_total" : 64000,
-			"is_undervolted" : true,
-			"__metadata": {
-				"uri": "/resin/device(@id)?@id=1747415"
-			}
+			"overall_status": "reduced-functionality",
+			"cpu_usage": 34,
+			"cpu_temp": 56.2,
+			"cpu_id": "some cpu id",
+			"memory_usage": 1000,
+			"memory_total": 4000,
+			"storage_block_device": "/dev/mmcblk0",
+			"storage_usage": 1000,
+			"storage_total": 64000,
+			"is_undervolted": true
 		}
 	]
 }

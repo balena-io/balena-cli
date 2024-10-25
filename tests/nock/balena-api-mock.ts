@@ -39,7 +39,7 @@ export class BalenaAPIMock extends NockMock {
 		times = undefined as number | undefined,
 		expandArchitecture = false,
 	} = {}) {
-		const interceptor = this.optGet(/^\/v6\/application($|[(?])/, {
+		const interceptor = this.optGet(/^\/v7\/application($|[(?])/, {
 			optional,
 			persist,
 			times,
@@ -52,8 +52,8 @@ export class BalenaAPIMock extends NockMock {
 				path.join(
 					apiResponsePath,
 					!expandArchitecture
-						? 'application-GET-v6-expanded-app-type.json'
-						: 'application-GET-v6-expanded-app-type-cpu-arch.json',
+						? 'application-GET-v7-expanded-app-type.json'
+						: 'application-GET-v7-expanded-app-type-cpu-arch.json',
 				),
 				jHeader,
 			);
@@ -86,17 +86,6 @@ export class BalenaAPIMock extends NockMock {
 		this.optPost(/^\/api-key\/v[0-9]\/?$/, opts).reply(200, 'dummykey');
 	}
 
-	public expectGetMyApplication(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v6\/my_application($|[(?])/, opts).reply(
-			200,
-			JSON.parse(`{"d": [{
-				"organization": [{ "handle": "bob", "__metadata": {} }],
-				"id": 1301645,
-				"__metadata": { "uri": "/resin/my_application(@id)?@id=1301645" }}]}
-			`),
-		);
-	}
-
 	public expectGetAuth(opts: ScopeOpts = {}) {
 		this.optGet(/^\/auth\/v1\//, opts).reply(200, {
 			token: 'test',
@@ -109,7 +98,7 @@ export class BalenaAPIMock extends NockMock {
 		persist = false,
 		times = undefined as number | undefined,
 	} = {}) {
-		const interceptor = this.optGet(/^\/v6\/release($|[(?])/, {
+		const interceptor = this.optGet(/^\/v7\/release($|[(?])/, {
 			persist,
 			optional,
 			times,
@@ -117,12 +106,12 @@ export class BalenaAPIMock extends NockMock {
 		if (notFound) {
 			interceptor.reply(200, { d: [] });
 		} else {
-			this.optGet(/^\/v6\/release($|[(?])/, {
+			this.optGet(/^\/v7\/release($|[(?])/, {
 				persist,
 				optional,
 			}).replyWithFile(
 				200,
-				path.join(apiResponsePath, 'release-GET-v6.json'),
+				path.join(apiResponsePath, 'release-GET-v7.json'),
 				jHeader,
 			);
 		}
@@ -139,7 +128,7 @@ export class BalenaAPIMock extends NockMock {
 		persist = false,
 		times = undefined as number | undefined,
 	}) {
-		this.optPatch(/^\/v6\/release($|[(?])/, { optional, persist, times }).reply(
+		this.optPatch(/^\/v7\/release($|[(?])/, { optional, persist, times }).reply(
 			statusCode,
 			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
 		);
@@ -155,11 +144,11 @@ export class BalenaAPIMock extends NockMock {
 		persist = false,
 		times = undefined as number | undefined,
 	}) {
-		this.optPost(/^\/v6\/release($|[(?])/, { optional, persist, times }).reply(
+		this.optPost(/^\/v7\/release($|[(?])/, { optional, persist, times }).reply(
 			statusCode,
 			this.getInspectedReplyFileFunction(
 				inspectRequest,
-				path.join(apiResponsePath, 'release-POST-v6.json'),
+				path.join(apiResponsePath, 'release-POST-v7.json'),
 			),
 			jHeader,
 		);
@@ -176,7 +165,7 @@ export class BalenaAPIMock extends NockMock {
 		persist = false,
 		times = undefined as number | undefined,
 	}) {
-		this.optPatch(/^\/v6\/image($|[(?])/, { optional, persist, times }).reply(
+		this.optPatch(/^\/v7\/image($|[(?])/, { optional, persist, times }).reply(
 			statusCode,
 			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
 		);
@@ -186,9 +175,9 @@ export class BalenaAPIMock extends NockMock {
 	 * Mocks balena-release call
 	 */
 	public expectPostImage(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v6\/image($|[(?])/, opts).replyWithFile(
+		this.optPost(/^\/v7\/image($|[(?])/, opts).replyWithFile(
 			201,
-			path.join(apiResponsePath, 'image-POST-v6.json'),
+			path.join(apiResponsePath, 'image-POST-v7.json'),
 			jHeader,
 		);
 	}
@@ -197,9 +186,9 @@ export class BalenaAPIMock extends NockMock {
 	 * Mocks balena-release call
 	 */
 	public expectPostImageLabel(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v6\/image_label($|[(?])/, opts).replyWithFile(
+		this.optPost(/^\/v7\/image_label($|[(?])/, opts).replyWithFile(
 			201,
-			path.join(apiResponsePath, 'image-label-POST-v6.json'),
+			path.join(apiResponsePath, 'image-label-POST-v7.json'),
 			jHeader,
 		);
 	}
@@ -209,11 +198,11 @@ export class BalenaAPIMock extends NockMock {
 	 */
 	public expectPostImageIsPartOfRelease(opts: ScopeOpts = {}) {
 		this.optPost(
-			/^\/v6\/image__is_part_of__release($|[(?])/,
+			/^\/v7\/image__is_part_of__release($|[(?])/,
 			opts,
 		).replyWithFile(
 			200,
-			path.join(apiResponsePath, 'image-is-part-of-release-POST-v6.json'),
+			path.join(apiResponsePath, 'image-is-part-of-release-POST-v7.json'),
 			jHeader,
 		);
 	}
@@ -365,7 +354,7 @@ export class BalenaAPIMock extends NockMock {
 	public expectGetDeviceTypes(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v\d+\/device_type($|\?)/, opts).replyWithFile(
 			200,
-			path.join(apiResponsePath, 'device-type-GET-v6.json'),
+			path.join(apiResponsePath, 'device-type-GET-v7.json'),
 			jHeader,
 		);
 	}
@@ -404,7 +393,7 @@ export class BalenaAPIMock extends NockMock {
 		serviceName: string;
 	}) {
 		const serviceId = opts.serviceId || 243768;
-		this.optGet(/^\/v6\/application($|\?).*\$expand=service.*/, opts).reply(
+		this.optGet(/^\/v7\/application($|\?).*\$expand=service.*/, opts).reply(
 			200,
 			{
 				d: [{ service: [{ id: serviceId, service_name: opts.serviceName }] }],
@@ -416,16 +405,13 @@ export class BalenaAPIMock extends NockMock {
 	 * Mocks balena-release call
 	 */
 	public expectGetUser(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v6\/user/, opts).reply(200, {
+		this.optGet(/^\/v7\/user/, opts).reply(200, {
 			d: [
 				{
 					id: 99999,
-					actor: 1234567,
+					actor: { __id: 1234567 },
 					username: 'gh_user',
 					created_at: '2018-08-19T13:55:04.485Z',
-					__metadata: {
-						uri: '/resin/user(@id)?@id=43699',
-					},
 				},
 			],
 		});

@@ -37,6 +37,7 @@ const devicesSelectFields = {
 
 export default class DeviceListCmd extends Command {
 	public static aliases = ['devices'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List all devices.
@@ -58,7 +59,6 @@ export default class DeviceListCmd extends Command {
 	public static flags = {
 		fleet: cf.fleet,
 		json: cf.json,
-		help: cf.help,
 	};
 
 	public static primary = true;

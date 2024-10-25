@@ -18,8 +18,5 @@
 	"push_timestamp": null,
 	"status": "running",
 	"content_hash": null,
-	"contract": null,
-	"__metadata": {
-		"uri": "/resin/image(@id)?@id=1859016"
-	}
+	"contract": null
 }

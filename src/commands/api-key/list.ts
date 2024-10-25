@@ -21,6 +21,7 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class APIKeyListCmd extends Command {
 	public static aliases = ['api-keys'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		Print a list of balenaCloud API keys.
@@ -32,7 +33,6 @@ export default class APIKeyListCmd extends Command {
 	public static examples = ['$ balena api-key list'];
 
 	public static flags = {
-		help: cf.help,
 		user: Flags.boolean({
 			char: 'u',
 			description: 'show API keys for your user',
@@ -51,7 +51,7 @@ export default class APIKeyListCmd extends Command {
 					await getApplication(getBalenaSdk(), options.fleet, {
 						$select: 'actor',
 					})
-				).actor
+				).actor.__id
 			: await getBalenaSdk().auth.getActorId();
 		const keys = await getBalenaSdk().pine.get({
 			resource: 'api_key',

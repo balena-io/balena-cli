@@ -24,6 +24,7 @@ import { jsonInfo } from '../../utils/messages';
 
 export default class ReleaseListCmd extends Command {
 	public static aliases = ['releases'];
+	public static deprecateAliases = true;
 
 	public static description = stripIndent`
 		List all releases of a fleet.
@@ -41,7 +42,6 @@ export default class ReleaseListCmd extends Command {
 
 	public static flags = {
 		json: cf.json,
-		help: cf.help,
 	};
 
 	public static args = {

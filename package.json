@@ -189,7 +189,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@balena/compose": "^4.0.1",
+    "@balena/compose": "^5.0.0",
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
@@ -199,8 +199,8 @@
     "balena-device-init": "^7.0.1",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.0.6",
-    "balena-preload": "^15.0.6",
-    "balena-sdk": "^19.7.3",
+    "balena-preload": "^16.0.0",
+    "balena-sdk": "^20.3.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",

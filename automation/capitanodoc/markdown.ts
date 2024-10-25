@@ -25,7 +25,14 @@ function renderOclifCommand(command: Category['commands'][0]): string[] {
 	const result = [`## ${ent.encode(command.name || '')}`];
 	if (command.aliases?.length) {
 		result.push('### Aliases');
-		result.push(command.aliases.map((alias) => `- \`${alias}\``).join('\n'));
+		result.push(
+			command.aliases
+				.map(
+					(alias) =>
+						`- \`${alias}\`${command.deprecateAliases ? ' *(deprecated)*' : ''}`,
+				)
+				.join('\n'),
+		);
 		result.push(
 			`\nTo use one of the aliases, replace \`${command.name}\` with the alias.`,
 		);
