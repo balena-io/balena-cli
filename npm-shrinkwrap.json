@@ -1264,13 +1264,12 @@
       "dev": true
     },
     "node_modules/@babel/parser": {
-      "version": "7.25.9",
-      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.25.9.tgz",
-      "integrity": "sha512-aI3jjAAO1fh7vY/pBGsn1i9LDbRP43+asrRlkPuTXW5yHXtd1NgTEMudbBoDDxrf1daEEfPJqR+JBMakzrR4Dg==",
+      "version": "7.26.0",
+      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.26.0.tgz",
+      "integrity": "sha512-aP8x5pIw3xvYr/sXT+SEUwyhrXT8rUJRZltK/qN3Db80dcKpTett8cJxHyjk+xYSVXvNnl2SfcJVjbwxpOSscA==",
       "dev": true,
-      "license": "MIT",
       "dependencies": {
-        "@babel/types": "^7.25.9"
+        "@babel/types": "^7.26.0"
       },
       "bin": {
         "parser": "bin/babel-parser.js"
@@ -1280,11 +1279,10 @@
       }
     },
     "node_modules/@babel/parser/node_modules/@babel/types": {
-      "version": "7.25.9",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.9.tgz",
-      "integrity": "sha512-OwS2CM5KocvQ/k7dFJa8i5bNGJP0hXWfVCfDkqRFP1IreH1JDC7wG6eCYCi0+McbfT8OR/kNqsI0UU0xP9H6PQ==",
+      "version": "7.26.0",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz",
+      "integrity": "sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==",
       "dev": true,
-      "license": "MIT",
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.9",
         "@babel/helper-validator-identifier": "^7.25.9"
@@ -1308,11 +1306,10 @@
       }
     },
     "node_modules/@babel/template/node_modules/@babel/types": {
-      "version": "7.25.9",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.9.tgz",
-      "integrity": "sha512-OwS2CM5KocvQ/k7dFJa8i5bNGJP0hXWfVCfDkqRFP1IreH1JDC7wG6eCYCi0+McbfT8OR/kNqsI0UU0xP9H6PQ==",
+      "version": "7.26.0",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz",
+      "integrity": "sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==",
       "dev": true,
-      "license": "MIT",
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.9",
         "@babel/helper-validator-identifier": "^7.25.9"
@@ -1343,13 +1340,13 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/generator": {
-      "version": "7.25.9",
-      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.25.9.tgz",
-      "integrity": "sha512-omlUGkr5EaoIJrhLf9CJ0TvjBRpd9+AXRG//0GEQ9THSo8wPiTlbpy1/Ow8ZTrbXpjd9FHXfbFQx32I04ht0FA==",
+      "version": "7.26.0",
+      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.26.0.tgz",
+      "integrity": "sha512-/AIkAmInnWwgEAJGQr9vY0c66Mj6kjkE2ZPB1PurTRaRAh3U+J45sAQMjQDJdh4WbR3l0x5xkimXBKyBXXAu2w==",
       "dev": true,
-      "license": "MIT",
       "dependencies": {
-        "@babel/types": "^7.25.9",
+        "@babel/parser": "^7.26.0",
+        "@babel/types": "^7.26.0",
         "@jridgewell/gen-mapping": "^0.3.5",
         "@jridgewell/trace-mapping": "^0.3.25",
         "jsesc": "^3.0.2"
@@ -1359,11 +1356,10 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/types": {
-      "version": "7.25.9",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.25.9.tgz",
-      "integrity": "sha512-OwS2CM5KocvQ/k7dFJa8i5bNGJP0hXWfVCfDkqRFP1IreH1JDC7wG6eCYCi0+McbfT8OR/kNqsI0UU0xP9H6PQ==",
+      "version": "7.26.0",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz",
+      "integrity": "sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==",
       "dev": true,
-      "license": "MIT",
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.9",
         "@babel/helper-validator-identifier": "^7.25.9"
@@ -3940,10 +3936,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.16.15",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.16.15.tgz",
-      "integrity": "sha512-DV58qQz9dBMqVVn+qnKwGa51QzCD4YM/tQM16qLKxdf5tqz5W4QwtrMzjSTbabN1cFTSuyxVYBy+QWHjWW8X/g==",
-      "license": "MIT",
+      "version": "20.17.1",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.1.tgz",
+      "integrity": "sha512-j2VlPv1NnwPJbaCNv69FO/1z4lId0QmGvpT41YxitRtWlg96g/j8qcv2RKsLKe2F6OJgyXhupN1Xo17b2m139Q==",
       "dependencies": {
         "undici-types": "~6.19.2"
       }
