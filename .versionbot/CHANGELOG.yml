@@ -1,4 +1,219 @@
 - commits:
+    - subject: "`device update`: Use detached HUP for os updates"
+      hash: 4b3fdcf99c1dfa2dfe699d5ee1bdf9ee34338ca9
+      body: |
+        This will not track HUP progress when we call
+        OS update in the CLI but will allow for more
+        reliable OS updates by default.
+      footer:
+        Change-type: major
+        change-type: major
+      author: jaomaloy
+      nested: []
+    - subject: Drop `-h` flag for help and stop manually adding `help` per command in
+        favor of oclif automatically adding it
+      hash: d023d0af91ffc4f02fba5fceeb8ccd9751a5e07b
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: myarmolinsky
+      nested: []
+    - subject: Stop checking for very old, long-removed commands
+      hash: de1821d7ac71e8b111683c6619f75a890faf0606
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `devices supported` command in favor of `device-type list`
+      hash: 12923c9b8461f41f813912e3bd5b0838e0958ba3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `notes` command in favor of `device note`
+      hash: 8be069dbdbc62a9f10f96fb657ac7561ee6cd3fe
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `tunnel` command in favor of `device tunnel`
+      hash: 9d3f9128a8f57995badaed68f5c01cf51e482d6f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `env add` in favor of `env set`
+      hash: 61ebf9e4fd69e03894c0e6bdaabbab5847be380c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `ssh` command in favor of `device ssh`
+      hash: 84985022e5dce3eea9ccb5c3c5bd4982c6670822
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `logs` command in favor of `device logs`
+      hash: c5d8f7326351d88c61ee419546026aee5ee6cff8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `scan` command in favor of `device detect`
+      hash: 5db0c71bb356a1fddd9aa32832bf76f1d0a71c93
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `orgs` command in favor of `organization list`
+      hash: c7a06f7259d8aaaac7f0629dba2756790c87d0f7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `tags` command in favor of `tag list`
+      hash: bc66febc502d46bd37916d0bf5c413736f1522da
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `envs` command in favor of `env list`
+      hash: bb8031170050adc931358d8b0f269f785c41af36
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `key` commands in favor of `ssh-key`
+      hash: 3dee7bd6f67a56343e275cf2d3ba9470fe09ea07
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `keys` command in favor of `key list`
+      hash: 3251f0428743f4681132e995d25840340777580e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `releases` command in favor of `release list`
+      hash: 35dce4579a18b529272046190dc11b25feadaa41
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `fleets` command in favor of `fleet list`
+      hash: 71ef00534d4c5f3a45d65a775f6d150e8a981f85
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `api-keys` command in favor of `api-key list`
+      hash: b6f8be27ecd524238bded3c2f9ae03af1251663c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Deprecate `devices` command in favor of `device list`
+      hash: 13110cca455721aaff457a1aa50d74c90b542846
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: "Docs: Show whether an alias is deprecated"
+      hash: d4b554da1b45e6680e4b6ea6bdf6875c2f60d109
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Update `balena-preload` to 16.0.0
+      hash: 1275c11573d7da22c23ae3f3b76025424a92c339
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: "Tests: Drop unused `my_application` resource mock"
+      hash: 593233a99fec514ab3c92ab395e85beb3a95950a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: "Rename `device.overall_status` values: `IDLE` to `OPERATIONAL`,
+        `OFFLINE` to `DISCONNECTED`; add `REDUCED_FUNCTIONALITY`"
+      hash: 1ee9a6828895856c446dd82481b15bf0a544c7a4
+      body: ""
+      footer:
+        Changelog-entry: "Rename `device.overall_status` values: `IDLE` to
+          `OPERATIONAL`, `OFFLINE` to `DISCONNECTED`; add
+          `REDUCED_FUNCTIONALITY`"
+        changelog-entry: "Rename `device.overall_status` values: `IDLE` to
+          `OPERATIONAL`, `OFFLINE` to `DISCONNECTED`; add
+          `REDUCED_FUNCTIONALITY`"
+        Change-type: major
+        change-type: major
+      author: myarmolinsky
+      nested: []
+    - subject: Update `@balena/compose` to 5.0.0
+      hash: 2b656c23b3b0653c193210c255f0bcb1da8ce1de
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Bump balena-sdk to 20.3.0
+      hash: 2bf7b8164514dc5a90a028f1326cb55504cde9fb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 20.0.0
+  title: ""
+  date: 2024-10-25T17:33:36.964Z
+- commits:
     - subject: "device-type list: Add `--all` flag for including no longer supported
         device types in the list"
       hash: 09d52c504d901109eb7753f26f4ff05eda67d71b
