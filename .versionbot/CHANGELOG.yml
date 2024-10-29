@@ -1,4 +1,16 @@
 - commits:
+    - subject: Restore ability to cat key into `ssh-key add`
+      hash: 6f30dc055027c0c2c3bd1040e7b6c87758535df5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 20.0.2
+  title: ""
+  date: 2024-10-29T12:57:07.306Z
+- commits:
     - subject: Fix sending input to some aliases not working
       hash: 48596fa318ae7450c4a5a00d1cb09ccd2d7fcc26
       body: ""
