@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix sending input to some aliases not working
+      hash: 48596fa318ae7450c4a5a00d1cb09ccd2d7fcc26
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 20.0.1
+  title: ""
+  date: 2024-10-29T11:37:10.421Z
+- commits:
     - subject: "`device update`: Use detached HUP for os updates"
       hash: 4b3fdcf99c1dfa2dfe699d5ee1bdf9ee34338ca9
       body: |
