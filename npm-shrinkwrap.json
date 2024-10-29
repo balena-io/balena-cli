@@ -14,7 +14,7 @@
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
-        "@oclif/core": "^4.0.25",
+        "@oclif/core": "^4.0.31",
         "@sentry/node": "^6.16.1",
         "balena-config-json": "^4.2.0",
         "balena-device-init": "^7.0.1",
@@ -2452,9 +2452,9 @@
       }
     },
     "node_modules/@oclif/core": {
-      "version": "4.0.25",
-      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.25.tgz",
-      "integrity": "sha512-3rX1dA40cZWzH6NKcNJGXrJn30XaxnkFXfapLMX0wwSWvBfXE/zIduHt03kLRxeFuEBUR5FBnU64odDWKhtFKg==",
+      "version": "4.0.31",
+      "resolved": "https://registry.npmjs.org/@oclif/core/-/core-4.0.31.tgz",
+      "integrity": "sha512-7oyIZv/C1TP+fPc2tSzVPYqG1zU+nel1QvJxjAWyVhud0J8B5SpKZnryedxs3nlSVPJ6K1MT31C9esupCBYgZw==",
       "dependencies": {
         "ansi-escapes": "^4.3.2",
         "ansis": "^3.3.2",
