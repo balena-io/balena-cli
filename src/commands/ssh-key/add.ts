@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class SSHKeyAddCmd extends Command {
@@ -59,6 +58,7 @@ export default class SSHKeyAddCmd extends Command {
 		}),
 		path: Args.string({
 			description: `the path to the public key file`,
+			required: true,
 		}),
 	};
 
@@ -67,12 +67,12 @@ export default class SSHKeyAddCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(SSHKeyAddCmd);
 
+		const { readFile } = (await import('fs')).promises;
 		let key: string;
-		if (params.path != null) {
-			const { readFile } = (await import('fs')).promises;
+		try {
 			key = await readFile(params.path, 'utf8');
-		} else {
-			throw new ExpectedError('No public key file or path provided.');
+		} catch {
+			key = params.path;
 		}
 
 		await getBalenaSdk().models.key.create(params.name, key);
