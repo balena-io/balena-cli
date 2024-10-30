@@ -17,13 +17,20 @@
 
 import * as _ from 'lodash';
 import * as path from 'path';
+import * as fs from 'fs';
+import { createGunzip } from 'zlib';
 
 import * as packageJSON from '../package.json';
 import { getNodeEngineVersionWarn } from '../build/utils/messages';
 import { warnify } from '../build/utils/messages';
 
-const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
-const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
+const balenaExe = process.platform === 'win32' ? 'balena.cmd' : 'balena';
+const standalonePath = path.resolve(
+	__dirname,
+	'..',
+	'dist/balena/bin',
+	balenaExe,
+);
 
 export interface TestOutput {
 	err: string[]; // stderr
@@ -213,6 +220,67 @@ ${$error}`;
 	};
 }
 
+async function extractTarStream() {
+	if (
+		fs.existsSync(path.join(__dirname, '..', 'dist', 'balena', 'bin', 'balena'))
+	) {
+		return;
+	}
+
+	const tar = await import('tar-stream');
+
+	const version = 'v' + packageJSON.version;
+	const arch = process.arch;
+	const platform =
+		process.platform === 'win32'
+			? 'windows'
+			: process.platform === 'darwin'
+				? 'macOS'
+				: process.platform;
+
+	const sourceFile = path.join(
+		__dirname,
+		'..',
+		'dist',
+		`balena-cli-${version}-${platform}-${arch}-standalone.tar.gz`,
+	);
+	const destinationDir = path.join(__dirname, '..', 'dist');
+
+	const extract = tar.extract();
+
+	return new Promise((resolve, reject) => {
+		extract.on('entry', (header, stream, next) => {
+			const outputPath = path.join(destinationDir, header.name);
+
+			if (header.type === 'directory') {
+				fs.mkdirSync(outputPath, { recursive: true });
+				next();
+			} else {
+				fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+				const fileStream = fs.createWriteStream(outputPath);
+
+				stream.pipe(fileStream);
+
+				fileStream.on('close', () => {
+					if (header.mode) {
+						fs.chmodSync(outputPath, header.mode); // Set file permissions
+					}
+					next();
+				});
+				fileStream.on('error', reject);
+			}
+		});
+
+		extract.on('finish', resolve);
+		extract.on('error', reject);
+
+		fs.createReadStream(sourceFile)
+			.pipe(createGunzip())
+			.pipe(extract)
+			.on('error', reject);
+	});
+}
+
 /**
  * Run a CLI command and capture its stdout, stderr and exit code for testing.
  * If the BALENA_CLI_TEST_TYPE env var is set to 'standalone', then the command
@@ -223,6 +291,7 @@ ${$error}`;
  */
 export async function runCommand(cmd: string): Promise<TestOutput> {
 	if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {
+		await extractTarStream();
 		const semver = await import('semver');
 		if (semver.lt(process.version, '10.16.0')) {
 			throw new Error(
