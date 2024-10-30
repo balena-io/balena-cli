@@ -8,15 +8,15 @@ method.
 
 Selected operating system: **Linux**
 
-1. Download the latest zip file from the [latest release
+1. Download the latest tar.gz file from the [latest release
    page](https://github.com/balena-io/balena-cli/releases/latest). Look for a file name that ends
-   with "-standalone.zip", for example:  
-   `balena-cli-vX.Y.Z-linux-x64-standalone.zip`
+   with "-standalone.tar.gz", for example:  
+   `balena-cli-vX.Y.Z-linux-x64-standalone.tar.gz`
 
-2. Extract the zip file contents to any folder you choose, for example `/home/james`.
-   The extracted contents will include a `balena-cli` folder.
+2. Extract the tar.gz file contents to any folder you choose, for example `/home/james`.
+   The extracted contents will include a `balena/bin` folder.
 
-3. Add that folder (e.g. `/home/james/balena-cli`) to the `PATH` environment variable.
+3. Add that folder (e.g. `/home/james/balena/bin`) to the `PATH` environment variable.
    Check this [StackOverflow
    post](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
    for instructions. Close and reopen the terminal window so that the changes to `PATH`
@@ -27,7 +27,7 @@ Selected operating system: **Linux**
    * `balena version` - should print the CLI's version
    * `balena help` - should print a list of available commands
 
-To update the balena CLI to a new version, download a new release zip file and replace the previous
+To update the balena CLI to a new version, download a new release tar.gz file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
 as described above.
 
