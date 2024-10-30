@@ -8,8 +8,8 @@ There are 3 options to choose from to install balena's CLI:
 
 * [Executable Installer](#executable-installer): the easiest method on Windows and macOS, using the
   traditional graphical desktop application installers.
-* [Standalone Zip Package](#standalone-zip-package): these are plain zip files with the balena CLI
-  executable in them: extract and run. Available for all platforms: Linux, Windows, macOS.
+* [Standalone tar.gz Package](#standalone-targz-package): these are plain tar.gz files with the balena CLI
+  bundled within. Available for all platforms: Linux, Windows, macOS.
   Recommended also for scripted installation in CI (continuous integration) environments.
 * [NPM Installation](#npm-installation): recommended for Node.js developers who may be interested
   in integrating the balena CLI in their existing projects or workflow.
@@ -30,9 +30,9 @@ instructions:
 > If you would like to use WSL, follow the [installations instructions for
 > Linux](./INSTALL-LINUX.md) rather than Windows, as WSL consists of a Linux environment.
 
-If you had previously installed the CLI using a standalone zip package, it may be a good idea to
+If you had previously installed the CLI using a standalone tar package, it may be a good idea to
 check your system's `PATH` environment variable for duplicate entries, as the terminal will use the
-entry that comes first. Check the [Standalone Zip Package](#standalone-zip-package) instructions
+entry that comes first. Check the [Standalone tar.gz Package](#standalone-targz-package) instructions
 for how to modify the PATH variable.
 
 By default, the CLI is installed to the following folders:
@@ -42,18 +42,17 @@ OS  | Folders
 Windows: | `C:\Program Files\balena-cli\`
 macOS:   | `/usr/local/src/balena-cli/` <br> `/usr/local/bin/balena`
 
-## Standalone Zip Package
+## Standalone tar.gz Package
 
-1. Download the latest zip file from the [releases page](https://github.com/balena-io/balena-cli/releases).
+1. Download the latest tar.gz file from the [releases page](https://github.com/balena-io/balena-cli/releases).
    Look for a file name that ends with the word "standalone", for example:  
-   `balena-cli-vX.Y.Z-linux-x64-standalone.zip`  ← _also for the Windows Subsystem for Linux_  
-   `balena-cli-vX.Y.Z-macOS-x64-standalone.zip`  
-   `balena-cli-vX.Y.Z-windows-x64-standalone.zip`
+   `balena-cli-vX.Y.Z-linux-x64-standalone.tar.gz`  ← _also for the Windows Subsystem for Linux_  
+   `balena-cli-vX.Y.Z-macOS-x64-standalone.tar.gz`
+   `balena-cli-vX.Y.Z-windows-x64-standalone.tar.gz`
 
-2. Extract the zip file contents to any folder you choose. The extracted contents will include a
-   `balena-cli` folder.
+2. Extract the tar.gz file contents to any folder you choose. The extracted contents will be a `balena` folder containing a `bin` subdirectory.
 
-3. Add the `balena-cli` folder to the system's `PATH` environment variable.  
+3. Add the `balena/bin` folder to the system's `PATH` environment variable.
    See instructions for:
    [Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix) |
    [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg) |
@@ -61,14 +60,14 @@ macOS:   | `/usr/local/src/balena-cli/` <br> `/usr/local/bin/balena`
 
 > * If you are using macOS 10.15 or later (Catalina, Big Sur), [check this known issue and
 >   workaround](https://github.com/balena-io/balena-cli/issues/2244).
-> * **Linux Alpine** and **Busybox:** the standalone zip package is not currently compatible with
+> * **Linux Alpine** and **Busybox:** the standalone tar.gz package is not currently compatible with
 >   these "compact" Linux distributions, because of the alternative C libraries they ship with.
 >   For these, consider the [NPM Installation](#npm-installation) option.
-> * Note that moving the `balena` executable out of the extracted `balena-cli` folder on its own
+> * Note that moving the `balena/bin/balena` executable out of the extracted `balena` folder on its own
 >   (e.g. moving it to `/usr/local/bin/balena`) will **not** work, as it depends on the other
->   folders and files also present in the `balena-cli` folder.
+>   folders and files also present in the `balena` folder.
 
-To update the CLI to a new version, download a new release zip file and replace the previous
+To update the CLI to a new version, download a new release tar.gz file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
 as described above.
 
