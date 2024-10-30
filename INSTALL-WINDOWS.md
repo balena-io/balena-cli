@@ -8,7 +8,7 @@ Selected operating system: **Windows**
 1. Download the installer from the [latest release
    page](https://github.com/balena-io/balena-cli/releases/latest).
    Look for a file name that ends with "-installer.exe":  
-   `balena-cli-vX.Y.Z-windows-x64-installer.exe`  
+   `balena-cli-vX.Y.Z-windows-x64-installer.exe`
 
 2. Double click on the downloaded file to run the installer and follow the installer's
    instructions.

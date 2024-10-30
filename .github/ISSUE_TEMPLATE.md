@@ -67,7 +67,7 @@ fixed it.
 - **Cloud backend: openBalena or balenaCloud?** If unsure, it will be balenaCloud
 - **Operating system version:** e.g. Windows 10, Ubuntu 18.04, macOS 10.14.5
 - **32/64 bit OS and processor:** e.g. 32-bit Windows on 64-bit Intel processor
-- **Install method:** npm or zip package or executable installer
+- **Install method:** npm or standalone package or executable installer
 - **If npm install, Node.js and npm version:** e.g. Node v8.16.0 and npm v6.4.1
 
 # Additional References
