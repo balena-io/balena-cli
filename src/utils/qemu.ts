@@ -50,7 +50,7 @@ export function copyQemu(context: string, arch: string) {
 		.then(() => getQemuPath(arch))
 		.then(
 			(qemu) =>
-				new Promise(function (resolve, reject) {
+				new Promise<void>(function (resolve, reject) {
 					const read = fs.createReadStream(qemu);
 					const write = fs.createWriteStream(binPath);
 

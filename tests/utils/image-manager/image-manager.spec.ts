@@ -56,7 +56,7 @@ describe('image-manager', function () {
 					void imageManager.getStream('raspberry-pi').then(function (stream) {
 						let result = '';
 
-						stream.on('data', (chunk) => (result += chunk.toString()));
+						stream.on('data', (chunk: string) => (result += chunk.toString()));
 
 						return stream.on('end', function () {
 							expect(result).to.equal('Cache image');
@@ -91,7 +91,7 @@ describe('image-manager', function () {
 						void imageManager.getStream('raspberry-pi').then((stream) => {
 							let result = '';
 
-							stream.on('data', (chunk) => (result += chunk));
+							stream.on('data', (chunk: string) => (result += chunk));
 
 							stream.on('end', async () => {
 								expect(result).to.equal('Download image');
@@ -412,7 +412,7 @@ describe('image-manager', function () {
 					.then(function (stream) {
 						let result = '';
 
-						stream.on('data', (chunk: string) => (result += chunk));
+						stream.on('data', (chunk) => (result += chunk as string));
 
 						stream.on('end', function () {
 							expect(result).to.equal('Lorem ipsum dolor sit amet');
