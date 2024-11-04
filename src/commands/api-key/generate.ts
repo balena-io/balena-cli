@@ -19,6 +19,18 @@ import { Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
+async function isLoggedInWithJwt() {
+	const balena = getBalenaSdk();
+	try {
+		const token = await balena.auth.getToken();
+		const { default: jwtDecode } = await import('jwt-decode');
+		jwtDecode(token);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 export default class GenerateCmd extends Command {
 	public static description = stripIndent`
 		Generate a new balenaCloud API key.
@@ -48,6 +60,13 @@ export default class GenerateCmd extends Command {
 			key = await getBalenaSdk().models.apiKey.create(params.name);
 		} catch (e) {
 			if (e.name === 'BalenaNotLoggedIn') {
+				if (await isLoggedInWithJwt()) {
+					throw new ExpectedError(stripIndent`
+						This command requires you to have been recently authenticated.
+						Please login again with 'balena login'.
+						In case you are using the Web authorization method, you need to logout and re-login to the dashboard first.
+					`);
+				}
 				throw new ExpectedError(stripIndent`
 					This command cannot be run when logged in with an API key.
 					Please login again with 'balena login' and select an alternative method.
