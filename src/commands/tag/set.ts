@@ -60,7 +60,7 @@ export default class TagSetCmd extends Command {
 
 	public static flags = {
 		fleet: {
-			...cf.fleet,
+			...cf.fleet(),
 			exclusive: ['device', 'release'],
 		},
 		device: {

@@ -86,12 +86,15 @@ ${dockerignoreHelp}
 		arch: Flags.string({
 			description: 'the architecture to build for',
 			char: 'A',
+			exclusive: ['fleet'],
+			dependsOn: ['deviceType'],
 		}),
 		deviceType: Flags.string({
 			description: 'the type of device this build is for',
 			char: 'd',
+			exclusive: ['fleet'],
 		}),
-		fleet: cf.fleet,
+		fleet: cf.fleet({ exclusive: ['deviceType', 'arch'] }),
 		...composeCliFlags,
 		...dockerCliFlags,
 	};
@@ -148,17 +151,6 @@ ${dockerignoreHelp}
 	}
 
 	protected async validateOptions(opts: FlagsDef, sdk: BalenaSDK) {
-		// Validate option combinations
-		if (
-			(opts.fleet == null && (opts.arch == null || opts.deviceType == null)) ||
-			(opts.fleet != null && (opts.arch != null || opts.deviceType != null))
-		) {
-			const { ExpectedError } = await import('../../errors');
-			throw new ExpectedError(
-				'You must specify either a fleet (-f), or the device type (-d) and optionally the architecture (-A)',
-			);
-		}
-
 		// Validate project directory
 		const { validateProjectDirectory } = await import('../../utils/compose_ts');
 		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(

@@ -95,7 +95,7 @@ export default class EnvSetCmd extends Command {
 	public static strict = false;
 
 	public static flags = {
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: { ...cf.fleet(), exclusive: ['device'] },
 		device: { ...cf.device, exclusive: ['fleet'] },
 		quiet: cf.quiet,
 		service: cf.service,

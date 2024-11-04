@@ -97,7 +97,7 @@ export default class EnvListCmd extends Command {
 	];
 
 	public static flags = {
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: { ...cf.fleet(), exclusive: ['device'] },
 		config: Flags.boolean({
 			default: false,
 			char: 'c',

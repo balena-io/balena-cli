@@ -57,7 +57,7 @@ export default class SupportCmd extends Command {
 			char: 'd',
 		}),
 		fleet: {
-			...cf.fleet,
+			...cf.fleet(),
 			description:
 				'comma-separated list (no spaces) of fleet names or slugs (preferred)',
 		},

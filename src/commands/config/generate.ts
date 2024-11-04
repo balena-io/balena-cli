@@ -64,7 +64,7 @@ export default class ConfigGenerateCmd extends Command {
 			description: 'a balenaOS version',
 			required: true,
 		}),
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: { ...cf.fleet(), exclusive: ['device'] },
 		dev: cf.dev,
 		secureBoot: cf.secureBoot,
 		device: {
