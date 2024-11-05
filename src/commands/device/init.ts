@@ -73,7 +73,7 @@ export default class DeviceInitCmd extends Command {
 	];
 
 	public static flags = {
-		fleet: cf.fleet,
+		fleet: cf.fleet(),
 		yes: cf.yes,
 		advanced: Flags.boolean({
 			char: 'v',

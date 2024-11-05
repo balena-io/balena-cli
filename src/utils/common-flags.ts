@@ -19,16 +19,22 @@ import { Flags } from '@oclif/core';
 import { stripIndent } from './lazy';
 import { lowercaseIfSlug } from './normalization';
 
-export const fleet = Flags.string({
-	char: 'f',
-	description: 'fleet name or slug (preferred)',
-	parse: lowercaseIfSlug,
-});
+// eslint-disable-next-line id-denylist
+export const fleet = (extraOpts?: Partial<typeof Flags.string>) =>
+	Flags.string({
+		char: 'f',
+		description: 'fleet name or slug (preferred)',
+		parse: lowercaseIfSlug,
+		...extraOpts,
+	});
 
-export const device = Flags.string({
-	char: 'd',
-	description: 'device UUID',
-});
+// eslint-disable-next-line id-denylist
+export const device = (extraOpts?: Partial<typeof Flags.string>) =>
+	Flags.string({
+		char: 'd',
+		description: 'device UUID',
+		...extraOpts,
+	});
 
 export const quiet = Flags.boolean({
 	char: 'q',

@@ -46,11 +46,11 @@ export default class TagRmCmd extends Command {
 
 	public static flags = {
 		fleet: {
-			...cf.fleet,
+			...cf.fleet(),
 			exclusive: ['device', 'release'],
 		},
 		device: {
-			...cf.device,
+			...cf.device(),
 			exclusive: ['fleet', 'release'],
 		},
 		release: {

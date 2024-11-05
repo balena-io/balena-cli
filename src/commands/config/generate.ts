@@ -64,11 +64,11 @@ export default class ConfigGenerateCmd extends Command {
 			description: 'a balenaOS version',
 			required: true,
 		}),
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: cf.fleet({ exclusive: ['device'] }),
 		dev: cf.dev,
 		secureBoot: cf.secureBoot,
 		device: {
-			...cf.device,
+			...cf.device(),
 			exclusive: [
 				'fleet',
 				'provisioning-key-name',
@@ -83,6 +83,7 @@ export default class ConfigGenerateCmd extends Command {
 		deviceType: Flags.string({
 			description:
 				"device type slug (run 'balena device-type list' for possible values)",
+			dependsOn: ['fleet'],
 		}),
 		'generate-device-api-key': Flags.boolean({
 			description: 'generate a fresh device key for the device',
@@ -240,9 +241,6 @@ export default class ConfigGenerateCmd extends Command {
 		  $ balena help config generate
   	`;
 
-	protected readonly deviceTypeNotAllowedMessage =
-		'The --deviceType option can only be used alongside the --fleet option';
-
 	protected async validateOptions(
 		options: Interfaces.InferredFlags<typeof ConfigGenerateCmd.flags>,
 	) {
@@ -252,9 +250,6 @@ export default class ConfigGenerateCmd extends Command {
 			throw new ExpectedError(this.missingDeviceOrAppMessage);
 		}
 
-		if (!options.fleet && options.deviceType) {
-			throw new ExpectedError(this.deviceTypeNotAllowedMessage);
-		}
 		const { normalizeOsVersion } = await import('../../utils/normalization');
 		options.version = normalizeOsVersion(options.version);
 		const { validateDevOptionAndWarn } = await import('../../utils/config');

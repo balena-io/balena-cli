@@ -97,14 +97,14 @@ export default class EnvListCmd extends Command {
 	];
 
 	public static flags = {
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: { ...cf.fleet(), exclusive: ['device'] },
 		config: Flags.boolean({
 			default: false,
 			char: 'c',
 			description: 'show configuration variables only',
 			exclusive: ['service'],
 		}),
-		device: { ...cf.device, exclusive: ['fleet'] },
+		device: { ...cf.device(), exclusive: ['fleet'] },
 		json: cf.json,
 		service: { ...cf.service, exclusive: ['config'] },
 	};

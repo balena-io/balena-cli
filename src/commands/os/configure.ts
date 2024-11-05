@@ -97,7 +97,7 @@ export default class OsConfigureCmd extends Command {
 			description:
 				'ask advanced configuration questions (when in interactive mode)',
 		}),
-		fleet: { ...cf.fleet, exclusive: ['device'] },
+		fleet: { ...cf.fleet(), exclusive: ['device'] },
 		config: Flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
@@ -120,7 +120,7 @@ export default class OsConfigureCmd extends Command {
 		dev: cf.dev,
 		secureBoot: cf.secureBoot,
 		device: {
-			...cf.device,
+			...cf.device(),
 			exclusive: [
 				'fleet',
 				'provisioning-key-name',

@@ -1678,10 +1678,6 @@ note content
 
 device UUID
 
-#### --dev DEV
-
-
-
 ## device os-update
 
 ### Description
