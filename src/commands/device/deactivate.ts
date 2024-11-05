@@ -47,13 +47,14 @@ export default class DeviceDeactivateCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } =
-			await this.parse(DeviceDeactivateCmd);
+		const {
+			args: { uuid },
+			flags: options,
+		} = await this.parse(DeviceDeactivateCmd);
 
 		const balena = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');
 
-		const uuid = params.uuid;
 		const deactivationWarning = `
 Warning! Deactivating a device will charge a fee equivalent to the
 normal monthly cost for the device (e.g. $1 for an essentials device);
