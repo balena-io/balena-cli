@@ -39,12 +39,6 @@ export class InvalidPortMappingError extends ExpectedError {
 	}
 }
 
-export class NoPortsDefinedError extends ExpectedError {
-	constructor() {
-		super('No ports have been provided.');
-	}
-}
-
 export class SIGINTError extends ExpectedError {}
 
 /**

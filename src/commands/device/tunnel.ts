@@ -16,11 +16,7 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import {
-	NoPortsDefinedError,
-	InvalidPortMappingError,
-	ExpectedError,
-} from '../../errors';
+import { InvalidPortMappingError, ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { lowercaseIfSlug } from '../../utils/normalization';
 
@@ -85,6 +81,7 @@ export default class DeviceTunnelCmd extends Command {
 				'port mapping in the format <remotePort>[:[localIP:]localPort]',
 			char: 'p',
 			multiple: true,
+			required: true,
 		}),
 	};
 
@@ -116,10 +113,6 @@ export default class DeviceTunnelCmd extends Command {
 				logger.logLogs(logMessage);
 			}
 		};
-
-		if (options.port === undefined) {
-			throw new NoPortsDefinedError();
-		}
 
 		// Ascertain device uuid
 		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns');
