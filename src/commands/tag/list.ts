@@ -47,7 +47,7 @@ export default class TagListCmd extends Command {
 			exclusive: ['device', 'release'],
 		},
 		device: {
-			...cf.device,
+			...cf.device(),
 			exclusive: ['fleet', 'release'],
 		},
 		release: {

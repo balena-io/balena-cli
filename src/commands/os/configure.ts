@@ -120,7 +120,7 @@ export default class OsConfigureCmd extends Command {
 		dev: cf.dev,
 		secureBoot: cf.secureBoot,
 		device: {
-			...cf.device,
+			...cf.device(),
 			exclusive: [
 				'fleet',
 				'provisioning-key-name',

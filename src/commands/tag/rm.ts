@@ -50,7 +50,7 @@ export default class TagRmCmd extends Command {
 			exclusive: ['device', 'release'],
 		},
 		device: {
-			...cf.device,
+			...cf.device(),
 			exclusive: ['fleet', 'release'],
 		},
 		release: {

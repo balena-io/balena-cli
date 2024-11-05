@@ -28,10 +28,13 @@ export const fleet = (extraOpts?: Partial<typeof Flags.string>) =>
 		...extraOpts,
 	});
 
-export const device = Flags.string({
-	char: 'd',
-	description: 'device UUID',
-});
+// eslint-disable-next-line id-denylist
+export const device = (extraOpts?: Partial<typeof Flags.string>) =>
+	Flags.string({
+		char: 'd',
+		description: 'device UUID',
+		...extraOpts,
+	});
 
 export const quiet = Flags.boolean({
 	char: 'q',

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
+import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
@@ -41,35 +40,24 @@ export default class DeviceNoteCmd extends Command {
 	public static args = {
 		note: Args.string({
 			description: 'note content',
+			required: true,
 		}),
 	};
 
 	public static flags = {
-		device: { exclusive: ['dev'], ...cf.device },
-		dev: Flags.string({
-			exclusive: ['device'],
-			hidden: true,
-		}),
+		device: cf.device({ required: true }),
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = await this.parse(DeviceNoteCmd);
-
-		if (params.note?.length === 0) {
-			throw new ExpectedError('Missing note content');
-		}
-
-		options.device = options.device || options.dev;
-		delete options.dev;
-
-		if (options.device == null || options.device.length === 0) {
-			throw new ExpectedError('Missing device UUID (--device)');
-		}
+		const {
+			args: params,
+			flags: { device },
+		} = await this.parse(DeviceNoteCmd);
 
 		const balena = getBalenaSdk();
 
-		return balena.models.device.setNote(options.device, params.note ?? '');
+		return balena.models.device.setNote(device!, params.note!);
 	}
 }
