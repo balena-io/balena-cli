@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node digest to 39370e3
+      hash: 91c3fced497a5d4dbc293c85c9acc898c8c05b5a
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 20.0.4
+  title: ""
+  date: 2024-11-05T09:13:17.264Z
+- commits:
     - subject: "api-key generate: Display a descriptive error when the generation
         fails due to a stale JWT"
       hash: e0f081623b3a28672a2d67f80e77fe035c9aa9bf
