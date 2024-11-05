@@ -1,4 +1,17 @@
 - commits:
+    - subject: "api-key generate: Display a descriptive error when the generation
+        fails due to a stale JWT"
+      hash: e0f081623b3a28672a2d67f80e77fe035c9aa9bf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 20.0.3
+  title: ""
+  date: 2024-11-05T08:11:56.432Z
+- commits:
     - subject: Restore ability to cat key into `ssh-key add`
       hash: 6f30dc055027c0c2c3bd1040e7b6c87758535df5
       body: ""
