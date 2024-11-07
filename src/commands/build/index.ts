@@ -36,14 +36,16 @@ import { buildProject, composeCliFlags } from '../../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
 import { dockerCliFlags } from '../../utils/docker';
 
-// TODO: For this special one we can't use Interfaces.InferredFlags/InferredArgs
-// because of the 'registry-secrets' type which is defined in the actual code
-// as a path (string | undefined) but then the cli turns it into an object
-interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
+type ComposeGenerateOptsParam = Parameters<typeof compose.generateOpts>[0];
+
+interface PrepareBuildOpts
+	extends ComposeCliFlags,
+		DockerCliFlags,
+		ComposeGenerateOptsParam {
 	arch?: string;
 	deviceType?: string;
 	fleet?: string;
-	source?: string; // Not part of command profile - source param copied here.
+	source?: string;
 }
 
 export default class BuildCmd extends Command {
@@ -113,29 +115,31 @@ ${dockerignoreHelp}
 		const logger = Logger.getLogger();
 		logger.logDebug('Parsing input...');
 
-		// `build` accepts `source` as a parameter, but compose expects it as an option
-		options.source = params.source;
-		delete params.source;
+		const prepareBuildOpts = {
+			...options,
+			source: params.source,
+		};
 
-		await this.resolveArchFromDeviceType(sdk, options);
+		await this.resolveArchFromDeviceType(sdk, prepareBuildOpts);
 
-		await this.validateOptions(options, sdk);
+		await this.validateOptions(prepareBuildOpts, sdk);
 
 		// Build args are under consideration for removal - warn user
-		if (options.buildArg) {
+		if (prepareBuildOpts.buildArg) {
 			console.log(buildArgDeprecation);
 		}
 
-		const app = await this.getAppAndResolveArch(options);
+		const app = await this.getAppAndResolveArch(prepareBuildOpts);
 
-		const { docker, buildOpts, composeOpts } = await this.prepareBuild(options);
+		const { docker, buildOpts, composeOpts } =
+			await this.prepareBuild(prepareBuildOpts);
 
 		try {
 			await this.buildProject(docker, logger, composeOpts, {
 				appType: app?.application_type?.[0],
-				arch: options.arch!,
-				deviceType: options.deviceType!,
-				buildEmulated: options.emulated,
+				arch: prepareBuildOpts.arch!,
+				deviceType: prepareBuildOpts.deviceType!,
+				buildEmulated: prepareBuildOpts.emulated,
 				buildOpts,
 			});
 		} catch (err) {
@@ -147,7 +151,7 @@ ${dockerignoreHelp}
 		logger.logSuccess('Build succeeded!');
 	}
 
-	protected async validateOptions(opts: FlagsDef, sdk: BalenaSDK) {
+	protected async validateOptions(opts: PrepareBuildOpts, sdk: BalenaSDK) {
 		// Validate option combinations
 		if (
 			(opts.fleet == null && (opts.arch == null || opts.deviceType == null)) ||
@@ -175,7 +179,10 @@ ${dockerignoreHelp}
 		opts['registry-secrets'] = registrySecrets;
 	}
 
-	protected async resolveArchFromDeviceType(sdk: BalenaSDK, opts: FlagsDef) {
+	protected async resolveArchFromDeviceType(
+		sdk: BalenaSDK,
+		opts: PrepareBuildOpts,
+	) {
 		if (opts.deviceType != null && opts.arch == null) {
 			try {
 				const deviceTypeOpts = {
@@ -208,7 +215,7 @@ ${dockerignoreHelp}
 		}
 	}
 
-	protected async getAppAndResolveArch(opts: FlagsDef) {
+	protected async getAppAndResolveArch(opts: PrepareBuildOpts) {
 		if (opts.fleet) {
 			const { getAppWithArch } = await import('../../utils/helpers');
 			const app = await getAppWithArch(opts.fleet);
@@ -218,7 +225,7 @@ ${dockerignoreHelp}
 		}
 	}
 
-	protected async prepareBuild(options: FlagsDef) {
+	protected async prepareBuild(options: PrepareBuildOpts) {
 		const { getDocker, generateBuildOpts } = await import('../../utils/docker');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			getDocker(options),
