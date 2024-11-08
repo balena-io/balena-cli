@@ -1,4 +1,16 @@
 - commits:
+    - subject: Refactor balena build for clarity
+      hash: 6155509f4cce06d6bd4ba2f3f3cf2b5e28d2e685
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 20.0.6
+  title: ""
+  date: 2024-11-08T08:10:08.612Z
+- commits:
     - subject: Update actions/upload-artifact digest to b4b15b8
       hash: bcb42c8a21556619151c8c733b1462011add1d4d
       body: |
