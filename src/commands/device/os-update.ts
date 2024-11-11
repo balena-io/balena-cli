@@ -20,6 +20,7 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import type { Device } from 'balena-sdk';
 import { ExpectedError } from '../../errors';
+import { getExpandedProp } from '../../utils/pine';
 
 export default class DeviceOsUpdateCmd extends Command {
 	public static description = stripIndent`
@@ -126,20 +127,46 @@ export default class DeviceOsUpdateCmd extends Command {
 				);
 			}
 		} else {
+			const choices = await Promise.all(
+				hupVersionInfo.versions.map(async (version) => {
+					const takeoverRequired =
+						(await sdk.models.os.getOsUpdateType(
+							getExpandedProp(is_of__device_type, 'slug')!,
+							currentOsVersion,
+							version,
+						)) === 'takeover';
+
+					return {
+						name: `${version}${hupVersionInfo.recommended === version ? ' (recommended)' : ''}${takeoverRequired ? ' ADVANCED UPDATE: Requires disk re-partitioning with no rollback option' : ''}`,
+						value: version,
+					};
+				}),
+			);
 			targetOsVersion = await getCliForm().ask({
 				message: 'Target OS version',
 				type: 'list',
-				choices: hupVersionInfo.versions.map((version) => ({
-					name:
-						hupVersionInfo.recommended === version
-							? `${version} (recommended)`
-							: version,
-					value: version,
-				})),
+				choices,
 			});
 		}
 
+		const takeoverRequired =
+			(await sdk.models.os.getOsUpdateType(
+				getExpandedProp(is_of__device_type, 'slug')!,
+				currentOsVersion,
+				targetOsVersion,
+			)) === 'takeover';
 		const patterns = await import('../../utils/patterns');
+		// Warn the user if the update requires a takeover
+		if (takeoverRequired) {
+			await patterns.confirm(
+				options.yes || false,
+				stripIndent`Before you proceed, note that this update process is different from a regular HostOS Update:
+DATA LOSS: This update requires disk re-partitioning, which will erase all data stored on the device.
+NO ROLLBACK: Unlike our HostOS update mechanism, this process does not allow reverting to a previous version in case of failure.
+Make sure to back up all important data before continuing. For more details, check our documentation: https://docs.balena.io/reference/OS/updates/update-process/
+`,
+			);
+		}
 		// Confirm and start update
 		await patterns.confirm(
 			options.yes || false,
