@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update TypeScript to 5.7.2
+      hash: 61d4d1f1e797f7978da64942648e8a0dcfc9d4b3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 20.0.7
+  title: ""
+  date: 2024-11-23T17:38:05.230Z
+- commits:
     - subject: Refactor balena build for clarity
       hash: 6155509f4cce06d6bd4ba2f3f3cf2b5e28d2e685
       body: ""
@@ -1092,19 +1104,8 @@
 - commits:
     - subject: Improve discover balena os across different networks
       hash: 03f0f11f8b4c9fa4b5b4a9612fa9550b08d4bdd7
-      body: >
-        This is an improvement over the scan, join and leave commands removing
-        flakiness when searching over different networks. In short, instead of
-        leaving bonjour to search across all interfaces, we forcebly conduct a
-        search on each interface, this requires mDNS binding any ipv4 interface
-        (0.0.0.0), otherwise it would bind over the interface itself, which is
-        not desired as it causes services to only be able to receive information
-        over that interface, see
-        [mafintosh/multicast-dns#53](https://github.com/mafintosh/multicast-dns/issues/53).
-        This targeted approach enhances the reliability and accuracy of network
-        searches, reducing instances of missed connections or network errors
-        typically caused by flakiness when relying on bonjour's default
-        behavior.
+      body: |
+        This is an improvement over the scan, join and leave commands removing flakiness when searching over different networks. In short, instead of leaving bonjour to search across all interfaces, we forcebly conduct a search on each interface, this requires mDNS binding any ipv4 interface (0.0.0.0), otherwise it would bind over the interface itself, which is not desired as it causes services to only be able to receive information over that interface, see [mafintosh/multicast-dns#53](https://github.com/mafintosh/multicast-dns/issues/53). This targeted approach enhances the reliability and accuracy of network searches, reducing instances of missed connections or network errors typically caused by flakiness when relying on bonjour's default behavior.
       footer:
         Change-type: patch
         change-type: patch
@@ -3403,21 +3404,13 @@
         - commits:
             - subject: "patch: bump lint-staged from 13.3.0 to 14.0.0"
               hash: 59d0bcd099a4fba24ad2c8c9b51c0603241440ee
-              body: >
-                Bumps [lint-staged](https://github.com/okonet/lint-staged) from
-                13.3.0 to 14.0.0.
-
-                - [Release
-                notes](https://github.com/okonet/lint-staged/releases)
-
-                -
-                [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
-
+              body: |
+                Bumps [lint-staged](https://github.com/okonet/lint-staged) from 13.3.0 to 14.0.0.
+                - [Release notes](https://github.com/okonet/lint-staged/releases)
+                - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: lint-staged
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -3746,22 +3739,13 @@
                 - commits:
                     - subject: "patch: bump lint-staged from 13.3.0 to 14.0.0"
                       hash: 59d0bcd099a4fba24ad2c8c9b51c0603241440ee
-                      body: >
-                        Bumps
-                        [lint-staged](https://github.com/okonet/lint-staged)
-                        from 13.3.0 to 14.0.0.
-
-                        - [Release
-                        notes](https://github.com/okonet/lint-staged/releases)
-
-                        -
-                        [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
-
+                      body: |
+                        Bumps [lint-staged](https://github.com/okonet/lint-staged) from 13.3.0 to 14.0.0.
+                        - [Release notes](https://github.com/okonet/lint-staged/releases)
+                        - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
 
                         ---
-
                         updated-dependencies:
-
                         - dependency-name: lint-staged
                           dependency-type: direct:development
                           update-type: version-update:semver-major
@@ -4125,22 +4109,13 @@
                 - commits:
                     - subject: "patch: bump lint-staged from 13.3.0 to 14.0.0"
                       hash: 59d0bcd099a4fba24ad2c8c9b51c0603241440ee
-                      body: >
-                        Bumps
-                        [lint-staged](https://github.com/okonet/lint-staged)
-                        from 13.3.0 to 14.0.0.
-
-                        - [Release
-                        notes](https://github.com/okonet/lint-staged/releases)
-
-                        -
-                        [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
-
+                      body: |
+                        Bumps [lint-staged](https://github.com/okonet/lint-staged) from 13.3.0 to 14.0.0.
+                        - [Release notes](https://github.com/okonet/lint-staged/releases)
+                        - [Commits](https://github.com/okonet/lint-staged/compare/v13.3.0...v14.0.0)
 
                         ---
-
                         updated-dependencies:
-
                         - dependency-name: lint-staged
                           dependency-type: direct:development
                           update-type: version-update:semver-major
@@ -9798,23 +9773,16 @@
 - commits:
     - subject: Use valid release uuid for local releases
       hash: cd19845b6b6ddecbf723b0598b9fbb628dd2419f
-      body: >
+      body: |
         On local push, the CLI uses `localrelease` as the `commit` property for
-
         the development application. This is not a valid uuid and will not be
-
         read properly by the supervisor, as seen in
-
 
         https://github.com/balena-os/balena-supervisor/blob/master/src/compose/service.ts#L652
 
-
         While this is not a problem right now, the commit is becoming the main
-
         way to identify a service release (replacing `releaseId` and `imageId`),
-
         and the invalid release uuid could cause update issues when pushing a
-
         local release on when using some API endpoints.
       footer:
         Change-type: patch
@@ -10266,25 +10234,14 @@
         - commits:
             - subject: "patch: bump catch-uncommitted from 1.6.2 to 2.0.0"
               hash: eef2f8ef1abec6fe825a55c37a771070a3efb94a
-              body: >
-                Bumps
-                [catch-uncommitted](https://github.com/resin-io-modules/catch-uncommitted)
-                from 1.6.2 to 2.0.0.
-
-                - [Release
-                notes](https://github.com/resin-io-modules/catch-uncommitted/releases)
-
-                -
-                [Changelog](https://github.com/balena-io-modules/catch-uncommitted/blob/master/CHANGELOG.md)
-
-                -
-                [Commits](https://github.com/resin-io-modules/catch-uncommitted/compare/v1.6.2...v2.0.0)
-
+              body: |
+                Bumps [catch-uncommitted](https://github.com/resin-io-modules/catch-uncommitted) from 1.6.2 to 2.0.0.
+                - [Release notes](https://github.com/resin-io-modules/catch-uncommitted/releases)
+                - [Changelog](https://github.com/balena-io-modules/catch-uncommitted/blob/master/CHANGELOG.md)
+                - [Commits](https://github.com/resin-io-modules/catch-uncommitted/compare/v1.6.2...v2.0.0)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: catch-uncommitted
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -11145,21 +11102,13 @@
 - commits:
     - subject: Bump parse-link-header from 1.0.1 to 2.0.0
       hash: 3c2c925eed81ed61e1326437038cda1059b1a0ba
-      body: >
-        Bumps [parse-link-header](https://github.com/thlorenz/parse-link-header)
-        from 1.0.1 to 2.0.0.
-
-        - [Release
-        notes](https://github.com/thlorenz/parse-link-header/releases)
-
-        -
-        [Commits](https://github.com/thlorenz/parse-link-header/compare/v1.0.1...v2.0.0)
-
+      body: |
+        Bumps [parse-link-header](https://github.com/thlorenz/parse-link-header) from 1.0.1 to 2.0.0.
+        - [Release notes](https://github.com/thlorenz/parse-link-header/releases)
+        - [Commits](https://github.com/thlorenz/parse-link-header/compare/v1.0.1...v2.0.0)
 
         ---
-
         updated-dependencies:
-
         - dependency-name: parse-link-header
           dependency-type: direct:development
         ...
@@ -12099,24 +12048,14 @@
         - commits:
             - subject: "patch: bump browserify from 14.5.0 to 17.0.0"
               hash: 2ee532e8dcc3eda0c54296f468f7f9a9e637071a
-              body: >
-                Bumps [browserify](https://github.com/browserify/browserify)
-                from 14.5.0 to 17.0.0.
-
-                - [Release
-                notes](https://github.com/browserify/browserify/releases)
-
-                -
-                [Changelog](https://github.com/browserify/browserify/blob/master/changelog.markdown)
-
-                -
-                [Commits](https://github.com/browserify/browserify/compare/14.5.0...v17.0.0)
-
+              body: |
+                Bumps [browserify](https://github.com/browserify/browserify) from 14.5.0 to 17.0.0.
+                - [Release notes](https://github.com/browserify/browserify/releases)
+                - [Changelog](https://github.com/browserify/browserify/blob/master/changelog.markdown)
+                - [Commits](https://github.com/browserify/browserify/compare/14.5.0...v17.0.0)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: browserify
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -12132,23 +12071,14 @@
         - commits:
             - subject: "patch: bump tmp from 0.0.31 to 0.2.1"
               hash: e905a6a8054297c89e75447e5ff48ca92e13bd49
-              body: >
-                Bumps [tmp](https://github.com/raszi/node-tmp) from 0.0.31 to
-                0.2.1.
-
+              body: |
+                Bumps [tmp](https://github.com/raszi/node-tmp) from 0.0.31 to 0.2.1.
                 - [Release notes](https://github.com/raszi/node-tmp/releases)
-
-                -
-                [Changelog](https://github.com/raszi/node-tmp/blob/master/CHANGELOG.md)
-
-                -
-                [Commits](https://github.com/raszi/node-tmp/compare/v0.0.31...v0.2.1)
-
+                - [Changelog](https://github.com/raszi/node-tmp/blob/master/CHANGELOG.md)
+                - [Commits](https://github.com/raszi/node-tmp/compare/v0.0.31...v0.2.1)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: tmp
                   dependency-type: direct:development
                   update-type: version-update:semver-minor
@@ -12218,23 +12148,14 @@
         - commits:
             - subject: "patch: bump mocha from 3.5.3 to 10.0.0"
               hash: 548996665b7e6159e5e209aa4a10987e071da024
-              body: >
-                Bumps [mocha](https://github.com/mochajs/mocha) from 3.5.3 to
-                10.0.0.
-
+              body: |
+                Bumps [mocha](https://github.com/mochajs/mocha) from 3.5.3 to 10.0.0.
                 - [Release notes](https://github.com/mochajs/mocha/releases)
-
-                -
-                [Changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md)
-
-                -
-                [Commits](https://github.com/mochajs/mocha/compare/v3.5.3...v10.0.0)
-
+                - [Changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md)
+                - [Commits](https://github.com/mochajs/mocha/compare/v3.5.3...v10.0.0)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: mocha
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -12264,21 +12185,13 @@
         - commits:
             - subject: "patch: bump mockttp from 0.9.1 to 2.7.0"
               hash: fa44187e4e510171666f046d6a3a658f59956fd4
-              body: >-
-                Bumps [mockttp](https://github.com/httptoolkit/mockttp) from
-                0.9.1 to 2.7.0.
-
-                - [Release
-                notes](https://github.com/httptoolkit/mockttp/releases)
-
-                -
-                [Commits](https://github.com/httptoolkit/mockttp/compare/v0.9.1...v2.7.0)
-
+              body: |-
+                Bumps [mockttp](https://github.com/httptoolkit/mockttp) from 0.9.1 to 2.7.0.
+                - [Release notes](https://github.com/httptoolkit/mockttp/releases)
+                - [Commits](https://github.com/httptoolkit/mockttp/compare/v0.9.1...v2.7.0)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: mockttp
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -12340,23 +12253,14 @@
               nested: []
             - subject: "patch: bump superagent from 3.8.3 to 7.1.2"
               hash: ae3974af1965386bf236b7ae295e4a9ecc285f0c
-              body: >
-                Bumps [superagent](https://github.com/visionmedia/superagent)
-                from 3.8.3 to 7.1.2.
-
-                - [Release
-                notes](https://github.com/visionmedia/superagent/releases)
-
-                -
-                [Changelog](https://github.com/visionmedia/superagent/blob/master/HISTORY.md)
-
+              body: |
+                Bumps [superagent](https://github.com/visionmedia/superagent) from 3.8.3 to 7.1.2.
+                - [Release notes](https://github.com/visionmedia/superagent/releases)
+                - [Changelog](https://github.com/visionmedia/superagent/blob/master/HISTORY.md)
                 - [Commits](https://github.com/visionmedia/superagent/commits)
 
-
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: superagent
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -12372,23 +12276,14 @@
         - commits:
             - subject: "patch: bump dotenv from 4.0.0 to 16.0.0"
               hash: b2ddda64df84d5a109b2adc1ee847ff5aef17000
-              body: >
-                Bumps [dotenv](https://github.com/motdotla/dotenv) from 4.0.0 to
-                16.0.0.
-
+              body: |
+                Bumps [dotenv](https://github.com/motdotla/dotenv) from 4.0.0 to 16.0.0.
                 - [Release notes](https://github.com/motdotla/dotenv/releases)
-
-                -
-                [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md)
-
-                -
-                [Commits](https://github.com/motdotla/dotenv/compare/v4.0.0...v16.0.0)
-
+                - [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md)
+                - [Commits](https://github.com/motdotla/dotenv/compare/v4.0.0...v16.0.0)
 
                 ---
-
                 updated-dependencies:
-
                 - dependency-name: dotenv
                   dependency-type: direct:development
                   update-type: version-update:semver-major
@@ -15947,17 +15842,10 @@
 - commits:
     - subject: Add support for YAML anchors and aliases in 'docker-compose.yml'
       hash: 8e712ac91055c4efde885854488000a27c6b483d
-      body: >
-        This allows project files to define services from generic fragments by
-        leveraging YAML's anchors and aliases. See here for an example:
-        https://github.com/compose-spec/compose-spec/blob/43f6537b2c8f01b6d3f0e184d13a0f3cb93d38d7/spec.md#fragments
+      body: |
+        This allows project files to define services from generic fragments by leveraging YAML's anchors and aliases. See here for an example: https://github.com/compose-spec/compose-spec/blob/43f6537b2c8f01b6d3f0e184d13a0f3cb93d38d7/spec.md#fragments
 
-
-        Removing the FAILSAFE_SCHEMA flag is not expected to break existing
-        project files, since the default behaviour is more liberal, or cause
-        problems down the road given we perform validation immediately after.
-        Docs for the flag:
-        https://github.com/nodeca/js-yaml#load-string---options-
+        Removing the FAILSAFE_SCHEMA flag is not expected to break existing project files, since the default behaviour is more liberal, or cause problems down the road given we perform validation immediately after. Docs for the flag: https://github.com/nodeca/js-yaml#load-string---options-
       footer:
         Change-type: minor
         change-type: minor
@@ -28171,32 +28059,16 @@
 - commits:
     - subject: Fix CI instability when building Typescript
       hash: 05d58d82485d4b484550a6c438e6787802922561
-      body: >
+      body: |
         The error appears to happen when symlinking typing files and manifests
-
         on case sensitive file systems (like windows) with the error:
-
+        ```
+        lib/actions-oclif/env/add.ts(73,16): error TS2742: The inferred type of 'flags' cannot be named without a reference to '../../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags'. This is likely not portable. A type annotation is necessary.
+        lib/actions-oclif/version.ts(42,16): error TS2742: The inferred type of 'flags' cannot be named without a reference to '../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags.js'. This is likely not portable. A type annotation is necessary.
         ```
 
-        lib/actions-oclif/env/add.ts(73,16): error TS2742: The inferred type of
-        'flags' cannot be named without a reference to
-        '../../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags'.
-        This is likely not portable. A type annotation is necessary.
-
-        lib/actions-oclif/version.ts(42,16): error TS2742: The inferred type of
-        'flags' cannot be named without a reference to
-        '../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags.js'.
-        This is likely not portable. A type annotation is necessary.
-
-        ```
-
-
-        This appears to be reported on the Typescript repo here
-        https://github.com/microsoft/TypeScript/issues/29221
-
-        The suggested workaround is to explicitly set the type of the `flags`
-        static
-
+        This appears to be reported on the Typescript repo here https://github.com/microsoft/TypeScript/issues/29221
+        The suggested workaround is to explicitly set the type of the `flags` static
         property.
       footer:
         Change-type: patch
