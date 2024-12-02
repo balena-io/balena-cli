@@ -48,6 +48,10 @@ export default class GenerateCmd extends Command {
 			description: 'the API key name',
 			required: true,
 		}),
+		expiryDate: Args.string({
+			description: 'the API key expiry date',
+			required: true,
+		}),
 	};
 
 	public static authenticated = true;
@@ -57,7 +61,10 @@ export default class GenerateCmd extends Command {
 
 		let key;
 		try {
-			key = await getBalenaSdk().models.apiKey.create(params.name);
+			key = await getBalenaSdk().models.apiKey.create(
+				params.name,
+				params.expiryDate,
+			);
 		} catch (e) {
 			if (e.name === 'BalenaNotLoggedIn') {
 				if (await isLoggedInWithJwt()) {
