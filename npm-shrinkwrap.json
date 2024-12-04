@@ -1265,12 +1265,12 @@
       "dev": true
     },
     "node_modules/@babel/parser": {
-      "version": "7.26.2",
-      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.26.2.tgz",
-      "integrity": "sha512-DWMCZH9WA4Maitz2q21SRKHo9QXZxkDsbNZoVD62gusNtNBBqDg9i7uOhASfTfIGNzW+O+r7+jAlM8dwphcJKQ==",
+      "version": "7.26.3",
+      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.26.3.tgz",
+      "integrity": "sha512-WJ/CvmY8Mea8iDXo6a7RK2wbmJITT5fN3BEkRuFlxVyNx8jOKIIhmC4fSkTcPcf8JyavbBwIe6OpiCOBXt/IcA==",
       "dev": true,
       "dependencies": {
-        "@babel/types": "^7.26.0"
+        "@babel/types": "^7.26.3"
       },
       "bin": {
         "parser": "bin/babel-parser.js"
@@ -1280,9 +1280,9 @@
       }
     },
     "node_modules/@babel/parser/node_modules/@babel/types": {
-      "version": "7.26.0",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz",
-      "integrity": "sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==",
+      "version": "7.26.3",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.3.tgz",
+      "integrity": "sha512-vN5p+1kl59GVKMvTHt55NzzmYVxprfJD+ql7U9NFIfKCBkYE55LYtS+WtPlaYOyzydrKI8Nezd+aZextrd+FMA==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.9",
@@ -1307,9 +1307,9 @@
       }
     },
     "node_modules/@babel/template/node_modules/@babel/types": {
-      "version": "7.26.0",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz",
-      "integrity": "sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==",
+      "version": "7.26.3",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.3.tgz",
+      "integrity": "sha512-vN5p+1kl59GVKMvTHt55NzzmYVxprfJD+ql7U9NFIfKCBkYE55LYtS+WtPlaYOyzydrKI8Nezd+aZextrd+FMA==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.9",
@@ -1341,13 +1341,13 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/generator": {
-      "version": "7.26.2",
-      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.26.2.tgz",
-      "integrity": "sha512-zevQbhbau95nkoxSq3f/DC/SC+EEOUZd3DYqfSkMhY2/wfSeaHV1Ew4vk8e+x8lja31IbyuUa2uQ3JONqKbysw==",
+      "version": "7.26.3",
+      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.26.3.tgz",
+      "integrity": "sha512-6FF/urZvD0sTeO7k6/B15pMLC4CHUv1426lzr3N01aHJTl046uCAh9LXW/fzeXXjPNCJ6iABW5XaWOsIZB93aQ==",
       "dev": true,
       "dependencies": {
-        "@babel/parser": "^7.26.2",
-        "@babel/types": "^7.26.0",
+        "@babel/parser": "^7.26.3",
+        "@babel/types": "^7.26.3",
         "@jridgewell/gen-mapping": "^0.3.5",
         "@jridgewell/trace-mapping": "^0.3.25",
         "jsesc": "^3.0.2"
@@ -1357,9 +1357,9 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/types": {
-      "version": "7.26.0",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz",
-      "integrity": "sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==",
+      "version": "7.26.3",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.3.tgz",
+      "integrity": "sha512-vN5p+1kl59GVKMvTHt55NzzmYVxprfJD+ql7U9NFIfKCBkYE55LYtS+WtPlaYOyzydrKI8Nezd+aZextrd+FMA==",
       "dev": true,
       "dependencies": {
         "@babel/helper-string-parser": "^7.25.9",
@@ -3937,9 +3937,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.17.6",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.6.tgz",
-      "integrity": "sha512-VEI7OdvK2wP7XHnsuXbAJnEpEkF6NjSN45QJlL4VGqZSXsnicpesdTWsg9RISeSdYd3yeRj/y3k5KGjUXYnFwQ==",
+      "version": "20.17.9",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.9.tgz",
+      "integrity": "sha512-0JOXkRyLanfGPE2QRCwgxhzlBAvaRdCNMcvbd7jFfpmD4eEXll7LRwy5ymJmyeZqk7Nh7eD2LeUyQ68BbndmXw==",
       "dependencies": {
         "undici-types": "~6.19.2"
       }
@@ -5612,9 +5612,9 @@
       }
     },
     "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "18.19.64",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.64.tgz",
-      "integrity": "sha512-955mDqvO2vFf/oL7V3WiUtiz+BugyX8uVbaT2H8oj3+8dRyH2FLiNdowe7eNqRM7IOIZvzDH76EoAT+gwm6aIQ==",
+      "version": "18.19.67",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.67.tgz",
+      "integrity": "sha512-wI8uHusga+0ZugNp0Ol/3BqQfEcCCNfojtO6Oou9iVNGPTL6QNSdnUdqq85fRgIorLhLMuPIKpsN98QE9Nh+KQ==",
       "dependencies": {
         "undici-types": "~5.26.4"
       }
@@ -7654,10 +7654,9 @@
       }
     },
     "node_modules/drivelist/node_modules/node-addon-api": {
-      "version": "8.2.2",
-      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.2.2.tgz",
-      "integrity": "sha512-9emqXAKhVoNrQ792nLI/wpzPpJ/bj/YXxW0CvAau1+RdGBcCRF1Dmz7719zgVsQNrzHl9Tzn3ImZ4qWFarWL0A==",
-      "license": "MIT",
+      "version": "8.3.0",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.3.0.tgz",
+      "integrity": "sha512-8VOpLHFrOQlAH+qA0ZzuGRlALRA6/LVh8QJldbrC4DY0hXoMP0l4Acq8TzFC018HztWiRqyCEj2aTWY2UvnJUg==",
       "engines": {
         "node": "^18 || ^20 || >= 21"
       }
@@ -17426,10 +17425,9 @@
       }
     },
     "node_modules/usb/node_modules/node-addon-api": {
-      "version": "8.2.2",
-      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.2.2.tgz",
-      "integrity": "sha512-9emqXAKhVoNrQ792nLI/wpzPpJ/bj/YXxW0CvAau1+RdGBcCRF1Dmz7719zgVsQNrzHl9Tzn3ImZ4qWFarWL0A==",
-      "license": "MIT",
+      "version": "8.3.0",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.3.0.tgz",
+      "integrity": "sha512-8VOpLHFrOQlAH+qA0ZzuGRlALRA6/LVh8QJldbrC4DY0hXoMP0l4Acq8TzFC018HztWiRqyCEj2aTWY2UvnJUg==",
       "engines": {
         "node": "^18 || ^20 || >= 21"
       }
