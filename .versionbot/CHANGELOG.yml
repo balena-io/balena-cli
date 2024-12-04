@@ -1,4 +1,16 @@
 - commits:
+    - subject: Run test and publish with macos-13
+      hash: d1f7d6d07f6f8b16facdfd52dfa0a8a2b0b764bd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 20.0.8
+  title: ""
+  date: 2024-12-04T19:37:32.669Z
+- commits:
     - subject: Update TypeScript to 5.7.2
       hash: 61d4d1f1e797f7978da64942648e8a0dcfc9d4b3
       body: ""
