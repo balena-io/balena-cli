@@ -26,7 +26,7 @@ jobs:
           "os": [
             ["self-hosted", "X64"],
             ["self-hosted", "ARM64"],
-            ["macos-12"],
+            ["macos-13"],
             ["windows-2019"],
             ["macos-latest-xlarge"]
           ]
@@ -36,7 +36,7 @@ jobs:
           "os": [
             ["self-hosted", "X64"],
             ["self-hosted", "ARM64"],
-            ["macos-12"],
+            ["macos-13"],
             ["windows-2019"],
             ["macos-latest-xlarge"]
           ]
