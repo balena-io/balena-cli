@@ -121,7 +121,7 @@
     "@types/cli-truncate": "^2.0.0",
     "@types/common-tags": "^1.8.1",
     "@types/diff": "^5.0.3",
-    "@types/dockerode": "3.3.23",
+    "@types/dockerode": "3.3.32",
     "@types/ejs": "^3.1.0",
     "@types/express": "^4.17.13",
     "@types/fast-levenshtein": "^0.0.4",
