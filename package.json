@@ -249,7 +249,7 @@
     "resin-cli-visuals": "^2.0.1",
     "resin-doodles": "^0.2.0",
     "resin-stream-logger": "^0.1.2",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.0.0",
     "semver": "^7.3.5",
     "shell-escape": "^0.2.0",
     "split": "^1.0.1",
