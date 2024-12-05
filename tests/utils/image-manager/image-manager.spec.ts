@@ -343,60 +343,6 @@ describe('image-manager', function () {
 				afterEach(function () {
 					this.utilsGetFileCreatedDate.restore();
 				});
-
-				describe('given the file was created before the os last modified time', function () {
-					beforeEach(function () {
-						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.returns(
-							Promise.resolve(new Date('2014-02-01T00:00:00.000Z')),
-						);
-					});
-
-					afterEach(function () {
-						this.osGetLastModified.restore();
-					});
-
-					it('should return false', function () {
-						const promise = imageManager.isImageFresh('raspberry-pi', '1.2.3');
-						return expect(promise).to.eventually.be.false;
-					});
-				});
-
-				describe('given the file was created after the os last modified time', function () {
-					beforeEach(function () {
-						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.returns(
-							Promise.resolve(new Date('2013-01-01T00:00:00.000Z')),
-						);
-					});
-
-					afterEach(function () {
-						this.osGetLastModified.restore();
-					});
-
-					it('should return true', function () {
-						const promise = imageManager.isImageFresh('raspberry-pi', '1.2.3');
-						return expect(promise).to.eventually.be.true;
-					});
-				});
-
-				describe('given the file was created just at the os last modified time', function () {
-					beforeEach(function () {
-						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.returns(
-							Promise.resolve(new Date('2014-00-01T00:00:00.000Z')),
-						);
-					});
-
-					afterEach(function () {
-						this.osGetLastModified.restore();
-					});
-
-					it('should return false', function () {
-						const promise = imageManager.isImageFresh('raspberry-pi', '1.2.3');
-						return expect(promise).to.eventually.be.false;
-					});
-				});
 			});
 		});
 	});

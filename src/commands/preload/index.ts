@@ -295,7 +295,7 @@ Can be repeated to add multiple certificates.\
 		owns__release: {
 			$select: ['id', 'commit', 'end_timestamp', 'composition'],
 			$expand: {
-				contains__image: {
+				release_image: {
 					$select: ['image'],
 					$expand: {
 						image: {
