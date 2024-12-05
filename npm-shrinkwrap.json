@@ -19,6 +19,7 @@
         "balena-config-json": "^4.2.0",
         "balena-device-init": "^7.0.1",
         "balena-errors": "^4.7.3",
+        "balena-hup-action-utils": "^6.2.0",
         "balena-image-fs": "^7.0.6",
         "balena-preload": "^16.0.0",
         "balena-sdk": "^20.3.0",
@@ -5494,9 +5495,9 @@
       }
     },
     "node_modules/balena-hup-action-utils": {
-      "version": "6.1.0",
-      "resolved": "https://registry.npmjs.org/balena-hup-action-utils/-/balena-hup-action-utils-6.1.0.tgz",
-      "integrity": "sha512-hy9hlaL98j04m4plX7ks8MxChuGvcCMMK987q4abjGAqieG1AOI2zrChBwUpKifsIy80c/BY1odIw8ojDdCYgA==",
+      "version": "6.2.0",
+      "resolved": "https://registry.npmjs.org/balena-hup-action-utils/-/balena-hup-action-utils-6.2.0.tgz",
+      "integrity": "sha512-QnqiyMKVoSwPh9ciARXjpD3hphmOF33DX9w03OGXWHqkIEhKI8YOXSbVtfjdgLq6/Mk6gwWGYYnhPMdCCH12sg==",
       "dependencies": {
         "balena-semver": "^2.3.5",
         "tslib": "^2.6.2",
@@ -5617,6 +5618,19 @@
       "integrity": "sha512-wI8uHusga+0ZugNp0Ol/3BqQfEcCCNfojtO6Oou9iVNGPTL6QNSdnUdqq85fRgIorLhLMuPIKpsN98QE9Nh+KQ==",
       "dependencies": {
         "undici-types": "~5.26.4"
+      }
+    },
+    "node_modules/balena-sdk/node_modules/balena-hup-action-utils": {
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/balena-hup-action-utils/-/balena-hup-action-utils-6.1.0.tgz",
+      "integrity": "sha512-hy9hlaL98j04m4plX7ks8MxChuGvcCMMK987q4abjGAqieG1AOI2zrChBwUpKifsIy80c/BY1odIw8ojDdCYgA==",
+      "dependencies": {
+        "balena-semver": "^2.3.5",
+        "tslib": "^2.6.2",
+        "typed-error": "^3.2.2"
+      },
+      "engines": {
+        "node": ">=18.0"
       }
     },
     "node_modules/balena-sdk/node_modules/mime": {
