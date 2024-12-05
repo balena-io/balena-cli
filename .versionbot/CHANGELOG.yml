@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update shrinkwrapped express to v4.21.1
+      hash: 38e29251e7600f2b1cffdff6d414073d910259b5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Oskar Williams
+      nested: []
+  version: 20.0.9
+  title: ""
+  date: 2024-12-05T12:08:24.259Z
+- commits:
     - subject: Run test and publish with macos-13
       hash: d1f7d6d07f6f8b16facdfd52dfa0a8a2b0b764bd
       body: ""
