@@ -70,7 +70,7 @@
         "resin-cli-visuals": "^2.0.1",
         "resin-doodles": "^0.2.0",
         "resin-stream-logger": "^0.1.2",
-        "rimraf": "^3.0.2",
+        "rimraf": "^4.0.0",
         "semver": "^7.3.5",
         "shell-escape": "^0.2.0",
         "split": "^1.0.1",
@@ -126,7 +126,7 @@
         "@types/progress-stream": "^2.0.2",
         "@types/request": "^2.48.7",
         "@types/rewire": "^2.5.30",
-        "@types/rimraf": "^3.0.2",
+        "@types/rimraf": "^4.0.0",
         "@types/semver": "^7.3.9",
         "@types/shell-escape": "^0.2.0",
         "@types/sinon": "^17.0.3",
@@ -2420,6 +2420,23 @@
         "node": ">= 6"
       }
     },
+    "node_modules/@mapbox/node-pre-gyp/node_modules/rimraf": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-3.0.2.tgz",
+      "integrity": "sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==",
+      "deprecated": "Rimraf versions prior to v4 are no longer supported",
+      "license": "ISC",
+      "optional": true,
+      "dependencies": {
+        "glob": "^7.1.3"
+      },
+      "bin": {
+        "rimraf": "bin.js"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/isaacs"
+      }
+    },
     "node_modules/@nodelib/fs.scandir": {
       "version": "2.1.5",
       "resolved": "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz",
@@ -3761,16 +3778,6 @@
         "@types/node": "*"
       }
     },
-    "node_modules/@types/glob": {
-      "version": "7.1.3",
-      "resolved": "https://registry.npmjs.org/@types/glob/-/glob-7.1.3.tgz",
-      "integrity": "sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==",
-      "dev": true,
-      "dependencies": {
-        "@types/minimatch": "*",
-        "@types/node": "*"
-      }
-    },
     "node_modules/@types/global-agent": {
       "version": "2.1.1",
       "resolved": "https://registry.npmjs.org/@types/global-agent/-/global-agent-2.1.1.tgz",
@@ -4060,13 +4067,14 @@
       "dev": true
     },
     "node_modules/@types/rimraf": {
-      "version": "3.0.2",
-      "resolved": "https://registry.npmjs.org/@types/rimraf/-/rimraf-3.0.2.tgz",
-      "integrity": "sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==",
+      "version": "4.0.5",
+      "resolved": "https://registry.npmjs.org/@types/rimraf/-/rimraf-4.0.5.tgz",
+      "integrity": "sha512-DTCZoIQotB2SUJnYgrEx43cQIUYOlNZz0AZPbKU4PSLYTUdML5Gox0++z4F9kQocxStrCmRNhi4x5x/UlwtKUA==",
+      "deprecated": "This is a stub types definition. rimraf provides its own type definitions, so you do not need this installed.",
       "dev": true,
+      "license": "MIT",
       "dependencies": {
-        "@types/glob": "*",
-        "@types/node": "*"
+        "rimraf": "*"
       }
     },
     "node_modules/@types/semver": {
@@ -9174,6 +9182,23 @@
       },
       "engines": {
         "node": "^10.12.0 || >=12.0.0"
+      }
+    },
+    "node_modules/flat-cache/node_modules/rimraf": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-3.0.2.tgz",
+      "integrity": "sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==",
+      "deprecated": "Rimraf versions prior to v4 are no longer supported",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "glob": "^7.1.3"
+      },
+      "bin": {
+        "rimraf": "bin.js"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/isaacs"
       }
     },
     "node_modules/flatted": {
@@ -15396,17 +15421,72 @@
       }
     },
     "node_modules/rimraf": {
-      "version": "3.0.2",
-      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-3.0.2.tgz",
-      "integrity": "sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==",
+      "version": "4.4.1",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-4.4.1.tgz",
+      "integrity": "sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==",
+      "license": "ISC",
       "dependencies": {
-        "glob": "^7.1.3"
+        "glob": "^9.2.0"
       },
       "bin": {
-        "rimraf": "bin.js"
+        "rimraf": "dist/cjs/src/bin.js"
+      },
+      "engines": {
+        "node": ">=14"
       },
       "funding": {
         "url": "https://github.com/sponsors/isaacs"
+      }
+    },
+    "node_modules/rimraf/node_modules/brace-expansion": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.1.tgz",
+      "integrity": "sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==",
+      "license": "MIT",
+      "dependencies": {
+        "balanced-match": "^1.0.0"
+      }
+    },
+    "node_modules/rimraf/node_modules/glob": {
+      "version": "9.3.5",
+      "resolved": "https://registry.npmjs.org/glob/-/glob-9.3.5.tgz",
+      "integrity": "sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==",
+      "license": "ISC",
+      "dependencies": {
+        "fs.realpath": "^1.0.0",
+        "minimatch": "^8.0.2",
+        "minipass": "^4.2.4",
+        "path-scurry": "^1.6.1"
+      },
+      "engines": {
+        "node": ">=16 || 14 >=14.17"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/isaacs"
+      }
+    },
+    "node_modules/rimraf/node_modules/minimatch": {
+      "version": "8.0.4",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-8.0.4.tgz",
+      "integrity": "sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==",
+      "license": "ISC",
+      "dependencies": {
+        "brace-expansion": "^2.0.1"
+      },
+      "engines": {
+        "node": ">=16 || 14 >=14.17"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/isaacs"
+      }
+    },
+    "node_modules/rimraf/node_modules/minipass": {
+      "version": "4.2.8",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-4.2.8.tgz",
+      "integrity": "sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=8"
       }
     },
     "node_modules/rindle": {
