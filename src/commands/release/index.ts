@@ -86,7 +86,7 @@ export default class ReleaseCmd extends Command {
 		balena: BalenaSdk.BalenaSDK,
 		options: FlagsDef,
 	) {
-		const fields: Array<keyof BalenaSdk.Release> = [
+		const fields = [
 			'id',
 			'commit',
 			'created_at',
@@ -96,7 +96,7 @@ export default class ReleaseCmd extends Command {
 			'build_log',
 			'start_timestamp',
 			'end_timestamp',
-		];
+		] satisfies BalenaSdk.PineOptions<BalenaSdk.Release>['$select'];
 
 		const release = await balena.models.release.get(commitOrId, {
 			...(!options.json && { $select: fields }),
