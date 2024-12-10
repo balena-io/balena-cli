@@ -56,14 +56,14 @@ export default class ReleaseListCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ReleaseListCmd);
 
-		const fields: Array<keyof BalenaSdk.Release> = [
+		const fields = [
 			'id',
 			'commit',
 			'created_at',
 			'status',
 			'semver',
 			'is_final',
-		];
+		] satisfies BalenaSdk.PineOptions<BalenaSdk.Release>['$select'];
 
 		const balena = getBalenaSdk();
 		const { getFleetSlug } = await import('../../utils/sdk');
