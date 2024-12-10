@@ -373,6 +373,8 @@
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/platform/node/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/platform/node/classes/FormData.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/axios/lib/platform/node/classes/URLSearchParams.js
+> Warning Failed to make bytecode node20-arm64 for file node_modules/form-data-encoder/lib/index.js
+> Warning Failed to make bytecode node20-arm64 for file node_modules/formdata-node/lib/form-data.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/string-width/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/strip-ansi/index.js
 > Warning Failed to make bytecode node20-arm64 for file node_modules/@isaacs/cliui/node_modules/wrap-ansi/index.js
