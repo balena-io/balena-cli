@@ -10,7 +10,7 @@
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose": "^5.0.0",
+        "@balena/compose": "^6.0.0",
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
@@ -1451,9 +1451,9 @@
       }
     },
     "node_modules/@balena/compose": {
-      "version": "5.0.0",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-5.0.0.tgz",
-      "integrity": "sha512-jfp08uSw999cGX8v7tuO6cYD99Ge6yq1cIow1EvmRtKQ8PTkeUh5rxUbaMyUN8/meDnqlyAYpXgwwNUuuePKGQ==",
+      "version": "6.0.0",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-6.0.0.tgz",
+      "integrity": "sha512-tqGJQJpVTdWxaZpSlm/PP23EU3myqmoMIJgJ6ryseYf3A50AcaJ1raRyIxbZ9wQGWu81TB8g47cY9mossIc90g==",
       "dependencies": {
         "ajv": "^6.12.3",
         "docker-file-parser": "^1.0.7",
@@ -1474,7 +1474,6 @@
         "memoizee": "^0.4.15",
         "mz": "^2.7.0",
         "p-map": "^4.0.0",
-        "pinejs-client-core": "^6.14.13",
         "semver": "^7.3.5",
         "stream-to-promise": "^3.0.0",
         "tar-stream": "^3.1.6",
@@ -1483,6 +1482,9 @@
       },
       "engines": {
         "node": ">=20.6.0"
+      },
+      "peerDependencies": {
+        "pinejs-client-core": "^6.14.13 || ^7.0.0"
       }
     },
     "node_modules/@balena/compose/node_modules/event-stream": {
