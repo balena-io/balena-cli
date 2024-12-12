@@ -1,4 +1,32 @@
 - commits:
+    - subject: "`device os-update`: Add handling for updates that require takeover"
+      hash: 703dbd01c952474f28cbe3105a5ebaa41b4a0566
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+    - subject: Update `balena-sdk`
+      hash: c347b67b250b6e2017f4dcadd5cabeda3b0fb50b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Update `@balena/compose`
+      hash: 4022beeb56d4f9ac04084a8a4797458fb0d32d64
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 20.1.0
+  title: ""
+  date: 2024-12-12T14:17:15.690Z
+- commits:
     - subject: Update shrinkwrapped express to v4.21.1
       hash: 38e29251e7600f2b1cffdff6d414073d910259b5
       body: ""
