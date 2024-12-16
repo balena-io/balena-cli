@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update @balena/lint to v9.1.3
+      hash: c0e7ae9c915d147faab215226d2fd04c35c72176
+      body: |
+        Update @balena/lint from 8.0.0 to 9.1.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 20.1.1
+  title: ""
+  date: 2024-12-16T17:36:39.581Z
+- commits:
     - subject: "`device os-update`: Add handling for updates that require takeover"
       hash: 703dbd01c952474f28cbe3105a5ebaa41b4a0566
       body: ""
