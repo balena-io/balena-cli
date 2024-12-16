@@ -118,7 +118,7 @@ export const isImageFresh = async (deviceType: string, version: string) => {
  */
 export const isESR = (version: string) => {
 	const match = version.match(/^v?(\d+)\.\d+\.\d+/);
-	const major = parseInt((match && match[1]) || '', 10);
+	const major = parseInt(match?.[1] || '', 10);
 	return major >= 2018; // note: (NaN >= 2018) is false
 };
 

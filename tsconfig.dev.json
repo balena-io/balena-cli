@@ -9,6 +9,7 @@
 		"./src/**/*",
 		"./patches/*",
 		"./tests/**/*",
-		"./typings/**/*"
+		"./typings/**/*",
+		".mocharc-standalone.js",
 	]
 }

@@ -91,7 +91,7 @@ export default class DeviceDetectCmd extends Command {
 				try {
 					await docker.ping();
 					return true;
-				} catch (err) {
+				} catch {
 					return false;
 				}
 			}),

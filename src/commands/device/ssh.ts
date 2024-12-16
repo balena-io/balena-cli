@@ -82,7 +82,7 @@ export default class DeviceSSHCmd extends Command {
 				SSH server port number (default 22222) if the target is an IP address or .local
 				hostname. Otherwise, port number for the balenaCloud gateway (default 22).`,
 			char: 'p',
-			parse: async (p) => parseAsInteger(p, 'port'),
+			parse: (p) => parseAsInteger(p, 'port'),
 		}),
 		tty: Flags.boolean({
 			default: false,
@@ -110,13 +110,14 @@ export default class DeviceSSHCmd extends Command {
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
 			const { performLocalDeviceSSH } = await import('../../utils/device/ssh');
-			return await performLocalDeviceSSH({
+			await performLocalDeviceSSH({
 				hostname: params.fleetOrDevice,
 				port: options.port || 'local',
 				forceTTY: options.tty,
 				verbose: options.verbose,
 				service: params.service,
 			});
+			return;
 		}
 
 		// Remote connection
@@ -132,7 +133,7 @@ export default class DeviceSSHCmd extends Command {
 		const useProxy = !!proxyConfig && !options.noproxy;
 
 		// this will be a tunnelled SSH connection...
-		await checkNotUsingOfflineMode();
+		checkNotUsingOfflineMode();
 		await checkLoggedIn();
 		const deviceUuid = await getOnlineTargetDeviceUuid(
 			sdk,

@@ -31,7 +31,7 @@ chai.use(chaiAsPromised);
 
 const { expect } = chai;
 
-async function getPage(name: string): Promise<string> {
+function getPage(name: string): string {
 	const pagePath = path.join(
 		__dirname,
 		'..',
@@ -88,7 +88,7 @@ describe('Login server:', function () {
 						expect(body).to.equal(opt.expectedBody);
 						resolve();
 					} catch (err) {
-						reject(err);
+						reject(err as Error);
 					}
 				},
 			);
@@ -143,7 +143,7 @@ describe('Login server:', function () {
 
 		it('should eventually be the token', async () => {
 			await testLogin({
-				expectedBody: await getPage('success'),
+				expectedBody: getPage('success'),
 				expectedStatusCode: 200,
 				expectedToken: tokens.johndoe.token,
 			});
@@ -162,7 +162,7 @@ describe('Login server:', function () {
 
 		it('should be rejected', async () => {
 			await testLogin({
-				expectedBody: await getPage('error'),
+				expectedBody: getPage('error'),
 				expectedStatusCode: 401,
 				expectedToken: tokens.johndoe.token,
 				expectedErrorMsg: 'Invalid token',
@@ -171,7 +171,7 @@ describe('Login server:', function () {
 
 		it('should be rejected if no token', async () => {
 			await testLogin({
-				expectedBody: await getPage('error'),
+				expectedBody: getPage('error'),
 				expectedStatusCode: 401,
 				expectedToken: '',
 				expectedErrorMsg: 'No token',
@@ -180,7 +180,7 @@ describe('Login server:', function () {
 
 		it('should be rejected if token is malformed', async () => {
 			await testLogin({
-				expectedBody: await getPage('error'),
+				expectedBody: getPage('error'),
 				expectedStatusCode: 401,
 				expectedToken: 'asdf',
 				expectedErrorMsg: 'Invalid token',

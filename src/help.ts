@@ -209,12 +209,12 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		return indent(body, 2);
 	}
 
-	protected formatDescription(desc: string = '') {
+	protected formatDescription(desc = '') {
 		const chalk = getChalk();
 
 		desc = desc.split('\n')[0];
 		// Remove any ending .
-		if (desc[desc.length - 1] === '.') {
+		if (desc.endsWith('.')) {
 			desc = desc.substring(0, desc.length - 1);
 		}
 		// Lowercase first letter if second char is lowercase, to preserve e.g. 'SSH ...')

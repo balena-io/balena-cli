@@ -191,8 +191,8 @@ export class LivepushManager {
 					);
 					const eventQueue = this.updateEventsWaiting[$serviceName];
 					eventQueue.push(changedPath);
-					// eslint-disable-next-line @typescript-eslint/no-floating-promises
-					this.getDebouncedEventHandler($serviceName)();
+
+					void this.getDebouncedEventHandler($serviceName)();
 				};
 
 				const monitor = this.setupFilesystemWatcher(
@@ -252,7 +252,7 @@ export class LivepushManager {
 					try {
 						// sync because chokidar defines a sync interface
 						stats = fs.lstatSync(filePath);
-					} catch (err) {
+					} catch {
 						// OK: the file may have been deleted. See also:
 						// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/fsevents-handler.js#L326-L328
 						// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/nodefs-handler.js#L364
@@ -267,15 +267,15 @@ export class LivepushManager {
 				return dockerignore.ignores(relPath);
 			},
 		});
-		monitor.on('add', (changedPath: string) =>
-			changedPathHandler(serviceName, changedPath),
-		);
-		monitor.on('change', (changedPath: string) =>
-			changedPathHandler(serviceName, changedPath),
-		);
-		monitor.on('unlink', (changedPath: string) =>
-			changedPathHandler(serviceName, changedPath),
-		);
+		monitor.on('add', (changedPath: string) => {
+			changedPathHandler(serviceName, changedPath);
+		});
+		monitor.on('change', (changedPath: string) => {
+			changedPathHandler(serviceName, changedPath);
+		});
+		monitor.on('unlink', (changedPath: string) => {
+			changedPathHandler(serviceName, changedPath);
+		});
 		return monitor;
 	}
 

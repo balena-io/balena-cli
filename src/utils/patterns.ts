@@ -119,7 +119,7 @@ export const checkLoggedInIf = async (doCheck: boolean) => {
  *
  * @throws {NotAvailableInOfflineModeError}
  */
-export const checkNotUsingOfflineMode = async () => {
+export const checkNotUsingOfflineMode = () => {
 	if (process.env.BALENARC_OFFLINE_MODE) {
 		throw new NotAvailableInOfflineModeError(stripIndent`
 	This command requires an internet connection, and cannot be used in offline mode.

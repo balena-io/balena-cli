@@ -29,7 +29,11 @@ export function buffer(
 			new Promise(function (resolve, reject) {
 				const fstream = fs.createReadStream(bufferFile);
 
-				fstream.on('open', () => resolve(fstream)).on('error', reject);
+				fstream
+					.on('open', () => {
+						resolve(fstream);
+					})
+					.on('error', reject);
 			}),
 	);
 }

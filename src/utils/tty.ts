@@ -42,9 +42,9 @@ export = (stream: NodeJS.WriteStream = process.stdout) => {
 
 	const showCursor = () => stream.write('\u001B[?25h');
 
-	const cursorUp = (rows: number = 0) => stream.write(`\u001B[${rows}A`);
+	const cursorUp = (rows = 0) => stream.write(`\u001B[${rows}A`);
 
-	const cursorDown = (rows: number = 0) => stream.write(`\u001B[${rows}B`);
+	const cursorDown = (rows = 0) => stream.write(`\u001B[${rows}B`);
 
 	const write = (str: string) => stream.write(str);
 

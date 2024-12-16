@@ -210,31 +210,31 @@ describe('parseAsInteger() function', () => {
 		);
 	});
 
-	it('should parse integers to number type', () => {
-		expect(v.parseAsInteger('100')).to.equal(100);
-		expect(v.parseAsInteger('100')).to.be.a('number');
-		expect(v.parseAsInteger('0')).to.equal(0);
-		expect(v.parseAsInteger('0')).to.be.a('number');
+	it('should parse integers to number type', async () => {
+		expect(await v.parseAsInteger('100')).to.equal(100);
+		expect(await v.parseAsInteger('100')).to.be.a('number');
+		expect(await v.parseAsInteger('0')).to.equal(0);
+		expect(await v.parseAsInteger('0')).to.be.a('number');
 	});
 });
 
 describe('tryAsInteger() function', () => {
-	it('should return string with non-numeric characters as string', () => {
-		expect(v.tryAsInteger('abc')).to.be.a('string');
-		expect(v.tryAsInteger('1a')).to.be.a('string');
-		expect(v.tryAsInteger('a1')).to.be.a('string');
-		expect(v.tryAsInteger('a')).to.be.a('string');
-		expect(v.tryAsInteger('1.0')).to.be.a('string');
+	it('should return string with non-numeric characters as string', async () => {
+		expect(await v.tryAsInteger('abc')).to.be.a('string');
+		expect(await v.tryAsInteger('1a')).to.be.a('string');
+		expect(await v.tryAsInteger('a1')).to.be.a('string');
+		expect(await v.tryAsInteger('a')).to.be.a('string');
+		expect(await v.tryAsInteger('1.0')).to.be.a('string');
 	});
 
-	it('should return numerical strings with leading zeros as string', () => {
-		expect(v.tryAsInteger('01')).to.be.a('string');
-		expect(v.tryAsInteger('001')).to.be.a('string');
+	it('should return numerical strings with leading zeros as string', async () => {
+		expect(await v.tryAsInteger('01')).to.be.a('string');
+		expect(await v.tryAsInteger('001')).to.be.a('string');
 	});
 
-	it('should return numerical strings without leading zeros as number', () => {
-		expect(v.tryAsInteger('100')).to.be.a('number');
-		expect(v.tryAsInteger('256')).to.be.a('number');
-		expect(v.tryAsInteger('0')).to.be.a('number');
+	it('should return numerical strings without leading zeros as number', async () => {
+		expect(await v.tryAsInteger('100')).to.be.a('number');
+		expect(await v.tryAsInteger('256')).to.be.a('number');
+		expect(await v.tryAsInteger('0')).to.be.a('number');
 	});
 });

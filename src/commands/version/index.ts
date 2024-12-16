@@ -69,10 +69,9 @@ export default class VersionCmd extends Command {
 		const { flags: options } = await this.parse(VersionCmd);
 		const versions: JsonVersions = {
 			'balena-cli': (await import('../../../package.json')).version,
-			'Node.js':
-				process.version && process.version.startsWith('v')
-					? process.version.slice(1)
-					: process.version,
+			'Node.js': process.version.startsWith('v')
+				? process.version.slice(1)
+				: process.version,
 		};
 		if (options.json) {
 			console.log(JSON.stringify(versions, null, 4));

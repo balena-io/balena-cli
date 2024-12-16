@@ -81,7 +81,7 @@ export async function generateApplicationConfig(
 	)) as ImgConfig;
 
 	// merge sshKeys to config, when they have been specified
-	if (options.os && options.os.sshKeys) {
+	if (options.os?.sshKeys) {
 		// Create config.os object if it does not exist
 		config.os = config.os ? config.os : {};
 		config.os.sshKeys = config.os.sshKeys

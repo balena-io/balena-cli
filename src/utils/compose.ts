@@ -386,7 +386,7 @@ export class BuildProgressUI implements Renderer {
 			.map(function (service) {
 				const stream = through.obj(function (event, _enc, cb) {
 					eventHandler(service, event);
-					return cb();
+					cb();
 				});
 				stream.pipe(tty.stream, { end: false });
 				return [service, stream];
@@ -471,17 +471,20 @@ export class BuildProgressUI implements Renderer {
 				const { status, progress, error } = serviceToDataMap[service] ?? {};
 				if (error) {
 					return `${error}`;
-				} else if (progress) {
+				}
+
+				if (progress) {
 					const bar = renderProgressBar(progress, 20);
 					if (status) {
 						return `${bar} ${status}`;
 					}
-					return `${bar}`;
-				} else if (status) {
-					return `${status}`;
-				} else {
-					return 'Waiting...';
+					return bar;
 				}
+
+				if (status) {
+					return status;
+				}
+				return 'Waiting...';
 			})
 			.map((data, index) => [services[index], data])
 			.fromPairs()
@@ -552,7 +555,7 @@ export class BuildProgressInline implements Renderer {
 			.map(function (service) {
 				const stream = through.obj(function (event, _enc, cb) {
 					eventHandler(service, event);
-					return cb();
+					cb();
 				});
 				stream.pipe(outStream, { end: false });
 				return [service, stream];
@@ -606,11 +609,11 @@ export class BuildProgressInline implements Renderer {
 			const { status, error } = event;
 			if (error) {
 				return `${error}`;
-			} else if (status) {
-				return `${status}`;
-			} else {
-				return 'Waiting...';
 			}
+			if (status) {
+				return status;
+			}
+			return 'Waiting...';
 		})();
 
 		const prefix = _.padEnd(getChalk().bold(service), this._prefixWidth);

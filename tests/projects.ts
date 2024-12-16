@@ -50,7 +50,7 @@ export async function exists(fPath: string) {
 	try {
 		await fs.stat(fPath);
 		return true;
-	} catch (e) {
+	} catch {
 		return false;
 	}
 }

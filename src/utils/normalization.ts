@@ -39,7 +39,7 @@ export async function disambiguateReleaseParam(
 
 	// Accepting short hashes of 7,8,9 chars.
 	const possibleUuidHashLength = [7, 8, 9, 32, 40, 62].includes(release.length);
-	const hasLeadingZero = release[0] === '0';
+	const hasLeadingZero = release.startsWith('0');
 	const isOnlyNumerical = /^[0-9]+$/.test(release);
 
 	// Reject non-numerical values with invalid uuid/hash lengths
@@ -78,14 +78,16 @@ export async function disambiguateReleaseParam(
 /**
  * Convert to lowercase if looks like slug
  */
-export async function lowercaseIfSlug(s: string) {
-	return s.includes('/') ? s.toLowerCase() : s;
+export function lowercaseIfSlug(s: string) {
+	return s.includes('/')
+		? Promise.resolve(s.toLowerCase())
+		: Promise.resolve(s);
 }
 
 export function normalizeOsVersion(version: string) {
 	// Note that `version` may also be 'latest', 'recommended', 'default'
 	if (/^v?\d+\.\d+\.\d+/.test(version)) {
-		if (version[0] === 'v') {
+		if (version.startsWith('v')) {
 			version = version.slice(1);
 		}
 	}

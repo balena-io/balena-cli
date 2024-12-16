@@ -32,7 +32,7 @@ declare module 'JSONStream' {
 		recurse: boolean;
 	}
 
-	export function parse(pattern: any | any[]): NodeJS.ReadWriteStream;
+	export function parse(pattern: any): NodeJS.ReadWriteStream;
 
 	type NewlineOnlyIndicator = false;
 

@@ -26,7 +26,6 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 import { diff } from 'deep-object-diff';
-
 import { makeImageName } from '../build/utils/compose_ts';
 import { stripIndent } from '../build/utils/lazy';
 import type { BuilderMock } from './nock/builder-mock';
@@ -77,13 +76,13 @@ export async function inspectTarStream(
 						type: header.type,
 					};
 					const expected = expectedFiles[header.name];
-					if (expected && expected.testStream) {
+					if (expected?.testStream) {
 						await expected.testStream(header, stream, expected);
 					} else {
 						await defaultTestStream(header, stream, expected, projectPath);
 					}
 				} catch (err) {
-					reject(err);
+					reject(err as Error);
 				}
 				next();
 			},
@@ -144,9 +143,8 @@ export async function expectStreamNoCRLF(
 	_header: tar.Headers,
 	stream: Readable,
 ): Promise<void> {
-	const chai = await import('chai');
 	const buf = await streamToBuffer(stream);
-	await chai.expect(buf.includes('\r\n')).to.be.false;
+	expect(buf.includes('\r\n')).to.be.false;
 }
 
 /**
@@ -184,12 +182,13 @@ export async function testDockerBuildStream(o: {
 
 		o.dockerMock.expectPostBuild({
 			...o,
-			checkURI: async (uri: string) => {
+			checkURI: (uri: string) => {
 				const url = new URL(uri, 'http://test.net/');
 				const queryParams = Array.from(url.searchParams.entries());
 				expect(deepJsonParse(queryParams)).to.have.deep.members(
 					deepJsonParse(expectedQueryParams),
 				);
+				return Promise.resolve();
 			},
 			checkBuildRequestBody: (buildRequestBody: string) =>
 				inspectTarStream(buildRequestBody, expectedFiles, projectPath),
@@ -241,12 +240,13 @@ export async function testPushBuildStream(o: {
 
 	o.builderMock.expectPostBuild({
 		...o,
-		checkURI: async (uri: string) => {
+		checkURI: (uri: string) => {
 			const url = new URL(uri, 'http://test.net/');
 			const queryParams = Array.from(url.searchParams.entries());
 			expect(deepJsonParse(queryParams)).to.have.deep.members(
 				deepJsonParse(expectedQueryParams),
 			);
+			return Promise.resolve();
 		},
 		checkBuildRequestBody: (buildRequestBody) =>
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),

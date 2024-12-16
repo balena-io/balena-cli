@@ -24,7 +24,7 @@ import { tryAsInteger } from '../../utils/validation';
 import { jsonInfo } from '../../utils/messages';
 
 export const commitOrIdArg = Args.custom({
-	parse: async (commitOrId: string) => tryAsInteger(commitOrId),
+	parse: tryAsInteger,
 });
 
 type FlagsDef = Interfaces.InferredFlags<typeof ReleaseCmd.flags>;

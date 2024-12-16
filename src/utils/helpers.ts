@@ -281,8 +281,7 @@ export function isWindowsComExeShell() {
 		// neither bash nor sh (e.g. not MSYS, MSYS2, Cygwin, WSL)
 		process.env.SHELL == null &&
 		// Windows cmd.exe or PowerShell
-		process.env.ComSpec != null &&
-		process.env.ComSpec.endsWith('cmd.exe')
+		process.env.ComSpec?.endsWith('cmd.exe')
 	);
 }
 
@@ -366,7 +365,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 			let url: InstanceType<typeof URL>;
 			try {
 				url = new URL(proxyUrl);
-			} catch (_e) {
+			} catch {
 				return;
 			}
 			return {
@@ -469,7 +468,7 @@ export function pickAndRename<T extends Dictionary<any>>(
 		let renameFrom = f;
 		let renameTo = f;
 		const match = f.match(/(?<from>\S+)\s+=>\s+(?<to>\S+)/);
-		if (match && match.groups) {
+		if (match?.groups) {
 			renameFrom = match.groups.from;
 			renameTo = match.groups.to;
 		}

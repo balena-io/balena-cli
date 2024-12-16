@@ -76,6 +76,6 @@ export default class DeviceRegisterCmd extends Command {
 			options.deviceType,
 		);
 
-		return result && result.uuid;
+		return result.uuid;
 	}
 }

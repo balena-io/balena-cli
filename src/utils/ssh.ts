@@ -73,7 +73,7 @@ export function sshArgsForRemoteCommand({
 		...['-o', 'LogLevel=ERROR'],
 		...['-o', 'StrictHostKeyChecking=no'],
 		...['-o', 'UserKnownHostsFile=/dev/null'],
-		...(proxyCommand && proxyCommand.length
+		...(proxyCommand?.length
 			? ['-o', `ProxyCommand=${proxyCommand.join(' ')}`]
 			: []),
 		`${username}@${hostname}`,
@@ -155,9 +155,9 @@ export async function runRemoteCommand({
 		[exitCode, exitSignal] = await new Promise((resolve, reject) => {
 			const ps = spawn(program, args, { stdio })
 				.on('error', reject)
-				.on('close', (code, signal) =>
-					resolve([code ?? undefined, signal ?? undefined]),
-				);
+				.on('close', (code, signal) => {
+					resolve([code ?? undefined, signal ?? undefined]);
+				});
 
 			if (ps.stdin && stdin && typeof stdin !== 'string') {
 				stdin.pipe(ps.stdin);
@@ -272,7 +272,7 @@ export async function getLocalDeviceCmdStdout(
 export const isRootUserGood = _.memoize(async (hostname: string, port) => {
 	try {
 		await runRemoteCommand({ cmd: 'exit 0', hostname, port, ...stdioIgnore });
-	} catch (e) {
+	} catch {
 		return false;
 	}
 	return true;

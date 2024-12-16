@@ -48,7 +48,7 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		if (
 			cmdSlice.length > 1 &&
 			cmdSlice[0] === 'help' &&
-			cmdSlice[1][0] !== '-'
+			!cmdSlice[1].startsWith('-')
 		) {
 			cmdSlice.shift();
 			cmdSlice.push('--help');

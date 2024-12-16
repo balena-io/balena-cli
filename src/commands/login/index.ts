@@ -132,7 +132,7 @@ export default class LoginCmd extends Command {
 		// We can safely assume this won't be undefined as doLogin will throw if this call fails
 		// We also don't need to worry too much about the amount of calls to whoami
 		// as these are cached by the SDK
-		const whoamiResult = (await balena.auth.whoami()) as WhoamiResult;
+		const whoamiResult = (await balena.auth.whoami())!;
 
 		if (whoamiResult.actorType !== 'user' && !options.hideExperimentalWarning) {
 			console.info(stripIndent`
@@ -168,7 +168,7 @@ ${messages.reachingOut}`);
 
 	async doLogin(
 		loginOptions: FlagsDef,
-		balenaUrl: string = 'balena-cloud.com',
+		balenaUrl = 'balena-cloud.com',
 		token?: string,
 	): Promise<void> {
 		// Token

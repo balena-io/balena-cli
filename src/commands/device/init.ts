@@ -155,7 +155,7 @@ export default class DeviceInitCmd extends Command {
 			try {
 				logger.logDebug(`Process failed, removing device ${device.uuid}`);
 				await balena.models.device.remove(device.uuid);
-			} catch (e) {
+			} catch {
 				// Ignore removal failures, and throw original error
 			}
 			throw e;

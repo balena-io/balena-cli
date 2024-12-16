@@ -26,7 +26,7 @@ describe('balena whoami', function () {
 		api = new BalenaAPIMock();
 	});
 
-	this.afterEach(async () => {
+	this.afterEach(() => {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 	});

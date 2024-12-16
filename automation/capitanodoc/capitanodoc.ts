@@ -145,7 +145,7 @@ export async function getCapitanoDoc(): Promise<typeof capitanoDoc> {
 				throw new Error(`Error parsing section title`);
 			}
 			// match[1] has the title, match[2] has the rest
-			return match && match[2];
+			return match?.[2];
 		}),
 		mdParser.getSectionOfTitle('Installation'),
 		mdParser.getSectionOfTitle('Choosing a shell (command prompt/terminal)'),

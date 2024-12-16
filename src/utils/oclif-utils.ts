@@ -25,7 +25,7 @@ export function capitanoizeOclifUsage(
 		.toLowerCase();
 }
 
-export async function getCommandsFromManifest() {
+export function getCommandsFromManifest() {
 	const manifest = require('../../oclif.manifest.json');
 
 	if (manifest.commands == null) {

@@ -966,7 +966,7 @@ export async function makeBuildTasks(
 	deviceInfo: DeviceInfo,
 	logger: Logger,
 	projectName: string,
-	releaseHash: string = 'unavailable',
+	releaseHash = 'unavailable',
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
 	const multiBuild = await import('@balena/compose/dist/multibuild');
@@ -1492,7 +1492,7 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 		},
 		end() {
 			clearInterval(timerId);
-			return runloop.onEnd();
+			runloop.onEnd();
 		},
 	};
 	return runloop;
@@ -1549,7 +1549,7 @@ function dropEmptyLinesStream() {
 		if (str.trim()) {
 			this.push(str);
 		}
-		return cb();
+		cb();
 	});
 }
 
@@ -1570,7 +1570,7 @@ function buildLogCapture(objectMode: boolean, buffer: string[]) {
 			buffer.push(data);
 		}
 
-		return cb(null, data);
+		cb(null, data);
 	});
 }
 
@@ -1585,14 +1585,16 @@ function buildProgressAdapter(inline: boolean) {
 
 	return through({ objectMode: true }, function (str, _enc, cb) {
 		if (str == null) {
-			return cb(null, str);
+			cb(null, str);
+			return;
 		}
 
 		if (inline) {
-			return cb(null, { status: str });
+			cb(null, { status: str });
+			return;
 		}
 
-		if (!/^Successfully tagged /.test(str)) {
+		if (!str.startsWith('Successfully tagged ')) {
 			const match = stepRegex.exec(str);
 			if (match) {
 				step = match[1];
@@ -1607,7 +1609,7 @@ function buildProgressAdapter(inline: boolean) {
 			}
 		}
 
-		return cb(null, { status: str, progress });
+		cb(null, { status: str, progress });
 	});
 }
 
