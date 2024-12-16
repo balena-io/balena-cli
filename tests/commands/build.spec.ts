@@ -267,15 +267,15 @@ describe('balena build', function () {
 				...fsMod,
 				promises: {
 					...fsMod.promises,
-					access: async (p: string) =>
+					access: (p: string) =>
 						p === qemuBinPath ? undefined : fsMod.promises.access(p),
-					stat: async (p: string) =>
+					stat: (p: string) =>
 						p === qemuBinPath ? { size: 1 } : fsMod.promises.stat(p),
 				},
 			});
 			mock(qemuModPath, {
 				...qemuMod,
-				copyQemu: async () => '',
+				copyQemu: () => '',
 			});
 			mock.reRequire('../../build/utils/qemu');
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });

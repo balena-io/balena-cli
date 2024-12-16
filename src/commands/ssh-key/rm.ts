@@ -40,7 +40,7 @@ export default class SSHKeyRmCmd extends Command {
 	public static args = {
 		id: Args.integer({
 			description: 'balenaCloud ID for the SSH key',
-			parse: async (x) => parseAsInteger(x, 'id'),
+			parse: (x) => parseAsInteger(x, 'id'),
 			required: true,
 		}),
 	};

@@ -169,8 +169,12 @@ async function startMockSshServer(): Promise<[Server, number]> {
 				console.error(`[debug] mock ssh server: ${msg}`);
 			}
 		};
-		c.on('error', (err) => handler(err.message));
-		c.on('end', () => handler('client disconnected'));
+		c.on('error', (err) => {
+			handler(err.message);
+		});
+		c.on('end', () => {
+			handler('client disconnected');
+		});
 		c.end();
 	});
 	server.on('error', (err) => {

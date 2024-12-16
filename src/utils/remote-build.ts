@@ -246,7 +246,8 @@ function getBuilderMessageHandler(
 			console.error(`[debug] handling message: ${JSON.stringify(obj)}`);
 		}
 		if (obj.type != null && obj.type === 'metadata') {
-			return handleBuilderMetadata(obj, build);
+			handleBuilderMetadata(obj, build);
+			return;
 		}
 		if (obj.message) {
 			readline.clearLine(process.stdout, 0);
@@ -423,10 +424,20 @@ async function getRemoteBuildStream(
 		stream = buildRequest.pipe(JSONStream.parse('*')) as NodeJS.ReadStream;
 	}
 	stream = stream
-		.once('error', () => uploadSpinner.stop())
-		.once('close', () => uploadSpinner.stop())
-		.once('data', () => uploadSpinner.stop())
-		.once('end', () => uploadSpinner.stop())
-		.once('finish', () => uploadSpinner.stop());
+		.once('error', () => {
+			uploadSpinner.stop();
+		})
+		.once('close', () => {
+			uploadSpinner.stop();
+		})
+		.once('data', () => {
+			uploadSpinner.stop();
+		})
+		.once('end', () => {
+			uploadSpinner.stop();
+		})
+		.once('finish', () => {
+			uploadSpinner.stop();
+		});
 	return [buildRequest, stream];
 }

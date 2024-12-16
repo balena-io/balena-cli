@@ -84,7 +84,7 @@ export async function readFileWithEolConversion(
 	}
 
 	// Analyse encoding
-	const encoding = await detectEncoding(fileBuffer);
+	const encoding = detectEncoding(fileBuffer);
 
 	// Skip further processing of non-convertible encodings
 	if (!CONVERTIBLE_ENCODINGS.includes(encoding)) {
@@ -132,10 +132,10 @@ export async function readFileWithEolConversion(
  * @param fileBuffer File contents whose encoding should be detected
  * @param bytesRead Optional "file size" if smaller than the buffer size
  */
-export async function detectEncoding(
+export function detectEncoding(
 	fileBuffer: Buffer,
 	bytesRead = fileBuffer.length,
-): Promise<string> {
+): string {
 	// empty file
 	if (bytesRead === 0) {
 		return '';

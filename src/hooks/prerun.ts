@@ -103,7 +103,7 @@ const hook: Hook<'prerun'> = async function (options) {
 					.offlineCompatible ?? DEFAULT_OFFLINE_COMPATIBLE
 			)
 		) {
-			await checkNotUsingOfflineMode();
+			checkNotUsingOfflineMode();
 		}
 	} catch (error) {
 		this.error(error);

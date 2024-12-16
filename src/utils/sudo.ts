@@ -105,7 +105,7 @@ async function spawnAndPipe(
 	});
 }
 
-async function windosuExec(
+function windosuExec(
 	escapedArgs: string[],
 	stderr?: NodeJS.WritableStream,
 ): Promise<void> {

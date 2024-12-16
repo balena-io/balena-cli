@@ -93,7 +93,7 @@ function interpret(error: Error): string {
 
 	if (hasCode(error)) {
 		const errorCodeHandler = messages[error.code];
-		const message = errorCodeHandler && errorCodeHandler(error);
+		const message = errorCodeHandler?.(error);
 
 		if (message) {
 			return message;
@@ -229,7 +229,7 @@ async function sentryCaptureException(error: Error) {
 	Sentry.captureException(error);
 	try {
 		await Sentry.close(1000);
-	} catch (e) {
+	} catch {
 		if (process.env.DEBUG) {
 			console.error('[debug] Timeout reporting error to sentry.io');
 		}

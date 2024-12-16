@@ -3,7 +3,7 @@ import * as semver from 'semver';
 
 const changeTypes = ['major', 'minor', 'patch'] as const;
 
-const validateChangeType = (maybeChangeType: string = 'minor') => {
+const validateChangeType = (maybeChangeType = 'minor') => {
 	maybeChangeType = maybeChangeType.toLowerCase();
 	switch (maybeChangeType) {
 		case 'patch':
@@ -136,5 +136,4 @@ async function main() {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-main();
+void main();

@@ -252,10 +252,7 @@ export default class LocalConfigureCmd extends Command {
 					`${this.CONNECTIONS_FOLDER}/resin-sample.ignore`,
 					{ encoding: 'utf8' },
 				);
-				return await writeFileAsync(
-					`${this.CONNECTIONS_FOLDER}/resin-wifi`,
-					contents,
-				);
+				await writeFileAsync(`${this.CONNECTIONS_FOLDER}/resin-wifi`, contents);
 			});
 		} else if (_.includes(files, 'resin-sample')) {
 			// Legacy mode, to be removed later
@@ -269,13 +266,13 @@ export default class LocalConfigureCmd extends Command {
 		} else {
 			// In case there's no file at all (shouldn't happen normally, but the file might have been removed)
 			await imagefs.interact(target, bootPartition, async (_fs) => {
-				return await promisify(_fs.writeFile)(
+				await promisify(_fs.writeFile)(
 					`${this.CONNECTIONS_FOLDER}/resin-wifi`,
 					this.CONNECTION_FILE,
 				);
 			});
 		}
-		return await this.getConfigurationSchema(bootPartition, connectionFileName);
+		return this.getConfigurationSchema(bootPartition, connectionFileName);
 	}
 
 	async removeHostname(schema: any) {

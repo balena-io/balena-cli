@@ -287,15 +287,14 @@ export function monochrome(text: string): string {
  */
 export function fillTemplate(
 	templateString: string,
-	templateVars: object,
+	templateVars: Record<string, unknown>,
 ): string {
-	const escaped = templateString.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
-	const resolved = new Function(
-		...Object.keys(templateVars),
-		`return \`${escaped}\`;`,
-	).call(null, ...Object.values(templateVars));
-	const unescaped = resolved.replace(/\\`/g, '`').replace(/\\\\/g, '\\');
-	return unescaped;
+	return templateString.replace(/\$\{(\w+)\}/g, (_, key) => {
+		if (key in templateVars) {
+			return String(templateVars[key]);
+		}
+		throw new Error(`Missing template variable: ${key}`);
+	});
 }
 
 /**

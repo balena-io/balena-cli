@@ -462,7 +462,13 @@ describe('balena push', function () {
 		tmp.setGracefulCleanup();
 		const projectPath = await new Promise<string>((resolve, reject) => {
 			const opts = { template: 'tmp-XXXXXX', unsafeCleanup: true };
-			tmp.dir(opts, (e, p) => (e ? reject(e) : resolve(p)));
+			tmp.dir(opts, (e, p) => {
+				if (e) {
+					reject(e);
+				} else {
+					resolve(p);
+				}
+			});
 		});
 		console.error(`[debug] Temp project dir: ${projectPath}`);
 
@@ -475,7 +481,7 @@ describe('balena push', function () {
 			try {
 				server.listen(socketPath, resolve);
 			} catch (e) {
-				reject(e);
+				reject(e as Error);
 			}
 		});
 		console.error(`[debug] Checking existence of socket at '${socketPath}'`);
@@ -505,7 +511,13 @@ describe('balena push', function () {
 
 		// Terminate Unix Domain Socket server
 		await new Promise<void>((resolve, reject) => {
-			server.close((e) => (e ? reject(e) : resolve()));
+			server.close((e) => {
+				if (e) {
+					reject(e);
+				} else {
+					resolve();
+				}
+			});
 		});
 
 		expect(await exists(socketPath), 'Socket existence').to.be.false;

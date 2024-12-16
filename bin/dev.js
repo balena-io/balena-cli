@@ -57,7 +57,10 @@ require('ts-node').register({
 	project: path.join(rootDir, 'tsconfig.json'),
 	transpileOnly: true,
 });
-require('../src/app').run(undefined, { dir: __dirname, development: true });
+void require('../src/app').run(undefined, {
+	dir: __dirname,
+	development: true,
+});
 
 // Modify package.json oclif paths from build/ -> src/, or vice versa
 function modifyOclifPaths(revert) {

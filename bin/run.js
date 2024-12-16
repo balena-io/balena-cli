@@ -5,7 +5,7 @@
 process.env.UV_THREADPOOL_SIZE = '64';
 
 // Disable oclif registering ts-node
-process.env.OCLIF_TS_NODE = 0;
+process.env.OCLIF_TS_NODE = '0';
 
 async function run() {
 	// Use fast-boot to cache require lookups, speeding up startup
@@ -18,4 +18,4 @@ async function run() {
 	await require('../build/app').run(undefined, { dir: __dirname });
 }
 
-run();
+void run();

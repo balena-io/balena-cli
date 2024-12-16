@@ -1,5 +1,5 @@
 import * as stream from 'stream';
-import { AssertionError, expect } from 'chai';
+import { expect } from 'chai';
 import { stub } from 'sinon';
 import * as tmp from 'tmp';
 import { delay } from '../../utils';
@@ -62,7 +62,7 @@ describe('image-manager', function () {
 
 						return stream.on('end', function () {
 							expect(result).to.equal('Cache image');
-							return done();
+							done();
 						});
 					});
 				});
@@ -153,9 +153,7 @@ describe('image-manager', function () {
 								const contents = await fsAsync
 									.stat(this.image.name + '.inprogress')
 									.then(function () {
-										throw new AssertionError(
-											'Image cache should be deleted on failure',
-										);
+										throw new Error('Image cache should be deleted on failure');
 									})
 									.catch((err) => {
 										if (err.code !== 'ENOENT') {
@@ -174,7 +172,7 @@ describe('image-manager', function () {
 					});
 				});
 
-				describe('given a stream with the mime property', async function () {
+				describe('given a stream with the mime property', function () {
 					beforeEach(function () {
 						this.osDownloadStub = stub(balena.models.os, 'download');
 						const message = 'Lorem ipsum dolor sit amet';
@@ -422,7 +420,7 @@ describe('image-manager', function () {
 					.then(function (stream) {
 						let result = '';
 
-						stream.on('data', (chunk) => (result += chunk));
+						stream.on('data', (chunk: string) => (result += chunk));
 
 						stream.on('end', function () {
 							expect(result).to.equal('Lorem ipsum dolor sit amet');
@@ -554,7 +552,9 @@ describe('image-manager', function () {
 				mockFs({});
 			});
 
-			afterEach(() => mockFs.restore());
+			afterEach(() => {
+				mockFs.restore();
+			});
 
 			it('should keep the cache directory removed', async function () {
 				const exists = await fsExistsAsync(this.cacheDirectory);

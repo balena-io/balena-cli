@@ -16,7 +16,7 @@
  */
 
 declare module 'balena-device-init' {
-	import { DeviceTypeJson } from 'balena-sdk';
+	import type { DeviceTypeJson } from 'balena-sdk';
 
 	interface OperationState {
 		operation:
@@ -83,23 +83,23 @@ declare module 'balena-device-init' {
 
 	export function configure(
 		image: string,
-		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
+		manifest: DeviceTypeJson.DeviceType,
 		config: object,
 		options?: object,
 	): Promise<InitializeEmitter>;
 
 	export function initialize(
 		image: string,
-		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
+		manifest: DeviceTypeJson.DeviceType,
 		config: object,
 	): Promise<InitializeEmitter>;
 
 	export function getImageOsVersion(
 		image: string,
-		manifest: BalenaSdk.DeviceTypeJson.DeviceType.DeviceType,
+		manifest: DeviceTypeJson.DeviceType,
 	): Promise<string | null>;
 
 	export function getImageManifest(
 		image: string,
-	): Promise<BalenaSdk.DeviceTypeJson.DeviceType.DeviceType | null>;
+	): Promise<DeviceTypeJson.DeviceType | null>;
 }

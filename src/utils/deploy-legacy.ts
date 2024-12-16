@@ -86,7 +86,7 @@ const uploadToPromise = (uploadRequest: Request, logger: Logger) =>
 				obj = JSON.parse(data);
 			} catch (e) {
 				logger.logError('Error parsing reply from remote side');
-				reject(e);
+				reject(e as Error);
 				return;
 			}
 
@@ -232,7 +232,7 @@ export const deployLegacy = async function (
 			username,
 			appName,
 		]);
-		await uploadLogs(...args);
+		uploadLogs(...args);
 	}
 
 	return buildId;

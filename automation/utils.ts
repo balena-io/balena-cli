@@ -19,6 +19,7 @@ import { spawn } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 import { diffTrimmedLines } from 'diff';
+import * as whichMod from 'which';
 
 export const ROOT = path.join(__dirname, '..');
 
@@ -101,7 +102,6 @@ export function loadPackageJson() {
  * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
  */
 export async function which(program: string): Promise<string> {
-	const whichMod = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);
@@ -132,7 +132,7 @@ export async function whichSpawn(
 					.on('error', reject)
 					.on('close', resolve);
 			} catch (err) {
-				reject(err);
+				reject(err as Error);
 			}
 		});
 	} catch (err) {

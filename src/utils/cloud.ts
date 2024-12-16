@@ -164,9 +164,8 @@ export async function downloadOSImage(
 	stream.on('progress', (state: any) => {
 		if (state != null) {
 			return bar.update(state);
-		} else {
-			return spinner.start();
 		}
+		spinner.start();
 	});
 
 	stream.on('end', () => {

@@ -97,24 +97,24 @@ export function parseAsInteger(input: string, paramName?: string) {
 		throw new ExpectedError(message);
 	}
 
-	return Number(input);
+	return Promise.resolve(Number(input));
 }
 
-export function tryAsInteger(input: string): number | string {
+export async function tryAsInteger(input: string): Promise<number | string> {
 	try {
-		return parseAsInteger(input);
+		return await parseAsInteger(input);
 	} catch {
 		return input;
 	}
 }
 
-export async function parseAsLocalHostnameOrIp(input: string) {
+export function parseAsLocalHostnameOrIp(input: string) {
 	if (input && !validateLocalHostnameOrIp(input)) {
 		throw new ExpectedError(
 			'The parameter must be a local hostname or IP address.',
 		);
 	}
-	return input;
+	return Promise.resolve(input);
 }
 
 export function looksLikeFleetSlug(input: string) {

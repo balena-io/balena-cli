@@ -74,11 +74,11 @@ interface ParsedEnvironment {
 	[serviceName: string]: { [key: string]: string };
 }
 
-async function environmentFromInput(
+function environmentFromInput(
 	envs: string[],
 	serviceNames: string[],
 	logger: Logger,
-): Promise<ParsedEnvironment> {
+): ParsedEnvironment {
 	// A normal environment variable regex, with an added part
 	// to find a colon followed servicename at the start
 	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
@@ -143,7 +143,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	try {
 		globalLogger.logDebug('Checking we can access device');
 		await api.ping();
-	} catch (e) {
+	} catch {
 		throw new ExpectedError(stripIndent`
 			Could not communicate with device supervisor at address ${opts.deviceHost}:${port}.
 			Device may not have local mode enabled. Check with:
@@ -191,10 +191,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	});
 
 	// Attempt to attach to the device's docker daemon
-	const docker = connectToDocker(
-		opts.deviceHost,
-		opts.devicePort != null ? opts.devicePort : 2375,
-	);
+	const docker = connectToDocker(opts.deviceHost, opts.devicePort ?? 2375);
 
 	await checkBuildSecretsRequirements(docker, opts.source);
 	globalLogger.logDebug('Tarring all non-ignored files...');
@@ -231,7 +228,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// Print a newline to clearly separate build time and runtime
 	console.log();
 
-	const envs = await environmentFromInput(
+	const envs = environmentFromInput(
 		opts.env,
 		Object.getOwnPropertyNames(project.composition.services),
 		globalLogger,
@@ -388,7 +385,7 @@ async function performBuilds(
 	);
 
 	// Check for failures
-	await inspectBuildResults(localImages);
+	inspectBuildResults(localImages);
 
 	const imagesToRemove: string[] = [];
 
@@ -497,7 +494,7 @@ export async function rebuildSingleTask(
 	}
 
 	await assignDockerBuildOpts(docker, [task], opts);
-	await assignOutputHandlers([task], logger, logHandler);
+	assignOutputHandlers([task], logger, logHandler);
 
 	const [localImage] = await multibuild.performBuilds(
 		[task],
@@ -568,7 +565,7 @@ async function assignDockerBuildOpts(
 	globalLogger.logDebug(`Using ${images.length} on-device images for cache...`);
 
 	await Promise.all(
-		buildTasks.map(async (task: BuildTask) => {
+		buildTasks.map((task: BuildTask) => {
 			task.dockerOpts = {
 				...(task.dockerOpts || {}),
 				...{
@@ -666,7 +663,7 @@ export function generateTargetState(
 	return targetState;
 }
 
-async function inspectBuildResults(images: LocalImage[]): Promise<void> {
+function inspectBuildResults(images: LocalImage[]): void {
 	const failures: LocalPushErrors.BuildFailure[] = [];
 
 	_.each(images, (image) => {
@@ -679,6 +676,6 @@ async function inspectBuildResults(images: LocalImage[]): Promise<void> {
 	});
 
 	if (failures.length > 0) {
-		throw new LocalPushErrors.BuildError(failures).toString();
+		throw new LocalPushErrors.BuildError(failures);
 	}
 }

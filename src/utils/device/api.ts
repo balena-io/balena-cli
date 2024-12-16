@@ -74,7 +74,7 @@ export class DeviceAPI {
 	public constructor(
 		private logger: Logger,
 		addr: string,
-		port: number = 48484,
+		port = 48484,
 	) {
 		this.deviceAddress = `http://${addr}:${port}/`;
 	}
@@ -201,7 +201,7 @@ export class DeviceAPI {
 		return new Promise((resolve, reject) => {
 			const req = request.get(url);
 
-			req.on('error', reject).on('response', async (res) => {
+			req.on('error', reject).on('response', (res) => {
 				if (res.statusCode !== 200) {
 					reject(
 						new ApiErrors.DeviceAPIError(
@@ -213,7 +213,7 @@ export class DeviceAPI {
 				try {
 					res.socket.setKeepAlive(true, 1000);
 				} catch (error) {
-					reject(error);
+					reject(error as Error);
 				}
 				resolve(res);
 			});
@@ -238,7 +238,7 @@ export class DeviceAPI {
 			if (_.isObject(opts) && (opts as ObjectWithUrl).url != null) {
 				// the `as string` shouldn't be necessary, but the type system
 				// is getting a little confused
-				url = (opts as ObjectWithUrl).url as string;
+				url = (opts as ObjectWithUrl).url!;
 			} else if (typeof opts === 'string') {
 				url = opts;
 			}
@@ -252,21 +252,26 @@ export class DeviceAPI {
 			return await new Promise((resolve, reject) => {
 				return request(opts, (err, response, body) => {
 					if (err) {
-						return reject(err);
+						reject(err as Error);
+						return;
 					}
 					switch (response.statusCode) {
-						case 200:
-							return resolve(body);
-						case 400:
-							return reject(
-								new ApiErrors.BadRequestDeviceAPIError(body.message),
-							);
-						case 503:
-							return reject(
-								new ApiErrors.ServiceUnavailableAPIError(body.message),
-							);
-						default:
-							return reject(new ApiErrors.DeviceAPIError(body.message));
+						case 200: {
+							resolve(body);
+							return;
+						}
+						case 400: {
+							reject(new ApiErrors.BadRequestDeviceAPIError(body.message));
+							return;
+						}
+						case 503: {
+							reject(new ApiErrors.ServiceUnavailableAPIError(body.message));
+							return;
+						}
+						default: {
+							reject(new ApiErrors.DeviceAPIError(body.message));
+							return;
+						}
 					}
 				});
 			});

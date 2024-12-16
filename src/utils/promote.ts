@@ -390,13 +390,12 @@ async function createApplication(
 	try {
 		const userInfo = await sdk.auth.getUserInfo();
 		username = userInfo.username;
-	} catch (err) {
+	} catch {
 		throw new sdk.errors.BalenaNotLoggedIn();
 	}
 
 	// eslint-disable-next-line no-async-promise-executor
 	const applicationName = await new Promise<string>(async (resolve, reject) => {
-		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			try {
 				const appName = await getCliForm().ask({
@@ -418,11 +417,13 @@ async function createApplication(
 						'You already have a fleet with that name; please choose another.',
 					);
 					continue;
-				} catch (err) {
-					return resolve(appName);
+				} catch {
+					resolve(appName);
+					return;
 				}
 			} catch (err) {
-				return reject(err);
+				reject(err as Error);
+				return;
 			}
 		}
 	});
@@ -452,9 +453,7 @@ async function generateApplicationConfig(
 	const manifest = await sdk.models.config.getDeviceTypeManifestBySlug(
 		app.is_for__device_type[0].slug,
 	);
-	const opts =
-		manifest.options &&
-		manifest.options.filter((opt) => opt.name !== 'network');
+	const opts = manifest.options?.filter((opt) => opt.name !== 'network');
 
 	const override = {
 		appUpdatePollInterval: options.appUpdatePollInterval,

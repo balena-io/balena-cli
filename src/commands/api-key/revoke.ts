@@ -50,9 +50,9 @@ export default class RevokeCmd extends Command {
 			return;
 		}
 		await Promise.all(
-			apiKeyIds.map(
-				async (id) => await getBalenaSdk().models.apiKey.revoke(Number(id)),
-			),
+			apiKeyIds.map(async (id) => {
+				await getBalenaSdk().models.apiKey.revoke(Number(id));
+			}),
 		);
 		console.log('Successfully revoked the given API keys');
 	}

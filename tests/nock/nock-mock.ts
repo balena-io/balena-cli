@@ -37,7 +37,7 @@ export class NockMock {
 
 	constructor(
 		public basePathPattern: string | RegExp,
-		public allowUnmocked: boolean = false,
+		public allowUnmocked = false,
 	) {
 		if (NockMock.instanceCount === 0) {
 			if (!nock.isActive()) {

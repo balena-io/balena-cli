@@ -61,11 +61,11 @@ export const tunnelConnectionToDevice = (
 					client.pipe(remote);
 					remote.pipe(client);
 					remote.on('error', (err) => {
-						console.error('Remote: ' + err);
+						console.error(`Remote: ${err}`);
 						client.end();
 					});
 					client.on('error', (err) => {
-						console.error('Client: ' + err);
+						console.error(`Client: ${err}`);
 						remote.end();
 					});
 					remote.on('close', () => {

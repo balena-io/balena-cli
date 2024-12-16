@@ -57,7 +57,7 @@ export const dockerConnectionCliFlags = {
 		description:
 			'Docker daemon TCP port number (hint: 2375 for balena devices)',
 		char: 'p',
-		parse: async (p) => parseAsInteger(p, 'dockerPort'),
+		parse: (p) => parseAsInteger(p, 'dockerPort'),
 	}),
 	ca: Flags.string({
 		description: 'Docker host TLS certificate authority file',
@@ -169,9 +169,7 @@ export async function isBalenaEngine(docker: dockerode): Promise<boolean> {
 	// version of balenaEngine, but it was at one point (mis)spelt 'balaena':
 	// https://github.com/balena-os/balena-engine/pull/32/files
 	const dockerVersion = (await docker.version()) as BalenaEngineVersion;
-	return !!(
-		dockerVersion.Engine && dockerVersion.Engine.match(/balena|balaena/)
-	);
+	return !!dockerVersion.Engine?.match(/balena|balaena/);
 }
 
 export async function getDocker(

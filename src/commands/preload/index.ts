@@ -109,7 +109,7 @@ https://github.com/balena-io-examples/staged-releases\
 		'additional-space': Flags.integer({
 			description:
 				'expand the image by this amount of bytes instead of automatically estimating the required amount',
-			parse: async (x) => parseAsInteger(x, 'additional-space'),
+			parse: (x) => parseAsInteger(x, 'additional-space'),
 		}),
 		'add-certificate': Flags.string({
 			description: `\
@@ -126,7 +126,7 @@ Can be repeated to add multiple certificates.\
 		dockerPort: Flags.integer({
 			description:
 				'Docker daemon TCP port number (hint: 2375 for balena devices)',
-			parse: async (p) => parseAsInteger(p, 'dockerPort'),
+			parse: (p) => parseAsInteger(p, 'dockerPort'),
 		}),
 	};
 
@@ -155,7 +155,7 @@ Can be repeated to add multiple certificates.\
 					------------------------------------------------------------------------------
 					`);
 			}
-		} catch (error) {
+		} catch {
 			throw new ExpectedError(
 				`The provided image path does not exist: ${params.image}`,
 			);
@@ -192,11 +192,11 @@ Can be repeated to add multiple certificates.\
 				event.name,
 			));
 			if (event.action === 'start') {
-				return spinner.start();
-			} else {
-				console.log();
-				return spinner.stop();
+				spinner.start();
+				return;
 			}
+			console.log();
+			spinner.stop();
 		};
 
 		const commit = this.isCurrentCommit(options.commit || '')

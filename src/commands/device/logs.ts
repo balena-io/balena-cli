@@ -135,7 +135,7 @@ export default class DeviceLogsCmd extends Command {
 			logger.logDebug('Checking we can access device');
 			try {
 				await deviceApi.ping();
-			} catch (e) {
+			} catch {
 				const { ExpectedError } = await import('../../errors');
 				throw new ExpectedError(
 					`Cannot access device at address ${params.device}.  Device may not be in local mode.`,

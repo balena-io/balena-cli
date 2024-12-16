@@ -111,7 +111,7 @@
     }
   },
   "devDependencies": {
-    "@balena/lint": "^8.0.0",
+    "@balena/lint": "^9.1.3",
     "@electron/notarize": "^2.0.0",
     "@types/archiver": "^6.0.2",
     "@types/bluebird": "^3.5.36",

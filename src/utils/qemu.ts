@@ -114,7 +114,7 @@ async function installQemu(arch: string, qemuPath: string) {
 						stream.resume();
 					}
 				} catch (err) {
-					reject(err);
+					reject(err as Error);
 				}
 			});
 			request(qemuUrl)
