@@ -134,7 +134,7 @@ describe('Login server:', function () {
 	describe('given the token authenticates with the server', function () {
 		beforeEach(function () {
 			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
-			this.loginIfTokenValidStub.returns(Promise.resolve(true));
+			this.loginIfTokenValidStub.resolves(true);
 		});
 
 		afterEach(function () {
@@ -153,7 +153,7 @@ describe('Login server:', function () {
 	describe('given the token does not authenticate with the server', function () {
 		beforeEach(function () {
 			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
-			return this.loginIfTokenValidStub.returns(Promise.resolve(false));
+			return this.loginIfTokenValidStub.resolves(false);
 		});
 
 		afterEach(function () {

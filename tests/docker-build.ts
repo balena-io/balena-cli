@@ -188,7 +188,6 @@ export async function testDockerBuildStream(o: {
 				expect(deepJsonParse(queryParams)).to.have.deep.members(
 					deepJsonParse(expectedQueryParams),
 				);
-				return Promise.resolve();
 			},
 			checkBuildRequestBody: (buildRequestBody: string) =>
 				inspectTarStream(buildRequestBody, expectedFiles, projectPath),
@@ -246,7 +245,6 @@ export async function testPushBuildStream(o: {
 			expect(deepJsonParse(queryParams)).to.have.deep.members(
 				deepJsonParse(expectedQueryParams),
 			);
-			return Promise.resolve();
 		},
 		checkBuildRequestBody: (buildRequestBody) =>
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),

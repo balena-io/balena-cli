@@ -87,7 +87,8 @@ export function looksLikeInteger(input: string) {
 	return /^(?:0|[1-9][0-9]*)$/.test(input);
 }
 
-export function parseAsInteger(input: string, paramName?: string) {
+// eslint-disable-next-line @typescript-eslint/require-await -- oclif parse functions require a Promise return
+export async function parseAsInteger(input: string, paramName?: string) {
 	if (!looksLikeInteger(input)) {
 		const message =
 			paramName == null
@@ -97,7 +98,7 @@ export function parseAsInteger(input: string, paramName?: string) {
 		throw new ExpectedError(message);
 	}
 
-	return Promise.resolve(Number(input));
+	return Number(input);
 }
 
 export async function tryAsInteger(input: string): Promise<number | string> {
@@ -108,13 +109,14 @@ export async function tryAsInteger(input: string): Promise<number | string> {
 	}
 }
 
-export function parseAsLocalHostnameOrIp(input: string) {
+// eslint-disable-next-line @typescript-eslint/require-await -- oclif parse functions require a Promise return
+export async function parseAsLocalHostnameOrIp(input: string) {
 	if (input && !validateLocalHostnameOrIp(input)) {
 		throw new ExpectedError(
 			'The parameter must be a local hostname or IP address.',
 		);
 	}
-	return Promise.resolve(input);
+	return input;
 }
 
 export function looksLikeFleetSlug(input: string) {

@@ -75,13 +75,13 @@ export async function disambiguateReleaseParam(
 	return (await balena.models.release.get(release, { $select: 'id' })).id;
 }
 
+/* eslint-disable @typescript-eslint/require-await -- oclif parse functions require a Promise return */
 /**
  * Convert to lowercase if looks like slug
  */
-export function lowercaseIfSlug(s: string) {
-	return s.includes('/')
-		? Promise.resolve(s.toLowerCase())
-		: Promise.resolve(s);
+export async function lowercaseIfSlug(s: string) {
+	/* eslint-enable @typescript-eslint/require-await */
+	return s.includes('/') ? s.toLowerCase() : s;
 }
 
 export function normalizeOsVersion(version: string) {

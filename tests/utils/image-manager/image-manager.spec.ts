@@ -32,9 +32,7 @@ describe('image-manager', function () {
 				fs.writeSync(this.image.fd, 'Cache image', 0, 'utf8');
 
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				return this.cacheGetImagePathStub.returns(
-					Promise.resolve(this.image.name),
-				);
+				return this.cacheGetImagePathStub.resolves(this.image.name);
 			});
 
 			afterEach(function () {
@@ -45,7 +43,7 @@ describe('image-manager', function () {
 			describe('given the image is fresh', function () {
 				beforeEach(function () {
 					this.cacheIsImageFresh = stub(imageManager, 'isImageFresh');
-					return this.cacheIsImageFresh.returns(Promise.resolve(true));
+					return this.cacheIsImageFresh.resolves(true);
 				});
 
 				afterEach(function () {
@@ -71,7 +69,7 @@ describe('image-manager', function () {
 			describe('given the image is not fresh', function () {
 				beforeEach(function () {
 					this.cacheIsImageFresh = stub(imageManager, 'isImageFresh');
-					return this.cacheIsImageFresh.returns(Promise.resolve(false));
+					return this.cacheIsImageFresh.resolves(false);
 				});
 
 				afterEach(function () {
@@ -82,9 +80,7 @@ describe('image-manager', function () {
 				describe.skip('given a valid download endpoint', function () {
 					beforeEach(function () {
 						this.osDownloadStub = stub(balena.models.os, 'download');
-						this.osDownloadStub.returns(
-							Promise.resolve(stringToStream('Download image')),
-						);
+						this.osDownloadStub.resolves(stringToStream('Download image'));
 					});
 
 					afterEach(function () {
@@ -131,7 +127,7 @@ describe('image-manager', function () {
 					beforeEach(function () {
 						this.osDownloadStream = new stream.PassThrough();
 						this.osDownloadStub = stub(balena.models.os, 'download');
-						this.osDownloadStub.returns(Promise.resolve(this.osDownloadStream));
+						this.osDownloadStub.resolves(this.osDownloadStream);
 					});
 
 					afterEach(function () {
@@ -182,7 +178,7 @@ describe('image-manager', function () {
 							mime?: string;
 						};
 						mockResultStream.mime = 'application/zip';
-						this.osDownloadStub.returns(Promise.resolve(mockResultStream));
+						this.osDownloadStub.resolves(mockResultStream);
 					});
 
 					afterEach(function () {
@@ -207,12 +203,10 @@ describe('image-manager', function () {
 
 				this.balenaSettingsGetStub
 					.withArgs('cacheDirectory')
-					.returns(
-						Promise.resolve(
-							os.platform() === 'win32'
-								? 'C:\\Users\\johndoe\\_balena\\cache'
-								: '/Users/johndoe/.balena/cache',
-						),
+					.resolves(
+						os.platform() === 'win32'
+							? 'C:\\Users\\johndoe\\_balena\\cache'
+							: '/Users/johndoe/.balena/cache',
 					);
 			});
 
@@ -226,21 +220,21 @@ describe('image-manager', function () {
 						balena.models.config,
 						'getDeviceTypeManifestBySlug',
 					);
-					this.getDeviceTypeManifestBySlugStub.withArgs('raspberry-pi').returns(
-						Promise.resolve({
+					this.getDeviceTypeManifestBySlugStub
+						.withArgs('raspberry-pi')
+						.resolves({
 							yocto: {
 								fstype: 'resin-sdcard',
 							},
-						}),
-					);
+						});
 
-					this.getDeviceTypeManifestBySlugStub.withArgs('intel-edison').returns(
-						Promise.resolve({
+					this.getDeviceTypeManifestBySlugStub
+						.withArgs('intel-edison')
+						.resolves({
 							yocto: {
 								fstype: 'zip',
 							},
-						}),
-					);
+						});
 				});
 
 				afterEach(function () {
@@ -293,13 +287,11 @@ describe('image-manager', function () {
 					balena.models.config,
 					'getDeviceTypeManifestBySlug',
 				);
-				this.getDeviceTypeManifestBySlugStub.returns(
-					Promise.resolve({
-						yocto: {
-							fstype: 'balena-sdcard',
-						},
-					}),
-				);
+				this.getDeviceTypeManifestBySlugStub.resolves({
+					yocto: {
+						fstype: 'balena-sdcard',
+					},
+				});
 			});
 
 			afterEach(function () {
@@ -312,8 +304,8 @@ describe('image-manager', function () {
 						imageManager,
 						'getFileCreatedDate',
 					);
-					this.utilsGetFileCreatedDate.returns(
-						Promise.reject(new Error("ENOENT, stat 'raspberry-pi'")),
+					this.utilsGetFileCreatedDate.rejects(
+						new Error("ENOENT, stat 'raspberry-pi'"),
 					);
 				});
 
@@ -333,8 +325,8 @@ describe('image-manager', function () {
 						imageManager,
 						'getFileCreatedDate',
 					);
-					this.utilsGetFileCreatedDate.returns(
-						Promise.resolve(new Date('2014-01-01T00:00:00.000Z')),
+					this.utilsGetFileCreatedDate.resolves(
+						new Date('2014-01-01T00:00:00.000Z'),
 					);
 				});
 
@@ -345,8 +337,8 @@ describe('image-manager', function () {
 				describe('given the file was created before the os last modified time', function () {
 					beforeEach(function () {
 						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.returns(
-							Promise.resolve(new Date('2014-02-01T00:00:00.000Z')),
+						this.osGetLastModified.resolves(
+							new Date('2014-02-01T00:00:00.000Z'),
 						);
 					});
 
@@ -363,8 +355,8 @@ describe('image-manager', function () {
 				describe('given the file was created after the os last modified time', function () {
 					beforeEach(function () {
 						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.returns(
-							Promise.resolve(new Date('2013-01-01T00:00:00.000Z')),
+						this.osGetLastModified.resolves(
+							new Date('2013-01-01T00:00:00.000Z'),
 						);
 					});
 
@@ -381,8 +373,8 @@ describe('image-manager', function () {
 				describe('given the file was created just at the os last modified time', function () {
 					beforeEach(function () {
 						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.returns(
-							Promise.resolve(new Date('2014-00-01T00:00:00.000Z')),
+						this.osGetLastModified.resolves(
+							new Date('2014-00-01T00:00:00.000Z'),
 						);
 					});
 
@@ -406,7 +398,7 @@ describe('image-manager', function () {
 				fs.writeSync(this.image.fd, 'Lorem ipsum dolor sit amet', 0, 'utf8');
 
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.returns(Promise.resolve(this.image.name));
+				this.cacheGetImagePathStub.resolves(this.image.name);
 			});
 
 			afterEach(function (done) {
@@ -443,7 +435,7 @@ describe('image-manager', function () {
 			beforeEach(function () {
 				this.image = tmp.fileSync();
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.returns(Promise.resolve(this.image.name));
+				this.cacheGetImagePathStub.resolves(this.image.name);
 			});
 
 			afterEach(function (done) {
@@ -486,9 +478,7 @@ describe('image-manager', function () {
 			beforeEach(function () {
 				this.date = new Date(2014, 1, 1);
 				this.fsStatStub = stub(fs.promises, 'stat');
-				this.fsStatStub
-					.withArgs('foo')
-					.returns(Promise.resolve({ ctime: this.date }));
+				this.fsStatStub.withArgs('foo').resolves({ ctime: this.date });
 			});
 
 			afterEach(function () {
@@ -506,7 +496,7 @@ describe('image-manager', function () {
 				this.fsStatStub = stub(fs.promises, 'stat');
 				this.fsStatStub
 					.withArgs('foo')
-					.returns(Promise.reject(new Error("ENOENT, stat 'foo'")));
+					.rejects(new Error("ENOENT, stat 'foo'"));
 			});
 
 			afterEach(function () {
