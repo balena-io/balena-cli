@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unnecessary `Promise.resolve` and `Promise.reject`
+      hash: e192767156ef7123be76fb838b8cf1a4d80aeb54
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 20.1.2
+  title: ""
+  date: 2024-12-17T11:34:55.264Z
+- commits:
     - subject: Update @balena/lint to v9.1.3
       hash: c0e7ae9c915d147faab215226d2fd04c35c72176
       body: |
