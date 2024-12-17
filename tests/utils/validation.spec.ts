@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
-import { expect } from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
+import * as chai from 'chai';
 import { ExpectedError } from '../../build/errors';
 import * as v from '../../build/utils/validation';
+
+chai.use(chaiAsPromised);
+const { expect } = chai;
 
 describe('validateEmail() function', () => {
 	it('should reject invalid email addresses with a message', () => {
@@ -186,26 +190,26 @@ describe('validateUuid() function', () => {
 
 describe('parseAsInteger() function', () => {
 	it('should reject non-numeric characters', () => {
-		expect(() => v.parseAsInteger('abc')).to.throw(ExpectedError);
-		expect(() => v.parseAsInteger('1a')).to.throw(ExpectedError);
-		expect(() => v.parseAsInteger('a1')).to.throw(ExpectedError);
-		expect(() => v.parseAsInteger('a')).to.throw(ExpectedError);
-		expect(() => v.parseAsInteger('1.0')).to.throw(ExpectedError);
+		expect(v.parseAsInteger('abc')).to.be.rejectedWith(ExpectedError);
+		expect(v.parseAsInteger('1a')).to.be.rejectedWith(ExpectedError);
+		expect(v.parseAsInteger('a1')).to.be.rejectedWith(ExpectedError);
+		expect(v.parseAsInteger('a')).to.be.rejectedWith(ExpectedError);
+		expect(v.parseAsInteger('1.0')).to.be.rejectedWith(ExpectedError);
 	});
 
 	it('should reject leading zeros', () => {
-		expect(() => v.parseAsInteger('01')).to.throw(ExpectedError);
-		expect(() => v.parseAsInteger('001')).to.throw(ExpectedError);
+		expect(v.parseAsInteger('01')).to.be.rejectedWith(ExpectedError);
+		expect(v.parseAsInteger('001')).to.be.rejectedWith(ExpectedError);
 	});
 
 	it('should throw with specific message when param name passed', () => {
-		expect(() => v.parseAsInteger('abc')).to.throw(
+		expect(v.parseAsInteger('abc')).to.be.rejectedWith(
 			'The parameter must be an integer.',
 		);
 	});
 
 	it('should throw with general message when no param name passed', () => {
-		expect(() => v.parseAsInteger('abc', 'foo')).to.throw(
+		expect(v.parseAsInteger('abc', 'foo')).to.be.rejectedWith(
 			"The parameter 'foo' must be an integer.",
 		);
 	});

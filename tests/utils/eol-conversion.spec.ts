@@ -75,12 +75,12 @@ describe('detectEncoding() function', function () {
 
 		for (const fname of sampleBinary) {
 			const buf = await fs.readFile(path.join('node_modules', fname));
-			const encoding = await detectEncoding(buf);
+			const encoding = detectEncoding(buf);
 			expect(encoding).to.equal('binary');
 		}
 		for (const fname of sampleText) {
 			const buf = await fs.readFile(fname);
-			const encoding = await detectEncoding(buf);
+			const encoding = detectEncoding(buf);
 			expect(encoding).to.equal('utf-8');
 		}
 	});

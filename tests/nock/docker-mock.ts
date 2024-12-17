@@ -75,7 +75,7 @@ export class DockerMock extends NockMock {
 		responseBody: any;
 		responseCode: number;
 		tag: string;
-		checkURI: (uri: string) => Promise<void>;
+		checkURI: (uri: string) => Promise<void> | void;
 		checkBuildRequestBody: (requestBody: string) => Promise<void>;
 	}) {
 		this.optPost(

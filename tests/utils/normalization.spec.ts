@@ -117,7 +117,7 @@ describe('disambiguateReleaseParam() function', () => {
 	it('should return id from SDK on first call, if match is found', async () => {
 		const input = '1234';
 		const output = 1234;
-		const getRelease = sinon.stub().returns(Promise.resolve({ id: output }));
+		const getRelease = sinon.stub().resolves({ id: output });
 		const sdk: any = {
 			models: {
 				release: {
@@ -139,9 +139,9 @@ describe('disambiguateReleaseParam() function', () => {
 		const getRelease = sinon
 			.stub()
 			.onCall(0)
-			.returns(Promise.reject(new BalenaReleaseNotFound(input)))
+			.rejects(new BalenaReleaseNotFound(input))
 			.onCall(1)
-			.returns(Promise.resolve({ id: output }));
+			.resolves({ id: output });
 
 		const sdk: any = {
 			models: {
@@ -161,9 +161,7 @@ describe('disambiguateReleaseParam() function', () => {
 
 	it('should throw error if no match found', async () => {
 		const input = '1234';
-		const getRelease = sinon
-			.stub()
-			.returns(Promise.reject(new BalenaReleaseNotFound(input)));
+		const getRelease = sinon.stub().rejects(new BalenaReleaseNotFound(input));
 
 		const sdk: any = {
 			models: {
@@ -185,9 +183,7 @@ describe('disambiguateReleaseParam() function', () => {
 	it('should throw error if unknown error returned from SDK', async () => {
 		const input = '1234';
 
-		const getRelease = sinon
-			.stub()
-			.returns(Promise.reject(new Error('some error')));
+		const getRelease = sinon.stub().rejects(new Error('some error'));
 
 		const sdk: any = {
 			models: {

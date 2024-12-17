@@ -37,7 +37,7 @@ export class BuilderMock extends NockMock {
 		persist?: boolean;
 		responseBody: any;
 		responseCode: number;
-		checkURI: (uri: string) => Promise<void>;
+		checkURI: (uri: string) => Promise<void> | void;
 		checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 	}) {
 		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(

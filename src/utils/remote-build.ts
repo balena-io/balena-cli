@@ -110,7 +110,7 @@ export async function startRemoteBuild(
 	const [buildRequest, stream] = await getRemoteBuildStream(build);
 
 	// Setup CTRL-C handler so the user can interrupt the build
-	let cancellationPromise = Promise.resolve();
+	let cancellationPromise: Promise<void> | undefined;
 	const sigintHandler = () => {
 		process.exitCode = 130;
 		console.error('\nReceived SIGINT, cleaning up. Please wait.');
