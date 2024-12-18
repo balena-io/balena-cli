@@ -196,7 +196,7 @@
     "@oclif/core": "^4.0.31",
     "@sentry/node": "^6.16.1",
     "balena-config-json": "^4.2.0",
-    "balena-device-init": "^7.0.1",
+    "balena-device-init": "^8.1.0-build-detect-boot-partition-46090d3acc07444c97f96e6df8881cd2d708d6ce-1",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.0.6",
     "balena-preload": "^16.0.0",
