@@ -17,7 +17,7 @@
         "@oclif/core": "^4.1.0",
         "@sentry/node": "^6.16.1",
         "balena-config-json": "^4.2.0",
-        "balena-device-init": "^8.0.0",
+        "balena-device-init": "^8.1.0-build-detect-boot-partition-46090d3acc07444c97f96e6df8881cd2d708d6ce-1",
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.0.6",
         "balena-preload": "^16.0.0",
@@ -7037,10 +7037,11 @@
       }
     },
     "node_modules/balena-device-init": {
-      "version": "8.0.0",
-      "resolved": "https://registry.npmjs.org/balena-device-init/-/balena-device-init-8.0.0.tgz",
-      "integrity": "sha512-Kaitk9LA8oQsM1suwqYbVAeJrbmSRM4BbzsYJbczItulxRS6XadPWZeN3OLYEV5eUW2Es2SPdqQqkFvIBZriKg==",
+      "version": "8.1.0-build-detect-boot-partition-46090d3acc07444c97f96e6df8881cd2d708d6ce-1",
+      "resolved": "https://registry.npmjs.org/balena-device-init/-/balena-device-init-8.1.0-build-detect-boot-partition-46090d3acc07444c97f96e6df8881cd2d708d6ce-1.tgz",
+      "integrity": "sha512-H5Tkcrw/NU6ruE6Y3hbFK6GjHSM7FBSZ0Sb/WcpSoJCmlT5H9hA3Nr5cj2/vWJeaDQcEwY92eBHy4ucwk5KojA==",
       "dependencies": {
+        "balena-config-json": "^4.2.0",
         "balena-image-fs": "^7.0.6",
         "balena-semver": "^2.2.0",
         "lodash": "^4.17.15",
