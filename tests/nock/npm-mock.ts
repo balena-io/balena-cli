@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { NockMock } from './nock-mock';
+import { NockMock } from './nock-mock.js';
 
 const jHeader = { 'Content-Type': 'application/json' };
 

@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { getExpandedProp } from '../../utils/pine';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { getExpandedProp } from '../../utils/pine.js';
 
 export default class FleetPinCmd extends Command {
 	public static description = stripIndent`

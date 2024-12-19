@@ -16,8 +16,8 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class DevicePublicUrlCmd extends Command {
 	public static description = stripIndent`

@@ -15,23 +15,24 @@
  * limitations under the License.
  */
 
-import * as packageJSON from '../package.json';
-import type { AppOptions } from './preparser';
+import type { AppOptions } from './preparser.js';
 import {
 	checkDeletedCommand,
 	preparseArgs,
 	unsupportedFlag,
-} from './preparser';
-import { CliSettings } from './utils/bootstrap';
-import { onceAsync } from './utils/lazy';
+} from './preparser.js';
+import { CliSettings } from './utils/bootstrap.js';
+import { onceAsync, getPackageJson } from './utils/lazy.js';
 import { run as mainRun, settings } from '@oclif/core';
+
+const packageJSON = getPackageJson();
 
 /**
  * Sentry.io setup
  * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
  */
 export const setupSentry = onceAsync(async () => {
-	const config = await import('./config');
+	const config = await import('./config.js');
 	const Sentry = await import('@sentry/node');
 	Sentry.init({
 		autoSessionTracking: false,
@@ -51,28 +52,18 @@ export const setupSentry = onceAsync(async () => {
 async function checkNodeVersion() {
 	const validNodeVersions = packageJSON.engines.node;
 	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
-		const { getNodeEngineVersionWarn } = await import('./utils/messages');
+		const { getNodeEngineVersionWarn } = await import('./utils/messages.js');
 		console.warn(getNodeEngineVersionWarn(process.version, validNodeVersions));
 	}
 }
 
 /** Setup balena-sdk options that are shared with imported packages */
-function setupBalenaSdkSharedOptions(settings: CliSettings) {
-	const BalenaSdk = require('balena-sdk') as typeof import('balena-sdk');
+async function setupBalenaSdkSharedOptions(settings: CliSettings) {
+	const BalenaSdk = await import('balena-sdk');
 	BalenaSdk.setSharedOptions({
 		apiUrl: settings.get<string>('apiUrl'),
 		dataDirectory: settings.get<string>('dataDirectory'),
 	});
-}
-
-/**
- * Addresses the console warning:
- * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
- * leak detected. 11 error listeners added. Use emitter.setMaxListeners() to
- * increase limit
- */
-export function setMaxListeners(maxListeners: number) {
-	require('events').EventEmitter.defaultMaxListeners = maxListeners;
 }
 
 /** Selected CLI initialization steps */
@@ -89,13 +80,13 @@ async function init() {
 	const settings = new CliSettings();
 
 	// Proxy setup should be done early on, before loading balena-sdk
-	await (await import('./utils/proxy')).setupGlobalHttpProxy(settings);
+	await (await import('./utils/proxy.js')).setupGlobalHttpProxy(settings);
 
-	setupBalenaSdkSharedOptions(settings);
+	await setupBalenaSdkSharedOptions(settings);
 
 	// check for CLI updates once a day
 	if (!process.env.BALENARC_OFFLINE_MODE) {
-		(await import('./utils/update')).notify();
+		(await import('./utils/update.js')).notify();
 	}
 }
 
@@ -104,7 +95,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 	let deprecationPromise: Promise<void> | undefined;
 	// check and enforce the CLI's deprecation policy
 	if (!(unsupportedFlag || process.env.BALENARC_UNSUPPORTED)) {
-		const { DeprecationChecker } = await import('./deprecation');
+		const { DeprecationChecker } = await import('./deprecation.js');
 		const deprecationChecker = new DeprecationChecker(packageJSON.version);
 		// warnAndAbortIfDeprecated uses previously cached data only
 		await deprecationChecker.warnAndAbortIfDeprecated();
@@ -147,11 +138,11 @@ async function oclifRun(command: string[], options: AppOptions) {
 		// the try/catch block above, execution does not get past the
 		// Promise.all() call below, but I don't understand why.
 		if (isEEXIT) {
-			(await import('./fast-boot')).stop();
+			(await import('./fast-boot.js')).stop();
 		}
 	})(!options.noFlush);
 
-	const { trackPromise } = await import('./hooks/prerun');
+	const { trackPromise } = await import('./hooks/prerun.js');
 
 	await Promise.all([trackPromise, deprecationPromise, runPromise]);
 }
@@ -160,7 +151,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 export async function run(cliArgs = process.argv, options: AppOptions) {
 	try {
 		const { setOfflineModeEnvVars, normalizeEnvVars } = await import(
-			'./utils/bootstrap'
+			'./utils/bootstrap.js'
 		);
 		setOfflineModeEnvVars();
 		normalizeEnvVars();
@@ -168,15 +159,15 @@ export async function run(cliArgs = process.argv, options: AppOptions) {
 		await init();
 
 		// Look for commands that have been removed and if so, exit with a notice
-		checkDeletedCommand(cliArgs.slice(2));
+		await checkDeletedCommand(cliArgs.slice(2));
 
 		const args = await preparseArgs(cliArgs);
 		await oclifRun(args, options);
 	} catch (err) {
-		await (await import('./errors')).handleError(err);
+		await (await import('./errors.js')).handleError(err);
 	} finally {
 		try {
-			(await import('./fast-boot')).stop();
+			(await import('./fast-boot.js')).stop();
 		} catch (e) {
 			if (process.env.DEBUG) {
 				console.error(`[debug] Stopping fast-boot: ${e}`);

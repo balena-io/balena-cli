@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class DeviceRebootCmd extends Command {
 	public static description = stripIndent`

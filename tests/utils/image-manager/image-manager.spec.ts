@@ -1,22 +1,22 @@
-import * as stream from 'stream';
+import stream from 'stream';
 import { expect } from 'chai';
 import { stub } from 'sinon';
-import * as tmp from 'tmp';
-import { delay } from '../../utils';
-import * as fs from 'fs';
-import * as fsAsync from 'fs/promises';
-import * as stringToStream from 'string-to-stream';
+import tmp from 'tmp';
+import { delay } from '../../utils.js';
+import fs from 'fs';
+import fsAsync from 'fs/promises';
+import stringToStream from 'string-to-stream';
 import { Writable as WritableStream } from 'stream';
-import * as imageManager from '../../../build/utils/image-manager';
+import * as imageManager from '../../../build/utils/image-manager.js';
 import { resolve, extname } from 'path';
-import * as mockFs from 'mock-fs';
-import * as rimraf from 'rimraf';
+import mockFs from 'mock-fs';
+import rimraf from 'rimraf';
 import { promisify } from 'util';
-import * as os from 'os';
+import os from 'os';
 
 // Make sure we're all using literally the same instance of balena-sdk
 // so we can mock out methods called by the real code
-import { getBalenaSdk } from '../../../build/utils/lazy';
+import { getBalenaSdk } from '../../../build/utils/lazy.js';
 const balena = getBalenaSdk();
 
 const fsExistsAsync = promisify(fs.exists);

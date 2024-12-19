@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import isRoot = require('is-root');
-import * as UpdateNotifier from 'update-notifier';
+import UpdateNotifier from 'update-notifier';
 
 import packageJSON = require('../../package.json');
 

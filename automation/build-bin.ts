@@ -18,14 +18,14 @@
 import { run as oclifRun } from '@oclif/core';
 import { exec, execFile } from 'child_process';
 import type { Stats } from 'fs';
-import * as fs from 'fs-extra';
-import * as klaw from 'klaw';
-import * as path from 'path';
-import * as rimraf from 'rimraf';
+import fs from 'fs-extra';
+import klaw from 'klaw';
+import path from 'path';
+import rimraf from 'rimraf';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';
 
-import { loadPackageJson, ROOT, whichSpawn } from './utils';
+import { loadPackageJson, ROOT, whichSpawn } from './utils.js';
 
 const execFileAsync = promisify(execFile);
 const execAsync = promisify(exec);

@@ -16,9 +16,9 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 import { PathUtils } from '@balena/compose/dist/multibuild';
 import * as sinon from 'sinon';
 import { Readable } from 'stream';
@@ -26,21 +26,21 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 import { diff } from 'deep-object-diff';
-import { makeImageName } from '../build/utils/compose_ts';
-import { stripIndent } from '../build/utils/lazy';
-import type { BuilderMock } from './nock/builder-mock';
-import type { DockerMock } from './nock/docker-mock';
+import { makeImageName } from '../build/utils/compose_ts.js';
+import { stripIndent } from '../build/utils/lazy.js';
+import type { BuilderMock } from './nock/builder-mock.js';
+import type { DockerMock } from './nock/docker-mock.js';
 import {
 	cleanOutput,
 	deepJsonParse,
 	deepTemplateReplace,
 	runCommand,
-} from './helpers';
+} from './helpers.js';
 import type {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-} from './projects';
+} from './projects.js';
 
 /**
  * Run a few chai.expect() test assertions on a tar stream/buffer produced by
@@ -266,6 +266,6 @@ export async function resetDockerignoreCache() {
 	}
 	const ignorePath = '../build/utils/ignore';
 	delete require.cache[require.resolve(ignorePath)];
-	const ignoreMod = rewire(ignorePath);
+	const ignoreMod = rewire.default(ignorePath);
 	ignoreMod.__set__('dockerignoreByService', null);
 }

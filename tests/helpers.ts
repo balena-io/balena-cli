@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
-import * as path from 'path';
-import * as fs from 'fs';
+import _ from 'lodash';
+import path from 'path';
+import fs from 'fs';
 import { createGunzip } from 'zlib';
 
-import * as packageJSON from '../package.json';
-import { getNodeEngineVersionWarn } from '../build/utils/messages';
-import { warnify } from '../build/utils/messages';
+import { getNodeEngineVersionWarn } from '../build/utils/messages.js';
+import { warnify } from '../build/utils/messages.js';
+import intercept from 'intercept-stdout';
+import { getPackageJson } from '../build/utils/lazy.js';
+
+const packageJSON = getPackageJson();
 
 const standalonePath = path.resolve(
 	__dirname,
@@ -99,8 +102,7 @@ export function filterCliOutputForTests({
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  */
 async function runCommandInProcess(cmd: string): Promise<TestOutput> {
-	const balenaCLI = await import('../build/app');
-	const intercept = await import('intercept-stdout');
+	const balenaCLI = await import('../build/app.js');
 
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
@@ -315,7 +317,7 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 		} catch {
 			throw new Error(`Standalone executable not found: "${standalonePath}"`);
 		}
-		const proxy = await import('./nock/proxy-server');
+		const proxy = await import('./nock/proxy-server.js');
 		const [proxyPort] = await proxy.createProxyServerOnce();
 		return runCommandInSubprocess(cmd, proxyPort);
 	} else {
@@ -431,7 +433,7 @@ export function deepJsonParse(data: any): any {
 export async function switchSentry(
 	enabled: boolean | undefined,
 ): Promise<boolean | undefined> {
-	const balenaCLI = await import('../build/app');
+	const balenaCLI = await import('../build/app.js');
 	const sentryOpts = (await balenaCLI.setupSentry()).getClient()?.getOptions();
 	if (sentryOpts) {
 		const sentryStatus = sentryOpts.enabled;
