@@ -21,7 +21,7 @@ import type { Server } from 'net';
 import { createServer } from 'net';
 
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../../helpers';
+import { cleanOutput, runCommand } from '../../helpers.js';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
@@ -148,7 +148,7 @@ describe('balena device ssh', function () {
 
 /** Check whether the 'ssh' tool (executable) exists in the PATH */
 async function checkSsh(): Promise<boolean> {
-	const { which } = await import('../../../build/utils/which');
+	const { which } = await import('../../../build/utils/which.js');
 	const sshPath = await which('ssh', false);
 	if ((sshPath || '').includes('\\Windows\\System32\\OpenSSH\\ssh')) {
 		// don't use Windows' built-in ssh tool for these test cases

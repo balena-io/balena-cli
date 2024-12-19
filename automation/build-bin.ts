@@ -20,7 +20,7 @@ import { exec, execFile } from 'child_process';
 import type { Stats } from 'fs';
 import * as fs from 'fs-extra';
 import * as klaw from 'klaw';
-import * as path from 'path';
+import path from 'path';
 import * as rimraf from 'rimraf';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';

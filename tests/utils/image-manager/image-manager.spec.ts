@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { stub } from 'sinon';
 import * as tmp from 'tmp';
 import { delay } from '../../utils';
-import * as fs from 'fs';
+import fs from 'fs';
 import * as fsAsync from 'fs/promises';
 import * as stringToStream from 'string-to-stream';
 import { Writable as WritableStream } from 'stream';
@@ -16,7 +16,7 @@ import * as os from 'os';
 
 // Make sure we're all using literally the same instance of balena-sdk
 // so we can mock out methods called by the real code
-import { getBalenaSdk } from '../../../build/utils/lazy';
+import { getBalenaSdk } from '../../../build/utils/lazy.js';
 const balena = getBalenaSdk();
 
 const fsExistsAsync = promisify(fs.exists);

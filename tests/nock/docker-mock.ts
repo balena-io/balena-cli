@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as path from 'path';
+import path from 'path';
 import * as qs from 'querystring';
 
 import type { ScopeOpts } from './nock-mock';

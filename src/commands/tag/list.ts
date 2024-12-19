@@ -16,10 +16,10 @@
  */
 
 import { Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class TagListCmd extends Command {
 	public static aliases = ['tags'];
@@ -42,18 +42,9 @@ export default class TagListCmd extends Command {
 	];
 
 	public static flags = {
-		fleet: {
-			...cf.fleet,
-			exclusive: ['device', 'release'],
-		},
-		device: {
-			...cf.device,
-			exclusive: ['fleet', 'release'],
-		},
-		release: {
-			...cf.release,
-			exclusive: ['fleet', 'device'],
-		},
+		fleet: cf.fleetExclusive(['device', 'release']),
+		device: cf.deviceExclusive(['fleet', 'release']),
+		release: cf.releaseExclusive(['fleet', 'device']),
 	};
 
 	public static authenticated = true;
@@ -71,7 +62,7 @@ export default class TagListCmd extends Command {
 		let tags;
 
 		if (options.fleet) {
-			const { getFleetSlug } = await import('../../utils/sdk');
+			const { getFleetSlug } = await import('../../utils/sdk.js');
 			tags = await balena.models.application.tags.getAllByApplication(
 				await getFleetSlug(balena, options.fleet),
 			);
@@ -81,7 +72,7 @@ export default class TagListCmd extends Command {
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
+				'../../utils/normalization.js'
 			);
 			const releaseParam = await disambiguateReleaseParam(
 				balena,

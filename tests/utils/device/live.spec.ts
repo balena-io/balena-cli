@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import type * as chokidar from 'chokidar';
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 import { promisify } from 'util';
 
 import { LivepushManager } from '../../../src/utils/device/live';
@@ -42,8 +42,8 @@ class MockLivepushManager extends LivepushManager {
 			composition: { version: '2.1', services: {} },
 			buildTasks: [],
 			docker: {} as import('dockerode'),
-			api: {} as import('../../../src/utils/device/api').DeviceAPI,
-			logger: {} as import('../../../src/utils/logger'),
+			api: {} as import('../../../src/utils/device/api.js').DeviceAPI,
+			logger: {} as import('../../../src/utils/logger.js'),
 			imageIds: {},
 			deployOpts:
 				{} as import('../../../src/utils/device/deploy').DeviceDeployOptions,
@@ -83,7 +83,7 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 		changedPathHandler: (serviceName: string, changedPath: string) => void,
 	): Promise<ByService<chokidar.FSWatcher>> {
 		const { getServiceDirsFromComposition } = await import(
-			'../../../build/utils/compose_ts'
+			'../../../build/utils/compose_ts.js'
 		);
 		const { getDockerignoreByService } = await import(
 			'../../../build/utils/ignore'

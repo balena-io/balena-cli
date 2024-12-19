@@ -18,9 +18,9 @@
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as ejs from 'ejs';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as request from 'request';
+import fs from 'fs';
+import path from 'path';
+import request from 'request';
 import * as sinon from 'sinon';
 
 import { LoginServer } from '../../build/auth/server';

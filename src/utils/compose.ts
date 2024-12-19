@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import type { Renderer } from './compose_ts';
+import type { Renderer } from './compose_ts.js';
 import type * as SDK from 'balena-sdk';
 import type Dockerode = require('dockerode');
-import * as path from 'path';
+import path from 'path';
 import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
@@ -27,10 +27,13 @@ import type {
 	ComposeProject,
 	Release,
 	TaggedImage,
-} from './compose-types';
-import { getChalk } from './lazy';
-import Logger = require('./logger');
+} from './compose-types.js';
+import { getChalk } from './lazy.js';
+import type Logger from './logger.js';
 import type { ProgressCallback } from 'docker-progress';
+import type { ReleaseModel } from '@balena/compose/dist/release/models.js';
+import Module from "node:module";
+const require = Module.createRequire(import.meta.url);
 
 export function generateOpts(options: {
 	source?: string;
@@ -57,21 +60,21 @@ export function generateOpts(options: {
  * - composePath: the *absolute* path to the directory containing the compose file
  *  - composeStr: the contents of the compose file, as a string
  */
-export function createProject(
+export async function createProject(
 	composePath: string,
 	composeStr: string,
 	projectName = '',
 	imageTag = '',
-): ComposeProject {
-	const yml = require('js-yaml') as typeof import('js-yaml');
-	const compose =
-		require('@balena/compose/dist/parse') as typeof import('@balena/compose/dist/parse');
+): Promise<ComposeProject> {
+	const yml = await import('js-yaml');
+	const compose = await import('@balena/compose/dist/parse');
 
 	// both methods below may throw.
 	const rawComposition = yml.load(composeStr);
 	const composition = compose.normalize(rawComposition);
 
 	projectName ||= path.basename(composePath);
+	const { makeImageName } = await import('./compose_ts.js');
 
 	const descriptors = compose.parse(composition).map(function (descr) {
 		// generate an image name based on the project and service names
@@ -81,8 +84,6 @@ export function createProject(
 			descr.image.context != null &&
 			descr.image.tag == null
 		) {
-			const { makeImageName } =
-				require('./compose_ts') as typeof import('./compose_ts');
 			descr.image.tag = makeImageName(projectName, descr.serviceName, imageTag);
 		}
 		return descr;
@@ -127,7 +128,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: ReleaseModel['contract'],
 ): Promise<Release> {
 	const _ = require('lodash') as typeof import('lodash');
 	const crypto = require('crypto') as typeof import('crypto');
@@ -144,8 +145,7 @@ export const createRelease = async function (
 					onRetry: (err, delayMs, attempt, maxAttempts) => {
 						const code = err?.statusCode ?? 0;
 						logger.logDebug(
-							`API call failed with code ${code}.  Attempting retry ${attempt} of ${maxAttempts} in ${
-								delayMs / 1000
+							`API call failed with code ${code}.  Attempting retry ${attempt} of ${maxAttempts} in ${delayMs / 1000
 							} seconds`,
 						);
 					},
@@ -328,7 +328,7 @@ const renderProgressBar = function (percentage: number, stepCount: number) {
 };
 
 export const pushProgressRenderer = function (
-	tty: ReturnType<typeof import('./tty')>,
+	tty: ReturnType<typeof import('./tty.js').default>,
 	prefix: string,
 ): ProgressCallback & { end: () => void } {
 	const fn: ProgressCallback & { end: () => void } = function (e) {
@@ -362,14 +362,14 @@ export class BuildProgressUI implements Renderer {
 	private _spinner;
 	private _runloop:
 		| undefined
-		| ReturnType<typeof import('./compose_ts').createRunLoop>;
+		| ReturnType<typeof import('./compose_ts.js').createRunLoop>;
 
 	// these are to handle window wrapping
 	private _maxLineWidth: undefined | number;
 	private _lineWidths: number[] = [];
 
 	constructor(
-		tty: ReturnType<typeof import('./tty')>,
+		tty: ReturnType<typeof import('./tty.js').default>,
 		descriptors: ImageDescriptor[],
 	) {
 		this._handleEvent = this._handleEvent.bind(this);
@@ -409,8 +409,7 @@ export class BuildProgressUI implements Renderer {
 
 		this._ended = false;
 		this._cancelled = false;
-		this._spinner = (
-			require('./compose_ts') as typeof import('./compose_ts')
+		this._spinner = (require('./compose_ts.js') as typeof import('./compose_ts.js')
 		).createSpinner();
 
 		this.streams = streams;
@@ -429,7 +428,7 @@ export class BuildProgressUI implements Renderer {
 			this.streams[service].write({ status: 'Preparing...' });
 		});
 		this._runloop = (
-			require('./compose_ts') as typeof import('./compose_ts')
+			require('./compose_ts') as typeof import('./compose_ts.js')
 		).createRunLoop(this._display);
 		this._startTime = Date.now();
 	}

@@ -17,11 +17,11 @@
 
 import { expect } from 'chai';
 
-import type { DockerConnectionCliFlags } from '../../build/utils/docker';
+import type { DockerConnectionCliFlags } from '../../build/utils/docker.js';
 import {
 	generateConnectOpts,
 	getDefaultDockerModemOpts,
-} from '../../build/utils/docker';
+} from '../../build/utils/docker.js';
 
 const defaultSocketPath =
 	process.platform === 'win32'
