@@ -17,23 +17,22 @@
 
 import type * as Dockerode from 'dockerode';
 
-import { ExpectedError } from '../errors';
-import { getBalenaSdk, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError } from '../errors.js';
+import { getBalenaSdk, stripIndent } from './lazy.js';
+import type Logger from './logger.js';
+import path from 'path';
+import fs from 'fs';
 
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
 
 export function qemuPathInContext(context: string) {
-	const path = require('path') as typeof import('path');
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
 	return path.relative(context, binPath);
 }
 
-export function copyQemu(context: string, arch: string) {
-	const path = require('path') as typeof import('path');
-	const fs = require('fs') as typeof import('fs');
+export async function copyQemu(context: string, arch: string) {
 	// Create a hidden directory in the build context, containing qemu
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
@@ -65,14 +64,12 @@ export function copyQemu(context: string, arch: string) {
 		.then(() => path.relative(context, binPath));
 }
 
-export const getQemuPath = function (balenaArch: string) {
+export async function getQemuPath(balenaArch: string) {
 	const qemuArch = balenaArchToQemuArch(balenaArch);
 	const balena = getBalenaSdk();
-	const path = require('path') as typeof import('path');
-	const { promises: fs } = require('fs') as typeof import('fs');
 
 	return balena.settings.get('binDirectory').then((binDir) =>
-		fs
+		fs.promises
 			.mkdir(binDir)
 			.catch(function (err) {
 				if (err.code === 'EEXIST') {
@@ -85,7 +82,7 @@ export const getQemuPath = function (balenaArch: string) {
 				path.join(binDir, `${QEMU_BIN_NAME}-${qemuArch}-${QEMU_VERSION}`),
 			),
 	);
-};
+}
 
 async function installQemu(arch: string, qemuPath: string) {
 	const qemuArch = balenaArchToQemuArch(arch);
@@ -95,7 +92,6 @@ async function installQemu(arch: string, qemuPath: string) {
 	const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
 
 	const request = await import('request');
-	const fs = await import('fs');
 	const zlib = await import('zlib');
 	const tar = await import('tar-stream');
 
@@ -117,7 +113,8 @@ async function installQemu(arch: string, qemuPath: string) {
 					reject(err as Error);
 				}
 			});
-			request(qemuUrl)
+			request
+				.default(qemuUrl)
 				.on('error', reject)
 				.pipe(zlib.createGunzip())
 				.on('error', reject)
@@ -167,16 +164,15 @@ export async function installQemuIfNeeded(
 	if (!emulated || !needsQemu) {
 		return false;
 	}
-	const { promises: fs } = await import('fs');
 	const qemuPath = await getQemuPath(arch);
 	try {
-		const stats = await fs.stat(qemuPath);
+		const stats = await fs.promises.stat(qemuPath);
 		// Earlier versions of the CLI with broken error handling would leave
 		// behind files with size 0. If such a file is found, delete it.
 		if (stats.size === 0) {
-			await fs.unlink(qemuPath);
+			await fs.promises.unlink(qemuPath);
 		}
-		await fs.access(qemuPath);
+		await fs.promises.access(qemuPath);
 	} catch {
 		// QEMU not found in cache folder (~/.balena/bin/), so install it
 		logger.logInfo(`Installing qemu for ${arch} emulation...`);

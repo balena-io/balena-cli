@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk } from '../utils/lazy.js';
 
 /**
  * Get dashboard CLI login URL
@@ -49,7 +49,9 @@ export async function getDashboardLoginURL(
  * @param token - session token or api key
  * @returns whether the login was successful or not
  */
-export async function loginIfTokenValid(token?: string): Promise<boolean> {
+export async function loginIfTokenValid(
+	token?: string | null,
+): Promise<boolean> {
 	token = (token || '').trim();
 	if (!token) {
 		return false;

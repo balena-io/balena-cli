@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import * as path from 'path';
-import { MarkdownFileParser } from './utils';
-import { GlobSync } from 'glob';
+import path from 'path';
+import { MarkdownFileParser } from './utils.js';
+import glob from 'glob';
 
 /**
  * This is the skeleton of CLI documentation/reference web page at:
@@ -73,7 +73,7 @@ const commandHeadings: { [key: string]: string } = {
 };
 
 // Fetch all available commands
-const allCommandsPaths = new GlobSync('build/commands/**/*.js', {
+const allCommandsPaths = new glob.GlobSync('build/commands/**/*.js', {
 	ignore: 'build/commands/internal/**',
 }).found;
 
@@ -135,7 +135,7 @@ capitanoDoc.categories.forEach((category) => {
  * for the documentation web page.
  */
 export async function getCapitanoDoc(): Promise<typeof capitanoDoc> {
-	const readmePath = path.join(__dirname, '..', '..', 'README.md');
+	const readmePath = path.join(import.meta.dirname, '..', '..', 'README.md');
 	const mdParser = new MarkdownFileParser(readmePath);
 	const sections: string[] = await Promise.all([
 		mdParser.getSectionOfTitle('About').then((sectionLines: string) => {

@@ -16,7 +16,7 @@
  */
 
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 import type { Headers } from 'tar-stream';
 
 export interface ExpectedTarStreamFile {
@@ -38,7 +38,7 @@ export interface ExpectedTarStreamFilesByService {
 	[service: string]: ExpectedTarStreamFiles;
 }
 
-export const repoPath = path.normalize(path.join(__dirname, '..'));
+export const repoPath = path.normalize(path.join(import.meta.dirname, '..'));
 export const projectsPath = path.join(
 	repoPath,
 	'tests',
@@ -58,7 +58,7 @@ export async function exists(fPath: string) {
 export async function setupDockerignoreTestData({ cleanup = false } = {}) {
 	const { copy, remove } = await import('fs-extra');
 	const dockerignoreProjDir = path.join(
-		__dirname,
+		import.meta.dirname,
 		'test-data',
 		'projects',
 		'no-docker-compose',

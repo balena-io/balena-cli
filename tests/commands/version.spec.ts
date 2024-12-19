@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { expect } from 'chai';
-import * as fs from 'fs';
+import fs from 'fs';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { runCommand } from '../helpers';
+import { BalenaAPIMock } from '../nock/balena-api-mock.js';
+import { runCommand } from '../helpers.js';
 
 const packageJSON = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const nodeVersion = process.version.startsWith('v')

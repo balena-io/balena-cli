@@ -16,15 +16,15 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 async function isLoggedInWithJwt() {
 	const balena = getBalenaSdk();
 	try {
 		const token = await balena.auth.getToken();
 		const { default: jwtDecode } = await import('jwt-decode');
-		jwtDecode(token);
+		jwtDecode.default(token);
 		return true;
 	} catch {
 		return false;

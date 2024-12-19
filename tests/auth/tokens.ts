@@ -1,4 +1,4 @@
-import * as jsonwebtoken from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 
 const johnDoe = {
 	username: 'johndoe1',

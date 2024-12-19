@@ -16,7 +16,7 @@
  */
 
 import { Command } from '@oclif/core';
-import { stripIndent, getChalk, getVisuals } from '../../utils/lazy';
+import { stripIndent, getChalk, getVisuals } from '../../utils/lazy.js';
 
 export default class UtilAvailableDrivesCmd extends Command {
 	public static description = stripIndent`

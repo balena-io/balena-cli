@@ -16,7 +16,7 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy.js';
 
 export interface JsonVersions {
 	'balena-cli': string;
@@ -68,7 +68,7 @@ export default class VersionCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(VersionCmd);
 		const versions: JsonVersions = {
-			'balena-cli': (await import('../../../package.json')).version,
+			'balena-cli': (await import('../../../package.json')).default.version,
 			'Node.js': process.version.startsWith('v')
 				? process.version.slice(1)
 				: process.version,
