@@ -1,14 +1,15 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
-import * as url from 'url';
-import { getBalenaSdk } from '../../build/utils/lazy';
-import tokens from './tokens';
+import sinon from 'sinon';
+import url from 'url';
+import { getBalenaSdk } from '../../build/utils/lazy.js';
+import tokens from './tokens.js';
+import * as utils from '../../build/auth/utils.js';
+// import rewire from 'rewire';
 
 const balena = getBalenaSdk();
 
-describe('Utils:', async function () {
-	const rewire = await import('rewire');
-	const utils = rewire('../../build/auth/utils');
+describe('Utils:', function () {
+	// const utils = rewire('./build/auth/utils.js');
 	describe('.getDashboardLoginURL()', function () {
 		it('should eventually be a valid url', () =>
 			utils

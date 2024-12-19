@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as path from 'path';
+import path from 'path';
 import { Readable } from 'stream';
 
-import type { ScopeOpts } from './nock-mock';
-import { NockMock } from './nock-mock';
+import type { ScopeOpts } from './nock-mock.js';
+import { NockMock } from './nock-mock.js';
 
 export const dockerResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'docker-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'docker-response'),
 );
 
 export class SupervisorMock extends NockMock {

@@ -16,8 +16,8 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class APIKeyListCmd extends Command {
 	public static aliases = ['api-keys'];
@@ -45,7 +45,7 @@ export default class APIKeyListCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(APIKeyListCmd);
 
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 		const actorId = options.fleet
 			? (
 					await getApplication(getBalenaSdk(), options.fleet, {
@@ -71,7 +71,7 @@ export default class APIKeyListCmd extends Command {
 			},
 		});
 		const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		console.log(
 			getVisuals().table.horizontal(
 				keys.map((key) => _.mapValues(key, (val) => val ?? 'N/a')),

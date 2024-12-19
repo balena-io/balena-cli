@@ -16,12 +16,12 @@
  */
 
 import { Flags, Args, type Interfaces, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 import type * as BalenaSdk from 'balena-sdk';
 import * as yaml from 'js-yaml';
-import { tryAsInteger } from '../../utils/validation';
-import { jsonInfo } from '../../utils/messages';
+import { tryAsInteger } from '../../utils/validation.js';
+import { jsonInfo } from '../../utils/messages.js';
 
 export const commitOrIdArg = Args.custom({
 	parse: tryAsInteger,
@@ -114,7 +114,7 @@ export default class ReleaseCmd extends Command {
 				.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
 				.join('\n');
 
-			const _ = await import('lodash');
+			const { default: _ } = await import('lodash');
 			const values = _.mapValues(
 				release,
 				(val) => val ?? 'N/a',

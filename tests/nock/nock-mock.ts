@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import * as nock from 'nock';
-import * as fs from 'fs';
-import { interceptorServerPort } from './proxy-server';
+import nock from 'nock';
+import fs from 'fs';
+import { interceptorServerPort } from './proxy-server.js';
 
 export interface ScopeOpts {
 	optional?: boolean;

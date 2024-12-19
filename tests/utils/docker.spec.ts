@@ -17,11 +17,11 @@
 
 import { expect } from 'chai';
 
-import type { DockerConnectionCliFlags } from '../../build/utils/docker';
+import type { DockerConnectionCliFlags } from '../../build/utils/docker.js';
 import {
 	generateConnectOpts,
 	getDefaultDockerModemOpts,
-} from '../../build/utils/docker';
+} from '../../build/utils/docker.js';
 
 const defaultSocketPath =
 	process.platform === 'win32'
@@ -33,7 +33,7 @@ describe('getDefaultDockerModemOpts() function', function () {
 		const cliFlags: DockerConnectionCliFlags = {
 			dockerPort: 2376,
 		};
-		const defaultOps = getDefaultDockerModemOpts(cliFlags);
+		const defaultOps = await getDefaultDockerModemOpts(cliFlags);
 		expect(defaultOps).to.deep.include({
 			host: undefined,
 			port: undefined,
@@ -49,12 +49,12 @@ describe('getDefaultDockerModemOpts() function', function () {
 		}
 	});
 
-	it('should use the HTTP protocol when --dockerPort is 2375', () => {
+	it('should use the HTTP protocol when --dockerPort is 2375', async () => {
 		const cliFlags: DockerConnectionCliFlags = {
 			dockerHost: 'foo',
 			dockerPort: 2375,
 		};
-		const defaultOps = getDefaultDockerModemOpts(cliFlags);
+		const defaultOps = await getDefaultDockerModemOpts(cliFlags);
 		expect(defaultOps).to.deep.include({
 			host: 'foo',
 			port: '2375',
@@ -63,12 +63,12 @@ describe('getDefaultDockerModemOpts() function', function () {
 		});
 	});
 
-	it('should use the HTTPS protocol when --dockerPort is 2376', () => {
+	it('should use the HTTPS protocol when --dockerPort is 2376', async () => {
 		const cliFlags: DockerConnectionCliFlags = {
 			dockerHost: 'foo',
 			dockerPort: 2376,
 		};
-		const defaultOps = getDefaultDockerModemOpts(cliFlags);
+		const defaultOps = await getDefaultDockerModemOpts(cliFlags);
 		expect(defaultOps).to.deep.include({
 			host: 'foo',
 			port: '2376',
@@ -122,7 +122,7 @@ describe('generateConnectOpts() function', function () {
 	it('should use the HTTPS protocol when ca/cert/key are used', async () => {
 		const path = await import('path');
 		const aFile = path.join(
-			__dirname,
+			import.meta.dirname,
 			'../test-data/projects/no-docker-compose/dockerignore1/a.txt',
 		);
 		const cliFlags: DockerConnectionCliFlags = {

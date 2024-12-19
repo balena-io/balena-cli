@@ -1,9 +1,12 @@
-const { FlatCompat } = require('@eslint/eslintrc');
+import { FlatCompat } from '@eslint/eslintrc';
+import Module from 'node:module';
+
+const require = Module.createRequire(import.meta.url);
 
 const compat = new FlatCompat({
-	baseDirectory: __dirname,
+	baseDirectory: import.meta.dirname,
 });
-module.exports = [
+export default [
 	...require('@balena/lint/config/eslint.config'),
 	...compat.config({
 		parserOptions: {

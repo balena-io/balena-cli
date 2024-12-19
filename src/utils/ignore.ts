@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type { Stats } from 'fs';
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
 import type { Ignore } from '@balena/dockerignore';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export interface FileStats {
 	filePath: string;
@@ -104,7 +104,7 @@ export async function getDockerIgnoreInstance(
 ): Promise<Ignore> {
 	const dockerIgnoreStr = await readDockerIgnoreFile(directory);
 	const $dockerIgnore = (await import('@balena/dockerignore')).default;
-	const ig = $dockerIgnore({ ignorecase: false });
+	const ig = $dockerIgnore.default({ ignorecase: false });
 
 	ig.add(['**/.git']);
 	if (dockerIgnoreStr) {
@@ -255,7 +255,7 @@ export async function getDockerignoreByService(
 	dockerignoreByService = {};
 
 	for (let [serviceName, dir] of Object.entries(serviceDirsByService)) {
-		dir = multiDockerignore ? dir : '.';
+		dir = multiDockerignore ? dir : './index.js';
 		const absDir = path.resolve(projectDir, dir);
 		if (!cachedDirs[absDir]) {
 			cachedDirs[absDir] = await getDockerIgnoreInstance(absDir);

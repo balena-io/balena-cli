@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs';
-import * as readline from 'readline';
+import fs from 'fs';
+import readline from 'readline';
 
 export class MarkdownFileParser {
 	constructor(public mdFilePath: string) {}

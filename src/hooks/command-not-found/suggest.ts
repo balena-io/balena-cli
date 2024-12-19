@@ -16,7 +16,7 @@
  */
 
 import type { Hook, Interfaces } from '@oclif/core';
-import { getChalk } from '../../utils/lazy';
+import { getChalk } from '../../utils/lazy.js';
 
 /*
  A modified version of the command-not-found plugin logic,
@@ -30,7 +30,7 @@ const hook: Hook<'command-not-found'> = async function (
 	opts: object & { config: Interfaces.Config; id?: string; argv?: string[] },
 ) {
 	const Levenshtein = await import('fast-levenshtein');
-	const _ = await import('lodash');
+	const { default: _ } = await import('lodash');
 	const chalk = getChalk();
 
 	const commandId = opts.id || '';

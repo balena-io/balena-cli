@@ -17,8 +17,8 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../helpers';
+import { BalenaAPIMock } from '../nock/balena-api-mock.js';
+import { cleanOutput, runCommand } from '../helpers.js';
 
 describe('balena release', function () {
 	let api: BalenaAPIMock;

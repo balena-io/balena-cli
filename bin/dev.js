@@ -26,7 +26,7 @@ process.env.UV_THREADPOOL_SIZE = '64';
 //   `CONTRIBUTING.md`.
 
 const path = require('path');
-const rootDir = path.join(__dirname, '..');
+const rootDir = path.join(import.meta.dirname, '..');
 
 // Allow balena-dev to work with oclif by temporarily
 // pointing oclif config options to src/ instead of build/
@@ -58,7 +58,7 @@ require('ts-node').register({
 	transpileOnly: true,
 });
 void require('../src/app').run(undefined, {
-	dir: __dirname,
+	dir: import.meta.dirname,
 	development: true,
 });
 

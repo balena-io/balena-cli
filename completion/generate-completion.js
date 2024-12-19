@@ -14,19 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import Module from 'node:module';
 
+const require = Module.createRequire(import.meta.url);
 const path = require('path');
-const rootDir = path.join(__dirname, '..');
+const rootDir = path.join(import.meta.dirname, '..');
 const fs = require('fs');
+const { exit } = require('process');
 const manifestFile = 'oclif.manifest.json';
 
-commandsFilePath = path.join(rootDir, manifestFile);
+const commandsFilePath = path.join(rootDir, manifestFile);
 if (fs.existsSync(commandsFilePath)) {
 	console.log('Generating shell auto completion files...');
 } else {
 	console.error(`generate-completion.js: Could not find "${manifestFile}"`);
 	process.exitCode = 1;
-	return;
+	exit(1);
 }
 
 const commandsJson = JSON.parse(fs.readFileSync(commandsFilePath, 'utf8'));
@@ -47,20 +50,28 @@ for (const key of Object.keys(commandsJson.commands).sort()) {
 const mainCommandsStr = mainCommands.join(' ');
 
 // GENERATE BASH COMPLETION FILE
-bashFilePathIn = path.join(__dirname, '/templates/bash.template');
-bashFilePathOut = path.join(__dirname, 'balena-completion.bash');
+const bashFilePathIn = path.join(
+	import.meta.dirname,
+	'/templates/bash.template',
+);
+const bashFilePathOut = path.join(
+	import.meta.dirname,
+	'balena-completion.bash',
+);
 
 try {
 	fs.unlinkSync(bashFilePathOut);
 } catch (error) {
 	process.exitCode = 1;
-	return console.error(error);
+	console.error(error);
+	exit(1);
 }
 
 fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 	if (err) {
 		process.exitCode = 1;
-		return console.error(err);
+		console.error(err);
+		exit(1);
 	}
 
 	data = data.replace(
@@ -103,26 +114,29 @@ fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 	fs.writeFile(bashFilePathOut, data, 'utf8', function (error) {
 		if (error) {
 			process.exitCode = 1;
-			return console.error(error);
+			console.error(error);
+			exit(1);
 		}
 	});
 });
 
 // GENERATE ZSH COMPLETION FILE
-zshFilePathIn = path.join(__dirname, '/templates/zsh.template');
-zshFilePathOut = path.join(__dirname, '_balena');
+const zshFilePathIn = path.join(import.meta.dirname, '/templates/zsh.template');
+const zshFilePathOut = path.join(import.meta.dirname, '_balena');
 
 try {
 	fs.unlinkSync(zshFilePathOut);
 } catch (error) {
 	process.exitCode = 1;
-	return console.error(error);
+	console.error(error);
+	exit(1);
 }
 
 fs.readFile(zshFilePathIn, 'utf8', function (err, data) {
 	if (err) {
 		process.exitCode = 1;
-		return console.error(err);
+		console.error(err);
+		exit(1);
 	}
 
 	data = data.replace(
@@ -169,7 +183,8 @@ fs.readFile(zshFilePathIn, 'utf8', function (err, data) {
 	fs.writeFile(zshFilePathOut, data, 'utf8', function (error) {
 		if (error) {
 			process.exitCode = 1;
-			return console.error(error);
+			console.error(error);
+			exit(1);
 		}
 	});
 });

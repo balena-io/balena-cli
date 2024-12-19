@@ -16,10 +16,10 @@
  */
 import { Parser } from '@oclif/core';
 import * as ent from 'ent';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
-import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
-import type { Category, Document } from './doc-types';
+import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils.js';
+import type { Category, Document } from './doc-types.js';
 
 function renderOclifCommand(command: Category['commands'][0]): string[] {
 	const result = [`## ${ent.encode(command.name || '')}`];

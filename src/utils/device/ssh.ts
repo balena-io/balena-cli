@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ExpectedError } from '../../errors';
-import { stripIndent } from '../lazy';
+import { ExpectedError } from '../../errors.js';
+import { stripIndent } from '../lazy.js';
 
-import type { SshRemoteCommandOpts } from '../ssh';
+import type { SshRemoteCommandOpts } from '../ssh.js';
 import {
 	findBestUsernameForDevice,
 	getRemoteCommandOutput,
 	runRemoteCommand,
-} from '../ssh';
+} from '../ssh.js';
 
 export interface DeviceSSHOpts extends SshRemoteCommandOpts {
 	forceTTY?: boolean;
@@ -75,8 +75,10 @@ export async function getContainerIdForService(
 		.split('\n')
 		.filter((l) => l);
 
-	const { escapeRegExp } = await import('lodash');
-	const regex = new RegExp(`(?:^|\\/)${escapeRegExp(opts.service)}_\\d+_\\d+`);
+	const { default: _ } = await import('lodash');
+	const regex = new RegExp(
+		`(?:^|\\/)${_.escapeRegExp(opts.service)}_\\d+_\\d+`,
+	);
 	// Old balenaOS container name pattern:
 	//    main_1234567_2345678
 	// New balenaOS container name patterns:

@@ -16,7 +16,7 @@
  */
 
 import { promises as fs, constants } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
 export const { F_OK, R_OK, W_OK, X_OK } = constants;
 
@@ -34,8 +34,8 @@ export async function exists(filename: string, mode = F_OK) {
  * and '.' or '..' with an underscore, plus other rules enforced by the filenamify
  * package. See https://github.com/sindresorhus/filenamify/
  */
-export function sanitizePath(filepath: string) {
-	const filenamify = require('filenamify') as typeof import('filenamify');
+export async function sanitizePath(filepath: string) {
+	const { default: filenamify } = await import('filenamify');
 	// normalize also converts forward slash to backslash on Windows
 	return path
 		.normalize(filepath)
@@ -76,14 +76,14 @@ export async function which(
 	program: string,
 	rejectOnMissing = true,
 ): Promise<string> {
-	const whichMod = await import('which');
+	const { default: whichMod } = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);
 	} catch (err) {
 		if (err.code === 'ENOENT') {
 			if (rejectOnMissing) {
-				const { ExpectedError } = await import('../errors');
+				const { ExpectedError } = await import('../errors.js');
 				throw new ExpectedError(
 					`'${program}' program not found. Is it installed?`,
 				);

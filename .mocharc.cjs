@@ -1,7 +1,7 @@
 module.exports = {
 	reporter: 'spec',
-	require: 'ts-node/register/transpile-only',
-	file: './tests/config-tests',
+	require: 'tsx',
+	file: './tests/config-tests.ts',
 	timeout: 48000,
 	// To test only, say, 'push.spec.ts', do it as follows so that
 	// requests are authenticated:

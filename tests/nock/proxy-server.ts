@@ -54,8 +54,8 @@
  *    CLI command execution.
  */
 
-import * as http from 'http';
-import * as httpProxy from 'http-proxy';
+import http from 'http';
+import httpProxy from 'http-proxy';
 
 const proxyServers: http.Server[] = [];
 

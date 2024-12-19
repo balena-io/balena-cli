@@ -17,7 +17,7 @@
 
 import { Args, Command } from '@oclif/core';
 import { promisify } from 'util';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class LocalConfigureCmd extends Command {
 	public static description = stripIndent`
@@ -45,8 +45,8 @@ export default class LocalConfigureCmd extends Command {
 		const { args: params } = await this.parse(LocalConfigureCmd);
 
 		const reconfix = await import('reconfix');
-		const { denyMount, safeUmount } = await import('../../utils/umount');
-		const Logger = await import('../../utils/logger');
+		const { denyMount, safeUmount } = await import('../../utils/umount.js');
+		const { default: Logger } = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 
@@ -186,7 +186,7 @@ export default class LocalConfigureCmd extends Command {
 	];
 
 	getConfiguration = async (data: any) => {
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		const inquirer = await import('inquirer');
 
 		// `persistentLogging` can be `undefined`, so we want
@@ -230,7 +230,7 @@ export default class LocalConfigureCmd extends Command {
 	 * otherwise, the new file is created
 	 */
 	async prepareConnectionFile(target: string) {
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		const imagefs = await import('balena-image-fs');
 		const { getBootPartition } = await import('balena-config-json');
 
@@ -276,7 +276,7 @@ export default class LocalConfigureCmd extends Command {
 	}
 
 	async removeHostname(schema: any) {
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		schema.mapper = _.reject(schema.mapper, (mapper: any) =>
 			_.isEqual(Object.keys(mapper.template), ['hostname']),
 		);

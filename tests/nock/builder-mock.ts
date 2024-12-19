@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-import * as path from 'path';
+import path from 'path';
 import * as zlib from 'zlib';
 
-import { NockMock } from './nock-mock';
+import { NockMock } from './nock-mock.js';
 import { promisify } from 'util';
 
 const gunzipAsync = promisify(zlib.gunzip);
 
 export const builderResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'builder-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'builder-response'),
 );
 
 export class BuilderMock extends NockMock {
