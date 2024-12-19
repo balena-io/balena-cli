@@ -1,8 +1,8 @@
 diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
-index ef7f90e..8264b7c 100644
+index bfe9205..482519e 100644
 --- a/node_modules/oclif/lib/commands/pack/win.js
 +++ b/node_modules/oclif/lib/commands/pack/win.js
-@@ -76,6 +76,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+@@ -86,6 +86,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
  ${customization}
  
  Section "${config.name} CLI \${VERSION}"
@@ -16,20 +16,18 @@ index ef7f90e..8264b7c 100644
    File /r bin
    File /r client
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 14d5a6e..7b42a6f 100644
+index f0c8d95..a72400e 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
-@@ -200,6 +200,13 @@ const extractCLI = async (tarball, c) => {
+@@ -218,6 +218,11 @@ const extractCLI = async (tarball, c) => {
          (0, promises_1.rm)(path.join(workspace, path.basename(tarball)), { recursive: true }),
          (0, fs_extra_1.remove)(path.join(workspace, 'bin', 'run.cmd')),
      ]);
-+
 +    // The oclif installers are a production installation, while the source
 +    // `bin` folder may contain a `.fast-boot.json` file of a dev installation.
 +    // This has previously led to issues preventing the CLI from starting, so
 +    // delete `.fast-boot.json` (if any) from the destination folder.
 +    await (0, fs_extra_1.remove)(path.join(workspace, 'bin', '.fast-boot.json'));
-+
  };
  const buildTarget = async (target, c, options) => {
-     const workspace = c.workspace(target);
+     if (target.platform === 'win32' && target.arch === 'arm64' && (0, semver_1.lt)(c.nodeVersion, '20.0.0')) {
