@@ -74,7 +74,10 @@ if (process.platform !== 'win32') {
 					[warn]   Assuming default boot partition number '1'.
 					[warn] "${tmpPath}":
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
-					[warn]   Proceeding anyway, but this is unexpected.`.split('\n'),
+					[warn]   Proceeding anyway, but this is unexpected.
+					[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.`.split(
+					'\n',
+				),
 			);
 
 			// confirm the image contains a config.json...
