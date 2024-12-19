@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 
 describe('balena env set', function () {
 	let api: BalenaAPIMock;

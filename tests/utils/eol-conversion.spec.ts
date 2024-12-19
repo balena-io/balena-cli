@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
 import {
 	convertEolInPlace,

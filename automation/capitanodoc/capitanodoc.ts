@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as path from 'path';
+import path from 'path';
 import { MarkdownFileParser } from './utils';
 import { GlobSync } from 'glob';
 

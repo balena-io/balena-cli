@@ -18,7 +18,7 @@
 import { BalenaReleaseNotFound } from 'balena-errors';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { ExpectedError } from '../../build/errors';
+import { ExpectedError } from '../../build/errors.js';
 import { disambiguateReleaseParam } from '../../build/utils/normalization';
 
 describe('disambiguateReleaseParam() function', () => {

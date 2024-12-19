@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import * as cf from '../../utils/common-flags';
-import * as ca from '../../utils/common-args';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import * as cf from '../../utils/common-flags.js';
+import * as ca from '../../utils/common-args.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 import { Command } from '@oclif/core';
 
 export default class FleetRmCmd extends Command {
@@ -51,8 +51,8 @@ export default class FleetRmCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(FleetRmCmd);
 
-		const { confirm } = await import('../../utils/patterns');
-		const { getApplication } = await import('../../utils/sdk');
+		const { confirm } = await import('../../utils/patterns.js');
+		const { getApplication } = await import('../../utils/sdk.js');
 		const balena = getBalenaSdk();
 
 		// Confirm

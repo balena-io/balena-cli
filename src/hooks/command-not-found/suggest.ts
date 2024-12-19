@@ -16,7 +16,7 @@
  */
 
 import type { Hook, Interfaces } from '@oclif/core';
-import { getChalk } from '../../utils/lazy';
+import { getChalk } from '../../utils/lazy.js';
 
 /*
  A modified version of the command-not-found plugin logic,

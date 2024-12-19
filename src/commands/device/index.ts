@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { jsonInfo } from '../../utils/messages';
+import * as cf from '../../utils/common-flags.js';
+import { expandForAppName } from '../../utils/helpers.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { jsonInfo } from '../../utils/messages.js';
 
 import type { Application, Release } from 'balena-sdk';
 
@@ -81,44 +81,44 @@ export default class DeviceCmd extends Command {
 			params.uuid,
 			options.json
 				? {
-						$expand: {
-							device_tag: {
-								$select: ['tag_key', 'value'],
-							},
-							...expandForAppName.$expand,
+					$expand: {
+						device_tag: {
+							$select: ['tag_key', 'value'],
 						},
-					}
-				: {
-						$select: [
-							'device_name',
-							'id',
-							'overall_status',
-							'is_online',
-							'ip_address',
-							'mac_address',
-							'last_connectivity_event',
-							'uuid',
-							'supervisor_version',
-							'is_web_accessible',
-							'note',
-							'os_version',
-							'memory_usage',
-							'memory_total',
-							'public_address',
-							'storage_block_device',
-							'storage_usage',
-							'storage_total',
-							'cpu_usage',
-							'cpu_temp',
-							'cpu_id',
-							'is_undervolted',
-						],
-						...expandForAppName,
+						...expandForAppName.$expand,
 					},
+				}
+				: {
+					$select: [
+						'device_name',
+						'id',
+						'overall_status',
+						'is_online',
+						'ip_address',
+						'mac_address',
+						'last_connectivity_event',
+						'uuid',
+						'supervisor_version',
+						'is_web_accessible',
+						'note',
+						'os_version',
+						'memory_usage',
+						'memory_total',
+						'public_address',
+						'storage_block_device',
+						'storage_usage',
+						'storage_total',
+						'cpu_usage',
+						'cpu_temp',
+						'cpu_id',
+						'is_undervolted',
+					],
+					...expandForAppName,
+				},
 		)) as ExtendedDevice;
 
 		if (options.view) {
-			const open = await import('open');
+			const { default: open } = await import('open');
 			const dashboardUrl = balena.models.device.getDashboardUrl(device.uuid);
 			await open(dashboardUrl, { wait: false });
 			return;

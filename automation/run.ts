@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import {
 	buildOclifInstaller,
-	buildStandaloneZip,
+	buildStandalone,
 	catchUncommitted,
 	signFilesForNotarization,
 	testShrinkwrap,
@@ -36,7 +36,7 @@ process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
  * Trivial command-line parser. Check whether the command-line argument is one
  * of the following strings, then call the appropriate functions:
  *     'build:installer'   (to build a native oclif installer)
- * 	   'build:standalone'  (to build a standalone pkg package)
+ * 	   'build:standalone'  (to build a standalone package)
  *
  * @param args Arguments to parse (default is process.argv.slice(2))
  */
@@ -49,7 +49,7 @@ async function parse(args?: string[]) {
 	}
 	const commands: { [cmd: string]: () => void | Promise<void> } = {
 		'build:installer': buildOclifInstaller,
-		'build:standalone': buildStandaloneZip,
+		'build:standalone': buildStandalone,
 		'sign:binaries': signFilesForNotarization,
 		'catch-uncommitted': catchUncommitted,
 		'test-shrinkwrap': testShrinkwrap,

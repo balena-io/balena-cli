@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { ExpectedError } from '../../errors';
-import { stripIndent } from '../lazy';
+import { ExpectedError } from '../../errors.js';
+import { stripIndent } from '../lazy.js';
 
-import type { SshRemoteCommandOpts } from '../ssh';
+import type { SshRemoteCommandOpts } from '../ssh.js';
 import {
 	findBestUsernameForDevice,
 	getRemoteCommandOutput,
 	runRemoteCommand,
-} from '../ssh';
+} from '../ssh.js';
 
 export interface DeviceSSHOpts extends SshRemoteCommandOpts {
 	forceTTY?: boolean;

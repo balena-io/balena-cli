@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as url from 'url';
-import { getBalenaSdk } from '../../build/utils/lazy';
+import { getBalenaSdk } from '../../build/utils/lazy.js';
 import tokens from './tokens';
 
 const balena = getBalenaSdk();

@@ -17,7 +17,7 @@
 
 import * as chaiAsPromised from 'chai-as-promised';
 import * as chai from 'chai';
-import { ExpectedError } from '../../build/errors';
+import { ExpectedError } from '../../build/errors.js';
 import * as v from '../../build/utils/validation';
 
 chai.use(chaiAsPromised);

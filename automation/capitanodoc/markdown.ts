@@ -16,7 +16,7 @@
  */
 import { Parser } from '@oclif/core';
 import * as ent from 'ent';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
 import type { Category, Document } from './doc-types';

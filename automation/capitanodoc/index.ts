@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as path from 'path';
+import path from 'path';
 import { getCapitanoDoc } from './capitanodoc';
 import type { Category, Document, OclifCommand } from './doc-types';
 import * as markdown from './markdown';

@@ -16,10 +16,10 @@
  */
 
 import { expect } from 'chai';
-import { stripIndent } from '../../../build/utils/lazy';
+import { stripIndent } from '../../../build/utils/lazy.js';
 
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 import { randomBytes } from 'node:crypto';
 
 describe('balena env list', function () {

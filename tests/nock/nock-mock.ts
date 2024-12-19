@@ -16,7 +16,7 @@
  */
 
 import * as nock from 'nock';
-import * as fs from 'fs';
+import fs from 'fs';
 import { interceptorServerPort } from './proxy-server';
 
 export interface ScopeOpts {
