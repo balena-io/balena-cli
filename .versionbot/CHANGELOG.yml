@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update oclif to 4.17.0 and @oclif/core 4.1.0
+      hash: 07365c45f2d9a46094faa60d62395c4ba139c9f6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 20.1.3
+  title: ""
+  date: 2024-12-20T14:32:59.953Z
+- commits:
     - subject: Remove unnecessary `Promise.resolve` and `Promise.reject`
       hash: e192767156ef7123be76fb838b8cf1a4d80aeb54
       body: ""
