@@ -6,6 +6,8 @@ upstream:
     url: 'https://github.com/balena-io/balena-sdk'
   - repo: 'balena-config-json'
     url: 'https://github.com/balena-io-modules/balena-config-json'
+  - repo: 'balena-device-init'
+    url: 'https://github.com/balena-io-modules/balena-device-init'
   - repo: 'balena-image-manager'
     url: 'https://github.com/balena-io-modules/balena-image-manager'
   - repo: 'balena-preload'
