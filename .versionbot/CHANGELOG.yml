@@ -1,4 +1,94 @@
 - commits:
+    - subject: Update balena-device-init to 8.0.0
+      hash: e8ac3ea960b1765470b496dbd714036d9b2ecd93
+      body: |
+        Update balena-device-init from 7.0.1 to 8.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://github.com/balena-io-modules/balena-device-init/pull/46
+        see: https://github.com/balena-io-modules/balena-device-init/pull/46
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Avoid running linting in the custom tests
+              hash: 420f93d5b2c60b67157897d8bbe0fab315c98b54
+              body: |
+                Balena-lint for some reason was failing in the
+                windows custom test runner.
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Stop returning Bluebird promises
+              hash: b76200a113fee69e11bf182945c382081f8d25e1
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "package: Publish only the build & typings folders"
+              hash: d1754650272913577b3ce0786941ad54d4acddc8
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Convert to TypeScript with es6 module notation
+              hash: 3576d2c423b294a8703f5474f72a9b906cef927a
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Replace gulp, coffeelint & mochainon with tsc, @balena/lint, mocha,
+                chai & sinon
+              hash: 4c0cf8af370962e8eefda3a2855113629c4ffbb5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop support for node <20.6.0
+              hash: b7c76be409a7a691db66466bc6d6eb746c0ca51e
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-8.0.0
+          title: ""
+          date: 2024-12-18T17:01:33.082Z
+        - commits:
+            - subject: "flowzone: Update runner versions"
+              hash: ba1222ac43ca13b720b64d18129193be8b99af5b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Pin etcher-sdk to 9.0.8 to match resin-device-operations and fix tests
+              hash: 65cde1b940b7bdcc64d34534afa4d9b7b1d14303
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-7.0.2
+          title: ""
+          date: 2024-12-17T20:16:06.532Z
+  version: 20.1.4
+  title: ""
+  date: 2024-12-20T16:57:31.612Z
+- commits:
     - subject: Update oclif to 4.17.0 and @oclif/core 4.1.0
       hash: 07365c45f2d9a46094faa60d62395c4ba139c9f6
       body: ""
