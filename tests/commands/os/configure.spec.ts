@@ -21,6 +21,7 @@ import * as process from 'process';
 import { runCommand } from '../../helpers';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
+import * as stripIndent from 'common-tags/lib/stripIndent';
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
@@ -62,7 +63,22 @@ if (process.platform !== 'win32') {
 			];
 
 			const { err } = await runCommand(command.join(' '));
-			expect(err.join('')).to.equal('');
+			// Once we replace the dummy.img with one that includes a os-release & device-type.json
+			// then we should be able to change this to expect no errors.
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal(
+				stripIndent`
+					[warn] "${tmpPath}":
+					[warn]   1 partition(s) found, but none containing file "/device-type.json".
+					[warn]   Assuming default boot partition number '1'.
+					[warn] "${tmpPath}":
+					[warn]   Could not find a previous "/config.json" file in partition '1'.
+					[warn]   Proceeding anyway, but this is unexpected.
+					[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.`.split(
+					'\n',
+				),
+			);
 
 			// confirm the image contains a config.json...
 			const imagefs = await import('balena-image-fs');
