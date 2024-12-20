@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update shrinkwrapped express to v4.21.2
+      hash: 7a22c987d24aca0754bde5618c232424ede72656
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Oskar Williams
+      nested: []
+  version: 20.1.5
+  title: ""
+  date: 2024-12-20T17:55:20.670Z
+- commits:
     - subject: Update balena-device-init to 8.0.0
       hash: e8ac3ea960b1765470b496dbd714036d9b2ecd93
       body: |
