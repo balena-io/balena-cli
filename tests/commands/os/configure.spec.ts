@@ -34,6 +34,7 @@ if (process.platform !== 'win32') {
 		let api: BalenaAPIMock;
 		let tmpDummyPath: string;
 		let tmpMatchingDtJsonPartitionPath: string;
+		let tmpNonMatchingDtJsonPartitionPath: string;
 
 		beforeEach(async () => {
 			api = new BalenaAPIMock();
@@ -45,20 +46,61 @@ if (process.platform !== 'win32') {
 				'./tests/test-data/mock-jetson-nano-6.0.23.with-boot-partition-12.img',
 				tmpMatchingDtJsonPartitionPath,
 			);
+
+			tmpNonMatchingDtJsonPartitionPath = (await tmpNameAsync()) as string;
+			// Create an image with a device-type.json that mentions a non matching boot partition.
+			// We copy the pre-existing image and modify it, since including a separate one
+			// would add 18MB more to the repository.
+			await fs.copyFile(
+				'./tests/test-data/mock-jetson-nano-6.0.23.with-boot-partition-12.img',
+				tmpNonMatchingDtJsonPartitionPath,
+			);
+			await imagefs.interact(
+				tmpNonMatchingDtJsonPartitionPath,
+				12,
+				async (_fs) => {
+					const readFileAsync = promisify(_fs.readFile);
+					const writeFileAsync = promisify(_fs.writeFile);
+
+					const dtJson = JSON.parse(
+						await readFileAsync('/device-type.json', { encoding: 'utf8' }),
+					);
+					expect(dtJson).to.have.nested.property(
+						'configuration.config.partition',
+						12,
+					);
+					dtJson.configuration.config.partition = 999;
+					await writeFileAsync('/device-type.json', JSON.stringify(dtJson));
+
+					await writeFileAsync(
+						'/os-release',
+						stripIndent`
+							ID="balena-os"
+							NAME="balenaOS"
+							VERSION="6.1.25"
+							VERSION_ID="6.1.25"
+							PRETTY_NAME="balenaOS 6.1.25"
+							DISTRO_CODENAME="kirkstone"
+							MACHINE="jetson-nano"
+							META_BALENA_VERSION="6.1.25"`,
+					);
+				},
+			);
 		});
 
 		afterEach(async () => {
 			api.done();
 			await fs.unlink(tmpDummyPath);
 			await fs.unlink(tmpMatchingDtJsonPartitionPath);
+			await fs.unlink(tmpNonMatchingDtJsonPartitionPath);
 		});
 
 		it('should inject a valid config.json file to an image with partition 12 as boot & matching device-type.json ', async () => {
 			api.expectGetApplication();
 			api.expectGetDeviceTypes();
-			// TODO: this shouldn't be necessary & the CLI should be able to find
+			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			api.expectGetConfigDeviceTypes();
+			// api.expectGetConfigDeviceTypes();
 			api.expectDownloadConfig();
 
 			const command: string[] = [
@@ -101,6 +143,54 @@ if (process.platform !== 'win32') {
 			expect(configObj).to.have.property('initialDeviceName', 'testDeviceName');
 		});
 
+		it('should inject a valid config.json file to an image with partition 12 as boot & a non-matching device-type.json ', async () => {
+			api.expectGetApplication();
+			api.expectGetDeviceTypes();
+			// It should not reach to /config or /device-types/v1 but instead find
+			// everything required from the device-type.json in the image.
+			// api.expectGetConfigDeviceTypes();
+			api.expectDownloadConfig();
+
+			const command: string[] = [
+				`os configure ${tmpNonMatchingDtJsonPartitionPath}`,
+				'--device-type jetson-nano',
+				'--version 6.1.25',
+				'--fleet testApp',
+				'--config-app-update-poll-interval 10',
+				'--config-network ethernet',
+				'--initial-device-name testDeviceName',
+				'--provisioning-key-name testKey',
+				'--provisioning-key-expiry-date 2050-12-12',
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('')).to.equal('');
+
+			// confirm the image contains a config.json...
+			const config = await imagefs.interact(
+				tmpNonMatchingDtJsonPartitionPath,
+				12,
+				async (_fs) => {
+					const readFileAsync = promisify(_fs.readFile);
+					const dtJson = JSON.parse(
+						await readFileAsync('/device-type.json', { encoding: 'utf8' }),
+					);
+					// confirm that the device-type.json mentions the expected partition
+					expect(dtJson).to.have.nested.property(
+						'configuration.config.partition',
+						999,
+					);
+					return await readFileAsync('/config.json');
+				},
+			);
+			expect(config).to.not.be.empty;
+
+			// confirm the image has the correct config.json values...
+			const configObj = JSON.parse(config.toString('utf8'));
+			expect(configObj).to.have.property('deviceType', 'jetson-nano');
+			expect(configObj).to.have.property('initialDeviceName', 'testDeviceName');
+		});
+
 		// TODO: In the next major consider just failing when we can't find a device-types.json in the image.
 		it('should inject a valid config.json file to a dummy image', async () => {
 			api.expectGetApplication();
@@ -128,12 +218,15 @@ if (process.platform !== 'win32') {
 				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
 			).to.deep.equal(
 				stripIndent`
-					[warn] "${tmpPath}":
+					[warn] "${tmpDummyPath}":
 					[warn]   1 partition(s) found, but none containing file "/device-type.json".
 					[warn]   Assuming default boot partition number '1'.
-					[warn] "${tmpPath}":
+					[warn] "${tmpDummyPath}":
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
-					[warn]   Proceeding anyway, but this is unexpected.`.split('\n'),
+					[warn]   Proceeding anyway, but this is unexpected.
+					[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.`.split(
+					'\n',
+				),
 			);
 
 			// confirm the image contains a config.json...
