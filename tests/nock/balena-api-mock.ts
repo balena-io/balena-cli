@@ -61,22 +61,25 @@ export class BalenaAPIMock extends NockMock {
 	}
 
 	public expectDownloadConfig(opts: ScopeOpts = {}) {
-		this.optPost('/download-config', opts).reply(
-			200,
-			JSON.parse(`{
-				"applicationId":1301645,
-				"deviceType":"raspberrypi3",
-				"userId":43699,
-				"appUpdatePollInterval":600000,
-				"listenPort":48484,
-				"vpnPort":443,
-				"apiEndpoint":"https://api.balena-cloud.com",
-				"vpnEndpoint":"vpn.balena-cloud.com",
-				"registryEndpoint":"registry2.balena-cloud.com",
-				"deltaEndpoint":"https://delta.balena-cloud.com",
-				"apiKey":"nothingtoseehere"
-			}`),
-		);
+		this.optPost('/download-config', opts).reply(200, (_uri, body) => {
+			let deviceType = 'raspberrypi3';
+			if (typeof body === 'object' && 'deviceType' in body) {
+				deviceType = body.deviceType;
+			}
+			return JSON.parse(`{
+					"applicationId":1301645,
+					"deviceType":"${deviceType}",
+					"userId":43699,
+					"appUpdatePollInterval":600000,
+					"listenPort":48484,
+					"vpnPort":443,
+					"apiEndpoint":"https://api.balena-cloud.com",
+					"vpnEndpoint":"vpn.balena-cloud.com",
+					"registryEndpoint":"registry2.balena-cloud.com",
+					"deltaEndpoint":"https://delta.balena-cloud.com",
+					"apiKey":"nothingtoseehere"
+				}`);
+		});
 	}
 
 	public expectApplicationProvisioning(opts: ScopeOpts = {}) {
