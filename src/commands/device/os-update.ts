@@ -16,11 +16,11 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
 import type { Device } from 'balena-sdk';
-import { ExpectedError } from '../../errors';
-import { getExpandedProp } from '../../utils/pine';
+import { ExpectedError } from '../../errors.js';
+import { getExpandedProp } from '../../utils/pine.js';
 
 export default class DeviceOsUpdateCmd extends Command {
 	public static description = stripIndent`
@@ -119,7 +119,9 @@ export default class DeviceOsUpdateCmd extends Command {
 		// Get target OS version
 		let targetOsVersion = options.version;
 		if (targetOsVersion != null) {
-			const { normalizeOsVersion } = await import('../../utils/normalization');
+			const { normalizeOsVersion } = await import(
+				'../../utils/normalization.js'
+			);
 			targetOsVersion = normalizeOsVersion(targetOsVersion);
 			if (!hupVersionInfo.versions.includes(targetOsVersion)) {
 				throw new ExpectedError(
@@ -155,7 +157,7 @@ export default class DeviceOsUpdateCmd extends Command {
 				currentOsVersion,
 				targetOsVersion,
 			)) === 'takeover';
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 		// Warn the user if the update requires a takeover
 		if (takeoverRequired) {
 			await patterns.confirm(

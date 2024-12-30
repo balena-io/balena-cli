@@ -16,11 +16,11 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationNameNote } from '../../utils/messages';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationNameNote } from '../../utils/messages.js';
 import type * as BalenaSdk from 'balena-sdk';
-import { jsonInfo } from '../../utils/messages';
+import { jsonInfo } from '../../utils/messages.js';
 
 export default class ReleaseListCmd extends Command {
 	public static aliases = ['releases'];
@@ -66,7 +66,7 @@ export default class ReleaseListCmd extends Command {
 		] satisfies BalenaSdk.PineOptions<BalenaSdk.Release>['$select'];
 
 		const balena = getBalenaSdk();
-		const { getFleetSlug } = await import('../../utils/sdk');
+		const { getFleetSlug } = await import('../../utils/sdk.js');
 
 		const releases = await balena.models.release.getAllByApplication(
 			await getFleetSlug(balena, params.fleet),

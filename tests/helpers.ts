@@ -15,15 +15,26 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
-import * as path from 'path';
+import _ from 'lodash';
+import path from 'path';
+import fs from 'fs';
+import { createGunzip } from 'zlib';
 
-import * as packageJSON from '../package.json';
-import { getNodeEngineVersionWarn } from '../build/utils/messages';
-import { warnify } from '../build/utils/messages';
+import { getNodeEngineVersionWarn } from '../build/utils/messages.js';
+import { warnify } from '../build/utils/messages.js';
+import intercept from 'intercept-stdout';
+import { getPackageJson } from '../build/utils/lazy.js';
 
-const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
-const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
+const packageJSON = getPackageJson();
+
+const standalonePath = path.resolve(
+	__dirname,
+	'..',
+	'dist',
+	'balena',
+	'bin',
+	'balena',
+);
 
 export interface TestOutput {
 	err: string[]; // stderr
@@ -91,8 +102,7 @@ export function filterCliOutputForTests({
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  */
 async function runCommandInProcess(cmd: string): Promise<TestOutput> {
-	const balenaCLI = await import('../build/app');
-	const intercept = await import('intercept-stdout');
+	const balenaCLI = await import('../build/app.js');
 
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
@@ -164,11 +174,21 @@ async function runCommandInSubprocess(
 		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
 		BALENARC_DO_PROXY: '127.0.0.1,localhost',
 	};
-	const { execFile } = await import('child_process');
+	const { exec } = await import('child_process');
+
+	// check if standalonePath exists and print its content
+	if (!fs.existsSync(standalonePath)) {
+		console.error('standalonePath does not exist');
+	} else {
+		console.error('file exists!');
+	}
+
 	await new Promise<void>((resolve) => {
-		const child = execFile(
-			standalonePath,
-			cmd.split(' ').filter((c) => c),
+		const child = exec(
+			`${standalonePath} ${cmd
+				.split(' ')
+				.filter((c) => c)
+				.join(' ')}`,
 			{ env: { ...process.env, ...addedEnvs } },
 			($error, $stdout, $stderr) => {
 				stderr = $stderr || '';
@@ -213,6 +233,67 @@ ${$error}`;
 	};
 }
 
+async function extractTarStream() {
+	if (
+		fs.existsSync(path.join(__dirname, '..', 'dist', 'balena', 'bin', 'balena'))
+	) {
+		return;
+	}
+
+	const tar = await import('tar-stream');
+
+	const version = 'v' + packageJSON.version;
+	const arch = process.arch;
+	const platform =
+		process.platform === 'win32'
+			? 'windows'
+			: process.platform === 'darwin'
+				? 'macOS'
+				: process.platform;
+
+	const sourceFile = path.join(
+		__dirname,
+		'..',
+		'dist',
+		`balena-cli-${version}-${platform}-${arch}-standalone.tar.gz`,
+	);
+	const destinationDir = path.join(__dirname, '..', 'dist');
+
+	const extract = tar.extract();
+
+	return new Promise((resolve, reject) => {
+		extract.on('entry', (header, stream, next) => {
+			const outputPath = path.join(destinationDir, header.name);
+
+			if (header.type === 'directory') {
+				fs.mkdirSync(outputPath, { recursive: true });
+				next();
+			} else {
+				fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+				const fileStream = fs.createWriteStream(outputPath);
+
+				stream.pipe(fileStream);
+
+				fileStream.on('close', () => {
+					if (header.mode) {
+						fs.chmodSync(outputPath, header.mode); // Set file permissions
+					}
+					next();
+				});
+				fileStream.on('error', reject);
+			}
+		});
+
+		extract.on('finish', resolve);
+		extract.on('error', reject);
+
+		fs.createReadStream(sourceFile)
+			.pipe(createGunzip())
+			.pipe(extract)
+			.on('error', reject);
+	});
+}
+
 /**
  * Run a CLI command and capture its stdout, stderr and exit code for testing.
  * If the BALENA_CLI_TEST_TYPE env var is set to 'standalone', then the command
@@ -223,6 +304,7 @@ ${$error}`;
  */
 export async function runCommand(cmd: string): Promise<TestOutput> {
 	if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {
+		await extractTarStream();
 		const semver = await import('semver');
 		if (semver.lt(process.version, '10.16.0')) {
 			throw new Error(
@@ -235,7 +317,7 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 		} catch {
 			throw new Error(`Standalone executable not found: "${standalonePath}"`);
 		}
-		const proxy = await import('./nock/proxy-server');
+		const proxy = await import('./nock/proxy-server.js');
 		const [proxyPort] = await proxy.createProxyServerOnce();
 		return runCommandInSubprocess(cmd, proxyPort);
 	} else {
@@ -351,7 +433,7 @@ export function deepJsonParse(data: any): any {
 export async function switchSentry(
 	enabled: boolean | undefined,
 ): Promise<boolean | undefined> {
-	const balenaCLI = await import('../build/app');
+	const balenaCLI = await import('../build/app.js');
 	const sentryOpts = (await balenaCLI.setupSentry()).getClient()?.getOptions();
 	if (sentryOpts) {
 		const sentryStatus = sentryOpts.enabled;

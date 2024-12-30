@@ -16,7 +16,7 @@
  */
 
 import { promises as fs, constants } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
 export const { F_OK, R_OK, W_OK, X_OK } = constants;
 
@@ -76,14 +76,14 @@ export async function which(
 	program: string,
 	rejectOnMissing = true,
 ): Promise<string> {
-	const whichMod = await import('which');
+	const { default: whichMod } = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);
 	} catch (err) {
 		if (err.code === 'ENOENT') {
 			if (rejectOnMissing) {
-				const { ExpectedError } = await import('../errors');
+				const { ExpectedError } = await import('../errors.js');
 				throw new ExpectedError(
 					`'${program}' program not found. Is it installed?`,
 				);

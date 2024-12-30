@@ -17,7 +17,7 @@
 
 import type { ChildProcess, SpawnOptions } from 'child_process';
 import { spawn } from 'child_process';
-import { stripIndent } from './lazy';
+import { stripIndent } from './lazy.js';
 
 /**
  * Execute a child process with admin / superuser privileges, prompting the user for
@@ -43,8 +43,8 @@ export async function executeWithPrivileges(
 	isCLIcmd = true,
 ): Promise<void> {
 	// whether the CLI is already running with admin / super user privileges
-	const isElevated = await (await import('is-elevated'))();
-	const { shellEscape } = await import('./helpers');
+	const isElevated = await (await import('is-elevated')).default();
+	const { shellEscape } = await import('./helpers.js');
 	const opts: SpawnOptions = {
 		env: process.env,
 		stdio: ['inherit', 'inherit', stderr ? 'pipe' : 'inherit'],
@@ -105,7 +105,7 @@ async function spawnAndPipe(
 	});
 }
 
-function windosuExec(
+async function windosuExec(
 	escapedArgs: string[],
 	stderr?: NodeJS.WritableStream,
 ): Promise<void> {
@@ -116,5 +116,5 @@ function windosuExec(
 		`;
 		throw new Error(msg);
 	}
-	return require('windosu').exec(escapedArgs.join(' '));
+	return (await import('windosu')).exec(escapedArgs.join(' '));
 }

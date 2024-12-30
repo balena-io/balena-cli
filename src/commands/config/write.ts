@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getVisuals, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class ConfigWriteCmd extends Command {
 	public static description = stripIndent`
@@ -57,7 +57,7 @@ export default class ConfigWriteCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ConfigWriteCmd);
 
-		const { denyMount, safeUmount } = await import('../../utils/umount');
+		const { denyMount, safeUmount } = await import('../../utils/umount.js');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));
