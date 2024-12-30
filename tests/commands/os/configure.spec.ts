@@ -21,6 +21,7 @@ import * as process from 'process';
 import { runCommand } from '../../helpers';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
+import * as imagefs from 'balena-image-fs';
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
@@ -65,7 +66,6 @@ if (process.platform !== 'win32') {
 			expect(err.join('')).to.equal('');
 
 			// confirm the image contains a config.json...
-			const imagefs = await import('balena-image-fs');
 			const config = await imagefs.interact(tmpPath, 1, async (_fs) => {
 				return await promisify(_fs.readFile)('/config.json');
 			});
