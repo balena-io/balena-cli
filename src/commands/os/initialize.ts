@@ -37,6 +37,7 @@ export default class OsInitializeCmd extends Command {
 	`;
 
 	public static examples = [
+		'$ balena os initialize ../path/rpi.img',
 		'$ balena os initialize ../path/rpi.img --type raspberry-pi',
 	];
 
@@ -63,6 +64,11 @@ export default class OsInitializeCmd extends Command {
 		console.info(`Initializing device ${INIT_WARNING_MESSAGE}`);
 
 		const manifest = await getManifest(params.image, options.type);
+		// the "type" arg will be removed on the next major - warn user
+		if (options.type != null) {
+			const { deviceTypeArgDeprecation } = await import('../../utils/messages');
+			console.log(deviceTypeArgDeprecation('type'));
+		}
 
 		const answers = await getCliForm().run(manifest.initialization?.options, {
 			override: {
@@ -81,13 +87,7 @@ export default class OsInitializeCmd extends Command {
 			await safeUmount(answers.drive);
 		}
 
-		await sudo([
-			'internal',
-			'osinit',
-			params.image,
-			options.type,
-			JSON.stringify(answers),
-		]);
+		await sudo(['internal', 'osinit', params.image, JSON.stringify(answers)]);
 
 		if (answers.drive != null) {
 			const { safeUmount } = await import('../../utils/umount');
