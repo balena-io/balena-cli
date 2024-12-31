@@ -1,4 +1,50 @@
 - commits:
+    - subject: "os configure: Give precedence to the boot partition located in the
+        image over the device-type.json contents"
+      hash: dbe177e76639040c5fac49746fbbcee2e3360d0a
+      body: |
+        Update balena-device-init from 8.0.0 to 8.1.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Try to find the boot partition by inspecting the image
+              hash: de53f11c56133bf2757c5361f8dbc6afa9e826fc
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-8.1.0
+          title: ""
+          date: 2024-12-30T12:41:49.474Z
+        - commits:
+            - subject: Drop the unnecessary eslint.config.js
+              hash: 91d587f34bf985bf65e6c21278e7cd70f9281656
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "packacke.json: Explicitly set type commonjs"
+              hash: f6a0be1d12f09d7d910e5ae35f48f1268542a74e
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-8.0.1
+          title: ""
+          date: 2024-12-19T13:41:14.170Z
+  version: 20.2.0
+  title: ""
+  date: 2024-12-31T18:41:45.907Z
+- commits:
     - subject: Add more realistic os configure tests
       hash: 305d65d5ed07cce767599ac4e5dd131e2a87d10d
       body: ""
