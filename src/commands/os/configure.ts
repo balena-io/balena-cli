@@ -18,7 +18,6 @@
 import { Flags, Args, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import { promisify } from 'util';
 import * as _ from 'lodash';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
@@ -292,7 +291,7 @@ export default class OsConfigureCmd extends Command {
 
 			for (const { name, content } of files) {
 				await imagefs.interact(image, bootPartition, async (_fs) => {
-					await promisify(_fs.writeFile)(
+					await _fs.promises.writeFile(
 						path.join(CONNECTIONS_FOLDER, name),
 						content,
 					);
