@@ -20,7 +20,7 @@
         "balena-device-init": "^8.1.0",
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.0.6",
-        "balena-preload": "^16.0.0",
+        "balena-preload": "^17.0.0",
         "balena-sdk": "^20.8.0",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
@@ -7131,12 +7131,12 @@
       }
     },
     "node_modules/balena-preload": {
-      "version": "16.0.0",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-16.0.0.tgz",
-      "integrity": "sha512-IP+4Op6LHJW5ip/oomQmERjbNroKqi5atDI3s07aokgv/mH8J7jy4BOOW6JwnrHb560IQy/oPf4yM4h3qQlLEA==",
+      "version": "17.0.0",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-17.0.0.tgz",
+      "integrity": "sha512-J0pduyqFFsPC70jgLdw7nANILW5nUGuShKayZauVuGs18NuYKlu7UT7w/b6QOMYtDK+YGjMWEf0uHTdiSzKZQQ==",
+      "license": "Apache-2.0",
       "dependencies": {
         "balena-sdk": "^20.1.3",
-        "bluebird": "^3.7.2",
         "compare-versions": "^3.6.0",
         "docker-progress": "^5.0.0",
         "dockerode": "^4.0.2",
