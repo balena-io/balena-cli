@@ -1,4 +1,37 @@
 - commits:
+    - subject: Update balena-preload to 17.0.0
+      hash: 60bc5092e0d6014aecf57d157cac536b3c645f0f
+      body: |
+        Update balena-preload from 16.0.0 to 17.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Improve typings
+              hash: 67f0f3e9e3b4b37fbaeef2843dc4171a7d661c41
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Stop returning Bluebird promises & drop it from the dependencies
+              hash: 85375cbc1fdb0ce1ad08756f178ed55596e606d9
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-preload-17.0.0
+          title: ""
+          date: 2024-10-21T16:20:33.486Z
+  version: 20.2.1
+  title: ""
+  date: 2025-01-01T18:04:56.723Z
+- commits:
     - subject: "os configure: Give precedence to the boot partition located in the
         image over the device-type.json contents"
       hash: dbe177e76639040c5fac49746fbbcee2e3360d0a
