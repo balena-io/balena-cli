@@ -203,7 +203,7 @@ export default class DeviceTunnelCmd extends Command {
 	parsePortMapping(portMapping: string) {
 		const mappingElements = portMapping.split(':');
 
-		let localAddress = 'localhost';
+		let localAddress = '::';
 
 		// First element is always remotePort
 		// TODO: figure out why we have explicitly passed `undefined` for the radix parameter
