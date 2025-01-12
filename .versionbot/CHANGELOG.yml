@@ -1,4 +1,289 @@
 - commits:
+    - subject: Use the promises namespace of balena-image-fs
+      hash: 29e7827eb1dbe4b0395df51f09cea38c3b2fb2e4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-device-init to 8.1.3 & balena-image-fs to 7.3.0
+      hash: 1d77cf36652eaca007a25f6ebb85c8509662d576
+      body: |
+        Update balena-device-init from 8.1.0 to 8.1.3
+        Update balena-image-fs from 7.0.6 to 7.3.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Drop Bluebird from devDependencies
+              hash: e4b5c71032112664ba8dac4c9edc5dad5445818d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "flowzone: Remove empty with clause"
+              hash: e83b4ef55eeebffb86d0bcda78dd45ee0651c76f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add the promises namespace as part of the exposed fs
+              hash: 9b73f44020de213a682afc21092e20caf68eaff8
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-image-fs-7.3.0
+          title: ""
+          date: 2025-01-06T14:31:31.244Z
+        - commits:
+            - subject: Update dependency @types/node to v20
+              hash: 4a5f55ae8752b1b28638d3f4016910d5b2057d80
+              body: |
+                Update @types/node from 18.11.18 to 20.10.6
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Self-hosted Renovate Bot
+              nested: []
+          version: balena-image-fs-7.2.2
+          title: ""
+          date: 2024-01-02T18:50:24.990Z
+        - commits:
+            - subject: Remove repo config from flowzone.yml
+              hash: 3e0053a097a04c1d0c47139bc53787f07bfeb014
+              body: |
+                This functionality is being deprecated in Flowzone.
+
+                See: https://github.com/product-os/flowzone/pull/833
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-image-fs-7.2.1
+          title: ""
+          date: 2023-12-19T21:54:42.129Z
+        - commits:
+            - subject: Add support for Node 18
+              hash: 2a3bef60d9688dce26bd1c9546a28c98cf6d2566
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Akis Kesoglou
+              nested: []
+          version: balena-image-fs-7.2.0
+          title: ""
+          date: 2023-01-20T14:27:37.169Z
+        - commits:
+            - subject: Update dependencies
+              hash: 9acc4bd2e793076095880f1924f8540b4d95fa9c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: ab77
+              nested: []
+          version: balena-image-fs-7.1.2
+          title: ""
+          date: 2023-01-05T22:29:15.022Z
+        - commits:
+            - subject: Update dependency jsdoc-to-markdown to 8.0.0
+              hash: 5cf71efa734819263bd75c9938cb4367f90e1391
+              body: |
+                Update jsdoc-to-markdown to 8.0.0
+
+                Update jsdoc-to-markdown from 7.1.1 to 8.0.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Renovate Bot
+              nested: []
+          version: balena-image-fs-7.1.1
+          title: ""
+          date: 2022-12-20T02:52:28.901Z
+        - commits:
+            - subject: update dependencies
+              hash: 71a5bb92caa0658e45d1fb36e8652ca5ea50dee9
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Zane Hitchcox
+              nested: []
+          version: balena-image-fs-7.1.0
+          title: ""
+          date: 2022-12-13T00:03:20.006Z
+        - commits:
+            - subject: "README: Remove the travisci badge"
+              hash: 3602a9c0c503502229d12cc1ec1de5bbcbc1b13c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-8.1.3
+          title: ""
+          date: 2025-01-09T21:25:00.155Z
+        - commits:
+            - subject: Use the promises namespace of balena-image-fs
+              hash: de0af086c5d9124e4bbe5d66bf9aafe0f6c5f11b
+              body: |
+                Update balena-image-fs from 7.0.6 to 7.3.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Drop Bluebird from devDependencies
+                      hash: e4b5c71032112664ba8dac4c9edc5dad5445818d
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "flowzone: Remove empty with clause"
+                      hash: e83b4ef55eeebffb86d0bcda78dd45ee0651c76f
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Add the promises namespace as part of the exposed fs
+                      hash: 9b73f44020de213a682afc21092e20caf68eaff8
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-image-fs-7.3.0
+                  title: ""
+                  date: 2025-01-06T14:31:31.244Z
+                - commits:
+                    - subject: Update dependency @types/node to v20
+                      hash: 4a5f55ae8752b1b28638d3f4016910d5b2057d80
+                      body: |
+                        Update @types/node from 18.11.18 to 20.10.6
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Self-hosted Renovate Bot
+                      nested: []
+                  version: balena-image-fs-7.2.2
+                  title: ""
+                  date: 2024-01-02T18:50:24.990Z
+                - commits:
+                    - subject: Remove repo config from flowzone.yml
+                      hash: 3e0053a097a04c1d0c47139bc53787f07bfeb014
+                      body: |
+                        This functionality is being deprecated in Flowzone.
+
+                        See: https://github.com/product-os/flowzone/pull/833
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Kyle Harding <kyle@balena.io>
+                        signed-off-by: Kyle Harding <kyle@balena.io>
+                      author: Kyle Harding
+                      nested: []
+                  version: balena-image-fs-7.2.1
+                  title: ""
+                  date: 2023-12-19T21:54:42.129Z
+                - commits:
+                    - subject: Add support for Node 18
+                      hash: 2a3bef60d9688dce26bd1c9546a28c98cf6d2566
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Akis Kesoglou
+                      nested: []
+                  version: balena-image-fs-7.2.0
+                  title: ""
+                  date: 2023-01-20T14:27:37.169Z
+                - commits:
+                    - subject: Update dependencies
+                      hash: 9acc4bd2e793076095880f1924f8540b4d95fa9c
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: ab77
+                      nested: []
+                  version: balena-image-fs-7.1.2
+                  title: ""
+                  date: 2023-01-05T22:29:15.022Z
+                - commits:
+                    - subject: Update dependency jsdoc-to-markdown to 8.0.0
+                      hash: 5cf71efa734819263bd75c9938cb4367f90e1391
+                      body: |
+                        Update jsdoc-to-markdown to 8.0.0
+
+                        Update jsdoc-to-markdown from 7.1.1 to 8.0.0
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Renovate Bot
+                      nested: []
+                  version: balena-image-fs-7.1.1
+                  title: ""
+                  date: 2022-12-20T02:52:28.901Z
+                - commits:
+                    - subject: update dependencies
+                      hash: 71a5bb92caa0658e45d1fb36e8652ca5ea50dee9
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Zane Hitchcox
+                      nested: []
+                  version: balena-image-fs-7.1.0
+                  title: ""
+                  date: 2022-12-13T00:03:20.006Z
+          version: balena-device-init-8.1.2
+          title: ""
+          date: 2025-01-09T20:28:30.604Z
+        - commits:
+            - subject: Convert some parts to async await and simplify
+              hash: eb1105cd738998bae9c3dd604a8d25f71eb38e19
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Avoid unnecessary destructuring
+              hash: 4cea6b650ec1c911cf2fc12a4a1dc410c0e7d075
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-8.1.1
+          title: ""
+          date: 2025-01-06T06:37:04.147Z
+  version: 20.2.2
+  title: ""
+  date: 2025-01-12T14:49:03.225Z
+- commits:
     - subject: Update balena-preload to 17.0.0
       hash: 60bc5092e0d6014aecf57d157cac536b3c645f0f
       body: |
