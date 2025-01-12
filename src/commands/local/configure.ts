@@ -16,7 +16,6 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { promisify } from 'util';
 import { stripIndent } from '../../utils/lazy';
 
 export default class LocalConfigureCmd extends Command {
@@ -237,7 +236,7 @@ export default class LocalConfigureCmd extends Command {
 		const bootPartition = await getBootPartition(target);
 
 		const files = await imagefs.interact(target, bootPartition, async (_fs) => {
-			return await promisify(_fs.readdir)(this.CONNECTIONS_FOLDER);
+			return await _fs.promises.readdir(this.CONNECTIONS_FOLDER);
 		});
 
 		let connectionFileName;
@@ -246,13 +245,14 @@ export default class LocalConfigureCmd extends Command {
 		} else if (_.includes(files, 'resin-sample.ignore')) {
 			// Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
 			await imagefs.interact(target, bootPartition, async (_fs) => {
-				const readFileAsync = promisify(_fs.readFile);
-				const writeFileAsync = promisify(_fs.writeFile);
-				const contents = await readFileAsync(
+				const contents = await _fs.promises.readFile(
 					`${this.CONNECTIONS_FOLDER}/resin-sample.ignore`,
 					{ encoding: 'utf8' },
 				);
-				await writeFileAsync(`${this.CONNECTIONS_FOLDER}/resin-wifi`, contents);
+				await _fs.promises.writeFile(
+					`${this.CONNECTIONS_FOLDER}/resin-wifi`,
+					contents,
+				);
 			});
 		} else if (_.includes(files, 'resin-sample')) {
 			// Legacy mode, to be removed later
@@ -266,7 +266,7 @@ export default class LocalConfigureCmd extends Command {
 		} else {
 			// In case there's no file at all (shouldn't happen normally, but the file might have been removed)
 			await imagefs.interact(target, bootPartition, async (_fs) => {
-				await promisify(_fs.writeFile)(
+				await _fs.promises.writeFile(
 					`${this.CONNECTIONS_FOLDER}/resin-wifi`,
 					this.CONNECTION_FILE,
 				);

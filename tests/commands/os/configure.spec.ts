@@ -62,20 +62,22 @@ if (process.platform !== 'win32') {
 				tmpNonMatchingDtJsonPartitionPath,
 				12,
 				async (_fs) => {
-					const readFileAsync = promisify(_fs.readFile);
-					const writeFileAsync = promisify(_fs.writeFile);
-
 					const dtJson = JSON.parse(
-						await readFileAsync('/device-type.json', { encoding: 'utf8' }),
+						await _fs.promises.readFile('/device-type.json', {
+							encoding: 'utf8',
+						}),
 					);
 					expect(dtJson).to.have.nested.property(
 						'configuration.config.partition',
 						12,
 					);
 					dtJson.configuration.config.partition = 999;
-					await writeFileAsync('/device-type.json', JSON.stringify(dtJson));
+					await _fs.promises.writeFile(
+						'/device-type.json',
+						JSON.stringify(dtJson),
+					);
 
-					await writeFileAsync(
+					await _fs.promises.writeFile(
 						'/os-release',
 						stripIndent`
 							ID="balena-os"
@@ -133,16 +135,17 @@ if (process.platform !== 'win32') {
 				tmpMatchingDtJsonPartitionPath,
 				12,
 				async (_fs) => {
-					const readFileAsync = promisify(_fs.readFile);
 					const dtJson = JSON.parse(
-						await readFileAsync('/device-type.json', { encoding: 'utf8' }),
+						await _fs.promises.readFile('/device-type.json', {
+							encoding: 'utf8',
+						}),
 					);
 					// confirm that the device-type.json mentions the expected partition
 					expect(dtJson).to.have.nested.property(
 						'configuration.config.partition',
 						12,
 					);
-					return await readFileAsync('/config.json');
+					return await _fs.promises.readFile('/config.json');
 				},
 			);
 			expect(config).to.not.be.empty;
@@ -180,16 +183,17 @@ if (process.platform !== 'win32') {
 				tmpNonMatchingDtJsonPartitionPath,
 				12,
 				async (_fs) => {
-					const readFileAsync = promisify(_fs.readFile);
 					const dtJson = JSON.parse(
-						await readFileAsync('/device-type.json', { encoding: 'utf8' }),
+						await _fs.promises.readFile('/device-type.json', {
+							encoding: 'utf8',
+						}),
 					);
 					// confirm that the device-type.json mentions the expected partition
 					expect(dtJson).to.have.nested.property(
 						'configuration.config.partition',
 						999,
 					);
-					return await readFileAsync('/config.json');
+					return await _fs.promises.readFile('/config.json');
 				},
 			);
 			expect(config).to.not.be.empty;
@@ -240,7 +244,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(tmpDummyPath, 1, async (_fs) => {
-				return await promisify(_fs.readFile)('/config.json');
+				return await _fs.promises.readFile('/config.json');
 			});
 			expect(config).to.not.be.empty;
 
