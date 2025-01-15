@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused old eslint version files
+      hash: 53be743b9dcecbb2f0d8841b6663e7af1a9006c3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 20.2.3
+  title: ""
+  date: 2025-01-15T18:21:02.810Z
+- commits:
     - subject: Use the promises namespace of balena-image-fs
       hash: 29e7827eb1dbe4b0395df51f09cea38c3b2fb2e4
       body: ""
