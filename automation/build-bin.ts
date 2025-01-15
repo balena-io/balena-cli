@@ -305,7 +305,7 @@ async function zipPkg() {
 		);
 	}
 	await fs.mkdirp(path.dirname(outputFile));
-	await new Promise((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		console.log(`Zipping standalone package to "${outputFile}"...`);
 
 		const archive = archiver('zip', {
