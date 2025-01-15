@@ -94,7 +94,6 @@ export const deviceType = Flags.string({
 	description:
 		'device type (Check available types with `balena device-type list`)',
 	char: 't',
-	required: true,
 });
 
 export const json = Flags.boolean({
