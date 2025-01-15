@@ -159,17 +159,11 @@ async function oclifRun(command: string[], options: AppOptions) {
 /** CLI entrypoint. Called by the `bin/run.js` and `bin/dev.js` scripts. */
 export async function run(cliArgs = process.argv, options: AppOptions) {
 	try {
-		const { setOfflineModeEnvVars, normalizeEnvVars, pkgExec } = await import(
+		const { setOfflineModeEnvVars, normalizeEnvVars } = await import(
 			'./utils/bootstrap'
 		);
 		setOfflineModeEnvVars();
 		normalizeEnvVars();
-
-		// The 'pkgExec' special/internal command provides a Node.js interpreter
-		// for use of the standalone zip package. See pkgExec function.
-		if (cliArgs.length > 3 && cliArgs[2] === 'pkgExec') {
-			return pkgExec(cliArgs[3], cliArgs.slice(4));
-		}
 
 		await init();
 
