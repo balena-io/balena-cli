@@ -17,7 +17,11 @@
 
 import { Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
+import { formatDuration, intervalToDuration } from 'date-fns';
+
+// In days
+const durations = [1, 7, 30, 90];
 
 async function isLoggedInWithJwt() {
 	const balena = getBalenaSdk();
@@ -41,12 +45,19 @@ export default class GenerateCmd extends Command {
 		This key can be used to log into the CLI using 'balena login --token <key>',
 		or to authenticate requests to the API with an 'Authorization: Bearer <key>' header.
 `;
-	public static examples = ['$ balena api-key generate "Jenkins Key"'];
+	public static examples = [
+		'$ balena api-key generate "Jenkins Key"',
+		'$ balena api-key generate "Jenkins Key" 2025-10-30',
+		'$ balena api-key generate "Jenkins Key" never',
+	];
 
 	public static args = {
 		name: Args.string({
 			description: 'the API key name',
 			required: true,
+		}),
+		expiryDate: Args.string({
+			description: 'the expiry date of the API key, or "never" for no expiry',
 		}),
 	};
 
@@ -55,9 +66,48 @@ export default class GenerateCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(GenerateCmd);
 
+		let expiryDateResponse: string | number = params.expiryDate ?? '';
 		let key;
 		try {
-			key = await getBalenaSdk().models.apiKey.create(params.name);
+			if (params.expiryDate === undefined) {
+				expiryDateResponse = await getCliForm().ask({
+					message: 'Please pick an expiry date for the API key',
+					type: 'list',
+					choices: [...durations, 'custom', 'never'].map((duration) => ({
+						name:
+							duration === 'never'
+								? 'No expiration'
+								: typeof duration === 'number'
+									? formatDuration(
+											intervalToDuration({
+												start: 0,
+												end: duration * 24 * 60 * 60 * 1000,
+											}),
+										)
+									: 'Custom expiration',
+						value: duration,
+					})),
+				});
+			}
+			let expiryDate: string | null = null;
+			if (expiryDateResponse === 'never') {
+				expiryDate = null;
+			} else if (expiryDateResponse === 'custom') {
+				expiryDate = await getCliForm().ask({
+					message: 'Please enter an expiry date for the API key',
+					type: 'input',
+				});
+			} else if (typeof expiryDateResponse === 'string') {
+				expiryDate = expiryDateResponse;
+			} else {
+				expiryDate = new Date(
+					Date.now() + expiryDateResponse * 24 * 60 * 60 * 1000,
+				).toISOString();
+			}
+			key = await getBalenaSdk().models.apiKey.create({
+				name: params.name,
+				expiryDate,
+			});
 		} catch (e) {
 			if (e.name === 'BalenaNotLoggedIn') {
 				if (await isLoggedInWithJwt()) {
