@@ -102,12 +102,7 @@ export const isImageFresh = async (deviceType: string, version: string) => {
 		return false;
 	}
 
-	const balena = getBalenaSdk();
-	const lastModifiedDate = await balena.models.os.getLastModified(
-		deviceType,
-		version,
-	);
-	return lastModifiedDate < createdDate;
+	return true;
 };
 
 /**

@@ -333,6 +333,10 @@ Examples:
 
 the API key name
 
+#### EXPIRYDATE
+
+the expiry date of the API key
+
 ## api-key list
 
 ### Aliases
