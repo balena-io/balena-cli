@@ -199,7 +199,7 @@
     "balena-config-json": "^4.2.2",
     "balena-device-init": "^8.1.3",
     "balena-errors": "^4.7.3",
-    "balena-image-fs": "^7.3.0",
+    "balena-image-fs": "^7.5.0",
     "balena-preload": "^18.0.1",
     "balena-sdk": "^21.3.0",
     "balena-semver": "^2.3.0",
