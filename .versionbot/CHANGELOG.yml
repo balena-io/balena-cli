@@ -1,4 +1,18 @@
 - commits:
+    - subject: Pin docker-modem and dockerode to avoid regression
+      hash: 2cba82e914c720e75b68bd4370a2a92b4d4a7ba0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 20.2.4
+  title: ""
+  date: 2025-02-25T17:17:00.607Z
+- commits:
     - subject: Remove unused old eslint version files
       hash: 53be743b9dcecbb2f0d8841b6663e7af1a9006c3
       body: ""
