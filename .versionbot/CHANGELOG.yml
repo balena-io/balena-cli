@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use the CLI version in the X-Balena-Client header
+      hash: bef5221ed891db12a0b760f12fc9654e2f4e241b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/Extend-the-X-Balena-Client-header-to-include-the-UI-CLI-version-as-well-1174
+        see: https://balena.fibery.io/Work/Project/Extend-the-X-Balena-Client-header-to-include-the-UI-CLI-version-as-well-1174
+      author: Thodoris Greasidis
+      nested: []
+  version: 20.2.7
+  title: ""
+  date: 2025-02-25T20:21:00.603Z
+- commits:
     - subject: Update actions/upload-artifact digest to 4cec3d8
       hash: 6f0f7350cf65c35abd099a901266821c218478eb
       body: |
