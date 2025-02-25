@@ -16,7 +16,7 @@
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^4.1.0",
         "@sentry/node": "^6.16.1",
-        "balena-config-json": "^4.2.0",
+        "balena-config-json": "^4.2.2",
         "balena-device-init": "^8.1.3",
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.3.0",
@@ -7342,11 +7342,12 @@
       }
     },
     "node_modules/balena-config-json": {
-      "version": "4.2.0",
-      "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.2.0.tgz",
-      "integrity": "sha512-k0/2y1FmZni2EAVYHfWFme/F1xchAcvHweDA9QCEHm83LU0+j6v/Hk9RZ1IhipRty2jDSEw1BorYVrYmx9+Psg==",
+      "version": "4.2.2",
+      "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.2.2.tgz",
+      "integrity": "sha512-dI/vZ+1Zgz8X/PEBEtBqGqi4eWDtD0e05LAOAIfdTtbYJK5DJhMSq7Is3IKDWgZNejDI+NpbDmRok45tqCmiag==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "balena-image-fs": "^7.0.6",
+        "balena-image-fs": "^7.4.0",
         "file-disk": "^8.0.1",
         "partitioninfo": "^6.0.2"
       }
@@ -7405,12 +7406,12 @@
       }
     },
     "node_modules/balena-image-fs": {
-      "version": "7.3.0",
-      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.3.0.tgz",
-      "integrity": "sha512-EjdxwcrehXBMuKOYESx5sgXAJhWvPOPLV1UxnSmJ04G91zhzpYJMxUxgFEIMUNpXGcTw2uHMUL6ROnUA38W7hA==",
+      "version": "7.4.1",
+      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.4.1.tgz",
+      "integrity": "sha512-md41m3Jo54EOj7ASrqCD2GJ+LtF9AmMT46dABIbaPvVerY1zUEW8rGfIfrgq4Tz3tL82y73spoVhcabtkaRj5A==",
       "license": "Apache-2.0",
       "dependencies": {
-        "ext2fs": "^4.2.1",
+        "ext2fs": "^4.2.4",
         "fatfs": "^0.10.8",
         "file-disk": "^8.0.1",
         "partitioninfo": "^6.0.3",
@@ -10827,9 +10828,10 @@
       }
     },
     "node_modules/ext2fs": {
-      "version": "4.2.1",
-      "resolved": "https://registry.npmjs.org/ext2fs/-/ext2fs-4.2.1.tgz",
-      "integrity": "sha512-BEKVAC3FrhU39uWELK1DkjiMflx0efeFO8boFodwx18VkKCsGPrAU7NznwfXUl6mFIKlJ6Iu5FZxN6aJSmLlnw==",
+      "version": "4.2.4",
+      "resolved": "https://registry.npmjs.org/ext2fs/-/ext2fs-4.2.4.tgz",
+      "integrity": "sha512-LRnoYA0lQkkty0OwpxJTKDbz+7SYPFYN/cVQGWcQ1gKeklld3wwWqNO5H6P3oBKSeHiSw9unS5CxzeyGPJ5enQ==",
+      "license": "Apache-2.0",
       "engines": {
         "node": ">=16"
       }
