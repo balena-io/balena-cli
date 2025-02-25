@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node digest to 1d0ff46
+      hash: cddea24cefdfef475731e0a7d2bdec4992959a6b
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 20.2.5
+  title: ""
+  date: 2025-02-25T18:10:47.617Z
+- commits:
     - subject: Pin docker-modem and dockerode to avoid regression
       hash: 2cba82e914c720e75b68bd4370a2a92b4d4a7ba0
       body: ""
