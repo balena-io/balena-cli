@@ -135,7 +135,7 @@ runs:
         XCODE_APP_LOADER_TEAM_ID: ${{ inputs.XCODE_APP_LOADER_TEAM_ID }}
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ strategy.job-index }}
         path: dist
