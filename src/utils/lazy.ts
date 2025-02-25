@@ -21,6 +21,7 @@ import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
 import type { ux } from '@oclif/core';
+import { version } from '../../package.json';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {
@@ -43,9 +44,22 @@ export const onceAsync = <T>(fn: () => Promise<T>) => {
 	};
 };
 
-export const getBalenaSdk = once(() =>
-	(require('balena-sdk') as typeof BalenaSdk).fromSharedOptions(),
-);
+const cliXBalenaClientHeaderInterceptor: BalenaSdk.Interceptor = {
+	request($request) {
+		// We intentionally overwrite the sdk version string from the header
+		// to conserve bandwidth.
+		$request.headers['X-Balena-Client'] = `balena-cli/${version}`;
+		return $request;
+	},
+};
+
+export const getBalenaSdk = once(() => {
+	const sdk = (require('balena-sdk') as typeof BalenaSdk).fromSharedOptions();
+	if (!sdk.interceptors.includes(cliXBalenaClientHeaderInterceptor)) {
+		sdk.interceptors.push(cliXBalenaClientHeaderInterceptor);
+	}
+	return sdk;
+});
 
 export const getVisuals = once(
 	() => require('resin-cli-visuals') as typeof visuals,
