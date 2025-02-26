@@ -46,9 +46,13 @@ export const onceAsync = <T>(fn: () => Promise<T>) => {
 
 const cliXBalenaClientHeaderInterceptor: BalenaSdk.Interceptor = {
 	request($request) {
-		// We intentionally overwrite the sdk version string from the header
-		// to conserve bandwidth.
-		$request.headers['X-Balena-Client'] = `balena-cli/${version}`;
+		if ($request.headers['X-Balena-Client']) {
+			// We intentionally overwrite the sdk version string from the header
+			// to conserve bandwidth. We only do that when the SDK already has specified
+			// the X-Balena-Client header, since that signals that this is a safe url to
+			// include the extra header and will not cause CORS errors.
+			$request.headers['X-Balena-Client'] = `balena-cli/${version}`;
+		}
 		return $request;
 	},
 };
