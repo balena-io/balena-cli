@@ -195,7 +195,7 @@
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^4.1.0",
     "@sentry/node": "^6.16.1",
-    "balena-config-json": "^4.2.0",
+    "balena-config-json": "^4.2.2",
     "balena-device-init": "^8.1.3",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.3.0",

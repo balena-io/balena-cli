@@ -232,6 +232,10 @@ if (process.platform !== 'win32') {
 			).to.deep.equal(
 				stripIndent`
 					[warn] "${tmpDummyPath}":
+					[warn]   Found partition table with 1 partitions,
+					[warn]   but none with a name/label in ['resin-boot', 'flash-boot', 'balena-boot'].
+					[warn]   Will scan all partitions for contents.
+					[warn] "${tmpDummyPath}":
 					[warn]   1 partition(s) found, but none containing file "/device-type.json".
 					[warn]   Assuming default boot partition number '1'.
 					[warn] "${tmpDummyPath}":
