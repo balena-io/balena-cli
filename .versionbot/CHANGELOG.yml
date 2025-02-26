@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update balena-config-json dependency and fix test
+      hash: 93039b010db15fbf1c0d17d4ed8f0db554064de4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 20.2.8
+  title: ""
+  date: 2025-02-26T00:22:14.010Z
+- commits:
     - subject: Use the CLI version in the X-Balena-Client header
       hash: bef5221ed891db12a0b760f12fc9654e2f4e241b
       body: ""
