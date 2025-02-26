@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix CORS issue with X-Balena-Client header
+      hash: 64d19438042921e89c522f022327ead85b286e9f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/Extend-the-X-Balena-Client-header-to-include-the-UI-CLI-version-as-well-1174
+        see: https://balena.fibery.io/Work/Project/Extend-the-X-Balena-Client-header-to-include-the-UI-CLI-version-as-well-1174
+      author: Thodoris Greasidis
+      nested: []
+  version: 20.2.9
+  title: ""
+  date: 2025-02-26T12:52:06.672Z
+- commits:
     - subject: Update balena-config-json dependency and fix test
       hash: 93039b010db15fbf1c0d17d4ed8f0db554064de4
       body: ""
