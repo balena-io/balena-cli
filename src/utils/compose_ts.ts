@@ -1375,6 +1375,7 @@ export async function deployProject(
 	skipLogUpload: boolean,
 	projectPath: string,
 	isDraft: boolean,
+	imgDescriptors: ImageDescriptor[],
 ): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
 	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
@@ -1405,6 +1406,7 @@ export async function deployProject(
 				isDraft,
 				contract?.version,
 				contract,
+				imgDescriptors,
 			),
 	);
 	const { client: pineClient, release, serviceImages } = $release;
