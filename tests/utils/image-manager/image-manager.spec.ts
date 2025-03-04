@@ -42,7 +42,7 @@ describe('image-manager', function () {
 
 			describe('given the image is fresh', function () {
 				beforeEach(function () {
-					this.cacheIsImageFresh = stub(imageManager, 'isImageFresh');
+					this.cacheIsImageFresh = stub(imageManager, 'isImageCached');
 					return this.cacheIsImageFresh.resolves(true);
 				});
 
@@ -68,7 +68,7 @@ describe('image-manager', function () {
 
 			describe('given the image is not fresh', function () {
 				beforeEach(function () {
-					this.cacheIsImageFresh = stub(imageManager, 'isImageFresh');
+					this.cacheIsImageFresh = stub(imageManager, 'isImageCached');
 					return this.cacheIsImageFresh.resolves(false);
 				});
 
@@ -280,7 +280,7 @@ describe('image-manager', function () {
 		});
 	});
 
-	describe('.isImageFresh()', () => {
+	describe('.isImageCached()', () => {
 		describe('given the raspberry-pi manifest', function () {
 			beforeEach(function () {
 				this.getDeviceTypeManifestBySlugStub = stub(
@@ -314,8 +314,8 @@ describe('image-manager', function () {
 				});
 
 				it('should return false', async function () {
-					expect(await imageManager.isImageFresh('raspberry-pi', '1.2.3')).to.be
-						.false;
+					expect(await imageManager.isImageCached('raspberry-pi', '1.2.3')).to
+						.be.false;
 				});
 			});
 		});
