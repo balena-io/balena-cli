@@ -58,6 +58,7 @@
     "build:completion": "node completion/generate-completion.js",
     "build:standalone": "ts-node --transpile-only automation/run.ts build:standalone",
     "build:installer": "ts-node --transpile-only automation/run.ts build:installer",
+    "deduplicate-dependencies": "npm dd && git add npm-shrinkwrap.json && git commit --message \"Deduplicate dependencies\"",
     "package": "npm run build:fast && npm run build:standalone && npm run build:installer",
     "pretest": "npm run build",
     "test": "npm run test:shrinkwrap && npm run test:core",
