@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
-import * as semver from 'balena-semver';
 import { getBalenaSdk, stripIndent } from './lazy';
 
 export interface ImgConfig {
@@ -122,16 +121,10 @@ export function generateDeviceConfig(
 			// os.getConfig always returns a config for an app
 			delete config.apiKey;
 
-			if (deviceApiKey == null && semver.satisfies(options.version, '<2.0.3')) {
-				config.apiKey = await sdk.models.application.generateApiKey(
-					application.id,
-				);
-			} else {
-				config.deviceApiKey =
-					typeof deviceApiKey === 'string' && deviceApiKey
-						? deviceApiKey
-						: await sdk.models.device.generateDeviceKey(device.uuid);
-			}
+			config.deviceApiKey =
+				typeof deviceApiKey === 'string' && deviceApiKey
+					? deviceApiKey
+					: await sdk.models.device.generateDeviceKey(device.uuid);
 
 			return config;
 		})

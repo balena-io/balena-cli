@@ -76,38 +76,28 @@ export const getImagePath = async (deviceType: string, version?: string) => {
 };
 
 /**
- * @summary Determine if a device image is fresh
+ * @summary Determine if a device image is cached
  *
  * @description
  * If the device image does not exist, return false.
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} version - the exact balenaOS version number
- * @returns {Promise<Boolean>} is image fresh
+ * @returns {Promise<Boolean>} is image cached
  *
  * @example
- * isImageFresh('raspberry-pi', '1.2.3').then (isFresh) ->
- * 	if isFresh
- * 		console.log('The Raspberry Pi image v1.2.3 is fresh!')
+ * isImageCached ('raspberry-pi', '1.2.3').then (isCached) ->
+ * 	if isCached
+ * 		console.log('The Raspberry Pi image v1.2.3 is cached!')
  */
-export const isImageFresh = async (deviceType: string, version: string) => {
+export const isImageCached = async (deviceType: string, version: string) => {
 	const imagePath = await getImagePath(deviceType, version);
-	let createdDate;
 	try {
-		createdDate = await getFileCreatedDate(imagePath);
+		const createdDate = await getFileCreatedDate(imagePath);
+		return createdDate != null;
 	} catch {
-		// Swallow errors from getFileCreatedTime.
-	}
-	if (createdDate == null) {
 		return false;
 	}
-
-	const balena = getBalenaSdk();
-	const lastModifiedDate = await balena.models.os.getLastModified(
-		deviceType,
-		version,
-	);
-	return lastModifiedDate < createdDate;
 };
 
 /**
@@ -286,7 +276,7 @@ export const getStream = async (
 		versionOrRange = 'latest';
 	}
 	const version = await resolveVersion(deviceType, versionOrRange);
-	const isFresh = await isImageFresh(deviceType, version);
+	const isFresh = await isImageCached(deviceType, version);
 	const $stream = isFresh
 		? await getImage(deviceType, version)
 		: await doDownload({ ...options, deviceType, version });

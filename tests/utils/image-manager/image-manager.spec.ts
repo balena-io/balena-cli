@@ -42,7 +42,7 @@ describe('image-manager', function () {
 
 			describe('given the image is fresh', function () {
 				beforeEach(function () {
-					this.cacheIsImageFresh = stub(imageManager, 'isImageFresh');
+					this.cacheIsImageFresh = stub(imageManager, 'isImageCached');
 					return this.cacheIsImageFresh.resolves(true);
 				});
 
@@ -68,7 +68,7 @@ describe('image-manager', function () {
 
 			describe('given the image is not fresh', function () {
 				beforeEach(function () {
-					this.cacheIsImageFresh = stub(imageManager, 'isImageFresh');
+					this.cacheIsImageFresh = stub(imageManager, 'isImageCached');
 					return this.cacheIsImageFresh.resolves(false);
 				});
 
@@ -280,7 +280,7 @@ describe('image-manager', function () {
 		});
 	});
 
-	describe('.isImageFresh()', () => {
+	describe('.isImageCached()', () => {
 		describe('given the raspberry-pi manifest', function () {
 			beforeEach(function () {
 				this.getDeviceTypeManifestBySlugStub = stub(
@@ -314,78 +314,8 @@ describe('image-manager', function () {
 				});
 
 				it('should return false', async function () {
-					expect(await imageManager.isImageFresh('raspberry-pi', '1.2.3')).to.be
-						.false;
-				});
-			});
-
-			describe('given a fixed created time', function () {
-				beforeEach(function () {
-					this.utilsGetFileCreatedDate = stub(
-						imageManager,
-						'getFileCreatedDate',
-					);
-					this.utilsGetFileCreatedDate.resolves(
-						new Date('2014-01-01T00:00:00.000Z'),
-					);
-				});
-
-				afterEach(function () {
-					this.utilsGetFileCreatedDate.restore();
-				});
-
-				describe('given the file was created before the os last modified time', function () {
-					beforeEach(function () {
-						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.resolves(
-							new Date('2014-02-01T00:00:00.000Z'),
-						);
-					});
-
-					afterEach(function () {
-						this.osGetLastModified.restore();
-					});
-
-					it('should return false', function () {
-						const promise = imageManager.isImageFresh('raspberry-pi', '1.2.3');
-						return expect(promise).to.eventually.be.false;
-					});
-				});
-
-				describe('given the file was created after the os last modified time', function () {
-					beforeEach(function () {
-						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.resolves(
-							new Date('2013-01-01T00:00:00.000Z'),
-						);
-					});
-
-					afterEach(function () {
-						this.osGetLastModified.restore();
-					});
-
-					it('should return true', function () {
-						const promise = imageManager.isImageFresh('raspberry-pi', '1.2.3');
-						return expect(promise).to.eventually.be.true;
-					});
-				});
-
-				describe('given the file was created just at the os last modified time', function () {
-					beforeEach(function () {
-						this.osGetLastModified = stub(balena.models.os, 'getLastModified');
-						this.osGetLastModified.resolves(
-							new Date('2014-00-01T00:00:00.000Z'),
-						);
-					});
-
-					afterEach(function () {
-						this.osGetLastModified.restore();
-					});
-
-					it('should return false', function () {
-						const promise = imageManager.isImageFresh('raspberry-pi', '1.2.3');
-						return expect(promise).to.eventually.be.false;
-					});
+					expect(await imageManager.isImageCached('raspberry-pi', '1.2.3')).to
+						.be.false;
 				});
 			});
 		});
