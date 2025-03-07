@@ -45,7 +45,7 @@
     ]
   },
   "scripts": {
-    "postinstall": "node patches/apply-patches.js",
+    "postinstall": "node patches/apply-patches.js && npm dd",
     "prebuild": "rimraf build/ build-bin/",
     "pretarball": "ts-node --transpile-only ../../automation/run.ts sign:binaries",
     "build": "npm run build:src && npm run catch-uncommitted",
