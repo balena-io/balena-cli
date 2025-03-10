@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update TypeScript to 5.8.2
+      hash: a10156a441b737275cabfb03bd10bfc5aba7bc88
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 20.2.10
+  title: ""
+  date: 2025-03-10T17:33:09.548Z
+- commits:
     - subject: Fix CORS issue with X-Balena-Client header
       hash: 64d19438042921e89c522f022327ead85b286e9f
       body: ""
