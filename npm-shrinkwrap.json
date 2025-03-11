@@ -21,7 +21,7 @@
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.3.0",
         "balena-preload": "^17.0.0",
-        "balena-sdk": "^20.8.0",
+        "balena-sdk": "^21.2.1",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
@@ -7463,6 +7463,58 @@
         "node": ">=18"
       }
     },
+    "node_modules/balena-preload/node_modules/@types/node": {
+      "version": "18.19.80",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.80.tgz",
+      "integrity": "sha512-kEWeMwMeIvxYkeg1gTc01awpwLbfMRZXdIhwRcakd/KlK53jmRC26LqcbIt7fnAQTu5GzlnWmzA3H6+l1u6xxQ==",
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~5.26.4"
+      }
+    },
+    "node_modules/balena-preload/node_modules/balena-sdk": {
+      "version": "20.9.1",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-20.9.1.tgz",
+      "integrity": "sha512-M1Fl8z12JlbLY0LNogSogzwuNKIbMNPggLZoGOh5EpCwhzlyeYe/wCXdSxIG18I6QRRrKhCcbraCGwZR11l6RA==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "@balena/es-version": "^1.0.0",
+        "@types/json-schema": "^7.0.9",
+        "@types/node": "^18.19.50",
+        "abortcontroller-polyfill": "^1.7.1",
+        "balena-auth": "^6.0.1",
+        "balena-errors": "^4.9.0",
+        "balena-hup-action-utils": "~6.2.0",
+        "balena-register-device": "^9.0.4",
+        "balena-request": "^14.0.0",
+        "balena-semver": "^2.3.0",
+        "balena-settings-client": "^5.0.0",
+        "date-fns": "^3.0.5",
+        "handlebars": "^4.7.7",
+        "lodash": "^4.17.21",
+        "memoizee": "^0.4.15",
+        "mime": "^3.0.0",
+        "ndjson": "^2.0.0",
+        "p-throttle": "^4.1.1",
+        "pinejs-client-core": "^7.0.0",
+        "tslib": "^2.1.0"
+      },
+      "engines": {
+        "node": ">=18.0"
+      }
+    },
+    "node_modules/balena-preload/node_modules/mime": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz",
+      "integrity": "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==",
+      "license": "MIT",
+      "bin": {
+        "mime": "cli.js"
+      },
+      "engines": {
+        "node": ">=10.0.0"
+      }
+    },
     "node_modules/balena-register-device": {
       "version": "9.0.4",
       "resolved": "https://registry.npmjs.org/balena-register-device/-/balena-register-device-9.0.4.tgz",
@@ -7505,13 +7557,14 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "20.8.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-20.8.0.tgz",
-      "integrity": "sha512-t0uaxEJIp1P/ZiQ9Yf4P1VUtrWEbUjjsd7p0Xz93x9JtvtqqCnCmFV+N96atqPGY+QEYZveGOZ2qwBee5H2pig==",
+      "version": "21.2.1",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-21.2.1.tgz",
+      "integrity": "sha512-GpOO4LUntLuLI1FcZmI0NZeLwqd+ljFwWcS1kGzX2/GuI72EDAwrEEbojDsuJyyZhjxGw0eHOat0J+AtU6Qvhw==",
+      "license": "Apache-2.0",
       "dependencies": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",
-        "@types/node": "^18.19.50",
+        "@types/node": "^20.17.8",
         "abortcontroller-polyfill": "^1.7.1",
         "balena-auth": "^6.0.1",
         "balena-errors": "^4.9.0",
@@ -7531,16 +7584,7 @@
         "tslib": "^2.1.0"
       },
       "engines": {
-        "node": ">=18.0"
-      }
-    },
-    "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "18.19.80",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.80.tgz",
-      "integrity": "sha512-kEWeMwMeIvxYkeg1gTc01awpwLbfMRZXdIhwRcakd/KlK53jmRC26LqcbIt7fnAQTu5GzlnWmzA3H6+l1u6xxQ==",
-      "license": "MIT",
-      "dependencies": {
-        "undici-types": "~5.26.4"
+        "node": "^20.12.0 || >= 22.0.0"
       }
     },
     "node_modules/balena-sdk/node_modules/mime": {
@@ -19579,7 +19623,8 @@
     "node_modules/undici-types": {
       "version": "5.26.5",
       "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz",
-      "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA=="
+      "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==",
+      "license": "MIT"
     },
     "node_modules/unique-string": {
       "version": "2.0.0",
