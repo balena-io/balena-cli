@@ -212,6 +212,7 @@
     "cli-truncate": "^2.1.0",
     "color-hash": "^1.1.1",
     "common-tags": "^1.7.2",
+    "date-fns": "^4.1.0",
     "denymount": "^2.3.0",
     "docker-modem": "5.0.5",
     "docker-progress": "^5.1.3",
