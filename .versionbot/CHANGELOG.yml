@@ -1,4 +1,48 @@
 - commits:
+    - subject: Drop support for OS versions <2.14.0
+      hash: aad62d1ccd11ebb69b1035d5b95aef93d384bfd5
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: myarmolinsky
+      nested: []
+    - subject: "api-key generate: Add required argument `expiryDate`"
+      hash: ecc6f80164fca3c0cde42b140b6d7404abe8c877
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: myarmolinsky
+      nested: []
+    - subject: Update `balena-preload` to 18.0.1
+      hash: 9d3120b144c2c017eda55463b034f1561d264213
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Add dependency `date-fns`
+      hash: ed0e03ddb274da294f719dc0e307ec37591e10d7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Update `balena-sdk` to 21.2.1
+      hash: 8fe6d6c0268f69bcf3bcac3c57470272b959e9b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 21.0.0
+  title: ""
+  date: 2025-03-11T14:42:28.479Z
+- commits:
     - subject: Update TypeScript to 5.8.2
       hash: a10156a441b737275cabfb03bd10bfc5aba7bc88
       body: ""
