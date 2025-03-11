@@ -82,7 +82,7 @@ describe('balena release', function () {
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
 		expect(json[0].commit).to.equal('90247b54de4fa7a0a3cbc85e73c68039');
-		expect(json[0].contains__image[0].image[0].start_timestamp).to.equal(
+		expect(json[0].release_image[0].image[0].start_timestamp).to.equal(
 			'2020-01-04T01:13:08.583Z',
 		);
 	});

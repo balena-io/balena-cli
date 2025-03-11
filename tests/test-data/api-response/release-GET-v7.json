@@ -10,7 +10,7 @@
 		"build_log": null,
 		"start_timestamp": "2021-08-25T22:18:33.624Z",
 		"end_timestamp": "2021-08-25T22:18:48.820Z",
-		"contains__image": [
+		"release_image": [
 		  {
 			"image": [
 			  {

@@ -240,7 +240,7 @@ export const getPreviousRepos = (
 					status: 'success',
 				},
 				$expand: {
-					contains__image: {
+					release_image: {
 						$select: 'image',
 						$expand: { image: { $select: 'is_stored_at__image_location' } },
 					},
@@ -252,7 +252,7 @@ export const getPreviousRepos = (
 		.then(function (release) {
 			// grab all images from the latest release, return all image locations in the registry
 			if (release.length > 0) {
-				const images = release[0].contains__image as Array<{
+				const images = release[0].release_image as Array<{
 					image: [SDK.Image];
 				}>;
 				const { getRegistryAndName } =

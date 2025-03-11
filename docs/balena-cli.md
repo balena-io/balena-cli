@@ -326,12 +326,18 @@ or to authenticate requests to the API with an 'Authorization: Bearer <key>' hea
 Examples:
 
 	$ balena api-key generate "Jenkins Key"
+	$ balena api-key generate "Jenkins Key" 2025-10-30
+	$ balena api-key generate "Jenkins Key" never
 
 ### Arguments
 
 #### NAME
 
 the API key name
+
+#### EXPIRYDATE
+
+the expiry date of the API key as an ISO date string, or "never" for no expiry
 
 ## api-key list
 
