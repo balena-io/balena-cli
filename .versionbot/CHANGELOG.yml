@@ -1,4 +1,21 @@
 - commits:
+    - subject: Add support for new requirement labels feature
+      hash: 42c50ef8aed110b317a0472d928bf75e372b4c0b
+      body: |
+        Updates @balena/compose to v7 to include this new feature.
+      footer:
+        See: https://balena.fibery.io/Work/Project/Refactoring-container-contracts-1205
+        see: https://balena.fibery.io/Work/Project/Refactoring-container-contracts-1205
+        Depends-on: https://github.com/balena-io-modules/balena-compose/pull/64
+        depends-on: https://github.com/balena-io-modules/balena-compose/pull/64
+        Change-type: minor
+        change-type: minor
+      author: Felipe Lalanne
+      nested: []
+  version: 21.1.0
+  title: ""
+  date: 2025-03-12T19:34:17.610Z
+- commits:
     - subject: Drop support for OS versions <2.14.0
       hash: aad62d1ccd11ebb69b1035d5b95aef93d384bfd5
       body: ""
