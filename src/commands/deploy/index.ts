@@ -368,6 +368,7 @@ ${dockerignoreHelp}
 					!opts.shouldUploadLogs,
 					composeOpts.projectPath,
 					opts.createAsDraft,
+					project.descriptors,
 				);
 			}
 

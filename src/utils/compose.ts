@@ -128,6 +128,7 @@ export const createRelease = async function (
 	draft: boolean,
 	semver: string | undefined,
 	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const _ = require('lodash') as typeof import('lodash');
 	const crypto = require('crypto') as typeof import('crypto');
@@ -167,6 +168,7 @@ export const createRelease = async function (
 		semver,
 		is_final: !draft,
 		contract,
+		imgDescriptors,
 	});
 
 	return {

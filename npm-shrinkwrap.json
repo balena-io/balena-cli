@@ -10,7 +10,7 @@
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose": "^6.0.0",
+        "@balena/compose": "^7.0.1",
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
@@ -1282,13 +1282,13 @@
       "dev": true
     },
     "node_modules/@babel/parser": {
-      "version": "7.26.9",
-      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.26.9.tgz",
-      "integrity": "sha512-81NWa1njQblgZbQHxWHpxxCzNsa3ZwvFqpUg7P+NNUU6f3UU2jBEg4OlF/J6rl8+PQGh1q6/zWScd001YwcA5A==",
+      "version": "7.26.10",
+      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.26.10.tgz",
+      "integrity": "sha512-6aQR2zGE/QFi8JpDLjUZEPYOs7+mhKXm86VaKFiLP35JQwQb6bwUE+XbvkH0EptsYhbNBSUGaUBLKqxH1xSgsA==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
-        "@babel/types": "^7.26.9"
+        "@babel/types": "^7.26.10"
       },
       "bin": {
         "parser": "bin/babel-parser.js"
@@ -1298,9 +1298,9 @@
       }
     },
     "node_modules/@babel/parser/node_modules/@babel/types": {
-      "version": "7.26.9",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.9.tgz",
-      "integrity": "sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==",
+      "version": "7.26.10",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.10.tgz",
+      "integrity": "sha512-emqcG3vHrpxUKTrxcblR36dcrcoRDvKmnL/dCL6ZsHaShW80qxCAcNhzQZrpeM765VzEos+xOi4s+r4IXzTwdQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -1326,9 +1326,9 @@
       }
     },
     "node_modules/@babel/template/node_modules/@babel/types": {
-      "version": "7.26.9",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.9.tgz",
-      "integrity": "sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==",
+      "version": "7.26.10",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.10.tgz",
+      "integrity": "sha512-emqcG3vHrpxUKTrxcblR36dcrcoRDvKmnL/dCL6ZsHaShW80qxCAcNhzQZrpeM765VzEos+xOi4s+r4IXzTwdQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -1361,14 +1361,14 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/generator": {
-      "version": "7.26.9",
-      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.26.9.tgz",
-      "integrity": "sha512-kEWdzjOAUMW4hAyrzJ0ZaTOu9OmpyDIQicIh0zg0EEcEkYXZb2TjtBhnHi2ViX7PKwZqF4xwqfAm299/QMP3lg==",
+      "version": "7.26.10",
+      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.26.10.tgz",
+      "integrity": "sha512-rRHT8siFIXQrAYOYqZQVsAr8vJ+cBNqcVAY6m5V8/4QqzaPl+zDBe6cLEPRDuNOUf3ww8RfJVlOyQMoSI+5Ang==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
-        "@babel/parser": "^7.26.9",
-        "@babel/types": "^7.26.9",
+        "@babel/parser": "^7.26.10",
+        "@babel/types": "^7.26.10",
         "@jridgewell/gen-mapping": "^0.3.5",
         "@jridgewell/trace-mapping": "^0.3.25",
         "jsesc": "^3.0.2"
@@ -1378,9 +1378,9 @@
       }
     },
     "node_modules/@babel/traverse/node_modules/@babel/types": {
-      "version": "7.26.9",
-      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.9.tgz",
-      "integrity": "sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==",
+      "version": "7.26.10",
+      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.26.10.tgz",
+      "integrity": "sha512-emqcG3vHrpxUKTrxcblR36dcrcoRDvKmnL/dCL6ZsHaShW80qxCAcNhzQZrpeM765VzEos+xOi4s+r4IXzTwdQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -1474,9 +1474,10 @@
       }
     },
     "node_modules/@balena/compose": {
-      "version": "6.0.0",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-6.0.0.tgz",
-      "integrity": "sha512-tqGJQJpVTdWxaZpSlm/PP23EU3myqmoMIJgJ6ryseYf3A50AcaJ1raRyIxbZ9wQGWu81TB8g47cY9mossIc90g==",
+      "version": "7.0.1",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-7.0.1.tgz",
+      "integrity": "sha512-Xic5WJg7i4D9y9TN+BnY8PYbQLLMewN8CR8i+fZ76GHWyBRfk9+tP3JUpmymvSaK9QTKC2UE2nFiadzbfyIFAg==",
+      "license": "Apache-2.0",
       "dependencies": {
         "ajv": "^6.12.3",
         "docker-file-parser": "^1.0.7",

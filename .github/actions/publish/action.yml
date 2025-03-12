@@ -94,7 +94,7 @@ runs:
         runner_arch="$(echo "${RUNNER_ARCH}" | tr '[:upper:]' '[:lower:]')"
 
         if [[ $runner_os =~ darwin|macos|osx ]]; then
-            CSC_KEY_PASSWORD=${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
+            CSC_KEY_PASSWORD='${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}'
             CSC_KEYCHAIN=signing_temp
             CSC_LINK=${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
 
