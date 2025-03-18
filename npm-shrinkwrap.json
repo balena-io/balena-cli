@@ -19,7 +19,7 @@
         "balena-config-json": "^4.2.2",
         "balena-device-init": "^8.1.3",
         "balena-errors": "^4.7.3",
-        "balena-image-fs": "^7.3.0",
+        "balena-image-fs": "^7.5.0",
         "balena-preload": "^18.0.1",
         "balena-sdk": "^21.3.0",
         "balena-semver": "^2.3.0",
@@ -7427,9 +7427,9 @@
       }
     },
     "node_modules/balena-image-fs": {
-      "version": "7.4.1",
-      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.4.1.tgz",
-      "integrity": "sha512-md41m3Jo54EOj7ASrqCD2GJ+LtF9AmMT46dABIbaPvVerY1zUEW8rGfIfrgq4Tz3tL82y73spoVhcabtkaRj5A==",
+      "version": "7.5.0",
+      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.5.0.tgz",
+      "integrity": "sha512-JVydPTG7hiaX6uAGxzc2HWlVASqXAnb1Ypg1zOU8M6H1US6cbcv3L2ZixHla9yzQnZOy4+SLgV4wc9A4T0CPcQ==",
       "license": "Apache-2.0",
       "dependencies": {
         "ext2fs": "^4.2.4",
