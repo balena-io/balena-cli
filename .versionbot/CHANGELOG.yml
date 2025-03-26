@@ -1,4 +1,41 @@
 - commits:
+    - subject: Bump balena-sdk to 21.3.0
+      hash: e82906872538a7401e31bd52e662e8356a89d413
+      body: |
+        Update balena-sdk from 21.2.1 to 21.3.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested:
+        - commits:
+            - subject: "device: add `changed_api_heartbeat_state_on__date` to typings"
+              hash: bfa52cf58c7d06859a1b5c6f62ff7c71324d3d20
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Otavio Jacobi
+              nested: []
+          version: balena-sdk-21.3.0
+          title: ""
+          date: 2025-03-26T19:54:35.558Z
+        - commits:
+            - subject: fix  linting
+              hash: 13320aad81ba3dfc4950b9960f015b058222c4be
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otavio Jacobi
+              nested: []
+          version: balena-sdk-21.2.2
+          title: ""
+          date: 2025-03-26T18:55:53.610Z
+  version: 21.1.1
+  title: ""
+  date: 2025-03-26T20:34:44.546Z
+- commits:
     - subject: Add support for new requirement labels feature
       hash: 42c50ef8aed110b317a0472d928bf75e372b4c0b
       body: |
