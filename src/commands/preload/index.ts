@@ -37,6 +37,7 @@ import type {
 	Release,
 } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
+import type * as Fs from 'fs';
 
 export default class PreloadCmd extends Command {
 	public static description = stripIndent`
@@ -159,6 +160,37 @@ Can be repeated to add multiple certificates.\
 			throw new ExpectedError(
 				`The provided image path does not exist: ${params.image}`,
 			);
+		}
+
+		// Verify that image is not enabled for secure boot. First, confirm it
+		// is a secure boot image with an /opt/*.sig file in the rootA partition.
+		const { explorePartition, BalenaPartition } = await import(
+			'../../utils/image-contents'
+		);
+		const isSecureBoot = await explorePartition<boolean>(
+			params.image,
+			BalenaPartition.ROOTA,
+			async (fs: typeof Fs): Promise<boolean> => {
+				try {
+					const files = await fs.promises.readdir('/opt');
+					return files.some((el) => el.endsWith('balenaos-img.sig'));
+				} catch {
+					// Typically one of:
+					// - Error: No such file or directory
+					// - Error: Unsupported filesystem.
+					// - ErrnoException: node_ext2fs_open ENOENT (44) args: [5261576,5268064,"r",0]
+					return false;
+				}
+				return false;
+			},
+		);
+		// Next verify that config.json enables secureboot.
+		if (isSecureBoot) {
+			const { read } = await import('balena-config-json');
+			const config = await read(params.image, '');
+			if (config.installer?.secureboot === true) {
+				throw new ExpectedError("Can't preload image with secure boot enabled");
+			}
 		}
 
 		// balena-preload currently does not work with numerical app IDs
