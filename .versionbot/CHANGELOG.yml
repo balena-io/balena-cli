@@ -1,4 +1,18 @@
 - commits:
+    - subject: Deny preload for an image with secure boot enabled
+      hash: 7f2daeebb0973a59682ba4300e1b00bce6f6aead
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 21.1.2
+  title: ""
+  date: 2025-03-27T12:20:22.883Z
+- commits:
     - subject: Bump balena-sdk to 21.3.0
       hash: e82906872538a7401e31bd52e662e8356a89d413
       body: |
