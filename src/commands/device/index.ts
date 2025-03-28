@@ -77,103 +77,59 @@ export default class DeviceCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const device = (await balena.models.device.get(
-			params.uuid,
-			options.json
-				? {
-						$select: [
-							'id',
-							'belongs_to__application',
-							'belongs_to__user',
-							'actor',
-							'is_pinned_on__release',
-							'device_name',
-							'is_of__device_type',
-							'uuid',
-							'is_running__release',
-							'note',
-							'local_id',
-							'status',
-							'update_status',
-							'last_update_status_event',
-							'is_online',
-							'last_connectivity_event',
-							'is_connected_to_vpn',
-							'last_vpn_event',
-							'ip_address',
-							'mac_address',
-							'public_address',
-							'os_version',
-							'os_variant',
-							'supervisor_version',
-							'should_be_managed_by__release',
-							'should_be_operated_by__release',
-							'is_managed_by__service_instance',
-							'provisioning_progress',
-							'provisioning_state',
-							'download_progress',
-							'is_web_accessible',
-							'longitude',
-							'latitude',
-							'location',
-							'custom_longitude',
-							'custom_latitude',
-							'is_locked_until__date',
-							'is_accessible_by_support_until__date',
-							'created_at',
-							'modified_at',
-							'is_active',
-							'api_heartbeat_state',
-							'changed_api_heartbeat_state_on__date',
-							'memory_usage',
-							'memory_total',
-							'storage_block_device',
-							'storage_usage',
-							'storage_total',
-							'cpu_temp',
-							'cpu_usage',
-							'cpu_id',
-							'is_undervolted',
-							// explicit read
-							'overall_status',
-							'overall_progress',
-							'should_be_running__release',
-						],
-						$expand: {
-							device_tag: {
-								$select: ['tag_key', 'value'],
-							},
-							...expandForAppName.$expand,
+		let device: ExtendedDevice;
+		if (options.json) {
+			const [deviceBase, deviceComputed] = await Promise.all([
+				balena.models.device.get(params.uuid, {
+					$expand: {
+						device_tag: {
+							$select: ['tag_key', 'value'],
 						},
-					}
-				: {
-						$select: [
-							'device_name',
-							'id',
-							'overall_status',
-							'is_online',
-							'ip_address',
-							'mac_address',
-							'last_connectivity_event',
-							'uuid',
-							'supervisor_version',
-							'is_web_accessible',
-							'note',
-							'os_version',
-							'memory_usage',
-							'memory_total',
-							'public_address',
-							'storage_block_device',
-							'storage_usage',
-							'storage_total',
-							'cpu_usage',
-							'cpu_temp',
-							'cpu_id',
-							'is_undervolted',
-						],
-						...expandForAppName,
+						...expandForAppName.$expand,
 					},
-		)) as ExtendedDevice;
+				}),
+				balena.models.device.get(params.uuid, {
+					$select: [
+						'overall_status',
+						'overall_progress',
+						'should_be_running__release',
+					],
+				}),
+			]);
+
+			device = {
+				...deviceBase,
+				...deviceComputed,
+			} as ExtendedDevice;
+		} else {
+			device = (await balena.models.device.get(params.uuid, {
+				$select: [
+					'device_name',
+					'id',
+					'overall_status',
+					'is_online',
+					'ip_address',
+					'mac_address',
+					'last_connectivity_event',
+					'uuid',
+					'supervisor_version',
+					'is_web_accessible',
+					'note',
+					'os_version',
+					'memory_usage',
+					'memory_total',
+					'public_address',
+					'storage_block_device',
+					'storage_usage',
+					'storage_total',
+					'cpu_usage',
+					'cpu_temp',
+					'cpu_id',
+					'is_undervolted',
+				],
+				...expandForAppName,
+			})) as ExtendedDevice;
+		}
 
 		if (options.view) {
 			const open = await import('open');

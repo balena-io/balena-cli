@@ -114,6 +114,14 @@ describe('balena device', function () {
 				'Content-Type': 'application/json',
 			});
 
+		api.scope
+			.get(
+				/^\/v\d+\/device\?.+&\$select=overall_status,overall_progress,should_be_running__release$/,
+			)
+			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
+				'Content-Type': 'application/json',
+			});
+
 		const { out, err } = await runCommand('device 27fda508c --json');
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
