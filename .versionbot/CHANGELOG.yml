@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix device detail for open balena
+      hash: 0d4e411777dd53d83c475da3653ab94176e07d7d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 21.1.3
+  title: ""
+  date: 2025-03-28T16:57:00.250Z
+- commits:
     - subject: Deny preload for an image with secure boot enabled
       hash: 7f2daeebb0973a59682ba4300e1b00bce6f6aead
       body: ""
