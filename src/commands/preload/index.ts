@@ -162,8 +162,13 @@ Can be repeated to add multiple certificates.\
 			);
 		}
 
-		// Verify that image is not enabled for secure boot. First, confirm it
-		// is a secure boot image with an /opt/*.sig file in the rootA partition.
+		// Verify that image is not enabled for secure boot. First, confirm it is
+		// a secure boot image with a .sig file in the /opt directory of the rootA
+		// partition. For example, below are contents for generic-amd64 device type:
+		// $ ls -l opt
+		// total 864696
+		// -rw-r--r-- 1 root root 2378170368 Mar 26 09:14 balena-image-generic-amd64.balenaos-img
+		// -rw-r--r-- 1 root root        512 Mar  9  2018 balena-image-generic-amd64.balenaos-img.sig
 		const { explorePartition, BalenaPartition } = await import(
 			'../../utils/image-contents'
 		);
