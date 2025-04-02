@@ -214,7 +214,7 @@
     "common-tags": "^1.7.2",
     "date-fns": "^4.1.0",
     "denymount": "^2.3.0",
-    "docker-modem": "5.0.5",
+    "docker-modem": "5.0.6",
     "docker-progress": "^5.1.3",
     "dockerode": "4.0.3",
     "ejs": "^3.1.6",
