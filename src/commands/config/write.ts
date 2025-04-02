@@ -64,14 +64,19 @@ export default class ConfigWriteCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const configJSON = await config.read(drive, '');
+		const configJSON = await config.read(drive);
 
 		console.info(`Setting ${params.key} to ${params.value}`);
 		ConfigWriteCmd.updateConfigJson(configJSON, params.key, params.value);
 
 		await denyMount(drive, async () => {
 			await safeUmount(drive);
-			await config.write(drive, '', configJSON);
+			await config.write(
+				drive,
+				// Will be removed in the next major of balena-config-json
+				undefined,
+				configJSON,
+			);
 		});
 
 		console.info('Done');

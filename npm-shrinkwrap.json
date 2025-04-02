@@ -16,10 +16,10 @@
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^4.1.0",
         "@sentry/node": "^6.16.1",
-        "balena-config-json": "^4.2.2",
+        "balena-config-json": "^4.2.7",
         "balena-device-init": "^8.1.3",
         "balena-errors": "^4.7.3",
-        "balena-image-fs": "^7.5.0",
+        "balena-image-fs": "^7.5.2",
         "balena-preload": "^18.0.1",
         "balena-sdk": "^21.3.0",
         "balena-semver": "^2.3.0",
@@ -7364,12 +7364,12 @@
       }
     },
     "node_modules/balena-config-json": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.2.2.tgz",
-      "integrity": "sha512-dI/vZ+1Zgz8X/PEBEtBqGqi4eWDtD0e05LAOAIfdTtbYJK5DJhMSq7Is3IKDWgZNejDI+NpbDmRok45tqCmiag==",
+      "version": "4.2.7",
+      "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.2.7.tgz",
+      "integrity": "sha512-cnRsRyKiPojETc/Xq9yN25d78ihGbFp1lJPeGzVKcuNn2PKZ6f6N3SMNuJA7BbFNMKrDhpEhGn274jCWklskaA==",
       "license": "Apache-2.0",
       "dependencies": {
-        "balena-image-fs": "^7.4.0",
+        "balena-image-fs": "^7.5.0",
         "file-disk": "^8.0.1",
         "partitioninfo": "^6.0.2"
       }
@@ -7428,9 +7428,9 @@
       }
     },
     "node_modules/balena-image-fs": {
-      "version": "7.5.0",
-      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.5.0.tgz",
-      "integrity": "sha512-JVydPTG7hiaX6uAGxzc2HWlVASqXAnb1Ypg1zOU8M6H1US6cbcv3L2ZixHla9yzQnZOy4+SLgV4wc9A4T0CPcQ==",
+      "version": "7.5.2",
+      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.5.2.tgz",
+      "integrity": "sha512-bOxnUaJWA26wNlOMc5QScBvqGLQUWw/K0GK/VDgu5tGsZdN4rtdIPSbhXcKBw+0gcNPUumYDtdDPipaOH1kREA==",
       "license": "Apache-2.0",
       "dependencies": {
         "ext2fs": "^4.2.4",
