@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add comment with secure boot signature file example for preload
+      hash: 28703bb5ae13539ab4c1c597e6a53a5292a7edde
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 21.1.4
+  title: ""
+  date: 2025-04-02T09:16:27.791Z
+- commits:
     - subject: Fix device detail for open balena
       hash: 0d4e411777dd53d83c475da3653ab94176e07d7d
       body: ""
