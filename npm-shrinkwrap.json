@@ -101,7 +101,7 @@
         "@types/cli-truncate": "^2.0.0",
         "@types/common-tags": "^1.8.1",
         "@types/diff": "^5.0.3",
-        "@types/dockerode": "3.3.23",
+        "@types/dockerode": "3.3.37",
         "@types/ejs": "^3.1.0",
         "@types/express": "^4.17.13",
         "@types/fast-levenshtein": "^0.0.4",
@@ -5597,12 +5597,14 @@
       }
     },
     "node_modules/@types/dockerode": {
-      "version": "3.3.23",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.23.tgz",
-      "integrity": "sha512-Lz5J+NFgZS4cEVhquwjIGH4oQwlVn2h7LXD3boitujBnzOE5o7s9H8hchEjoDK2SlRsJTogdKnQeiJgPPKLIEw==",
+      "version": "3.3.37",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.37.tgz",
+      "integrity": "sha512-r+IoKpE5MLKaeD8CvoEh39ckWMLHR/+WBMoRQxrkL+apJqEWLMhBHh+93KIfyPWGd6gK7Q21jpoULKgNoRI0YA==",
+      "license": "MIT",
       "dependencies": {
         "@types/docker-modem": "*",
-        "@types/node": "*"
+        "@types/node": "*",
+        "@types/ssh2": "*"
       }
     },
     "node_modules/@types/ejs": {
