@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/download-artifact action to v4.1.9
+      hash: a2209ffe5677388faf7b9bbccace5343265df51f
+      body: |
+        Update actions/download-artifact from 4.1.8 to 4.1.9
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 21.1.8
+  title: ""
+  date: 2025-04-03T16:10:02.341Z
+- commits:
     - subject: Update actions/upload-artifact digest to ea165f8
       hash: c8ea9cfcdbaa9a8abf221132a7d1ff29a966e515
       body: |
