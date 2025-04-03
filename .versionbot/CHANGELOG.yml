@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/upload-artifact digest to ea165f8
+      hash: c8ea9cfcdbaa9a8abf221132a7d1ff29a966e515
+      body: |
+        Update actions/upload-artifact
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 21.1.7
+  title: ""
+  date: 2025-04-03T15:12:14.222Z
+- commits:
     - subject: Update actions/setup-node digest to cdca736
       hash: fe4243809033735a6439f39a1a33dfd00039d656
       body: |
