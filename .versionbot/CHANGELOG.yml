@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node digest to cdca736
+      hash: fe4243809033735a6439f39a1a33dfd00039d656
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 21.1.6
+  title: ""
+  date: 2025-04-03T14:12:06.042Z
+- commits:
     - subject: Update dockerode/docker-modem dependencies for fixes
       hash: b650f8ff6d01d2144886253f93aa1d1867f51980
       body: ""
