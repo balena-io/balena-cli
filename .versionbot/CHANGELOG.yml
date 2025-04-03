@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update dockerode/docker-modem dependencies for fixes
+      hash: b650f8ff6d01d2144886253f93aa1d1867f51980
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 21.1.5
+  title: ""
+  date: 2025-04-03T13:28:08.855Z
+- commits:
     - subject: Add comment with secure boot signature file example for preload
       hash: 28703bb5ae13539ab4c1c597e6a53a5292a7edde
       body: ""
