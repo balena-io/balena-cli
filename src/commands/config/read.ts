@@ -54,7 +54,7 @@ export default class ConfigReadCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const configJSON = await config.read(drive, '');
+		const configJSON = await config.read(drive);
 
 		if (options.json) {
 			console.log(JSON.stringify(configJSON, null, 4));

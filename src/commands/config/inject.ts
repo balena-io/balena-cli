@@ -64,7 +64,12 @@ export default class ConfigInjectCmd extends Command {
 		);
 
 		const config = await import('balena-config-json');
-		await config.write(drive, '', configJSON);
+		await config.write(
+			drive,
+			// Will be removed in the next major of balena-config-json
+			undefined,
+			configJSON,
+		);
 
 		console.info('Done');
 	}

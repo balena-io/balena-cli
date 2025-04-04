@@ -62,7 +62,7 @@ export default class ConfigReconfigureCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const { uuid } = await config.read(drive, '');
+		const { uuid } = await config.read(drive);
 		await safeUmount(drive);
 
 		if (!uuid) {
