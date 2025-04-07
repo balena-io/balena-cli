@@ -1,4 +1,176 @@
 - commits:
+    - subject: Update balena-config-json to rely on the balena-image-fs helpers
+      hash: 4fcedd0607624ddbd26917e3be5fcbd39d96d2f6
+      body: |
+        Update balena-config-json from 4.2.2 to 4.2.7
+        Update balena-image-fs from 7.5.0 to 7.5.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Fix getBootPartition always warning that the boot partitions were not
+                found
+              hash: d91290d9c4b502652c50a34482ff68448eb0a4c2
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-config-json-4.2.7
+          title: ""
+          date: 2025-04-02T14:14:31.495Z
+        - commits:
+            - subject: "write: Allow undefined as a value for the deprecated type parameter"
+              hash: 9d5a44175e7f46f2f3963d794d48d3de8f49300f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Use the balena-image-fs findPartition() helper to find the boot
+                partition
+              hash: 49282ed9bd121d89c8d6fee5095917876cd6f501
+              body: |
+                Update balena-image-fs from 7.4.0 to 7.5.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Add function to find a partition by name/label
+                      hash: 4e9b1cfb2739b738dd12bda7d1623e08ad208b46
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                      author: Ken Bannister
+                      nested: []
+                  version: balena-image-fs-7.5.0
+                  title: ""
+                  date: 2025-03-26T12:35:30.365Z
+                - commits:
+                    - subject: bump ext2fs to 4.2.4
+                      hash: 300cc6d5cdd12ce0c47986efe98702511a03f4a5
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Ryan Cooke<ryan@balena.io>
+                        signed-off-by: Ryan Cooke<ryan@balena.io>
+                      author: Ryan Cooke
+                      nested: []
+                  version: balena-image-fs-7.4.1
+                  title: ""
+                  date: 2025-02-21T10:21:04.380Z
+          version: balena-config-json-4.2.6
+          title: ""
+          date: 2025-04-01T01:09:16.169Z
+        - commits:
+            - subject: Update @balena/lint to 9.1.4
+              hash: 0ff1aa1ed8803b622948214493e1f9ec88cfe910
+              body: |
+                Update @balena/lint from 6.2.2 to 9.1.4
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-config-json-4.2.5
+          title: ""
+          date: 2025-03-26T11:41:52.400Z
+        - commits:
+            - subject: Switch use ts-mocha instead of manually compiling the tests
+              hash: c6e46d393d8670781cf9f94512e8ef05a4236111
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update TypeScript to 5.8.2
+              hash: b8a8183bc14c24a63f5bc5dd60d8906f6d97a00d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-config-json-4.2.4
+          title: ""
+          date: 2025-03-26T09:09:13.516Z
+        - commits:
+            - subject: Update chai to v5
+              hash: 7fe83ffc781eb66ac3535749f7fdf56d458eb959
+              body: |
+                Update @types/chai from 4.3.20 to 5.2.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+              nested: []
+          version: balena-config-json-4.2.3
+          title: ""
+          date: 2025-03-26T08:40:58.555Z
+        - commits:
+            - subject: Update dependency jsdoc-to-markdown to v9
+              hash: f22a0a1dae022035e5357c147f681f8b7c703fe3
+              body: |
+                Update jsdoc-to-markdown from 8.0.3 to 9.1.1
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+              nested: []
+          version: balena-image-fs-7.5.2
+          title: ""
+          date: 2025-04-02T10:40:31.219Z
+        - commits:
+            - subject: Update @balena/lint to v9
+              hash: 4da5fa44a43047cdb4f96c37a73a0f0674c9327b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Remove the no longer needed gpt detection helper
+              hash: 0973da43aa321e4e2dad4b83c5beb965b8da7044
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update TypeScript to 5.8.2
+              hash: 1580e7d577e0183c2b5d4f9ce3d0b8f519e4dff3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Drop the package-lock.json
+              hash: 400ba55caa4c4af8098e2b164cd184651c283230
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-image-fs-7.5.1
+          title: ""
+          date: 2025-03-26T17:51:35.381Z
+  version: 21.1.9
+  title: ""
+  date: 2025-04-07T12:53:16.860Z
+- commits:
     - subject: Update actions/download-artifact action to v4.1.9
       hash: a2209ffe5677388faf7b9bbccace5343265df51f
       body: |
