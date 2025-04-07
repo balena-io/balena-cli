@@ -192,7 +192,7 @@ Can be repeated to add multiple certificates.\
 		// Next verify that config.json enables secureboot.
 		if (isSecureBoot) {
 			const { read } = await import('balena-config-json');
-			const config = await read(params.image, '');
+			const config = await read(params.image);
 			if (config.installer?.secureboot === true) {
 				throw new ExpectedError("Can't preload image with secure boot enabled");
 			}
