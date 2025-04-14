@@ -174,13 +174,6 @@ async function runCommandInSubprocess(
 	};
 	const { exec } = await import('child_process');
 
-	// check if standalonePath exists and print its content
-	if (!fs.existsSync(standalonePath)) {
-		console.error('standalonePath does not exist');
-	} else {
-		console.error('file exists!');
-	}
-
 	await new Promise<void>((resolve) => {
 		const child = exec(
 			`${standalonePath} ${cmd
