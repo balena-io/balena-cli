@@ -10,7 +10,7 @@
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose": "^7.0.1",
+        "@balena/compose": "7.0.8-build-build-secrets-volumes-b0d173b2ad8676a292b97aacd93bc832b2a8928e-1",
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
@@ -1282,9 +1282,9 @@
       "dev": true
     },
     "node_modules/@babel/parser": {
-      "version": "7.27.1",
-      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.27.1.tgz",
-      "integrity": "sha512-I0dZ3ZpCrJ1c04OqlNsQcKiZlsrXf/kkE4FXzID9rIOYICsAbA8mMDzhW/luRNAHdCNt7os/u8wenklZDlUVUQ==",
+      "version": "7.27.2",
+      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.27.2.tgz",
+      "integrity": "sha512-QYLs8299NA7WM/bZAdp+CviYYkVoYXlDW2rzliy3chxd1PQjej7JORuMJDJXJUb9g0TT+B99EwaVLKmX+sPXWw==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -1474,16 +1474,15 @@
       }
     },
     "node_modules/@balena/compose": {
-      "version": "7.0.1",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-7.0.1.tgz",
-      "integrity": "sha512-Xic5WJg7i4D9y9TN+BnY8PYbQLLMewN8CR8i+fZ76GHWyBRfk9+tP3JUpmymvSaK9QTKC2UE2nFiadzbfyIFAg==",
-      "license": "Apache-2.0",
+      "version": "7.0.8-build-build-secrets-volumes-b0d173b2ad8676a292b97aacd93bc832b2a8928e-1",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-7.0.8-build-build-secrets-volumes-b0d173b2ad8676a292b97aacd93bc832b2a8928e-1.tgz",
+      "integrity": "sha512-zwfp5OU84gJ/uhP8sJiYWNccsFjQTQeNwbZPW5Ej54zCJCsbczg1VIjUhgQj3HoO4FjPW9Xn+K3x7QYKtqsLiw==",
       "dependencies": {
         "ajv": "^6.12.3",
         "docker-file-parser": "^1.0.7",
         "docker-modem": "^5.0.3",
         "docker-progress": "^5.1.0",
-        "dockerfile-ast": "^0.2.1",
+        "dockerfile-ast": "^0.7.0",
         "dockerode": "^4.0.2",
         "duplexify": "^4.1.2",
         "event-stream": "^4.0.1",
@@ -1665,9 +1664,9 @@
       }
     },
     "node_modules/@balena/lint/node_modules/@humanwhocodes/retry": {
-      "version": "0.4.2",
-      "resolved": "https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.2.tgz",
-      "integrity": "sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==",
+      "version": "0.4.3",
+      "resolved": "https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.3.tgz",
+      "integrity": "sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==",
       "dev": true,
       "license": "Apache-2.0",
       "engines": {
@@ -2684,9 +2683,9 @@
       }
     },
     "node_modules/@inquirer/core/node_modules/@types/node": {
-      "version": "22.15.12",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.15.12.tgz",
-      "integrity": "sha512-K0fpC/ZVeb8G9rm7bH7vI0KAec4XHEhBam616nVJCV51bKzJ6oA3luG4WdKoaztxe70QaNjS/xBmcDLmr4PiGw==",
+      "version": "22.15.15",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.15.15.tgz",
+      "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -6228,9 +6227,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.17.41",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.41.tgz",
-      "integrity": "sha512-bOB0a6u/e7Ey/Gyc+ghRg+xoXFGYug4I7pdvwxudh+Ewmk93Z4wTudn4NIKiIRYQyujf9jm2uTBzQK8tg8oUeQ==",
+      "version": "20.17.44",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.44.tgz",
+      "integrity": "sha512-50sE4Ibb4BgUMxHrcJQSAU0Fu7fLcTdwcXwRzEF7wnVMWvImFLg2Rxc7SW0vpvaJm4wvhoWEZaQiPpBpocZiUA==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.19.2"
@@ -9918,11 +9917,13 @@
       }
     },
     "node_modules/dockerfile-ast": {
-      "version": "0.2.1",
-      "resolved": "https://registry.npmjs.org/dockerfile-ast/-/dockerfile-ast-0.2.1.tgz",
-      "integrity": "sha512-ut04CVM1G6zIITTcYPDIXhPZk9mCa21m4dfW8FcDDGxwgTQhYyHDu6U7M8klZ7QsjqVcJhryKi+TGOX6bjgKdQ==",
+      "version": "0.7.0",
+      "resolved": "https://registry.npmjs.org/dockerfile-ast/-/dockerfile-ast-0.7.0.tgz",
+      "integrity": "sha512-HYpjuL0IEC2lYflTpWD0RLNSZYhQxLwYRYsoEjnCP7nu/OlFx1BVrU6X/Y8ETVsa2hojhG2OTJVxleH5Wrlq+Q==",
+      "license": "MIT",
       "dependencies": {
-        "vscode-languageserver-types": "^3.16.0"
+        "vscode-languageserver-textdocument": "^1.0.8",
+        "vscode-languageserver-types": "^3.17.3"
       },
       "engines": {
         "node": "*"
@@ -20335,10 +20336,17 @@
         "extsprintf": "^1.2.0"
       }
     },
+    "node_modules/vscode-languageserver-textdocument": {
+      "version": "1.0.12",
+      "resolved": "https://registry.npmjs.org/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.12.tgz",
+      "integrity": "sha512-cxWNPesCnQCcMPeenjKKsOCKQZ/L6Tv19DTRIGuLWe32lyzWhihGVJ/rcckZXJxfdKCFvRLS3fpBIsV/ZGX4zA==",
+      "license": "MIT"
+    },
     "node_modules/vscode-languageserver-types": {
-      "version": "3.17.3",
-      "resolved": "https://registry.npmjs.org/vscode-languageserver-types/-/vscode-languageserver-types-3.17.3.tgz",
-      "integrity": "sha512-SYU4z1dL0PyIMd4Vj8YOqFvHu7Hz/enbWtpfnVbJHU4Nd1YNYx8u0ennumc6h48GQNeOLxmwySmnADouT/AuZA=="
+      "version": "3.17.5",
+      "resolved": "https://registry.npmjs.org/vscode-languageserver-types/-/vscode-languageserver-types-3.17.5.tgz",
+      "integrity": "sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg==",
+      "license": "MIT"
     },
     "node_modules/wcwidth": {
       "version": "1.0.1",
