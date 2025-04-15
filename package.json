@@ -190,7 +190,7 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "@balena/compose": "^7.0.1",
+    "@balena/compose": "7.0.8-build-build-secrets-volumes-ea4d0319546ba82ccc51698d4f788f9798cc1f83-1",
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
