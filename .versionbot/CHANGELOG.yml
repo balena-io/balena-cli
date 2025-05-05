@@ -1,4 +1,14 @@
 - commits:
+    - subject: "patch: fix windows signing"
+      hash: 37e96e5d670d466910ad7164d5b26faf1ef41df7
+      body: ""
+      footer: {}
+      author: Edwin Joassart
+      nested: []
+  version: 21.1.10
+  title: ""
+  date: 2025-05-05T17:13:23.657Z
+- commits:
     - subject: Update balena-config-json to rely on the balena-image-fs helpers
       hash: 4fcedd0607624ddbd26917e3be5fcbd39d96d2f6
       body: |
