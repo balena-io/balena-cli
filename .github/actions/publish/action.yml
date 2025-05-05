@@ -48,7 +48,7 @@ runs:
       if: runner.os == 'macOS'
       uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4
       with:
-        python-version: "3.11"
+        python-version: '3.11'
 
     - name: Install additional tools
       if: runner.os == 'Windows'
@@ -112,8 +112,8 @@ runs:
             PATH="/c/Program Files/DigiCert/DigiCert One Signing Manager Tools:${PATH}"
             smksp_registrar.exe list
             smctl.exe keypair ls
+            smctl.exe windows certsync
             /c/Windows/System32/certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
-            smksp_cert_sync.exe
 
             # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
             PATH="/c/Program Files (x86)/Windows Kits/10/bin/${runner_arch}:${PATH}"
