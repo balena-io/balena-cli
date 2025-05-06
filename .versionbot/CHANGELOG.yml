@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix typos in `os configure` and `config generate` help messages
+      hash: 8eb1777437aa4c34c437ebbf81c2cf0dee0cc460
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 21.1.11
+  title: ""
+  date: 2025-05-06T15:24:58.111Z
+- commits:
     - subject: "patch: fix windows signing"
       hash: 37e96e5d670d466910ad7164d5b26faf1ef41df7
       body: ""
