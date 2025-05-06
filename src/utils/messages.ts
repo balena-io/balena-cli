@@ -159,9 +159,9 @@ especially discouraged in scripts (e.g. CI environments).`;
 
 export const devModeInfo = `\
 The '--dev' option is used to configure balenaOS to operate in development mode,
-allowing anauthenticated root ssh access and exposing network ports such as
+allowing unauthenticated root ssh access and exposing network ports such as
 balenaEngine's 2375 (unencrypted). This option causes \`"developmentMode": true\`
-to be inserted in the 'config.json' file in the image's boot partion. Development
+to be inserted in the 'config.json' file in the image's boot partition. Development
 mode (as a configurable option) is applicable to balenaOS releases from early
 2022. Older releases have separate development and production balenaOS images
 that cannot be reconfigured through 'config.json' or the '--dev' option. Do not
