@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update @balena/compose dependency to fix error with build secrets.
+      hash: 0f8ce47ec6523e447315bc9103267371fd028bf4
+      body: |
+        See https://github.com/balena-io-modules/balena-compose/pull/79
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+        signed-off-by: Ken Bannister <kb2ma@runbox.com>
+      author: Ken Bannister
+      nested: []
+  version: 21.1.12
+  title: ""
+  date: 2025-05-16T18:54:49.177Z
+- commits:
     - subject: Fix typos in `os configure` and `config generate` help messages
       hash: 8eb1777437aa4c34c437ebbf81c2cf0dee0cc460
       body: ""
