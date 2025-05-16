@@ -76,6 +76,18 @@
   },
   "oclif": {
     "bin": "balena",
+    "dirname": "balena-cli-data",
+    "plugins": [
+      "@oclif/plugin-update"
+    ],
+    "update": {
+      "s3": {
+        "host": "https://test-cli-update.s3.us-east-1.amazonaws.com",
+        "bucket": "test-cli-update",
+        "acl": "bucket-owner-full-control"
+      }
+    },
+
     "commands": "./build/commands",
     "helpClass": "./build/help",
     "topicSeparator": " ",
@@ -169,6 +181,7 @@
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^4.1.0",
+    "@oclif/plugin-update": "^4.6.39",
     "@sentry/node": "^6.16.1",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.1.3",
