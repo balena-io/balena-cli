@@ -115,7 +115,7 @@ If nothing seems to help, consider also using a different client-side terminal a
 ## "Docker seems to be unavailable" error when using Windows Subsystem for Linux (WSL)
 
 When running on WSL, the recommendation is to install a CLI release for Linux, like the standalone
-zip package for Linux. However, commands like "balena build" will, by default, attempt to reach the
+tar.gz package for Linux. However, commands like "balena build" will, by default, attempt to reach the
 Docker daemon at the Unix socket path `/var/run/docker.sock`, while Docker Desktop for Windows uses
 a Windows named pipe at `//./pipe/docker_engine` (which the Linux CLI on WSL cannot use). A
 solution is:
