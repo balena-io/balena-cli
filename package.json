@@ -242,11 +242,15 @@
     "window-size": "^1.1.0"
   },
   "optionalDependencies": {
-    "windosu": "^0.3.0"
+    "windosu": "^0.3.0",
+    "winusb-driver-generator": "2.1.6-build-bump-node-and-deps-9132cb7aeecaa90f425e27cd4a44b02f5f7256df-1"
   },
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
+    },
+    "etcher-sdk": {
+      "winusb-driver-generator": "2.1.6-build-bump-node-and-deps-9132cb7aeecaa90f425e27cd4a44b02f5f7256df-1"
     }
   },
   "versionist": {

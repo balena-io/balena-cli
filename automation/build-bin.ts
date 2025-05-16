@@ -189,6 +189,16 @@ export async function buildStandalone() {
 		console.log('=======================================================');
 		const oclifPath = path.join(ROOT, 'node_modules', 'oclif');
 		await oclifRun([packCmd].concat(...packOpts), oclifPath);
+
+		if (process.platform === 'win32') {
+			console.error('RUNNING WINUSB DRIVER GENERATOR');
+			const { stdout, stderr } = await execAsync(
+				'npm ls winusb-driver-generator',
+			);
+			console.error(stdout);
+			console.error(stderr);
+		}
+
 		await renameStandalone();
 
 		console.log(`Standalone tarball package build completed`);

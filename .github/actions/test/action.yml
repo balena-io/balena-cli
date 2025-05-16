@@ -41,11 +41,15 @@ runs:
       shell: bash
       run: |
         set -ea
+        runner_os="$(echo "${RUNNER_OS}" | tr '[:upper:]' '[:lower:]')"
 
         [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
 
         if [[ -e package-lock.json ]] || [[ -e npm-shrinkwrap.json ]]; then
             npm ci
+            if [[ $runner_os =~ windows|win ]]; then
+              npm ls winusb-driver-generator
+            fi
         else
             npm i
         fi

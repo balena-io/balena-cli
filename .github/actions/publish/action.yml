@@ -81,6 +81,14 @@ runs:
       env:
         SM_CLIENT_CERT_FILE_B64: ${{ fromJSON(inputs.secrets).SM_CLIENT_CERT_FILE_B64 }}
 
+    # - name: Install windows only deps
+    #   if: runner.os == 'Windows'
+    #   shell: bash
+    #   run: |
+    #     npm i -D winusb-driver-generator@2.1.6-build-bump-node-and-deps-9132cb7aeecaa90f425e27cd4a44b02f5f7256df-1
+    #     npm i --save winusb-driver-generator@2.1.6-build-bump-node-and-deps-9132cb7aeecaa90f425e27cd4a44b02f5f7256df-1
+    #     npm ls winusb-driver-generator
+
     # https://github.com/product-os/scripts/tree/master/shared
     # https://github.com/product-os/balena-concourse/blob/master/pipelines/github-events/template.yml
     - name: Package release
@@ -117,6 +125,7 @@ runs:
 
             # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
             PATH="/c/Program Files (x86)/Windows Kits/10/bin/${runner_arch}:${PATH}"
+            # ensure it is there for windows as the shirnkwrap could have been created on a different os
         fi
 
         npm run package
