@@ -197,6 +197,7 @@ export default class OsConfigureCmd extends Command {
 
 		const deviceTypeManifest = await helpers.getManifest(
 			params.image,
+			// TODO: Drop this in the next major in favor of calling checkManifestMatchesDeviceType() directly
 			deviceTypeSlug,
 		);
 
