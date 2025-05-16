@@ -1,0 +1,94 @@
+diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
+index ca99b35..6265d26 100644
+--- a/node_modules/oclif/lib/commands/pack/win.js
++++ b/node_modules/oclif/lib/commands/pack/win.js
+@@ -89,6 +89,12 @@ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+ ${customization}
+ 
+ Section "${config.name} CLI \${VERSION}"
++  ; First remove any old client files.
++  ; (Remnants of old versions were causing CLI errors)
++  ; Initially tried running the Uninstall.exe, but was
++  ; unable to make script wait for completion (despite using _?)
++  DetailPrint "Removing files from previous version."
++  RMDir /r "$INSTDIR\\client"
+   SetOutPath $INSTDIR
+   File /r bin
+   File /r client
+diff --git a/node_modules/oclif/lib/commands/promote.js b/node_modules/oclif/lib/commands/promote.js
+index 89b3ddf..680417f 100644
+--- a/node_modules/oclif/lib/commands/promote.js
++++ b/node_modules/oclif/lib/commands/promote.js
+@@ -86,8 +86,8 @@ class Promote extends core_1.Command {
+             CacheControl: indexDefaults.maxAge,
+             MetadataDirective: client_s3_1.MetadataDirective.REPLACE,
+         };
+-        const cloudBucketCommitKey = (shortKey) => node_path_1.default.join(s3Config.bucket, (0, upload_util_1.commitAWSDir)(flags.version, flags.sha, s3Config), shortKey);
+-        const cloudChannelKey = (shortKey) => node_path_1.default.join((0, upload_util_1.channelAWSDir)(flags.channel, s3Config), shortKey);
++        const cloudBucketCommitKey = (shortKey) => node_path_1.default.posix.join(s3Config.bucket, (0, upload_util_1.commitAWSDir)(flags.version, flags.sha, s3Config), shortKey);
++        const cloudChannelKey = (shortKey) => node_path_1.default.posix.join((0, upload_util_1.channelAWSDir)(flags.channel, s3Config), shortKey);
+         // copy tarballs manifests
+         const promoteManifest = async (target) => {
+             const manifest = (0, upload_util_1.templateShortKey)('manifest', {
+diff --git a/node_modules/oclif/lib/commands/upload/tarballs.js b/node_modules/oclif/lib/commands/upload/tarballs.js
+index 77ca5a6..d56c4ad 100644
+--- a/node_modules/oclif/lib/commands/upload/tarballs.js
++++ b/node_modules/oclif/lib/commands/upload/tarballs.js
+@@ -56,8 +56,6 @@ class UploadTarballs extends core_1.Command {
+     };
+     async run() {
+         const { flags } = await this.parse(UploadTarballs);
+-        if (process.platform === 'win32')
+-            throw new Error('upload does not function on windows');
+         const buildConfig = await Tarballs.buildConfig(flags.root, {
+             sha: flags?.sha,
+             targets: flags?.targets?.split(','),
+diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
+index 90904ec..012c7b9 100644
+--- a/node_modules/oclif/lib/tarballs/build.js
++++ b/node_modules/oclif/lib/tarballs/build.js
+@@ -189,6 +189,11 @@ const extractCLI = async (tarball, c) => {
+         (0, promises_1.rm)(node_path_1.default.join(workspace, node_path_1.default.basename(tarball)), { recursive: true }),
+         (0, fs_extra_1.remove)(node_path_1.default.join(workspace, 'bin', 'run.cmd')),
+     ]);
++    // The oclif installers are a production installation, while the source
++    // `bin` folder may contain a `.fast-boot.json` file of a dev installation.
++    // This has previously led to issues preventing the CLI from starting, so
++    // delete `.fast-boot.json` (if any) from the destination folder.
++    await (0, fs_extra_1.remove)(node_path_1.default.join(workspace, 'bin', '.fast-boot.json'));
+ };
+ const buildTarget = async (target, c, options) => {
+     if (target.platform === 'win32' && target.arch === 'arm64' && (0, semver_1.lt)(c.nodeVersion, '20.0.0')) {
+diff --git a/node_modules/oclif/lib/upload-util.js b/node_modules/oclif/lib/upload-util.js
+index 372af1d..2ecef07 100644
+--- a/node_modules/oclif/lib/upload-util.js
++++ b/node_modules/oclif/lib/upload-util.js
+@@ -11,13 +11,13 @@ function commitAWSDir(version, sha, s3Config) {
+     let s3SubDir = s3Config.folder || '';
+     if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/')
+         s3SubDir = `${s3SubDir}/`;
+-    return (0, node_path_1.join)(s3SubDir, 'versions', version, sha);
++    return (0, node_path_1.posix.join)(s3SubDir, 'versions', version, sha);
+ }
+ function channelAWSDir(channel, s3Config) {
+     let s3SubDir = s3Config.folder || '';
+     if (s3SubDir !== '' && s3SubDir.slice(-1) !== '/')
+         s3SubDir = `${s3SubDir}/`;
+-    return (0, node_path_1.join)(s3SubDir, 'channels', channel);
++    return (0, node_path_1.posix.join)(s3SubDir, 'channels', channel);
+ }
+ // TODO: refactor this key name lookup helper to oclif/core
+ function templateShortKey(type, options) {
+diff --git a/node_modules/oclif/lib/version-indexes.js b/node_modules/oclif/lib/version-indexes.js
+index a64205c..5d9686f 100644
+--- a/node_modules/oclif/lib/version-indexes.js
++++ b/node_modules/oclif/lib/version-indexes.js
+@@ -81,7 +81,7 @@ const appendToIndex = async (input) => {
+     // json-friendly filenames like sfdx-linux-x64-tar-gz
+     const jsonFileName = `${filename.replaceAll('.', '-')}.json`;
+     // folder is optional, but honored if present
+-    const key = node_path_1.default.join(s3Config.folder ?? '', 'versions', jsonFileName);
++    const key = node_path_1.default.posix.join(s3Config.folder ?? '', 'versions', jsonFileName);
+     // retrieve existing index file
+     let existing = {};
+     try {

@@ -6,6 +6,10 @@ on:
   pull_request_target:
     types: [opened, synchronize, closed]
     branches: [main, master]
+permissions:
+  contents: read
+  id-token: write
+  packages: read
 jobs:
   flowzone:
     name: Flowzone
@@ -39,6 +43,12 @@ jobs:
             ["macos-13"],
             ["windows-2022"],
             ["macos-latest-xlarge"]
+          ]
+        }
+      custom_finalize_matrix: >
+        {
+          "os": [
+            ["self-hosted", "X64"]
           ]
         }
       github_prerelease: false
