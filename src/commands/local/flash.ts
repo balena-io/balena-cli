@@ -20,6 +20,7 @@ import type { BlockDevice } from 'etcher-sdk/build/source-destination';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
+import type { Adapter } from 'etcher-sdk/build/scanner/adapters';
 
 export default class LocalFlashCmd extends Command {
 	public static description = stripIndent`
@@ -118,13 +119,23 @@ export default class LocalFlashCmd extends Command {
 
 		const sdk = await import('etcher-sdk');
 
-		const adapter = new sdk.scanner.adapters.BlockDeviceAdapter({
-			includeSystemDrives: () => false,
-			unmountOnSuccess: false,
-			write: true,
-			direct: true,
-		});
-		const scanner = new sdk.scanner.Scanner([adapter]);
+		const adapters: Adapter[] = [
+			new sdk.scanner.adapters.BlockDeviceAdapter({
+				includeSystemDrives: () => false,
+				unmountOnSuccess: false,
+				write: true,
+				direct: true,
+			}),
+		];
+
+		if (process.platform === 'win32') {
+			const driverless = sdk.scanner.adapters.DriverlessDeviceAdapter;
+			if (driverless) {
+				adapters.push(new driverless());
+			}
+		}
+
+		const scanner = new sdk.scanner.Scanner(adapters);
 		await scanner.start();
 		try {
 			const d = scanner.getBy('device', drive);
