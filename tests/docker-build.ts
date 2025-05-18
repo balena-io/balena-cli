@@ -16,18 +16,18 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { PathUtils } from '@balena/compose/dist/multibuild';
+import { PathUtils } from '@balena/compose/dist/multibuild/index.js';
 import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 import { diff } from 'deep-object-diff';
-import { makeImageName } from '../build/utils/compose_ts';
-import { stripIndent } from '../build/utils/lazy';
+import { makeImageName } from '../build/utils/compose_ts.js';
+import { stripIndent } from '../build/utils/lazy.js';
 import type { BuilderMock } from './nock/builder-mock';
 import type { DockerMock } from './nock/docker-mock';
 import {
@@ -35,7 +35,7 @@ import {
 	deepJsonParse,
 	deepTemplateReplace,
 	runCommand,
-} from './helpers';
+} from './helpers.js';
 import type {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,

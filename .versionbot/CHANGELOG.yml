@@ -18695,7 +18695,7 @@
         change-type: patch
       author: Paulo Castro
       nested: []
-    - subject: Refactor dependency import in utils/helpers.ts for performance
+    - subject: Refactor dependency import in utils/helpers.js.ts for performance
       hash: 06f76838370fae7a2e9faf99d1698c9bf75d0d15
       body: ""
       footer:
@@ -26175,7 +26175,7 @@
   version: 11.31.18
   date: 2020-04-24T20:37:38.920Z
 - commits:
-    - subject: Convert lib/utils/docker-coffee.coffee to javascript
+    - subject: Convert lib/utils/docker.js-coffee.coffee to javascript
       hash: 23f2242e22a09c559bcb8b62ce4e8f5c8ad6e1db
       body: ""
       footer:

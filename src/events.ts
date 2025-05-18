@@ -16,7 +16,7 @@
  */
 
 import * as packageJSON from '../package.json';
-import { stripIndent } from './utils/lazy';
+import { stripIndent } from './utils/lazy.js';
 
 /**
  * Track balena CLI usage events (product improvement analytics).
@@ -44,7 +44,7 @@ export async function trackCommand(commandSignature: string) {
 				scope.setExtra('command', commandSignature);
 			});
 		}
-		const { getCachedUsername } = await import('./utils/bootstrap');
+		const { getCachedUsername } = await import('./utils/bootstrap.js');
 		let username: string | undefined;
 		try {
 			username = (await getCachedUsername())?.username;

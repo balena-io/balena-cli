@@ -1,5 +1,5 @@
-import { ExpectedError } from '../errors';
-import { getBalenaSdk } from './lazy';
+import { ExpectedError } from '../errors.js';
+import { getBalenaSdk } from './lazy.js';
 
 export interface FlagsDef {
 	organization?: string;

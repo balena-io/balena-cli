@@ -17,10 +17,10 @@ limitations under the License.
 import type { InitializeEmitter, OperationState } from 'balena-device-init';
 import type * as BalenaSdk from 'balena-sdk';
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { promisify } from 'util';
 
-import { getBalenaSdk, getChalk, getVisuals } from './lazy';
+import { getBalenaSdk, getChalk, getVisuals } from './lazy.js';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
@@ -136,7 +136,7 @@ export async function getManifest(
 		manifest.slug !== deviceType &&
 		manifest.slug !== (await sdk.models.deviceType.get(deviceType)).slug
 	) {
-		const { ExpectedError } = await import('../errors');
+		const { ExpectedError } = await import('../errors.js');
 		throw new ExpectedError(
 			`The device type of the provided OS image ${manifest.slug}, does not match the expected device type ${deviceType}`,
 		);
@@ -203,7 +203,7 @@ export async function osProgressHandler(step: InitializeEmitter) {
 }
 
 export async function getAppWithArch(applicationName: string) {
-	const { getApplication } = await import('./sdk');
+	const { getApplication } = await import('./sdk.js');
 	const balena = getBalenaSdk();
 	const app = await getApplication(balena, applicationName, {
 		$expand: {
@@ -260,7 +260,7 @@ export async function retry<T>({
 	backoffScaler?: number;
 	maxSingleDelayMs?: number;
 }): Promise<T> {
-	const { SIGINTError } = await import('../errors');
+	const { SIGINTError } = await import('../errors.js');
 	let delayMs = initialDelayMs;
 	for (let count = 0; count < maxAttempts - 1; count++) {
 		const lastAttemptMs = Date.now();
@@ -459,7 +459,7 @@ export async function awaitInterruptibleTask<
 	const sigintPromise = new Promise<T>((_resolve, reject) => {
 		sigintHandler = () => {
 			const { SIGINTError } =
-				require('../errors') as typeof import('../errors');
+				require('../errors.js') as typeof import('../errors.js');
 			reject(new SIGINTError('Task aborted on SIGINT signal'));
 		};
 		addSIGINTHandler(sigintHandler);

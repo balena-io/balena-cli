@@ -20,7 +20,7 @@ import { expect } from 'chai';
 describe('@balena/compose/multibuild consistency', function () {
 	it('should use the same values for selected constants', async () => {
 		const { QEMU_BIN_NAME: MQEMU_BIN_NAME } = await import(
-			'@balena/compose/dist/multibuild'
+			'@balena/compose/dist/multibuild/index.js'
 		);
 		const { QEMU_BIN_NAME } = await import('../../build/utils/qemu');
 		expect(QEMU_BIN_NAME).to.equal(MQEMU_BIN_NAME);

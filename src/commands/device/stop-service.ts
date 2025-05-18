@@ -16,7 +16,7 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy.js';
 import type { BalenaSDK } from 'balena-sdk';
 
 export default class DeviceStopServiceCmd extends Command {
@@ -70,7 +70,7 @@ export default class DeviceStopServiceCmd extends Command {
 		deviceUuid: string,
 		serviceNames: string[],
 	) {
-		const { ExpectedError } = await import('../../errors');
+		const { ExpectedError } = await import('../../errors.js');
 		const { getExpandedProp } = await import('../../utils/pine');
 
 		// Get device

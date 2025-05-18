@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"declaration": true,
-		"module": "commonjs",
-		"target": "es2018",
+		"module": "NodeNext",
+		"target": "ES2022",
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,

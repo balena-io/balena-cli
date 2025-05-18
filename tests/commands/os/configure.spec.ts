@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as process from 'process';
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
 import type * as $imagefs from 'balena-image-fs';

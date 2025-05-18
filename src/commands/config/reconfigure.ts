@@ -16,8 +16,8 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getVisuals, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class ConfigReconfigureCmd extends Command {
 	public static description = stripIndent`
@@ -55,7 +55,7 @@ export default class ConfigReconfigureCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(ConfigReconfigureCmd);
 
-		const { safeUmount } = await import('../../utils/umount');
+		const { safeUmount } = await import('../../utils/umount.js');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));
@@ -66,7 +66,7 @@ export default class ConfigReconfigureCmd extends Command {
 		await safeUmount(drive);
 
 		if (!uuid) {
-			const { ExpectedError } = await import('../../errors');
+			const { ExpectedError } = await import('../../errors.js');
 			throw new ExpectedError(
 				`Error: UUID not found in 'config.json' file for '${drive}'`,
 			);
@@ -80,7 +80,7 @@ export default class ConfigReconfigureCmd extends Command {
 			configureCommand.push('--advanced');
 		}
 
-		const { runCommand } = await import('../../utils/helpers');
+		const { runCommand } = await import('../../utils/helpers.js');
 		await runCommand(configureCommand);
 
 		console.info('Done');

@@ -16,9 +16,9 @@
  */
 import type * as BalenaSdk from 'balena-sdk';
 
-import { ExpectedError, printErrorMessage } from '../errors';
-import { getVisuals, stripIndent, getCliForm } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError, printErrorMessage } from '../errors.js';
+import { getVisuals, stripIndent, getCliForm } from './lazy.js';
+import Logger from './logger.js';
 import { confirm } from './patterns';
 import { getLocalDeviceCmdStdout, getDeviceOsRelease } from './ssh';
 
@@ -231,7 +231,7 @@ async function selectAppFromList(
 	applications: ApplicationWithDeviceTypeSlug[],
 ): Promise<ApplicationWithDeviceTypeSlug> {
 	const _ = await import('lodash');
-	const { selectFromList } = await import('../utils/patterns');
+	const { selectFromList } = await import('../utils/patterns.js');
 
 	// Present a list to the user which shows the fully qualified fleet
 	// name (user/fleetname) and allows them to select.
@@ -448,7 +448,7 @@ async function generateApplicationConfig(
 		appUpdatePollInterval?: number;
 	},
 ) {
-	const { generateApplicationConfig: configGen } = await import('./config');
+	const { generateApplicationConfig: configGen } = await import('./config.js');
 
 	const manifest = await sdk.models.config.getDeviceTypeManifestBySlug(
 		app.is_for__device_type[0].slug,

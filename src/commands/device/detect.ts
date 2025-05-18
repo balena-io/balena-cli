@@ -16,7 +16,7 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import { getCliUx, stripIndent } from '../../utils/lazy';
+import { getCliUx, stripIndent } from '../../utils/lazy.js';
 
 export default class DeviceDetectCmd extends Command {
 	public static aliases = ['scan'];
@@ -66,7 +66,7 @@ export default class DeviceDetectCmd extends Command {
 			'../../utils/discover'
 		);
 		const prettyjson = await import('prettyjson');
-		const dockerUtils = await import('../../utils/docker');
+		const dockerUtils = await import('../../utils/docker.js');
 
 		const dockerPort = 2375;
 		const dockerTimeout = 2000;

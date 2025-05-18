@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import _ = require('lodash');
+import _ from 'lodash';
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
-import { getChalk } from './lazy';
+import { getChalk } from './lazy.js';
 
 enum Level {
 	BUILD = 'build',
@@ -175,4 +175,4 @@ class Logger {
 	}
 }
 
-export = Logger;
+export default Logger;

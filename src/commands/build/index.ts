@@ -16,9 +16,9 @@
  */
 
 import { Args, Flags, Command } from '@oclif/core';
-import { getBalenaSdk } from '../../utils/lazy';
-import * as cf from '../../utils/common-flags';
-import * as compose from '../../utils/compose';
+import { getBalenaSdk } from '../../utils/lazy.js';
+import * as cf from '../../utils/common-flags.js';
+import * as compose from '../../utils/compose.js';
 import type {
 	ApplicationType,
 	BalenaSDK,
@@ -30,11 +30,11 @@ import {
 	buildArgDeprecation,
 	dockerignoreHelp,
 	registrySecretsHelp,
-} from '../../utils/messages';
-import type { ComposeCliFlags, ComposeOpts } from '../../utils/compose-types';
-import { buildProject, composeCliFlags } from '../../utils/compose_ts';
-import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
-import { dockerCliFlags } from '../../utils/docker';
+} from '../../utils/messages.js';
+import type { ComposeCliFlags, ComposeOpts } from '../../utils/compose-types.js';
+import { buildProject, composeCliFlags } from '../../utils/compose_ts.js';
+import type { BuildOpts, DockerCliFlags } from '../../utils/docker.js';
+import { dockerCliFlags } from '../../utils/docker.js';
 
 type ComposeGenerateOptsParam = Parameters<typeof compose.generateOpts>[0];
 
@@ -103,8 +103,8 @@ ${dockerignoreHelp}
 	public async run() {
 		const { args: params, flags: options } = await this.parse(BuildCmd);
 
-		const Logger = await import('../../utils/logger');
-		const { checkLoggedInIf } = await import('../../utils/patterns');
+		const { default: Logger } = await import('../../utils/logger.js');
+		const { checkLoggedInIf } = await import('../../utils/patterns.js');
 
 		await checkLoggedInIf(!!options.fleet);
 
@@ -157,14 +157,14 @@ ${dockerignoreHelp}
 			(opts.fleet == null && (opts.arch == null || opts.deviceType == null)) ||
 			(opts.fleet != null && (opts.arch != null || opts.deviceType != null))
 		) {
-			const { ExpectedError } = await import('../../errors');
+			const { ExpectedError } = await import('../../errors.js');
 			throw new ExpectedError(
 				'You must specify either a fleet (-f), or the device type (-d) and optionally the architecture (-A)',
 			);
 		}
 
 		// Validate project directory
-		const { validateProjectDirectory } = await import('../../utils/compose_ts');
+		const { validateProjectDirectory } = await import('../../utils/compose_ts.js');
 		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
 			sdk,
 			{
@@ -200,7 +200,7 @@ ${dockerignoreHelp}
 					)) as PineTypedResult<DeviceType, typeof deviceTypeOpts>
 				).is_of__cpu_architecture[0].slug;
 			} catch (err) {
-				const { ExpectedError } = await import('../../errors');
+				const { ExpectedError } = await import('../../errors.js');
 				if (err instanceof sdk.errors.BalenaInvalidDeviceType) {
 					let message = err.message;
 					if (!(await sdk.auth.isLoggedIn())) {
@@ -217,7 +217,7 @@ ${dockerignoreHelp}
 
 	protected async getAppAndResolveArch(opts: PrepareBuildOpts) {
 		if (opts.fleet) {
-			const { getAppWithArch } = await import('../../utils/helpers');
+			const { getAppWithArch } = await import('../../utils/helpers.js');
 			const app = await getAppWithArch(opts.fleet);
 			opts.arch = app.arch;
 			opts.deviceType = app.is_for__device_type[0].slug;
@@ -226,7 +226,7 @@ ${dockerignoreHelp}
 	}
 
 	protected async prepareBuild(options: PrepareBuildOpts) {
-		const { getDocker, generateBuildOpts } = await import('../../utils/docker');
+		const { getDocker, generateBuildOpts } = await import('../../utils/docker.js');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			getDocker(options),
 			generateBuildOpts(options),
@@ -254,7 +254,7 @@ ${dockerignoreHelp}
 	 */
 	protected async buildProject(
 		docker: import('dockerode'),
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger.js').default,
 		composeOpts: ComposeOpts,
 		opts: {
 			appType?: Pick<ApplicationType, 'supports_multicontainer'>;
@@ -264,7 +264,7 @@ ${dockerignoreHelp}
 			buildOpts: BuildOpts;
 		},
 	) {
-		const { loadProject } = await import('../../utils/compose_ts');
+		const { loadProject } = await import('../../utils/compose_ts.js');
 
 		const project = await loadProject(
 			logger,

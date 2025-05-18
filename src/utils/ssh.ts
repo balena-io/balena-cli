@@ -16,9 +16,9 @@
  */
 import type { StdioOptions } from 'child_process';
 import { spawn } from 'child_process';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export class SshPermissionDeniedError extends ExpectedError {}
 

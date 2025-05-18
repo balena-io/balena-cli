@@ -138,6 +138,8 @@ runs:
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ strategy.job-index }}
-        path: dist
+        path: |
+          dist
+          !dist/balena
         retention-days: 1
         if-no-files-found: error

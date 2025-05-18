@@ -16,8 +16,8 @@
  */
 
 import { Flags } from '@oclif/core';
-import { stripIndent } from './lazy';
-import { lowercaseIfSlug } from './normalization';
+import { stripIndent } from './lazy.js';
+import { lowercaseIfSlug } from './normalization.js';
 
 export const fleet = Flags.string({
 	char: 'f',
@@ -32,7 +32,7 @@ export const device = Flags.string({
 
 export const quiet = Flags.boolean({
 	char: 'q',
-	description: 'suppress warning messages',
+	description: 'suppress warning messages.js',
 	default: false,
 });
 

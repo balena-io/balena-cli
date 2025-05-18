@@ -17,11 +17,11 @@
 import { Flags, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as SDK from 'balena-sdk';
-import * as _ from 'lodash';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import _ from 'lodash';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 type FlagsDef = Interfaces.InferredFlags<typeof EnvListCmd.flags>;
 
@@ -114,7 +114,7 @@ export default class EnvListCmd extends Command {
 
 		const variables: EnvironmentVariableInfo[] = [];
 
-		const { checkLoggedIn } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 		await checkLoggedIn();
 
@@ -187,7 +187,7 @@ export default class EnvListCmd extends Command {
 		}
 
 		if (options.json) {
-			const { pickAndRename } = await import('../../utils/helpers');
+			const { pickAndRename } = await import('../../utils/helpers.js');
 			const mapped = varArray.map((o) => pickAndRename(o, fields));
 			this.log(JSON.stringify(mapped, null, 4));
 		} else {

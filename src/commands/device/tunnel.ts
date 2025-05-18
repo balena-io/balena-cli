@@ -20,9 +20,9 @@ import {
 	NoPortsDefinedError,
 	InvalidPortMappingError,
 	ExpectedError,
-} from '../../errors';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { lowercaseIfSlug } from '../../utils/normalization';
+} from '../../errors.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { lowercaseIfSlug } from '../../utils/normalization.js';
 
 import type { Server, Socket } from 'net';
 
@@ -94,7 +94,7 @@ export default class DeviceTunnelCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeviceTunnelCmd);
 
-		const Logger = await import('../../utils/logger');
+		const { default: Logger } = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 		const sdk = getBalenaSdk();
@@ -122,7 +122,7 @@ export default class DeviceTunnelCmd extends Command {
 		}
 
 		// Ascertain device uuid
-		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns');
+		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns.js');
 		const uuid = await getOnlineTargetDeviceUuid(sdk, params.deviceOrFleet);
 		logger.logInfo(`Opening a tunnel to ${uuid}...`);
 

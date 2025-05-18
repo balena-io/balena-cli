@@ -16,7 +16,7 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy.js';
 
 export default class DevicePurgeCmd extends Command {
 	public static description = stripIndent`

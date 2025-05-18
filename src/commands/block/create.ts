@@ -16,7 +16,7 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class BlockCreateCmd extends Command {
 	public static description = stripIndent`
@@ -71,7 +71,7 @@ export default class BlockCreateCmd extends Command {
 		const { args: params, flags: options } = await this.parse(BlockCreateCmd);
 
 		await (
-			await import('../../utils/application-create')
+			await import('../../utils/application-create.js')
 		).applicationCreateBase('block', options, params);
 	}
 }
