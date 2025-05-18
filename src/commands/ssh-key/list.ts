@@ -16,7 +16,7 @@
  */
 
 import { Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class SSHKeyListCmd extends Command {
 	public static aliases = ['keys', 'key list'];

@@ -19,7 +19,7 @@ import { intVar } from '@balena/env-parsing';
 import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
@@ -27,7 +27,7 @@ import * as sinon from 'sinon';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
-import { cleanOutput, runCommand, switchSentry } from '../helpers';
+import { cleanOutput, runCommand, switchSentry } from '../helpers.js';
 import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,

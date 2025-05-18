@@ -20,8 +20,8 @@ import {
 	type Command,
 	// ux
 } from '@oclif/core';
-import { InsufficientPrivilegesError } from '../errors';
-import { checkLoggedIn, checkNotUsingOfflineMode } from '../utils/patterns';
+import { InsufficientPrivilegesError } from '../errors.js';
+import { checkLoggedIn, checkNotUsingOfflineMode } from '../utils/patterns.js';
 
 let trackResolve: (result: Promise<any>) => void;
 

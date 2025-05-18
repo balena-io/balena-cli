@@ -29,8 +29,8 @@ import {
 	NotLoggedInError,
 	ExpectedError,
 	NotAvailableInOfflineModeError,
-} from '../errors';
-import { getBalenaSdk, stripIndent, getCliForm } from './lazy';
+} from '../errors.js';
+import { getBalenaSdk, stripIndent, getCliForm } from './lazy.js';
 import validation = require('./validation');
 
 export function authenticate(options: object): Promise<void> {
@@ -268,7 +268,7 @@ export async function selectOrganization(
 }
 
 export async function getAndSelectOrganization() {
-	const { getOwnOrganizations } = await import('./sdk');
+	const { getOwnOrganizations } = await import('./sdk.js');
 	const organizations = await getOwnOrganizations(getBalenaSdk(), {
 		$select: ['name', 'handle'],
 	});
@@ -333,7 +333,7 @@ export async function getOnlineTargetDeviceUuid(
 	const application = await (async () => {
 		try {
 			logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
-			const { getApplication } = await import('./sdk');
+			const { getApplication } = await import('./sdk.js');
 			return await getApplication(sdk, fleetOrDevice, {
 				$select: ['id', 'slug'],
 				$expand: {

@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type { Stats } from 'fs';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import type { Ignore } from '@balena/dockerignore';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export interface FileStats {
 	filePath: string;

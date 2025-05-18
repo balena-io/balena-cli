@@ -16,7 +16,7 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy.js';
 
 export interface JsonVersions {
 	'balena-cli': string;

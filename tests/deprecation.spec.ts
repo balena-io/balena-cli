@@ -27,8 +27,8 @@ import type { ReleaseTimestampsByVersion } from '../build/deprecation';
 import { DeprecationChecker } from '../build/deprecation';
 import { BalenaAPIMock } from './nock/balena-api-mock';
 import { NpmMock } from './nock/npm-mock';
-import type { TestOutput } from './helpers';
-import { runCommand } from './helpers';
+import type { TestOutput } from './helpers.js';
+import { runCommand } from './helpers.js';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

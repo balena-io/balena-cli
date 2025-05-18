@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { getVisuals } from './lazy';
+import { getVisuals } from './lazy.js';
 import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
 import type Logger = require('./logger');

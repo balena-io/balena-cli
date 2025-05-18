@@ -21,7 +21,7 @@ import type { Server } from 'net';
 import { createServer } from 'net';
 
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
-import { cleanOutput, runCommand } from '../../helpers';
+import { cleanOutput, runCommand } from '../../helpers.js';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

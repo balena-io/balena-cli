@@ -17,10 +17,10 @@
 
 import { Args, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 interface FlagsDef {
 	fleet?: string;
@@ -111,7 +111,7 @@ export default class EnvSetCmd extends Command {
 			);
 		}
 
-		const { checkLoggedIn } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 		await checkLoggedIn();
 
@@ -186,7 +186,7 @@ async function resolveFleetSlugs(
 	fleetOption: string,
 ) {
 	const fleetSlugs: string[] = [];
-	const { getFleetSlug } = await import('../../utils/sdk');
+	const { getFleetSlug } = await import('../../utils/sdk.js');
 	for (const appNameOrSlug of fleetOption.split(',')) {
 		try {
 			fleetSlugs.push(await getFleetSlug(balena, appNameOrSlug));

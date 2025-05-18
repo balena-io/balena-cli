@@ -16,7 +16,7 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 import type { LogMessage } from 'balena-sdk';
 
 const MAX_RETRY = 1000;
@@ -101,7 +101,7 @@ export default class DeviceLogsCmd extends Command {
 		const { validateIPAddress, validateDotLocalUrl } = await import(
 			'../../utils/validation'
 		);
-		const Logger = await import('../../utils/logger');
+		const { default: Logger } = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 
@@ -136,7 +136,7 @@ export default class DeviceLogsCmd extends Command {
 			try {
 				await deviceApi.ping();
 			} catch {
-				const { ExpectedError } = await import('../../errors');
+				const { ExpectedError } = await import('../../errors.js');
 				throw new ExpectedError(
 					`Cannot access device at address ${params.device}.  Device may not be in local mode.`,
 				);
@@ -151,7 +151,7 @@ export default class DeviceLogsCmd extends Command {
 				maxAttempts: 1 + (options['max-retry'] ?? MAX_RETRY),
 			});
 		} else {
-			const { checkLoggedIn } = await import('../../utils/patterns');
+			const { checkLoggedIn } = await import('../../utils/patterns.js');
 			// Logs from cloud
 			await checkLoggedIn();
 			if (options.tail) {

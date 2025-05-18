@@ -16,8 +16,8 @@
  */
 
 import type * as BalenaSdk from 'balena-sdk';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 import { Command } from '@oclif/core';
 
 interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {

@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
-import * as request from 'request';
+import _ from 'lodash';
+import request from 'request';
 import type * as Stream from 'stream';
 
-import { retry } from '../helpers';
-import Logger = require('../logger');
-import * as ApiErrors from './errors';
+import { retry } from '../helpers.js';
+import Logger from '../logger.js';
+import * as ApiErrors from './errors.js';
 
 export interface DeviceResponse {
 	[key: string]: any;

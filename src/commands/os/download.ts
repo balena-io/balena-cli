@@ -16,7 +16,7 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class OsDownloadCmd extends Command {
 	public static description = stripIndent`
@@ -87,11 +87,11 @@ export default class OsDownloadCmd extends Command {
 			const { isESR } = await import('../../utils/image-manager');
 			if (options.version === 'menu-esr' || isESR(options.version)) {
 				try {
-					const { checkLoggedIn } = await import('../../utils/patterns');
+					const { checkLoggedIn } = await import('../../utils/patterns.js');
 					await checkLoggedIn();
 				} catch (e) {
 					const { ExpectedError, NotLoggedInError } = await import(
-						'../../errors'
+						'../../errors.js'
 					);
 					if (e instanceof NotLoggedInError) {
 						throw new ExpectedError(stripIndent`

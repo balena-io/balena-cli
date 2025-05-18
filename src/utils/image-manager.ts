@@ -16,7 +16,7 @@
  */
 
 import type * as SDK from 'balena-sdk';
-import { getBalenaSdk } from './lazy';
+import { getBalenaSdk } from './lazy.js';
 
 // eslint-disable-next-line no-useless-escape
 const BALENAOS_VERSION_REGEX = /v?\d+\.\d+\.\d+(\.rev\d+)?((\-|\+).+)?/;

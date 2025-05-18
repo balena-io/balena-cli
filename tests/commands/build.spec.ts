@@ -16,16 +16,16 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as mock from 'mock-require';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { stripIndent } from '../../build/utils/lazy';
+import { stripIndent } from '../../build/utils/lazy.js';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
-import { cleanOutput, runCommand } from '../helpers';
+import { cleanOutput, runCommand } from '../helpers.js';
 import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,

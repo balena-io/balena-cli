@@ -16,10 +16,10 @@
  */
 
 import type * as SDK from 'balena-sdk';
-import * as _ from 'lodash';
-import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy';
+import _ from 'lodash';
+import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy.js';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export const serviceIdToName = _.memoize(
 	async (

@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
 import {
 	getBalenaSdk,
 	getCliForm,
 	getVisuals,
 	stripIndent,
-} from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import { dockerConnectionCliFlags } from '../../utils/docker';
-import { parseAsInteger } from '../../utils/validation';
+} from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
+import { dockerConnectionCliFlags } from '../../utils/docker.js';
+import { parseAsInteger } from '../../utils/validation.js';
 import { Flags, Args, Command } from '@oclif/core';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type {
 	Application,
 	BalenaSDK,
@@ -142,7 +142,7 @@ Can be repeated to add multiple certificates.\
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
 		const nodeCleanup = await import('node-cleanup');
-		const { instanceOf } = await import('../../errors');
+		const { instanceOf } = await import('../../errors.js');
 
 		// Check image file exists
 		try {
@@ -259,7 +259,7 @@ Can be repeated to add multiple certificates.\
 		}
 
 		// Get a configured dockerode instance
-		const dockerUtils = await import('../../utils/docker');
+		const dockerUtils = await import('../../utils/docker.js');
 		const docker = await dockerUtils.getDocker(options);
 		const preloader = new balenaPreload.Preloader(
 			undefined,
@@ -513,7 +513,7 @@ Would you like to disable automatic updates for this fleet now?\
 	}
 
 	async getAppWithReleases(balenaSdk: BalenaSDK, slug: string) {
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		return await getApplication(balenaSdk, slug, {
 			$expand: this.applicationExpandOptions,

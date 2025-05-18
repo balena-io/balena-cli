@@ -16,8 +16,8 @@
  */
 import { Args, Command } from '@oclif/core';
 import * as ec from '../../utils/env-common';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { parseAsInteger } from '../../utils/validation';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { parseAsInteger } from '../../utils/validation.js';
 
 export default class EnvRenameCmd extends Command {
 	public static description = stripIndent`
@@ -59,7 +59,7 @@ export default class EnvRenameCmd extends Command {
 	public async run() {
 		const { args: params, flags: opt } = await this.parse(EnvRenameCmd);
 
-		const { checkLoggedIn } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 		await checkLoggedIn();
 

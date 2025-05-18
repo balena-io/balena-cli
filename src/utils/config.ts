@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
-import { getBalenaSdk, stripIndent } from './lazy';
+import { getBalenaSdk, stripIndent } from './lazy.js';
 
 export interface ImgConfig {
 	applicationName: string;
@@ -154,7 +154,7 @@ export async function validateDevOptionAndWarn(
 		return;
 	}
 	if (version && /\bprod\b/.test(version)) {
-		const { ExpectedError } = await import('../errors');
+		const { ExpectedError } = await import('../errors.js');
 		throw new ExpectedError(
 			`Error: The '--dev' option conflicts with production balenaOS version '${version}'`,
 		);
@@ -185,7 +185,7 @@ export async function validateSecureBootOptionAndWarn(
 	if (!secureBoot) {
 		return;
 	}
-	const { ExpectedError } = await import('../errors');
+	const { ExpectedError } = await import('../errors.js');
 	if (!version) {
 		throw new ExpectedError(`Error: No version provided`);
 	}

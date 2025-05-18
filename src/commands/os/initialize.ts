@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getCliForm, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getCliForm, stripIndent } from '../../utils/lazy.js';
 
 const INIT_WARNING_MESSAGE = `
 
@@ -58,7 +58,7 @@ export default class OsInitializeCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(OsInitializeCmd);
 
-		const { getManifest, sudo } = await import('../../utils/helpers');
+		const { getManifest, sudo } = await import('../../utils/helpers.js');
 
 		console.info(`Initializing device ${INIT_WARNING_MESSAGE}`);
 
@@ -71,13 +71,13 @@ export default class OsInitializeCmd extends Command {
 		});
 
 		if (answers.drive != null) {
-			const { confirm } = await import('../../utils/patterns');
+			const { confirm } = await import('../../utils/patterns.js');
 			await confirm(
 				options.yes,
 				`This will erase ${answers.drive}. Are you sure?`,
 				`Going to erase ${answers.drive}.`,
 			);
-			const { safeUmount } = await import('../../utils/umount');
+			const { safeUmount } = await import('../../utils/umount.js');
 			await safeUmount(answers.drive);
 		}
 
@@ -90,7 +90,7 @@ export default class OsInitializeCmd extends Command {
 		]);
 
 		if (answers.drive != null) {
-			const { safeUmount } = await import('../../utils/umount');
+			const { safeUmount } = await import('../../utils/umount.js');
 			await safeUmount(answers.drive);
 			console.info(`You can safely remove ${answers.drive} now`);
 		}

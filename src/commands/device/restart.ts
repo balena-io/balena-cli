@@ -16,7 +16,7 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy.js';
 import type {
 	BalenaSDK,
 	DeviceWithServiceDetails,
@@ -89,7 +89,7 @@ export default class DeviceRestartCmd extends Command {
 		deviceUuid: string,
 		serviceNames: string[],
 	) {
-		const { ExpectedError, instanceOf } = await import('../../errors');
+		const { ExpectedError, instanceOf } = await import('../../errors.js');
 		const { getExpandedProp } = await import('../../utils/pine');
 
 		// Get device
@@ -156,7 +156,7 @@ export default class DeviceRestartCmd extends Command {
 		// Note: device.restartApplication throws `BalenaDeviceNotFound: Device not found` if device not online.
 		// Need to use device.get first to distinguish between non-existant and disconnected devices.
 		// Remove this workaround when SDK issue resolved: https://github.com/balena-io/balena-sdk/issues/649
-		const { instanceOf, ExpectedError } = await import('../../errors');
+		const { instanceOf, ExpectedError } = await import('../../errors.js');
 		try {
 			const device = await balena.models.device.get(deviceUuid);
 			if (!device.is_online) {

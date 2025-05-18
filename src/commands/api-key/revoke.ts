@@ -16,7 +16,7 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class RevokeCmd extends Command {
 	public static description = stripIndent`

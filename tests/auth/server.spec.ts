@@ -23,7 +23,7 @@ import * as path from 'path';
 import * as request from 'request';
 import * as sinon from 'sinon';
 
-import { LoginServer } from '../../build/auth/server';
+import { LoginServer } from '../../build/auth/server.js';
 import * as utils from '../../build/auth/utils';
 import tokens from './tokens';
 

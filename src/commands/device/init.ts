@@ -16,10 +16,10 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import { runCommand } from '../../utils/helpers';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
+import { runCommand } from '../../utils/helpers.js';
 
 interface FlagsDef {
 	fleet?: string;
@@ -113,8 +113,8 @@ export default class DeviceInitCmd extends Command {
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
 		const { downloadOSImage } = await import('../../utils/cloud');
-		const { getApplication } = await import('../../utils/sdk');
-		const Logger = await import('../../utils/logger');
+		const { getApplication } = await import('../../utils/sdk.js');
+		const { default: Logger } = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 		const balena = getBalenaSdk();
@@ -129,7 +129,7 @@ export default class DeviceInitCmd extends Command {
 						},
 					},
 				})
-			: await (await import('../../utils/patterns')).selectApplication();
+			: await (await import('../../utils/patterns.js')).selectApplication();
 
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();

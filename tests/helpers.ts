@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
 
 import * as packageJSON from '../package.json';
-import { getNodeEngineVersionWarn } from '../build/utils/messages';
-import { warnify } from '../build/utils/messages';
+import { getNodeEngineVersionWarn } from '../build/utils/messages.js';
+import { warnify } from '../build/utils/messages.js';
 
 const standalonePath = path.resolve(
 	__dirname,

@@ -16,11 +16,11 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 import {
 	parseAsInteger,
 	validateLocalHostnameOrIp,
-} from '../../utils/validation';
+} from '../../utils/validation.js';
 
 export default class DeviceSSHCmd extends Command {
 	public static aliases = ['ssh'];
@@ -121,12 +121,12 @@ export default class DeviceSSHCmd extends Command {
 		}
 
 		// Remote connection
-		const { getProxyConfig } = await import('../../utils/helpers');
+		const { getProxyConfig } = await import('../../utils/helpers.js');
 		const {
 			getOnlineTargetDeviceUuid,
 			checkLoggedIn,
 			checkNotUsingOfflineMode,
-		} = await import('../../utils/patterns');
+		} = await import('../../utils/patterns.js');
 		const sdk = getBalenaSdk();
 
 		const proxyConfig = getProxyConfig();

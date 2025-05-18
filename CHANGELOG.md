@@ -5051,7 +5051,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 12.44.9 - 2021-04-13
 
 * config inject/read/write: Fix umount errors with OS image files [Paulo Castro]
-* Refactor dependency import in utils/helpers.ts for performance [Paulo Castro]
+* Refactor dependency import in utils/helpers.js.ts for performance [Paulo Castro]
 
 ## 12.44.8 - 2021-04-09
 
@@ -7166,7 +7166,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 11.31.17 - 2020-04-24
 
-* Convert lib/utils/docker-coffee.coffee to javascript [Pagan Gazzard]
+* Convert lib/utils/docker.js-coffee.coffee to javascript [Pagan Gazzard]
 
 ## 11.31.16 - 2020-04-24
 

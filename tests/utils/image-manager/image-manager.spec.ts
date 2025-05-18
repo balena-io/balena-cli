@@ -16,7 +16,7 @@ import * as os from 'os';
 
 // Make sure we're all using literally the same instance of balena-sdk
 // so we can mock out methods called by the real code
-import { getBalenaSdk } from '../../../build/utils/lazy';
+import { getBalenaSdk } from '../../../build/utils/lazy.js';
 const balena = getBalenaSdk();
 
 const fsExistsAsync = promisify(fs.exists);

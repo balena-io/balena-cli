@@ -39,7 +39,7 @@ export async function umount(device: string): Promise<void> {
 	if (process.platform === 'win32') {
 		return;
 	}
-	const { sanitizePath, whichBin } = await import('./which');
+	const { sanitizePath, whichBin } = await import('./which.js');
 	// sanitize user's input (regular expression attacks ?)
 	device = sanitizePath(device);
 	const cmd: string[] = [];
@@ -48,7 +48,7 @@ export async function umount(device: string): Promise<void> {
 		cmd.push('/usr/sbin/diskutil', 'unmountDisk', 'force', device);
 	} else {
 		// Linux
-		const glob = promisify(await import('glob'));
+		const glob = promisify((await import('glob')).default);
 		// '?*' expands a base device path like '/dev/sdb' to an array of paths
 		// like '/dev/sdb1', '/dev/sdb2', ..., '/dev/sdb11', ... (partitions)
 		// that exist for balenaOS images and are needed as arguments to 'umount'
@@ -75,7 +75,7 @@ export async function umount(device: string): Promise<void> {
 				}
 				return;
 			}
-			const { ExpectedError } = await import('../errors');
+			const { ExpectedError } = await import('../errors.js');
 			throw new ExpectedError(msg.join('\n'));
 		}
 	}
@@ -92,7 +92,7 @@ export async function isMounted(device: string): Promise<boolean> {
 	if (!device) {
 		return false;
 	}
-	const { whichBin } = await import('./which');
+	const { whichBin } = await import('./which.js');
 	const mountCmd = await whichBin('mount');
 	let stdout = '';
 	let stderr = '';
@@ -101,7 +101,7 @@ export async function isMounted(device: string): Promise<boolean> {
 		stdout = proc.stdout;
 		stderr = proc.stderr;
 	} catch (err) {
-		const { ExpectedError } = await import('../errors');
+		const { ExpectedError } = await import('../errors.js');
 		throw new ExpectedError(
 			`Error executing "${mountCmd}":\n${stderr}\n${err.message}`,
 		);
@@ -131,7 +131,7 @@ export async function denyMount(
 	handler: () => any,
 	opts: { autoMountOnSuccess?: boolean; executablePath?: string } = {},
 ) {
-	const denymount = promisify(await import('denymount'));
+	const denymount = promisify((await import('denymount')).default);
 	if (process.pkg) {
 		// when running in a standalone pkg install, the 'denymount'
 		// executable is placed on the same folder as process.execPath

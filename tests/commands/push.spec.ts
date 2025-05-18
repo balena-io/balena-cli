@@ -22,7 +22,7 @@ import * as path from 'path';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../nock/builder-mock';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
-import { cleanOutput, runCommand } from '../helpers';
+import { cleanOutput, runCommand } from '../helpers.js';
 import type { ExpectedTarStreamFiles } from '../projects';
 import {
 	addRegSecretsEntries,

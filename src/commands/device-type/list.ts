@@ -16,8 +16,8 @@
  */
 import { Flags, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import * as _ from 'lodash';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import _ from 'lodash';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class DeviceTypeListCmd extends Command {
 	public static aliases = ['devices supported'];
