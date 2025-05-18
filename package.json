@@ -27,7 +27,7 @@
   "scripts": {
     "postinstall": "node patches/apply-patches.js",
     "prebuild": "rimraf build/ build-bin/",
-    "pretarball": "ts-node --transpile-only ../../automation/run.ts sign:binaries",
+    "pretarball": "modclean && ts-node --transpile-only ../../automation/run.ts sign:binaries",
     "build": "npm run build:src && npm run catch-uncommitted",
     "build:t": "npm run lint && npm run build:fast && npm run build:test",
     "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc && npm run build:completion",
@@ -154,6 +154,7 @@
     "mocha": "^10.6.0",
     "mock-fs": "^5.2.0",
     "mock-require": "^3.0.3",
+    "modclean": "^3.0.0-beta.1",
     "nock": "^13.2.1",
     "oclif": "^4.17.0",
     "rewire": "^7.0.0",
