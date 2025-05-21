@@ -1,4 +1,43 @@
 - commits:
+    - subject: Bump balena-preload to 18.0.3
+      hash: 7c8ce1b1a93420c126e88b98d64366b1affaa439
+      body: |
+        Update balena-preload from 18.0.1 to 18.0.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested:
+        - commits:
+            - subject: Update dependency sh to v1.14.3
+              hash: a1ad075baee7833286d10466683e0ccba6d4a6a1
+              body: |
+                Update sh from 1.12.14 to 1.14.3
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+              nested: []
+          version: balena-preload-18.0.3
+          title: ""
+          date: 2025-03-19T16:54:44.864Z
+        - commits:
+            - subject: Update alpine Docker tag to v3.21
+              hash: 61081cd3caab334a91a09822144fe4a5be3a47ca
+              body: |
+                Update alpine from 3.12 to 3.21
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+              nested: []
+          version: balena-preload-18.0.2
+          title: ""
+          date: 2025-03-19T15:55:26.306Z
+  version: 21.1.13
+  title: ""
+  date: 2025-05-21T13:46:30.149Z
+- commits:
     - subject: Update @balena/compose dependency to fix error with build secrets.
       hash: 0f8ce47ec6523e447315bc9103267371fd028bf4
       body: |
