@@ -1,4 +1,29 @@
 - commits:
+    - subject: Bump balena-preload to 18.0.4
+      hash: 2bccabfc38f887e2d4fcbcbe87b25a03d38e75c3
+      body: |
+        Update balena-preload from 18.0.3 to 18.0.4
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested:
+        - commits:
+            - subject: Fix balena-preload pip deps
+              hash: edd39729cfdc630c95ee4b5c1dffdba3b459224d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otavio Jacobi
+              nested: []
+          version: balena-preload-18.0.4
+          title: ""
+          date: 2025-05-21T14:25:07.587Z
+  version: 21.1.14
+  title: ""
+  date: 2025-05-21T15:39:18.832Z
+- commits:
     - subject: Bump balena-preload to 18.0.3
       hash: 7c8ce1b1a93420c126e88b98d64366b1affaa439
       body: |
