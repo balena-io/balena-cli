@@ -13,6 +13,8 @@ GitHub](https://github.com/balena-io/balena-cli/), and your contribution is also
 Check the [balena CLI installation instructions on
 GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
+Note for v22 Migration: If you are upgrading to balena CLI v22 from a previous standalone installation, please [see the v22 Migration Guide](https://github.com/balena-io/balena-cli/blob/master/MIGRATIONS.md) for installation changes.
+
 ## Choosing a shell (command prompt/terminal)
 
 On **Windows,** the standard Command Prompt (`cmd.exe`) and

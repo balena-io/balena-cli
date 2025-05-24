@@ -14,7 +14,7 @@ The balena CLI is an open source project and your contribution is welcome!
 In order to ease development:
 
 * `npm run build:fast` skips some of the build steps for interactive testing, or
-* `npm run test:source` skips testing the standalone zip packages (which is rather slow)
+* `npm run test:source` skips testing the standalone packages (which is rather slow)
 * `./bin/balena-dev` uses `ts-node/register` to transpile on the fly.
 
 Before opening a PR, test your changes with `npm test`. Keep compatibility in mind, as the CLI is
