@@ -1,4 +1,24 @@
 - commits:
+    - subject: Add migration guide to v22
+      hash: 45eb0ad4b145d1eed2c30bcd1f9bc9e1a9a2d719
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Build standalone without pkg
+      hash: 21fd8a3307e2e7efd63b1ea261b2ff9f579e8370
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Otavio Jacobi
+      nested: []
+  version: 22.0.0
+  title: ""
+  date: 2025-05-26T13:53:36.409Z
+- commits:
     - subject: Bump balena-preload to 18.0.4
       hash: 2bccabfc38f887e2d4fcbcbe87b25a03d38e75c3
       body: |
