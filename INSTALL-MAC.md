@@ -7,8 +7,8 @@ Selected operating system: **macOS**
 
 1. Download the installer from the [latest release
    page](https://github.com/balena-io/balena-cli/releases/latest).
-   Look for a file name that ends with "-installer.pkg":  
-   `balena-cli-vX.Y.Z-macOS-x64-installer.pkg`  
+   Look for a file name that ends with "-installer.pkg":
+   `balena-cli-vX.Y.Z-macOS-x64-installer.pkg`
 
 2. Double click on the downloaded file to run the installer and follow the installer's
    instructions.
