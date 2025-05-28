@@ -21,8 +21,6 @@ import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 import { SupervisorMock } from '../../nock/supervisor-mock';
 
-const itS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it : it.skip;
-
 describe('balena device logs', function () {
 	let api: BalenaAPIMock;
 	let supervisor: SupervisorMock;
@@ -39,10 +37,7 @@ describe('balena device logs', function () {
 		supervisor.done();
 	});
 
-	// skip non-standalone tests because nock's mock socket causes the error:
-	// "setKeepAliveInterval expects an instance of socket as its first argument"
-	// in utils/device/api.ts: NetKeepalive.setKeepAliveInterval(sock, 5000);
-	itS('should reach the expected endpoints on a local device', async () => {
+	it('should reach the expected endpoints on a local device', async () => {
 		supervisor.expectGetPing();
 		supervisor.expectGetLogs();
 		supervisor.expectGetLogs();
