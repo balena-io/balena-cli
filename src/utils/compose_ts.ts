@@ -1596,7 +1596,9 @@ function buildProgressAdapter(inline: boolean) {
 			return;
 		}
 
-		if (!str.startsWith('Successfully tagged ')) {
+		// We want to keep the regex match instead of startsWith as it also works with buffers
+		// eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
+		if (!/^Successfully tagged /.test(str)) {
 			const match = stepRegex.exec(str);
 			if (match) {
 				step = match[1];
