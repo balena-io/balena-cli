@@ -1,4 +1,24 @@
 - commits:
+    - subject: "DeviceAPI: Move away from `request` in favor of BalenaSdk request"
+      hash: 3396ba5a971d2ae16552576d65dff953031f01ee
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Update `nock` to 14.0.4
+      hash: 78ffff83bca1d87dff19909d39d3d18815754a0e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 22.0.1
+  title: ""
+  date: 2025-05-28T17:00:45.889Z
+- commits:
     - subject: Add migration guide to v22
       hash: 45eb0ad4b145d1eed2c30bcd1f9bc9e1a9a2d719
       body: ""
