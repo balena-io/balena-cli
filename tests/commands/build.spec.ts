@@ -442,6 +442,93 @@ describe('balena build', function () {
 		});
 	});
 
+	it('should create the expected tar stream (docker-compose --nologs)', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const service1Dockerfile = (
+			await fs.readFile(
+				path.join(projectPath, 'service1', 'Dockerfile.template'),
+				'utf8',
+			)
+		).replace('%%BALENA_MACHINE_NAME%%', 'nuc');
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: {
+					contents: service1Dockerfile,
+					fileSize: service1Dockerfile.length,
+					type: 'file',
+				},
+				'Dockerfile.template': { fileSize: 144, type: 'file' },
+				'file1.sh': { fileSize: 12, type: 'file' },
+			},
+			service2: {
+				'Dockerfile-alt': { fileSize: 13, type: 'file' },
+				'file2-crlf.sh': {
+					fileSize: isWindows ? 12 : 14,
+					testStream: isWindows ? expectStreamNoCRLF : undefined,
+					type: 'file',
+				},
+				'src/file1.sh': { fileSize: 12, type: 'file' },
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: {
+						COMPOSE_ARG: 'A',
+						barg: 'b',
+						SERVICE1_VAR: 'This is a service specific variable',
+					},
+					cachefrom: ['my/img1', 'my/img2'],
+				}),
+			),
+			service2: Object.entries(
+				_.merge({}, commonComposeQueryParamsIntel, {
+					buildargs: {
+						COMPOSE_ARG: 'A',
+						barg: 'b',
+					},
+					cachefrom: ['my/img1', 'my/img2'],
+					dockerfile: 'Dockerfile-alt',
+				}),
+			),
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'service2', '.dockerignore')],
+				'build',
+			),
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+		docker.expectGetInfo({});
+		docker.expectGetManifestNucAlpine();
+		docker.expectGetManifestBusybox();
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2 --nologs`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+		});
+	});
+
 	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const service1Dockerfile = (
