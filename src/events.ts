@@ -38,11 +38,11 @@ import { stripIndent } from './utils/lazy';
 export async function trackCommand(commandSignature: string) {
 	try {
 		let Sentry: typeof import('@sentry/node');
+		let scope: import('@sentry/node').Scope;
 		if (!process.env.BALENARC_NO_SENTRY) {
 			Sentry = await import('@sentry/node');
-			Sentry.configureScope((scope) => {
-				scope.setExtra('command', commandSignature);
-			});
+			scope = Sentry.getCurrentScope();
+			scope.setExtra('command', commandSignature);
 		}
 		const { getCachedUsername } = await import('./utils/bootstrap');
 		let username: string | undefined;
@@ -52,11 +52,9 @@ export async function trackCommand(commandSignature: string) {
 			// ignore
 		}
 		if (!process.env.BALENARC_NO_SENTRY) {
-			Sentry!.configureScope((scope) => {
-				scope.setUser({
-					id: username,
-					username,
-				});
+			scope!.setUser({
+				id: username,
+				username,
 			});
 		}
 		if (
