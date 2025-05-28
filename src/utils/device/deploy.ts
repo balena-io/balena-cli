@@ -603,11 +603,11 @@ function getImageNameFromTask(task: BuildTask): string {
 }
 
 export function generateTargetState(
-	currentTargetState: any,
+	currentTargetState: Record<string, any>,
 	composition: Composition,
 	buildTasks: BuildTask[],
 	env: ParsedEnvironment,
-): any {
+) {
 	const keyedBuildTasks = _.keyBy(buildTasks, 'serviceName');
 
 	const services: { [serviceId: string]: any } = {};

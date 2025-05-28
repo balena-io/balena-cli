@@ -28,7 +28,7 @@ import { instanceOf } from '../../errors';
 import Logger = require('../logger');
 
 import { Dockerfile } from 'livepush';
-import type DeviceAPI from './api';
+import type { DeviceAPI } from './api';
 import type { DeviceInfo, Status } from './api';
 import type { DeviceDeployOptions } from './deploy';
 import { generateTargetState, rebuildSingleTask } from './deploy';

@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import * as _ from 'lodash';
-import * as request from 'request';
-import type * as Stream from 'stream';
 
 import { retry } from '../helpers';
 import Logger = require('../logger');
 import * as ApiErrors from './errors';
+import { getBalenaSdk } from '../lazy';
+import type { BalenaSDK } from 'balena-sdk';
 
 export interface DeviceResponse {
 	[key: string]: any;
@@ -80,9 +80,9 @@ export class DeviceAPI {
 	}
 
 	// Either return nothing, or throw an error with the info
-	public async setTargetState(state: any): Promise<void> {
+	public async setTargetState(state: Record<string, any>) {
 		const url = this.getUrlForAction('setTargetState');
-		return DeviceAPI.promisifiedRequest(
+		await DeviceAPI.sendRequest(
 			{
 				method: 'POST',
 				url,
@@ -96,37 +96,37 @@ export class DeviceAPI {
 	public async getTargetState() {
 		const url = this.getUrlForAction('getTargetState');
 
-		return DeviceAPI.promisifiedRequest(
+		return await DeviceAPI.sendRequest(
 			{
 				method: 'GET',
 				url,
 				json: true,
 			},
 			this.logger,
-		).then((body) => {
-			return body.state;
+		).then(({ state }: { state: Record<string, any> }) => {
+			return state;
 		});
 	}
 
-	public async getDeviceInformation(): Promise<DeviceInfo> {
+	public async getDeviceInformation() {
 		const url = this.getUrlForAction('getDeviceInformation');
 
-		return DeviceAPI.promisifiedRequest(
+		return await DeviceAPI.sendRequest(
 			{
 				method: 'GET',
 				url,
 				json: true,
 			},
 			this.logger,
-		).then((body) => {
-			return body.info;
+		).then(({ info }: { info: DeviceInfo }) => {
+			return info;
 		});
 	}
 
 	public async getContainerId(serviceName: string): Promise<string> {
 		const url = this.getUrlForAction('containerId');
 
-		const body = await DeviceAPI.promisifiedRequest(
+		const body = await DeviceAPI.sendRequest(
 			{
 				method: 'GET',
 				url,
@@ -146,10 +146,10 @@ export class DeviceAPI {
 		return body.containerId;
 	}
 
-	public async ping(): Promise<void> {
+	public async ping() {
 		const url = this.getUrlForAction('ping');
 
-		return DeviceAPI.promisifiedRequest(
+		await DeviceAPI.sendRequest(
 			{
 				method: 'GET',
 				url,
@@ -158,10 +158,10 @@ export class DeviceAPI {
 		);
 	}
 
-	public getVersion(): Promise<string> {
+	public async getVersion(): Promise<string> {
 		const url = this.getUrlForAction('version');
 
-		return DeviceAPI.promisifiedRequest({
+		return await DeviceAPI.sendRequest({
 			method: 'GET',
 			url,
 			json: true,
@@ -176,10 +176,10 @@ export class DeviceAPI {
 		});
 	}
 
-	public getStatus(): Promise<Status> {
+	public async getStatus() {
 		const url = this.getUrlForAction('status');
 
-		return DeviceAPI.promisifiedRequest({
+		return await DeviceAPI.sendRequest({
 			method: 'GET',
 			url,
 			json: true,
@@ -194,96 +194,60 @@ export class DeviceAPI {
 		});
 	}
 
-	public getLogStream(): Promise<Stream.Readable> {
+	public async getLogStream() {
 		const url = this.getUrlForAction('logs');
+		const sdk = getBalenaSdk();
 
-		// Don't use the promisified version here as we want to stream the output
-		return new Promise((resolve, reject) => {
-			const req = request.get(url);
-
-			req.on('error', reject).on('response', (res) => {
-				if (res.statusCode !== 200) {
-					reject(
-						new ApiErrors.DeviceAPIError(
-							'Non-200 response from log streaming endpoint',
-						),
-					);
-					return;
-				}
-				try {
-					res.socket.setKeepAlive(true, 1000);
-				} catch (error) {
-					reject(error as Error);
-				}
-				resolve(res);
-			});
+		const stream = await sdk.request.stream({ url });
+		stream.on('response', (res) => {
+			if (res.statusCode !== 200) {
+				throw new ApiErrors.DeviceAPIError(
+					'Non-200 response from log streaming endpoint',
+				);
+			}
+			res.socket.setKeepAlive(true, 1000);
 		});
+		return stream;
 	}
 
-	private getUrlForAction(action: keyof typeof deviceEndpoints): string {
+	private getUrlForAction(action: keyof typeof deviceEndpoints) {
 		return `${this.deviceAddress}${deviceEndpoints[action]}`;
 	}
 
 	// A helper method for promisifying general (non-streaming) requests. Streaming
 	// requests should use a seperate setup
-	private static async promisifiedRequest<
-		T extends Parameters<typeof request>[0],
-	>(opts: T, logger?: Logger): Promise<any> {
-		interface ObjectWithUrl {
-			url?: string;
+	private static async sendRequest(
+		opts: Parameters<BalenaSDK['request']['send']>[number],
+		logger?: Logger,
+	) {
+		if (logger != null && opts.url != null) {
+			logger.logDebug(`Sending request to ${opts.url}`);
 		}
 
-		if (logger != null) {
-			let url: string | null = null;
-			if (_.isObject(opts) && (opts as ObjectWithUrl).url != null) {
-				// the `as string` shouldn't be necessary, but the type system
-				// is getting a little confused
-				url = (opts as ObjectWithUrl).url!;
-			} else if (typeof opts === 'string') {
-				url = opts;
-			}
-
-			if (url != null) {
-				logger.logDebug(`Sending request to ${url}`);
-			}
-		}
-
+		const sdk = getBalenaSdk();
 		const doRequest = async () => {
-			return await new Promise((resolve, reject) => {
-				return request(opts, (err, response, body) => {
-					if (err) {
-						reject(err as Error);
-						return;
-					}
-					switch (response.statusCode) {
-						case 200: {
-							resolve(body);
-							return;
-						}
-						case 400: {
-							reject(new ApiErrors.BadRequestDeviceAPIError(body.message));
-							return;
-						}
-						case 503: {
-							reject(new ApiErrors.ServiceUnavailableAPIError(body.message));
-							return;
-						}
-						default: {
-							reject(new ApiErrors.DeviceAPIError(body.message));
-							return;
-						}
-					}
-				});
-			});
+			const response = await sdk.request.send(opts);
+			const bodyError =
+				typeof response.body === 'string'
+					? response.body
+					: response.body.message;
+			switch (response.statusCode) {
+				case 200:
+					return response.body;
+				case 400:
+					throw new ApiErrors.BadRequestDeviceAPIError(bodyError);
+				case 503:
+					throw new ApiErrors.ServiceUnavailableAPIError(bodyError);
+				default:
+					new ApiErrors.DeviceAPIError(bodyError);
+			}
 		};
 
 		return await retry({
 			func: doRequest,
 			initialDelayMs: 2000,
 			maxAttempts: 6,
-			label: `Supervisor API (${opts.method} ${(opts as any).url})`,
+			label: `Supervisor API (${opts.method} ${opts.url})`,
 		});
 	}
 }
-
-export default DeviceAPI;
