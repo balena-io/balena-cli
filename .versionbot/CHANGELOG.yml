@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix balena build to work with --nologs
+      hash: 8d10c1af2a8eddfa146e2d23161c079127eb5546
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.0.2
+  title: ""
+  date: 2025-05-28T19:32:15.230Z
+- commits:
     - subject: "DeviceAPI: Move away from `request` in favor of BalenaSdk request"
       hash: 3396ba5a971d2ae16552576d65dff953031f01ee
       body: ""
