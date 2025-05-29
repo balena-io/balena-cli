@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump sentry to v9
+      hash: 5ccee0e4f1ce3bae6963630963cbd72c9c738f77
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.0.3
+  title: ""
+  date: 2025-05-29T12:09:56.743Z
+- commits:
     - subject: Fix balena build to work with --nologs
       hash: 8d10c1af2a8eddfa146e2d23161c079127eb5546
       body: ""
