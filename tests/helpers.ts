@@ -417,15 +417,3 @@ export function deepJsonParse(data: any): any {
 	}
 	return data;
 }
-
-export async function switchSentry(
-	enabled: boolean | undefined,
-): Promise<boolean | undefined> {
-	const balenaCLI = await import('../build/app');
-	const sentryOpts = (await balenaCLI.setupSentry()).getClient()?.getOptions();
-	if (sentryOpts) {
-		const sentryStatus = sentryOpts.enabled;
-		sentryOpts.enabled = enabled;
-		return sentryStatus;
-	}
-}

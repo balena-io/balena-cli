@@ -34,18 +34,14 @@ export const setupSentry = onceAsync(async () => {
 	const config = await import('./config');
 	const Sentry = await import('@sentry/node');
 	Sentry.init({
-		autoSessionTracking: false,
 		dsn: config.sentryDsn,
 		release: packageJSON.version,
 	});
-	Sentry.configureScope((scope) => {
-		scope.setExtras({
-			is_pkg: !!(process as any).pkg,
-			node_version: process.version,
-			platform: process.platform,
-		});
+	Sentry.getCurrentScope().setExtras({
+		is_pkg: !!(process as any).pkg,
+		node_version: process.version,
+		platform: process.platform,
 	});
-	return Sentry.getCurrentHub();
 });
 
 async function checkNodeVersion() {

@@ -27,7 +27,7 @@ import * as sinon from 'sinon';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
-import { cleanOutput, runCommand, switchSentry } from '../helpers';
+import { cleanOutput, runCommand } from '../helpers';
 import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
@@ -262,7 +262,6 @@ describe('balena deploy', function () {
 	});
 
 	it('should update a release with status="failed" on error (single container)', async () => {
-		let sentryStatus: boolean | undefined;
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/.dockerignore': { fileSize: 16, type: 'file' },
@@ -319,7 +318,6 @@ describe('balena deploy', function () {
 		api.expectPostImageLabel();
 
 		try {
-			sentryStatus = await switchSentry(false);
 			sinon.stub(process, 'exit');
 
 			await testDockerBuildStream({
@@ -337,9 +335,8 @@ describe('balena deploy', function () {
 			});
 			expect(failedImagePatchRequests).to.equal(maxRequestRetries);
 		} finally {
-			await switchSentry(sentryStatus);
-			// @ts-expect-error claims restore does not exist
-			process.exit.restore();
+			// We mock process.exit and need to force cast it to a SinonStub to restore it
+			(process.exit as unknown as sinon.SinonStub).restore();
 		}
 	});
 
