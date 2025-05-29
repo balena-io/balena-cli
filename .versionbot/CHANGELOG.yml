@@ -1,4 +1,24 @@
 - commits:
+    - subject: "tests: Replace request with got"
+      hash: a7a408a5c7dcf06b770e8df85e250bfed5a09f75
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: "deploy-legacy: Replace request with got"
+      hash: e5877c7de917e377082328ee8ab0b502593c9719
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.0.4
+  title: ""
+  date: 2025-05-29T13:19:01.228Z
+- commits:
     - subject: Bump sentry to v9
       hash: 5ccee0e4f1ce3bae6963630963cbd72c9c738f77
       body: ""
