@@ -227,7 +227,7 @@ export class BalenaAPIMock extends NockMock {
 		this.optGet(
 			providedUuid.length !== 32
 				? /^\/v\d+\/device($|\?)/
-				: /^\/v\d+\/device\(uuid=%27[0-9a-f]{32}%27\)/,
+				: /^\/v\d+\/device\(uuid='[0-9a-f]{32}'\)/,
 			opts,
 		).reply(200, {
 			d: [
@@ -385,12 +385,9 @@ export class BalenaAPIMock extends NockMock {
 		serviceName: string;
 	}) {
 		const serviceId = opts.serviceId || 243768;
-		this.optGet(/^\/v\d+\/service(\(\w+=\d+,\w+=%27\w+%27\))?$/, opts).reply(
-			200,
-			{
-				d: [{ id: serviceId, service_name: opts.serviceName }],
-			},
-		);
+		this.optGet(/^\/v\d+\/service(\(\w+=\d+,\w+='\w+'\))?$/, opts).reply(200, {
+			d: [{ id: serviceId, service_name: opts.serviceName }],
+		});
 	}
 
 	public expectGetServiceFromApp(opts: {
