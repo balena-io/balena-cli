@@ -254,8 +254,7 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    },
-    "balena-request": "14.0.6"
+    }
   },
   "versionist": {
     "publishedAt": "2025-08-09T07:43:09.823Z"
