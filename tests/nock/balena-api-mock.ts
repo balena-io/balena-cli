@@ -227,7 +227,7 @@ export class BalenaAPIMock extends NockMock {
 		this.optGet(
 			providedUuid.length !== 32
 				? /^\/v\d+\/device($|\?)/
-				: /^\/v\d+\/device\(uuid=%27[0-9a-f]{32}%27\)/,
+				: /^\/v\d+\/device\(uuid='[0-9a-f]{32}'\)/,
 			opts,
 		).reply(200, {
 			d: [
