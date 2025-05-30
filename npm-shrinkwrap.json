@@ -151,7 +151,7 @@
         "mocha": "^10.6.0",
         "mock-fs": "^5.2.0",
         "mock-require": "^3.0.3",
-        "nock": "^14.0.4",
+        "nock": "^15.0.0-beta.4",
         "oclif": "^4.17.0",
         "rewire": "^7.0.0",
         "simple-git": "^3.14.1",
@@ -14697,15 +14697,14 @@
       }
     },
     "node_modules/nock": {
-      "version": "14.0.4",
-      "resolved": "https://registry.npmjs.org/nock/-/nock-14.0.4.tgz",
-      "integrity": "sha512-86fh+gIKH8H02+y0/HKAOZZXn6OwgzXvl6JYwfjvKkoKxUWz54wIIDU/+w24xzMvk/R8pNVXOrvTubyl+Ml6cg==",
+      "version": "15.0.0-beta.4",
+      "resolved": "https://registry.npmjs.org/nock/-/nock-15.0.0-beta.4.tgz",
+      "integrity": "sha512-ZWLweXuh96gt8LwF9NjBRtNN/NMZYeLRoDc2wX8djva+v2qVzI0EiFZpSMbanJ45WTFIAiqsM5GW8TahiBn7Xw==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
-        "@mswjs/interceptors": "^0.38.5",
-        "json-stringify-safe": "^5.0.1",
-        "propagate": "^2.0.0"
+        "@mswjs/interceptors": "^0.38.7",
+        "json-stringify-safe": "^5.0.1"
       },
       "engines": {
         "node": ">=18.20.0 <20 || >=20.12.1"
@@ -16282,15 +16281,6 @@
         "loose-envify": "^1.4.0",
         "object-assign": "^4.1.1",
         "react-is": "^16.13.1"
-      }
-    },
-    "node_modules/propagate": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/propagate/-/propagate-2.0.1.tgz",
-      "integrity": "sha512-vGrhOavPSTz4QVNuBNdcNXePNdNMaO1xj9yBeH1ScQPjk/rhg9sSlCXPhMkFuaNNW/syTvYqsnbIJxMBfRbbag==",
-      "dev": true,
-      "engines": {
-        "node": ">= 8"
       }
     },
     "node_modules/proto-list": {
