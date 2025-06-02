@@ -98,7 +98,7 @@
         "@types/chai-as-promised": "^7.1.4",
         "@types/cli-truncate": "^2.0.0",
         "@types/common-tags": "^1.8.1",
-        "@types/dockerode": "3.3.23",
+        "@types/dockerode": "3.3.39",
         "@types/ejs": "^3.1.0",
         "@types/express": "^4.17.13",
         "@types/fast-levenshtein": "^0.0.4",
@@ -6056,12 +6056,14 @@
       }
     },
     "node_modules/@types/dockerode": {
-      "version": "3.3.23",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.23.tgz",
-      "integrity": "sha512-Lz5J+NFgZS4cEVhquwjIGH4oQwlVn2h7LXD3boitujBnzOE5o7s9H8hchEjoDK2SlRsJTogdKnQeiJgPPKLIEw==",
+      "version": "3.3.39",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.39.tgz",
+      "integrity": "sha512-uMPmxehH6ofeYjaslASPtjvyH8FRJdM9fZ+hjhGzL4Jq3bGjr9D7TKmp9soSwgFncNk0HOwmyBxjqOb3ikjjsA==",
+      "license": "MIT",
       "dependencies": {
         "@types/docker-modem": "*",
-        "@types/node": "*"
+        "@types/node": "*",
+        "@types/ssh2": "*"
       }
     },
     "node_modules/@types/ejs": {
