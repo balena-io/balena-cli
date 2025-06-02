@@ -1,4 +1,24 @@
 - commits:
+    - subject: Remove `request` dependency
+      hash: d47abf072ddf1f6529f3d4a14e07436def58df61
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+    - subject: Replace `request` usage with `got`
+      hash: 8502c4db4bb211a70c682dbc1b85df56f01f2d93
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 22.0.6
+  title: ""
+  date: 2025-06-02T12:27:11.068Z
+- commits:
     - subject: Bump etcher-sdk to v9.1.4
       hash: 0b0e24c9b29ef4bcb6a577ca85708171cc2421c7
       body: |
