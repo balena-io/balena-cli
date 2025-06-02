@@ -158,7 +158,8 @@
         "sinon": "^19.0.0",
         "string-to-stream": "^3.0.1",
         "ts-node": "^10.4.0",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.2",
+        "undici": "^7.10.0"
       },
       "engines": {
         "node": ">=20.6.0 <23"
@@ -23499,6 +23500,16 @@
       "version": "1.4.2",
       "resolved": "git+ssh://git@github.com/balena-io-modules/unbzip2-stream.git#4a54f56a25b58950f9e4277c56db2912d62242e7",
       "integrity": "sha512-hqSQ+EGPNNs80IGpZszUngM7ttKBCgjRtrw+2PTRDUd1UNvPOoSL4M7V1bDBJXktGv8KaVJFRKk2mWi6RmbiEg=="
+    },
+    "node_modules/undici": {
+      "version": "7.10.0",
+      "resolved": "https://registry.npmjs.org/undici/-/undici-7.10.0.tgz",
+      "integrity": "sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.18.1"
+      }
     },
     "node_modules/undici-types": {
       "version": "6.21.0",
