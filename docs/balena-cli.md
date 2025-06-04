@@ -3056,6 +3056,7 @@ because we need to access the raw devices directly.
 
 Examples:
 
+	$ balena os initialize ../path/rpi.img
 	$ balena os initialize ../path/rpi.img --type raspberry-pi
 
 ### Arguments
