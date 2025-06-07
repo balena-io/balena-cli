@@ -72,7 +72,7 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": "^20.6.0"
+    "node": ">=20.6.0 <23"
   },
   "oclif": {
     "bin": "balena",
@@ -170,7 +170,7 @@
     "@oclif/core": "^4.1.0",
     "@sentry/node": "^9.0.0",
     "balena-config-json": "^4.2.7",
-    "balena-device-init": "^8.1.3",
+    "balena-device-init": "^8.1.11",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
     "balena-preload": "^18.0.4",
@@ -191,7 +191,7 @@
     "docker-progress": "^5.1.3",
     "dockerode": "^4.0.5",
     "ejs": "^3.1.6",
-    "etcher-sdk": "^9.1.4",
+    "etcher-sdk": "^10.0.0",
     "express": "^4.17.2",
     "fast-boot2": "^1.1.0",
     "fast-levenshtein": "^3.0.0",
@@ -219,8 +219,8 @@
     "prettyjson": "^1.2.5",
     "progress-stream": "^2.0.0",
     "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
-    "resin-cli-form": "^3.0.0",
-    "resin-cli-visuals": "^2.0.1",
+    "resin-cli-form": "^4.0.0",
+    "resin-cli-visuals": "^3.0.0",
     "resin-doodles": "^0.2.0",
     "resin-stream-logger": "^0.1.2",
     "rimraf": "^3.0.2",
