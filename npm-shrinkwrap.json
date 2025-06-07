@@ -161,7 +161,7 @@
         "typescript": "^5.8.2"
       },
       "engines": {
-        "node": ">=20.6.0 <25"
+        "node": ">=20.6.0 <23"
       },
       "optionalDependencies": {
         "windosu": "^0.3.0"

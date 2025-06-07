@@ -81,21 +81,14 @@ export class DockerMock extends NockMock {
 		this.optPost(
 			new RegExp(`^/build\\?(|.+&)${qs.stringify({ t: opts.tag })}&`),
 			opts,
-		).reply(async function (uri, requestBody, cb) {
-			let error: Error | null = null;
-			try {
-				await opts.checkURI(uri);
-				if (typeof requestBody === 'string') {
-					await opts.checkBuildRequestBody(requestBody);
-				} else {
-					throw new Error(
-						`unexpected requestBody type "${typeof requestBody}"`,
-					);
-				}
-			} catch (err) {
-				error = err;
+		).reply(async function (uri, requestBody) {
+			await opts.checkURI(uri);
+			if (typeof requestBody === 'string') {
+				await opts.checkBuildRequestBody(requestBody);
+				return [opts.responseCode, opts.responseBody];
+			} else {
+				throw new Error(`unexpected requestBody type "${typeof requestBody}"`);
 			}
-			cb(error, [opts.responseCode, opts.responseBody]);
 		});
 	}
 
