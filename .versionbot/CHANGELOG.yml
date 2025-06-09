@@ -1,4 +1,40 @@
 - commits:
+    - subject: Add support for node 22
+      hash: f80b8e63b1e5b22dd95b034fe14da0a7e3ab4986
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otavio Jacobi
+      nested: []
+    - subject: Bump etcher-sdk to v10.0.0
+      hash: b32514f5afb4fdd12e4a9dca5e2a1d53e727b434
+      body: |
+        Update balena-device-init from 8.1.3 to 8.1.1
+        Update etcher-sdk from 9.1.4 to 10.0.0
+        Update resin-cli-form from 3.0.0 to 4.0.0
+        Update resin-cli-visuals from 2.0.1 to 3.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested:
+        - commits:
+            - subject: Drop support to node18 and add support to node 22 & 24
+              hash: 95e577823f642a6c0e500aa29fc150b7807d84f7
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Otavio Jacobi
+              nested: []
+          version: etcher-sdk-10.0.0
+          title: ""
+          date: 2025-06-02T09:12:32.868Z
+  version: 22.1.0
+  title: ""
+  date: 2025-06-09T20:05:08.020Z
+- commits:
     - subject: Remove `request` dependency
       hash: d47abf072ddf1f6529f3d4a14e07436def58df61
       body: ""
