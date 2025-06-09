@@ -41,23 +41,18 @@ export class BuilderMock extends NockMock {
 		checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 	}) {
 		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(
-			async function (uri, requestBody, callback) {
-				let error: Error | null = null;
-				try {
-					await opts.checkURI(uri);
-					if (typeof requestBody === 'string') {
-						const gzipped = Buffer.from(requestBody, 'hex');
-						const gunzipped = await gunzipAsync(gzipped);
-						await opts.checkBuildRequestBody(gunzipped);
-					} else {
-						throw new Error(
-							`unexpected requestBody type "${typeof requestBody}"`,
-						);
-					}
-				} catch (err) {
-					error = err;
+			async function (uri, requestBody) {
+				await opts.checkURI(uri);
+				if (typeof requestBody === 'string') {
+					const gzipped = Buffer.from(requestBody, 'hex');
+					const gunzipped = await gunzipAsync(gzipped);
+					await opts.checkBuildRequestBody(gunzipped);
+					return [opts.responseCode, opts.responseBody];
+				} else {
+					throw new Error(
+						`unexpected requestBody type "${typeof requestBody}"`,
+					);
 				}
-				callback(error, [opts.responseCode, opts.responseBody]);
 			},
 		);
 	}
