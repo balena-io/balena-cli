@@ -12,7 +12,9 @@ describe('Utils:', function () {
 
 	this.beforeEach(() => {
 		rewiremock.overrideEntryPoint(module);
-		utils = rewiremock.proxy(() => require('../../build/auth/utils'));
+		utils = rewiremock(
+			'../../build/auth/utils',
+		) as unknown as typeof import('../../build/auth/utils');
 		rewiremock.enable();
 	});
 
