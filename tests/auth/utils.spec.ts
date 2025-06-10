@@ -3,12 +3,25 @@ import * as sinon from 'sinon';
 import * as url from 'url';
 import { getBalenaSdk } from '../../build/utils/lazy';
 import tokens from './tokens';
+import rewiremock from 'rewiremock';
 
 const balena = getBalenaSdk();
 
-describe('Utils:', async function () {
-	const rewire = await import('rewire');
-	const utils = rewire('../../build/auth/utils');
+describe('Utils:', function () {
+	let utils: typeof import('../../build/auth/utils');
+
+	this.beforeEach(() => {
+		rewiremock.overrideEntryPoint(module);
+		utils = rewiremock(
+			'../../build/auth/utils',
+		) as unknown as typeof import('../../build/auth/utils');
+		rewiremock.enable();
+	});
+
+	this.afterEach(() => {
+		rewiremock.disable();
+	});
+
 	describe('.getDashboardLoginURL()', function () {
 		it('should eventually be a valid url', () =>
 			utils
@@ -51,8 +64,8 @@ describe('Utils:', async function () {
 			return expect(promise).to.eventually.be.false;
 		});
 
-		it('should eventually be false if token is null', function () {
-			const promise = utils.loginIfTokenValid(null);
+		it('should eventually be false if token is undefined', function () {
+			const promise = utils.loginIfTokenValid(undefined);
 			return expect(promise).to.eventually.be.false;
 		});
 

@@ -32,6 +32,7 @@ import {
 	getDockerignoreWarn3,
 	setupDockerignoreTestData,
 } from '../projects';
+import rewiremock from 'rewiremock';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -90,12 +91,16 @@ describe('balena push', function () {
 		builder = new BuilderMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetApplication();
+
+		rewiremock.overrideEntryPoint(module);
+		rewiremock.enable();
 	});
 
 	this.afterEach(() => {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 		builder.done();
+		rewiremock.disable();
 	});
 
 	this.beforeAll(async () => {

@@ -41,6 +41,7 @@ import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
 } from './projects';
+import rewiremock from 'rewiremock';
 
 /**
  * Run a few chai.expect() test assertions on a tar stream/buffer produced by
@@ -198,7 +199,7 @@ export async function testDockerBuildStream(o: {
 		}
 	}
 
-	await resetDockerignoreCache();
+	resetDockerignoreCache();
 
 	const { exitCode, out, err } = await runCommand(o.commandLine);
 
@@ -250,7 +251,7 @@ export async function testPushBuildStream(o: {
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 
-	await resetDockerignoreCache();
+	resetDockerignoreCache();
 
 	const { out, err } = await runCommand(o.commandLine);
 
@@ -258,14 +259,11 @@ export async function testPushBuildStream(o: {
 	expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 }
 
-export async function resetDockerignoreCache() {
-	const rewire = await import('rewire');
-
+export function resetDockerignoreCache() {
 	if (process.env.BALENA_CLI_TEST_TYPE !== 'source') {
 		return;
 	}
 	const ignorePath = '../build/utils/ignore';
 	delete require.cache[require.resolve(ignorePath)];
-	const ignoreMod = rewire(ignorePath);
-	ignoreMod.__set__('dockerignoreByService', null);
+	rewiremock(ignorePath).with({ dockerignoreByService: null });
 }

@@ -24,6 +24,7 @@ import { promisify } from 'util';
 import { LivepushManager } from '../../../src/utils/device/live';
 import { resetDockerignoreCache } from '../../docker-build';
 import { setupDockerignoreTestData } from '../../projects';
+import rewiremock from 'rewiremock';
 
 const delay = promisify(setTimeout);
 const FS_WATCH_DURATION_MS = 500;
@@ -132,8 +133,15 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 		await setupDockerignoreTestData({ cleanup: true });
 	});
 
-	this.beforeEach(async () => {
-		await resetDockerignoreCache();
+	this.beforeEach(() => {
+		rewiremock.overrideEntryPoint(module);
+		rewiremock.enable();
+
+		resetDockerignoreCache();
+	});
+
+	this.afterEach(() => {
+		rewiremock.disable();
 	});
 
 	describe('for project no-docker-compose/basic', function () {
