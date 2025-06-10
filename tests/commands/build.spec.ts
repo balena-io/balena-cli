@@ -35,7 +35,7 @@ import {
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
 } from '../projects';
-import { rewiremock } from '../config-tests';
+import rewiremock from 'rewiremock';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -94,6 +94,9 @@ describe('balena build', function () {
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		docker.expectGetPing();
 		docker.expectGetVersion({ persist: true });
+
+		rewiremock.overrideEntryPoint(module);
+		rewiremock.enable();
 	});
 
 	this.afterEach(() => {

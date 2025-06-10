@@ -41,7 +41,7 @@ import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
 } from './projects';
-import { rewiremock } from './config-tests';
+import rewiremock from 'rewiremock';
 
 /**
  * Run a few chai.expect() test assertions on a tar stream/buffer produced by
@@ -266,5 +266,4 @@ export function resetDockerignoreCache() {
 	const ignorePath = '../build/utils/ignore';
 	delete require.cache[require.resolve(ignorePath)];
 	rewiremock(ignorePath).with({ dockerignoreByService: null });
-	rewiremock.enable();
 }

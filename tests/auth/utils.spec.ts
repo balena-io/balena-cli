@@ -3,14 +3,23 @@ import * as sinon from 'sinon';
 import * as url from 'url';
 import { getBalenaSdk } from '../../build/utils/lazy';
 import tokens from './tokens';
-import { rewiremock } from '../config-tests';
+import rewiremock from 'rewiremock';
 
 const balena = getBalenaSdk();
 
 describe('Utils:', function () {
-	const utils = rewiremock.proxy(() =>
-		require('../../build/auth/utils'),
-	) as typeof import('../../build/auth/utils');
+	let utils: typeof import('../../build/auth/utils');
+
+	this.beforeEach(() => {
+		rewiremock.overrideEntryPoint(module);
+		utils = rewiremock.proxy(() => require('../../build/auth/utils'));
+		rewiremock.enable();
+	});
+
+	this.afterEach(() => {
+		rewiremock.disable();
+	});
+
 	describe('.getDashboardLoginURL()', function () {
 		it('should eventually be a valid url', () =>
 			utils

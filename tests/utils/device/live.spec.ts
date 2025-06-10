@@ -24,7 +24,7 @@ import { promisify } from 'util';
 import { LivepushManager } from '../../../src/utils/device/live';
 import { resetDockerignoreCache } from '../../docker-build';
 import { setupDockerignoreTestData } from '../../projects';
-import { rewiremock } from '../../config-tests';
+import rewiremock from 'rewiremock';
 
 const delay = promisify(setTimeout);
 const FS_WATCH_DURATION_MS = 500;

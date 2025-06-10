@@ -33,7 +33,7 @@ import type {
 	ExpectedTarStreamFilesByService,
 } from '../projects';
 import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects';
-import { rewiremock } from '../config-tests';
+import rewiremock from 'rewiremock';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -98,6 +98,9 @@ describe('balena deploy', function () {
 		docker.expectPostImagesTag();
 		docker.expectPostImagesPush();
 		docker.expectDeleteImages();
+
+		rewiremock.overrideEntryPoint(module);
+		rewiremock.enable();
 	});
 
 	this.afterEach(() => {
