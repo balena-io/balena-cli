@@ -89,14 +89,14 @@ describe('balena build', function () {
 	const isWindows = process.platform === 'win32';
 
 	this.beforeEach(() => {
+		rewiremock.overrideEntryPoint(module);
+		rewiremock.enable();
+
 		api = new BalenaAPIMock();
 		docker = new DockerMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		docker.expectGetPing();
 		docker.expectGetVersion({ persist: true });
-
-		rewiremock.overrideEntryPoint(module);
-		rewiremock.enable();
 	});
 
 	this.afterEach(() => {
