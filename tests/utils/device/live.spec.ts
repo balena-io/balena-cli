@@ -134,6 +134,9 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 	});
 
 	this.beforeEach(() => {
+		rewiremock.overrideEntryPoint(module);
+		rewiremock.enable();
+
 		resetDockerignoreCache();
 	});
 
