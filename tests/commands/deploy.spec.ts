@@ -33,6 +33,7 @@ import type {
 	ExpectedTarStreamFilesByService,
 } from '../projects';
 import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects';
+import { rewiremock } from '../config-tests';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -103,6 +104,7 @@ describe('balena deploy', function () {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 		docker.done();
+		rewiremock.disable();
 	});
 
 	it('should create the expected --build tar stream (single container)', async () => {

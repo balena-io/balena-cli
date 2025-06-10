@@ -52,3 +52,7 @@ chaiCfg.truncateThreshold = 0;
 // Otherwise if the user has BALENARC_BALENA_URL pointing at something else like staging, tests
 // will fail.
 process.env.BALENARC_BALENA_URL = 'balena-cloud.com';
+
+import rewiremock from 'rewiremock';
+rewiremock.overrideEntryPoint(module);
+export { rewiremock };

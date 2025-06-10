@@ -32,6 +32,7 @@ import {
 	getDockerignoreWarn3,
 	setupDockerignoreTestData,
 } from '../projects';
+import { rewiremock } from '../config-tests';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -96,6 +97,7 @@ describe('balena push', function () {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 		builder.done();
+		rewiremock.disable();
 	});
 
 	this.beforeAll(async () => {

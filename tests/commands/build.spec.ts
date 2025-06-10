@@ -35,6 +35,7 @@ import {
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
 } from '../projects';
+import { rewiremock } from '../config-tests';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -99,6 +100,7 @@ describe('balena build', function () {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 		docker.done();
+		rewiremock.disable();
 	});
 
 	it('should create the expected tar stream (single container)', async () => {
