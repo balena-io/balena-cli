@@ -17,7 +17,6 @@
 
 import { expect } from 'chai';
 import * as _ from 'lodash';
-import * as mock from 'mock-require';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
@@ -80,6 +79,10 @@ const commonComposeQueryParamsIntel = {
 	platform: 'linux/amd64',
 };
 
+const qemuModPath = '../../build/utils/qemu';
+const fsModPath = 'fs';
+const arch = 'rpi';
+
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
@@ -88,8 +91,27 @@ describe('balena build', function () {
 	let docker: DockerMock;
 	const isWindows = process.platform === 'win32';
 
-	this.beforeEach(() => {
+	this.beforeEach(async () => {
+		const fsMod = await import(fsModPath);
+		const qemuMod = await import(qemuModPath);
+		const qemuBinPath = await qemuMod.getQemuPath(arch);
 		rewiremock.overrideEntryPoint(module);
+		// patch fs.access and fs.stat to pretend that a copy of the Qemu binary
+		// already exists locally, thus preventing a download during tests
+		rewiremock(fsModPath).with({
+			...fsMod,
+			promises: {
+				...fsMod.promises,
+				access: (p: string) =>
+					p === qemuBinPath ? undefined : fsMod.promises.access(p),
+				stat: (p: string) =>
+					p === qemuBinPath ? { size: 1 } : fsMod.promises.stat(p),
+			},
+		});
+		rewiremock(qemuModPath).with({
+			...qemuMod,
+			copyQemu: () => '',
+		});
 		rewiremock.enable();
 
 		api = new BalenaAPIMock();
@@ -209,7 +231,7 @@ describe('balena build', function () {
 		});
 	});
 
-	// Skip Standalone because we patch the source code with `mock-require` to avoid
+	// Skip Standalone because we patch the source code via mock to avoid
 	// downloading and installing QEMU
 	itSS('should create the expected tar stream (--emulated)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
@@ -258,50 +280,22 @@ describe('balena build', function () {
 				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
 			);
 		}
-		const arch = 'rpi';
 		const deviceType = 'raspberry-pi';
-		const fsModPath = 'fs';
-		const fsMod = await import(fsModPath);
-		const qemuModPath = '../../build/utils/qemu';
-		const qemuMod = await import(qemuModPath);
-		const qemuBinPath = await qemuMod.getQemuPath(arch);
-		try {
-			// patch fs.access and fs.stat to pretend that a copy of the Qemu binary
-			// already exists locally, thus preventing a download during tests
-			mock(fsModPath, {
-				...fsMod,
-				promises: {
-					...fsMod.promises,
-					access: (p: string) =>
-						p === qemuBinPath ? undefined : fsMod.promises.access(p),
-					stat: (p: string) =>
-						p === qemuBinPath ? { size: 1 } : fsMod.promises.stat(p),
-				},
-			});
-			mock(qemuModPath, {
-				...qemuMod,
-				copyQemu: () => '',
-			});
-			mock.reRequire('../../build/utils/qemu');
-			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
-			docker.expectGetManifestBusybox();
-			await testDockerBuildStream({
-				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
-				dockerMock: docker,
-				expectedFilesByService: { main: expectedFiles },
-				expectedQueryParamsByService: {
-					main: Object.entries(commonQueryParamsArmV6),
-				},
-				expectedResponseLines,
-				projectPath,
-				responseBody,
-				responseCode: 200,
-				services: ['main'],
-			});
-		} finally {
-			mock.stop(fsModPath);
-			mock.stop(qemuModPath);
-		}
+		docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
+		docker.expectGetManifestBusybox();
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: {
+				main: Object.entries(commonQueryParamsArmV6),
+			},
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
 	});
 
 	it('should create the expected tar stream (single container, --noconvert-eol, --multi-dockerignore)', async () => {
