@@ -156,6 +156,7 @@
     "nock": "^14.0.4",
     "oclif": "^4.17.0",
     "rewire": "^7.0.0",
+    "rewiremock": "^3.14.6",
     "simple-git": "^3.14.1",
     "sinon": "^19.0.0",
     "string-to-stream": "^3.0.1",
