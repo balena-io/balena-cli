@@ -77,24 +77,56 @@ export default class DeviceCmd extends Command {
 
 		const balena = getBalenaSdk();
 
+		const jsonExpand = {
+			$expand: {
+				device_tag: {
+					$select: ['tag_key', 'value'],
+				},
+				...expandForAppName.$expand,
+			},
+		} as const;
+
+		const jsonComputedFieldsSelect = {
+			$select: [
+				'overall_status',
+				'overall_progress',
+				'should_be_running__release',
+			],
+		} as const;
+
+		const tableParams = {
+			$select: [
+				'device_name',
+				'id',
+				'overall_status',
+				'is_online',
+				'ip_address',
+				'mac_address',
+				'last_connectivity_event',
+				'uuid',
+				'supervisor_version',
+				'is_web_accessible',
+				'note',
+				'os_version',
+				'memory_usage',
+				'memory_total',
+				'public_address',
+				'storage_block_device',
+				'storage_usage',
+				'storage_total',
+				'cpu_usage',
+				'cpu_temp',
+				'cpu_id',
+				'is_undervolted',
+			],
+			...expandForAppName,
+		} as const;
+
 		let device: ExtendedDevice;
 		if (options.json) {
 			const [deviceBase, deviceComputed] = await Promise.all([
-				balena.models.device.get(params.uuid, {
-					$expand: {
-						device_tag: {
-							$select: ['tag_key', 'value'],
-						},
-						...expandForAppName.$expand,
-					},
-				}),
-				balena.models.device.get(params.uuid, {
-					$select: [
-						'overall_status',
-						'overall_progress',
-						'should_be_running__release',
-					],
-				}),
+				balena.models.device.get(params.uuid, jsonExpand),
+				balena.models.device.get(params.uuid, jsonComputedFieldsSelect),
 			]);
 
 			device = {
@@ -102,33 +134,10 @@ export default class DeviceCmd extends Command {
 				...deviceComputed,
 			} as ExtendedDevice;
 		} else {
-			device = (await balena.models.device.get(params.uuid, {
-				$select: [
-					'device_name',
-					'id',
-					'overall_status',
-					'is_online',
-					'ip_address',
-					'mac_address',
-					'last_connectivity_event',
-					'uuid',
-					'supervisor_version',
-					'is_web_accessible',
-					'note',
-					'os_version',
-					'memory_usage',
-					'memory_total',
-					'public_address',
-					'storage_block_device',
-					'storage_usage',
-					'storage_total',
-					'cpu_usage',
-					'cpu_temp',
-					'cpu_id',
-					'is_undervolted',
-				],
-				...expandForAppName,
-			})) as ExtendedDevice;
+			device = (await balena.models.device.get(
+				params.uuid,
+				tableParams,
+			)) as ExtendedDevice;
 		}
 
 		if (options.view) {
@@ -142,15 +151,16 @@ export default class DeviceCmd extends Command {
 
 		device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
 
-		const belongsToApplication =
-			device.belongs_to__application as Application[];
+		const belongsToApplication = device.belongs_to__application as [
+			Application['Read'],
+		];
 		device.fleet = belongsToApplication?.[0]
 			? belongsToApplication[0].slug
 			: 'N/a';
 
 		device.device_type = device.is_of__device_type[0].slug;
 
-		const isRunningRelease = device.is_running__release as Release[];
+		const isRunningRelease = device.is_running__release as [Release['Read']];
 		device.commit = isRunningRelease?.[0] ? isRunningRelease[0].commit : 'N/a';
 
 		device.last_seen = device.last_connectivity_event ?? undefined;

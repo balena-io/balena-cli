@@ -84,18 +84,10 @@ export default class DeviceRestartCmd extends Command {
 		}
 	}
 
-	async restartServices(
-		balena: BalenaSDK,
-		deviceUuid: string,
-		serviceNames: string[],
-	) {
+	async getDevice(balena: BalenaSDK, deviceUuid: string) {
 		const { ExpectedError, instanceOf } = await import('../../errors');
-		const { getExpandedProp } = await import('../../utils/pine');
-
-		// Get device
-		let device: DeviceWithServiceDetails<CurrentServiceWithCommit>;
 		try {
-			device = await balena.models.device.getWithServiceDetails(deviceUuid, {
+			return await balena.models.device.getWithServiceDetails(deviceUuid, {
 				$expand: {
 					is_running__release: { $select: 'commit' },
 				},
@@ -108,7 +100,18 @@ export default class DeviceRestartCmd extends Command {
 				throw e;
 			}
 		}
+	}
 
+	async restartServices(
+		balena: BalenaSDK,
+		deviceUuid: string,
+		serviceNames: string[],
+	) {
+		const { ExpectedError } = await import('../../errors');
+		const { getExpandedProp } = await import('../../utils/pine');
+
+		// Get device
+		const device = await this.getDevice(balena, deviceUuid);
 		const activeRelease = getExpandedProp(device.is_running__release, 'commit');
 
 		// Check specified services exist on this device before restarting anything

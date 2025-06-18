@@ -233,7 +233,7 @@ export const getPreviousRepos = (
 	appID: number,
 ): Promise<string[]> =>
 	sdk.pine
-		.get<SDK.Release>({
+		.get({
 			resource: 'release',
 			options: {
 				$select: 'id',
@@ -243,20 +243,18 @@ export const getPreviousRepos = (
 				},
 				$expand: {
 					release_image: {
-						$select: 'image',
+						$select: 'id',
 						$expand: { image: { $select: 'is_stored_at__image_location' } },
 					},
 				},
-				$orderby: 'id desc',
+				$orderby: { id: 'desc' },
 				$top: 1,
 			},
 		})
 		.then(function (release) {
 			// grab all images from the latest release, return all image locations in the registry
 			if (release.length > 0) {
-				const images = release[0].release_image as Array<{
-					image: [SDK.Image];
-				}>;
+				const images = release[0].release_image;
 				const { getRegistryAndName } =
 					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
 				return Promise.all(
