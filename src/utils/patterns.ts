@@ -19,9 +19,7 @@ import type {
 	BalenaSDK,
 	Device,
 	Organization,
-	PineFilter,
-	PineOptions,
-	PineTypedResult,
+	Pine,
 } from 'balena-sdk';
 
 import {
@@ -210,24 +208,25 @@ const selectApplicationPineOptions = {
 			$select: 'slug',
 		},
 	},
-} satisfies PineOptions<Application>;
+} as const;
 
-type SelectApplicationResult = PineTypedResult<
-	Application,
-	typeof selectApplicationPineOptions
+type SelectApplicationResult = Pine.OptionsToResponse<
+	Application['Read'],
+	typeof selectApplicationPineOptions,
+	undefined
 >;
 
-export async function selectApplication(
-	filter?:
-		| PineFilter<Application>
-		| ((app: SelectApplicationResult) => boolean),
+export async function selectApplication<
+	T extends Pine.Filter<Application['Read']>,
+>(
+	filter?: T | ((app: SelectApplicationResult[number]) => boolean),
 	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
 	let apps = (await balena.models.application.getAllDirectlyAccessible({
 		...selectApplicationPineOptions,
 		...(filter != null && typeof filter === 'object' && { $filter: filter }),
-	})) as SelectApplicationResult[];
+	})) as SelectApplicationResult;
 
 	if (!apps.length) {
 		throw new ExpectedError('No fleets found');
@@ -251,7 +250,7 @@ export async function selectApplication(
 }
 
 export async function selectOrganization(
-	organizations?: Array<Pick<Organization, 'handle' | 'name'>>,
+	organizations?: Array<Pick<Organization['Read'], 'handle' | 'name'>>,
 ) {
 	// Use either provided orgs (if e.g. already loaded) or load from cloud
 	organizations ??= await getBalenaSdk().models.organization.getAll({
@@ -302,7 +301,7 @@ export async function getOnlineTargetDeviceUuid(
 
 	// If looks like UUID, probably device
 	if (validation.validateUuid(fleetOrDevice)) {
-		let device: Device;
+		let device: Device['Read'];
 		try {
 			logger.logDebug(
 				`Trying to fetch device by UUID ${fleetOrDevice} (${typeof fleetOrDevice})`,

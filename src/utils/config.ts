@@ -58,7 +58,7 @@ export interface ImgConfig {
 }
 
 export async function generateApplicationConfig(
-	application: Pick<BalenaSdk.Application, 'slug'>,
+	application: Pick<BalenaSdk.Application['Read'], 'slug'>,
 	options: {
 		version: string;
 		appUpdatePollInterval?: number;
@@ -202,6 +202,7 @@ export async function validateSecureBootOptionAndWarn(
 	}
 
 	if (
+		// @ts-expect-error - parsed contract will be a Contract
 		osRelease.contract?.provides.some((entry: Dictionary<string>) => {
 			return entry.type === 'sw.feature' && entry.slug === 'secureboot';
 		})

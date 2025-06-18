@@ -255,11 +255,17 @@ async function getOrSelectApplication(
 				$select: 'slug',
 			},
 		},
-	} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
+	} as const;
 	const deviceType = (await sdk.models.deviceType.get(
 		deviceTypeSlug,
 		pineOptions,
-	)) as BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>;
+	)) as NonNullable<
+		BalenaSdk.Pine.OptionsToResponse<
+			BalenaSdk.DeviceType['Read'],
+			typeof pineOptions,
+			typeof deviceTypeSlug
+		>
+	>;
 	const allCpuArches = await sdk.pine.get({
 		resource: 'cpu_architecture',
 		options: {
@@ -299,21 +305,31 @@ async function getOrSelectApplication(
 		$expand: {
 			is_for__device_type: { $select: ['slug', 'is_of__cpu_architecture'] },
 		},
-	} satisfies BalenaSdk.PineOptions<BalenaSdk.Application>;
+	} satisfies BalenaSdk.Pine.ODataOptionsWithoutCount<
+		BalenaSdk.Application['Read']
+	>;
 
 	// Check for a fleet slug of the form `user/fleet` and update the API query.
 	let name: string;
 	const match = appName.split('/');
 	if (match.length > 1) {
 		// These will match at most one fleet
-		(options as BalenaSdk.PineOptions<BalenaSdk.Application>).$filter = {
+		(
+			options as BalenaSdk.Pine.ODataOptionsWithoutCount<
+				BalenaSdk.Application['Read']
+			>
+		).$filter = {
 			slug: appName.toLowerCase(),
 		};
 		name = match[1];
 	} else {
 		// We're given an application; resolve it if it's ambiguous and also validate
 		// it's of appropriate device type.
-		(options as BalenaSdk.PineOptions<BalenaSdk.Application>).$filter = {
+		(
+			options as BalenaSdk.Pine.ODataOptionsWithoutCount<
+				BalenaSdk.Application['Read']
+			>
+		).$filter = {
 			app_name: appName,
 		};
 		name = appName;
@@ -321,7 +337,11 @@ async function getOrSelectApplication(
 
 	const applications = (await sdk.models.application.getAllDirectlyAccessible(
 		options,
-	)) as Array<BalenaSdk.PineTypedResult<BalenaSdk.Application, typeof options>>;
+	)) as BalenaSdk.Pine.OptionsToResponse<
+		BalenaSdk.Application['Read'],
+		typeof options,
+		undefined
+	>;
 
 	if (applications.length === 0) {
 		await confirm(
@@ -356,7 +376,9 @@ async function getOrSelectApplication(
 
 async function createOrSelectApp(
 	sdk: BalenaSdk.BalenaSDK,
-	compatibleDeviceTypesFilter: BalenaSdk.PineFilter<BalenaSdk.Application>,
+	compatibleDeviceTypesFilter: BalenaSdk.Pine.Filter<
+		BalenaSdk.Application['Read']
+	>,
 	deviceType: string,
 ): Promise<ApplicationWithDeviceTypeSlug> {
 	// No fleet specified, show a list to select one.

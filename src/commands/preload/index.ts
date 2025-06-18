@@ -28,14 +28,7 @@ import { dockerConnectionCliFlags } from '../../utils/docker';
 import { parseAsInteger } from '../../utils/validation';
 import { Flags, Args, Command } from '@oclif/core';
 import * as _ from 'lodash';
-import type {
-	Application,
-	BalenaSDK,
-	PineExpand,
-	PineOptions,
-	PineTypedResult,
-	Release,
-} from 'balena-sdk';
+import type { Application, BalenaSDK, Pine, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 import type * as Fs from 'fs';
 
@@ -333,7 +326,7 @@ Can be repeated to add multiple certificates.\
 			$select: ['id', 'commit', 'end_timestamp', 'composition'],
 			$expand: {
 				release_image: {
-					$select: ['image'],
+					$select: ['id'],
 					$expand: {
 						image: {
 							$select: ['image_size', 'is_stored_at__image_location'],
@@ -349,7 +342,9 @@ Can be repeated to add multiple certificates.\
 		should_be_running__release: {
 			$select: 'commit',
 		},
-	} satisfies PineExpand<Application>;
+	} as const satisfies Pine.ODataOptionsWithoutCount<
+		Application['Read']
+	>['$expand'];
 
 	isCurrentCommit(commit: string) {
 		return commit === 'latest' || commit === 'current';
@@ -407,11 +402,16 @@ Can be repeated to add multiple certificates.\
 					},
 				},
 			},
-			$orderby: 'slug asc',
-		} satisfies PineOptions<Application>;
+			$orderby: { slug: 'asc' },
+		} as const satisfies Pine.ODataOptionsWithoutCount<Application['Read']>;
+
 		return (await balena.models.application.getAllDirectlyAccessible(
 			options,
-		)) as Array<PineTypedResult<Application, typeof options>>;
+		)) as Pine.OptionsToResponse<
+			Application['Read'],
+			typeof options,
+			undefined
+		>;
 	}
 
 	async selectApplication(deviceTypeSlug: string) {
@@ -440,7 +440,7 @@ Can be repeated to add multiple certificates.\
 		});
 	}
 
-	selectApplicationCommit(releases: Release[]) {
+	selectApplicationCommit(releases: Array<Release['Read']>) {
 		if (releases.length === 0) {
 			throw new ExpectedError('This fleet has no successful releases.');
 		}
@@ -462,7 +462,10 @@ Can be repeated to add multiple certificates.\
 	}
 
 	async offerToDisableAutomaticUpdates(
-		application: Pick<Application, 'id' | 'should_track_latest_release'>,
+		application: Pick<
+			Application['Read'],
+			'id' | 'should_track_latest_release'
+		>,
 		commit: string,
 		pinDevice: boolean | undefined,
 	) {
@@ -503,7 +506,7 @@ Would you like to disable automatic updates for this fleet now?\
 		if (!update) {
 			return;
 		}
-		return await balena.pine.patch({
+		await balena.pine.patch({
 			resource: 'application',
 			id: application.id,
 			body: {
@@ -563,7 +566,7 @@ Would you like to disable automatic updates for this fleet now?\
 		} else {
 			// this could have the value 'current'
 			commit = await this.selectApplicationCommit(
-				application.owns__release as Release[],
+				application.owns__release as Array<Release['Read']>,
 			);
 		}
 
