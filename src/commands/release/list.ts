@@ -19,7 +19,6 @@ import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationNameNote } from '../../utils/messages';
-import type * as BalenaSdk from 'balena-sdk';
 import { jsonInfo } from '../../utils/messages';
 import * as JSONStream from 'JSONStream';
 import { Readable, Writable } from 'stream';
@@ -66,7 +65,7 @@ export default class ReleaseListCmd extends Command {
 			'status',
 			'semver',
 			'is_final',
-		] satisfies BalenaSdk.PineOptions<BalenaSdk.Release>['$select'];
+		] as const;
 
 		const balena = getBalenaSdk();
 		const { getFleetSlug } = await import('../../utils/sdk');

@@ -135,8 +135,6 @@ export const createRelease = async function (
 	const releaseMod =
 		require('@balena/compose/dist/release') as typeof import('@balena/compose/dist/release');
 
-	// @ts-expect-error - Once we start using the pinejs-client-core@^6.15.0 types in the SDK's
-	// pine instance, this ts-expect-error should no longer be needed.
 	const pinejsClient: import('@balena/compose').release.Request['client'] =
 		sdk.pine.clone(
 			{
@@ -233,7 +231,7 @@ export const getPreviousRepos = (
 	appID: number,
 ): Promise<string[]> =>
 	sdk.pine
-		.get<SDK.Release>({
+		.get({
 			resource: 'release',
 			options: {
 				$select: 'id',
@@ -243,20 +241,18 @@ export const getPreviousRepos = (
 				},
 				$expand: {
 					release_image: {
-						$select: 'image',
+						$select: 'id',
 						$expand: { image: { $select: 'is_stored_at__image_location' } },
 					},
 				},
-				$orderby: 'id desc',
+				$orderby: { id: 'desc' },
 				$top: 1,
 			},
 		})
 		.then(function (release) {
 			// grab all images from the latest release, return all image locations in the registry
 			if (release.length > 0) {
-				const images = release[0].release_image as Array<{
-					image: [SDK.Image];
-				}>;
+				const images = release[0].release_image;
 				const { getRegistryAndName } =
 					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
 				return Promise.all(

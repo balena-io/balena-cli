@@ -26,7 +26,7 @@ export const serviceIdToName = _.memoize(
 		sdk: SDK.BalenaSDK,
 		serviceId: number,
 	): Promise<string | undefined> => {
-		const serviceName = await sdk.pine.get<SDK.Service>({
+		const serviceName = await sdk.pine.get({
 			resource: 'service',
 			id: serviceId,
 			options: {
@@ -43,6 +43,14 @@ export const serviceIdToName = _.memoize(
 	(_sdk, id) => id.toString(),
 );
 
+const deviceOptions = {
+	$select: ['id', 'uuid'],
+	$expand: { belongs_to__application: { $select: ['slug'] } },
+} as const;
+
+type DeviceWithOptions = NonNullable<
+	SDK.Pine.OptionsToResponse<SDK.Device['Read'], typeof deviceOptions, string>
+>;
 /**
  * Return Device and Application objects for the given device UUID (short UUID
  * or full UUID). An error is thrown if the application is not accessible, e.g.
@@ -53,22 +61,18 @@ export const getDeviceAndAppFromUUID = _.memoize(
 	async (
 		sdk: SDK.BalenaSDK,
 		deviceUUID: string,
-		selectDeviceFields?: Array<keyof SDK.Device>,
-		selectAppFields?: Array<keyof SDK.Application>,
-	): Promise<[SDK.Device, SDK.Application]> => {
-		const [device, app] = await getDeviceAndMaybeAppFromUUID(
-			sdk,
-			deviceUUID,
-			selectDeviceFields,
-			selectAppFields,
-		);
+	): Promise<
+		[DeviceWithOptions, DeviceWithOptions['belongs_to__application'][number]]
+	> => {
+		const [device, app] = await getDeviceAndMaybeAppFromUUID(sdk, deviceUUID);
 		if (app == null) {
 			throw new ExpectedError(stripIndent`
 				Unable to access the fleet that device ${deviceUUID} belongs to.
 				Hint: check whether the fleet owner withdrew access to it.
 			`);
 		}
-		return [device, app];
+
+		return [device, app] as const;
 	},
 	// Memoize the call based on UUID
 	(_sdk, deviceUUID) => deviceUUID,
@@ -85,23 +89,16 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	async (
 		sdk: SDK.BalenaSDK,
 		deviceUUID: string,
-		selectDeviceFields?: Array<keyof SDK.Device>,
-		selectAppFields?: Array<keyof SDK.Application>,
-	): Promise<[SDK.Device, SDK.Application | undefined]> => {
-		const pineOpts = {
-			$expand: selectAppFields
-				? { belongs_to__application: { $select: selectAppFields } }
-				: 'belongs_to__application',
-		} as SDK.PineOptions<SDK.Device>;
-		if (selectDeviceFields) {
-			pineOpts.$select = selectDeviceFields as any;
-		}
-		const device = await sdk.models.device.get(deviceUUID, pineOpts);
-		const apps = device.belongs_to__application as SDK.Application[];
+	): Promise<
+		| [DeviceWithOptions, DeviceWithOptions['belongs_to__application'][number]]
+		| [DeviceWithOptions, undefined]
+	> => {
+		const device = await sdk.models.device.get(deviceUUID, deviceOptions);
+		const apps = device.belongs_to__application;
 		if (_.isEmpty(apps) || _.isEmpty(apps[0])) {
-			return [device, undefined];
+			return [device, undefined] as const;
 		}
-		return [device, apps[0]];
+		return [device, apps[0]] as const;
 	},
 	// Memoize the call based on UUID
 	(_sdk, deviceUUID) => deviceUUID,

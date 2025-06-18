@@ -22,6 +22,7 @@ import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
+import type { PickExpanded } from '@balena/abstract-sql-to-typescript';
 
 type FlagsDef = Interfaces.InferredFlags<typeof EnvListCmd.flags>;
 
@@ -31,15 +32,20 @@ interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
 	serviceName?: string; // service name
 }
 
+type DeviceServiceEnvironmentVariable = PickExpanded<
+	SDK.DeviceServiceEnvironmentVariable['Read']
+>;
 interface DeviceServiceEnvironmentVariableInfo
-	extends SDK.DeviceServiceEnvironmentVariable {
+	extends DeviceServiceEnvironmentVariable {
 	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
 
-interface ServiceEnvironmentVariableInfo
-	extends SDK.ServiceEnvironmentVariable {
+type ServiceEnvironmentVariable = PickExpanded<
+	SDK.ServiceEnvironmentVariable['Read']
+>;
+interface ServiceEnvironmentVariableInfo extends ServiceEnvironmentVariable {
 	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
@@ -138,9 +144,8 @@ export default class EnvListCmd extends Command {
 			const [device, app] = await getDeviceAndMaybeAppFromUUID(
 				balena,
 				options.device,
-				['uuid'],
-				['slug'],
 			);
+
 			fullUUID = device.uuid;
 			if (app) {
 				fleetSlug = app.slug;
@@ -240,7 +245,9 @@ async function getAppVars(
 	fillInInfoFields(vars, fleetSlug);
 	appVars.push(...vars);
 	if (!options.config) {
-		const pineOpts: SDK.PineOptions<SDK.ServiceEnvironmentVariable> = {
+		const pineOpts: SDK.Pine.ODataOptionsWithoutCount<
+			SDK.ServiceEnvironmentVariable['Read']
+		> = {
 			$expand: {
 				service: {},
 			},
@@ -248,7 +255,14 @@ async function getAppVars(
 		if (options.service) {
 			pineOpts.$filter = {
 				service: {
-					service_name: options.service,
+					$any: {
+						$alias: 's',
+						$expr: {
+							s: {
+								service_name: options.service,
+							},
+						},
+					},
 				},
 			};
 		}
@@ -280,20 +294,38 @@ async function getDeviceVars(
 		fillInInfoFields(deviceConfigVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceConfigVars);
 	} else {
-		const pineOpts: SDK.PineOptions<SDK.DeviceServiceEnvironmentVariable> = {
+		const pineOpts: SDK.Pine.ODataOptionsWithoutCount<
+			SDK.DeviceServiceEnvironmentVariable['Read']
+		> = {
 			$expand: {
 				service_install: {
 					$expand: 'installs__service',
 				},
 			},
 		};
+
 		if (options.service) {
 			pineOpts.$filter = {
 				service_install: {
-					installs__service: { service_name: options.service },
+					$any: {
+						$alias: 'si',
+						$expr: {
+							si: {
+								installs__service: {
+									$any: {
+										$alias: 's',
+										$expr: {
+											s: { service_name: options.service },
+										},
+									},
+								},
+							},
+						},
+					},
 				},
 			};
 		}
+
 		const deviceServiceVars = await sdk.models.device.serviceVar.getAllByDevice(
 			fullUUID,
 			pineOpts,
@@ -325,12 +357,13 @@ function fillInInfoFields(
 	for (const envVar of varArray) {
 		if ('service' in envVar) {
 			// envVar is of type ServiceEnvironmentVariableInfo
-			envVar.serviceName = (envVar.service as SDK.Service[])[0]?.service_name;
+			envVar.serviceName = envVar.service[0].service_name;
 		} else if ('service_install' in envVar) {
 			// envVar is of type DeviceServiceEnvironmentVariableInfo
 			envVar.serviceName = (
-				(envVar.service_install as SDK.ServiceInstall[])[0]
-					?.installs__service as SDK.Service[]
+				envVar.service_install[0].installs__service as Array<
+					SDK.Service['Read']
+				>
 			)[0]?.service_name;
 		}
 		envVar.fleet = fleetSlug;

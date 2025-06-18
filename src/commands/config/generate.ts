@@ -24,7 +24,14 @@ import {
 	devModeInfo,
 	secureBootInfo,
 } from '../../utils/messages';
-import type { BalenaSDK, PineDeferred } from 'balena-sdk';
+import type { Application, BalenaSDK, Pine, PineDeferred } from 'balena-sdk';
+
+const getApplicationOptions = {
+	$select: 'slug',
+	$expand: {
+		is_for__device_type: { $select: 'slug' },
+	},
+} as const;
 
 export default class ConfigGenerateCmd extends Command {
 	public static description = stripIndent`
@@ -121,14 +128,20 @@ export default class ConfigGenerateCmd extends Command {
 
 	public static authenticated = true;
 
-	public async getApplication(balena: BalenaSDK, fleet: string) {
+	public async getApplication(
+		balena: BalenaSDK,
+		fleet: string,
+	): Promise<
+		NonNullable<
+			Pine.OptionsToResponse<
+				Application['Read'],
+				typeof getApplicationOptions,
+				string
+			>
+		>
+	> {
 		const { getApplication } = await import('../../utils/sdk');
-		return await getApplication(balena, fleet, {
-			$select: 'slug',
-			$expand: {
-				is_for__device_type: { $select: 'slug' },
-			},
-		});
+		return await getApplication(balena, fleet, getApplicationOptions);
 	}
 
 	public async run() {

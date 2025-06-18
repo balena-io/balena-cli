@@ -17,11 +17,7 @@
 
 import { Flags, Args, Command } from '@oclif/core';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
-import type {
-	BalenaSDK,
-	DeviceWithServiceDetails,
-	CurrentServiceWithCommit,
-} from 'balena-sdk';
+import type { BalenaSDK } from 'balena-sdk';
 
 export default class DeviceRestartCmd extends Command {
 	public static description = stripIndent`
@@ -93,7 +89,7 @@ export default class DeviceRestartCmd extends Command {
 		const { getExpandedProp } = await import('../../utils/pine');
 
 		// Get device
-		let device: DeviceWithServiceDetails<CurrentServiceWithCommit>;
+		let device;
 		try {
 			device = await balena.models.device.getWithServiceDetails(deviceUuid, {
 				$expand: {
@@ -108,7 +104,6 @@ export default class DeviceRestartCmd extends Command {
 				throw e;
 			}
 		}
-
 		const activeRelease = getExpandedProp(device.is_running__release, 'commit');
 
 		// Check specified services exist on this device before restarting anything

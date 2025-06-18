@@ -99,6 +99,7 @@
     }
   },
   "devDependencies": {
+    "@balena/abstract-sql-to-typescript": "^5.1.5",
     "@balena/lint": "^9.1.3",
     "@electron/notarize": "^2.0.0",
     "@types/bluebird": "^3.5.36",
@@ -170,7 +171,7 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "@balena/compose": "^7.0.9",
+    "@balena/compose": "^7.0.10",
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
@@ -180,8 +181,8 @@
     "balena-device-init": "^8.1.11",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
-    "balena-preload": "^18.0.4",
-    "balena-sdk": "^21.3.0",
+    "balena-preload": "^18.0.5",
+    "balena-sdk": "^22.0.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",
@@ -252,7 +253,8 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    }
+    },
+    "balena-request": "14.0.6"
   },
   "versionist": {
     "publishedAt": "2025-08-06T15:57:57.246Z"

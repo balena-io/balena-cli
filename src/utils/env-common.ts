@@ -80,7 +80,7 @@ export function getVarResourceName(
 	isConfig: boolean,
 	isDevice: boolean,
 	isService: boolean,
-): string {
+) {
 	return isDevice
 		? isConfig
 			? 'device_config_variable'

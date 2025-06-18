@@ -14,13 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import type { OptionalNavigationResource } from 'balena-sdk';
+import type { Pine, OptionalNavigationResource } from 'balena-sdk';
 
-export const getExpanded = <T extends object>(
-	obj: OptionalNavigationResource<T>,
-) => (Array.isArray(obj) && obj[0]) || undefined;
-
-export const getExpandedProp = <T extends object, K extends keyof T>(
-	obj: OptionalNavigationResource<T>,
+export const getExpandedProp = <
+	T extends Pine.Resource['Read'],
+	K extends keyof T,
+>(
+	obj: OptionalNavigationResource<T> | T[],
 	key: K,
-) => (Array.isArray(obj) && obj[0] && obj[0][key]) || undefined;
+) => (Array.isArray(obj) && obj[0]?.[key]) || undefined;

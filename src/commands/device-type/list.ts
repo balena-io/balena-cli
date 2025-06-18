@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Flags, Command } from '@oclif/core';
-import type * as BalenaSdk from 'balena-sdk';
 import * as _ from 'lodash';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
@@ -66,14 +65,11 @@ export default class DeviceTypeListCmd extends Command {
 					$orderby: { is_referenced_by__alias: 'asc' },
 				},
 			},
-		} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
-		const dts = (
-			options.all
-				? await getBalenaSdk().models.deviceType.getAll(pineOptions)
-				: await getBalenaSdk().models.deviceType.getAllSupported(pineOptions)
-		) as Array<
-			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
-		>;
+		} as const;
+		const dts = options.all
+			? await getBalenaSdk().models.deviceType.getAll(pineOptions)
+			: await getBalenaSdk().models.deviceType.getAllSupported(pineOptions);
+
 		interface DT {
 			slug: string;
 			aliases: string[];
