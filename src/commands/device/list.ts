@@ -21,8 +21,6 @@ import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo, jsonInfo } from '../../utils/messages';
 
-import type { Device, PineOptions } from 'balena-sdk';
-
 const devicesSelectFields = {
 	$select: [
 		'id',
@@ -33,7 +31,7 @@ const devicesSelectFields = {
 		'supervisor_version',
 		'os_version',
 	],
-} satisfies PineOptions<Device>;
+} as const;
 
 export default class DeviceListCmd extends Command {
 	public static aliases = ['devices'];
@@ -73,7 +71,7 @@ export default class DeviceListCmd extends Command {
 			...devicesSelectFields,
 			...expandForAppName,
 			$orderby: { device_name: 'asc' },
-		} satisfies PineOptions<Device>;
+		} as const;
 
 		const devices = (
 			await (async () => {

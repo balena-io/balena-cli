@@ -356,7 +356,7 @@ async function getOsVersionFromImage(
 async function checkDeviceTypeCompatibility(
 	options: FlagsDef,
 	app: {
-		is_for__device_type: [Pick<BalenaSdk.DeviceType, 'slug'>];
+		is_for__device_type: Array<Pick<BalenaSdk.DeviceType['Read'], 'slug'>>;
 	},
 ) {
 	if (options['device-type']) {
