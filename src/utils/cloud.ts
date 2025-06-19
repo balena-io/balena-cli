@@ -26,7 +26,7 @@ export const serviceIdToName = _.memoize(
 		sdk: SDK.BalenaSDK,
 		serviceId: number,
 	): Promise<string | undefined> => {
-		const serviceName = await sdk.pine.get<SDK.Service>({
+		const serviceName = await sdk.pine.get({
 			resource: 'service',
 			id: serviceId,
 			options: {
@@ -53,9 +53,9 @@ export const getDeviceAndAppFromUUID = _.memoize(
 	async (
 		sdk: SDK.BalenaSDK,
 		deviceUUID: string,
-		selectDeviceFields?: Array<keyof SDK.Device>,
-		selectAppFields?: Array<keyof SDK.Application>,
-	): Promise<[SDK.Device, SDK.Application]> => {
+		selectDeviceFields?: Array<keyof SDK.Device['Read']>,
+		selectAppFields?: Array<keyof SDK.Application['Read']>,
+	): Promise<[SDK.Device['Read'], SDK.Application['Read']]> => {
 		const [device, app] = await getDeviceAndMaybeAppFromUUID(
 			sdk,
 			deviceUUID,
@@ -85,19 +85,21 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	async (
 		sdk: SDK.BalenaSDK,
 		deviceUUID: string,
-		selectDeviceFields?: Array<keyof SDK.Device>,
-		selectAppFields?: Array<keyof SDK.Application>,
-	): Promise<[SDK.Device, SDK.Application | undefined]> => {
+		selectDeviceFields?: Array<keyof SDK.Device['Read']>,
+		selectAppFields?: Array<keyof SDK.Application['Read']>,
+	): Promise<[SDK.Device['Read'], SDK.Application['Read'] | undefined]> => {
 		const pineOpts = {
 			$expand: selectAppFields
 				? { belongs_to__application: { $select: selectAppFields } }
 				: 'belongs_to__application',
-		} as SDK.PineOptions<SDK.Device>;
+		} as SDK.Pine.ODataOptionsWithoutCount<SDK.Device['Read']>;
 		if (selectDeviceFields) {
 			pineOpts.$select = selectDeviceFields as any;
 		}
 		const device = await sdk.models.device.get(deviceUUID, pineOpts);
-		const apps = device.belongs_to__application as SDK.Application[];
+		const apps = device.belongs_to__application as Array<
+			SDK.Application['Read']
+		>;
 		if (_.isEmpty(apps) || _.isEmpty(apps[0])) {
 			return [device, undefined];
 		}

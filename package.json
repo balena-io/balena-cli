@@ -174,7 +174,7 @@
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
     "balena-preload": "^18.0.4",
-    "balena-sdk": "^21.3.0",
+    "balena-sdk": "22.0.0-build-bump-pinejs-client-core-v2-49804ae555361fbb1685b6a6a727892b801f0bcc-3",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",
@@ -245,7 +245,8 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    }
+    },
+    "balena-request": "14.0.6"
   },
   "versionist": {
     "publishedAt": "2025-06-19T09:32:53.877Z"
