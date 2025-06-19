@@ -1322,6 +1322,9 @@ async function pushAndUpdateServiceImages(
 	}
 }
 
+// Error messages are limited to 300KB characters in the API, so we truncate longer ones.
+const MAX_ERROR_MESSAGE_LENGTH = 300_000;
+
 async function pushServiceImages(
 	docker: Dockerode,
 	logger: Logger,
@@ -1344,23 +1347,34 @@ async function pushServiceImages(
 				delete serviceImage.build_log;
 			}
 
-			await releaseMod.updateImage(
-				pineClient,
-				serviceImage.id,
-				// These are the only update-able image fields in bC atm, and passing
-				// the whole image object in v7+ would result the allowlist to reject the request.
-				_.pick(serviceImage, [
-					'end_timestamp',
-					'project_type',
-					'error_message',
-					'build_log',
-					'push_timestamp',
-					'status',
-					'content_hash',
-					'dockerfile',
-					'image_size',
-				]),
-			);
+			// These are the only update-able image fields in bC atm, and passing
+			// the whole image object in v7+ would result the allowlist to reject the request.
+			const imagePayload = _.pick(serviceImage, [
+				'end_timestamp',
+				'project_type',
+				'error_message',
+				'build_log',
+				'push_timestamp',
+				'status',
+				'content_hash',
+				'dockerfile',
+				'image_size',
+			]);
+
+			if (
+				typeof imagePayload.error_message === 'string' &&
+				imagePayload.error_message.length > MAX_ERROR_MESSAGE_LENGTH
+			) {
+				logger.logDebug(
+					`Truncating error message of image ${serviceImage.is_stored_at__image_location} to ${MAX_ERROR_MESSAGE_LENGTH} characters.`,
+				);
+				imagePayload.error_message = imagePayload.error_message.substring(
+					0,
+					MAX_ERROR_MESSAGE_LENGTH,
+				);
+			}
+
+			await releaseMod.updateImage(pineClient, serviceImage.id, imagePayload);
 		},
 	);
 }
