@@ -1,4 +1,19 @@
 - commits:
+    - subject: "Deploy: Limit the submitted error_message of images that fail to build
+        to 1000 characters"
+      hash: bddad252f7cb412a3d417be1d7bd7e4ed9726b8e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/re-pitching-API-Limit-size-of-large-fields-975
+        see: https://balena.fibery.io/Work/Project/re-pitching-API-Limit-size-of-large-fields-975
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.1.1
+  title: ""
+  date: 2025-06-19T09:32:52.976Z
+- commits:
     - subject: Add support for node 22
       hash: f80b8e63b1e5b22dd95b034fe14da0a7e3ab4986
       body: ""
