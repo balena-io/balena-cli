@@ -67,7 +67,7 @@ export default class APIKeyListCmd extends Command {
 							}
 						: {}),
 				},
-				$orderby: 'name asc',
+				$orderby: { name: 'asc' },
 			},
 		});
 		const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];

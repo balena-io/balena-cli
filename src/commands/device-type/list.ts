@@ -66,13 +66,15 @@ export default class DeviceTypeListCmd extends Command {
 					$orderby: { is_referenced_by__alias: 'asc' },
 				},
 			},
-		} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
+		} as const;
 		const dts = (
 			options.all
 				? await getBalenaSdk().models.deviceType.getAll(pineOptions)
 				: await getBalenaSdk().models.deviceType.getAllSupported(pineOptions)
-		) as Array<
-			BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
+		) as BalenaSdk.Pine.OptionsToResponse<
+			BalenaSdk.DeviceType['Read'],
+			typeof pineOptions,
+			undefined
 		>;
 		interface DT {
 			slug: string;
