@@ -83,7 +83,7 @@ export default class DeviceOsUpdateCmd extends Command {
 		const currentOsVersion = sdk.models.device.getOsVersion({
 			os_version,
 			os_variant,
-		} as Device);
+		} as Device['Read']);
 		if (!currentOsVersion) {
 			throw new ExpectedError(
 				'The current os version of the device is not available',

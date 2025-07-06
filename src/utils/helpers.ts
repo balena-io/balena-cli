@@ -156,18 +156,24 @@ export const areDeviceTypesCompatible = async (
 	}
 	const sdk = getBalenaSdk();
 	const pineOptions = {
-		$select: 'is_of__cpu_architecture',
+		$select: 'id',
 		$expand: {
 			is_of__cpu_architecture: {
 				$select: 'slug',
 			},
 		},
-	} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
+	} as const;
 	const [appDeviceType, osDeviceType] = await Promise.all(
 		[appDeviceTypeSlug, osDeviceTypeSlug].map(
 			(dtSlug) =>
 				sdk.models.deviceType.get(dtSlug, pineOptions) as Promise<
-					BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
+					NonNullable<
+						BalenaSdk.Pine.OptionsToResponse<
+							BalenaSdk.DeviceType['Read'],
+							typeof pineOptions,
+							typeof dtSlug
+						>
+					>
 				>,
 		),
 	);
@@ -409,7 +415,7 @@ export const expandForAppName = {
 		is_of__device_type: { $select: 'slug' },
 		is_running__release: { $select: 'commit' },
 	},
-} satisfies BalenaSdk.PineOptions<BalenaSdk.Device>;
+} as const;
 
 /**
  * Use the `readline` library on Windows to install SIGINT handlers.

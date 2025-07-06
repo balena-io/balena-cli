@@ -173,8 +173,8 @@
     "balena-device-init": "^8.1.11",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
-    "balena-preload": "^18.0.4",
-    "balena-sdk": "^21.3.0",
+    "balena-preload": "18.0.5-build-bump-balena-sdk-c8f94c791bddebf664f3da2e985af705f50b658a-1",
+    "balena-sdk": "22.0.0-build-bump-pinejs-client-core-v2-abe2ef714675acd6f267387533d198cfee63ca70-4",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",
@@ -245,6 +245,10 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
+    },
+    "balena-request": "14.0.6",
+    "balena-preload": {
+      "balena-sdk": "22.0.0-build-bump-pinejs-client-core-v2-abe2ef714675acd6f267387533d198cfee63ca70-4"
     }
   },
   "versionist": {

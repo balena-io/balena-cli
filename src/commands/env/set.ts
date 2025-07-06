@@ -228,12 +228,7 @@ async function setServiceVars(
 			let device;
 			let app;
 			try {
-				[device, app] = await getDeviceAndAppFromUUID(
-					sdk,
-					uuid,
-					['id'],
-					['slug'],
-				);
+				[device, app] = await getDeviceAndAppFromUUID(sdk, uuid);
 			} catch (err) {
 				console.error(`${err.message}, device: ${uuid}`);
 				process.exitCode = 1;
