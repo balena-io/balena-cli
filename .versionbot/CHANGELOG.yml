@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update build pipeline to use windows-2022 runner
+      hash: 8617b1af379a90cd54fc35ac4e44bafd7663cf56
+      body: >
+        Windows Server 2019 has been retired. The Windows Server 2019 image has
+        been removed as of 2025-06-30.
+
+        See: https://github.com/actions/runner-images/issues/12045
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.1.2
+  title: ""
+  date: 2025-07-14T20:44:14.751Z
+- commits:
     - subject: "Deploy: Limit the submitted error_message of images that fail to build
         to 1000 characters"
       hash: bddad252f7cb412a3d417be1d7bd7e4ed9726b8e
