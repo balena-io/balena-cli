@@ -115,8 +115,15 @@ runs:
             smctl.exe windows certsync
             /c/Windows/System32/certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
 
-            # (signtool.exe) https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md#installed-windows-sdks
-            PATH="/c/Program Files (x86)/Windows Kits/10/bin/${runner_arch}:${PATH}"
+            # (signtool.exe)
+            latest_sdk_path="$(ls -d "/c/Program Files (x86)/Windows Kits/10/bin/10."* 2>/dev/null | grep -E '10\.[0-9]+\.[0-9]+' | sort -Vr | head -n1)/x64"
+
+            if [[ -x "$latest_sdk_path/signtool.exe" ]]; then
+                export PATH="$latest_sdk_path:$PATH"
+            else
+                echo "Error: signtool.exe not found in SDK path: $latest_sdk_path" >&2
+                exit 1
+            fi
         fi
 
         npm run package
