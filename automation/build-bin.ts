@@ -35,6 +35,14 @@ export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
 const arch = process.arch;
 
+const getSHA = async () => {
+	if (process.env.REF_SHA) {
+		return process.env.REF_SHA.trim().slice(0, 7);
+	}
+	const { stdout } = await execAsync('git rev-parse --short=7 HEAD');
+	return stdout.trim();
+};
+
 function dPath(...paths: string[]) {
 	return path.join(ROOT, 'dist', ...paths);
 }
@@ -42,10 +50,8 @@ function dPath(...paths: string[]) {
 interface PathByPlatform {
 	[platform: string]: string;
 }
-
 const getOclifInstallersOriginalNames = async (): Promise<PathByPlatform> => {
-	const { stdout } = await execAsync('git rev-parse --short HEAD');
-	const sha = stdout.trim();
+	const sha = await getSHA();
 	return {
 		darwin: dPath('macos', `balena-${version}-${sha}-${arch}.pkg`),
 		win32: dPath('win32', `balena-${version}-${sha}-${arch}.exe`),
@@ -58,8 +64,7 @@ const renamedOclifInstallers: PathByPlatform = {
 };
 
 const getOclifStandaloneOriginalNames = async (): Promise<PathByPlatform> => {
-	const { stdout } = await execAsync('git rev-parse --short HEAD');
-	const sha = stdout.trim();
+	const sha = await getSHA();
 	return {
 		linux: dPath(`balena-${version}-${sha}-linux-${arch}.tar.gz`),
 		darwin: dPath(`balena-${version}-${sha}-darwin-${arch}.tar.gz`),
@@ -166,13 +171,24 @@ export async function signFilesForNotarization() {
 	]);
 }
 
+export async function runOclifCommand(cmd: string, opts: string[]) {
+	const oclifPath = path.join(ROOT, 'node_modules', 'oclif');
+	console.log('=======================================================');
+	console.log(`oclif ${cmd} ${opts.join(' ')}`);
+	console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
+	console.log('=======================================================');
+	await oclifRun([cmd].concat(...opts), oclifPath);
+}
+
 export async function buildStandalone() {
 	console.log(`Building standalone tarball for CLI ${version}`);
 	fs.rmSync('./tmp', { recursive: true, force: true });
 	fs.rmSync('./dist', { recursive: true, force: true });
 	fs.mkdirSync('./dist');
+
+	const sha = await getSHA();
 	try {
-		let packOpts = ['-r', ROOT, '--no-xz'];
+		let packOpts = ['-r', ROOT, '--sha', sha, '--no-xz'];
 		if (process.platform === 'darwin') {
 			packOpts = packOpts.concat('--targets', `darwin-${arch}`);
 		} else if (process.platform === 'win32') {
@@ -181,14 +197,19 @@ export async function buildStandalone() {
 			packOpts = packOpts.concat('--targets', `linux-${arch}`);
 		}
 
-		console.log(`Building oclif installer for CLI ${version}`);
-		const packCmd = `pack:tarballs`;
-		console.log('=======================================================');
-		console.log(`oclif ${packCmd} ${packOpts.join(' ')}`);
-		console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
-		console.log('=======================================================');
-		const oclifPath = path.join(ROOT, 'node_modules', 'oclif');
-		await oclifRun([packCmd].concat(...packOpts), oclifPath);
+		console.log(`Building tarballs ${version}`);
+		// oclif pack:tarballs -r <ROOT> --no-xz --targets <platform>
+		await runOclifCommand('pack:tarballs', packOpts);
+
+		if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+			console.log(`Uploading to S3 Bucket ${version}`);
+			// oclif upload:tarballs -r <ROOT> --no-xz --targets <platform>
+			await runOclifCommand('upload:tarballs', packOpts);
+			console.log(`Done promoting ${version}`);
+		} else {
+			console.warn('Skipping upload to S3 Bucket and promotion');
+		}
+
 		await renameStandalone();
 
 		console.log(`Standalone tarball package build completed`);
@@ -273,6 +294,16 @@ async function notarizeMacInstaller(): Promise<void> {
 	}
 }
 
+async function uploadInstaller(cmd: string, packOpts: string[]) {
+	if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+		console.log(`Uploading ${cmd} installer to S3 Bucket ${version}`);
+		// oclif upload:{cmd} -r <ROOT> --no-xz --targets <platform>
+		await runOclifCommand(`upload:${cmd}`, packOpts);
+	} else {
+		console.warn('Skipping upload to S3 Bucket');
+	}
+}
+
 /**
  * Run the `oclif pack:win` or `pack:macos` command (depending on the value
  * of process.platform) to generate the native installers (which end up under
@@ -280,8 +311,9 @@ async function notarizeMacInstaller(): Promise<void> {
  * 64-bit binaries under Windows.
  */
 export async function buildOclifInstaller() {
+	const sha = await getSHA();
 	let packOS = '';
-	let packOpts = ['-r', ROOT];
+	let packOpts = ['-r', ROOT, '--sha', sha];
 	if (process.platform === 'darwin') {
 		packOS = 'macos';
 		packOpts = packOpts.concat('--targets', `darwin-${arch}`);
@@ -300,23 +332,49 @@ export async function buildOclifInstaller() {
 			console.log(`rimraf(${dir})`);
 			await rimrafAsync(dir);
 		}
-		console.log('=======================================================');
-		console.log(`oclif ${packCmd} ${packOpts.join(' ')}`);
-		console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
-		console.log('=======================================================');
-		const oclifPath = path.join(ROOT, 'node_modules', 'oclif');
-		await oclifRun([packCmd].concat(...packOpts), oclifPath);
+
+		// oclif pack:{os} -r <ROOT> --no-xz --targets <platform>
+		await runOclifCommand(packCmd, packOpts);
+
 		// The Windows installer is explicitly signed here (oclif doesn't do it).
 		// The macOS installer is automatically signed by oclif (which runs the
 		// `pkgbuild` tool), using the certificate name given in package.json
 		// (`oclif.macos.sign` section).
 		if (process.platform === 'win32') {
 			await signWindowsInstaller();
+			await uploadInstaller('win', packOpts);
 		} else if (process.platform === 'darwin') {
 			console.log('Notarizing package...');
 			await notarizeMacInstaller(); // Notarize
 			console.log('Package notarized.');
+			await uploadInstaller('macos', packOpts);
 		}
+
+		if (
+			process.env.AWS_ACCESS_KEY_ID &&
+			process.env.AWS_SECRET_ACCESS_KEY &&
+			process.env.REF_NAME
+		) {
+			console.log(`Promoting version ${version}`);
+			const sha = await getSHA();
+
+			const opts = [
+				'--channel',
+				process.env.REF_NAME,
+				'-r',
+				ROOT,
+				'--sha',
+				sha,
+				'--version',
+				packageJSON.version,
+				'--macos',
+				'--win',
+				'--ignore-missing',
+				'--indexes',
+			];
+			await runOclifCommand('promote', opts);
+		}
+
 		await renameInstallers();
 		console.log(`oclif installer build completed`);
 	}
