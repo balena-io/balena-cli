@@ -21,6 +21,9 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationNameNote } from '../../utils/messages';
 import type * as BalenaSdk from 'balena-sdk';
 import { jsonInfo } from '../../utils/messages';
+import * as JSONStream from 'JSONStream';
+import { Readable, Writable } from 'stream';
+import { pipeline } from 'stream/promises';
 
 export default class ReleaseListCmd extends Command {
 	public static aliases = ['releases'];
@@ -82,7 +85,15 @@ export default class ReleaseListCmd extends Command {
 		);
 
 		if (options.json) {
-			console.log(JSON.stringify(releases, null, 4));
+			await pipeline(
+				Readable.from(releases),
+				JSONStream.stringify('[', ',', ']\n'),
+				new Writable({
+					write(chunk, encoding, callback) {
+						process.stdout.write(chunk, encoding, callback);
+					},
+				}),
+			);
 		} else {
 			const _ = await import('lodash');
 			console.log(

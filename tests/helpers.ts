@@ -110,6 +110,8 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 	const stdoutHook = (log: string | Buffer) => {
 		if (typeof log === 'string') {
 			out.push(log);
+		} else {
+			out.push(log.toString());
 		}
 	};
 	const stderrHook = (log: string | Buffer) => {
