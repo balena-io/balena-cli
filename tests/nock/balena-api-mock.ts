@@ -61,12 +61,15 @@ export class BalenaAPIMock extends NockMock {
 	}
 
 	public expectDownloadConfig(opts: ScopeOpts = {}) {
-		this.optPost('/download-config', opts).reply(200, (_uri, body) => {
-			let deviceType = 'raspberrypi3';
-			if (typeof body === 'object' && 'deviceType' in body) {
-				deviceType = body.deviceType;
-			}
-			return JSON.parse(`{
+		this.optPost('/download-config', opts).reply(
+			200,
+			async (request: Request) => {
+				const body = await request.json();
+				let deviceType = 'raspberrypi3';
+				if (typeof body === 'object' && 'deviceType' in body) {
+					deviceType = body.deviceType;
+				}
+				return JSON.parse(`{
 					"applicationId":1301645,
 					"deviceType":"${deviceType}",
 					"userId":43699,
@@ -79,7 +82,8 @@ export class BalenaAPIMock extends NockMock {
 					"deltaEndpoint":"https://delta.balena-cloud.com",
 					"apiKey":"nothingtoseehere"
 				}`);
-		});
+			},
+		);
 	}
 
 	public expectApplicationProvisioning(opts: ScopeOpts = {}) {
@@ -284,8 +288,8 @@ export class BalenaAPIMock extends NockMock {
 
 	public expectGetAppServiceVars(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v\d+\/service_environment_variable($|\?)/, opts).reply(
-			function (uri, _requestBody) {
-				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
+			function (request) {
+				const match = request.url.match(/service_name%20eq%20%27(.+?)%27/);
 				const serviceName = match?.[1] || undefined;
 				let varArray: any[];
 				if (serviceName) {
@@ -332,8 +336,8 @@ export class BalenaAPIMock extends NockMock {
 		this.optGet(
 			/^\/v\d+\/device_service_environment_variable($|\?)/,
 			opts,
-		).reply(function (uri, _requestBody) {
-			const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
+		).reply(function (request) {
+			const match = request.url.match(/service_name%20eq%20%27(.+?)%27/);
 			const serviceName = match?.[1] || undefined;
 			let varArray: any[];
 			if (serviceName) {
