@@ -108,7 +108,7 @@ describe('Utils:', async function () {
 			});
 		});
 
-		return describe('given the token does authenticate with the server', function () {
+		describe('given the token does authenticate with the server', function () {
 			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
 				return this.balenaAuthIsLoggedInStub.resolves(true);
@@ -118,7 +118,7 @@ describe('Utils:', async function () {
 				return this.balenaAuthIsLoggedInStub.restore();
 			});
 
-			return it('should eventually be true', function () {
+			it('should eventually be true', function () {
 				const promise = utils.loginIfTokenValid(tokens.johndoe.token);
 				return expect(promise).to.eventually.be.true;
 			});
