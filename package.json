@@ -76,6 +76,13 @@
   },
   "oclif": {
     "bin": "balena",
+    "update": {
+      "s3": {
+        "host": "https://balena-cli.s3.us-east-1.amazonaws.com",
+        "bucket": "balena-cli",
+        "acl": "bucket-owner-full-control"
+      }
+    },
     "commands": "./build/commands",
     "helpClass": "./build/help",
     "topicSeparator": " ",
