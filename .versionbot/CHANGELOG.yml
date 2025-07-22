@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update oclif & @oclif/core deps and patches
+      hash: 40d233db3bd28854ee0c688ff9e956abc2f9e293
+      body: |
+        See: https://github.com/oclif/oclif/pull/1813
+        See: https://github.com/oclif/oclif/pull/1815
+        See: https://balena.fibery.io/Work/Project/CLI-Add-support-for-balena-update-1593
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.1.4
+  title: ""
+  date: 2025-07-22T18:04:19.304Z
+- commits:
     - subject: Stream json output on release list to avoid nodejs max string limit size
       hash: 6fda0fac6084818c20c15f1a5bbfd698e31a8b8d
       body: ""
