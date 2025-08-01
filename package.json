@@ -2,6 +2,7 @@
   "name": "balena-cli",
   "version": "22.1.4",
   "description": "The official balena Command Line Interface",
+  "type": "commonjs",
   "main": "./build/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
   "repository": {
