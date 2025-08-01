@@ -1,4 +1,22 @@
 - commits:
+    - subject: "tests: Fix @balena/compose deep import in node 22.18.0"
+      hash: 9d955745607248ec6fa1fd2b0757de7f0529f030
+      body: |
+        Fixes an import error in the "should use the
+        same values for selected constants" test case,
+        where in node 22.18.0, started failing with:
+        Error: Directory import '/home/runner/work/balena-cli/balena-cli/node_modules/@balena/compose/dist/multibuild' is not supported resolving ES modules imported from /home/runner/work/balena-cli/balena-cli/tests/utils/qemu.spec.ts
+        Did you mean to import
+        "@balena/compose/dist/multibuild/index.js"?
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.1.5
+  title: ""
+  date: 2025-08-01T14:09:03.196Z
+- commits:
     - subject: Update oclif & @oclif/core deps and patches
       hash: 40d233db3bd28854ee0c688ff9e956abc2f9e293
       body: |
