@@ -1,4 +1,16 @@
 - commits:
+    - subject: Upload built assets to s3 as standard oclif packages
+      hash: 9cbbba4e6148f2de3bab64239fa6db7a4e4d4bd0
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otavio Jacobi
+      nested: []
+  version: 22.2.0
+  title: ""
+  date: 2025-08-05T21:07:46.856Z
+- commits:
     - subject: "tests: Fix @balena/compose deep import in node 22.18.0"
       hash: 9d955745607248ec6fa1fd2b0757de7f0529f030
       body: |
