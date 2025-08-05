@@ -1,5 +1,5 @@
 ---
-name: test release
+name: finalize release
 # https://github.com/product-os/flowzone/tree/master/.github/actions
 inputs:
   json:
@@ -31,37 +31,31 @@ runs:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: npm
 
-    - name: Set up Python 3.11
-      if: runner.os == 'macOS'
-      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df # v4.2.1
       with:
-        python-version: "3.11"
+        aws-region: ${{ fromJSON(inputs.variables).AWS_REGION || 'us-east-1' }}
+        role-session-name: github-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+        # balena-io/environments-bases: aws/balena/github-openid-policy.yml
+        role-to-assume: ${{ fromJSON(inputs.variables).AWS_IAM_ROLE }}
 
-    - name: Test release
+    - name: Promote to stable channel
       shell: bash
       run: |
         set -ea
 
-        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+        SHA="${REF_SHA:0:7}"
+        VERSION=$(jq -r .version < package.json)
 
-        if [[ -e package-lock.json ]] || [[ -e npm-shrinkwrap.json ]]; then
-            npm ci
-        else
-            npm i
-        fi
+        npm ci
+        npx oclif \
+        --channel stable \
+        --sha $SHA \
+        --version $VERSION \
+        --macos \
+        --win \
+        --ignore-missing \
+        --indexes
 
-        npm run build
-        npm run test:core
       env:
-        REF_NAME: ${{ github.event.pull_request.head.ref }}
         REF_SHA: ${{ github.event.pull_request.head.sha }}
-    - name: Compress custom source
-      shell: pwsh
-      run: tar --exclude-vcs -acf ${{ runner.temp }}/custom.tgz .
-
-    - name: Upload custom artifact
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-      with:
-        name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}-${{ runner.arch }}
-        path: ${{ runner.temp }}/custom.tgz
-        retention-days: 1
