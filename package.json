@@ -174,7 +174,7 @@
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
     "balena-preload": "^18.0.4",
-    "balena-sdk": "^21.3.0",
+    "balena-sdk": "21.7.0-build-kb2ma-support-supervisor-managed-hup-d0966c23f51287835ac6e8249ec9047b55f94e2b-4",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",

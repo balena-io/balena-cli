@@ -21,6 +21,7 @@ import Logger = require('../logger');
 import * as ApiErrors from './errors';
 import { getBalenaSdk } from '../lazy';
 import type { BalenaSDK } from 'balena-sdk';
+import type { BalenaRequestStreamResult } from 'balena-request';
 
 export interface DeviceResponse {
 	[key: string]: any;
@@ -194,7 +195,7 @@ export class DeviceAPI {
 		});
 	}
 
-	public async getLogStream() {
+	public async getLogStream(): Promise<BalenaRequestStreamResult> {
 		const url = this.getUrlForAction('logs');
 		const sdk = getBalenaSdk();
 

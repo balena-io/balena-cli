@@ -66,6 +66,17 @@ export default class DeviceOsUpdateCmd extends Command {
 		const { args: params, flags: options } =
 			await this.parse(DeviceOsUpdateCmd);
 
+		// SDK looks at the 'global' object
+		if (process.env.SUPERVISOR_MANAGED_HUP_MIN_OS_VERSION !== undefined) {
+			(globalThis as any).SUPERVISOR_MANAGED_HUP_MIN_OS_VERSION =
+				process.env.SUPERVISOR_MANAGED_HUP_MIN_OS_VERSION;
+			console.log(
+				`Set SUPERVISOR_MANAGED_HUP_MIN_OS_VERSION: ${(globalThis as any).SUPERVISOR_MANAGED_HUP_MIN_OS_VERSION}`,
+			);
+		} else {
+			console.log('SUPERVISOR_MANAGED_HUP_MIN_OS_VERSION not defined');
+		}
+
 		const sdk = getBalenaSdk();
 
 		// Get device info
