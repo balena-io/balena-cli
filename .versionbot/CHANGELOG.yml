@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix finalize step oclif promote command
+      hash: 568b2e61e13634b358c5ce6da20c30ff9c556bfa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.2.1
+  title: ""
+  date: 2025-08-06T13:40:38.230Z
+- commits:
     - subject: Upload built assets to s3 as standard oclif packages
       hash: 9cbbba4e6148f2de3bab64239fa6db7a4e4d4bd0
       body: ""
