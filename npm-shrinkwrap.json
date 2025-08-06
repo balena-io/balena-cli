@@ -15883,9 +15883,9 @@
       "integrity": "sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow=="
     },
     "node_modules/fs-extra": {
-      "version": "11.3.0",
-      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.3.0.tgz",
-      "integrity": "sha512-Z4XaCL6dUDHfP/jT25jJKMmtxvuwbkrD1vNSMFlo9lNLY2c5FHYSQgHPRZUjAB26TpDEoW9HCOgplrdbaPV/ew==",
+      "version": "11.3.1",
+      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.3.1.tgz",
+      "integrity": "sha512-eXvGGwZ5CL17ZSwHWd3bbgk7UUpF6IFHtP57NYYakPvHOs8GDgDe5KJI36jIJzDkJ6eJjuzRA8eBQb6SkKue0g==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -20427,9 +20427,9 @@
       }
     },
     "node_modules/patch-package/node_modules/yaml": {
-      "version": "2.8.0",
-      "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.8.0.tgz",
-      "integrity": "sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==",
+      "version": "2.8.1",
+      "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.8.1.tgz",
+      "integrity": "sha512-lcYcMxX2PO9XMGvAJkJ3OsNMw+/7FKes7/hgerGUYWIoWu5j/+YQqcZr5JnPZWzOsEBgMbSbiSTn/dv/69Mkpw==",
       "license": "ISC",
       "bin": {
         "yaml": "bin.mjs"
@@ -23122,9 +23122,10 @@
       }
     },
     "node_modules/tmp": {
-      "version": "0.2.3",
-      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.3.tgz",
-      "integrity": "sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==",
+      "version": "0.2.4",
+      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.4.tgz",
+      "integrity": "sha512-UdiSoX6ypifLmrfQ/XfiawN6hkjSBpCjhKxxZcWlUUmoXLaCKQU0bx4HF/tdDK2uzRuchf1txGvrWBzYREssoQ==",
+      "license": "MIT",
       "engines": {
         "node": ">=14.14"
       }
