@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove no longer used repo from repo.yml
+      hash: ede83bc2143358430c0acd79a28327d6f4cb6270
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 22.2.2
+  title: ""
+  date: 2025-08-06T15:57:56.311Z
+- commits:
     - subject: Fix finalize step oclif promote command
       hash: 568b2e61e13634b358c5ce6da20c30ff9c556bfa
       body: ""
