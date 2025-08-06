@@ -48,8 +48,8 @@ export class SupervisorMock extends NockMock {
 				}, 10);
 			},
 		});
-		this.optGet('/v2/local/logs', opts).reply((_uri, _reqBody, cb) => {
-			cb(null, [200, chunkedStream]);
+		this.optGet('/v2/local/logs', opts).reply(() => {
+			return [200, chunkedStream];
 		});
 	}
 }
