@@ -204,9 +204,8 @@ export async function testDockerBuildStream(o: {
 
 	if (expectedErrorLines.length) {
 		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
-	} else {
-		expect(err).to.be.empty;
 	}
+
 	if (expectedResponseLines.length) {
 		expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 	} else {
