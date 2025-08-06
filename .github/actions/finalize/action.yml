@@ -48,7 +48,7 @@ runs:
         VERSION=$(jq -r .version < package.json)
 
         npm ci
-        npx oclif \
+        npx oclif promote \
         --channel stable \
         --sha $SHA \
         --version $VERSION \
