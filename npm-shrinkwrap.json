@@ -21,7 +21,7 @@
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.5.2",
         "balena-preload": "^18.0.4",
-        "balena-sdk": "^21.3.0",
+        "balena-sdk": "^21.4.7",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
@@ -151,14 +151,15 @@
         "mocha": "^10.6.0",
         "mock-fs": "^5.2.0",
         "mock-require": "^3.0.3",
-        "nock": "^14.0.4",
+        "nock": "^15.0.0-beta.5",
         "oclif": "^4.22.0",
         "rewire": "^7.0.0",
         "simple-git": "^3.14.1",
         "sinon": "^19.0.0",
         "string-to-stream": "^3.0.1",
         "ts-node": "^10.4.0",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.2",
+        "undici": "^7.10.0"
       },
       "engines": {
         "node": ">=20.6.0 <23"
@@ -6172,15 +6173,6 @@
         "node": ">=16"
       }
     },
-    "node_modules/@balena/node-web-streams": {
-      "version": "0.2.4",
-      "resolved": "https://registry.npmjs.org/@balena/node-web-streams/-/node-web-streams-0.2.4.tgz",
-      "integrity": "sha512-Q9By3GPzANMZuf1i5i7Agyh6BUe6tTa+VCCZzsFzU32iXMcuDRXYHbNIKESrcjVXxiZScPB4u++WPw4LRyK1Gg==",
-      "dependencies": {
-        "is-stream": "^1.1.0",
-        "web-streams-polyfill": "^3.1.0"
-      }
-    },
     "node_modules/@balena/odata-parser": {
       "version": "3.1.2",
       "resolved": "https://registry.npmjs.org/@balena/odata-parser/-/odata-parser-3.1.2.tgz",
@@ -8394,9 +8386,9 @@
       }
     },
     "node_modules/@mswjs/interceptors": {
-      "version": "0.38.7",
-      "resolved": "https://registry.npmjs.org/@mswjs/interceptors/-/interceptors-0.38.7.tgz",
-      "integrity": "sha512-Jkb27iSn7JPdkqlTqKfhncFfnEZsIJVYxsFbUSWEkxdIPdsyngrhoDBk0/BGD2FQcRH99vlRrkHpNTyKqI+0/w==",
+      "version": "0.39.5",
+      "resolved": "https://registry.npmjs.org/@mswjs/interceptors/-/interceptors-0.39.5.tgz",
+      "integrity": "sha512-B9nHSJYtsv79uo7QdkZ/b/WoKm20IkVSmTc/WCKarmDtFwM0dRx2ouEniqwNkzCSLn3fydzKmnMzjtfdOWt3VQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -11001,9 +10993,10 @@
       }
     },
     "node_modules/@types/semver": {
-      "version": "7.5.3",
-      "resolved": "https://registry.npmjs.org/@types/semver/-/semver-7.5.3.tgz",
-      "integrity": "sha512-OxepLK9EuNEIPxWNME+C6WwbRAOOI2o2BaQEGzz5Lu2e4Z5eDnEo+/aVEDMIXywoJitJ7xWd641wrGLZdtwRyw=="
+      "version": "7.7.0",
+      "resolved": "https://registry.npmjs.org/@types/semver/-/semver-7.7.0.tgz",
+      "integrity": "sha512-k107IF4+Xr7UHjwDc7Cfd6PRQfbdkiRabXGRjo07b4WyPahFBZCZ1sE+BNxYIJPPg73UkfOsVOLwqVc/6ETrIA==",
+      "license": "MIT"
     },
     "node_modules/@types/serve-static": {
       "version": "1.13.10",
@@ -12111,16 +12104,16 @@
       }
     },
     "node_modules/balena-request": {
-      "version": "14.0.1",
-      "resolved": "https://registry.npmjs.org/balena-request/-/balena-request-14.0.1.tgz",
-      "integrity": "sha512-D6sQyeOZNoR736WVBD5F0AL/XsiGTioD9vaDpiqQJZvhShTDVzbNXkW7Sd+QCGrSP3gpdqorGN7hyEZsv5WZlA==",
+      "version": "14.1.5",
+      "resolved": "https://registry.npmjs.org/balena-request/-/balena-request-14.1.5.tgz",
+      "integrity": "sha512-pPcRMK5mnyRKqUBNSQHLqk32iXUQAtutyMDlpyFTp0FjS8kGT6dJNh7TFPN93kJpA3R5Vopfn4lFlt69nZGzFA==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "@balena/node-web-streams": "^0.2.3",
         "balena-errors": "^4.9.0",
-        "fetch-ponyfill": "^7.1.0",
         "fetch-readablestream": "^0.2.0",
         "form-data-encoder": "^4.0.2",
         "formdata-node": "^6.0.3",
+        "node-fetch": "^2.7.0",
         "progress-stream": "^2.0.0",
         "qs": "^6.9.4",
         "tslib": "^2.0.0",
@@ -12134,9 +12127,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "21.3.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-21.3.0.tgz",
-      "integrity": "sha512-3Ub2doNsXwBPoRNr/feoMY18tXCUOTkclq6/Qe3lEiQA40/Q/pBfglveVXuOV6P2ljyC6jayJ8aR/3r5Kov/2w==",
+      "version": "21.4.7",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-21.4.7.tgz",
+      "integrity": "sha512-MWR6s+VLjCMUDzud6nQSJCpCsxYecujzhZuxAvvvvGalBcMPOLeniEvbz8Ke5wh8HxsBGgL4F9eDQaFvtw7N4g==",
       "license": "Apache-2.0",
       "dependencies": {
         "@balena/es-version": "^1.0.0",
@@ -12147,8 +12140,8 @@
         "balena-errors": "^4.9.0",
         "balena-hup-action-utils": "~6.2.0",
         "balena-register-device": "^9.0.4",
-        "balena-request": "^14.0.0",
-        "balena-semver": "^2.3.0",
+        "balena-request": "^14.0.8",
+        "balena-semver": "^3.0.0",
         "balena-settings-client": "^5.0.0",
         "date-fns": "^3.0.5",
         "handlebars": "^4.7.7",
@@ -12162,6 +12155,21 @@
       },
       "engines": {
         "node": "^20.12.0 || >= 22.0.0"
+      }
+    },
+    "node_modules/balena-sdk/node_modules/balena-semver": {
+      "version": "3.0.7",
+      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-3.0.7.tgz",
+      "integrity": "sha512-PkYs+04bINIGxSciPJ4zDn/Wa6ocy/XzooSYEE4yGUe/TcIAANDpihK71ryH6dsMlG8hzanCrdsjFkT2KobbIw==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "@types/lodash": "^4.14.200",
+        "@types/semver": "^7.5.4",
+        "lodash": "^4.17.21",
+        "semver": "^7.5.4"
+      },
+      "engines": {
+        "node": ">=16"
       }
     },
     "node_modules/balena-sdk/node_modules/date-fns": {
@@ -15462,14 +15470,6 @@
       },
       "engines": {
         "node": "^12.20 || >= 14.13"
-      }
-    },
-    "node_modules/fetch-ponyfill": {
-      "version": "7.1.0",
-      "resolved": "https://registry.npmjs.org/fetch-ponyfill/-/fetch-ponyfill-7.1.0.tgz",
-      "integrity": "sha512-FhbbL55dj/qdVO3YNK7ZEkshvj3eQ7EuIGV2I6ic/2YiocvyWv+7jg2s4AyS0wdRU75s3tA8ZxI/xPigb0v5Aw==",
-      "dependencies": {
-        "node-fetch": "~2.6.1"
       }
     },
     "node_modules/fetch-readablestream": {
@@ -19268,15 +19268,14 @@
       }
     },
     "node_modules/nock": {
-      "version": "14.0.4",
-      "resolved": "https://registry.npmjs.org/nock/-/nock-14.0.4.tgz",
-      "integrity": "sha512-86fh+gIKH8H02+y0/HKAOZZXn6OwgzXvl6JYwfjvKkoKxUWz54wIIDU/+w24xzMvk/R8pNVXOrvTubyl+Ml6cg==",
+      "version": "15.0.0-beta.5",
+      "resolved": "https://registry.npmjs.org/nock/-/nock-15.0.0-beta.5.tgz",
+      "integrity": "sha512-PnPM6UiBb4y+BoEvSE/tYioWzyExRdEk+wnjO0uty3j/gAvz7lo5VR6FQRX3vnSjcv6uvDxTDhjx686BOCpT0Q==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
-        "@mswjs/interceptors": "^0.38.5",
-        "json-stringify-safe": "^5.0.1",
-        "propagate": "^2.0.0"
+        "@mswjs/interceptors": "^0.39.3",
+        "json-stringify-safe": "^5.0.1"
       },
       "engines": {
         "node": ">=18.20.0 <20 || >=20.12.1"
@@ -19324,9 +19323,10 @@
       }
     },
     "node_modules/node-fetch": {
-      "version": "2.6.13",
-      "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.13.tgz",
-      "integrity": "sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==",
+      "version": "2.7.0",
+      "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz",
+      "integrity": "sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==",
+      "license": "MIT",
       "dependencies": {
         "whatwg-url": "^5.0.0"
       },
@@ -20856,15 +20856,6 @@
         "loose-envify": "^1.4.0",
         "object-assign": "^4.1.1",
         "react-is": "^16.13.1"
-      }
-    },
-    "node_modules/propagate": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/propagate/-/propagate-2.0.1.tgz",
-      "integrity": "sha512-vGrhOavPSTz4QVNuBNdcNXePNdNMaO1xj9yBeH1ScQPjk/rhg9sSlCXPhMkFuaNNW/syTvYqsnbIJxMBfRbbag==",
-      "dev": true,
-      "engines": {
-        "node": ">= 8"
       }
     },
     "node_modules/proto-list": {
@@ -23511,6 +23502,16 @@
       "resolved": "git+ssh://git@github.com/balena-io-modules/unbzip2-stream.git#4a54f56a25b58950f9e4277c56db2912d62242e7",
       "integrity": "sha512-hqSQ+EGPNNs80IGpZszUngM7ttKBCgjRtrw+2PTRDUd1UNvPOoSL4M7V1bDBJXktGv8KaVJFRKk2mWi6RmbiEg=="
     },
+    "node_modules/undici": {
+      "version": "7.10.0",
+      "resolved": "https://registry.npmjs.org/undici/-/undici-7.10.0.tgz",
+      "integrity": "sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.18.1"
+      }
+    },
     "node_modules/undici-types": {
       "version": "6.21.0",
       "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz",
@@ -23783,6 +23784,7 @@
       "version": "3.3.3",
       "resolved": "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.3.3.tgz",
       "integrity": "sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==",
+      "dev": true,
       "engines": {
         "node": ">= 8"
       }

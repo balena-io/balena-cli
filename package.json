@@ -160,14 +160,15 @@
     "mocha": "^10.6.0",
     "mock-fs": "^5.2.0",
     "mock-require": "^3.0.3",
-    "nock": "^14.0.4",
+    "nock": "^15.0.0-beta.5",
     "oclif": "^4.22.0",
     "rewire": "^7.0.0",
     "simple-git": "^3.14.1",
     "sinon": "^19.0.0",
     "string-to-stream": "^3.0.1",
     "ts-node": "^10.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "undici": "^7.10.0"
   },
   "dependencies": {
     "@balena/compose": "^7.0.9",
@@ -181,7 +182,7 @@
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
     "balena-preload": "^18.0.4",
-    "balena-sdk": "^21.3.0",
+    "balena-sdk": "^21.4.7",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",
