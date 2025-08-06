@@ -9,7 +9,10 @@ process.env.OCLIF_TS_NODE = '0';
 
 async function run() {
 	// Use fast-boot to cache require lookups, speeding up startup
-	await require('../build/fast-boot').start();
+	// Disable fast-boot for the update command to avoid compatibility issues
+	if (process.argv[2] !== 'update') {
+		await require('../build/fast-boot').start();
+	}
 
 	// Set the desired es version for downstream modules that support it
 	require('@balena/es-version').set('es2018');
