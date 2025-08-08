@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update balena-sdk to v22
+      hash: e457ec7757b5ea3c0b5adabee4756fc220dd4294
+      body: |
+        Bump balena-sdk from 21.3.0 to 22.0.0
+        Bump balena-preload from 18.0.4 to 18.0.5
+        Bump @balena/compose from 7.0.9 to 7.0.10
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.2.3
+  title: ""
+  date: 2025-08-08T18:36:39.408Z
+- commits:
     - subject: Remove no longer used repo from repo.yml
       hash: ede83bc2143358430c0acd79a28327d6f4cb6270
       body: ""
