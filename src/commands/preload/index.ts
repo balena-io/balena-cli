@@ -28,16 +28,96 @@ import { dockerConnectionCliFlags } from '../../utils/docker';
 import { parseAsInteger } from '../../utils/validation';
 import { Flags, Args, Command } from '@oclif/core';
 import * as _ from 'lodash';
-import type {
-	Application,
-	BalenaSDK,
-	PineExpand,
-	PineOptions,
-	PineTypedResult,
-	Release,
-} from 'balena-sdk';
+import type { Application, BalenaSDK, Pine, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 import type * as Fs from 'fs';
+
+// Define query options at the module level for proper typing
+const applicationExpandOptions = {
+	owns__release: {
+		$select: ['id', 'commit', 'end_timestamp', 'composition'],
+		$expand: {
+			release_image: {
+				$select: ['id'],
+				$expand: {
+					image: {
+						$select: ['image_size', 'is_stored_at__image_location'],
+					},
+				},
+			},
+		},
+		$filter: {
+			status: 'success',
+		},
+		$orderby: [{ end_timestamp: 'desc' }, { id: 'desc' }],
+	},
+	should_be_running__release: {
+		$select: 'commit',
+	},
+} as const;
+
+const getApplicationsWithBuildOptions = (deviceTypeSlug: string) =>
+	({
+		$select: ['id', 'slug', 'should_track_latest_release'],
+		$expand: applicationExpandOptions,
+		$filter: {
+			// get the apps that are of the same arch as the device type of the image
+			is_for__device_type: {
+				$any: {
+					$alias: 'dt',
+					$expr: {
+						dt: {
+							is_of__cpu_architecture: {
+								$any: {
+									$alias: 'ioca',
+									$expr: {
+										ioca: {
+											is_supported_by__device_type: {
+												$any: {
+													$alias: 'isbdt',
+													$expr: {
+														isbdt: {
+															slug: deviceTypeSlug,
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			owns__release: {
+				$any: {
+					$alias: 'r',
+					$expr: {
+						r: {
+							status: 'success',
+						},
+					},
+				},
+			},
+		},
+		$orderby: { slug: 'asc' },
+	}) as const;
+
+// Type aliases for the responses
+type ApplicationWithReleases = NonNullable<
+	Pine.OptionsToResponse<
+		Application['Read'],
+		{ $expand: typeof applicationExpandOptions },
+		string
+	>
+>;
+
+type ApplicationsWithBuilds = Pine.OptionsToResponse<
+	Application['Read'],
+	ReturnType<typeof getApplicationsWithBuildOptions>,
+	undefined
+>;
 
 export default class PreloadCmd extends Command {
 	public static description = stripIndent`
@@ -328,34 +408,13 @@ Can be repeated to add multiple certificates.\
 		}
 	}
 
-	readonly applicationExpandOptions = {
-		owns__release: {
-			$select: ['id', 'commit', 'end_timestamp', 'composition'],
-			$expand: {
-				release_image: {
-					$select: ['image'],
-					$expand: {
-						image: {
-							$select: ['image_size', 'is_stored_at__image_location'],
-						},
-					},
-				},
-			},
-			$filter: {
-				status: 'success',
-			},
-			$orderby: [{ end_timestamp: 'desc' }, { id: 'desc' }],
-		},
-		should_be_running__release: {
-			$select: 'commit',
-		},
-	} satisfies PineExpand<Application>;
-
 	isCurrentCommit(commit: string) {
 		return commit === 'latest' || commit === 'current';
 	}
 
-	async getApplicationsWithSuccessfulBuilds(deviceTypeSlug: string) {
+	async getApplicationsWithSuccessfulBuilds(
+		deviceTypeSlug: string,
+	): Promise<ApplicationsWithBuilds> {
 		const balena = getBalenaSdk();
 
 		try {
@@ -363,58 +422,13 @@ Can be repeated to add multiple certificates.\
 		} catch {
 			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
 		}
-		const options = {
-			$select: ['id', 'slug', 'should_track_latest_release'],
-			$expand: this.applicationExpandOptions,
-			$filter: {
-				// get the apps that are of the same arch as the device type of the image
-				is_for__device_type: {
-					$any: {
-						$alias: 'dt',
-						$expr: {
-							dt: {
-								is_of__cpu_architecture: {
-									$any: {
-										$alias: 'ioca',
-										$expr: {
-											ioca: {
-												is_supported_by__device_type: {
-													$any: {
-														$alias: 'isbdt',
-														$expr: {
-															isbdt: {
-																slug: deviceTypeSlug,
-															},
-														},
-													},
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-				owns__release: {
-					$any: {
-						$alias: 'r',
-						$expr: {
-							r: {
-								status: 'success',
-							},
-						},
-					},
-				},
-			},
-			$orderby: 'slug asc',
-		} satisfies PineOptions<Application>;
-		return (await balena.models.application.getAllDirectlyAccessible(
-			options,
-		)) as Array<PineTypedResult<Application, typeof options>>;
+		const options = getApplicationsWithBuildOptions(deviceTypeSlug);
+		return await balena.models.application.getAllDirectlyAccessible(options);
 	}
 
-	async selectApplication(deviceTypeSlug: string) {
+	async selectApplication(
+		deviceTypeSlug: string,
+	): Promise<ApplicationsWithBuilds[number]> {
 		const visuals = getVisuals();
 
 		const applicationInfoSpinner = new visuals.Spinner(
@@ -440,7 +454,13 @@ Can be repeated to add multiple certificates.\
 		});
 	}
 
-	selectApplicationCommit(releases: Release[]) {
+	selectApplicationCommit(
+		releases: Pine.OptionsToResponse<
+			Release['Read'],
+			(typeof applicationExpandOptions)['owns__release'],
+			undefined
+		>,
+	) {
 		if (releases.length === 0) {
 			throw new ExpectedError('This fleet has no successful releases.');
 		}
@@ -462,7 +482,10 @@ Can be repeated to add multiple certificates.\
 	}
 
 	async offerToDisableAutomaticUpdates(
-		application: Pick<Application, 'id' | 'should_track_latest_release'>,
+		application: Pick<
+			Application['Read'],
+			'id' | 'should_track_latest_release'
+		>,
 		commit: string,
 		pinDevice: boolean | undefined,
 	) {
@@ -503,7 +526,7 @@ Would you like to disable automatic updates for this fleet now?\
 		if (!update) {
 			return;
 		}
-		return await balena.pine.patch({
+		await balena.pine.patch({
 			resource: 'application',
 			id: application.id,
 			body: {
@@ -512,11 +535,14 @@ Would you like to disable automatic updates for this fleet now?\
 		});
 	}
 
-	async getAppWithReleases(balenaSdk: BalenaSDK, slug: string) {
+	async getAppWithReleases(
+		balenaSdk: BalenaSDK,
+		slug: string,
+	): Promise<ApplicationWithReleases> {
 		const { getApplication } = await import('../../utils/sdk');
 
 		return await getApplication(balenaSdk, slug, {
-			$expand: this.applicationExpandOptions,
+			$expand: applicationExpandOptions,
 		});
 	}
 
@@ -562,9 +588,7 @@ Would you like to disable automatic updates for this fleet now?\
 			}
 		} else {
 			// this could have the value 'current'
-			commit = await this.selectApplicationCommit(
-				application.owns__release as Release[],
-			);
+			commit = await this.selectApplicationCommit(application.owns__release);
 		}
 
 		await preloader.setAppIdAndCommit(

@@ -228,17 +228,13 @@ async function setServiceVars(
 			let device;
 			let app;
 			try {
-				[device, app] = await getDeviceAndAppFromUUID(
-					sdk,
-					uuid,
-					['id'],
-					['slug'],
-				);
+				[device, app] = await getDeviceAndAppFromUUID(sdk, uuid);
 			} catch (err) {
 				console.error(`${err.message}, device: ${uuid}`);
 				process.exitCode = 1;
 				continue;
 			}
+
 			for (const service of options.service!.split(',')) {
 				try {
 					const serviceId = await getServiceIdForApp(sdk, app.slug, service);

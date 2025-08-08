@@ -16,12 +16,7 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import type {
-	BalenaSDK,
-	Device,
-	PineOptions,
-	PineTypedResult,
-} from 'balena-sdk';
+import type { BalenaSDK } from 'balena-sdk';
 import * as cf from '../../utils/common-flags';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -64,7 +59,7 @@ export default class DeviceMoveCmd extends Command {
 			$select: 'belongs_to__application',
 			$expand: {
 				is_of__device_type: {
-					$select: 'is_of__cpu_architecture',
+					$select: 'id',
 					$expand: {
 						is_of__cpu_architecture: {
 							$select: 'slug',
@@ -72,16 +67,11 @@ export default class DeviceMoveCmd extends Command {
 					},
 				},
 			},
-		} satisfies PineOptions<Device>;
+		} as const;
 
 		// TODO: Refacor once `device.get()` accepts an array of uuids`
 		const devices = await Promise.all(
-			deviceUuids.map(
-				(uuid) =>
-					balena.models.device.get(uuid, deviceOptions) as Promise<
-						PineTypedResult<Device, typeof deviceOptions>
-					>,
-			),
+			deviceUuids.map((uuid) => balena.models.device.get(uuid, deviceOptions)),
 		);
 		return devices;
 	}
@@ -119,7 +109,7 @@ export default class DeviceMoveCmd extends Command {
 	async interactivelySelectApplication(
 		balena: BalenaSDK,
 		devices: Awaited<ReturnType<typeof this.getDevices>>,
-	) {
+	): ReturnType<typeof import('../../utils/patterns').selectApplication> {
 		// deduplicate the slugs
 		const deviceCpuArchs = Array.from(
 			new Set(

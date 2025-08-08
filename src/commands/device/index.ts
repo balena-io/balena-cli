@@ -76,7 +76,6 @@ export default class DeviceCmd extends Command {
 		const { args: params, flags: options } = await this.parse(DeviceCmd);
 
 		const balena = getBalenaSdk();
-
 		let device: ExtendedDevice;
 		if (options.json) {
 			const [deviceBase, deviceComputed] = await Promise.all([
@@ -142,15 +141,16 @@ export default class DeviceCmd extends Command {
 
 		device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
 
-		const belongsToApplication =
-			device.belongs_to__application as Application[];
+		const belongsToApplication = device.belongs_to__application as [
+			Application['Read'],
+		];
 		device.fleet = belongsToApplication?.[0]
 			? belongsToApplication[0].slug
 			: 'N/a';
 
 		device.device_type = device.is_of__device_type[0].slug;
 
-		const isRunningRelease = device.is_running__release as Release[];
+		const isRunningRelease = device.is_running__release as [Release['Read']];
 		device.commit = isRunningRelease?.[0] ? isRunningRelease[0].commit : 'N/a';
 
 		device.last_seen = device.last_connectivity_event ?? undefined;

@@ -14,15 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import type {
-	Application,
-	BalenaSDK,
-	Device,
-	Organization,
-	PineFilter,
-	PineOptions,
-	PineTypedResult,
-} from 'balena-sdk';
+import type { Application, BalenaSDK, Organization, Pine } from 'balena-sdk';
 
 import {
 	instanceOf,
@@ -210,24 +202,25 @@ const selectApplicationPineOptions = {
 			$select: 'slug',
 		},
 	},
-} satisfies PineOptions<Application>;
+} as const;
 
-type SelectApplicationResult = PineTypedResult<
-	Application,
-	typeof selectApplicationPineOptions
->;
+type SelectApplicationResult = Pine.OptionsToResponse<
+	Application['Read'],
+	typeof selectApplicationPineOptions,
+	undefined
+>[number];
 
-export async function selectApplication(
-	filter?:
-		| PineFilter<Application>
-		| ((app: SelectApplicationResult) => boolean),
+export async function selectApplication<
+	T extends Pine.Filter<Application['Read']>,
+>(
+	filter?: T | ((app: SelectApplicationResult) => boolean),
 	errorOnEmptySelection = false,
-) {
+): Promise<SelectApplicationResult> {
 	const balena = getBalenaSdk();
-	let apps = (await balena.models.application.getAllDirectlyAccessible({
+	let apps = await balena.models.application.getAllDirectlyAccessible({
 		...selectApplicationPineOptions,
 		...(filter != null && typeof filter === 'object' && { $filter: filter }),
-	})) as SelectApplicationResult[];
+	});
 
 	if (!apps.length) {
 		throw new ExpectedError('No fleets found');
@@ -251,7 +244,7 @@ export async function selectApplication(
 }
 
 export async function selectOrganization(
-	organizations?: Array<Pick<Organization, 'handle' | 'name'>>,
+	organizations?: Array<Pick<Organization['Read'], 'handle' | 'name'>>,
 ) {
 	// Use either provided orgs (if e.g. already loaded) or load from cloud
 	organizations ??= await getBalenaSdk().models.organization.getAll({
@@ -302,12 +295,11 @@ export async function getOnlineTargetDeviceUuid(
 
 	// If looks like UUID, probably device
 	if (validation.validateUuid(fleetOrDevice)) {
-		let device: Device;
 		try {
 			logger.logDebug(
 				`Trying to fetch device by UUID ${fleetOrDevice} (${typeof fleetOrDevice})`,
 			);
-			device = await sdk.models.device.get(fleetOrDevice, {
+			const device = await sdk.models.device.get(fleetOrDevice, {
 				$select: ['uuid', 'is_online'],
 			});
 

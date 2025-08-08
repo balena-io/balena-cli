@@ -19,13 +19,7 @@ import { Args, Flags, Command } from '@oclif/core';
 import { getBalenaSdk } from '../../utils/lazy';
 import * as cf from '../../utils/common-flags';
 import * as compose from '../../utils/compose';
-import type {
-	ApplicationType,
-	BalenaSDK,
-	DeviceType,
-	PineOptions,
-	PineTypedResult,
-} from 'balena-sdk';
+import type { ApplicationType, BalenaSDK } from 'balena-sdk';
 import {
 	buildArgDeprecation,
 	dockerignoreHelp,
@@ -186,18 +180,15 @@ ${dockerignoreHelp}
 		if (opts.deviceType != null && opts.arch == null) {
 			try {
 				const deviceTypeOpts = {
-					$select: 'is_of__cpu_architecture',
+					$select: 'id',
 					$expand: {
 						is_of__cpu_architecture: {
 							$select: 'slug',
 						},
 					},
-				} satisfies PineOptions<DeviceType>;
+				} as const;
 				opts.arch = (
-					(await sdk.models.deviceType.get(
-						opts.deviceType,
-						deviceTypeOpts,
-					)) as PineTypedResult<DeviceType, typeof deviceTypeOpts>
+					await sdk.models.deviceType.get(opts.deviceType, deviceTypeOpts)
 				).is_of__cpu_architecture[0].slug;
 			} catch (err) {
 				const { ExpectedError } = await import('../../errors');
@@ -257,7 +248,7 @@ ${dockerignoreHelp}
 		logger: import('../../utils/logger'),
 		composeOpts: ComposeOpts,
 		opts: {
-			appType?: Pick<ApplicationType, 'supports_multicontainer'>;
+			appType?: Pick<ApplicationType['Read'], 'supports_multicontainer'>;
 			arch: string;
 			deviceType: string;
 			buildEmulated: boolean;

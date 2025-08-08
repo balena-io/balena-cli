@@ -15,23 +15,19 @@
  * limitations under the License.
  */
 
-import type {
-	Application,
-	BalenaSDK,
-	Organization,
-	PineOptions,
-	PineTypedResult,
-} from 'balena-sdk';
+import type { Application, BalenaSDK, Organization, Pine } from 'balena-sdk';
 
-export async function getApplication(
+export async function getApplication<
+	TP extends Pine.ODataOptionsWithoutCount<Application['Read']>,
+>(
 	sdk: BalenaSDK,
 	nameOrSlugOrId: string | number,
-): Promise<Application>;
-export async function getApplication<TP extends PineOptions<Application>>(
-	sdk: BalenaSDK,
-	nameOrSlugOrId: string | number,
-	options?: TP,
-): Promise<PineTypedResult<Application, TP>>;
+	options: TP,
+): Promise<
+	NonNullable<
+		Pine.OptionsToResponse<Application['Read'], TP, typeof nameOrSlugOrId>
+	>
+>;
 /**
  * Get a fleet object, disambiguating the fleet identifier which may be a
  * a fleet slug or name.
@@ -40,8 +36,8 @@ export async function getApplication<TP extends PineOptions<Application>>(
 export async function getApplication(
 	sdk: BalenaSDK,
 	nameOrSlugOrId: string | number,
-	options?: PineOptions<Application>,
-): Promise<Application> {
+	options?: Pine.ODataOptionsWithoutCount<Application['Read']>,
+) {
 	const { looksLikeFleetSlug } = await import('./validation');
 	const whoamiResult = await sdk.auth.whoami();
 	const isDeviceActor = whoamiResult?.actorType === 'device';
@@ -106,21 +102,21 @@ export async function getFleetSlug(
 	return nameOrSlug.toLowerCase();
 }
 
-export async function getOwnOrganizations(
-	sdk: BalenaSDK,
-): Promise<Organization[]>;
-export async function getOwnOrganizations<TP extends PineOptions<Organization>>(
+export async function getOwnOrganizations<
+	TP extends Pine.ODataOptionsWithoutCount<Organization['Read']>,
+>(
 	sdk: BalenaSDK,
 	options: TP,
-): Promise<Array<PineTypedResult<Organization, TP>>>;
+): Promise<Pine.OptionsToResponse<Organization['Read'], TP, undefined>>;
+
 /**
  * Wraps the sdk organization.getAll method,
  * restricting to those orgs user is a member of
  */
 export async function getOwnOrganizations(
 	sdk: BalenaSDK,
-	options?: PineOptions<Organization>,
-): Promise<Organization[]> {
+	options?: Pine.ODataOptionsWithoutCount<Organization['Read']>,
+) {
 	return await sdk.models.organization.getAll(
 		sdk.utils.mergePineOptions(
 			{
@@ -136,7 +132,7 @@ export async function getOwnOrganizations(
 						},
 					},
 				},
-				$orderby: 'name asc',
+				$orderby: { name: 'asc' },
 			},
 			options,
 		),

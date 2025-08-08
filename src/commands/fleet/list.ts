@@ -15,16 +15,9 @@
  * limitations under the License.
  */
 
-import type * as BalenaSdk from 'balena-sdk';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { Command } from '@oclif/core';
-
-interface ExtendedApplication extends ApplicationWithDeviceTypeSlug {
-	device_count: number;
-	online_devices: number;
-	device_type?: string;
-}
 
 export default class FleetListCmd extends Command {
 	public static aliases = ['fleets'];
@@ -52,31 +45,26 @@ export default class FleetListCmd extends Command {
 		const { flags: options } = await this.parse(FleetListCmd);
 
 		const balena = getBalenaSdk();
-
-		const pineOptions = {
-			$select: ['id', 'app_name', 'slug'],
-			$expand: {
-				is_for__device_type: { $select: 'slug' },
-				owns__device: { $select: 'is_online' },
-			},
-		} satisfies BalenaSdk.PineOptions<BalenaSdk.Application>;
 		// Get applications
 		const applications =
-			(await balena.models.application.getAllDirectlyAccessible(
-				pineOptions,
-			)) as Array<
-				BalenaSdk.PineTypedResult<BalenaSdk.Application, typeof pineOptions>
-			> as ExtendedApplication[];
+			await balena.models.application.getAllDirectlyAccessible({
+				$select: ['id', 'app_name', 'slug'],
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+					owns__device: { $select: 'is_online' },
+				},
+			});
 
 		// Add extended properties
-		applications.forEach((application) => {
-			application.device_count = application.owns__device?.length ?? 0;
-			application.online_devices =
-				application.owns__device?.filter((d) => d.is_online).length || 0;
-			application.device_type = application.is_for__device_type[0].slug;
-		});
+		const extendedApplications = applications.map((application) => ({
+			...application,
+			device_count: application.owns__device?.length ?? 0,
+			online_devices:
+				application.owns__device?.filter((d) => d.is_online).length || 0,
+			device_type: application.is_for__device_type[0].slug,
+		}));
 
-		const applicationsToDisplay = applications.map((application) => ({
+		const applicationsToDisplay = extendedApplications.map((application) => ({
 			id: application.id,
 			app_name: application.app_name,
 			slug: application.slug,

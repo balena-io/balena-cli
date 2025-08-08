@@ -16,6 +16,7 @@ limitations under the License.
 
 import type { InitializeEmitter, OperationState } from 'balena-device-init';
 import type * as BalenaSdk from 'balena-sdk';
+import type { Application, Pine } from 'balena-sdk';
 
 import * as _ from 'lodash';
 import { promisify } from 'util';
@@ -156,19 +157,16 @@ export const areDeviceTypesCompatible = async (
 	}
 	const sdk = getBalenaSdk();
 	const pineOptions = {
-		$select: 'is_of__cpu_architecture',
+		$select: 'id',
 		$expand: {
 			is_of__cpu_architecture: {
 				$select: 'slug',
 			},
 		},
-	} satisfies BalenaSdk.PineOptions<BalenaSdk.DeviceType>;
+	} as const;
 	const [appDeviceType, osDeviceType] = await Promise.all(
-		[appDeviceTypeSlug, osDeviceTypeSlug].map(
-			(dtSlug) =>
-				sdk.models.deviceType.get(dtSlug, pineOptions) as Promise<
-					BalenaSdk.PineTypedResult<BalenaSdk.DeviceType, typeof pineOptions>
-				>,
+		[appDeviceTypeSlug, osDeviceTypeSlug].map((dtSlug) =>
+			sdk.models.deviceType.get(dtSlug, pineOptions),
 		),
 	);
 	return sdk.models.os.isArchitectureCompatibleWith(
@@ -202,24 +200,39 @@ export async function osProgressHandler(step: InitializeEmitter) {
 	});
 }
 
-export async function getAppWithArch(applicationName: string) {
-	const { getApplication } = await import('./sdk');
-	const balena = getBalenaSdk();
-	const app = await getApplication(balena, applicationName, {
-		$expand: {
-			application_type: {
-				$select: ['name', 'slug', 'supports_multicontainer'],
-			},
-			is_for__device_type: {
-				$select: 'slug',
-				$expand: {
-					is_of__cpu_architecture: {
-						$select: 'slug',
-					},
+const appWithArchOptions = {
+	$expand: {
+		application_type: {
+			$select: ['name', 'slug', 'supports_multicontainer'],
+		},
+		is_for__device_type: {
+			$select: 'slug',
+			$expand: {
+				is_of__cpu_architecture: {
+					$select: 'slug',
 				},
 			},
 		},
-	});
+	},
+} as const;
+
+export interface AppWithArch
+	extends NonNullable<
+		Pine.OptionsToResponse<
+			Application['Read'],
+			typeof appWithArchOptions,
+			string
+		>
+	> {
+	arch: string;
+}
+
+export async function getAppWithArch(
+	applicationName: string,
+): Promise<AppWithArch> {
+	const { getApplication } = await import('./sdk');
+	const balena = getBalenaSdk();
+	const app = await getApplication(balena, applicationName, appWithArchOptions);
 	return {
 		...app,
 		arch: app.is_for__device_type[0].is_of__cpu_architecture[0].slug,
@@ -409,7 +422,7 @@ export const expandForAppName = {
 		is_of__device_type: { $select: 'slug' },
 		is_running__release: { $select: 'commit' },
 	},
-} satisfies BalenaSdk.PineOptions<BalenaSdk.Device>;
+} as const;
 
 /**
  * Use the `readline` library on Windows to install SIGINT handlers.

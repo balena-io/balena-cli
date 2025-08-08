@@ -24,13 +24,13 @@ import {
 	registrySecretsHelp,
 	buildArgDeprecation,
 } from '../../utils/messages';
+import type { getAppWithArch } from '../../utils/helpers';
 import * as ca from '../../utils/common-args';
 import * as compose from '../../utils/compose';
 import type {
 	BuiltImage,
 	ComposeCliFlags,
 	ComposeOpts,
-	Release as ComposeReleaseInfo,
 } from '../../utils/compose-types';
 import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
 import {
@@ -41,14 +41,7 @@ import {
 	parseReleaseTagKeysAndValues,
 } from '../../utils/compose_ts';
 import { dockerCliFlags } from '../../utils/docker';
-import type { ApplicationType, DeviceType, Release } from 'balena-sdk';
-
-interface ApplicationWithArch {
-	id: number;
-	arch: string;
-	is_for__device_type: [Pick<DeviceType, 'slug'>];
-	application_type: [Pick<ApplicationType, 'slug' | 'supports_multicontainer'>];
-}
+import type { Release } from 'balena-sdk';
 
 // TODO: For this special one we can't use Interfaces.InferredFlags/InferredArgs
 // because of the 'registry-secrets' type which is defined in the actual code
@@ -229,7 +222,7 @@ ${dockerignoreHelp}
 		logger: import('../../utils/logger'),
 		composeOpts: ComposeOpts,
 		opts: {
-			app: ApplicationWithArch; // the application instance to deploy to
+			app: Awaited<ReturnType<typeof getAppWithArch>>; // the application instance to deploy to
 			appName: string;
 			image?: string;
 			dockerfilePath?: string; // alternative Dockerfile
@@ -324,7 +317,7 @@ ${dockerignoreHelp}
 					},
 			);
 
-			let release: Release | ComposeReleaseInfo['release'];
+			let release: Pick<Release['Read'], 'commit' | 'id'>;
 			if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
 				const { deployLegacy } = require('../../utils/deploy-legacy');
 
@@ -355,7 +348,7 @@ ${dockerignoreHelp}
 				);
 
 				release = await sdk.models.release.get(releaseId, {
-					$select: ['commit'],
+					$select: ['commit', 'id'],
 				});
 			} else {
 				release = await $deployProject(
