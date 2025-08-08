@@ -222,7 +222,7 @@ export async function buildStandalone() {
 async function renameInstallers() {
 	const oclifInstallers = await getOclifInstallersOriginalNames();
 	if (await fs.pathExists(oclifInstallers[process.platform])) {
-		await fs.rename(
+		await fs.copyFile(
 			oclifInstallers[process.platform],
 			renamedOclifInstallers[process.platform],
 		);
@@ -350,6 +350,8 @@ export async function buildOclifInstaller() {
 			await uploadInstaller('macos', packOpts);
 		}
 
+		await renameInstallers();
+
 		if (
 			process.env.AWS_ACCESS_KEY_ID &&
 			process.env.AWS_SECRET_ACCESS_KEY &&
@@ -374,8 +376,6 @@ export async function buildOclifInstaller() {
 			];
 			await runOclifCommand('promote', opts);
 		}
-
-		await renameInstallers();
 		console.log(`oclif installer build completed`);
 	}
 }
