@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix uploading installer to github releases
+      hash: 6fb498e0669fd031720d26368fe7e4a35782065c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.2.4
+  title: ""
+  date: 2025-08-09T07:43:08.925Z
+- commits:
     - subject: Update balena-sdk to v22
       hash: e457ec7757b5ea3c0b5adabee4756fc220dd4294
       body: |
