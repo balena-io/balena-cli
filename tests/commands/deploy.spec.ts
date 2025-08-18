@@ -20,7 +20,6 @@ import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
-import type * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
@@ -181,8 +180,8 @@ describe('balena deploy', function () {
 		];
 
 		api.expectPostRelease({
-			inspectRequest: (_uri: string, requestBody: nock.Body) => {
-				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
+			inspectRequest: async (request: Request) => {
+				const body = (await request.json()) as Partial<ReleaseRequest>;
 				expect(body.contract).to.deep.equal({
 					name: 'testContract',
 					type: 'sw.application',
@@ -232,8 +231,8 @@ describe('balena deploy', function () {
 		];
 
 		api.expectPostRelease({
-			inspectRequest: (_uri: string, requestBody: nock.Body) => {
-				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
+			inspectRequest: async (request: Request) => {
+				const body = (await request.json()) as Partial<ReleaseRequest>;
 				expect(body.contract).to.deep.equal({
 					name: 'testContract',
 					type: 'sw.application',
@@ -298,21 +297,21 @@ describe('balena deploy', function () {
 			statusCode: 500,
 			// b/c failed requests are retried
 			times: maxRequestRetries,
-			inspectRequest: (_uri, requestBody) => {
-				const imageBody = requestBody as Partial<
+			inspectRequest: async (request: Request) => {
+				const body = (await request.json()) as Partial<
 					import('@balena/compose/dist/release/models').ImageModel
 				>;
-				expect(imageBody.status).to.equal('success');
+				expect(body.status).to.equal('success');
 				failedImagePatchRequests++;
 			},
 		});
 		// Check that the CLI patches the release with status="failed"
 		api.expectPatchRelease({
-			inspectRequest: (_uri, requestBody) => {
-				const releaseBody = requestBody as Partial<
+			inspectRequest: async (request: Request) => {
+				const body = (await request.json()) as Partial<
 					import('@balena/compose/dist/release/models').ReleaseModel
 				>;
-				expect(releaseBody.status).to.equal('failed');
+				expect(body.status).to.equal('failed');
 			},
 		});
 		api.expectPostImageLabel();
@@ -386,8 +385,8 @@ describe('balena deploy', function () {
 		let succesfullImagePatchRequests = 0;
 		api
 			.optPatch(/^\/v7\/image($|[(?])/, { times: maxRequestRetries })
-			.reply((_uri, requestBody) => {
-				const imageBody = requestBody as Partial<
+			.reply(async (request) => {
+				const imageBody = (await request.json()) as Partial<
 					import('@balena/compose/dist/release/models').ImageModel
 				>;
 				expect(imageBody.status).to.equal('success');
