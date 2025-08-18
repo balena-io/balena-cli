@@ -161,14 +161,15 @@
     "mocha": "^10.6.0",
     "mock-fs": "^5.2.0",
     "mock-require": "^3.0.3",
-    "nock": "^14.0.4",
+    "nock": "^15.0.0-beta.5",
     "oclif": "^4.22.0",
     "rewire": "^7.0.0",
     "simple-git": "^3.14.1",
     "sinon": "^19.0.0",
     "string-to-stream": "^3.0.1",
     "ts-node": "^10.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "undici": "^7.10.0"
   },
   "dependencies": {
     "@balena/compose": "^7.0.10",
@@ -253,8 +254,7 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    },
-    "balena-request": "14.0.6"
+    }
   },
   "versionist": {
     "publishedAt": "2025-08-09T07:43:09.823Z"

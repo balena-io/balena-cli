@@ -16,12 +16,7 @@
  */
 
 import * as path from 'path';
-import * as zlib from 'zlib';
-
 import { NockMock } from './nock-mock';
-import { promisify } from 'util';
-
-const gunzipAsync = promisify(zlib.gunzip);
 
 export const builderResponsePath = path.normalize(
 	path.join(__dirname, '..', 'test-data', 'builder-response'),
@@ -40,20 +35,16 @@ export class BuilderMock extends NockMock {
 		checkURI: (uri: string) => Promise<void> | void;
 		checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 	}) {
-		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(
-			async function (uri, requestBody) {
-				await opts.checkURI(uri);
-				if (typeof requestBody === 'string') {
-					const gzipped = Buffer.from(requestBody, 'hex');
-					const gunzipped = await gunzipAsync(gzipped);
-					await opts.checkBuildRequestBody(gunzipped);
-					return [opts.responseCode, opts.responseBody];
-				} else {
-					throw new Error(
-						`unexpected requestBody type "${typeof requestBody}"`,
-					);
-				}
-			},
-		);
+		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(async function (
+			request: Request,
+		) {
+			await opts.checkURI(request.url);
+			const requestBody = await request.text();
+			if (typeof requestBody !== 'string') {
+				throw new Error(`unexpected requestBody type "${typeof requestBody}"`);
+			}
+			await opts.checkBuildRequestBody(requestBody);
+			return [opts.responseCode, opts.responseBody];
+		});
 	}
 }
