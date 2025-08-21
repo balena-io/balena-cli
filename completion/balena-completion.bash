@@ -7,7 +7,7 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="api-key app block build config deploy device device-type env fleet internal join leave local login logout organization os preload push release settings ssh-key support tag util version whoami"
+  main_commands="api-key app block build config deploy device device-type env fleet internal join leave local login logout organization os preload push release release-asset settings ssh-key support tag util version whoami"
   # Sub-completions
   api_key_cmds="generate list revoke"
   app_cmds="create"
@@ -21,6 +21,7 @@ _balena_complete()
   local_cmds="configure flash"
   organization_cmds="list"
   os_cmds="build-config configure download initialize versions"
+  release_asset_cmds="delete download list upload"
   release_cmds="finalize invalidate list validate"
   ssh_key_cmds="add list rm"
   tag_cmds="list rm set"
@@ -72,6 +73,9 @@ _balena_complete()
         ;;
       os)
         COMPREPLY=( $(compgen -W "$os_cmds" -- $cur) )
+        ;;
+      release-asset)
+        COMPREPLY=( $(compgen -W "$release_asset_cmds" -- $cur) )
         ;;
       release)
         COMPREPLY=( $(compgen -W "$release_cmds" -- $cur) )
