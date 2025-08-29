@@ -1,4 +1,43 @@
 - commits:
+    - subject: Add release_asset model
+      hash: 04c8c12d1b261b0cbf1e552801982342c2f412cc
+      body: |
+        Update balena-sdk from 22.0.0 to 22.1.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otavio Jacobi
+      nested:
+        - commits:
+            - subject: Add release_asset
+              hash: 7a393ca1811bafa7d8d672a62b99c140632cbe9a
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Otavio Jacobi
+              nested: []
+          version: balena-sdk-22.1.0
+          title: ""
+          date: 2025-08-25T13:38:14.484Z
+        - commits:
+            - subject: Use NODE_OPTIONS=--no-experimental-strip-types for node 22.18
+              hash: ea09508f805e691e653f08fc587a4cd099ec84b8
+              body: |
+                See: https://github.com/nodejs/node/issues/59364
+                See: https://github.com/TypeStrong/ts-node/issues/2086
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Otavio Jacobi
+              nested: []
+          version: balena-sdk-22.0.1
+          title: ""
+          date: 2025-08-20T11:18:49.418Z
+  version: 22.3.0
+  title: ""
+  date: 2025-08-29T15:04:21.693Z
+- commits:
     - subject: Fix uploading installer to github releases
       hash: 6fb498e0669fd031720d26368fe7e4a35782065c
       body: ""
