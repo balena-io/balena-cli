@@ -276,6 +276,13 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [push](#push)
 
+- Release-asset
+
+	- [release-asset delete](#release-asset-delete)
+	- [release-asset download](#release-asset-download)
+	- [release-asset list](#release-asset-list)
+	- [release-asset upload](#release-asset-upload)
+
 - Releases
 
 	- [release finalize](#release-finalize)
@@ -3531,6 +3538,144 @@ as final by default unless this option is given.
 #### --note NOTE
 
 The notes for this release
+
+# Release-asset
+
+## release-asset delete
+
+### Description
+
+Delete a release asset with the specified key. This action cannot be undone.
+
+Examples:
+
+	$ balena release-asset delete 1234567 --key config.json
+	$ balena release-asset delete a777f7345fe3d655c1c981aa642e5555 --key app.tar.gz
+	$ balena release-asset delete 1234567 --key old-asset --yes
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release
+
+### Options
+
+#### --key KEY
+
+the key of the release asset to delete
+
+#### -y, --yes
+
+skip confirmation prompt
+
+## release-asset download
+
+### Description
+
+Download a release asset with the specified key. By default, the file will be saved
+with the original filename. Use the --output flag to specify a different output path.
+
+If the output file already exists, the command will prompt for confirmation before
+overwriting, unless the --overwrite flag is specified.
+
+Examples:
+
+	$ balena release-asset download 1234567 --key config.json
+	$ balena release-asset download a777f7345fe3d655c1c981aa642e5555 --key app.tar.gz --output ./downloads/app.tar.gz
+	$ balena release-asset download 1234567 --key large-file.bin -o output.bin
+	$ balena release-asset download 1234567 --key config.json --overwrite
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release
+
+### Options
+
+#### --key KEY
+
+the key of the release asset to download
+
+#### -o, --output OUTPUT
+
+output path for the downloaded file
+
+#### --overwrite
+
+overwrite existing file without confirmation
+
+## release-asset list
+
+### Description
+
+List all assets for a specific release.
+The --json option is recommended when scripting the output of this command,
+because field names are less likely to change in JSON format and because it
+better represents data types like arrays, empty strings and null values.
+The 'jq' utility may be helpful for querying JSON fields in shell scripts
+(https://stedolan.github.io/jq/manual/).
+
+Examples:
+
+	$ balena release-asset list 1234567
+	$ balena release-asset list a777f7345fe3d655c1c981aa642e5555
+	$ balena release-asset list 1234567 --json
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release
+
+### Options
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+## release-asset upload
+
+### Description
+
+Upload a file as a release asset with the specified key. If the asset already exists,
+you can use the --overwrite flag to replace it. You can customize the upload behavior with
+--chunk-size and --parallel-chunks options for larger files.
+
+Examples:
+
+	$ balena release-asset upload 1234567 ./path/to/config.json --key config.json
+	$ balena release-asset upload a777f7345fe3d655c1c981aa642e5555 ./app.tar.gz --key app.tar.gz --overwrite
+	$ balena release-asset upload 1234567 ./file.bin --key large-file.bin --chunk-size 10485760 --parallel-chunks 10
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release
+
+#### FILEPATH
+
+path to the file to upload
+
+### Options
+
+#### --key KEY
+
+the key for the release asset
+
+#### --overwrite
+
+overwrite the asset if it already exists
+
+#### --chunk-size CHUNK-SIZE
+
+chunk size in bytes for multipart upload (minimum 5MB)
+
+#### --parallel-chunks PARALLEL-CHUNKS
+
+number of chunks to upload in parallel
 
 # Releases
 

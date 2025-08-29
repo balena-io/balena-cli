@@ -206,6 +206,8 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaDeviceNotFound/, // balena-sdk
 	/^BalenaExpiredToken/, // balena-sdk
 	/^BalenaInvalidDeviceType/, // balena-sdk
+	/^BalenaError: Release asset/, // balena-sdk
+	/^Release asset not found/, // balena-sdk
 	/Cannot deactivate devices/i, // balena-api
 	/Devices must be offline in order to be deactivated\.$/i, // balena-api
 	/^BalenaOrganizationNotFound/, // balena-sdk

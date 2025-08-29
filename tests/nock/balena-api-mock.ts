@@ -209,6 +209,272 @@ export class BalenaAPIMock extends NockMock {
 			jHeader,
 		);
 	}
+	public expectGetReleaseWithReleaseAssets({
+		empty = false,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	} = {}) {
+		const interceptor = this.optGet(/^\/v7\/release($|[(?])/, {
+			persist,
+			optional,
+			times,
+		});
+
+		const releaseAssets = empty
+			? []
+			: [
+					{
+						id: 1,
+						asset_key: 'config.json',
+						asset: {
+							filename: 'config.json',
+							size: 1024,
+							content_type: 'application/json',
+						},
+					},
+					{
+						id: 2,
+						asset_key: 'app.tar.gz',
+						asset: {
+							filename: 'app.tar.gz',
+							size: 5242880,
+							content_type: 'application/gzip',
+						},
+					},
+				];
+
+		interceptor.reply(200, {
+			d: [
+				{
+					id: 142334,
+					release_asset: releaseAssets,
+				},
+			],
+		});
+	}
+
+	public expectDeleteReleaseAsset({
+		assetKey,
+		releaseId = 142334,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetKey: string;
+		releaseId?: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	}) {
+		const interceptor = this.optDelete(
+			`/v7/release_asset(release=${releaseId},asset_key=%27${assetKey}%27)`,
+			{
+				optional,
+				persist,
+				times,
+			},
+		);
+		interceptor.reply(200);
+	}
+
+	public expectGetReleaseAssetMissingOnce({
+		assetId = 456,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetKey?: string;
+		releaseId?: number;
+		found?: boolean;
+		assetId?: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	} = {}) {
+		const interceptor = this.optGet(/^\/v7\/release_asset/, {
+			optional,
+			persist,
+			times,
+		});
+
+		let found = false;
+		interceptor.reply(() => {
+			if (!found) {
+				found = true;
+				return [200, { d: [] }];
+			}
+			return [
+				200,
+				{
+					d: [
+						{
+							id: assetId,
+							asset: {
+								href: `https://balena-asset-downloads.s3.amazonaws.com/release-asset-${assetId}.bin`,
+								size: 1024,
+								content_type: 'application/octet-stream',
+							},
+						},
+					],
+				},
+			];
+		});
+	}
+
+	public expectGetReleaseAsset({
+		found = true,
+		assetId,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetKey?: string;
+		releaseId?: number;
+		found?: boolean;
+		assetId?: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	} = {}) {
+		const interceptor = this.optGet(/^\/v7\/release_asset/, {
+			optional,
+			persist,
+			times,
+		});
+
+		if (found && assetId) {
+			interceptor.reply(200, {
+				d: [
+					{
+						id: assetId,
+						asset: {
+							href: `https://balena-asset-downloads.s3.amazonaws.com/release-asset-${assetId}.bin`,
+							size: 1024,
+							content_type: 'application/octet-stream',
+						},
+					},
+				],
+			});
+		} else if (found) {
+			interceptor.reply(200, {
+				d: [
+					{
+						id: 456,
+						asset: {
+							href: `https://balena-asset-downloads.s3.amazonaws.com/release-asset-456.bin`,
+							size: 1024,
+							content_type: 'application/octet-stream',
+						},
+					},
+				],
+			});
+		} else {
+			interceptor.reply(200, { d: [] });
+		}
+	}
+
+	public expectPostReleaseAsset({
+		assetKey,
+		assetId = 123,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetKey?: string;
+		assetId?: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	} = {}) {
+		// Make regex more specific to avoid capturing beginUpload/commitUpload requests
+		const interceptor = this.optPost(/^\/v7\/release_asset($|\?)/, {
+			optional,
+			persist,
+			times,
+		});
+		interceptor.reply(201, { id: assetId, asset_key: assetKey });
+	}
+
+	public expectPatchReleaseAsset({
+		assetId,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetId: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	}) {
+		const interceptor = this.optPatch(/^\/v7\/release_asset/, {
+			optional,
+			persist,
+			times,
+		});
+		interceptor.reply(200, { id: assetId });
+	}
+
+	public expectBeginUpload({
+		assetId,
+		uuid = 'test-upload-uuid',
+		uploadUrl = 'https://test-upload.example.com/part1',
+		chunkSize = 6 * 1024 * 1024,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetId: number;
+		uuid?: string;
+		uploadUrl?: string;
+		chunkSize?: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	}) {
+		const interceptor = this.optPost(
+			`/v7/release_asset(${assetId})/beginUpload`,
+			{
+				optional,
+				persist,
+				times,
+			},
+		);
+		interceptor.reply(200, {
+			asset: {
+				uuid,
+				uploadParts: [
+					{
+						url: uploadUrl,
+						chunkSize,
+						partNumber: 1,
+					},
+				],
+			},
+		});
+	}
+
+	public expectCommitUpload({
+		assetId,
+		optional = false,
+		persist = false,
+		times = undefined as number | undefined,
+	}: {
+		assetId: number;
+		optional?: boolean;
+		persist?: boolean;
+		times?: number;
+	}) {
+		const interceptor = this.optPost(
+			`/v7/release_asset(${assetId})/commitUpload`,
+			{
+				optional,
+				persist,
+				times,
+			},
+		);
+		interceptor.reply(200, 'OK');
+	}
 
 	public expectGetDevice(opts: {
 		fullUUID: string;
