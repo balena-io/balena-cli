@@ -134,9 +134,6 @@ export default class OsConfigureCmd extends Command {
 			description:
 				'This option will set the device name when the device provisions',
 		}),
-		version: Flags.string({
-			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
-		}),
 		'system-connection': Flags.string({
 			multiple: true,
 			char: 'c',
@@ -208,12 +205,7 @@ export default class OsConfigureCmd extends Command {
 
 		const { normalizeOsVersion } = await import('../../utils/normalization');
 		const osVersion = normalizeOsVersion(
-			options.version ||
-				(await getOsVersionFromImage(
-					params.image,
-					deviceTypeManifest,
-					devInit,
-				)),
+			await getOsVersionFromImage(params.image, deviceTypeManifest, devInit),
 		);
 
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
@@ -338,9 +330,7 @@ async function getOsVersionFromImage(
 		deviceTypeManifest,
 	);
 	if (!osVersion) {
-		throw new ExpectedError(stripIndent`
-			Could not read OS version from the image. Please specify the balenaOS
-			version manually with the --version command-line option.`);
+		throw new ExpectedError('Could not read OS version from the image.');
 	}
 	return osVersion;
 }

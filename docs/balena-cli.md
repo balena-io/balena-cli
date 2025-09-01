@@ -2975,10 +2975,6 @@ device type slug (e.g. "raspberrypi3") to override the fleet device type
 
 This option will set the device name when the device provisions
 
-#### --version VERSION
-
-balenaOS version, for example "2.32.0" or "2.44.0+rev1"
-
 #### -c, --system-connection SYSTEM-CONNECTION
 
 paths to local files to place into the 'system-connections' directory
