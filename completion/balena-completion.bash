@@ -20,7 +20,7 @@ _balena_complete()
   internal_cmds="osinit"
   local_cmds="configure flash"
   organization_cmds="list"
-  os_cmds="build-config configure download initialize versions"
+  os_cmds="configure download initialize versions"
   release_asset_cmds="delete download list upload"
   release_cmds="finalize invalidate list validate"
   ssh_key_cmds="add list rm"

@@ -257,7 +257,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - OS
 
-	- [os build-config](#os-build-config)
 	- [os configure](#os-configure)
 	- [os download](#os-download)
 	- [os initialize](#os-initialize)
@@ -2834,40 +2833,6 @@ Examples:
 	$ balena organization list
 
 # OS
-
-## os build-config
-
-### Description
-
-Interactively generate a configuration file that can then be used as
-non-interactive input by the 'balena os configure' command.
-
-DEPRECATED: Use 'balena config generate' instead.
-
-Examples:
-
-	$ balena os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
-	$ balena os configure ../path/rpi3.img --device 7cf02a6 --config rpi3-config.json
-
-### Arguments
-
-#### IMAGE
-
-os image
-
-#### DEVICE-TYPE
-
-device type
-
-### Options
-
-#### -v, --advanced
-
-show advanced configuration options
-
-#### -o, --output OUTPUT
-
-path to output JSON file
 
 ## os configure
 
