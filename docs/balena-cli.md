@@ -2915,8 +2915,8 @@ Examples:
 
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
 	$ balena os configure ../path/rpi3.img --fleet myorg/myfleet
-	$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3
-	$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3 --config myWifiConfig.json
+	$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3
+	$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3 --config myWifiConfig.json
 
 ### Arguments
 
