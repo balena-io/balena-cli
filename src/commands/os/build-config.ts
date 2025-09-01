@@ -26,6 +26,8 @@ export default class OsBuildConfigCmd extends Command {
 
 		Interactively generate a configuration file that can then be used as
 		non-interactive input by the 'balena os configure' command.
+
+		DEPRECATED: Use 'balena config generate' instead.
 	`;
 
 	public static examples = [

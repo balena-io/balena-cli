@@ -43,7 +43,7 @@ export default class DeviceInitCmd extends Command {
 
 		'balena device register'
 		'balena os download'
-		'balena os build-config' or 'balena config generate'
+		'balena config generate'
 		'balena os configure'
 		'balena os local flash'
 
@@ -62,7 +62,7 @@ export default class DeviceInitCmd extends Command {
 
 		Image configuration questions will be asked interactively unless a pre-configured
 		'config.json' file is provided with the '--config' option.  The file can be
-		generated with the 'balena config generate' or 'balena os build-config' commands.
+		generated with the 'balena config generate' command.
 	`;
 
 	public static examples = [
@@ -90,7 +90,7 @@ export default class DeviceInitCmd extends Command {
 		}),
 		drive: cf.drive,
 		config: Flags.string({
-			description: 'path to the config JSON file, see `balena os build-config`',
+			description: 'path to the config JSON file, see `balena config generate`',
 		}),
 		'provisioning-key-name': Flags.string({
 			description: 'custom key name assigned to generated provisioning api key',

@@ -1402,7 +1402,7 @@ namely:
 
 'balena device register'
 'balena os download'
-'balena os build-config' or 'balena config generate'
+'balena config generate'
 'balena os configure'
 'balena os local flash'
 
@@ -1429,7 +1429,7 @@ environments).
 
 Image configuration questions will be asked interactively unless a pre-configured
 'config.json' file is provided with the '--config' option.  The file can be
-generated with the 'balena config generate' or 'balena os build-config' commands.
+generated with the 'balena config generate' command.
 
 Examples:
 
@@ -1468,7 +1468,7 @@ Check `balena util available-drives` for available options.
 
 #### --config CONFIG
 
-path to the config JSON file, see `balena os build-config`
+path to the config JSON file, see `balena config generate`
 
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
@@ -2838,6 +2838,8 @@ Examples:
 
 Interactively generate a configuration file that can then be used as
 non-interactive input by the 'balena os configure' command.
+
+DEPRECATED: Use 'balena config generate' instead.
 
 Examples:
 
