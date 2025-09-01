@@ -615,7 +615,6 @@ environments).
 Examples:
 
 	$ balena config generate --device 7cf02a6 --version 2.12.7
-	$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
 	$ balena config generate --fleet myorg/fleet --version 2.12.7 --dev
@@ -656,7 +655,7 @@ device type slug (run 'balena device-type list' for possible values)
 
 #### --generate-device-api-key
 
-generate a fresh device key for the device
+generate a fresh device key for the device. No-op and deprecated since a key is always auto-generated unless --deviceApiKey is provided.
 
 #### -o, --output OUTPUT
 

@@ -101,7 +101,7 @@ export async function generateDeviceConfig(
 	device: DeviceWithDeviceType & {
 		belongs_to__application: BalenaSdk.PineDeferred;
 	},
-	deviceApiKey: string | true | undefined,
+	deviceApiKey: string | undefined,
 	options: { version: string },
 ): Promise<ImgConfig> {
 	const sdk = getBalenaSdk();
