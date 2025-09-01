@@ -254,9 +254,6 @@ if (process.platform !== 'win32') {
 
 		it('should fail when it can not detect the OS version of the provided image', async () => {
 			api.expectGetApplication();
-			// Since the dummy image doesn't include a device-type.json
-			// we have to reach to the API to fetch the manifest of the device type.
-			api.expectGetConfigDeviceTypes();
 
 			const command: string[] = [
 				`os configure ${tmpDummyPath}`,
@@ -281,8 +278,7 @@ if (process.platform !== 'win32') {
 					[warn] "${tmpDummyPath}":
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
 					[warn]   Proceeding anyway, but this is unexpected.
-					[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.
-					Could not read OS version from the image.`.split('\n'),
+					Error while finding a device-type.json on the provided image path.`.split('\n'),
 			);
 		});
 	});
