@@ -677,6 +677,10 @@ the wifi key to use (used only if --network is set to wifi)
 
 supervisor cloud polling interval in minutes (e.g. for device variables)
 
+#### --initial-device-name INITIAL-DEVICE-NAME
+
+This option will set the device name when the device provisions
+
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
 custom key name assigned to generated provisioning api key
