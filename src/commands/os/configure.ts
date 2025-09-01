@@ -78,7 +78,6 @@ export default class OsConfigureCmd extends Command {
 	public static examples = [
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6',
 		'$ balena os configure ../path/rpi3.img --fleet myorg/myfleet',
-		'$ balena os configure ../path/rpi3.img --fleet MyFleet --version 2.12.7',
 		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3',
 		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3 --config myWifiConfig.json',
 	];
@@ -135,7 +134,8 @@ export default class OsConfigureCmd extends Command {
 				'This option will set the device name when the device provisions',
 		}),
 		version: Flags.string({
-			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
+			description:
+				'balenaOS version, for example "2.32.0" or "2.44.0+rev1". Deprecated, will be removed in a future major release.',
 		}),
 		'system-connection': Flags.string({
 			multiple: true,
