@@ -77,7 +77,6 @@ ADDITIONAL COMMANDS
   local flash                            flash an image to a drive
   logout                                 logout from balena
   note                                   set a device note
-  os build-config                        build an OS config and save it to a JSON file
   os configure                           configure a previously downloaded balenaOS image
   os download                            download an unconfigured OS image
   os initialize                          initialize an os image for a device
