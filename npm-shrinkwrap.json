@@ -118,7 +118,7 @@
         "@types/mock-fs": "^4.13.4",
         "@types/mock-require": "^2.0.1",
         "@types/ndjson": "^2.0.1",
-        "@types/node": "^20.0.0",
+        "@types/node": "^22.18.0",
         "@types/node-cleanup": "^2.1.2",
         "@types/prettyjson": "^0.0.33",
         "@types/progress-stream": "^2.0.2",
@@ -161,7 +161,7 @@
         "typescript": "^5.9.2"
       },
       "engines": {
-        "node": ">=20.6.0 <23"
+        "node": ">=22.18.0 <23"
       },
       "optionalDependencies": {
         "windosu": "^0.3.0"
@@ -5617,6 +5617,15 @@
         "@balena/sbvr-types": "^7.1.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0"
       }
     },
+    "node_modules/@balena/abstract-sql-to-typescript/node_modules/@types/node": {
+      "version": "20.19.11",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.11.tgz",
+      "integrity": "sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==",
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~6.21.0"
+      }
+    },
     "node_modules/@balena/apple-plist": {
       "version": "0.0.3",
       "resolved": "https://registry.npmjs.org/@balena/apple-plist/-/apple-plist-0.0.3.tgz",
@@ -7097,16 +7106,6 @@
       },
       "engines": {
         "node": ">=18"
-      }
-    },
-    "node_modules/@inquirer/core/node_modules/@types/node": {
-      "version": "22.18.5",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.18.5.tgz",
-      "integrity": "sha512-g9BpPfJvxYBXUWI9bV37j6d6LTMNQ88hPwdWWUeYZnMhlo66FIg9gCc1/DZb15QylJSKwOZjwrckvOTWpOiChg==",
-      "dev": true,
-      "license": "MIT",
-      "dependencies": {
-        "undici-types": "~6.21.0"
       }
     },
     "node_modules/@inquirer/core/node_modules/ansi-escapes": {
@@ -10945,9 +10944,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.19.16",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.16.tgz",
-      "integrity": "sha512-VS6TTONVdgwJwtJr7U+ghEjpfmQdqehLLpg/iMYGOd1+ilaFjdBJwFuPggJ4EAYPDCzWfDUHoIxyVnu+tOWVuQ==",
+      "version": "22.18.0",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.18.0.tgz",
+      "integrity": "sha512-m5ObIqwsUp6BZzyiy4RdZpzWGub9bqLJMvZDD0QMXhxjqMHMENlj+SqF5QxoUwaQNFe+8kz8XM8ZQhqkQPTgMQ==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -12302,6 +12301,15 @@
       },
       "engines": {
         "node": "^20.12.0 || >= 22.0.0"
+      }
+    },
+    "node_modules/balena-sdk/node_modules/@types/node": {
+      "version": "20.19.11",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.11.tgz",
+      "integrity": "sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==",
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~6.21.0"
       }
     },
     "node_modules/balena-sdk/node_modules/balena-semver": {
@@ -20791,6 +20799,15 @@
       "engines": {
         "node": ">=20.14.0",
         "npm": ">=10.7.0"
+      }
+    },
+    "node_modules/pinejs-client-core/node_modules/@types/node": {
+      "version": "20.19.11",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.11.tgz",
+      "integrity": "sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==",
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~6.21.0"
       }
     },
     "node_modules/pinkie": {
