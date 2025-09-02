@@ -74,7 +74,7 @@ export function filterCliOutputForTests({
 	out: string[];
 }): { err: string[]; out: string[] } {
 	// eslint-disable-next-line no-control-regex
-	const unicodeCharacterEscapesRegex = /\u001b\[3[0-9]m/g;
+	const unicodeCharacterEscapesRegex = /\u001b\[[2,3][0-9]?m/g;
 	return {
 		err: err
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
