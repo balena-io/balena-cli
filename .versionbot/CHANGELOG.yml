@@ -1,4 +1,18 @@
 - commits:
+    - subject: Deprecate 'balena os build-config' in favor of 'balena config generate'
+      hash: c6c565775c97f5192a16e432ddfbb0e456af3024
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.3.3
+  title: ""
+  date: 2025-09-02T15:53:12.871Z
+- commits:
     - subject: "os configure: Validate that the provided image & config file paths
         exist"
       hash: eba8588730eaf761ad31dfeab851c56d6646b085
