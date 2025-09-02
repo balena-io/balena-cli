@@ -1,4 +1,18 @@
 - commits:
+    - subject: "config generate: Add support for the --initial-device-name flag"
+      hash: c121f592332264c12dc0c5e15e50c1ce599be8c5
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.4.0
+  title: ""
+  date: 2025-09-02T19:47:25.056Z
+- commits:
     - subject: "config generate: Deprecate the '--generate-device-api-key' flag"
       hash: 218d2f279d5f7240c93f1e4d4de295aebc3f3259
       body: ""
