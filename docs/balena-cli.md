@@ -2886,7 +2886,7 @@ Examples:
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
 	$ balena os configure ../path/rpi3.img --fleet myorg/myfleet
 	$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3
-	$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3 --config myWifiConfig.json
+	$ balena os configure ../path/rpi3.img --config myWifiConfig.json
 
 ### Arguments
 
@@ -2896,17 +2896,21 @@ path to a balenaOS image file, e.g. "rpi3.img"
 
 ### Options
 
-#### -v, --advanced
-
-ask advanced configuration questions (when in interactive mode)
-
 #### -f, --fleet FLEET
 
 fleet name or slug (preferred)
 
+#### -d, --device DEVICE
+
+device UUID
+
 #### --config CONFIG
 
 path to a pre-generated config.json file to be injected in the OS image
+
+#### -v, --advanced
+
+ask advanced configuration questions (when in interactive mode)
 
 #### --config-app-update-poll-interval CONFIG-APP-UPDATE-POLL-INTERVAL
 
@@ -2932,10 +2936,6 @@ Configure balenaOS to operate in development mode
 
 Configure balenaOS installer to opt-in secure boot and disk encryption
 
-#### -d, --device DEVICE
-
-device UUID
-
 #### --device-type DEVICE-TYPE
 
 device type slug (e.g. "raspberrypi3") to override the fleet device type
@@ -2944,10 +2944,6 @@ device type slug (e.g. "raspberrypi3") to override the fleet device type
 
 This option will set the device name when the device provisions
 
-#### -c, --system-connection SYSTEM-CONNECTION
-
-paths to local files to place into the 'system-connections' directory
-
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
 custom key name assigned to generated provisioning api key
@@ -2955,6 +2951,10 @@ custom key name assigned to generated provisioning api key
 #### --provisioning-key-expiry-date PROVISIONING-KEY-EXPIRY-DATE
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
+
+#### -c, --system-connection SYSTEM-CONNECTION
+
+paths to local files to place into the 'system-connections' directory
 
 ## os download
 
