@@ -177,25 +177,26 @@ async function startMockSshServer(): Promise<[Server, number]> {
 		});
 		c.end();
 	});
-	server.on('error', (err) => {
-		console.error(`mock ssh server error:\n${err}`);
-	});
 
 	return await new Promise<[Server, number]>((resolve, reject) => {
-		// TODO: remove 'as any' below. According to @types/node v16.18.25, the
-		// callback type is `() => void`, but our code assumes `(err: Error) => void`
-		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
-			// this callback is called for the 'listening' event
-			if (err) {
-				console.error(`Error starting mock ssh server:\n${err}`);
-				reject(err);
-			} else {
-				const info: any = listener.address();
-				console.error(
-					`[Info] Mock ssh server listening on ${info.address}:${info.port}`,
+		server.on('error', (err) => {
+			console.error(`mock ssh server error:\n${err}`);
+			reject(err);
+		});
+		const listener = server.listen(0, '127.0.0.1', () => {
+			const info = listener.address();
+			if (info == null || typeof info !== 'object') {
+				server.close();
+				const err = new Error(
+					`Test listener.address() did not return an object ${info}`,
 				);
-				resolve([server, info.port]);
+				reject(err);
+				return;
 			}
+			console.error(
+				`[Info] Mock ssh server listening on ${info.address}:${info.port}`,
+			);
+			resolve([server, info.port]);
 		});
 	});
 }
