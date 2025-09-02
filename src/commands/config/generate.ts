@@ -56,7 +56,6 @@ export default class ConfigGenerateCmd extends Command {
 
 	public static examples = [
 		'$ balena config generate --device 7cf02a6 --version 2.12.7',
-		'$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json',
 		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --dev',
@@ -91,8 +90,10 @@ export default class ConfigGenerateCmd extends Command {
 			description:
 				"device type slug (run 'balena device-type list' for possible values)",
 		}),
+		// TODO: Drop in next major, since atm it is always defaulted to true interally
 		'generate-device-api-key': Flags.boolean({
-			description: 'generate a fresh device key for the device',
+			description:
+				'generate a fresh device key for the device. No-op and deprecated since a key is always auto-generated unless --deviceApiKey is provided.',
 		}),
 		output: Flags.string({
 			description: 'path of output file',
@@ -227,7 +228,7 @@ export default class ConfigGenerateCmd extends Command {
 		if (device) {
 			config = await generateDeviceConfig(
 				device,
-				options.deviceApiKey || options['generate-device-api-key'] || undefined,
+				options.deviceApiKey,
 				answers,
 			);
 		} else if (application) {

@@ -97,46 +97,40 @@ export async function generateApplicationConfig(
 	return config;
 }
 
-export function generateDeviceConfig(
+export async function generateDeviceConfig(
 	device: DeviceWithDeviceType & {
 		belongs_to__application: BalenaSdk.PineDeferred;
 	},
-	deviceApiKey: string | true | undefined,
+	deviceApiKey: string | undefined,
 	options: { version: string },
-) {
+): Promise<ImgConfig> {
 	const sdk = getBalenaSdk();
-	return sdk.models.application
-		.get(device.belongs_to__application.__id)
-		.then(async (application) => {
-			const baseConfigOpts = {
-				...options,
-				deviceType: device.is_of__device_type[0].slug,
-			};
-			// TODO: Generate the correct key beforehand and pass it to os.getConfig() once
-			// the API supports injecting a provided key, to avoid generating an unused one.
-			const config = await generateApplicationConfig(
-				application,
-				baseConfigOpts,
-			);
-			// os.getConfig always returns a config for an app
-			delete config.apiKey;
+	const application = await sdk.models.application.get(
+		device.belongs_to__application.__id,
+	);
 
-			config.deviceApiKey =
-				typeof deviceApiKey === 'string' && deviceApiKey
-					? deviceApiKey
-					: await sdk.models.device.generateDeviceKey(device.uuid);
+	const baseConfigOpts = {
+		...options,
+		deviceType: device.is_of__device_type[0].slug,
+	};
+	// TODO: Generate the correct key beforehand and pass it to os.getConfig() once
+	// the API supports injecting a provided key, to avoid generating an unused one.
+	const config = await generateApplicationConfig(application, baseConfigOpts);
+	// os.getConfig always returns a config for an app
+	delete config.apiKey;
 
-			return config;
-		})
-		.then((config) => {
-			// Associate a device, to prevent the supervisor
-			// from creating another one on its own.
-			config.registered_at = Math.floor(Date.now() / 1000);
-			config.deviceId = device.id;
-			config.uuid = device.uuid;
+	config.deviceApiKey =
+		typeof deviceApiKey === 'string' && deviceApiKey
+			? deviceApiKey
+			: await sdk.models.device.generateDeviceKey(device.uuid);
 
-			return config;
-		});
+	// Associate a device, to prevent the supervisor
+	// from creating another one on its own.
+	config.registered_at = Math.floor(Date.now() / 1000);
+	config.deviceId = device.id;
+	config.uuid = device.uuid;
+
+	return config;
 }
 
 /**
