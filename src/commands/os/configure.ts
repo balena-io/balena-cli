@@ -30,6 +30,7 @@ import {
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
+type ArgsDef = Interfaces.InferredArgs<typeof OsConfigureCmd.args>;
 type FlagsDef = Interfaces.InferredFlags<typeof OsConfigureCmd.flags>;
 
 interface Answers {
@@ -160,7 +161,7 @@ export default class OsConfigureCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(OsConfigureCmd);
 
-		await validateOptions(options);
+		await validateArgsAndOptions(params, options);
 
 		const devInit = await import('balena-device-init');
 		const { promises: fs } = await import('fs');
@@ -302,7 +303,7 @@ export default class OsConfigureCmd extends Command {
 	}
 }
 
-async function validateOptions(options: FlagsDef) {
+async function validateArgsAndOptions(args: ArgsDef, options: FlagsDef) {
 	// The 'device' and 'application' options are declared "exclusive" in the oclif
 	// flag definitions above, so oclif will enforce that they are not both used together.
 	if (!options.device && !options.fleet) {
@@ -314,6 +315,13 @@ async function validateOptions(options: FlagsDef) {
 		throw new ExpectedError(
 			"The '--device-type' option can only be used in conjunction with the '--fleet' option",
 		);
+	}
+
+	const { validateFilePath } = await import('../../utils/validation');
+	await validateFilePath(args.image);
+
+	if (options.config != null) {
+		await validateFilePath(options.config);
 	}
 
 	const { checkLoggedIn } = await import('../../utils/patterns');

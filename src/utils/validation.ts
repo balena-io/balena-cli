@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import * as fs from 'fs/promises';
 import { ExpectedError } from '../errors';
 
 // Sufficiently good email regex in order not to bring in another dependency.
@@ -121,4 +122,18 @@ export async function parseAsLocalHostnameOrIp(input: string) {
 
 export function looksLikeFleetSlug(input: string) {
 	return input.includes('/');
+}
+
+export async function validateFilePath(filePath: string) {
+	try {
+		const stats = await fs.stat(filePath);
+		if (!stats.isFile() && !stats.isSymbolicLink()) {
+			throw new ExpectedError(`Path is not pointing to a file: ${filePath}`);
+		}
+	} catch (err) {
+		if (err instanceof Error && 'code' in err && err.code === 'ENOENT') {
+			throw new ExpectedError(`No such file: ${filePath}`);
+		}
+		throw err;
+	}
 }

@@ -108,6 +108,54 @@ if (process.platform !== 'win32') {
 			await fs.unlink(tmpNonMatchingDtJsonPartitionPath);
 		});
 
+		it('should fail when the provided image path does not exist', async () => {
+			const tmpInvalidImagePath = `${tmpMatchingDtJsonPartitionPath}wrong.img`;
+			const command: string[] = [
+				`os configure ${tmpInvalidImagePath}`,
+				'--device-type jetson-nano',
+				'--fleet testApp',
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal([`No such file: ${tmpInvalidImagePath}`]);
+		});
+
+		it('should fail when the provided image path is a directory', async () => {
+			const tmpInvalidImagePath = tmpMatchingDtJsonPartitionPath.replace(
+				/\/[^/]+$/,
+				'',
+			);
+			const command: string[] = [
+				`os configure ${tmpInvalidImagePath}`,
+				'--device-type jetson-nano',
+				'--fleet testApp',
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal([
+				`Path is not pointing to a file: ${tmpInvalidImagePath}`,
+			]);
+		});
+
+		it('should fail when the provided config path does not exist', async () => {
+			const tmpInvalidConfigJsonPath = `${tmpMatchingDtJsonPartitionPath}wrong-config.json`;
+			const command: string[] = [
+				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+				'--device-type jetson-nano',
+				'--fleet testApp',
+				`--config ${tmpInvalidConfigJsonPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal([`No such file: ${tmpInvalidConfigJsonPath}`]);
+		});
+
 		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
 			api.expectGetApplication();
 			api.expectGetDeviceTypes();
