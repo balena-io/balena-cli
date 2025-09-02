@@ -91,12 +91,16 @@ export default class ReleaseCmd extends Command {
 			'commit',
 			'created_at',
 			'status',
-			'semver',
+			'raw_version',
 			'is_final',
 			'build_log',
 			'start_timestamp',
 			'end_timestamp',
 		] as const;
+		const explicitReadFields = ['raw_version'] as const;
+		const fieldNameMap: Partial<Record<(typeof fields)[number], string>> = {
+			raw_version: 'version',
+		};
 
 		const release = await balena.models.release.get(commitOrId, {
 			...(!options.json && { $select: fields }),
@@ -108,20 +112,34 @@ export default class ReleaseCmd extends Command {
 		});
 
 		if (options.json) {
+			// We fetch the bC explicit read fields independently, since we want to fetch all fields on both bC & oB
+			// but bC & oB have different fields, so we can't enumerate them in a single $select.
+			const releaseWithExplicitReadFields = await balena.models.release.get(
+				release.id,
+				{
+					$select: ['id', ...explicitReadFields],
+				},
+			);
+			Object.assign(release, releaseWithExplicitReadFields);
 			console.log(JSON.stringify(release, null, 4));
 		} else {
 			const tagStr = release
 				.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
 				.join('\n');
-
-			const _ = await import('lodash');
-			const values = _.mapValues(
-				release,
-				(val) => val ?? 'N/a',
-			) as Dictionary<string>;
+			const values = Object.fromEntries(
+				Object.entries(release).map(([f, val]) => [
+					fieldNameMap[f as keyof typeof fieldNameMap] ?? f,
+					val ?? 'N/a',
+				]),
+			);
 			values['tags'] = tagStr;
 
-			console.log(getVisuals().table.vertical(values, [...fields, 'tags']));
+			console.log(
+				getVisuals().table.vertical(values, [
+					...fields.map((f) => fieldNameMap[f] ?? f),
+					'tags',
+				]),
+			);
 		}
 	}
 }
