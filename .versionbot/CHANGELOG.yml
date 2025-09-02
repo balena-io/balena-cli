@@ -1,4 +1,19 @@
 - commits:
+    - subject: "os configure: Validate that the provided image & config file paths
+        exist"
+      hash: eba8588730eaf761ad31dfeab851c56d6646b085
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.3.2
+  title: ""
+  date: 2025-09-02T14:54:14.608Z
+- commits:
     - subject: "os configure: Update the examples to use fleet slugs"
       hash: e83658b8e722c9f9a7f53d6a71a8bf20652b7c74
       body: ""
