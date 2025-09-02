@@ -1,4 +1,26 @@
 - commits:
+    - subject: "os configure: Update the examples to use fleet slugs"
+      hash: e83658b8e722c9f9a7f53d6a71a8bf20652b7c74
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure: Deprecate the --version flag"
+      hash: bc698c7fc3602b4abdf4a425a85597af4d40eb46
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.3.1
+  title: ""
+  date: 2025-09-02T13:14:17.701Z
+- commits:
     - subject: Add release_asset model
       hash: 04c8c12d1b261b0cbf1e552801982342c2f412cc
       body: |
