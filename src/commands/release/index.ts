@@ -97,7 +97,7 @@ export default class ReleaseCmd extends Command {
 			'start_timestamp',
 			'end_timestamp',
 		] as const;
-		const explicitReadFields = ['raw_version'] as const;
+		const explicitReadFields = ['raw_version', 'build_log'] as const;
 		const fieldNameMap: Partial<Record<(typeof fields)[number], string>> = {
 			raw_version: 'version',
 		};
