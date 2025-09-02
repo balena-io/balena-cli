@@ -1,4 +1,16 @@
 - commits:
+    - subject: "tests/ssh: Avoid an `as any` cast"
+      hash: 8471da8a31df1edabeff990615807ff8309a4b56
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.4.1
+  title: ""
+  date: 2025-09-02T21:48:12.545Z
+- commits:
     - subject: "config generate: Add support for the --initial-device-name flag"
       hash: c121f592332264c12dc0c5e15e50c1ce599be8c5
       body: ""
