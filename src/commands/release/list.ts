@@ -63,15 +63,20 @@ export default class ReleaseListCmd extends Command {
 			'commit',
 			'created_at',
 			'status',
-			'semver',
+			'raw_version',
 			'is_final',
 		] as const;
+		const explicitReadFields = ['raw_version'] as const;
+		const fieldNameMap: Partial<Record<(typeof fields)[number], string>> = {
+			raw_version: 'version',
+		};
 
 		const balena = getBalenaSdk();
 		const { getFleetSlug } = await import('../../utils/sdk');
 
+		const slug = await getFleetSlug(balena, params.fleet);
 		const releases = await balena.models.release.getAllByApplication(
-			await getFleetSlug(balena, params.fleet),
+			slug,
 			options.json
 				? {
 						$expand: {
@@ -84,8 +89,25 @@ export default class ReleaseListCmd extends Command {
 		);
 
 		if (options.json) {
+			// Since we want to fetch all fields on both bC & oB but bC & oB have different fields available,
+			// we can't enumerate them in a single $select, so we fetch the bC explicit read fields independently.
+			const releasesWithExplicitReadFields =
+				await balena.models.release.getAllByApplication(slug, {
+					$select: ['id', ...explicitReadFields],
+				});
+			const _ = await import('lodash');
+			const releasesWithExplicitReadFieldsById = _.keyBy(
+				releasesWithExplicitReadFields,
+				(r) => r.id,
+			);
+
+			const augmentedReleases = releases.map((release) => ({
+				...release,
+				...releasesWithExplicitReadFieldsById[release.id],
+			}));
+
 			await pipeline(
-				Readable.from(releases),
+				Readable.from(augmentedReleases),
 				JSONStream.stringify('[', ',', ']\n'),
 				new Writable({
 					write(chunk, encoding, callback) {
@@ -94,11 +116,17 @@ export default class ReleaseListCmd extends Command {
 				}),
 			);
 		} else {
-			const _ = await import('lodash');
 			console.log(
 				getVisuals().table.horizontal(
-					releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
-					fields,
+					releases.map((rel) =>
+						Object.fromEntries(
+							Object.entries(rel).map(([f, val]) => [
+								fieldNameMap[f as keyof typeof fieldNameMap] ?? f,
+								val ?? 'N/a',
+							]),
+						),
+					),
+					fields.map((f) => fieldNameMap[f] ?? f),
 				),
 			);
 		}
