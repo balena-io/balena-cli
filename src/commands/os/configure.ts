@@ -252,7 +252,7 @@ export default class OsConfigureCmd extends Command {
 		}
 
 		if (
-			options['initial-device-name'] &&
+			options['initial-device-name'] != null &&
 			options['initial-device-name'] !== ''
 		) {
 			configJson!.initialDeviceName = options['initial-device-name'];

@@ -116,6 +116,10 @@ export default class ConfigGenerateCmd extends Command {
 			description:
 				'supervisor cloud polling interval in minutes (e.g. for device variables)',
 		}),
+		'initial-device-name': Flags.string({
+			description:
+				'This option will set the device name when the device provisions',
+		}),
 		'provisioning-key-name': Flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
 			exclusive: ['device'],
@@ -224,26 +228,38 @@ export default class ConfigGenerateCmd extends Command {
 			'../../utils/config'
 		);
 
-		let config;
+		let configJson;
 		if (device) {
-			config = await generateDeviceConfig(
+			configJson = await generateDeviceConfig(
 				device,
 				options.deviceApiKey,
 				answers,
 			);
 		} else if (application) {
 			answers.deviceType = deviceType;
-			config = await generateApplicationConfig(application, answers);
+			configJson = await generateApplicationConfig(application, answers);
+		} else {
+			// This should never happen due to earlier checks, but we use it to convince TS that configJson is always set.
+			throw new Error(
+				'Error: Either application or device must be set, but neither are set.',
+			);
+		}
+
+		if (
+			options['initial-device-name'] != null &&
+			options['initial-device-name'] !== ''
+		) {
+			configJson.initialDeviceName = options['initial-device-name'];
 		}
 
 		// Output
 		if (options.output != null) {
 			const fs = await import('fs');
-			await fs.promises.writeFile(options.output, JSON.stringify(config));
+			await fs.promises.writeFile(options.output, JSON.stringify(configJson));
 		}
 
 		const prettyjson = await import('prettyjson');
-		console.log(prettyjson.render(config));
+		console.log(prettyjson.render(configJson));
 	}
 
 	protected readonly missingDeviceOrAppMessage = stripIndent`
