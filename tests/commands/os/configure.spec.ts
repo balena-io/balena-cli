@@ -145,8 +145,6 @@ if (process.platform !== 'win32') {
 			const tmpInvalidConfigJsonPath = `${tmpMatchingDtJsonPartitionPath}wrong-config.json`;
 			const command: string[] = [
 				`os configure ${tmpMatchingDtJsonPartitionPath}`,
-				'--device-type jetson-nano',
-				'--fleet testApp',
 				`--config ${tmpInvalidConfigJsonPath}`,
 			];
 
@@ -155,6 +153,31 @@ if (process.platform !== 'win32') {
 				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
 			).to.deep.equal([`No such file: ${tmpInvalidConfigJsonPath}`]);
 		});
+
+		for (const [argName, argValue] of [
+			['--fleet', 'testApp'],
+			['--device', '666c3ca42add4d39a0b638fd8562051d'],
+		]) {
+			it(`should fail combining --config with ${argName}`, async () => {
+				const command: string[] = [
+					`os configure ${tmpMatchingDtJsonPartitionPath}`,
+					'--device-type jetson-nano',
+					`${argName} ${argValue}`,
+					`--config ${tmpMatchingDtJsonPartitionPath}`,
+				];
+
+				const { err } = await runCommand(command.join(' '));
+				expect(
+					err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+				).to.deep.equal(
+					stripIndent`
+					The following errors occurred:
+					  --config=${tmpMatchingDtJsonPartitionPath} cannot also be provided when using ${argName}
+					  ${argName}=${argValue} cannot also be provided when using --config
+					See more help with --help`.split('\n'),
+				);
+			});
+		}
 
 		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
 			api.expectGetApplication();

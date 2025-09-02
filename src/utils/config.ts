@@ -52,6 +52,7 @@ export interface ImgConfig {
 		sshKeys?: string[];
 	};
 
+	developmentMode?: boolean;
 	installer?: {
 		secureboot?: boolean;
 	};
