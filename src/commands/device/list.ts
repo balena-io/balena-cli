@@ -19,7 +19,7 @@ import { Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo, jsonInfo } from '../../utils/messages';
+import { applicationIdInfo } from '../../utils/messages';
 
 const devicesSelectFields = {
 	$select: [
@@ -36,6 +36,7 @@ const devicesSelectFields = {
 export default class DeviceListCmd extends Command {
 	public static aliases = ['devices'];
 	public static deprecateAliases = true;
+	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
 		List all devices.
@@ -45,8 +46,6 @@ export default class DeviceListCmd extends Command {
 		Devices can be filtered by fleet with the \`--fleet\` option.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
-
-		${jsonInfo.split('\n').join('\n\t\t')}
 	`;
 	public static examples = [
 		'$ balena device list',
@@ -56,7 +55,6 @@ export default class DeviceListCmd extends Command {
 
 	public static flags = {
 		fleet: cf.fleet,
-		json: cf.json,
 	};
 
 	public static primary = true;
@@ -115,15 +113,14 @@ export default class DeviceListCmd extends Command {
 		if (options.json) {
 			const { pickAndRename } = await import('../../utils/helpers');
 			const mapped = devices.map((device) => pickAndRename(device, fields));
-			console.log(JSON.stringify(mapped, null, 4));
-		} else {
-			const _ = await import('lodash');
-			console.log(
-				getVisuals().table.horizontal(
-					devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
-					fields,
-				),
-			);
+			return JSON.stringify(mapped, null, 4);
 		}
+		const _ = await import('lodash');
+		console.log(
+			getVisuals().table.horizontal(
+				devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
+				fields,
+			),
+		);
 	}
 }

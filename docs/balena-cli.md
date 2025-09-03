@@ -730,10 +730,6 @@ Examples:
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 ## config reconfigure
 
 ### Description
@@ -1248,23 +1244,12 @@ By default, only actively supported device types are listed.
 The --all option can be used to list all device types, including those that are
 no longer supported by balena.
 
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings (for example, the ALIASES column contains a
-list of zero or more values). The 'jq' utility may be helpful in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena device-type list
 	$ balena device-type list --all
-	$ balena device-type list --json
 
 ### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### --all
 
@@ -1332,10 +1317,6 @@ display full info
 
 scan timeout in seconds
 
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 ## device identify
 
 ### Description
@@ -1358,17 +1339,10 @@ the uuid of the device to identify
 
 Show information about a single device.
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena device 7cf02a6
 	$ balena device 7cf02a6 --view
-	$ balena device 7cf02a6 --json
 
 ### Arguments
 
@@ -1377,10 +1351,6 @@ Examples:
 the device uuid
 
 ### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### --view
 
@@ -1499,12 +1469,6 @@ from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
 environments).
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena device list
@@ -1516,10 +1480,6 @@ Examples:
 #### -f, --fleet FLEET
 
 fleet name or slug (preferred)
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## device local-mode
 
@@ -2208,15 +2168,12 @@ balena platform features, as opposed to custom environment variables defined
 by the user. The --config and the --service options are mutually exclusive
 because configuration variables cannot be set for specific services.
 
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings. The 'jq' utility may be helpful in shell
-scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
-JSON array ([]) is printed instead of an error message when no variables exist
-for the given query. When querying variables for a device, note that the fleet
-name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
-the device belonged to is no longer accessible by the current user (for example,
-in case the current user was removed from the fleet by the fleet's owner).
+When --json is used, an empty JSON array ([]) is printed instead of an error 
+message when no variables exist for the given query. When querying variables 
+for a device, note that the fleet name may be null in JSON output 
+(or 'N/A' in tabular output) if the fleet that the device belonged to is no 
+longer accessible by the current user (for example, in case the current user 
+was removed from the fleet by the fleet's owner).
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
@@ -2231,12 +2188,9 @@ environments).
 Examples:
 
 	$ balena env list --fleet myorg/myfleet
-	$ balena env list --fleet MyFleet --json
 	$ balena env list --fleet MyFleet --service MyService
 	$ balena env list --fleet MyFleet --config
 	$ balena env list --device 7cf02a6
-	$ balena env list --device 7cf02a6 --json
-	$ balena env list --device 7cf02a6 --config --json
 	$ balena env list --device 7cf02a6 --service MyService
 
 ### Options
@@ -2252,10 +2206,6 @@ show configuration variables only
 #### -d, --device DEVICE
 
 device UUID
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### -s, --service SERVICE
 
@@ -2558,10 +2508,6 @@ fleet name or slug (preferred)
 
 open fleet dashboard page
 
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 ## fleet list
 
 ### Aliases
@@ -2581,12 +2527,6 @@ For detailed information on a particular fleet, use
 Examples:
 
 	$ balena fleet list
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## fleet pin
 
@@ -3570,29 +3510,17 @@ overwrite existing file without confirmation
 ### Description
 
 List all assets for a specific release.
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
 
 Examples:
 
 	$ balena release-asset list 1234567
 	$ balena release-asset list a777f7345fe3d655c1c981aa642e5555
-	$ balena release-asset list 1234567 --json
 
 ### Arguments
 
 #### COMMITORID
 
 the commit or ID of the release
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## release-asset upload
 
@@ -3668,17 +3596,12 @@ the commit or ID of the release to finalize
 
 ### Description
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
+
 
 Examples:
 
 	$ balena release a777f7345fe3d655c1c981aa642e5555
 	$ balena release 1234567
-	$ balena release d3f3151f5ad25ca6b070aa4d08296aca --json
 
 ### Arguments
 
@@ -3687,10 +3610,6 @@ Examples:
 the commit or ID of the release to get information
 
 ### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### -c, --composition
 
@@ -3739,28 +3658,15 @@ created public/open fleet, or with fleets from other balena accounts that you
 may be invited to join under any role.  For this reason, fleet names are
 especially discouraged in scripts (e.g. CI environments).
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena release list myorg/myfleet
-	$ balena release list myorg/myfleet --json
 
 ### Arguments
 
 #### FLEET
 
 fleet name or slug (preferred)
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## release validate
 

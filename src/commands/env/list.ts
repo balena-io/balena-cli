@@ -54,6 +54,7 @@ interface ServiceEnvironmentVariableInfo extends ServiceEnvironmentVariable {
 export default class EnvListCmd extends Command {
 	public static aliases = ['envs'];
 	public static deprecateAliases = true;
+	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
 		List the environment or config variables of a fleet, device or service.
@@ -78,27 +79,21 @@ export default class EnvListCmd extends Command {
 		by the user. The --config and the --service options are mutually exclusive
 		because configuration variables cannot be set for specific services.
 
-		The --json option is recommended when scripting the output of this command,
-		because the JSON format is less likely to change and it better represents data
-		types like lists and empty strings. The 'jq' utility may be helpful in shell
-		scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
-		JSON array ([]) is printed instead of an error message when no variables exist
-		for the given query. When querying variables for a device, note that the fleet
-		name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
-		the device belonged to is no longer accessible by the current user (for example,
-		in case the current user was removed from the fleet by the fleet's owner).
+		When --json is used, an empty JSON array ([]) is printed instead of an error 
+		message when no variables exist for the given query. When querying variables 
+		for a device, note that the fleet name may be null in JSON output 
+		(or 'N/A' in tabular output) if the fleet that the device belonged to is no 
+		longer accessible by the current user (for example, in case the current user 
+		was removed from the fleet by the fleet's owner).
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'$ balena env list --fleet myorg/myfleet',
-		'$ balena env list --fleet MyFleet --json',
 		'$ balena env list --fleet MyFleet --service MyService',
 		'$ balena env list --fleet MyFleet --config',
 		'$ balena env list --device 7cf02a6',
-		'$ balena env list --device 7cf02a6 --json',
-		'$ balena env list --device 7cf02a6 --config --json',
 		'$ balena env list --device 7cf02a6 --service MyService',
 	];
 
@@ -111,7 +106,6 @@ export default class EnvListCmd extends Command {
 			exclusive: ['service'],
 		}),
 		device: { ...cf.device, exclusive: ['fleet'] },
-		json: cf.json,
 		service: { ...cf.service, exclusive: ['config'] },
 	};
 
@@ -169,7 +163,7 @@ export default class EnvListCmd extends Command {
 			throw new ExpectedError(`No environment variables found for ${target}`);
 		}
 
-		await this.printVariables(variables, options);
+		return await this.printVariables(variables, options);
 	}
 
 	protected async printVariables(
@@ -194,15 +188,14 @@ export default class EnvListCmd extends Command {
 		if (options.json) {
 			const { pickAndRename } = await import('../../utils/helpers');
 			const mapped = varArray.map((o) => pickAndRename(o, fields));
-			this.log(JSON.stringify(mapped, null, 4));
-		} else {
-			this.log(
-				getVisuals().table.horizontal(
-					_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
-					fields,
-				),
-			);
+			return JSON.stringify(mapped, null, 4);
 		}
+		this.log(
+			getVisuals().table.horizontal(
+				_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
+				fields,
+			),
+		);
 	}
 }
 

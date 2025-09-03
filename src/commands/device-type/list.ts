@@ -21,6 +21,7 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 export default class DeviceTypeListCmd extends Command {
 	public static aliases = ['devices supported'];
 	public static deprecateAliases = true;
+	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
 		List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
@@ -30,24 +31,13 @@ export default class DeviceTypeListCmd extends Command {
 		By default, only actively supported device types are listed.
 		The --all option can be used to list all device types, including those that are
 		no longer supported by balena.
-
-		The --json option is recommended when scripting the output of this command,
-		because the JSON format is less likely to change and it better represents data
-		types like lists and empty strings (for example, the ALIASES column contains a
-		list of zero or more values). The 'jq' utility may be helpful in shell scripts
-		(https://stedolan.github.io/jq/manual/).
 `;
 	public static examples = [
 		'$ balena device-type list',
 		'$ balena device-type list --all',
-		'$ balena device-type list --json',
 	];
 
 	public static flags = {
-		json: Flags.boolean({
-			char: 'j',
-			description: 'produce JSON output instead of tabular output',
-		}),
 		all: Flags.boolean({
 			description: 'include device types no longer supported by balena',
 			default: false,
@@ -90,11 +80,10 @@ export default class DeviceTypeListCmd extends Command {
 		const fields = ['slug', 'aliases', 'arch', 'name'];
 		deviceTypes = _.sortBy(deviceTypes, fields);
 		if (options.json) {
-			console.log(JSON.stringify(deviceTypes, null, 4));
-		} else {
-			const visuals = getVisuals();
-			const output = visuals.table.horizontal(deviceTypes, fields);
-			console.log(output);
+			return JSON.stringify(deviceTypes, null, 4);
 		}
+		const visuals = getVisuals();
+		const output = visuals.table.horizontal(deviceTypes, fields);
+		console.log(output);
 	}
 }
