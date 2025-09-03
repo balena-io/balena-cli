@@ -15,6 +15,7 @@
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^4.5.6",
+        "@oclif/plugin-autocomplete": "^3.2.34",
         "@oclif/plugin-update": "^4.7.14",
         "@oclif/plugin-version": "^2.2.32",
         "@sentry/node": "^10.17.0",
@@ -8558,6 +8559,21 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/@oclif/plugin-autocomplete": {
+      "version": "3.2.34",
+      "resolved": "https://registry.npmjs.org/@oclif/plugin-autocomplete/-/plugin-autocomplete-3.2.34.tgz",
+      "integrity": "sha512-KhbPcNjitAU7jUojMXJ3l7duWVub0L0pEr3r3bLrpJBNuIJhoIJ7p56Ropcb7OMH2xcaz5B8HGq56cTOe1FHEg==",
+      "license": "MIT",
+      "dependencies": {
+        "@oclif/core": "^4",
+        "ansis": "^3.16.0",
+        "debug": "^4.4.1",
+        "ejs": "^3.1.10"
+      },
+      "engines": {
+        "node": ">=18.0.0"
       }
     },
     "node_modules/@oclif/plugin-help": {
