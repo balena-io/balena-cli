@@ -60,24 +60,6 @@ describe('balena env list', function () {
 		expect(err.join('')).to.equal('');
 	});
 
-	it('should successfully list env vars for a test fleet via `envs` alias', async () => {
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
-
-		const { out } = await runCommand(`envs -f ${appName}`);
-
-		expect(out.join('')).to.contain(
-			stripIndent`
-			ID     NAME  VALUE       FLEET           SERVICE
-			120110 svar1 svar1-value gh_user/testApp service1
-			120111 svar2 svar2-value gh_user/testApp service2
-			120101 var1  var1-val    gh_user/testApp *
-			120102 var2  22          gh_user/testApp *
-		` + '\n',
-		);
-	});
-
 	it('should successfully list config vars for a test fleet', async () => {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();

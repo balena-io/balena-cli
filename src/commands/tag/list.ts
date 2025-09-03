@@ -22,9 +22,6 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
 export default class TagListCmd extends Command {
-	public static aliases = ['tags'];
-	public static deprecateAliases = true;
-
 	public static description = stripIndent`
 		List all tags for a fleet, device or release.
 

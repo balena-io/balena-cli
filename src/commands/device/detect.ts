@@ -19,8 +19,6 @@ import { Flags, Command } from '@oclif/core';
 import { getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class DeviceDetectCmd extends Command {
-	public static aliases = ['scan'];
-	public static deprecateAliases = true;
 	public static enableJsonFlag = true;
 
 	public static description = stripIndent`

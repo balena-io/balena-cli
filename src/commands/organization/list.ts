@@ -19,9 +19,6 @@ import { Command } from '@oclif/core';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class OrganizationListCmd extends Command {
-	public static aliases = ['orgs'];
-	public static deprecateAliases = true;
-
 	public static description = stripIndent`
 		List all organizations.
 

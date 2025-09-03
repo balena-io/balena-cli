@@ -23,8 +23,6 @@ import { Readable, Writable } from 'stream';
 import { pipeline } from 'stream/promises';
 
 export default class ReleaseListCmd extends Command {
-	public static aliases = ['releases'];
-	public static deprecateAliases = true;
 	public static enableJsonFlag = true;
 
 	public static description = stripIndent`

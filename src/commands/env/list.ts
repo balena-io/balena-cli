@@ -52,8 +52,6 @@ interface ServiceEnvironmentVariableInfo extends ServiceEnvironmentVariable {
 }
 
 export default class EnvListCmd extends Command {
-	public static aliases = ['envs'];
-	public static deprecateAliases = true;
 	public static enableJsonFlag = true;
 
 	public static description = stripIndent`

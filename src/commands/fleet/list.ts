@@ -19,8 +19,6 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { Command } from '@oclif/core';
 
 export default class FleetListCmd extends Command {
-	public static aliases = ['fleets'];
-	public static deprecateAliases = true;
 	public static enableJsonFlag = true;
 
 	public static description = stripIndent`

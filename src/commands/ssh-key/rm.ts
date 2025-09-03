@@ -21,9 +21,6 @@ import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
 
 export default class SSHKeyRmCmd extends Command {
-	public static aliases = ['key rm'];
-	public static deprecateAliases = true;
-
 	public static description = stripIndent`
 		Remove an SSH key from balenaCloud.
 
