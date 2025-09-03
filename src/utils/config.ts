@@ -117,21 +117,33 @@ export async function generateDeviceConfig(
 	// TODO: Generate the correct key beforehand and pass it to os.getConfig() once
 	// the API supports injecting a provided key, to avoid generating an unused one.
 	const config = await generateApplicationConfig(application, baseConfigOpts);
-	// os.getConfig always returns a config for an app
-	delete config.apiKey;
-
-	config.deviceApiKey =
+	populateDeviceConfig(
+		config,
+		device,
 		typeof deviceApiKey === 'string' && deviceApiKey
 			? deviceApiKey
-			: await sdk.models.device.generateDeviceKey(device.uuid);
+			: await sdk.models.device.generateDeviceKey(device.uuid),
+	);
+
+	return config;
+}
+
+export function populateDeviceConfig(
+	config: ImgConfig,
+	device: { id: number; uuid: string },
+	deviceApiKey: string,
+) {
+	// Delete any Provisioning Api Key that might be there
+	// eg: os.getConfig always returns a config for the app.
+	delete config.apiKey;
+
+	config.deviceApiKey = deviceApiKey;
 
 	// Associate a device, to prevent the supervisor
 	// from creating another one on its own.
 	config.registered_at = Math.floor(Date.now() / 1000);
 	config.deviceId = device.id;
 	config.uuid = device.uuid;
-
-	return config;
 }
 
 export async function readAndValidateConfigJson(path: string) {

@@ -1437,14 +1437,19 @@ Examples:
 
 	$ balena device init
 	$ balena device init -f myorg/myfleet
-	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes
-	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes
+	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5
+	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5
+	$ balena device init --config config.json --os-version 2.101.7 --drive /dev/disk5 --yes
 
 ### Options
 
 #### -f, --fleet FLEET
 
 fleet name or slug (preferred)
+
+#### --config CONFIG
+
+path to the config JSON file, see `balena config generate`
 
 #### -y, --yes
 
@@ -1467,10 +1472,6 @@ or 'menu' (will show the interactive menu)
 the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
 Careful with this as you can erase your hard drive.
 Check `balena util available-drives` for available options.
-
-#### --config CONFIG
-
-path to the config JSON file, see `balena config generate`
 
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
