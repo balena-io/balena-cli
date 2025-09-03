@@ -21,6 +21,14 @@ import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 import { runCommand } from '../../utils/helpers';
 
+async function validateArgsAndOptions(options: FlagsDef) {
+	const { validateFilePath } = await import('../../utils/validation');
+
+	if (options.config != null) {
+		await validateFilePath(options.config);
+	}
+}
+
 interface FlagsDef {
 	fleet?: string;
 	yes: boolean;
@@ -105,6 +113,7 @@ export default class DeviceInitCmd extends Command {
 
 	public async run() {
 		const { flags: options } = await this.parse(DeviceInitCmd);
+		await validateArgsAndOptions(options);
 
 		// Imports
 		const { promisify } = await import('util');
