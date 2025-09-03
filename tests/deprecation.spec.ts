@@ -119,7 +119,7 @@ describe('DeprecationChecker', function () {
 			expect(getStub.callCount).to.equal(1);
 			expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-			expect(out.join('')).to.equal(packageJSON.version + '\n');
+			expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 			expect(err.join('')).to.equal(
 				checker.getDeprecationMsg(checker.deprecationDays + 1) + '\n',
 			);
@@ -155,7 +155,7 @@ describe('DeprecationChecker', function () {
 			expect(getStub.callCount).to.equal(1);
 			expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-			expect(out.join('')).to.equal(packageJSON.version + '\n');
+			expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 			expect(err.join('')).to.equal('');
 		},
 	);
@@ -178,7 +178,7 @@ describe('DeprecationChecker', function () {
 			expect(setStub.callCount).to.equal(0);
 			expect(getStub.callCount).to.equal(0);
 
-			expect(out.join('')).to.equal(packageJSON.version + '\n');
+			expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 			expect(err.join('')).to.be.empty;
 		},
 	);
@@ -222,7 +222,7 @@ describe('DeprecationChecker', function () {
 		expect(setStub.callCount).to.equal(0);
 		expect(getStub.callCount).to.equal(0);
 
-		expect(out.join('')).to.equal(packageJSON.version + '\n');
+		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 		expect(err.join('')).to.be.empty;
 	});
 
@@ -247,7 +247,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.equal(packageJSON.version + '\n');
+		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 		expect(err.join('')).to.equal('');
 	});
 
@@ -278,7 +278,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.equal(packageJSON.version + '\n');
+		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 		expect(err.join('')).to.equal('');
 	});
 
@@ -297,7 +297,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.equal(packageJSON.version + '\n');
+		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 		expect(err.join('')).to.equal('');
 	});
 
@@ -318,7 +318,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.equal(packageJSON.version + '\n');
+		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
 		expect(err.join('')).to.equal('');
 	});
 });

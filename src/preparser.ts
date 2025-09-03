@@ -36,8 +36,8 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 	const cmdSlice = argv.slice(2);
 
 	if (cmdSlice.length > 0) {
-		// convert 'balena --version' or 'balena -v' to 'balena version'
-		if (['--version', '-v'].includes(cmdSlice[0])) {
+		// convert 'balena -v' to 'balena version'
+		if ('-v' === cmdSlice[0]) {
 			cmdSlice[0] = 'version';
 		}
 		// convert 'balena --help' to 'balena help'

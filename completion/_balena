@@ -8,7 +8,7 @@ _balena() {
   local context state line curcontext="$curcontext"
 
   # Valid top-level completions
-  main_commands=( api-key app block build config deploy device device-type env fleet internal join leave local login logout organization os preload push release release-asset settings ssh-key support tag util version whoami )
+  main_commands=( api-key app block build config deploy device device-type env fleet internal join leave local login logout organization os preload push release release-asset settings ssh-key support tag util whoami )
   # Sub-completions
   api_key_cmds=( generate list revoke )
   app_cmds=( create )

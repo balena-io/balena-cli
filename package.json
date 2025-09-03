@@ -77,7 +77,8 @@
   "oclif": {
     "bin": "balena",
     "plugins": [
-      "@oclif/plugin-update"
+      "@oclif/plugin-update",
+      "@oclif/plugin-version"
     ],
     "update": {
       "s3": {
@@ -181,6 +182,7 @@
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^4.5.6",
     "@oclif/plugin-update": "^4.7.14",
+    "@oclif/plugin-version": "^2.2.32",
     "@sentry/node": "^10.17.0",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.1.14",
