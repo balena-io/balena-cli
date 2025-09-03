@@ -18,6 +18,7 @@
 import { Flags } from '@oclif/core';
 import { stripIndent } from './lazy';
 import { lowercaseIfSlug } from './normalization';
+import type { FlagProps } from '@oclif/core/lib/interfaces/parser';
 
 export const fleet = Flags.string({
 	char: 'f',
@@ -102,3 +103,44 @@ export const json = Flags.boolean({
 	description: 'produce JSON output instead of tabular output',
 	default: false,
 });
+
+export const setupCustomFlagOptions = <T extends Record<string, FlagProps>>(
+	flags: T,
+): T => {
+	for (const [flagName, flagValue] of Object.entries(flags)) {
+		if (
+			'$compatibleOnlyWith' in flagValue &&
+			flagValue.$compatibleOnlyWith != null
+		) {
+			if (flagValue.exclusive != null) {
+				throw new Error('Cannot combine $compatibleOnlyWith with exclusive');
+			}
+			if (!Array.isArray(flagValue.$compatibleOnlyWith)) {
+				throw new Error(
+					`Found non-array $compatibleOnlyWith option on flag ${flagName}`,
+				);
+			}
+			if (flagValue.$compatibleOnlyWith.length === 0) {
+				throw new Error(
+					`Found empty $compatibleOnlyWith option on flag ${flagName}`,
+				);
+			}
+			const invalidEntry = flagValue.$compatibleOnlyWith.find(
+				(x) => typeof x !== 'string' || !(x in flags),
+			);
+			if (invalidEntry != null) {
+				throw new Error(
+					`Found invalid $compatibleOnlyWith entry '${invalidEntry}' on flag ${flagName}`,
+				);
+			}
+			const compatibleOnlyWith = new Set(flagValue.$compatibleOnlyWith);
+			// flags can't be incompatible with themselves
+			compatibleOnlyWith.add(flagName);
+			flagValue.exclusive = Object.keys(flags).filter(
+				(flagKey) => !compatibleOnlyWith.has(flagKey),
+			);
+			delete flagValue.$compatibleOnlyWith;
+		}
+	}
+	return flags;
+};
