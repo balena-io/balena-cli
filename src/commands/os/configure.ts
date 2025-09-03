@@ -27,6 +27,7 @@ import {
 	devModeInfo,
 	secureBootInfo,
 } from '../../utils/messages';
+import type { ImgConfig } from '../../utils/config';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -170,10 +171,11 @@ export default class OsConfigureCmd extends Command {
 		await validateArgsAndOptions(params, options);
 
 		const devInit = await import('balena-device-init');
-		const { promises: fs } = await import('fs');
-		const { generateDeviceConfig, generateApplicationConfig } = await import(
-			'../../utils/config'
-		);
+		const {
+			generateDeviceConfig,
+			generateApplicationConfig,
+			readAndValidateConfigJson,
+		} = await import('../../utils/config');
 		const helpers = await import('../../utils/helpers');
 		const { getApplication } = await import('../../utils/sdk');
 
@@ -187,25 +189,10 @@ export default class OsConfigureCmd extends Command {
 		let developmentMode = options.dev;
 
 		const balena = getBalenaSdk();
-		let configJson: import('../../utils/config').ImgConfig | undefined;
+		let configJson: ImgConfig | undefined;
 		if (options.config != null) {
-			const rawConfig = await fs.readFile(options.config, 'utf8');
-			configJson = JSON.parse(rawConfig);
-			if (configJson == null || typeof configJson !== 'object') {
-				throw new ExpectedError(`Invalid config.json file: ${options.config}`);
-			}
-			if (typeof configJson.applicationId !== 'number') {
-				throw new ExpectedError(
-					'Missing or invalid applicationId in config.json',
-				);
-			}
+			configJson = await readAndValidateConfigJson(options.config);
 			fleetSlugOrId = configJson.applicationId;
-			if (
-				typeof configJson.deviceType !== 'string' ||
-				configJson.deviceType === ''
-			) {
-				throw new ExpectedError('Missing or invalid deviceType in config.json');
-			}
 			deviceTypeSlug = configJson.deviceType;
 			secureBoot = configJson.installer?.secureboot === true;
 			developmentMode = configJson.developmentMode === true;
@@ -293,6 +280,7 @@ export default class OsConfigureCmd extends Command {
 
 		if (options['system-connection']) {
 			const path = await import('path');
+			const fs = await import('fs/promises');
 
 			const files = await Promise.all(
 				options['system-connection'].map(async (filePath) => {
