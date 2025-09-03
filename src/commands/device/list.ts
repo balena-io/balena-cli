@@ -34,8 +34,6 @@ const devicesSelectFields = {
 } as const;
 
 export default class DeviceListCmd extends Command {
-	public static aliases = ['devices'];
-	public static deprecateAliases = true;
 	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
