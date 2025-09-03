@@ -15,6 +15,7 @@
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
         "@oclif/core": "^4.5.1",
+        "@oclif/plugin-version": "^2.2.32",
         "@sentry/node": "^9.0.0",
         "balena-config-json": "^4.2.7",
         "balena-device-init": "^8.1.11",
@@ -8599,6 +8600,19 @@
         "@oclif/core": "^4.5.1",
         "ansis": "^3.17.0",
         "fast-levenshtein": "^3.0.0"
+      },
+      "engines": {
+        "node": ">=18.0.0"
+      }
+    },
+    "node_modules/@oclif/plugin-version": {
+      "version": "2.2.32",
+      "resolved": "https://registry.npmjs.org/@oclif/plugin-version/-/plugin-version-2.2.32.tgz",
+      "integrity": "sha512-KwsEKjb202nthRIwigyvRNQ5vK8mUr/FnPzBjkLX7SbgPMLM7iqoaWDPZqBvq5/A/226Ey4vCf64y3zJh4eaWA==",
+      "license": "MIT",
+      "dependencies": {
+        "@oclif/core": "^4",
+        "ansis": "^3.17.0"
       },
       "engines": {
         "node": ">=18.0.0"
