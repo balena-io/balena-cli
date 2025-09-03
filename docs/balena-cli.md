@@ -315,10 +315,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [util available-drives](#util-available-drives)
 
-- Version
-
-	- [version](#version)
-
 # API Keys
 
 ## api-key generate
@@ -4128,40 +4124,3 @@ release id
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
-
-# Version
-
-## version
-
-### Description
-
-Display version information for the balena CLI and/or Node.js. Note that the
-balena CLI executable installers for Windows and macOS, and the standalone
-zip packages, ship with a built-in copy of Node.js.  In this case, the
-reported version of Node.js regards this built-in copy, rather than any
-other `node` engine that may also be available on the command prompt.
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents
-data types like lists and empty strings. The 'jq' utility may be helpful
-in shell scripts (https://stedolan.github.io/jq/manual/).
-
-This command can also be invoked with 'balena --version' or 'balena -v'.
-
-Examples:
-
-	$ balena version
-	$ balena version -a
-	$ balena version -j
-	$ balena --version
-	$ balena -v
-
-### Options
-
-#### -a, --all
-
-include version information for additional components (Node.js)
-
-#### -j, --json
-
-output version information in JSON format for programmatic use
