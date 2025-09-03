@@ -9,7 +9,7 @@ module.exports = [
 		parserOptions: {
 			project: 'tsconfig.dev.json',
 		},
-		ignorePatterns: ['**/generate-completion.js', '**/bin/**/*'],
+		ignorePatterns: ['**/bin/**/*'],
 		rules: {
 			ignoreDefinitionFiles: 0,
 			'@typescript-eslint/no-non-null-assertion': 'off',

@@ -38,7 +38,7 @@ describe('balena version', function () {
 		expect(err).to.be.empty;
 		const splitOutput = out[0].split('\n');
 		expect(splitOutput[1]).to.include(`balena-cli/${packageJSONVersion}`);
-		expect(splitOutput[14].toLowerCase()).to.include(
+		expect(splitOutput[15].toLowerCase()).to.include(
 			os.release().toLowerCase(),
 		);
 
