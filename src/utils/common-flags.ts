@@ -98,12 +98,6 @@ export const deviceType = Flags.string({
 	required: true,
 });
 
-export const json = Flags.boolean({
-	char: 'j',
-	description: 'produce JSON output instead of tabular output',
-	default: false,
-});
-
 export const setupCustomFlagOptions = <T extends Record<string, FlagProps>>(
 	flags: T,
 ): T => {

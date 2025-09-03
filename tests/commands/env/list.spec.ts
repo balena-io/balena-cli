@@ -98,7 +98,7 @@ describe('balena env list', function () {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();
 
-		const { out, err } = await runCommand(`env list -cjf ${appName}`);
+		const { out, err } = await runCommand(`env list -cf ${appName} --json`);
 
 		expect(JSON.parse(out.join(''))).to.deep.equal([
 			{
@@ -194,7 +194,7 @@ describe('balena env list', function () {
 		api.expectGetAppServiceVars();
 		api.expectGetDeviceServiceVars();
 
-		const { out, err } = await runCommand(`env list -jd ${shortUUID}`);
+		const { out, err } = await runCommand(`env list -d ${shortUUID} --json`);
 		const expected = `[
 			{ "id": 120101, "fleet": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
 			{ "id": 120102, "fleet": "org/test", "deviceUUID": "*", "name": "var2", "value": "22", "serviceName": "*" },
@@ -319,7 +319,7 @@ describe('balena env list', function () {
 		expect(out.join('')).to.equal(expected);
 	});
 
-	it('should successfully list env and service vars for a test device (-js flags)', async () => {
+	it('should successfully list env and service vars for a test device (-s, --json flags)', async () => {
 		const serviceName = 'service1';
 		api.expectGetServiceFromApp({ serviceName });
 		api.expectGetApplication();
@@ -331,7 +331,7 @@ describe('balena env list', function () {
 		api.expectGetDeviceServiceVars();
 
 		const { out, err } = await runCommand(
-			`env list -d ${shortUUID} -js ${serviceName}`,
+			`env list -d ${shortUUID} -s ${serviceName} --json`,
 		);
 		const expected = `[
 			{ "id": 120101, "fleet": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
