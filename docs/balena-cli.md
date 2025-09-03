@@ -342,13 +342,6 @@ the expiry date of the API key as an ISO date string, or "never" for no expiry
 
 ## api-key list
 
-### Aliases
-
-- `api-keys` *(deprecated)*
-
-
-To use one of the aliases, replace `api-key list` with the alias.
-
 ### Description
 
 Print a list of balenaCloud API keys.
@@ -1229,13 +1222,6 @@ Docker host TLS key file
 
 ## device-type list
 
-### Aliases
-
-- `devices supported` *(deprecated)*
-
-
-To use one of the aliases, replace `device-type list` with the alias.
-
 ### Description
 
 List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
@@ -1284,13 +1270,6 @@ the UUID of the device to be deactivated
 answer "yes" to all questions (non interactive use)
 
 ## device detect
-
-### Aliases
-
-- `scan` *(deprecated)*
-
-
-To use one of the aliases, replace `device detect` with the alias.
 
 ### Description
 
@@ -1446,13 +1425,6 @@ answer "yes" to all questions (non interactive use)
 
 ## device list
 
-### Aliases
-
-- `devices` *(deprecated)*
-
-
-To use one of the aliases, replace `device list` with the alias.
-
 ### Description
 
 List all of your devices.
@@ -1516,13 +1488,6 @@ disable local mode
 output boolean indicating local mode status
 
 ## device logs
-
-### Aliases
-
-- `logs` *(deprecated)*
-
-
-To use one of the aliases, replace `device logs` with the alias.
 
 ### Description
 
@@ -1617,13 +1582,6 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 fleet name or slug (preferred)
 
 ## device note
-
-### Aliases
-
-- `notes` *(deprecated)*
-
-
-To use one of the aliases, replace `device note` with the alias.
 
 ### Description
 
@@ -1939,13 +1897,6 @@ force action if the update lock is set
 
 ## device ssh
 
-### Aliases
-
-- `ssh` *(deprecated)*
-
-
-To use one of the aliases, replace `device ssh` with the alias.
-
 ### Description
 
 Start a shell on a local or remote device. If a service name is not provided,
@@ -2077,13 +2028,6 @@ the uuid of the device to make track the fleet's release
 
 ## device tunnel
 
-### Aliases
-
-- `tunnel` *(deprecated)*
-
-
-To use one of the aliases, replace `device tunnel` with the alias.
-
 ### Description
 
 Use this command to open local TCP ports that tunnel to listening sockets in a
@@ -2138,13 +2082,6 @@ port mapping in the format <remotePort>[:[localIP:]localPort]
 # Environment Variables
 
 ## env list
-
-### Aliases
-
-- `envs` *(deprecated)*
-
-
-To use one of the aliases, replace `env list` with the alias.
 
 ### Description
 
@@ -2347,13 +2284,6 @@ do not prompt for confirmation before deleting the variable
 
 ## env set
 
-### Aliases
-
-- `env add` *(deprecated)*
-
-
-To use one of the aliases, replace `env set` with the alias.
-
 ### Description
 
 Add or update an environment or config variable to one or more fleets, devices or
@@ -2509,13 +2439,6 @@ fleet name or slug (preferred)
 open fleet dashboard page
 
 ## fleet list
-
-### Aliases
-
-- `fleets` *(deprecated)*
-
-
-To use one of the aliases, replace `fleet list` with the alias.
 
 ### Description
 
@@ -2750,13 +2673,6 @@ answer "yes" to all questions (non interactive use)
 # Organizations
 
 ## organization list
-
-### Aliases
-
-- `orgs` *(deprecated)*
-
-
-To use one of the aliases, replace `organization list` with the alias.
 
 ### Description
 
@@ -3638,13 +3554,6 @@ the commit or ID of the release to invalidate
 
 ## release list
 
-### Aliases
-
-- `releases` *(deprecated)*
-
-
-To use one of the aliases, replace `release list` with the alias.
-
 ### Description
 
 List all releases of the given fleet.
@@ -3704,13 +3613,6 @@ Examples:
 
 ## ssh-key add
 
-### Aliases
-
-- `key add` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key add` with the alias.
-
 ### Description
 
 Add an SSH key to the balenaCloud account of the logged in user.
@@ -3750,13 +3652,6 @@ the path to the public key file
 
 ## ssh-key
 
-### Aliases
-
-- `key` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key` with the alias.
-
 ### Description
 
 Display a single SSH key registered in balenaCloud for the logged in user.
@@ -3773,14 +3668,6 @@ balenaCloud ID for the SSH key
 
 ## ssh-key list
 
-### Aliases
-
-- `keys` *(deprecated)*
-- `key list` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key list` with the alias.
-
 ### Description
 
 List all SSH keys registered in balenaCloud for the logged in user.
@@ -3790,13 +3677,6 @@ Examples:
 	$ balena ssh-key list
 
 ## ssh-key rm
-
-### Aliases
-
-- `key rm` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key rm` with the alias.
 
 ### Description
 
@@ -3876,13 +3756,6 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 # Tags
 
 ## tag list
-
-### Aliases
-
-- `tags` *(deprecated)*
-
-
-To use one of the aliases, replace `tag list` with the alias.
 
 ### Description
 
