@@ -1437,8 +1437,9 @@ Examples:
 
 	$ balena device init
 	$ balena device init -f myorg/myfleet
-	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes
-	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes
+	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5
+	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5
+	$ balena device init --config config.json --os-version 2.101.7 --drive /dev/disk5 --yes
 
 ### Options
 
@@ -1446,13 +1447,9 @@ Examples:
 
 fleet name or slug (preferred)
 
-#### -y, --yes
+#### --config CONFIG
 
-answer "yes" to all questions (non interactive use)
-
-#### -v, --advanced
-
-show advanced configuration options
+path to the config JSON file, see `balena config generate`
 
 #### --os-version OS-VERSION
 
@@ -1462,15 +1459,9 @@ or 'default' (excludes pre-releases if at least one stable version is available)
 or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
 or 'menu' (will show the interactive menu)
 
-#### -d, --drive DRIVE
+#### -v, --advanced
 
-the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
-Careful with this as you can erase your hard drive.
-Check `balena util available-drives` for available options.
-
-#### --config CONFIG
-
-path to the config JSON file, see `balena config generate`
+show advanced configuration options
 
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
@@ -1479,6 +1470,16 @@ custom key name assigned to generated provisioning api key
 #### --provisioning-key-expiry-date PROVISIONING-KEY-EXPIRY-DATE
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
+
+#### -d, --drive DRIVE
+
+the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
+Careful with this as you can erase your hard drive.
+Check `balena util available-drives` for available options.
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
 
 ## device list
 
