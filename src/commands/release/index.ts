@@ -16,12 +16,10 @@
  */
 
 import { Flags, Args, type Interfaces, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import type * as BalenaSdk from 'balena-sdk';
 import * as yaml from 'js-yaml';
 import { tryAsInteger } from '../../utils/validation';
-import { jsonInfo } from '../../utils/messages';
 
 export const commitOrIdArg = Args.custom({
 	parse: tryAsInteger,
@@ -30,19 +28,17 @@ export const commitOrIdArg = Args.custom({
 type FlagsDef = Interfaces.InferredFlags<typeof ReleaseCmd.flags>;
 
 export default class ReleaseCmd extends Command {
+	public static enableJsonFlag = true;
+
 	public static description = stripIndent`
 		Get info for a release.
-
-		${jsonInfo.split('\n').join('\n\t\t')}
 `;
 	public static examples = [
 		'$ balena release a777f7345fe3d655c1c981aa642e5555',
 		'$ balena release 1234567',
-		'$ balena release d3f3151f5ad25ca6b070aa4d08296aca --json',
 	];
 
 	public static flags = {
-		json: cf.json,
 		composition: Flags.boolean({
 			default: false,
 			char: 'c',
@@ -66,7 +62,7 @@ export default class ReleaseCmd extends Command {
 		if (options.composition) {
 			await this.showComposition(params.commitOrId, balena);
 		} else {
-			await this.showReleaseInfo(params.commitOrId, balena, options);
+			return await this.showReleaseInfo(params.commitOrId, balena, options);
 		}
 	}
 
@@ -121,25 +117,24 @@ export default class ReleaseCmd extends Command {
 				},
 			);
 			Object.assign(release, releaseWithExplicitReadFields);
-			console.log(JSON.stringify(release, null, 4));
-		} else {
-			const tagStr = release
-				.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
-				.join('\n');
-			const values = Object.fromEntries(
-				Object.entries(release).map(([f, val]) => [
-					fieldNameMap[f as keyof typeof fieldNameMap] ?? f,
-					val ?? 'N/a',
-				]),
-			);
-			values['tags'] = tagStr;
-
-			console.log(
-				getVisuals().table.vertical(values, [
-					...fields.map((f) => fieldNameMap[f] ?? f),
-					'tags',
-				]),
-			);
+			return JSON.stringify(release, null, 4);
 		}
+		const tagStr = release
+			.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
+			.join('\n');
+		const values = Object.fromEntries(
+			Object.entries(release).map(([f, val]) => [
+				fieldNameMap[f as keyof typeof fieldNameMap] ?? f,
+				val ?? 'N/a',
+			]),
+		);
+		values['tags'] = tagStr;
+
+		console.log(
+			getVisuals().table.vertical(values, [
+				...fields.map((f) => fieldNameMap[f] ?? f),
+				'tags',
+			]),
+		);
 	}
 }

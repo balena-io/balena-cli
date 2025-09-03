@@ -16,10 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationNameNote } from '../../utils/messages';
-import { jsonInfo } from '../../utils/messages';
 import * as JSONStream from 'JSONStream';
 import { Readable, Writable } from 'stream';
 import { pipeline } from 'stream/promises';
@@ -27,6 +25,7 @@ import { pipeline } from 'stream/promises';
 export default class ReleaseListCmd extends Command {
 	public static aliases = ['releases'];
 	public static deprecateAliases = true;
+	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
 		List all releases of a fleet.
@@ -34,17 +33,8 @@ export default class ReleaseListCmd extends Command {
 		List all releases of the given fleet.
 
 		${applicationNameNote.split('\n').join('\n\t\t')}
-
-		${jsonInfo.split('\n').join('\n\t\t')}
 `;
-	public static examples = [
-		'$ balena release list myorg/myfleet',
-		'$ balena release list myorg/myfleet --json',
-	];
-
-	public static flags = {
-		json: cf.json,
-	};
+	public static examples = ['$ balena release list myorg/myfleet'];
 
 	public static args = {
 		fleet: Args.string({
@@ -115,20 +105,20 @@ export default class ReleaseListCmd extends Command {
 					},
 				}),
 			);
-		} else {
-			console.log(
-				getVisuals().table.horizontal(
-					releases.map((rel) =>
-						Object.fromEntries(
-							Object.entries(rel).map(([f, val]) => [
-								fieldNameMap[f as keyof typeof fieldNameMap] ?? f,
-								val ?? 'N/a',
-							]),
-						),
-					),
-					fields.map((f) => fieldNameMap[f] ?? f),
-				),
-			);
+			return;
 		}
+		console.log(
+			getVisuals().table.horizontal(
+				releases.map((rel) =>
+					Object.fromEntries(
+						Object.entries(rel).map(([f, val]) => [
+							fieldNameMap[f as keyof typeof fieldNameMap] ?? f,
+							val ?? 'N/a',
+						]),
+					),
+				),
+				fields.map((f) => fieldNameMap[f] ?? f),
+			),
+		);
 	}
 }
