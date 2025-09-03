@@ -55,7 +55,7 @@ describe('balena release', function () {
 		expect(lines[5]).to.be.equal('main:');
 	});
 
-	it('should print version information as JSON with the the -j/--json flag', async () => {
+	it('should print version information as JSON with the --json flag', async () => {
 		api.expectGetRelease();
 		const { err, out } = await runCommand('release 27fda508c --json');
 		expect(err).to.be.empty;
@@ -75,7 +75,7 @@ describe('balena release', function () {
 		expect(lines[1]).to.contain('90247b54de4fa7a0a3cbc85e73c68039');
 	});
 
-	it('should list releases as JSON with the -j/--json flag', async () => {
+	it('should list releases as JSON with the --json flag', async () => {
 		api.expectGetRelease();
 		api.expectGetApplication();
 		const { err, out } = await runCommand('release list someapp --json');

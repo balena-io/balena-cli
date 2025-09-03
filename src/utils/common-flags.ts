@@ -96,9 +96,3 @@ export const deviceType = Flags.string({
 	char: 't',
 	required: true,
 });
-
-export const json = Flags.boolean({
-	char: 'j',
-	description: 'produce JSON output instead of tabular output',
-	default: false,
-});

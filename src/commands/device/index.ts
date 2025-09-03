@@ -16,10 +16,8 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { jsonInfo } from '../../utils/messages';
 
 import type { Application, Release } from 'balena-sdk';
 
@@ -41,17 +39,15 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 }
 
 export default class DeviceCmd extends Command {
+	public static enableJsonFlag = true;
 	public static description = stripIndent`
 		Show info about a single device.
 
 		Show information about a single device.
-
-		${jsonInfo.split('\n').join('\n\t\t')}
 		`;
 	public static examples = [
 		'$ balena device 7cf02a6',
 		'$ balena device 7cf02a6 --view',
-		'$ balena device 7cf02a6 --json',
 	];
 
 	public static args = {
@@ -62,7 +58,6 @@ export default class DeviceCmd extends Command {
 	};
 
 	public static flags = {
-		json: cf.json,
 		view: Flags.boolean({
 			default: false,
 			description: 'open device dashboard page',
@@ -194,8 +189,7 @@ export default class DeviceCmd extends Command {
 		}
 
 		if (options.json) {
-			console.log(JSON.stringify(device, null, 4));
-			return;
+			return JSON.stringify(device, null, 4);
 		}
 
 		console.log(
