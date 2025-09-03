@@ -134,6 +134,28 @@ export async function generateDeviceConfig(
 	return config;
 }
 
+export async function readAndValidateConfigJson(path: string) {
+	const fs = await import('fs/promises');
+	const [rawConfig, { ExpectedError }] = await Promise.all([
+		fs.readFile(path, 'utf8'),
+		import('../errors'),
+	]);
+	const configJson: ImgConfig | undefined = JSON.parse(rawConfig);
+	if (configJson == null || typeof configJson !== 'object') {
+		throw new ExpectedError(`Invalid config.json file: ${path}`);
+	}
+	if (typeof configJson.applicationId !== 'number') {
+		throw new ExpectedError('Missing or invalid applicationId in config.json');
+	}
+	if (
+		typeof configJson.deviceType !== 'string' ||
+		configJson.deviceType === ''
+	) {
+		throw new ExpectedError('Missing or invalid deviceType in config.json');
+	}
+	return configJson;
+}
+
 /**
  * Chech whether the `--dev` option of commands related to OS configuration
  * such as `os configure` and `config generate` is compatible with a given
