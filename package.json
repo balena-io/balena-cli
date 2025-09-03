@@ -96,7 +96,10 @@
     "macos": {
       "identifier": "io.balena.cli",
       "sign": "\"Developer ID Installer: Balena Ltd (66H43P8FRG)\""
-    }
+    },
+    "plugins": [
+      "@oclif/plugin-version"
+    ]
   },
   "devDependencies": {
     "@balena/abstract-sql-to-typescript": "^5.1.5",
@@ -176,6 +179,7 @@
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^4.5.1",
+    "@oclif/plugin-version": "^2.2.32",
     "@sentry/node": "^9.0.0",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.1.14",
