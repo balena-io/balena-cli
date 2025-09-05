@@ -145,8 +145,6 @@ if (process.platform !== 'win32') {
 			const tmpInvalidConfigJsonPath = `${tmpMatchingDtJsonPartitionPath}wrong-config.json`;
 			const command: string[] = [
 				`os configure ${tmpMatchingDtJsonPartitionPath}`,
-				'--device-type jetson-nano',
-				'--fleet testApp',
 				`--config ${tmpInvalidConfigJsonPath}`,
 			];
 
@@ -155,6 +153,31 @@ if (process.platform !== 'win32') {
 				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
 			).to.deep.equal([`No such file: ${tmpInvalidConfigJsonPath}`]);
 		});
+
+		for (const [argName, argValue] of [
+			['--fleet', 'testApp'],
+			['--device', '666c3ca42add4d39a0b638fd8562051d'],
+		]) {
+			it(`should fail combining --config with ${argName}`, async () => {
+				const command: string[] = [
+					`os configure ${tmpMatchingDtJsonPartitionPath}`,
+					'--device-type jetson-nano',
+					`${argName} ${argValue}`,
+					`--config ${tmpMatchingDtJsonPartitionPath}`,
+				];
+
+				const { err } = await runCommand(command.join(' '));
+				expect(
+					err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+				).to.deep.equal(
+					stripIndent`
+					The following errors occurred:
+					  --config=${tmpMatchingDtJsonPartitionPath} cannot also be provided when using ${argName}
+					  ${argName}=${argValue} cannot also be provided when using --config
+					See more help with --help`.split('\n'),
+				);
+			});
+		}
 
 		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
 			api.expectGetApplication();
@@ -252,24 +275,13 @@ if (process.platform !== 'win32') {
 			expect(configObj).to.have.property('initialDeviceName', 'testDeviceName');
 		});
 
-		// TODO: In the next major consider just failing when we can't find a device-types.json in the image.
-		it('should inject a valid config.json file to a dummy image', async () => {
+		it('should fail when it can not detect the OS version of the provided image', async () => {
 			api.expectGetApplication();
-			// Since the dummy image doesn't include a device-type.json
-			// we have to reach to the API to fetch the manifest of the device type.
-			api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpDummyPath}`,
 				'--device-type raspberrypi3',
-				'--version 2.47.0+rev1',
 				'--fleet testApp',
-				'--config-app-update-poll-interval 10',
-				'--config-network ethernet',
-				'--initial-device-name testDeviceName',
-				'--provisioning-key-name testKey',
-				'--provisioning-key-expiry-date 2050-12-12',
 			];
 
 			const { err } = await runCommand(command.join(' '));
@@ -289,21 +301,8 @@ if (process.platform !== 'win32') {
 					[warn] "${tmpDummyPath}":
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
 					[warn]   Proceeding anyway, but this is unexpected.
-					[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.`.split(
-					'\n',
-				),
+					Error while finding a device-type.json on the provided image path.`.split('\n'),
 			);
-
-			// confirm the image contains a config.json...
-			const config = await imagefs.interact(tmpDummyPath, 1, async (_fs) => {
-				return await _fs.promises.readFile('/config.json');
-			});
-			expect(config).to.not.be.empty;
-
-			// confirm the image has the correct config.json values...
-			const configObj = JSON.parse(config.toString('utf8'));
-			expect(configObj).to.have.property('deviceType', 'raspberrypi3');
-			expect(configObj).to.have.property('initialDeviceName', 'testDeviceName');
 		});
 	});
 }

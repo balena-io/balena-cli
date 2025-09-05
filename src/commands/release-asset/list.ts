@@ -18,21 +18,18 @@
 import { Command } from '@oclif/core';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { commitOrIdArg } from '../release';
-import * as cf from '../../utils/common-flags';
-import { jsonInfo } from '../../utils/messages';
 
 export default class ReleaseAssetListCmd extends Command {
+	public static enableJsonFlag = true;
 	public static description = stripIndent`
 		List all release assets.
 
 		List all assets for a specific release.
-		${jsonInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'$ balena release-asset list 1234567',
 		'$ balena release-asset list a777f7345fe3d655c1c981aa642e5555',
-		'$ balena release-asset list 1234567 --json',
 	];
 
 	public static args = {
@@ -40,10 +37,6 @@ export default class ReleaseAssetListCmd extends Command {
 			description: 'the commit or ID of the release',
 			required: true,
 		}),
-	};
-
-	public static flags = {
-		json: cf.json,
 	};
 
 	public static authenticated = true;
@@ -60,46 +53,45 @@ export default class ReleaseAssetListCmd extends Command {
 		);
 
 		if (flags.json) {
-			console.log(JSON.stringify(releaseAssets, null, 2));
-		} else {
-			if (releaseAssets == null || releaseAssets.length === 0) {
-				console.log('No assets found for this release');
-				return;
+			return JSON.stringify(releaseAssets, null, 2);
+		}
+		if (releaseAssets == null || releaseAssets.length === 0) {
+			console.log('No assets found for this release');
+			return;
+		}
+
+		const tableData = releaseAssets.map((releaseAsset) => {
+			let sizeStr = '-';
+			if (releaseAsset.asset?.size) {
+				const size = releaseAsset.asset.size;
+				if (size < 1000) {
+					sizeStr = `${size} B`;
+				} else if (size < 1000 * 1000) {
+					sizeStr = `${(size / 1000).toFixed(2)} KB`;
+				} else if (size < 1000 * 1000 * 1000) {
+					sizeStr = `${(size / 1000 / 1000).toFixed(2)} MB`;
+				} else {
+					sizeStr = `${(size / 1000 / 1000 / 1000).toFixed(2)} GB`;
+				}
 			}
 
-			const tableData = releaseAssets.map((releaseAsset) => {
-				let sizeStr = '-';
-				if (releaseAsset.asset?.size) {
-					const size = releaseAsset.asset.size;
-					if (size < 1000) {
-						sizeStr = `${size} B`;
-					} else if (size < 1000 * 1000) {
-						sizeStr = `${(size / 1000).toFixed(2)} KB`;
-					} else if (size < 1000 * 1000 * 1000) {
-						sizeStr = `${(size / 1000 / 1000).toFixed(2)} MB`;
-					} else {
-						sizeStr = `${(size / 1000 / 1000 / 1000).toFixed(2)} GB`;
-					}
-				}
+			return {
+				'Asset Key': releaseAsset.asset_key,
+				'Release Asset ID': releaseAsset.id,
+				Filename: releaseAsset.asset?.filename ?? '-',
+				Size: sizeStr,
+				Type: releaseAsset.asset?.content_type ?? '-',
+			};
+		});
 
-				return {
-					'Asset Key': releaseAsset.asset_key,
-					'Release Asset ID': releaseAsset.id,
-					Filename: releaseAsset.asset?.filename ?? '-',
-					Size: sizeStr,
-					Type: releaseAsset.asset?.content_type ?? '-',
-				};
-			});
-
-			console.log(
-				getVisuals().table.horizontal(tableData, [
-					'Asset Key',
-					'Release Asset ID',
-					'Filename',
-					'Size',
-					'Type',
-				]),
-			);
-		}
+		console.log(
+			getVisuals().table.horizontal(tableData, [
+				'Asset Key',
+				'Release Asset ID',
+				'Filename',
+				'Size',
+				'Type',
+			]),
+		);
 	}
 }
