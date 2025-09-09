@@ -154,14 +154,27 @@ if (process.platform !== 'win32') {
 			).to.deep.equal([`No such file: ${tmpInvalidConfigJsonPath}`]);
 		});
 
+		it('should fail when none of the --device, --fleet, --config is provided', async () => {
+			const command: string[] = [
+				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal([
+				`One of the '--device', '--fleet' or '--config' options must be provided`,
+			]);
+		});
+
 		for (const [argName, argValue] of [
 			['--fleet', 'testApp'],
 			['--device', '666c3ca42add4d39a0b638fd8562051d'],
+			['--device-type', 'jetson-nano'],
 		]) {
 			it(`should fail combining --config with ${argName}`, async () => {
 				const command: string[] = [
 					`os configure ${tmpMatchingDtJsonPartitionPath}`,
-					'--device-type jetson-nano',
 					`${argName} ${argValue}`,
 					`--config ${tmpMatchingDtJsonPartitionPath}`,
 				];
@@ -170,14 +183,35 @@ if (process.platform !== 'win32') {
 				expect(
 					err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
 				).to.deep.equal(
-					stripIndent`
-					The following errors occurred:
-					  --config=${tmpMatchingDtJsonPartitionPath} cannot also be provided when using ${argName}
-					  ${argName}=${argValue} cannot also be provided when using --config
-					See more help with --help`.split('\n'),
+					(argName === '--device-type'
+						? stripIndent`
+							The following error occurred:
+							  ${argName}=${argValue} cannot also be provided when using --config
+							See more help with --help`
+						: stripIndent`
+							The following errors occurred:
+							  --config=${tmpMatchingDtJsonPartitionPath} cannot also be provided when using ${argName}
+							  ${argName}=${argValue} cannot also be provided when using --config
+							See more help with --help`
+					).split('\n'),
 				);
 			});
 		}
+
+		it('should fail when combining --device and --device-type', async () => {
+			const command: string[] = [
+				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+				'--device 276cc21e71574fd3802279ca11134c96',
+				'--device-type jetson-nano',
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal([
+				`The '--device-type' option can only be used in conjunction with the '--fleet' option`,
+			]);
+		});
 
 		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
 			api.expectGetApplication();
