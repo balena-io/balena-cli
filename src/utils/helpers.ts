@@ -21,7 +21,7 @@ import type { Application, Pine } from 'balena-sdk';
 import * as _ from 'lodash';
 import { promisify } from 'util';
 
-import { getBalenaSdk, getChalk, getVisuals } from './lazy';
+import { getBalenaSdk, getCliUx, getVisuals } from './lazy';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
@@ -35,8 +35,9 @@ export function getGroupDefaults(group: {
 
 export function stateToString(state: OperationState) {
 	const percentage = _.padStart(`${state.percentage}`, 3, '0');
-	const chalk = getChalk();
-	const result = `${chalk.blue(percentage + '%')} ${chalk.cyan(
+	const ux = getCliUx();
+	const result = `${ux.colorize('blue', percentage + '%')} ${ux.colorize(
+		'cyan',
 		state.operation.command,
 	)}`;
 

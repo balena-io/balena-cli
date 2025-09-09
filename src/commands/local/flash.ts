@@ -19,7 +19,7 @@ import { Args, Command } from '@oclif/core';
 import type { BlockDevice } from 'etcher-sdk/build/source-destination';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
-import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getVisuals, stripIndent, getCliUx } from '../../utils/lazy';
 
 export default class LocalFlashCmd extends Command {
 	public static description = stripIndent`
@@ -93,15 +93,20 @@ export default class LocalFlashCmd extends Command {
 			verifying: new visuals.Progress('Validating'),
 		};
 
+		const ux = getCliUx();
 		await multiWrite.pipeSourceToDestinations({
 			source,
 			destinations: [drive],
 			onFail: (_, error) => {
-				console.error(getChalk().red.bold(error.message));
+				console.error(ux.colorize('red', ux.colorize('bold', error.message)));
 				if (error.message.includes('EACCES')) {
 					console.error(
-						getChalk().red.bold(
-							'Try running this command with elevated privileges, with sudo or in a shell running with admininstrator privileges.',
+						ux.colorize(
+							'red',
+							ux.colorize(
+								'bold',
+								'Try running this command with elevated privileges, with sudo or in a shell running with administrator privileges.',
+							),
 						),
 					);
 				}

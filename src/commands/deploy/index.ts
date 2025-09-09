@@ -18,7 +18,7 @@
 import { Args, Flags, Command } from '@oclif/core';
 import type { ImageDescriptor } from '@balena/compose/dist/parse';
 import { ExpectedError } from '../../errors';
-import { getBalenaSdk, getChalk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 import {
 	dockerignoreHelp,
 	registrySecretsHelp,
@@ -321,7 +321,9 @@ ${dockerignoreHelp}
 			if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
 				const { deployLegacy } = require('../../utils/deploy-legacy');
 
-				const msg = getChalk().yellow(
+				const ux = getCliUx();
+				const msg = ux.colorize(
+					'yellow',
 					'Target fleet requires legacy deploy method.',
 				);
 				logger.logWarn(msg);

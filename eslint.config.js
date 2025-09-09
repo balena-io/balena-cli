@@ -20,7 +20,7 @@ module.exports = [
 			'@typescript-eslint/prefer-nullish-coalescing': 'warn',
 
 			'no-restricted-imports': ['error', {
-				paths: ['resin-cli-visuals', 'chalk', 'common-tags', 'resin-cli-form'],
+				paths: ['resin-cli-visuals', 'common-tags', 'resin-cli-form'],
 			}],
 
 			'@typescript-eslint/no-unused-vars': ['error', {

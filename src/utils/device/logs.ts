@@ -18,9 +18,9 @@ import ColorHash = require('color-hash');
 import * as _ from 'lodash';
 import type { Readable } from 'stream';
 
-import { getChalk } from '../lazy';
 import Logger = require('../logger');
 import { ExpectedError, SIGINTError } from '../../errors';
+import { getCliUx } from '../lazy';
 
 class DeviceConnectionLostError extends ExpectedError {
 	public static defaultMsg = 'Connection to device lost';
@@ -143,9 +143,9 @@ export async function connectAndDisplayDeviceLogs({
 }
 
 export function displayBuildLog(log: BuildLog, logger: Logger): void {
-	const toPrint = `${getServiceColourFn(log.serviceName)(
-		`[${log.serviceName}]`,
-	)} ${log.message}`;
+	const ux = getCliUx();
+	const color = getServiceColor(log.serviceName);
+	const toPrint = `${ux.colorize(color, `[${log.serviceName}]`)} ${log.message}`;
 	logger.logBuild(toPrint);
 }
 
@@ -167,9 +167,10 @@ export function displayLogObject<T extends Log>(
 			return;
 		}
 
-		const colourFn = getServiceColourFn(obj.serviceName);
+		const color = getServiceColor(obj.serviceName);
 
-		toPrint += ` ${colourFn(`[${obj.serviceName}]`)}`;
+		const ux = getCliUx();
+		toPrint += ` ${ux.colorize(color, `[${obj.serviceName}]`)}`;
 	} else if (filterServices != null && !system) {
 		// We have a system log here but we are filtering based
 		// on a service, so drop this too
@@ -181,11 +182,11 @@ export function displayLogObject<T extends Log>(
 	logger.logLogs(toPrint);
 }
 
-export const getServiceColourFn = _.memoize(_getServiceColourFn);
+export const getServiceColor = _.memoize(_getServiceColor);
 
 const colorHash = new ColorHash();
-function _getServiceColourFn(serviceName: string): (msg: string) => string {
+function _getServiceColor(serviceName: string): string {
 	const [r, g, b] = colorHash.rgb(serviceName);
 
-	return getChalk().rgb(r, g, b);
+	return `rgb(${r}, ${g}, ${b})`;
 }
