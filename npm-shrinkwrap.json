@@ -27,7 +27,6 @@
         "balena-settings-storage": "^8.1.0",
         "body-parser": "^1.19.1",
         "bonjour-service": "^1.2.1",
-        "chalk": "^4.0.0",
         "chokidar": "^3.5.2",
         "cli-truncate": "^2.1.0",
         "color-hash": "^1.1.1",
