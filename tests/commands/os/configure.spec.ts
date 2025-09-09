@@ -185,8 +185,9 @@ if (process.platform !== 'win32') {
 				).to.deep.equal(
 					(argName === '--device-type'
 						? stripIndent`
-							The following error occurred:
+							The following errors occurred:
 							  ${argName}=${argValue} cannot also be provided when using --config
+							  All of the following must be provided when using --device-type: --fleet
 							See more help with --help`
 						: stripIndent`
 							The following errors occurred:
@@ -208,9 +209,13 @@ if (process.platform !== 'win32') {
 			const { err } = await runCommand(command.join(' '));
 			expect(
 				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
-			).to.deep.equal([
-				`The '--device-type' option can only be used in conjunction with the '--fleet' option`,
-			]);
+			).to.deep.equal(
+				stripIndent`
+					The following errors occurred:
+					  --device-type=jetson-nano cannot also be provided when using --device
+					  All of the following must be provided when using --device-type: --fleet
+					See more help with --help`.split('\n'),
+			);
 		});
 
 		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
