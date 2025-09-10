@@ -1,4 +1,24 @@
 - commits:
+    - subject: Deduplicate dependencies
+      hash: f30da950f6fa66760143ee0741f39fe6c8d311ab
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Fix minor typo in package.json
+      hash: 837db11e67f6d48382796fd4c9f698779a2a2af2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 22.4.2
+  title: ""
+  date: 2025-09-10T17:39:29.782Z
+- commits:
     - subject: "tests/ssh: Avoid an `as any` cast"
       hash: 8471da8a31df1edabeff990615807ff8309a4b56
       body: ""
