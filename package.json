@@ -31,7 +31,7 @@
     "build": "npm run build:src && npm run catch-uncommitted",
     "build:t": "npm run lint && npm run build:fast && npm run build:test",
     "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc && npm run build:completion",
-    "build:pages": "mkdirp ./build/auth/pages/&& inline-source --compress ./src/auth/pages/error.ejs ./build/auth/pages/error.ejs && inline-source --compress ./src/auth/pages/success.ejs ./build/auth/pages/success.ejs",
+    "build:pages": "mkdirp ./build/auth/pages/ && inline-source --compress ./src/auth/pages/error.ejs ./build/auth/pages/error.ejs && inline-source --compress ./src/auth/pages/success.ejs ./build/auth/pages/success.ejs",
     "build:fast": "npm run build:pages && tsc && npx oclif manifest",
     "build:test": "tsc -P ./tsconfig.dev.json --noEmit",
     "build:doc": "ts-node --transpile-only automation/capitanodoc/index.ts > docs/balena-cli.md",
