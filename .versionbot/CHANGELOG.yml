@@ -1,4 +1,24 @@
 - commits:
+    - subject: Replace `chalk` with `oclif` `ux.colorize`
+      hash: 08595cf44b2488dd1bd1376399ac3ad3ecec69ac
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Drop dependency `chalk`
+      hash: 9b0e31d31f71e9b7ad2d7e65410e643d32424a6d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 22.4.3
+  title: ""
+  date: 2025-09-10T20:18:44.978Z
+- commits:
     - subject: Deduplicate dependencies
       hash: f30da950f6fa66760143ee0741f39fe6c8d311ab
       body: ""
