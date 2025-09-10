@@ -90,11 +90,6 @@ export default class ConfigGenerateCmd extends Command {
 			description:
 				"device type slug (run 'balena device-type list' for possible values)",
 		}),
-		// TODO: Drop in next major, since atm it is always defaulted to true interally
-		'generate-device-api-key': Flags.boolean({
-			description:
-				'generate a fresh device key for the device. No-op and deprecated since a key is always auto-generated unless --deviceApiKey is provided.',
-		}),
 		output: Flags.string({
 			description: 'path of output file',
 			char: 'o',
