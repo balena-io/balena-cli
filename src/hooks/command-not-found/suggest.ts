@@ -16,7 +16,7 @@
  */
 
 import type { Hook, Interfaces } from '@oclif/core';
-import { getChalk } from '../../utils/lazy';
+import { getCliUx } from '../../utils/lazy';
 
 /*
  A modified version of the command-not-found plugin logic,
@@ -31,7 +31,6 @@ const hook: Hook<'command-not-found'> = async function (
 ) {
 	const Levenshtein = await import('fast-levenshtein');
 	const _ = await import('lodash');
-	const chalk = getChalk();
 
 	const commandId = opts.id || '';
 	const command = opts.id?.replace(':', ' ') || '';
@@ -58,23 +57,20 @@ const hook: Hook<'command-not-found'> = async function (
 		);
 	}
 
+	const ux = getCliUx();
 	// Output suggestions
 	console.error(
-		`${chalk.yellow(command)} is not a recognized balena command.\n`,
+		`${ux.colorize('yellow', command)} is not a recognized balena command.\n`,
 	);
 	console.error(`Did you mean: ? `);
 	suggestions.forEach((s) => {
-		console.error(`  ${chalk.cyan.bold(s)}`);
+		console.error(`  ${ux.colorize('cyan', ux.colorize('bold', s))}`);
 	});
 	console.error(
-		`\nRun ${chalk.cyan.bold(
-			'balena help -v',
-		)} for a list of available commands,`,
+		`\nRun ${ux.colorize('cyan', ux.colorize('bold', 'balena help -v'))} for a list of available commands,`,
 	);
 	console.error(
-		` or ${chalk.cyan.bold(
-			'balena help <command>',
-		)} for detailed help on a specific command.`,
+		` or ${ux.colorize('cyan', ux.colorize('bold', 'balena help <command>'))} for detailed help on a specific command.`,
 	);
 
 	// Exit

@@ -17,8 +17,8 @@
 import type { Command } from '@oclif/core';
 import { Help } from '@oclif/core';
 import * as indent from 'indent-string';
-import { getChalk } from './utils/lazy';
 import type { ResolvableReturnType } from 'balena-sdk/typings/utils';
+import { getCliUx } from './utils/lazy';
 
 // Partially overrides standard implementation of help plugin
 // https://github.com/oclif/plugin-help/blob/master/src/index.ts
@@ -40,7 +40,7 @@ function getHelpSubject(args: string[]): string | undefined {
 
 export default class BalenaHelp extends Help {
 	public async showHelp(argv: string[]) {
-		const chalk = getChalk();
+		const ux = getCliUx();
 		const subject = getHelpSubject(argv);
 		if (!subject) {
 			const verbose = argv.includes('-v') || argv.includes('--verbose');
@@ -65,27 +65,24 @@ export default class BalenaHelp extends Help {
 		);
 
 		if (topicCommands.length > 0) {
-			console.log(`${chalk.yellow(subject)} commands include:`);
+			console.log(`${ux.colorize('yellow', subject)} commands include:`);
 			console.log(this.formatCommands(topicCommands));
 			console.log(
-				`\nRun ${chalk.cyan.bold(
-					'balena help -v',
-				)} for a list of all available commands,`,
+				`\nRun ${ux.colorize('bold', ux.colorize('cyan', 'balena help -v'))} for a list of all available commands,`,
 			);
 			console.log(
-				` or ${chalk.cyan.bold(
-					'balena help <command>',
-				)} for detailed help on a specific command.`,
+				` or ${ux.colorize('bold', ux.colorize('cyan', 'balena help <command>'))} for detailed help on a specific command.`,
 			);
 			return;
 		}
 
-		console.log(`command ${chalk.cyan.bold(subject)} not found`);
+		console.log(
+			`command ${ux.colorize('bold', ux.colorize('cyan', subject))} not found`,
+		);
 	}
 
 	getCustomRootHelp(showAllCommands: boolean): string {
-		const { bold, cyan } = getChalk();
-
+		const ux = getCliUx();
 		let commands = this.config.commands;
 		commands = commands.filter((c) => this.opts.all || !c.hidden);
 
@@ -124,13 +121,16 @@ export default class BalenaHelp extends Help {
 			}
 
 			additionalCmdSection = [
-				bold('\nADDITIONAL COMMANDS'),
+				ux.colorize('bold', '\nADDITIONAL COMMANDS'),
 				this.formatCommands(additionalCommands),
 			];
 		} else {
-			const cmd = cyan.bold('balena help --verbose');
+			const cmd = ux.colorize(
+				'bold',
+				ux.colorize('cyan', 'balena help --verbose'),
+			);
 			additionalCmdSection = [
-				`\n${bold('...MORE')} run ${cmd} to list additional commands.`,
+				`\n${ux.colorize('bold', '...MORE')} run ${cmd} to list additional commands.`,
 			];
 		}
 
@@ -150,21 +150,21 @@ See: https://git.io/JRHUW#deprecation-policy`,
 			require('./utils/messages') as typeof import('./utils/messages');
 
 		return [
-			bold('USAGE'),
+			ux.colorize('bold', 'USAGE'),
 			'$ balena [COMMAND] [OPTIONS]',
-			bold('\nPRIMARY COMMANDS'),
+			ux.colorize('bold', '\nPRIMARY COMMANDS'),
 			this.formatCommands(primaryCommands),
 			...additionalCmdSection,
-			bold('\nGLOBAL OPTIONS'),
+			ux.colorize('bold', '\nGLOBAL OPTIONS'),
 			this.formatGlobalOpts(globalOps),
-			bold('\nDeprecation Policy Reminder'),
+			ux.colorize('bold', '\nDeprecation Policy Reminder'),
 			deprecationPolicyNote,
 			reachingOut,
 		].join('\n');
 	}
 
 	protected formatGlobalOpts(opts: string[][]) {
-		const { dim } = getChalk();
+		const ux = getCliUx();
 		const outLines: string[] = [];
 		let flagWidth = 0;
 		for (const opt of opts) {
@@ -173,12 +173,15 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		for (const opt of opts) {
 			const descriptionLines = opt[1].split('\n');
 			outLines.push(
-				`  ${opt[0].padEnd(flagWidth + 2)}${dim(descriptionLines[0])}`,
+				`  ${opt[0].padEnd(flagWidth + 2)}${ux.colorize('dim', descriptionLines[0])}`,
 			);
 			outLines.push(
 				...descriptionLines
 					.slice(1)
-					.map((line) => `  ${' '.repeat(flagWidth + 2)}${dim(line)}`),
+					.map(
+						(line) =>
+							`  ${' '.repeat(flagWidth + 2)}${ux.colorize('dim', line)}`,
+					),
 			);
 		}
 		return outLines.join('\n');
@@ -210,8 +213,7 @@ See: https://git.io/JRHUW#deprecation-policy`,
 	}
 
 	protected formatDescription(desc = '') {
-		const chalk = getChalk();
-
+		const ux = getCliUx();
 		desc = desc.split('\n')[0];
 		// Remove any ending .
 		if (desc.endsWith('.')) {
@@ -221,7 +223,7 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		if (desc[1] === desc[1]?.toLowerCase()) {
 			desc = `${desc[0].toLowerCase()}${desc.substring(1)}`;
 		}
-		return chalk.grey(desc);
+		return ux.colorize('gray', desc);
 	}
 
 	readonly manuallySortedPrimaryCommands = [

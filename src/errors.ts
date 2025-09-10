@@ -18,7 +18,7 @@ import type { BalenaError } from 'balena-errors';
 import * as _ from 'lodash';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
-import { getChalk, stripIndent } from './utils/lazy';
+import { getCliUx, stripIndent } from './utils/lazy';
 import { getHelp } from './utils/messages';
 import { CliSettings } from './utils/bootstrap';
 
@@ -282,11 +282,10 @@ export async function handleError(error: Error | string) {
 }
 
 export const printErrorMessage = function (message: string) {
-	const chalk = getChalk();
-
+	const ux = getCliUx();
 	// Only first line should be red
 	const messageLines = message.split('\n');
-	console.error(chalk.red(messageLines.shift()));
+	console.error(ux.colorize('red', messageLines.shift() ?? ''));
 
 	messageLines.forEach((line) => {
 		console.error(line);

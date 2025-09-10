@@ -16,7 +16,7 @@
  */
 
 import { Command } from '@oclif/core';
-import { stripIndent, getChalk, getVisuals } from '../../utils/lazy';
+import { stripIndent, getVisuals, getCliUx } from '../../utils/lazy';
 
 export default class UtilAvailableDrivesCmd extends Command {
 	public static description = stripIndent`
@@ -49,10 +49,9 @@ export default class UtilAvailableDrivesCmd extends Command {
 		}
 
 		if (scanner.drives.size === 0) {
+			const ux = getCliUx();
 			console.error(
-				`${getChalk().red(
-					'x',
-				)} No available drives were detected, plug one in!`,
+				`${ux.colorize('red', 'x')} No available drives were detected, plug one in!`,
 			);
 		} else {
 			console.log(

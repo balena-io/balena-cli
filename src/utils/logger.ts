@@ -17,7 +17,7 @@
 import _ = require('lodash');
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
-import { getChalk } from './lazy';
+import { getCliUx } from './lazy';
 
 enum Level {
 	BUILD = 'build',
@@ -69,15 +69,15 @@ class Logger {
 
 	protected constructor() {
 		const logger = new StreamLogger();
-		const chalk = getChalk();
-		logger.addPrefix('build', chalk.blue('[Build]'));
-		logger.addPrefix('info', chalk.cyan('[Info]'));
-		logger.addPrefix('debug', chalk.magenta('[Debug]'));
-		logger.addPrefix('success', chalk.green('[Success]'));
-		logger.addPrefix('warn', chalk.yellow('[Warn]'));
-		logger.addPrefix('error', chalk.red('[Error]'));
-		logger.addPrefix('logs', chalk.green('[Logs]'));
-		logger.addPrefix('live', chalk.yellow('[Live]'));
+		const ux = getCliUx();
+		logger.addPrefix('build', ux.colorize('blue', '[Build]'));
+		logger.addPrefix('info', ux.colorize('cyan', '[Info]'));
+		logger.addPrefix('debug', ux.colorize('magenta', '[Debug]'));
+		logger.addPrefix('success', ux.colorize('green', '[Success]'));
+		logger.addPrefix('warn', ux.colorize('yellow', '[Warn]'));
+		logger.addPrefix('error', ux.colorize('red', '[Error]'));
+		logger.addPrefix('logs', ux.colorize('green', '[Logs]'));
+		logger.addPrefix('live', ux.colorize('yellow', '[Live]'));
 
 		this.streams = {
 			build: logger.createLogStream('build'),

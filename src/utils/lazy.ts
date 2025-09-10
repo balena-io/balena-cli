@@ -17,7 +17,6 @@ limitations under the License.
 */
 
 import type * as BalenaSdk from 'balena-sdk';
-import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
 import type { ux } from '@oclif/core';
@@ -68,8 +67,6 @@ export const getBalenaSdk = once(() => {
 export const getVisuals = once(
 	() => require('resin-cli-visuals') as typeof visuals,
 );
-
-export const getChalk = once(() => require('chalk') as Chalk);
 
 export const getCliForm = once(
 	() => require('resin-cli-form') as typeof CliForm,

@@ -40,7 +40,7 @@ import type {
 	TarDirectoryOptions,
 } from './compose-types';
 import type { DeviceInfo } from './device/api';
-import { getBalenaSdk, getChalk, stripIndent } from './lazy';
+import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
 import Logger = require('./logger');
 import { exists } from './which';
 
@@ -1250,9 +1250,10 @@ async function pushAndUpdateServiceImages(
 	const tty = (await import('./tty'))(process.stdout);
 	const opts = { authconfig: { registrytoken: token } };
 	const progress = new DockerProgress({ docker });
+	const ux = getCliUx();
 	const renderer = pushProgressRenderer(
 		tty,
-		getChalk().blue('[Push]') + '    ',
+		ux.colorize('blue', '[Push]') + '    ',
 	);
 	const reporters = progress.aggregateProgress(images.length, renderer);
 
@@ -1394,8 +1395,9 @@ export async function deployProject(
 	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
+	const ux = getCliUx();
 
-	const prefix = getChalk().cyan('[Info]') + '    ';
+	const prefix = ux.colorize('cyan', '[Info]') + '    ';
 	const spinner = createSpinner();
 
 	const contractPath = path.join(projectPath, 'balena.yml');

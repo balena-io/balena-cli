@@ -33,8 +33,9 @@ import type { DeviceInfo, Status } from './api';
 import type { DeviceDeployOptions } from './deploy';
 import { generateTargetState, rebuildSingleTask } from './deploy';
 import { BuildError } from './errors';
-import { getServiceColourFn } from './logs';
+import { getServiceColor } from './logs';
 import { delay } from '../helpers';
+import { getCliUx } from '../lazy';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
@@ -480,8 +481,10 @@ export class LivepushManager {
 		serviceName: string,
 		livepush: Livepush,
 	) {
+		const ux = getCliUx();
+		const color = getServiceColor(serviceName);
 		const msgString = (msg: string) =>
-			`[${getServiceColourFn(serviceName)(serviceName)}] ${msg}`;
+			`[${ux.colorize(color, serviceName)}] ${msg}`;
 		const log = (msg: string) => this.logger.logLivepush(msgString(msg));
 		const error = (msg: string) => this.logger.logError(msgString(msg));
 		const debugLog = (msg: string) => this.logger.logDebug(msgString(msg));

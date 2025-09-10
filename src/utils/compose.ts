@@ -28,9 +28,9 @@ import type {
 	Release,
 	TaggedImage,
 } from './compose-types';
-import { getChalk } from './lazy';
 import Logger = require('./logger');
 import type { ProgressCallback } from 'docker-progress';
+import { getCliUx } from './lazy';
 
 export function generateOpts(options: {
 	source?: string;
@@ -395,10 +395,11 @@ export class BuildProgressUI implements Renderer {
 		this._tty = tty;
 		this._services = services;
 
+		const ux = getCliUx();
 		// Logger magically prefixes the log line with [Build] etc., but it doesn't
 		// work well with the spinner we're also showing. Manually build the prefix
 		// here and bypass the logger.
-		const prefix = getChalk().blue('[Build]') + '   ';
+		const prefix = ux.colorize('blue', '[Build]') + '   ';
 
 		const offset = 10; // account for escape sequences inserted for colouring
 		this._prefixWidth =
@@ -511,12 +512,15 @@ export class BuildProgressUI implements Renderer {
 
 	_renderSummary(serviceToStrMap: Dictionary<string>) {
 		const _ = require('lodash') as typeof import('lodash');
-		const chalk = getChalk();
 		const truncate = require('cli-truncate') as typeof import('cli-truncate');
 		const strlen = require('string-width') as typeof import('string-width');
+		const ux = getCliUx();
 
 		this._services.forEach((service, index) => {
-			let str = _.padEnd(this._prefix + chalk.bold(service), this._prefixWidth);
+			let str = _.padEnd(
+				this._prefix + ux.colorize('bold', service),
+				this._prefixWidth,
+			);
 			str += serviceToStrMap[service];
 			if (this._maxLineWidth != null) {
 				str = truncate(str, this._maxLineWidth);
@@ -602,6 +606,7 @@ export class BuildProgressInline implements Renderer {
 
 	_renderEvent(service: string, event: { status?: string; error?: Error }) {
 		const _ = require('lodash') as typeof import('lodash');
+		const ux = getCliUx();
 
 		const str = (function () {
 			const { status, error } = event;
@@ -614,7 +619,7 @@ export class BuildProgressInline implements Renderer {
 			return 'Waiting...';
 		})();
 
-		const prefix = _.padEnd(getChalk().bold(service), this._prefixWidth);
+		const prefix = _.padEnd(ux.colorize('bold', service), this._prefixWidth);
 		this._outStream.write(prefix);
 		this._outStream.write(str);
 		this._outStream.write('\n');
