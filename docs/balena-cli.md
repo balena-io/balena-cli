@@ -638,10 +638,6 @@ custom device key - note that this is only supported on balenaOS 2.0.3+
 
 device type slug (run 'balena device-type list' for possible values)
 
-#### --generate-device-api-key
-
-generate a fresh device key for the device. No-op and deprecated since a key is always auto-generated unless --deviceApiKey is provided.
-
 #### -o, --output OUTPUT
 
 path of output file
