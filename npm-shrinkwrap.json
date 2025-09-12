@@ -8296,9 +8296,9 @@
       "dev": true
     },
     "node_modules/@jridgewell/trace-mapping": {
-      "version": "0.3.30",
-      "resolved": "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.30.tgz",
-      "integrity": "sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q==",
+      "version": "0.3.31",
+      "resolved": "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz",
+      "integrity": "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -20425,9 +20425,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@balena/abstract-sql-compiler": {
-      "version": "11.2.1",
-      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-compiler/-/abstract-sql-compiler-11.2.1.tgz",
-      "integrity": "sha512-fsiuL8T/ltmjcbvOHwpzhMDWFwgceogDvUq9pCz8AU6Y4DsRDnpu/1C+OV6D/zFZIbU9r1h3apPoEiKoiG1dOg==",
+      "version": "11.2.3",
+      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-compiler/-/abstract-sql-compiler-11.2.3.tgz",
+      "integrity": "sha512-E7Acbr6Wnf/uU3ZIoxCqlsrLonHpVbElgQH1iEmSSKoaTbpj5gduVQAlMdwJ0Pe9R6pszwHgzcQEGYvtZYBQVg==",
       "engines": {
         "node": ">=20.14.0",
         "npm": ">=10.7.0"
@@ -20455,9 +20455,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@balena/odata-to-abstract-sql": {
-      "version": "10.0.3",
-      "resolved": "https://registry.npmjs.org/@balena/odata-to-abstract-sql/-/odata-to-abstract-sql-10.0.3.tgz",
-      "integrity": "sha512-xlk0PpQdVQnmFcicRyesaELQ/7FhnYdyds+sLgt8H/eqTRWIf3vcYljGhaXa8shERRKOz7oJeedo8nrXaDwK/Q==",
+      "version": "10.0.4",
+      "resolved": "https://registry.npmjs.org/@balena/odata-to-abstract-sql/-/odata-to-abstract-sql-10.0.4.tgz",
+      "integrity": "sha512-E7Jy1cNqO38mkvjzZmEnydonTxrrZ3us3J1+LdCktmXE+pVtFs0FYptEYQZ5zo6DQcRfSIJwwErVYIaUqNdI4w==",
       "license": "BSD",
       "dependencies": {
         "@balena/abstract-sql-compiler": "^11.2.0",

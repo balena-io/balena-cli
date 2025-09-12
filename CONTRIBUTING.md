@@ -214,24 +214,6 @@ Optionally, these steps may be automated by installing the
 npx npm-merge-driver install -g
 ```
 
-## `fast-boot` and `npm link` - modifying the `node_modules` folder
-
-During development or debugging, it is sometimes useful to temporarily modify the `node_modules`
-folder (with or without making the respective changes to the `npm-shrinkwrap.json` file),
-replacing dependencies with different versions. This can be achieved with the `npm link`
-command, or by manually editing or copying files to the `node_modules` folder.
-
-Unexpected behavior may then be observed because of the CLI's use of the
-[fast-boot2](https://www.npmjs.com/package/fast-boot2) package that caches module resolution.
-`fast-boot2` is configured in `src/fast-boot.ts` to automatically invalidate the cache if
-changes are made to the `package.json` or `npm-shrinkwrap.json` files, but the cache won't
-be automatically invalidated if `npm link` is used or if manual modifications are made to the
-`node_modules` folder. In this situation:
-
-* Manually delete the module cache file (typically `~/.balena/cli-module-cache.json`), or
-* Use the `bin/balena-dev` entry point (instead of `bin/balena`) as it does not activate
-  `fast-boot2`.
-
 ## TypeScript and oclif
 
 The CLI currently contains a mix of plain JavaScript and

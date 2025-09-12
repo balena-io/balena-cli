@@ -15,19 +15,3 @@ index ca99b35..6265d26 100644
    SetOutPath $INSTDIR
    File /r bin
    File /r client
-diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 90904ec..012c7b9 100644
---- a/node_modules/oclif/lib/tarballs/build.js
-+++ b/node_modules/oclif/lib/tarballs/build.js
-@@ -189,6 +189,11 @@ const extractCLI = async (tarball, c) => {
-         (0, promises_1.rm)(node_path_1.default.join(workspace, node_path_1.default.basename(tarball)), { recursive: true }),
-         (0, fs_extra_1.remove)(node_path_1.default.join(workspace, 'bin', 'run.cmd')),
-     ]);
-+    // The oclif installers are a production installation, while the source
-+    // `bin` folder may contain a `.fast-boot.json` file of a dev installation.
-+    // This has previously led to issues preventing the CLI from starting, so
-+    // delete `.fast-boot.json` (if any) from the destination folder.
-+    await (0, fs_extra_1.remove)(node_path_1.default.join(workspace, 'bin', '.fast-boot.json'));
- };
- const buildTarget = async (target, c, options) => {
-     if (target.platform === 'win32' && target.arch === 'arm64' && (0, semver_1.lt)(c.nodeVersion, '20.0.0')) {

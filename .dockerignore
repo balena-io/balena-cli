@@ -24,7 +24,6 @@ pids
 
 # balena CLI config and build files
 **/.balenaconf
-**/.fast-boot.json
 **/.resinconf
 balenarc.yml
 build

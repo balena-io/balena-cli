@@ -9,22 +9,6 @@
 // operations otherwise, if the pool runs out.
 process.env.UV_THREADPOOL_SIZE = '64';
 
-// Note on `fast-boot2`: We do not use `fast-boot2` with `balena-dev` because:
-// * fast-boot2's cacheKiller option is configured to include the timestamps of
-//   the package.json and npm-shrinkwrap.json files, to avoid unexpected CLI
-//   behavior when changes are made to dependencies during development. This is
-//   generally a good thing, however, `balena-dev` (a few lines below) edits
-//   `package.json` to modify oclif paths, and this results in cache
-//   invalidation and a performance hit rather than speedup.
-// * Even if the timestamps are removed from cacheKiller, so that there is no
-//   cache invalidation, fast-boot's speedup is barely noticeable when ts-node
-//   is used, e.g. 1.43s vs 1.4s when running `balena version`.
-// * `fast-boot` causes unexpected behavior when used with `npm link` or
-//   when the `node_modules` folder is manually modified (affecting transitive
-//   dependencies) during development (e.g. bug investigations). A workaround
-//   is to use `balena-dev` without `fast-boot`. See also notes in
-//   `CONTRIBUTING.md`.
-
 const path = require('path');
 const rootDir = path.join(__dirname, '..');
 
