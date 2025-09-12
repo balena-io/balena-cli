@@ -18,7 +18,7 @@ inputs:
     default: 'accounts+apple@balena.io'
   NODE_VERSION:
     type: string
-    default: '22.x'
+    default: '24.x'
   VERBOSE:
     type: string
     default: 'true'
