@@ -55,7 +55,7 @@ export async function executeWithPrivileges(
 			command = [process.argv[0], process.argv[1], ...command];
 		}
 		// already running with privileges: simply spawn the command
-		await spawnAndPipe(command[0], command.slice(1), opts, stderr);
+		await spawnAndPipe(command, opts, stderr);
 	} else {
 		if (isCLIcmd) {
 			// In the case of a CLI standalone zip package (process.pkg is truthy),
@@ -73,23 +73,23 @@ export async function executeWithPrivileges(
 		if (process.platform === 'win32') {
 			await windosuExec(escapedCmd, stderr);
 		} else {
-			await spawnAndPipe('sudo', escapedCmd, opts, stderr);
+			await spawnAndPipe(['sudo', ...escapedCmd], opts, stderr);
 		}
 	}
 }
 
 async function spawnAndPipe(
-	spawnCmd: string,
-	spawnArgs: string[],
+	escapedCmdAndArgs: string[],
 	spawnOpts: SpawnOptions,
 	stderr?: NodeJS.WritableStream,
 ) {
+	const fullCmdAndArgs = escapedCmdAndArgs.join(' ');
 	await new Promise<void>((resolve, reject) => {
-		const ps: ChildProcess = spawn(spawnCmd, spawnArgs, spawnOpts);
+		const ps: ChildProcess = spawn(fullCmdAndArgs, spawnOpts);
 		ps.on('error', reject);
 		ps.on('exit', (codeOrSignal) => {
 			if (codeOrSignal !== 0) {
-				const errMsgCmd = `[${[spawnCmd, ...spawnArgs].join()}]`;
+				const errMsgCmd = `[${fullCmdAndArgs}]`;
 				reject(
 					new Error(
 						`Child process exited with error code "${codeOrSignal}" for command:\n${errMsgCmd}`,
