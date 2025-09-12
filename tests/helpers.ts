@@ -36,7 +36,7 @@ const standalonePath = path.resolve(
 export interface TestOutput {
 	err: string[]; // stderr
 	out: string[]; // stdout
-	exitCode?: string | number; // process.exitCode
+	exitCode?: string | number | null; // process.exitCode
 }
 
 function matchesNodeEngineVersionWarn(msg: string) {
