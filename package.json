@@ -100,7 +100,7 @@
   },
   "devDependencies": {
     "@balena/abstract-sql-to-typescript": "^5.1.5",
-    "@balena/lint": "^9.1.3",
+    "@balena/lint": "^9.3.2",
     "@electron/notarize": "^2.0.0",
     "@types/bluebird": "^3.5.36",
     "@types/body-parser": "^1.19.2",
@@ -168,7 +168,7 @@
     "sinon": "^19.0.0",
     "string-to-stream": "^3.0.1",
     "ts-node": "^10.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@balena/compose": "^7.0.10",
