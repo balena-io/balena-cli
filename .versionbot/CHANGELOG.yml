@@ -1,4 +1,25 @@
 - commits:
+    - subject: Update @balena/lint to 9.3.2
+      hash: 1fb9df4f7a18bdc318431d1bfdccd746ba332bff
+      body: |
+        Update @balena/lint from 9.1.3 to 9.3.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update TypeScript to 5.9.2
+      hash: dd1f1a4f4be3c558f9d76d04a3a72adb7ba088a7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.4.4
+  title: ""
+  date: 2025-09-15T13:23:31.611Z
+- commits:
     - subject: Replace `chalk` with `oclif` `ux.colorize`
       hash: 08595cf44b2488dd1bd1376399ac3ad3ecec69ac
       body: ""
