@@ -67,7 +67,7 @@
         "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
         "resin-cli-form": "^4.0.0",
         "resin-cli-visuals": "^3.0.0",
-        "resin-doodles": "^0.2.0",
+        "resin-doodles": "^0.2.2",
         "resin-stream-logger": "^0.1.2",
         "rimraf": "^3.0.2",
         "semver": "^7.3.5",
@@ -21636,11 +21636,21 @@
       }
     },
     "node_modules/resin-doodles": {
-      "version": "0.2.0",
-      "resolved": "https://registry.npmjs.org/resin-doodles/-/resin-doodles-0.2.0.tgz",
-      "integrity": "sha512-k6qfrsXoQC9Xj/iRfceMYeFJKvY94H0AzTmrHvneUgAuWQD6nBUDSRLPEqWFOQlEW/mGUYMFSsRYtYDAsUR3ow==",
+      "version": "0.2.2",
+      "resolved": "https://registry.npmjs.org/resin-doodles/-/resin-doodles-0.2.2.tgz",
+      "integrity": "sha512-1xXbuCEkx9T++js0DddqyRm2cxfphkxK01MLIfpnO4V9h1od8RV/CeFHJImsCzPq2eeJqVUuVmElNdEYnSFApQ==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "chalk": "^4.1.2"
+        "ansis": "^4.1.0"
+      }
+    },
+    "node_modules/resin-doodles/node_modules/ansis": {
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/ansis/-/ansis-4.1.0.tgz",
+      "integrity": "sha512-BGcItUBWSMRgOCe+SVZJ+S7yTRG0eGt9cXAHev72yuGcY23hnLA7Bky5L/xLyPINoSN95geovfBkqoTlNZYa7w==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=14"
       }
     },
     "node_modules/resin-stream-logger": {
