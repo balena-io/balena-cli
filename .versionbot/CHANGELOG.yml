@@ -1,4 +1,40 @@
 - commits:
+    - subject: Deduplicate dependencies
+      hash: a67303c683610662726cd53361c9de3de20006c1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update `resin-cli-form`
+      hash: 29cff50fba6b0b4f1d0a7031cfbbb26d9f8e7eb6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update `resin-cli-visuals`
+      hash: b0164daee88c94111978640cd42bc546146c3bcd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update `resin-doodles`
+      hash: a4db91bd46e9871a0fe1eb4262dcdf7fad6cae61
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 22.4.5
+  title: ""
+  date: 2025-09-17T12:22:08.346Z
+- commits:
     - subject: Update @balena/lint to 9.3.2
       hash: 1fb9df4f7a18bdc318431d1bfdccd746ba332bff
       body: |
