@@ -65,7 +65,7 @@
         "prettyjson": "^1.2.5",
         "progress-stream": "^2.0.0",
         "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
-        "resin-cli-form": "^4.0.0",
+        "resin-cli-form": "^4.0.1",
         "resin-cli-visuals": "^3.0.1",
         "resin-doodles": "^0.2.2",
         "resin-stream-logger": "^0.1.2",
@@ -21546,15 +21546,15 @@
       "dev": true
     },
     "node_modules/resin-cli-form": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/resin-cli-form/-/resin-cli-form-4.0.0.tgz",
-      "integrity": "sha512-Sk4vxQiffkWMW/fAIH8xPkiTAPoVrQrszVlFx55eohB1umy8ncm64mIKWxAg3DSCB0bmO4jvl0MrBd+bkexXuw==",
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/resin-cli-form/-/resin-cli-form-4.0.1.tgz",
+      "integrity": "sha512-CMlOD8shSIGr1W6h7wOkf+gSg/7C7TeGItFA3L89Ew3NblkCnelWxIS2I9PscPfD4lNIVmFaLcRH6OgAW7EfFA==",
       "license": "Apache-2.0",
       "dependencies": {
         "bluebird": "^3.7.2",
         "inquirer": "^7.0.6",
         "lodash": "^4.17.15",
-        "resin-cli-visuals": "^3.0.0"
+        "resin-cli-visuals": "^3.0.1"
       },
       "engines": {
         "node": ">=20.0"

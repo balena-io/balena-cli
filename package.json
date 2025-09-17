@@ -226,7 +226,7 @@
     "prettyjson": "^1.2.5",
     "progress-stream": "^2.0.0",
     "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
-    "resin-cli-form": "^4.0.0",
+    "resin-cli-form": "^4.0.1",
     "resin-cli-visuals": "^3.0.1",
     "resin-doodles": "^0.2.2",
     "resin-stream-logger": "^0.1.2",
