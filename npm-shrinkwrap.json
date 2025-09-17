@@ -56,7 +56,6 @@
         "livepush": "^3.5.2",
         "lodash": "^4.17.21",
         "mime": "^2.4.6",
-        "mkdirp": "^3.0.1",
         "ndjson": "^2.0.0",
         "node-cleanup": "^2.1.2",
         "node-unzip-2": "^0.2.8",
@@ -146,6 +145,7 @@
         "intercept-stdout": "^0.1.2",
         "jsonwebtoken": "^9.0.0",
         "klaw": "^4.1.0",
+        "mkdirp": "^3.0.1",
         "mocha": "^10.6.0",
         "mock-fs": "^5.2.0",
         "mock-require": "^3.0.3",
@@ -7052,9 +7052,9 @@
       }
     },
     "node_modules/@inquirer/core/node_modules/@types/node": {
-      "version": "22.18.8",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.18.8.tgz",
-      "integrity": "sha512-pAZSHMiagDR7cARo/cch1f3rXy0AEXwsVsVH09FcyeJVAzCnGgmYis7P3JidtTUjyadhTeSo8TgRPswstghDaw==",
+      "version": "22.18.9",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.18.9.tgz",
+      "integrity": "sha512-5yBtK0k/q8PjkMXbTfeIEP/XVYnz1R9qZJ3yUicdEW7ppdDJfe+MqXEhpqDL3mtn4Wvs1u0KLEG0RXzCgNpsSg==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -10914,9 +10914,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.19.19",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.19.tgz",
-      "integrity": "sha512-pb1Uqj5WJP7wrcbLU7Ru4QtA0+3kAXrkutGiD26wUKzSMgNNaPARTUDQmElUXp64kh3cWdou3Q0C7qwwxqSFmg==",
+      "version": "20.19.20",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.20.tgz",
+      "integrity": "sha512-2Q7WS25j4pS1cS8yw3d6buNCVJukOTeQ39bAnwR6sOJbaxvyCGebzTMypDFN82CxBLnl+lSWVdCCWbRY6y9yZQ==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -18885,6 +18885,7 @@
       "version": "3.0.1",
       "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-3.0.1.tgz",
       "integrity": "sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==",
+      "dev": true,
       "bin": {
         "mkdirp": "dist/cjs/src/bin.js"
       },
