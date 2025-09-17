@@ -230,14 +230,13 @@ async function selectLocalDevice(): Promise<string> {
 async function selectAppFromList(
 	applications: ApplicationWithDeviceTypeSlug[],
 ): Promise<ApplicationWithDeviceTypeSlug> {
-	const _ = await import('lodash');
 	const { selectFromList } = await import('../utils/patterns');
 
 	// Present a list to the user which shows the fully qualified fleet
 	// name (user/fleetname) and allows them to select.
 	return selectFromList(
 		'Select fleet',
-		_.map(applications, (app) => {
+		applications.map((app) => {
 			return { name: app.slug, ...app };
 		}),
 	);

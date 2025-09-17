@@ -468,7 +468,7 @@ export async function rebuildSingleTask(
 		multiDockerignore: opts.multiDockerignore,
 	});
 
-	const task = _.find(
+	const task = (
 		await makeBuildTasks(
 			composition,
 			tarStream,
@@ -483,9 +483,8 @@ export async function rebuildSingleTask(
 					return content;
 				}
 			},
-		),
-		{ serviceName },
-	);
+		)
+	).find((t) => t.serviceName === serviceName);
 
 	if (task == null) {
 		throw new ExpectedError(
@@ -519,7 +518,7 @@ function assignOutputHandlers(
 	logger: Logger,
 	logCb?: (serviceName: string, line: string) => void,
 ) {
-	_.each(buildTasks, (task) => {
+	buildTasks.forEach((task) => {
 		if (task.external) {
 			task.progressHook = (progressObj) => {
 				displayBuildLog(
@@ -530,7 +529,7 @@ function assignOutputHandlers(
 		} else {
 			task.streamHook = (stream) => {
 				stream.on('data', (buf: Buffer) => {
-					const str = _.trimEnd(buf.toString());
+					const str = buf.toString().trimEnd();
 					if (str !== '') {
 						displayBuildLog(
 							{ serviceName: task.serviceName, message: str },
@@ -549,7 +548,7 @@ function assignOutputHandlers(
 
 async function getDeviceDockerImages(docker: Docker): Promise<string[]> {
 	const images = await docker.listImages({ all: true });
-	return _.map(images, 'Id');
+	return images.map((img) => img.Id);
 }
 
 // Mutates buildTasks
@@ -666,7 +665,7 @@ export function generateTargetState(
 function inspectBuildResults(images: LocalImage[]): void {
 	const failures: LocalPushErrors.BuildFailure[] = [];
 
-	_.each(images, (image) => {
+	images.forEach((image) => {
 		if (!image.successful) {
 			failures.push({
 				error: image.error!,

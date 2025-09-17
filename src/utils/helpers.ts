@@ -34,7 +34,7 @@ export function getGroupDefaults(group: {
 }
 
 export function stateToString(state: OperationState) {
-	const percentage = _.padStart(`${state.percentage}`, 3, '0');
+	const percentage = `${state.percentage}`.padStart(3, '0');
 	const ux = getCliUx();
 	const result = `${ux.colorize('blue', percentage + '%')} ${ux.colorize(
 		'cyan',

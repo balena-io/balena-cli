@@ -37,7 +37,7 @@ const hook: Hook<'command-not-found'> = async function (
 
 	const commandIDs = [
 		...opts.config.commandIDs,
-		..._.flatten(opts.config.commands.map((c) => c.aliases)),
+		...opts.config.commands.map((c) => c.aliases).flat(),
 		'version',
 	];
 

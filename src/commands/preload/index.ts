@@ -27,7 +27,6 @@ import { applicationIdInfo } from '../../utils/messages';
 import { dockerConnectionCliFlags } from '../../utils/docker';
 import { parseAsInteger } from '../../utils/validation';
 import { Flags, Args, Command } from '@oclif/core';
-import * as _ from 'lodash';
 import type { Application, BalenaSDK, Pine, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 import type * as Fs from 'fs';
@@ -576,7 +575,7 @@ Would you like to disable automatic updates for this fleet now?\
 				// handle `--commit current` (and its `--commit latest` synonym)
 				commit = 'latest';
 			} else {
-				const release = _.find(application.owns__release, (r) =>
+				const release = application.owns__release.find((r) =>
 					r.commit.startsWith(options.commit!),
 				);
 				if (!release) {

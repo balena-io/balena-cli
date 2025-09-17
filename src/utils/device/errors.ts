@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
-
 import { ExpectedError } from '../../errors';
 
 export interface BuildFailure {
@@ -34,14 +32,14 @@ export class BuildError extends ExpectedError {
 
 	public toString(): string {
 		let str = 'Some services failed to build:\n';
-		_.each(this.failures, (failure) => {
+		this.failures.forEach((failure) => {
 			str += `\t${failure.serviceName}: ${failure.error.message}\n`;
 		});
 		return str;
 	}
 
 	public getServiceError(serviceName: string): string {
-		const failure = _.find(this.failures, (f) => f.serviceName === serviceName);
+		const failure = this.failures.find((f) => f.serviceName === serviceName);
 		if (failure == null) {
 			return 'Unknown build failure';
 		}

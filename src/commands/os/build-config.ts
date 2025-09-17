@@ -17,7 +17,6 @@
 
 import { Flags, Args, Command } from '@oclif/core';
 import { getCliForm, stripIndent } from '../../utils/lazy';
-import * as _ from 'lodash';
 import type { DeviceTypeJson } from 'balena-sdk';
 
 export default class OsBuildConfigCmd extends Command {
@@ -94,11 +93,9 @@ export default class OsBuildConfigCmd extends Command {
 		let override;
 		const questions = deviceTypeManifest.options;
 		if (!advanced) {
-			const advancedGroup = _.find(questions, {
-				name: 'advanced',
-				isGroup: true,
-			});
-
+			const advancedGroup = questions?.find(
+				(q) => q.name === 'advanced' && q.isGroup,
+			);
 			if (advancedGroup != null) {
 				const { getGroupDefaults } = await import('../../utils/helpers');
 				override = getGroupDefaults(advancedGroup);

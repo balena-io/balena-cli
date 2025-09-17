@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 import type { BalenaError } from 'balena-errors';
-import * as _ from 'lodash';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
 import { getCliUx, stripIndent } from './utils/lazy';
@@ -99,7 +98,7 @@ function interpret(error: Error): string {
 			return message;
 		}
 
-		if (!_.isEmpty(error.message)) {
+		if (typeof error.message === 'string' && error.message.length > 0) {
 			return `${error.code}: ${error.message}`;
 		}
 	}

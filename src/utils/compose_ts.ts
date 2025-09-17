@@ -594,9 +594,7 @@ async function inspectBuiltImage({
 	}
 
 	const d = imageDescriptorsByServiceName[builtImage.serviceName];
-	const task = _.find(tasks, {
-		serviceName: builtImage.serviceName,
-	});
+	const task = tasks.find((t) => t.serviceName === builtImage.serviceName);
 
 	const image: BuiltImage = {
 		serviceName: d.serviceName,
@@ -973,7 +971,7 @@ export async function makeBuildTasks(
 	const buildTasks = await multiBuild.splitBuildStream(composition, tarStream);
 
 	logger.logDebug('Found build tasks:');
-	_.each(buildTasks, (task) => {
+	buildTasks.forEach((task) => {
 		let infoStr: string;
 		if (task.external) {
 			infoStr = `image pull [${task.imageName}]`;
@@ -997,7 +995,7 @@ export async function makeBuildTasks(
 	);
 
 	logger.logDebug('Found project types:');
-	_.each(buildTasks, (task) => {
+	buildTasks.forEach((task) => {
 		if (task.external) {
 			logger.logDebug(`    ${task.serviceName}: External image`);
 		} else {
@@ -1178,7 +1176,7 @@ export async function validateProjectDirectory(
 			/^(Dockerfile|Dockerfile\.\S+|docker-compose.ya?ml|package.json)$/.test(
 				file,
 			);
-		if (!_.some(files, projectMatch)) {
+		if (!files.some(projectMatch)) {
 			throw new ExpectedError(stripIndent`
 				Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file
 				found in source folder "${opts.projectPath}"
