@@ -20,3 +20,5 @@ upstream:
     url: 'https://github.com/balena-io-modules/balena-compose'
   - repo: 'docker-progress'
     url: 'https://github.com/balena-io-modules/docker-progress'
+  - repo: 'resin-cli-visuals'
+    url: 'https://github.com/balena-io-modules/resin-cli-visuals'

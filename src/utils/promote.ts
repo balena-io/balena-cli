@@ -168,8 +168,8 @@ const dockerTimeout = 2000;
 
 async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	const { discoverLocalBalenaOsDevices } = await import('../utils/discover');
-	const { SpinnerPromise } = getVisuals();
-	const devices = await new SpinnerPromise({
+	const { spinnerPromise } = getVisuals();
+	const devices = await spinnerPromise.createSpinnerPromise({
 		promise: discoverLocalBalenaOsDevices(timeout),
 		startMessage: 'Discovering local balenaOS devices..',
 		stopMessage: 'Reporting discovered devices',

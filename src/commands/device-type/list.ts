@@ -93,7 +93,7 @@ export default class DeviceTypeListCmd extends Command {
 			console.log(JSON.stringify(deviceTypes, null, 4));
 		} else {
 			const visuals = getVisuals();
-			const output = await visuals.table.horizontal(deviceTypes, fields);
+			const output = visuals.table.horizontal(deviceTypes, fields);
 			console.log(output);
 		}
 	}
