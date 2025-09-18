@@ -735,9 +735,9 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/core": {
-      "version": "3.11.0",
-      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.0.tgz",
-      "integrity": "sha512-Abs5rdP1o8/OINtE49wwNeWuynCu0kme1r4RI3VXVrHr4odVDG7h7mTnw1WXXfN5Il+c25QOnrdL2y56USfxkA==",
+      "version": "3.11.1",
+      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.1.tgz",
+      "integrity": "sha512-REH7crwORgdjSpYs15JBiIWOYjj0hJNC3aCecpJvAlMMaaqL5i2CLb1i6Hc4yevToTKSqslLMI9FKjhugEwALA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -747,7 +747,7 @@
         "@smithy/util-base64": "^4.1.0",
         "@smithy/util-body-length-browser": "^4.1.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "@smithy/util-utf8": "^4.1.0",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
@@ -850,13 +850,13 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/middleware-endpoint": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.2.tgz",
-      "integrity": "sha512-M51KcwD+UeSOFtpALGf5OijWt915aQT5eJhqnMKJt7ZTfDfNcvg2UZgIgTZUoiORawb6o5lk4n3rv7vnzQXgsA==",
+      "version": "4.2.3",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.3.tgz",
+      "integrity": "sha512-+1H5A28DeffRVrqmVmtqtRraEjoaC6JVap3xEQdVoBh2EagCVY7noPmcBcG4y7mnr9AJitR1ZAse2l+tEtK5vg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
+        "@smithy/core": "^3.11.1",
         "@smithy/middleware-serde": "^4.1.1",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/shared-ini-file-loader": "^4.2.0",
@@ -870,19 +870,19 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/middleware-retry": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-retry/-/middleware-retry-4.2.2.tgz",
-      "integrity": "sha512-KZJueEOO+PWqflv2oGx9jICpHdBYXwCI19j7e2V3IMwKgFcXc9D9q/dsTf4B+uCnYxjNoS1jpyv6pGNGRsKOXA==",
+      "version": "4.2.4",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-retry/-/middleware-retry-4.2.4.tgz",
+      "integrity": "sha512-amyqYQFewnAviX3yy/rI/n1HqAgfvUdkEhc04kDjxsngAUREKuOI24iwqQUirrj6GtodWmR4iO5Zeyl3/3BwWg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/protocol-http": "^5.2.1",
-        "@smithy/service-error-classification": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/service-error-classification": "^4.1.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-retry": "^4.1.1",
+        "@smithy/util-retry": "^4.1.2",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
         "uuid": "^9.0.1"
@@ -1011,9 +1011,9 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/service-error-classification": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@smithy/service-error-classification/-/service-error-classification-4.1.1.tgz",
-      "integrity": "sha512-Iam75b/JNXyDE41UvrlM6n8DNOa/r1ylFyvgruTUx7h2Uk7vDNV9AAwP1vfL1fOL8ls0xArwEGVcGZVd7IO/Cw==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/@smithy/service-error-classification/-/service-error-classification-4.1.2.tgz",
+      "integrity": "sha512-Kqd8wyfmBWHZNppZSMfrQFpc3M9Y/kjyN8n8P4DqJJtuwgK1H914R471HTw7+RL+T7+kI1f1gOnL7Vb5z9+NgQ==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -1058,18 +1058,18 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/smithy-client": {
-      "version": "4.6.2",
-      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.2.tgz",
-      "integrity": "sha512-u82cjh/x7MlMat76Z38TRmEcG6JtrrxN4N2CSNG5o2v2S3hfLAxRgSgFqf0FKM3dglH41Evknt/HOX+7nfzZ3g==",
+      "version": "4.6.3",
+      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.3.tgz",
+      "integrity": "sha512-K27LqywsaqKz4jusdUQYJh/YP2VbnbdskZ42zG8xfV+eovbTtMc2/ZatLWCfSkW0PDsTUXlpvlaMyu8925HsOw==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
-        "@smithy/middleware-endpoint": "^4.2.2",
+        "@smithy/core": "^3.11.1",
+        "@smithy/middleware-endpoint": "^4.2.3",
         "@smithy/middleware-stack": "^4.1.1",
         "@smithy/protocol-http": "^5.2.1",
         "@smithy/types": "^4.5.0",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "tslib": "^2.6.2"
       },
       "engines": {
@@ -1173,14 +1173,14 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/util-defaults-mode-browser": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-4.1.2.tgz",
-      "integrity": "sha512-QKrOw01DvNHKgY+3p4r9Ut4u6EHLVZ01u6SkOMe6V6v5C+nRPXJeWh72qCT1HgwU3O7sxAIu23nNh+FOpYVZKA==",
+      "version": "4.1.3",
+      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-4.1.3.tgz",
+      "integrity": "sha512-5fm3i2laE95uhY6n6O6uGFxI5SVbqo3/RWEuS3YsT0LVmSZk+0eUqPhKd4qk0KxBRPaT5VNT/WEBUqdMyYoRgg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
         "@smithy/property-provider": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "bowser": "^2.11.0",
         "tslib": "^2.6.2"
@@ -1190,9 +1190,9 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/util-defaults-mode-node": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-4.1.2.tgz",
-      "integrity": "sha512-l2yRmSfx5haYHswPxMmCR6jGwgPs5LjHLuBwlj9U7nNBMS43YV/eevj+Xq1869UYdiynnMrCKtoOYQcwtb6lKg==",
+      "version": "4.1.3",
+      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-4.1.3.tgz",
+      "integrity": "sha512-lwnMzlMslZ9GJNt+/wVjz6+fe9Wp5tqR1xAyQn+iywmP+Ymj0F6NhU/KfHM5jhGPQchRSCcau5weKhFdLIM4cA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -1200,7 +1200,7 @@
         "@smithy/credential-provider-imds": "^4.1.2",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/property-provider": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "tslib": "^2.6.2"
       },
@@ -1251,13 +1251,13 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/util-retry": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-retry/-/util-retry-4.1.1.tgz",
-      "integrity": "sha512-jGeybqEZ/LIordPLMh5bnmnoIgsqnp4IEimmUp5c5voZ8yx+5kAlN5+juyr7p+f7AtZTgvhmInQk4Q0UVbrZ0Q==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-retry/-/util-retry-4.1.2.tgz",
+      "integrity": "sha512-NCgr1d0/EdeP6U5PSZ9Uv5SMR5XRRYoVr1kRVtKZxWL3tixEL3UatrPIMFZSKwHlCcp2zPLDvMubVDULRqeunA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/service-error-classification": "^4.1.1",
+        "@smithy/service-error-classification": "^4.1.2",
         "@smithy/types": "^4.5.0",
         "tslib": "^2.6.2"
       },
@@ -1266,9 +1266,9 @@
       }
     },
     "node_modules/@aws-sdk/client-cloudfront/node_modules/@smithy/util-stream": {
-      "version": "4.3.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.1.tgz",
-      "integrity": "sha512-khKkW/Jqkgh6caxMWbMuox9+YfGlsk9OnHOYCGVEdYQb/XVzcORXHLYUubHmmda0pubEDncofUrPNniS9d+uAA==",
+      "version": "4.3.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.2.tgz",
+      "integrity": "sha512-Ka+FA2UCC/Q1dEqUanCdpqwxOFdf5Dg2VXtPtB1qxLcSGh5C1HdzklIt18xL504Wiy9nNUKwDMRTVCbKGoK69g==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -1846,9 +1846,9 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/core": {
-      "version": "3.11.0",
-      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.0.tgz",
-      "integrity": "sha512-Abs5rdP1o8/OINtE49wwNeWuynCu0kme1r4RI3VXVrHr4odVDG7h7mTnw1WXXfN5Il+c25QOnrdL2y56USfxkA==",
+      "version": "3.11.1",
+      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.1.tgz",
+      "integrity": "sha512-REH7crwORgdjSpYs15JBiIWOYjj0hJNC3aCecpJvAlMMaaqL5i2CLb1i6Hc4yevToTKSqslLMI9FKjhugEwALA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -1858,7 +1858,7 @@
         "@smithy/util-base64": "^4.1.0",
         "@smithy/util-body-length-browser": "^4.1.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "@smithy/util-utf8": "^4.1.0",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
@@ -1961,13 +1961,13 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/middleware-endpoint": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.2.tgz",
-      "integrity": "sha512-M51KcwD+UeSOFtpALGf5OijWt915aQT5eJhqnMKJt7ZTfDfNcvg2UZgIgTZUoiORawb6o5lk4n3rv7vnzQXgsA==",
+      "version": "4.2.3",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.3.tgz",
+      "integrity": "sha512-+1H5A28DeffRVrqmVmtqtRraEjoaC6JVap3xEQdVoBh2EagCVY7noPmcBcG4y7mnr9AJitR1ZAse2l+tEtK5vg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
+        "@smithy/core": "^3.11.1",
         "@smithy/middleware-serde": "^4.1.1",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/shared-ini-file-loader": "^4.2.0",
@@ -1981,19 +1981,19 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/middleware-retry": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-retry/-/middleware-retry-4.2.2.tgz",
-      "integrity": "sha512-KZJueEOO+PWqflv2oGx9jICpHdBYXwCI19j7e2V3IMwKgFcXc9D9q/dsTf4B+uCnYxjNoS1jpyv6pGNGRsKOXA==",
+      "version": "4.2.4",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-retry/-/middleware-retry-4.2.4.tgz",
+      "integrity": "sha512-amyqYQFewnAviX3yy/rI/n1HqAgfvUdkEhc04kDjxsngAUREKuOI24iwqQUirrj6GtodWmR4iO5Zeyl3/3BwWg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/protocol-http": "^5.2.1",
-        "@smithy/service-error-classification": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/service-error-classification": "^4.1.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-retry": "^4.1.1",
+        "@smithy/util-retry": "^4.1.2",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
         "uuid": "^9.0.1"
@@ -2122,9 +2122,9 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/service-error-classification": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@smithy/service-error-classification/-/service-error-classification-4.1.1.tgz",
-      "integrity": "sha512-Iam75b/JNXyDE41UvrlM6n8DNOa/r1ylFyvgruTUx7h2Uk7vDNV9AAwP1vfL1fOL8ls0xArwEGVcGZVd7IO/Cw==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/@smithy/service-error-classification/-/service-error-classification-4.1.2.tgz",
+      "integrity": "sha512-Kqd8wyfmBWHZNppZSMfrQFpc3M9Y/kjyN8n8P4DqJJtuwgK1H914R471HTw7+RL+T7+kI1f1gOnL7Vb5z9+NgQ==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -2169,18 +2169,18 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/smithy-client": {
-      "version": "4.6.2",
-      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.2.tgz",
-      "integrity": "sha512-u82cjh/x7MlMat76Z38TRmEcG6JtrrxN4N2CSNG5o2v2S3hfLAxRgSgFqf0FKM3dglH41Evknt/HOX+7nfzZ3g==",
+      "version": "4.6.3",
+      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.3.tgz",
+      "integrity": "sha512-K27LqywsaqKz4jusdUQYJh/YP2VbnbdskZ42zG8xfV+eovbTtMc2/ZatLWCfSkW0PDsTUXlpvlaMyu8925HsOw==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
-        "@smithy/middleware-endpoint": "^4.2.2",
+        "@smithy/core": "^3.11.1",
+        "@smithy/middleware-endpoint": "^4.2.3",
         "@smithy/middleware-stack": "^4.1.1",
         "@smithy/protocol-http": "^5.2.1",
         "@smithy/types": "^4.5.0",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "tslib": "^2.6.2"
       },
       "engines": {
@@ -2284,14 +2284,14 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/util-defaults-mode-browser": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-4.1.2.tgz",
-      "integrity": "sha512-QKrOw01DvNHKgY+3p4r9Ut4u6EHLVZ01u6SkOMe6V6v5C+nRPXJeWh72qCT1HgwU3O7sxAIu23nNh+FOpYVZKA==",
+      "version": "4.1.3",
+      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-4.1.3.tgz",
+      "integrity": "sha512-5fm3i2laE95uhY6n6O6uGFxI5SVbqo3/RWEuS3YsT0LVmSZk+0eUqPhKd4qk0KxBRPaT5VNT/WEBUqdMyYoRgg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
         "@smithy/property-provider": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "bowser": "^2.11.0",
         "tslib": "^2.6.2"
@@ -2301,9 +2301,9 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/util-defaults-mode-node": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-4.1.2.tgz",
-      "integrity": "sha512-l2yRmSfx5haYHswPxMmCR6jGwgPs5LjHLuBwlj9U7nNBMS43YV/eevj+Xq1869UYdiynnMrCKtoOYQcwtb6lKg==",
+      "version": "4.1.3",
+      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-4.1.3.tgz",
+      "integrity": "sha512-lwnMzlMslZ9GJNt+/wVjz6+fe9Wp5tqR1xAyQn+iywmP+Ymj0F6NhU/KfHM5jhGPQchRSCcau5weKhFdLIM4cA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -2311,7 +2311,7 @@
         "@smithy/credential-provider-imds": "^4.1.2",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/property-provider": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "tslib": "^2.6.2"
       },
@@ -2362,13 +2362,13 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/util-retry": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-retry/-/util-retry-4.1.1.tgz",
-      "integrity": "sha512-jGeybqEZ/LIordPLMh5bnmnoIgsqnp4IEimmUp5c5voZ8yx+5kAlN5+juyr7p+f7AtZTgvhmInQk4Q0UVbrZ0Q==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-retry/-/util-retry-4.1.2.tgz",
+      "integrity": "sha512-NCgr1d0/EdeP6U5PSZ9Uv5SMR5XRRYoVr1kRVtKZxWL3tixEL3UatrPIMFZSKwHlCcp2zPLDvMubVDULRqeunA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/service-error-classification": "^4.1.1",
+        "@smithy/service-error-classification": "^4.1.2",
         "@smithy/types": "^4.5.0",
         "tslib": "^2.6.2"
       },
@@ -2377,9 +2377,9 @@
       }
     },
     "node_modules/@aws-sdk/client-s3/node_modules/@smithy/util-stream": {
-      "version": "4.3.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.1.tgz",
-      "integrity": "sha512-khKkW/Jqkgh6caxMWbMuox9+YfGlsk9OnHOYCGVEdYQb/XVzcORXHLYUubHmmda0pubEDncofUrPNniS9d+uAA==",
+      "version": "4.3.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.2.tgz",
+      "integrity": "sha512-Ka+FA2UCC/Q1dEqUanCdpqwxOFdf5Dg2VXtPtB1qxLcSGh5C1HdzklIt18xL504Wiy9nNUKwDMRTVCbKGoK69g==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -3058,9 +3058,9 @@
       }
     },
     "node_modules/@aws-sdk/middleware-flexible-checksums/node_modules/@smithy/core": {
-      "version": "3.11.0",
-      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.0.tgz",
-      "integrity": "sha512-Abs5rdP1o8/OINtE49wwNeWuynCu0kme1r4RI3VXVrHr4odVDG7h7mTnw1WXXfN5Il+c25QOnrdL2y56USfxkA==",
+      "version": "3.11.1",
+      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.1.tgz",
+      "integrity": "sha512-REH7crwORgdjSpYs15JBiIWOYjj0hJNC3aCecpJvAlMMaaqL5i2CLb1i6Hc4yevToTKSqslLMI9FKjhugEwALA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -3070,7 +3070,7 @@
         "@smithy/util-base64": "^4.1.0",
         "@smithy/util-body-length-browser": "^4.1.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "@smithy/util-utf8": "^4.1.0",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
@@ -3111,13 +3111,13 @@
       }
     },
     "node_modules/@aws-sdk/middleware-flexible-checksums/node_modules/@smithy/middleware-endpoint": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.2.tgz",
-      "integrity": "sha512-M51KcwD+UeSOFtpALGf5OijWt915aQT5eJhqnMKJt7ZTfDfNcvg2UZgIgTZUoiORawb6o5lk4n3rv7vnzQXgsA==",
+      "version": "4.2.3",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.3.tgz",
+      "integrity": "sha512-+1H5A28DeffRVrqmVmtqtRraEjoaC6JVap3xEQdVoBh2EagCVY7noPmcBcG4y7mnr9AJitR1ZAse2l+tEtK5vg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
+        "@smithy/core": "^3.11.1",
         "@smithy/middleware-serde": "^4.1.1",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/shared-ini-file-loader": "^4.2.0",
@@ -3284,18 +3284,18 @@
       }
     },
     "node_modules/@aws-sdk/middleware-flexible-checksums/node_modules/@smithy/smithy-client": {
-      "version": "4.6.2",
-      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.2.tgz",
-      "integrity": "sha512-u82cjh/x7MlMat76Z38TRmEcG6JtrrxN4N2CSNG5o2v2S3hfLAxRgSgFqf0FKM3dglH41Evknt/HOX+7nfzZ3g==",
+      "version": "4.6.3",
+      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.3.tgz",
+      "integrity": "sha512-K27LqywsaqKz4jusdUQYJh/YP2VbnbdskZ42zG8xfV+eovbTtMc2/ZatLWCfSkW0PDsTUXlpvlaMyu8925HsOw==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
-        "@smithy/middleware-endpoint": "^4.2.2",
+        "@smithy/core": "^3.11.1",
+        "@smithy/middleware-endpoint": "^4.2.3",
         "@smithy/middleware-stack": "^4.1.1",
         "@smithy/protocol-http": "^5.2.1",
         "@smithy/types": "^4.5.0",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "tslib": "^2.6.2"
       },
       "engines": {
@@ -3400,9 +3400,9 @@
       }
     },
     "node_modules/@aws-sdk/middleware-flexible-checksums/node_modules/@smithy/util-stream": {
-      "version": "4.3.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.1.tgz",
-      "integrity": "sha512-khKkW/Jqkgh6caxMWbMuox9+YfGlsk9OnHOYCGVEdYQb/XVzcORXHLYUubHmmda0pubEDncofUrPNniS9d+uAA==",
+      "version": "4.3.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.2.tgz",
+      "integrity": "sha512-Ka+FA2UCC/Q1dEqUanCdpqwxOFdf5Dg2VXtPtB1qxLcSGh5C1HdzklIt18xL504Wiy9nNUKwDMRTVCbKGoK69g==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -3650,9 +3650,9 @@
       }
     },
     "node_modules/@aws-sdk/middleware-sdk-s3/node_modules/@smithy/core": {
-      "version": "3.11.0",
-      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.0.tgz",
-      "integrity": "sha512-Abs5rdP1o8/OINtE49wwNeWuynCu0kme1r4RI3VXVrHr4odVDG7h7mTnw1WXXfN5Il+c25QOnrdL2y56USfxkA==",
+      "version": "3.11.1",
+      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.1.tgz",
+      "integrity": "sha512-REH7crwORgdjSpYs15JBiIWOYjj0hJNC3aCecpJvAlMMaaqL5i2CLb1i6Hc4yevToTKSqslLMI9FKjhugEwALA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -3662,7 +3662,7 @@
         "@smithy/util-base64": "^4.1.0",
         "@smithy/util-body-length-browser": "^4.1.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "@smithy/util-utf8": "^4.1.0",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
@@ -3703,13 +3703,13 @@
       }
     },
     "node_modules/@aws-sdk/middleware-sdk-s3/node_modules/@smithy/middleware-endpoint": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.2.tgz",
-      "integrity": "sha512-M51KcwD+UeSOFtpALGf5OijWt915aQT5eJhqnMKJt7ZTfDfNcvg2UZgIgTZUoiORawb6o5lk4n3rv7vnzQXgsA==",
+      "version": "4.2.3",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.3.tgz",
+      "integrity": "sha512-+1H5A28DeffRVrqmVmtqtRraEjoaC6JVap3xEQdVoBh2EagCVY7noPmcBcG4y7mnr9AJitR1ZAse2l+tEtK5vg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
+        "@smithy/core": "^3.11.1",
         "@smithy/middleware-serde": "^4.1.1",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/shared-ini-file-loader": "^4.2.0",
@@ -3876,18 +3876,18 @@
       }
     },
     "node_modules/@aws-sdk/middleware-sdk-s3/node_modules/@smithy/smithy-client": {
-      "version": "4.6.2",
-      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.2.tgz",
-      "integrity": "sha512-u82cjh/x7MlMat76Z38TRmEcG6JtrrxN4N2CSNG5o2v2S3hfLAxRgSgFqf0FKM3dglH41Evknt/HOX+7nfzZ3g==",
+      "version": "4.6.3",
+      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.3.tgz",
+      "integrity": "sha512-K27LqywsaqKz4jusdUQYJh/YP2VbnbdskZ42zG8xfV+eovbTtMc2/ZatLWCfSkW0PDsTUXlpvlaMyu8925HsOw==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
-        "@smithy/middleware-endpoint": "^4.2.2",
+        "@smithy/core": "^3.11.1",
+        "@smithy/middleware-endpoint": "^4.2.3",
         "@smithy/middleware-stack": "^4.1.1",
         "@smithy/protocol-http": "^5.2.1",
         "@smithy/types": "^4.5.0",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "tslib": "^2.6.2"
       },
       "engines": {
@@ -4005,9 +4005,9 @@
       }
     },
     "node_modules/@aws-sdk/middleware-sdk-s3/node_modules/@smithy/util-stream": {
-      "version": "4.3.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.1.tgz",
-      "integrity": "sha512-khKkW/Jqkgh6caxMWbMuox9+YfGlsk9OnHOYCGVEdYQb/XVzcORXHLYUubHmmda0pubEDncofUrPNniS9d+uAA==",
+      "version": "4.3.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.2.tgz",
+      "integrity": "sha512-Ka+FA2UCC/Q1dEqUanCdpqwxOFdf5Dg2VXtPtB1qxLcSGh5C1HdzklIt18xL504Wiy9nNUKwDMRTVCbKGoK69g==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -4411,9 +4411,9 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/core": {
-      "version": "3.11.0",
-      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.0.tgz",
-      "integrity": "sha512-Abs5rdP1o8/OINtE49wwNeWuynCu0kme1r4RI3VXVrHr4odVDG7h7mTnw1WXXfN5Il+c25QOnrdL2y56USfxkA==",
+      "version": "3.11.1",
+      "resolved": "https://registry.npmjs.org/@smithy/core/-/core-3.11.1.tgz",
+      "integrity": "sha512-REH7crwORgdjSpYs15JBiIWOYjj0hJNC3aCecpJvAlMMaaqL5i2CLb1i6Hc4yevToTKSqslLMI9FKjhugEwALA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -4423,7 +4423,7 @@
         "@smithy/util-base64": "^4.1.0",
         "@smithy/util-body-length-browser": "^4.1.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "@smithy/util-utf8": "^4.1.0",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
@@ -4526,13 +4526,13 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/middleware-endpoint": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.2.tgz",
-      "integrity": "sha512-M51KcwD+UeSOFtpALGf5OijWt915aQT5eJhqnMKJt7ZTfDfNcvg2UZgIgTZUoiORawb6o5lk4n3rv7vnzQXgsA==",
+      "version": "4.2.3",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-endpoint/-/middleware-endpoint-4.2.3.tgz",
+      "integrity": "sha512-+1H5A28DeffRVrqmVmtqtRraEjoaC6JVap3xEQdVoBh2EagCVY7noPmcBcG4y7mnr9AJitR1ZAse2l+tEtK5vg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
+        "@smithy/core": "^3.11.1",
         "@smithy/middleware-serde": "^4.1.1",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/shared-ini-file-loader": "^4.2.0",
@@ -4546,19 +4546,19 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/middleware-retry": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/@smithy/middleware-retry/-/middleware-retry-4.2.2.tgz",
-      "integrity": "sha512-KZJueEOO+PWqflv2oGx9jICpHdBYXwCI19j7e2V3IMwKgFcXc9D9q/dsTf4B+uCnYxjNoS1jpyv6pGNGRsKOXA==",
+      "version": "4.2.4",
+      "resolved": "https://registry.npmjs.org/@smithy/middleware-retry/-/middleware-retry-4.2.4.tgz",
+      "integrity": "sha512-amyqYQFewnAviX3yy/rI/n1HqAgfvUdkEhc04kDjxsngAUREKuOI24iwqQUirrj6GtodWmR4iO5Zeyl3/3BwWg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/protocol-http": "^5.2.1",
-        "@smithy/service-error-classification": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/service-error-classification": "^4.1.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "@smithy/util-middleware": "^4.1.1",
-        "@smithy/util-retry": "^4.1.1",
+        "@smithy/util-retry": "^4.1.2",
         "@types/uuid": "^9.0.1",
         "tslib": "^2.6.2",
         "uuid": "^9.0.1"
@@ -4687,9 +4687,9 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/service-error-classification": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@smithy/service-error-classification/-/service-error-classification-4.1.1.tgz",
-      "integrity": "sha512-Iam75b/JNXyDE41UvrlM6n8DNOa/r1ylFyvgruTUx7h2Uk7vDNV9AAwP1vfL1fOL8ls0xArwEGVcGZVd7IO/Cw==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/@smithy/service-error-classification/-/service-error-classification-4.1.2.tgz",
+      "integrity": "sha512-Kqd8wyfmBWHZNppZSMfrQFpc3M9Y/kjyN8n8P4DqJJtuwgK1H914R471HTw7+RL+T7+kI1f1gOnL7Vb5z9+NgQ==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -4734,18 +4734,18 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/smithy-client": {
-      "version": "4.6.2",
-      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.2.tgz",
-      "integrity": "sha512-u82cjh/x7MlMat76Z38TRmEcG6JtrrxN4N2CSNG5o2v2S3hfLAxRgSgFqf0FKM3dglH41Evknt/HOX+7nfzZ3g==",
+      "version": "4.6.3",
+      "resolved": "https://registry.npmjs.org/@smithy/smithy-client/-/smithy-client-4.6.3.tgz",
+      "integrity": "sha512-K27LqywsaqKz4jusdUQYJh/YP2VbnbdskZ42zG8xfV+eovbTtMc2/ZatLWCfSkW0PDsTUXlpvlaMyu8925HsOw==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/core": "^3.11.0",
-        "@smithy/middleware-endpoint": "^4.2.2",
+        "@smithy/core": "^3.11.1",
+        "@smithy/middleware-endpoint": "^4.2.3",
         "@smithy/middleware-stack": "^4.1.1",
         "@smithy/protocol-http": "^5.2.1",
         "@smithy/types": "^4.5.0",
-        "@smithy/util-stream": "^4.3.1",
+        "@smithy/util-stream": "^4.3.2",
         "tslib": "^2.6.2"
       },
       "engines": {
@@ -4849,14 +4849,14 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/util-defaults-mode-browser": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-4.1.2.tgz",
-      "integrity": "sha512-QKrOw01DvNHKgY+3p4r9Ut4u6EHLVZ01u6SkOMe6V6v5C+nRPXJeWh72qCT1HgwU3O7sxAIu23nNh+FOpYVZKA==",
+      "version": "4.1.3",
+      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-4.1.3.tgz",
+      "integrity": "sha512-5fm3i2laE95uhY6n6O6uGFxI5SVbqo3/RWEuS3YsT0LVmSZk+0eUqPhKd4qk0KxBRPaT5VNT/WEBUqdMyYoRgg==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
         "@smithy/property-provider": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "bowser": "^2.11.0",
         "tslib": "^2.6.2"
@@ -4866,9 +4866,9 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/util-defaults-mode-node": {
-      "version": "4.1.2",
-      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-4.1.2.tgz",
-      "integrity": "sha512-l2yRmSfx5haYHswPxMmCR6jGwgPs5LjHLuBwlj9U7nNBMS43YV/eevj+Xq1869UYdiynnMrCKtoOYQcwtb6lKg==",
+      "version": "4.1.3",
+      "resolved": "https://registry.npmjs.org/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-4.1.3.tgz",
+      "integrity": "sha512-lwnMzlMslZ9GJNt+/wVjz6+fe9Wp5tqR1xAyQn+iywmP+Ymj0F6NhU/KfHM5jhGPQchRSCcau5weKhFdLIM4cA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -4876,7 +4876,7 @@
         "@smithy/credential-provider-imds": "^4.1.2",
         "@smithy/node-config-provider": "^4.2.2",
         "@smithy/property-provider": "^4.1.1",
-        "@smithy/smithy-client": "^4.6.2",
+        "@smithy/smithy-client": "^4.6.3",
         "@smithy/types": "^4.5.0",
         "tslib": "^2.6.2"
       },
@@ -4927,13 +4927,13 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/util-retry": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-retry/-/util-retry-4.1.1.tgz",
-      "integrity": "sha512-jGeybqEZ/LIordPLMh5bnmnoIgsqnp4IEimmUp5c5voZ8yx+5kAlN5+juyr7p+f7AtZTgvhmInQk4Q0UVbrZ0Q==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-retry/-/util-retry-4.1.2.tgz",
+      "integrity": "sha512-NCgr1d0/EdeP6U5PSZ9Uv5SMR5XRRYoVr1kRVtKZxWL3tixEL3UatrPIMFZSKwHlCcp2zPLDvMubVDULRqeunA==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@smithy/service-error-classification": "^4.1.1",
+        "@smithy/service-error-classification": "^4.1.2",
         "@smithy/types": "^4.5.0",
         "tslib": "^2.6.2"
       },
@@ -4942,9 +4942,9 @@
       }
     },
     "node_modules/@aws-sdk/nested-clients/node_modules/@smithy/util-stream": {
-      "version": "4.3.1",
-      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.1.tgz",
-      "integrity": "sha512-khKkW/Jqkgh6caxMWbMuox9+YfGlsk9OnHOYCGVEdYQb/XVzcORXHLYUubHmmda0pubEDncofUrPNniS9d+uAA==",
+      "version": "4.3.2",
+      "resolved": "https://registry.npmjs.org/@smithy/util-stream/-/util-stream-4.3.2.tgz",
+      "integrity": "sha512-Ka+FA2UCC/Q1dEqUanCdpqwxOFdf5Dg2VXtPtB1qxLcSGh5C1HdzklIt18xL504Wiy9nNUKwDMRTVCbKGoK69g==",
       "dev": true,
       "license": "Apache-2.0",
       "dependencies": {
@@ -5620,9 +5620,9 @@
       }
     },
     "node_modules/@balena/abstract-sql-to-typescript/node_modules/@types/node": {
-      "version": "20.19.11",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.11.tgz",
-      "integrity": "sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==",
+      "version": "20.19.17",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.17.tgz",
+      "integrity": "sha512-gfehUI8N1z92kygssiuWvLiwcbOB3IRktR6hTDgJlXMYh5OvkPSRmgfoBUmfZt+vhwJtX7v1Yw4KvvAf7c5QKQ==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -7111,9 +7111,9 @@
       }
     },
     "node_modules/@inquirer/core/node_modules/@types/node": {
-      "version": "22.18.1",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.18.1.tgz",
-      "integrity": "sha512-rzSDyhn4cYznVG+PCzGe1lwuMYJrcBS1fc3JqSa2PvtABwWo+dZ1ij5OVok3tqfpEBCBoaR4d7upFJk73HRJDw==",
+      "version": "22.18.6",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.18.6.tgz",
+      "integrity": "sha512-r8uszLPpeIWbNKtvWRt/DbVi5zbqZyj1PTmhRMqBMvDnaz1QpmSKujUtJLrqGZeoM8v72MfYggDceY4K1itzWQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -10984,12 +10984,12 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "24.3.1",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.3.1.tgz",
-      "integrity": "sha512-3vXmQDXy+woz+gnrTvuvNrPzekOi+Ds0ReMxw0LzBiK3a+1k0kQn9f2NWk+lgD4rJehFUmYy2gMhJ2ZI+7YP9g==",
+      "version": "24.5.2",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.5.2.tgz",
+      "integrity": "sha512-FYxk1I7wPv3K2XBaoyH2cTnocQEu8AOZ60hPbsyukMPLv5/5qr7V1i8PLHdl6Zf87I+xZXFvPCXYjiTFq+YSDQ==",
       "license": "MIT",
       "dependencies": {
-        "undici-types": "~7.10.0"
+        "undici-types": "~7.12.0"
       }
     },
     "node_modules/@types/node-cleanup": {
@@ -10999,9 +10999,9 @@
       "dev": true
     },
     "node_modules/@types/node/node_modules/undici-types": {
-      "version": "7.10.0",
-      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.10.0.tgz",
-      "integrity": "sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag==",
+      "version": "7.12.0",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.12.0.tgz",
+      "integrity": "sha512-goOacqME2GYyOZZfb5Lgtu+1IDmAlAEu5xnD3+xTzS10hT0vzpf0SPjkXwAw9Jm+4n/mQGDP3LO8CPbYROeBfQ==",
       "license": "MIT"
     },
     "node_modules/@types/parse-json": {
@@ -12350,9 +12350,9 @@
       }
     },
     "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "20.19.11",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.11.tgz",
-      "integrity": "sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==",
+      "version": "20.19.17",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.17.tgz",
+      "integrity": "sha512-gfehUI8N1z92kygssiuWvLiwcbOB3IRktR6hTDgJlXMYh5OvkPSRmgfoBUmfZt+vhwJtX7v1Yw4KvvAf7c5QKQ==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -20848,9 +20848,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@types/node": {
-      "version": "20.19.11",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.11.tgz",
-      "integrity": "sha512-uug3FEEGv0r+jrecvUUpbY8lLisvIjg6AAic6a2bSP5OEOLeJsDSnvhCDov7ipFFMXS3orMpzlmi0ZcuGkBbow==",
+      "version": "20.19.17",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.17.tgz",
+      "integrity": "sha512-gfehUI8N1z92kygssiuWvLiwcbOB3IRktR6hTDgJlXMYh5OvkPSRmgfoBUmfZt+vhwJtX7v1Yw4KvvAf7c5QKQ==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
