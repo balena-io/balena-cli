@@ -19,9 +19,9 @@ import { run as oclifRun } from '@oclif/core';
 import { exec, execFile } from 'child_process';
 import type { Stats } from 'fs';
 import * as fs from 'fs-extra';
+import { promises as fsAsync } from 'fs';
 import * as klaw from 'klaw';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';
 
@@ -29,7 +29,6 @@ import { loadPackageJson, ROOT, whichSpawn } from './utils';
 
 const execFileAsync = promisify(execFile);
 const execAsync = promisify(exec);
-const rimrafAsync = promisify(rimraf);
 
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
@@ -329,8 +328,8 @@ export async function buildOclifInstaller() {
 			dirs.push(path.join(ROOT, 'tmp', 'win*'));
 		}
 		for (const dir of dirs) {
-			console.log(`rimraf(${dir})`);
-			await rimrafAsync(dir);
+			console.log(`fsAsync.rm('${dir}', { recursive: true, force: true })`);
+			await fsAsync.rm(dir, { recursive: true, force: true });
 		}
 
 		// oclif pack:{os} -r <ROOT> --no-xz --targets <platform>

@@ -108,7 +108,7 @@ export default class DeviceInitCmd extends Command {
 
 		// Imports
 		const { promisify } = await import('util');
-		const rimraf = promisify(await import('rimraf'));
+		const { promises: fs } = await import('node:fs');
 		const tmp = await import('tmp');
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
@@ -162,7 +162,7 @@ export default class DeviceInitCmd extends Command {
 		} finally {
 			// Remove temp download
 			logger.logDebug(`Removing temporary OS image download...`);
-			await rimraf(tmpPath);
+			await fs.rm(tmpPath, { recursive: true, force: true });
 		}
 
 		console.log('Done');

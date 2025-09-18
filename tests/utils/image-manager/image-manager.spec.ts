@@ -4,13 +4,12 @@ import { stub } from 'sinon';
 import * as tmp from 'tmp';
 import { delay } from '../../utils';
 import * as fs from 'fs';
-import * as fsAsync from 'fs/promises';
+import { promises as fsAsync } from 'fs';
 import * as stringToStream from 'string-to-stream';
 import { Writable as WritableStream } from 'stream';
 import * as imageManager from '../../../build/utils/image-manager';
 import { resolve, extname } from 'path';
 import * as mockFs from 'mock-fs';
-import * as rimraf from 'rimraf';
 import { promisify } from 'util';
 import * as os from 'os';
 
@@ -21,7 +20,10 @@ const balena = getBalenaSdk();
 
 const fsExistsAsync = promisify(fs.exists);
 const clean = async () => {
-	await promisify(rimraf)(await balena.settings.get('cacheDirectory'));
+	await fsAsync.rm(await balena.settings.get('cacheDirectory'), {
+		recursive: true,
+		force: true,
+	});
 };
 
 describe('image-manager', function () {
