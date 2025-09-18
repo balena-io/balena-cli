@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert various lodash methods to native versions
+      hash: 9a70e35fa7091dd1ca0a596c0f1de9759a76753e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 22.4.6
+  title: ""
+  date: 2025-09-18T05:28:33.539Z
+- commits:
     - subject: Deduplicate dependencies
       hash: a67303c683610662726cd53361c9de3de20006c1
       body: ""
