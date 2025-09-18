@@ -25,50 +25,44 @@ import {
 import { getBalenaSdk, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 
-export function authenticate(options: object): Promise<void> {
+export async function authenticate(options: object): Promise<void> {
 	const balena = getBalenaSdk();
-	return getCliForm()
-		.run(
-			[
-				{
-					message: 'Email:',
-					name: 'email',
-					type: 'input',
-					validate: validation.validateEmail,
-				},
-				{
-					message: 'Password:',
-					name: 'password',
-					type: 'password',
-				},
-			],
-			{ override: options },
-		)
-		.then(balena.auth.login)
-		.then(balena.auth.twoFactor.isPassed)
-		.then((isTwoFactorAuthPassed: boolean) => {
-			if (isTwoFactorAuthPassed) {
-				return;
-			}
+	const loginInfo = await getCliForm().run(
+		[
+			{
+				message: 'Email:',
+				name: 'email',
+				type: 'input',
+				validate: validation.validateEmail,
+			},
+			{
+				message: 'Password:',
+				name: 'password',
+				type: 'password',
+			},
+		],
+		{ override: options },
+	);
+	await balena.auth.login(loginInfo as Record<keyof typeof loginInfo, string>);
+	const isTwoFactorAuthPassed = await balena.auth.twoFactor.isPassed();
+	if (isTwoFactorAuthPassed) {
+		return;
+	}
 
-			return getCliForm()
-				.ask({
-					message: 'Two factor auth challenge:',
-					name: 'code',
-					type: 'input',
-				})
-				.then(balena.auth.twoFactor.challenge)
-				.catch((error: any) => {
-					return balena.auth.logout().then(() => {
-						if (
-							error.name === 'BalenaRequestError' &&
-							error.statusCode === 401
-						) {
-							throw new ExpectedError('Invalid two factor authentication code');
-						}
-						throw error;
-					});
-				});
+	return getCliForm()
+		.ask({
+			message: 'Two factor auth challenge:',
+			name: 'code',
+			type: 'input',
+		})
+		.then(balena.auth.twoFactor.challenge)
+		.catch((error: any) => {
+			return balena.auth.logout().then(() => {
+				if (error.name === 'BalenaRequestError' && error.statusCode === 401) {
+					throw new ExpectedError('Invalid two factor authentication code');
+				}
+				throw error;
+			});
 		});
 }
 

@@ -409,8 +409,8 @@ async function askQuestionsForDeviceType(
 		},
 	];
 	const defaultAnswers: Partial<Answers> = {};
-	const questions: any = deviceType.options;
-	let extraOpts: { override: object } | undefined;
+	const questions = deviceType.options ?? [];
+	let extraOpts: { override: Partial<Answers> } | undefined;
 
 	if (!_.isEmpty(configJson)) {
 		answerSources.push(configJson);
@@ -446,7 +446,7 @@ async function askQuestionsForDeviceType(
 		extraOpts = { override: defaultAnswers };
 	}
 
-	return getCliForm().run(questions, extraOpts);
+	return (await getCliForm().run(questions, extraOpts)) as Answers;
 }
 
 /**
