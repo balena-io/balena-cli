@@ -160,7 +160,7 @@ export function displayLogObject<T extends Log>(
 
 	if (obj.serviceName != null) {
 		if (filterServices) {
-			if (!_.includes(filterServices, obj.serviceName)) {
+			if (!filterServices.includes(obj.serviceName)) {
 				return;
 			}
 		} else if (system) {

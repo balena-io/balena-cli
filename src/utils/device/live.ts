@@ -123,9 +123,11 @@ export class LivepushManager {
 		);
 
 		// create livepush instances for each service
-		for (const serviceName of _.keys(this.composition.services)) {
+		for (const serviceName of Object.keys(this.composition.services)) {
 			const service = this.composition.services[serviceName];
-			const buildTask = _.find(this.buildTasks, { serviceName });
+			const buildTask = this.buildTasks.find(
+				(task) => task.serviceName === serviceName,
+			);
 
 			if (buildTask == null) {
 				throw new Error(
@@ -157,9 +159,9 @@ export class LivepushManager {
 				}
 
 				// Find the containerId from the device state
-				const container = _.find(this.lastDeviceStatus!.containers, {
-					serviceName,
-				});
+				const container = this.lastDeviceStatus!.containers.find(
+					(c) => c.serviceName === serviceName,
+				);
 				if (container == null) {
 					return;
 				}
@@ -320,7 +322,7 @@ export class LivepushManager {
 		// used to build the service
 		if (
 			_.some(this.dockerfilePaths[serviceName], (name) =>
-				_.some(updated, (changed) => name === changed),
+				updated.some((changed) => name === changed),
 			)
 		) {
 			this.logger.logLivepush(
@@ -369,7 +371,9 @@ export class LivepushManager {
 
 		this.rebuildsRunning[serviceName] = true;
 		try {
-			const buildTask = _.find(this.buildTasks, { serviceName });
+			const buildTask = this.buildTasks.find(
+				(task) => task.serviceName === serviceName,
+			);
 			if (buildTask == null) {
 				throw new Error(
 					`Could not find a build task for service ${serviceName}`,

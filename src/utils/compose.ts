@@ -321,8 +321,8 @@ const renderProgressBar = function (percentage: number, stepCount: number) {
 	percentage = _.clamp(percentage, 0, 100);
 	const barCount = Math.floor((stepCount * percentage) / 100);
 	const spaceCount = stepCount - barCount;
-	const bar = `[${_.repeat('=', barCount)}>${_.repeat(' ', spaceCount)}]`;
-	return `${bar} ${_.padStart(`${percentage}`, 3)}%`;
+	const bar = `[${'='.repeat(barCount)}>${' '.repeat(spaceCount)}]`;
+	return `${bar} ${`${percentage}`.padStart(3)}%`;
 };
 
 export const pushProgressRenderer = function (
@@ -374,23 +374,21 @@ export class BuildProgressUI implements Renderer {
 		this.start = this.start.bind(this);
 		this.end = this.end.bind(this);
 		this._display = this._display.bind(this);
-		const _ = require('lodash') as typeof import('lodash');
 		const through = require('through2') as typeof import('through2');
 
 		const eventHandler = this._handleEvent;
-		const services = _.map(descriptors, 'serviceName');
+		const services = descriptors.map((d) => d.serviceName);
 
-		const streams = _(services)
-			.map(function (service) {
+		const streams = Object.fromEntries(
+			services.map(function (service) {
 				const stream = through.obj(function (event, _enc, cb) {
 					eventHandler(service, event);
 					cb();
 				});
 				stream.pipe(tty.stream, { end: false });
 				return [service, stream];
-			})
-			.fromPairs()
-			.value();
+			}),
+		);
 
 		this._tty = tty;
 		this._services = services;
@@ -403,7 +401,7 @@ export class BuildProgressUI implements Renderer {
 
 		const offset = 10; // account for escape sequences inserted for colouring
 		this._prefixWidth =
-			offset + prefix.length + _.max(_.map(services, (s) => s.length))!;
+			offset + prefix.length + Math.max(...services.map((s) => s.length));
 		this._prefix = prefix;
 
 		this._ended = false;
@@ -511,14 +509,12 @@ export class BuildProgressUI implements Renderer {
 	}
 
 	_renderSummary(serviceToStrMap: Dictionary<string>) {
-		const _ = require('lodash') as typeof import('lodash');
 		const truncate = require('cli-truncate') as typeof import('cli-truncate');
 		const strlen = require('string-width') as typeof import('string-width');
 		const ux = getCliUx();
 
 		this._services.forEach((service, index) => {
-			let str = _.padEnd(
-				this._prefix + ux.colorize('bold', service),
+			let str = (this._prefix + ux.colorize('bold', service)).padEnd(
 				this._prefixWidth,
 			);
 			str += serviceToStrMap[service];
@@ -548,25 +544,23 @@ export class BuildProgressInline implements Renderer {
 		this.start = this.start.bind(this);
 		this.end = this.end.bind(this);
 		this._renderEvent = this._renderEvent.bind(this);
-		const _ = require('lodash') as typeof import('lodash');
 		const through = require('through2') as typeof import('through2');
 
-		const services = _.map(descriptors, 'serviceName');
+		const services = descriptors.map((d) => d.serviceName);
 		const eventHandler = this._renderEvent;
-		const streams = _(services)
-			.map(function (service) {
+		const streams = Object.fromEntries(
+			services.map(function (service) {
 				const stream = through.obj(function (event, _enc, cb) {
 					eventHandler(service, event);
 					cb();
 				});
 				stream.pipe(outStream, { end: false });
 				return [service, stream];
-			})
-			.fromPairs()
-			.value();
+			}),
+		);
 
 		const offset = 10; // account for escape sequences inserted for colouring
-		this._prefixWidth = offset + _.max(_.map(services, (s) => s.length))!;
+		this._prefixWidth = offset + Math.max(...services.map((s) => s.length));
 		this._outStream = outStream;
 		this._services = services;
 		this._ended = false;
@@ -605,7 +599,6 @@ export class BuildProgressInline implements Renderer {
 	}
 
 	_renderEvent(service: string, event: { status?: string; error?: Error }) {
-		const _ = require('lodash') as typeof import('lodash');
 		const ux = getCliUx();
 
 		const str = (function () {
@@ -619,7 +612,7 @@ export class BuildProgressInline implements Renderer {
 			return 'Waiting...';
 		})();
 
-		const prefix = _.padEnd(ux.colorize('bold', service), this._prefixWidth);
+		const prefix = ux.colorize('bold', service).padEnd(this._prefixWidth);
 		this._outStream.write(prefix);
 		this._outStream.write(str);
 		this._outStream.write('\n');
