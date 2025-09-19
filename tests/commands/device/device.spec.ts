@@ -107,7 +107,7 @@ describe('balena device', function () {
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 	});
 
-	it('outputs device as JSON with the -j/--json flag', async () => {
+	it('outputs device as JSON with the --json flag', async () => {
 		api.scope
 			.get(/^\/v7\/device\?.+&\$expand=device_tag\(\$select=tag_key,value\)/)
 			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
