@@ -8,18 +8,12 @@ import * as _ from 'lodash';
 
 /**
  * @summary Transform value to another type
- * @function
- * @private
- *
- * @param {String} type - new type
- * @param {*} value - value to cast
- * @returns {*} casted value
  *
  * @example
  * console.log(transformValue('number', '21'));
  * > 21
  */
-const transformValue = (type, value) => {
+const transformValue = (type: string, value: any) => {
 	const castFunctions = {
 		number: parseFloat,
 		string: String,
@@ -36,12 +30,6 @@ const transformValue = (type, value) => {
 
 /**
  * @summary Create a single property object
- * @function
- * @private
- *
- * @param {String} key - object key
- * @param {*} value - object value
- * @returns {Object} single property object
  *
  * @example
  * console.log(createSinglePropertyObject('foo', 'bar'));
@@ -50,7 +38,7 @@ const transformValue = (type, value) => {
  * console.log(createSinglePropertyObject('foo.baz', 'bar'));
  * > { foo: { bar: 'baz' } }
  */
-const createSinglePropertyObject = (key, value) => {
+const createSinglePropertyObject = (key: string, value: any) => {
 	const object = {};
 
 	// `_.set` ensures that if `key` is a path
@@ -62,15 +50,9 @@ const createSinglePropertyObject = (key, value) => {
 
 /**
  * @summary Deinterpolate a string
- * @function
- * @public
  *
  * @description
  * The gist of this function is: `(template, string) => data`
- *
- * @param {String} template - template
- * @param {*} string - interpolated string
- * @returns {Object} template data
  *
  * @example
  * console.log(deinterpolate('Hello, {{name}}!', 'Hello, John Doe!');
@@ -78,7 +60,7 @@ const createSinglePropertyObject = (key, value) => {
  * >   name: 'John Doe'
  * > }
  */
-export const deinterpolate = (template, string) => {
+export const deinterpolate = (template: string, string: any) => {
 	if (BOUNDED_INTERPOLATION.test(template)) {
 		const interpolation = execute(BOUNDED_INTERPOLATION, template);
 		return createSinglePropertyObject(
@@ -115,15 +97,9 @@ export const deinterpolate = (template, string) => {
 
 /**
  * @summary Interpolate a string
- * @function
- * @public
  *
  * @description
  * The gist of this function is: `(template, data) => string`
- *
- * @param {String} template - template
- * @param {Object} data - data
- * @returns {*} interpolated result
  *
  * @example
  * console.log(interpolate('Hello, {{name}}!', {
@@ -131,7 +107,7 @@ export const deinterpolate = (template, string) => {
  * }));
  * > 'Hello, John Doe!'
  */
-export const interpolate = (template, data) => {
+export const interpolate = (template: string, data: object) => {
 	if (BOUNDED_INTERPOLATION.test(template)) {
 		const interpolation = execute(BOUNDED_INTERPOLATION, template);
 		const value = _.get(data, interpolation.property);

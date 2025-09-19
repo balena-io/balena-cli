@@ -1,26 +1,19 @@
-/**
- * @summary Supported formats
- * @type Object
- * @constant
- * @private
- */
-const SUPPORTED_FORMATS = {
+import * as _ from 'lodash';
+
+const SUPPORTED_FORMATS: Record<string, any> = {
 	json: require('./json'),
 	ini: require('./ini'),
 };
 
 /**
  * @summary Check that a format type is valid
- * @function
- * @private
  *
- * @param {String} type - type
  * @throws Will throw is type is invalid
  *
  * @example
  * checkType('json');
  */
-const checkType = (type) => {
+const checkType = (type: string) => {
 	if (!_.has(SUPPORTED_FORMATS, type)) {
 		throw new Error(`Unsupported type: ${type}`);
 	}
@@ -28,19 +21,13 @@ const checkType = (type) => {
 
 /**
  * @summary Serialise an object according to a format type
- * @function
- * @public
- *
- * @param {String} type - format type
- * @param {Object} object - input object
- * @returns {String} serialised text
  *
  * @example
  * const text = formats.serialise('ini', { foo: 'bar' });
  * console.log(text):
  * > 'foo=bar'
  */
-export const serialise = (type, object) => {
+export const serialise = (type: string, object: object) => {
 	checkType(type);
 	return SUPPORTED_FORMATS[type].serialise(object);
 };

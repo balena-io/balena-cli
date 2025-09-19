@@ -4,11 +4,6 @@ import { compile, decompile, matches } from './jsontemplate';
 
 /**
  * @summary Get all unique domain filenames
- * @function
- * @private
- *
- * @param {Array[]} domain - domain
- * @returns {Array[]} unique domain filenames
  *
  * @example
  * const filenames = getDomainFilenames([
@@ -19,7 +14,7 @@ import { compile, decompile, matches } from './jsontemplate';
  * console.log(filenames);
  * > [ 'foo' ]
  */
-const getDomainFilenames = (domain) => {
+const getDomainFilenames = (domain: Array<any>[]) => {
 	return _.uniqBy(
 		_.map(domain, (domainPath) => {
 			return _.initial(domainPath);
@@ -30,12 +25,6 @@ const getDomainFilenames = (domain) => {
 
 /**
  * @summary Extract configuration
- * @function
- * @public
- *
- * @param {Object} schema - configuration schema
- * @param {Object} configuration - configuration object
- * @returns {Object} user settings
  *
  * @example
  * const settings = configuration.extract([
@@ -58,7 +47,7 @@ const getDomainFilenames = (domain) => {
  * >   gpuMem1024: 64
  * > }
  */
-const extract = (schema, configuration) => {
+const extract = (schema: object, configuration: object) => {
 	return _.reduce(
 		schema,
 		(accumulator, correspondence) => {
@@ -105,20 +94,16 @@ const extract = (schema, configuration) => {
 
 /**
  * @summary Read image configuration
- * @function
- * @public
- *
- * @param {Object} schema - schema
- * @param {String} image - path to image
- * @fulfil {Object} - configuration
- * @returns {Promise}
  *
  * @example
  * readConfiguration({ ... }, 'path/to/image.img').then((configuration) => {
  *   console.log(configuration);
  * });
  */
-export const readConfiguration = (schema, image) => {
+export const readConfiguration = (
+	schema: { files: any; mapper: any },
+	image: string,
+) => {
 	return readImageConfiguration(schema.files, image).then(
 		_.partial(extract, schema.mapper),
 	);
@@ -126,12 +111,6 @@ export const readConfiguration = (schema, image) => {
 
 /**
  * @summary Safely merge an object to a certain path
- * @function
- * @private
- *
- * @param {Object} destination - destination object
- * @param {(String|String[])} path - object path
- * @param {Object} source - source object
  *
  * @example
  * const x = {};
@@ -150,7 +129,11 @@ export const readConfiguration = (schema, image) => {
  * >   }
  * > }
  */
-const mergePath = (destination, path, source) => {
+const mergePath = (
+	destination: object,
+	path: (string | number)[],
+	source: object,
+) => {
 	if (!_.has(destination, path)) {
 		_.set(destination, path, {});
 	}
@@ -160,14 +143,6 @@ const mergePath = (destination, path, source) => {
 
 /**
  * @summary Generate configuration
- * @function
- * @public
- *
- * @param {Object} schema - configuration schema
- * @param {Object} settings - user settings
- * @param {Object} [options] - options
- * @param {Object} [options.defaults] - default data
- * @returns {Object} configuration
  *
  * @example
  * const result = generate([
@@ -190,7 +165,11 @@ const mergePath = (destination, path, source) => {
  * >   }
  * > }
  */
-const generate = (schema, settings, options) => {
+const generate = (
+	schema: object,
+	settings: object,
+	options: { defaults?: object },
+) => {
 	options = options || {};
 	_.defaults(options, {
 		defaults: {},
@@ -232,13 +211,6 @@ const generate = (schema, settings, options) => {
 
 /**
  * @summary Write image configuration
- * @function
- * @public
- *
- * @param {Object} schema - schema
- * @param {Object} object - configuration object
- * @param {String} image - path to image
- * @returns {Promise}
  *
  * @example
  * writeConfiguration({ ... }, {
@@ -249,7 +221,11 @@ const generate = (schema, settings, options) => {
  *   console.log('Done!');
  * });
  */
-export const writeConfiguration = (schema, object, image) => {
+export const writeConfiguration = (
+	schema: { files: any; mapper: any },
+	object: object,
+	image: string,
+) => {
 	return readImageConfiguration(schema.files, image).then((current) => {
 		const data = generate(schema.mapper, object, {
 			defaults: current,

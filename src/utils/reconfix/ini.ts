@@ -20,74 +20,59 @@
  * @module Reconfix.Engine.Formats.INI
  */
 
-const _ = require('lodash');
-const ini = require('ini');
+import * as _ from 'lodash';
+import ini from 'ini';
 
 /**
  * @summary Check if a string represents a number
- * @function
- * @private
  *
  * @description
  * Adapted from https://github.com/substack/minimist.
- *
- * @param {String} string - string
- * @returns {Boolean} whether the string represents a number
  *
  * @example
  * if (isNumber('3.45')) {
  *   console.log('This string represents a number');
  * }
  */
-const isNumber = (string) => {
-  if (_.isNumber(string) || /^0x[0-9a-f]+$/i.test(string)) {
-    return true;
-  }
+const isNumber = (str: string) => {
+	if (_.isNumber(str) || /^0x[0-9a-f]+$/i.test(str)) {
+		return true;
+	}
 
-  return /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(string);
+	return /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(str);
 };
 
 /**
  * @summary Parse a property value
- * @function
- * @private
- *
- * @param {*} value - value
- * @returns {*} parsed value
  *
  * @example
  * const value = parseValue('5.1');
  * > value === 5.1;
  */
-const parseValue = (value) => {
-  if (isNumber(value)) {
-    const parsedNumber = parseFloat(value);
+const parseValue = (value: any): any => {
+	if (isNumber(value)) {
+		const parsedNumber = parseFloat(value);
 
-    if (_.isNaN(parsedNumber)) {
-      return value;
-    }
+		if (_.isNaN(parsedNumber)) {
+			return value;
+		}
 
-    return parsedNumber;
-  }
+		return parsedNumber;
+	}
 
-  if (_.isPlainObject(value)) {
-    return _.mapValues(value, parseValue);
-  }
+	if (_.isPlainObject(value)) {
+		return _.mapValues(value, parseValue);
+	}
 
-  if (_.isArray(value)) {
-    return _.map(value, parseValue);
-  }
+	if (_.isArray(value)) {
+		return _.map(value, parseValue);
+	}
 
-  return value;
+	return value;
 };
 
 /**
  * @summary Parse the contents of an INI file
- * @function
- * @public
- *
- * @param {String} text - ini text
- * @returns {Object} parsed object
  *
  * @example
  * const result = ini.parse([
@@ -98,18 +83,13 @@ const parseValue = (value) => {
  * console.log(result.mysection.foo);
  * > 'bar'
  */
-exports.parse = (text) => {
-  text = text.toString().replace(/(.+=.*)(#)(.*)/g, '$1\\#$3');
-  return _.mapValues(ini.decode(text), parseValue);
+export const parse = (text: string) => {
+	text = text.toString().replace(/(.+=.*)(#)(.*)/g, '$1\\#$3');
+	return _.mapValues(ini.decode(text), parseValue);
 };
 
 /**
  * @summary Serialize a JSON object as an INI file
- * @function
- * @public
- *
- * @param {Object} object - json object
- * @returns {String} ini text
  *
  * @example
  * const result = ini.serialise({
@@ -122,9 +102,10 @@ exports.parse = (text) => {
  * > [mysection]
  * > foo=bar
  */
-exports.serialise = (object) => {
-  return ini.encode(object)
-    .replace(/\n$/, '')
-    .replace(/\\#/g, '#')
-    .replace(/\r/g, '');
+export const serialise = (object: object) => {
+	return ini
+		.encode(object)
+		.replace(/\n$/, '')
+		.replace(/\\#/g, '#')
+		.replace(/\r/g, '');
 };

@@ -22,28 +22,18 @@
 
 /**
  * @summary Parse the contents of a JSON file
- * @function
- * @public
- *
- * @param {String} text - json text
- * @returns {Object} parsed object
  *
  * @example
  * const result = json.parse('{"foo":"bar"}');
  * console.log(result.foo);
  * > 'bar'
  */
-exports.parse = (text) => {
-  return JSON.parse(text);
+export const parse = (text: string) => {
+	return JSON.parse(text);
 };
 
 /**
  * @summary Serialize a JSON object as an JSON file
- * @function
- * @public
- *
- * @param {Object} object - json object
- * @returns {String} json text
  *
  * @example
  * const result = json.serialise({
@@ -59,6 +49,6 @@ exports.parse = (text) => {
  * >   }
  * > }
  */
-exports.serialise = (object) => {
-  return JSON.stringify(object, null, 2);
+export const serialise = (object: object) => {
+	return JSON.stringify(object, null, 2);
 };

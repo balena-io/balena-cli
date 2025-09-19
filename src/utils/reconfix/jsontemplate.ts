@@ -3,12 +3,6 @@ import * as _ from 'lodash';
 
 /**
  * @summary Check if a compiled object matches a template
- * @function
- * @public
- *
- * @param {Object} template - template object
- * @param {Object} object - compiled object
- * @returns {Boolean} whether object matches template
  *
  * @example
  * if (matches({
@@ -19,7 +13,7 @@ import * as _ from 'lodash';
  *   console.log('This is a match!');
  * }
  */
-export const matches = (template, object) => {
+export const matches = (template: object, object: object) => {
 	const data = decompile(template, object);
 
 	try {
@@ -37,12 +31,6 @@ export const matches = (template, object) => {
 
 /**
  * @summary Decompile a JSON template
- * @function
- * @public
- *
- * @param {Object} template - json template
- * @param {Object} result - compilation result
- * @returns {Object} template data
  *
  * @example
  * const data = decompile({
@@ -56,7 +44,7 @@ export const matches = (template, object) => {
  * >   name: 'John Doe'
  * > }
  */
-export const decompile = (template, result) => {
+export const decompile = (template: object, result: object) => {
 	return _.reduce(
 		template,
 		(data, value, key) => {
@@ -78,12 +66,6 @@ export const decompile = (template, result) => {
 
 /**
  * @summary Compile a JSON template
- * @function
- * @public
- *
- * @param {Object} template - json template
- * @param {Object} data - template data
- * @returns {Object} compilation result
  *
  * @example
  * const result = compile({
@@ -97,7 +79,7 @@ export const decompile = (template, result) => {
  * >   greeting: 'Hello, John Doe!'
  * > }
  */
-export const compile = (template, data) => {
+export const compile = (template: object, data: object) => {
 	return _.mapValues(template, (value) => {
 		if (_.isPlainObject(value)) {
 			return exports.compile(value, data);

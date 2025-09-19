@@ -14,12 +14,6 @@ export const REGEX = {
 	closeDelimiters: '}}',
 };
 
-/**
- * @summary Bounded interpolation RegExp
- * @type RegExp
- * @constant
- * @pblic
- */
 export const BOUNDED_INTERPOLATION = new RegExp(
 	[
 		'^',
@@ -31,12 +25,6 @@ export const BOUNDED_INTERPOLATION = new RegExp(
 	].join(''),
 );
 
-/**
- * @summary Unbounded interpolation RegExp
- * @type RegExp
- * @constant
- * @public
- */
 export const UNBOUNDED_INTERPOLATION = new RegExp(
 	[
 		REGEX.openDelimiters,
@@ -49,9 +37,6 @@ export const UNBOUNDED_INTERPOLATION = new RegExp(
 
 /**
  * @summary Lodash template interpolation RegExp
- * @type RegExp
- * @constant
- * @public
  *
  * We need to make a special regular expression without a capturing
  * group on the type section, since `_.template` will get confused
@@ -69,12 +54,6 @@ export const TEMPLATE_INTERPOLATION = new RegExp(
 
 /**
  * @summary Execute interpolation regex
- * @function
- * @public
- *
- * @param {RegExp} regex - interpolation regex
- * @param {String} template - template string
- * @returns {Object} interpolation details
  *
  * @example
  * const interpolation = regexes.execute(regexes.BOUNDED_INTERPOLATION, '{{string:name}}');
@@ -85,7 +64,7 @@ export const TEMPLATE_INTERPOLATION = new RegExp(
  * console.log(interpolation.property);
  * > 'name'
  */
-export const execute = (regex, template) => {
+export const execute = (regex: RegExp, template: string) => {
 	// Reset global RegExp index
 	// See: http://stackoverflow.com/a/11477448/1641422
 	regex.lastIndex = 0;

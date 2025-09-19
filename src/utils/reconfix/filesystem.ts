@@ -5,13 +5,6 @@ import { serialise } from './formats';
 
 /**
  * @summary Read image configuration
- * @function
- * @public
- *
- * @param {Object} schema - schema
- * @param {String} image - path to image
- * @fulfil {Object} - image configuration
- * @returns {Promise}
  *
  * @example
  * filesystem.readImageConfiguration({
@@ -26,7 +19,7 @@ import { serialise } from './formats';
  *   console.log(configuration.config_txt);
  * });
  */
-export const readImageConfiguration = (schema, image) => {
+export const readImageConfiguration = (schema: object, image: string) => {
 	return exports.readImageData(schema, image).then((imageFileDeclarations) => {
 		return exports.parseFilesManifest(schema, imageFileDeclarations);
 	});
@@ -34,12 +27,6 @@ export const readImageConfiguration = (schema, image) => {
 
 /**
  * @summary Generate a files manifest
- * @function
- * @private
- *
- * @param {Object} schema - schema
- * @param {Object} data - file data
- * @returns {Object} manifest
  *
  * @example
  * const manifest = generateFilesManifest({
@@ -52,7 +39,7 @@ export const readImageConfiguration = (schema, image) => {
  *   file3: { ... }
  * });
  */
-const generateFilesManifest = (schema, data) => {
+const generateFilesManifest = (schema: object, data: object) => {
 	const keys = _.keys(_.omitBy(schema, exports.isSchemaFileVirtual));
 	const rootFiles = _.chain(_.cloneDeep(data))
 		.tap((object) => {
@@ -102,13 +89,6 @@ const generateFilesManifest = (schema, data) => {
 
 /**
  * @summary Write image data
- * @function
- * @private
- *
- * @param {Object} schema - file schema
- * @param {Object} manifest - file manifest
- * @param {String} image - path to image
- * @returns {Promise}
  *
  * @example
  * writeImageData({
@@ -123,7 +103,7 @@ const generateFilesManifest = (schema, data) => {
  *   console.log('Done!');
  * });
  */
-const writeImageData = (schema, manifest, image) => {
+const writeImageData = (schema: object, manifest: object, image: string) => {
 	return Bluebird.each(_.toPairs(manifest), (filePair) => {
 		const fileId = _.first(filePair);
 		const fileDeclaration = _.last(filePair);
@@ -159,13 +139,6 @@ const writeImageData = (schema, manifest, image) => {
 
 /**
  * @summary Write image configuration
- * @function
- * @public
- *
- * @param {Object} schema - schema
- * @param {String} image - path to image
- * @param {Object} settings - settings
- * @returns {Promise}
  *
  * @example
  * writeImageConfiguration({
@@ -184,7 +157,11 @@ const writeImageData = (schema, manifest, image) => {
  *   console.log('Done!');
  * });
  */
-export const writeImageConfiguration = (schema, image, settings) => {
+export const writeImageConfiguration = (
+	schema: object,
+	image: string,
+	settings: object,
+): Promise<any> => {
 	const manifest = generateFilesManifest(schema, settings);
 	return writeImageData(schema, manifest, image);
 };
