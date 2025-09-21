@@ -24,3 +24,5 @@ upstream:
     url: 'https://github.com/balena-io-modules/resin-cli-visuals'
   - repo: 'resin-cli-form'
     url: 'https://github.com/balena-io-modules/resin-cli-form'
+  - repo: 'tar-utils'
+    url: 'https://github.com/balena-io-modules/node-tar-utils'
