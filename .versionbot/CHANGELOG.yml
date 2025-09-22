@@ -1,4 +1,16 @@
 - commits:
+    - subject: Switch runtime uses of `rimraf` to use the native equivalent
+      hash: 7de68cc9b178f1ba1d8d377fab02667dfc9ea343
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 22.4.7
+  title: ""
+  date: 2025-09-22T02:22:17.517Z
+- commits:
     - subject: Convert various lodash methods to native versions
       hash: 9a70e35fa7091dd1ca0a596c0f1de9759a76753e
       body: ""
