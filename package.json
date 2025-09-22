@@ -215,7 +215,7 @@
     "js-yaml": "^4.1.0",
     "JSONStream": "^1.0.3",
     "jwt-decode": "^3.1.2",
-    "livepush": "^3.5.1",
+    "livepush": "^3.5.2",
     "lodash": "^4.17.21",
     "mime": "^2.4.6",
     "mkdirp": "^3.0.1",
