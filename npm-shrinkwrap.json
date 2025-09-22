@@ -22,7 +22,7 @@
         "balena-image-fs": "^7.5.2",
         "balena-preload": "^18.0.5",
         "balena-sdk": "^22.1.0",
-        "balena-semver": "^2.3.0",
+        "balena-semver": "^3.0.10",
         "balena-settings-client": "^5.0.2",
         "balena-settings-storage": "^8.1.0",
         "body-parser": "^1.19.1",
@@ -5703,9 +5703,10 @@
       }
     },
     "node_modules/@balena/compose/node_modules/tar-utils": {
-      "version": "3.0.2",
-      "resolved": "https://registry.npmjs.org/tar-utils/-/tar-utils-3.0.2.tgz",
-      "integrity": "sha512-UimIIz7AKMvSKPF09ma4QG++NKjeHL/IylmCXOWgCAaAikruR40PlbhfxDmWVM/JKwc4umHGSp65UFIeJ/5/Hw==",
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/tar-utils/-/tar-utils-3.0.3.tgz",
+      "integrity": "sha512-h8oVbcWVJlMIv/tQUfTQgmkT3m4FXNPoMrCHKLZrFAOieKZO8i8OM+OG8fxeH4vvOCL1hLscvyg80r690e7U4g==",
+      "license": "Apache-2.0",
       "dependencies": {
         "tar-stream": "^3.1.6"
       },
@@ -5800,9 +5801,9 @@
       }
     },
     "node_modules/@balena/lint/node_modules/@eslint/js": {
-      "version": "9.35.0",
-      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.35.0.tgz",
-      "integrity": "sha512-30iXE9whjlILfWobBkNerJo+TXYsgVM5ERQwMcMKCHckHflCmf7wXDAHlARoWnh0s1U72WqlbeyE7iAcCzuCPw==",
+      "version": "9.36.0",
+      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.36.0.tgz",
+      "integrity": "sha512-uhCbYtYynH30iZErszX78U+nR3pJU3RHGQ57NXy5QupD4SBVwDeU8TNBy+MjMngc1UyIW9noKqsRqfjQTBU2dw==",
       "dev": true,
       "license": "MIT",
       "engines": {
@@ -6075,9 +6076,9 @@
       }
     },
     "node_modules/@balena/lint/node_modules/eslint": {
-      "version": "9.35.0",
-      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.35.0.tgz",
-      "integrity": "sha512-QePbBFMJFjgmlE+cXAlbHZbHpdFVS2E/6vzCy7aKlebddvl1vadiC4JFV5u/wqTkNUwEV8WrQi257jf5f06hrg==",
+      "version": "9.36.0",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.36.0.tgz",
+      "integrity": "sha512-hB4FIzXovouYzwzECDcUkJ4OcfOEkXTv2zRY6B9bkwjx/cprAq0uvm1nl7zvQ0/TsUk0zQiN4uPfJpB9m+rPMQ==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
@@ -6087,7 +6088,7 @@
         "@eslint/config-helpers": "^0.3.1",
         "@eslint/core": "^0.15.2",
         "@eslint/eslintrc": "^3.3.1",
-        "@eslint/js": "9.35.0",
+        "@eslint/js": "9.36.0",
         "@eslint/plugin-kit": "^0.3.5",
         "@humanfs/node": "^0.16.6",
         "@humanwhocodes/module-importer": "^1.0.1",
@@ -12135,6 +12136,21 @@
         "node": ">=20.6.0"
       }
     },
+    "node_modules/balena-device-init/node_modules/balena-semver": {
+      "version": "2.3.5",
+      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-2.3.5.tgz",
+      "integrity": "sha512-nsLg3TH9/mzjeCmUHdrx7jqcfRN3WD0QE5AcanxhcZ69equkU9eX6EDh860CkJHaGpsaO6fA5H650YHxsg6F4A==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "@types/lodash": "^4.14.149",
+        "@types/semver": "^7.1.0",
+        "lodash": "^4.17.15",
+        "semver": "^7.1.3"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
     "node_modules/balena-device-init/node_modules/string-to-stream": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/string-to-stream/-/string-to-stream-1.1.1.tgz",
@@ -12168,21 +12184,6 @@
       },
       "engines": {
         "node": ">=18.0"
-      }
-    },
-    "node_modules/balena-hup-action-utils/node_modules/balena-semver": {
-      "version": "3.0.10",
-      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-3.0.10.tgz",
-      "integrity": "sha512-1zg0UY3O+eJ7L1Xb1trHYldMwtHZttn7sRZoZItfKYbQ3l56BbnTDi/fbOmfe5TerLhNhpdO32N0olLY4smy5g==",
-      "license": "Apache-2.0",
-      "dependencies": {
-        "@types/lodash": "^4.17.20",
-        "@types/semver": "^7.7.0",
-        "lodash": "^4.17.21",
-        "semver": "^7.7.2"
-      },
-      "engines": {
-        "node": ">=16"
       }
     },
     "node_modules/balena-image-fs": {
@@ -12295,21 +12296,6 @@
         "node": "^20.12.0 || >= 22.0.0"
       }
     },
-    "node_modules/balena-sdk/node_modules/balena-semver": {
-      "version": "3.0.10",
-      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-3.0.10.tgz",
-      "integrity": "sha512-1zg0UY3O+eJ7L1Xb1trHYldMwtHZttn7sRZoZItfKYbQ3l56BbnTDi/fbOmfe5TerLhNhpdO32N0olLY4smy5g==",
-      "license": "Apache-2.0",
-      "dependencies": {
-        "@types/lodash": "^4.17.20",
-        "@types/semver": "^7.7.0",
-        "lodash": "^4.17.21",
-        "semver": "^7.7.2"
-      },
-      "engines": {
-        "node": ">=16"
-      }
-    },
     "node_modules/balena-sdk/node_modules/date-fns": {
       "version": "3.6.0",
       "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-3.6.0.tgz",
@@ -12333,17 +12319,18 @@
       }
     },
     "node_modules/balena-semver": {
-      "version": "2.3.5",
-      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-2.3.5.tgz",
-      "integrity": "sha512-nsLg3TH9/mzjeCmUHdrx7jqcfRN3WD0QE5AcanxhcZ69equkU9eX6EDh860CkJHaGpsaO6fA5H650YHxsg6F4A==",
+      "version": "3.0.10",
+      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-3.0.10.tgz",
+      "integrity": "sha512-1zg0UY3O+eJ7L1Xb1trHYldMwtHZttn7sRZoZItfKYbQ3l56BbnTDi/fbOmfe5TerLhNhpdO32N0olLY4smy5g==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "@types/lodash": "^4.14.149",
-        "@types/semver": "^7.1.0",
-        "lodash": "^4.17.15",
-        "semver": "^7.1.3"
+        "@types/lodash": "^4.17.20",
+        "@types/semver": "^7.7.0",
+        "lodash": "^4.17.21",
+        "semver": "^7.7.2"
       },
       "engines": {
-        "node": ">=10"
+        "node": ">=16"
       }
     },
     "node_modules/balena-settings-client": {

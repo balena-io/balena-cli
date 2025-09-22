@@ -12,6 +12,8 @@ upstream:
     url: 'https://github.com/balena-io-modules/balena-device-init'
   - repo: 'balena-preload'
     url: 'https://github.com/balena-io-modules/balena-preload'
+  - repo: 'balena-semver'
+    url: 'https://github.com/balena-io-modules/balena-semver'
   - repo: 'etcher-sdk'
     url: 'https://github.com/balena-io-modules/etcher-sdk'
   - repo: '@balena/compose'
