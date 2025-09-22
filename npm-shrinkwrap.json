@@ -64,7 +64,7 @@
         "patch-package": "^8.0.0",
         "prettyjson": "^1.2.5",
         "progress-stream": "^2.0.0",
-        "reconfix": "^1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
+        "reconfix": "^1.0.1",
         "resin-cli-form": "^5.0.0",
         "resin-cli-visuals": "^4.0.1",
         "resin-doodles": "^0.2.2",
@@ -12184,9 +12184,9 @@
       }
     },
     "node_modules/balena-image-fs": {
-      "version": "7.5.2",
-      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.5.2.tgz",
-      "integrity": "sha512-bOxnUaJWA26wNlOMc5QScBvqGLQUWw/K0GK/VDgu5tGsZdN4rtdIPSbhXcKBw+0gcNPUumYDtdDPipaOH1kREA==",
+      "version": "7.5.3",
+      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.5.3.tgz",
+      "integrity": "sha512-ADucnh/aV63k6qNJ8xnbFaunDSZgzu/VSRDAkQKlQgju2rtdiPEG9I7fJxAkwMTv+1sURxqdIelPqnPB2DBk9g==",
       "license": "Apache-2.0",
       "dependencies": {
         "ext2fs": "^4.2.4",
@@ -21316,16 +21316,18 @@
       }
     },
     "node_modules/reconfix": {
-      "version": "1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476",
-      "resolved": "https://registry.npmjs.org/reconfix/-/reconfix-1.0.0-v0-1-0-fork-46760acff4d165f5238bfac5e464256ef1944476.tgz",
-      "integrity": "sha512-gWTJ15eH3BiJ7y016Wdwwihbxu14XGTOf2a66Ms2GAjR+Dti/lrWIWy8rV924WWmZMlHg31NJjRsRMzk1Whbrw==",
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/reconfix/-/reconfix-1.0.1.tgz",
+      "integrity": "sha512-u65xliLwSzfZ0t3fBCKYWDCptwPUuAZhiebmCJOp5d2oysp03oSj2gagNVw3sXAPbE1y3AAtTWh/slhqRNCxBA==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "balena-image-fs": "^7.0.6",
-        "bluebird": "^3.4.6",
+        "balena-image-fs": "^7.5.3",
         "ini": "^1.3.4",
         "inquirer": "^1.1.3",
-        "lodash": "^4.16.2",
-        "rindle": "^1.3.0"
+        "lodash": "^4.16.2"
+      },
+      "engines": {
+        "node": ">=20"
       }
     },
     "node_modules/reconfix/node_modules/ansi-styles": {
