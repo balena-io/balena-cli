@@ -214,8 +214,16 @@ export default class ConfigGenerateCmd extends Command {
 		// Prompt for values
 		// Pass params as an override: if there is any param with exactly the same name as a
 		// required option, that value is used (and the corresponding question is not asked)
-		const answers = await getCliForm().run(deviceManifest.options, {
-			override: { ...options, app: options.fleet, application: options.fleet },
+		const answers = await getCliForm().run(deviceManifest.options ?? [], {
+			override: {
+				...options,
+				app: options.fleet,
+				application: options.fleet,
+				appUpdatePollInterval:
+					typeof options.appUpdatePollInterval === 'string'
+						? parseInt(options.appUpdatePollInterval, 10)
+						: undefined,
+			},
 		});
 		answers.version = options.version;
 		answers.developmentMode = options.dev;
