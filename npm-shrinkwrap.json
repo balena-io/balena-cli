@@ -79,8 +79,8 @@
         "stream-to-promise": "^2.2.0",
         "string-width": "^4.2.3",
         "strip-ansi-stream": "^1.0.0",
-        "tar-stream": "^2.1.3",
-        "tar-utils": "^3.0.3",
+        "tar-stream": "^3.1.7",
+        "tar-utils": "^3.1.1",
         "through2": "^2.0.3",
         "typed-error": "^3.2.1",
         "update-notifier": "^5.1.0",
@@ -9158,9 +9158,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "23.1.13",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-23.1.13.tgz",
-      "integrity": "sha512-BOwGO7a0IKQSePCnU3U/E27Ph59LMYpidq00ZRCqJa7YP6jrBjwxq1t/NUr4kZ5eSseepsxMheQSxVgUL5VAqQ==",
+      "version": "23.2.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-23.2.0.tgz",
+      "integrity": "sha512-WXf2lnR2xcfmDl8GVerwmqfZnj4LxyWdySJJ7ELHc6qDLj4IAGZqFugasL21M6Jbz79HsYopEHW+6i/qOs+VQw==",
       "license": "Apache-2.0",
       "dependencies": {
         "@balena/abstract-sql-to-typescript": "^5.1.1",
@@ -9484,6 +9484,7 @@
       "version": "4.1.0",
       "resolved": "https://registry.npmjs.org/bl/-/bl-4.1.0.tgz",
       "integrity": "sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==",
+      "license": "MIT",
       "dependencies": {
         "buffer": "^5.5.0",
         "inherits": "^2.0.4",
@@ -9494,6 +9495,7 @@
       "version": "3.6.2",
       "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
       "integrity": "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==",
+      "license": "MIT",
       "dependencies": {
         "inherits": "^2.0.3",
         "string_decoder": "^1.1.1",
@@ -21357,10 +21359,25 @@
         "tar-stream": "^2.1.4"
       }
     },
-    "node_modules/tar-stream": {
+    "node_modules/tar-fs/node_modules/readable-stream": {
+      "version": "3.6.2",
+      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
+      "integrity": "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==",
+      "license": "MIT",
+      "dependencies": {
+        "inherits": "^2.0.3",
+        "string_decoder": "^1.1.1",
+        "util-deprecate": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/tar-fs/node_modules/tar-stream": {
       "version": "2.2.0",
       "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-2.2.0.tgz",
       "integrity": "sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==",
+      "license": "MIT",
       "dependencies": {
         "bl": "^4.0.3",
         "end-of-stream": "^1.4.1",
@@ -21372,17 +21389,15 @@
         "node": ">=6"
       }
     },
-    "node_modules/tar-stream/node_modules/readable-stream": {
-      "version": "3.6.2",
-      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
-      "integrity": "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==",
+    "node_modules/tar-stream": {
+      "version": "3.1.7",
+      "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-3.1.7.tgz",
+      "integrity": "sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==",
+      "license": "MIT",
       "dependencies": {
-        "inherits": "^2.0.3",
-        "string_decoder": "^1.1.1",
-        "util-deprecate": "^1.0.1"
-      },
-      "engines": {
-        "node": ">= 6"
+        "b4a": "^1.6.4",
+        "fast-fifo": "^1.2.0",
+        "streamx": "^2.15.0"
       }
     },
     "node_modules/tar-utils": {
