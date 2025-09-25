@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -105,48 +105,67 @@ export async function runCommand<T>(commandArgs: string[]): Promise<T> {
 	return run(commandArgs) as Promise<T>;
 }
 
-export async function getManifest(
-	image: string,
+export async function checkManifestMatchesDeviceType(
+	manifest: BalenaSdk.DeviceTypeJson.DeviceType,
 	deviceType: string,
-): Promise<BalenaSdk.DeviceTypeJson.DeviceType> {
-	const init = await import('balena-device-init');
-	const sdk = getBalenaSdk();
-	const manifest = await init.getImageManifest(image);
-	if (manifest != null) {
-		const config = manifest.configuration?.config;
-		if (config?.partition != null) {
-			const { getBootPartition } = await import('balena-config-json');
-			// Find the device-type.json property that holds the boot partition number for
-			// this device type (config.partition or config.partition.primary) and overwrite it
-			// with the boot partition number that was found by inspecting the image.
-			// since it's deprecated & no longer updated for newer releases.
-			if (typeof config.partition === 'number') {
-				config.partition = await getBootPartition(image);
-			} else if (config.partition.primary != null) {
-				config.partition.primary = await getBootPartition(image);
-			}
-			// TODO: Add handling for when we no longer include a `config.partition` at all.
-		}
-	} else {
-		// TODO: Change this in the next major to throw, after confirming that this works for all supported OS versions.
-		console.error(
-			`[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.`,
-		);
-	}
+) {
 	if (
-		manifest != null &&
 		manifest.slug !== deviceType &&
-		manifest.slug !== (await sdk.models.deviceType.get(deviceType)).slug
+		manifest.slug !==
+			(await getBalenaSdk().models.deviceType.get(deviceType)).slug
 	) {
 		const { ExpectedError } = await import('../errors');
 		throw new ExpectedError(
 			`The device type of the provided OS image ${manifest.slug}, does not match the expected device type ${deviceType}`,
 		);
 	}
-	return (
-		manifest ??
-		(await sdk.models.config.getDeviceTypeManifestBySlug(deviceType))
-	);
+}
+
+export async function getManifest(
+	image: string,
+	// TODO: Drop this parameter in the next major
+	fallbackDeviceType?: string,
+): Promise<BalenaSdk.DeviceTypeJson.DeviceType> {
+	const init = await import('balena-device-init');
+	const manifest = await init.getImageManifest(image);
+	if (manifest == null) {
+		// TODO: Change this in the next major to throw when not being able to find the manifest
+		// on the provided image, after confirming that this works for all supported OS versions.
+		if (fallbackDeviceType != null) {
+			console.error(
+				`[warn] Error while finding a device-type.json on the provided image path. Attempting to fetch from the API.`,
+			);
+			const sdk = getBalenaSdk();
+			return await sdk.models.config.getDeviceTypeManifestBySlug(
+				fallbackDeviceType,
+			);
+		}
+		const { ExpectedError } = await import('../errors');
+		throw new ExpectedError(
+			`Could not find the manifest on the provided image path '${image}'. Please double check that this is a valid balenaOS image.`,
+		);
+	}
+
+	const config = manifest.configuration?.config;
+	if (config?.partition != null) {
+		const { getBootPartition } = await import('balena-config-json');
+		// Find the device-type.json property that holds the boot partition number for
+		// this device type (config.partition or config.partition.primary) and overwrite it
+		// with the boot partition number that was found by inspecting the image.
+		// since it's deprecated & no longer updated for newer releases.
+		if (typeof config.partition === 'number') {
+			config.partition = await getBootPartition(image);
+		} else if (config.partition.primary != null) {
+			config.partition.primary = await getBootPartition(image);
+		}
+		// TODO: Add handling for when we no longer include a `config.partition` at all.
+	}
+	// TODO: Drop this in the next major along with the fallbackDeviceType argument
+	// and move the checkManifestMatchesDeviceType() to the caller side when still necessary.
+	if (fallbackDeviceType != null) {
+		await checkManifestMatchesDeviceType(manifest, fallbackDeviceType);
+	}
+	return manifest;
 }
 
 export const areDeviceTypesCompatible = async (
