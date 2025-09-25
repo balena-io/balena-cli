@@ -512,3 +512,25 @@ export function pickAndRename<T extends Dictionary<any>>(
 	});
 	return _.mapKeys(_.pick(obj, fields), (_val, key) => rename[key]);
 }
+
+/**
+ * Converts a size in bytes to a human-readable string.
+ *
+ * @param {number} bytes The size in bytes.
+ * @returns {string} A formatted string with the appropriate unit (e.g., "1.4 MB").
+ */
+export function humanizeSize(bytes: number): string {
+	if (bytes == null || bytes === 0) {
+		return '0 Bytes';
+	}
+
+	const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+	const i = Math.floor(Math.log(bytes) / Math.log(1024));
+
+	if (i === 0) {
+		return `${bytes} ${units[i]}`;
+	}
+
+	const value = bytes / Math.pow(1024, i);
+	return `${parseFloat(value.toFixed(1))} ${units[i]}`;
+}
