@@ -15,12 +15,9 @@
  * limitations under the License.
  */
 
-import type {
-	ImageModel,
-	ReleaseModel,
-} from '@balena/compose/dist/release/models';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type * as compose from '@balena/compose';
 import type { Pack } from 'tar-stream';
+import type { BalenaModel } from 'balena-sdk';
 
 interface Image {
 	context: string;
@@ -42,7 +39,10 @@ export interface BuiltImage {
 
 export interface TaggedImage {
 	localImage: import('dockerode').Image;
-	serviceImage: import('@balena/compose/dist/release/models').ImageModel;
+	serviceImage: Omit<
+		BalenaModel['image']['Read'],
+		'created_at' | 'is_a_build_of__service'
+	>;
 	serviceName: string;
 	logs: string;
 	props: BuiltImage.props;
@@ -75,14 +75,14 @@ export interface ComposeCliFlags {
 export interface ComposeProject {
 	path: string;
 	name: string;
-	composition: Composition;
-	descriptors: ImageDescriptor[];
+	composition: compose.parse.Composition;
+	descriptors: compose.parse.ImageDescriptor[];
 }
 
 export interface Release {
-	client: import('@balena/compose').release.Request['client'];
+	client: compose.release.Request['client'];
 	release: Pick<
-		ReleaseModel,
+		BalenaModel['release']['Read'],
 		| 'id'
 		| 'status'
 		| 'commit'
@@ -95,12 +95,12 @@ export interface Release {
 		| 'end_timestamp'
 	>;
 	serviceImages: Dictionary<
-		Omit<ImageModel, 'created_at' | 'is_a_build_of__service'>
+		Omit<BalenaModel['image']['Read'], 'created_at' | 'is_a_build_of__service'>
 	>;
 }
 
 interface TarDirectoryOptions {
-	composition?: Composition;
+	composition?: compose.parse.Composition;
 	convertEol?: boolean;
 	multiDockerignore?: boolean;
 	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
