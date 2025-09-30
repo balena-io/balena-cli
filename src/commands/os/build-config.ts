@@ -39,6 +39,7 @@ export default class OsBuildConfigCmd extends Command {
 			description: 'os image',
 			required: true,
 		}),
+		// TODO: Drop this arg on the next major
 		'device-type': Args.string({
 			description: 'device type',
 			required: true,
@@ -64,6 +65,12 @@ export default class OsBuildConfigCmd extends Command {
 
 		const { writeFile } = (await import('fs')).promises;
 
+		// the "device-type" arg will be removed on the next major - warn user
+		if (params['device-type'] != null) {
+			const { deviceTypeArgDeprecation } = await import('../../utils/messages');
+			console.log(deviceTypeArgDeprecation('device-type'));
+		}
+
 		const config = await this.buildConfig(
 			params.image,
 			params['device-type'],
@@ -75,7 +82,12 @@ export default class OsBuildConfigCmd extends Command {
 		console.info(`Config file "${options.output}" created successfully.`);
 	}
 
-	async buildConfig(image: string, deviceTypeSlug: string, advanced: boolean) {
+	async buildConfig(
+		image: string,
+		// TODO: Drop this parameter on the next major
+		deviceTypeSlug: string | undefined,
+		advanced: boolean,
+	) {
 		advanced = advanced || false;
 
 		const { getManifest } = await import('../../utils/helpers');

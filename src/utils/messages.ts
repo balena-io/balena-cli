@@ -189,6 +189,12 @@ If you have a particular use for buildArg, which is not satisfied by build-time
 secrets, please contact us via support or the forums: https://forums.balena.io/
 \n`;
 
+export const deviceTypeArgDeprecation = (paramName: string) => `\
+WARNING: You have specified a '--${paramName}' option, which is now deprecated, and
+may be removed in the future. The balena-cli will now try to auto-detect
+the device type of the provided balenaOS image.
+\n`;
+
 export function getNodeEngineVersionWarn(
 	version: string,
 	validVersions: string,
