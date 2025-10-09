@@ -1,4 +1,22 @@
 - commits:
+    - subject: Build with node 22.20.0
+      hash: bf8df4aa4d454eed7fd2aa4d1adebbfdba08f926
+      body: >
+        This fixes local flash (and all other flashes) on windows machines after
+        a bugfix in a issue coming from nodejs
+
+        See: https://github.com/nodejs/node/pull/55623
+
+        See: https://github.com/balena-io/balena-cli/issues/2959
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.4.10
+  title: ""
+  date: 2025-10-09T11:27:25.529Z
+- commits:
     - subject: Update balena-device-init to 8.1.14
       hash: 596411518dd16ba3c0eea20ae9e2f8ad05317289
       body: |
