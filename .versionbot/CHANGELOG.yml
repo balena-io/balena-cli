@@ -1,4 +1,16 @@
 - commits:
+    - subject: Switch runtime uses of `mkdirp` to use the native equivalent
+      hash: 1597961ee3445b5d97269c32c18ff00c5f33fd27
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 22.4.11
+  title: ""
+  date: 2025-10-10T15:36:02.985Z
+- commits:
     - subject: Build with node 22.20.0
       hash: bf8df4aa4d454eed7fd2aa4d1adebbfdba08f926
       body: >
