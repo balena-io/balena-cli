@@ -178,20 +178,19 @@ export const getImageWritableStream = async (
 	// Ensure the cache directory exists, to prevent
 	// ENOENT errors when trying to write to it.
 	const path = await import('path');
-	const { mkdirp } = await import('mkdirp');
-	await mkdirp(path.dirname(imagePath));
+	const { promises: fs, createWriteStream } = await import('node:fs');
+	await fs.mkdir(path.dirname(imagePath), { recursive: true });
 
 	// Append .inprogress to streams, move them to the right location only on success
 	const inProgressPath = imagePath + '.inprogress';
-	const { promises, createWriteStream } = await import('fs');
 	type ImageWritableStream = ReturnType<typeof createWriteStream> &
 		Record<'persistCache' | 'removeCache', () => Promise<void>>;
 	const stream = createWriteStream(inProgressPath) as ImageWritableStream;
 
 	// Call .isCompleted on the stream
-	stream.persistCache = () => promises.rename(inProgressPath, imagePath);
+	stream.persistCache = () => fs.rename(inProgressPath, imagePath);
 
-	stream.removeCache = () => promises.unlink(inProgressPath);
+	stream.removeCache = () => fs.unlink(inProgressPath);
 
 	return stream;
 };
