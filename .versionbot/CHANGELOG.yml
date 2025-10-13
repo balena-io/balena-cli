@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove all references to removed `pkg` bundle method
+      hash: 69f4e260b371175bce976d2f73d6bc0ef1ff1476
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.4.12
+  title: ""
+  date: 2025-10-13T19:20:48.065Z
+- commits:
     - subject: Switch runtime uses of `mkdirp` to use the native equivalent
       hash: 1597961ee3445b5d97269c32c18ff00c5f33fd27
       body: ""
