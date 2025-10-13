@@ -61,9 +61,8 @@ export function stateToString(state: OperationState) {
  * @param command Unescaped array of command and args to be executed. If isCLIcmd is
  * true, the command should not include the 'node' or 'balena' components, for example:
  * ['internal', 'osinit', ...]. This function will add argv[0] and argv[1] as needed
- * (taking process.pkg into account -- CLI standalone zip package), and will also
- * shell-escape the arguments as needed, taking into account the differences between
- * bash/sh and the Windows cmd.exe in relation to escape characters.
+ * and will also shell-escape the arguments as needed, taking into account the differences
+ * between bash/sh and the Windows cmd.exe in relation to escape characters.
  * @param msg Optional message for the user, before the password prompt
  * @param stderr Optional stream to which stderr should be piped
  * @param isCLIcmd (default: true) Whether the command array is a balena CLI command

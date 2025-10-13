@@ -26,8 +26,7 @@ import { stripIndent } from './lazy';
  *
  * @param command Unescaped array of command and args to be executed. If isCLIcmd is
  * true, the command should not include the 'node' or 'balena' components, for
- * example: ['internal', 'osinit', ...]. This function will add argv[0] and argv[1]
- * as needed (taking process.pkg into account -- CLI standalone zip package), and
+ * example: ['internal', 'osinit', ...]. This function will add argv[0] and argv[1] and
  * will also shell-escape the arguments as needed, taking into account the
  * differences between bash/sh and the Windows cmd.exe in relation to escape
  * characters.
@@ -49,24 +48,13 @@ export async function executeWithPrivileges(
 		env: process.env,
 		stdio: ['inherit', 'inherit', stderr ? 'pipe' : 'inherit'],
 	};
+	if (isCLIcmd) {
+		command = [process.argv[0], process.argv[1], ...command];
+	}
 	if (isElevated) {
-		if (isCLIcmd) {
-			// opts.shell is false, so preserve pkg's '/snapshot' at argv[1]
-			command = [process.argv[0], process.argv[1], ...command];
-		}
 		// already running with privileges: simply spawn the command
 		await spawnAndPipe(command[0], command.slice(1), opts, stderr);
 	} else {
-		if (isCLIcmd) {
-			// In the case of a CLI standalone zip package (process.pkg is truthy),
-			// the Node executable is bundled with the source code and node_modules
-			// folder in a single file named in argv[0]. In this case, argv[1]
-			// contains a "/snapshot" path that should be discarded when opts.shell
-			// is true.
-			command = (process as any).pkg
-				? [process.argv[0], ...command]
-				: [process.argv[0], process.argv[1], ...command];
-		}
 		opts.shell = true;
 		const escapedCmd = shellEscape(command);
 		// running as ordinary user: elevate privileges
