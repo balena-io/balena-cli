@@ -27,8 +27,6 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-const stat = process.pkg ? fs.statSync : fs.promises.stat;
-
 let fastBootStarted = false;
 
 export async function start() {
@@ -70,8 +68,8 @@ async function $start() {
 	const [, pJson, pStat, nStat] = await Promise.all([
 		ensureCanWrite(dataDir, cacheFile),
 		import('../package.json'),
-		stat(path.join(root, 'package.json'), { bigint: true }),
-		stat(path.join(root, 'npm-shrinkwrap.json'), { bigint: true }),
+		fs.promises.stat(path.join(root, 'package.json'), { bigint: true }),
+		fs.promises.stat(path.join(root, 'npm-shrinkwrap.json'), { bigint: true }),
 	]);
 	// Include timestamps to account for dev-time changes to node_modules
 	const cacheKiller = `${pJson.version}-${pStat.mtimeMs}-${nStat.mtimeMs}`;

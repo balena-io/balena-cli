@@ -142,10 +142,6 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
  * Run the command (e.g. `balena xxx args`) in a child process, instead of
  * the same process as mocha. This is slow and does not allow mocking the
  * source code, but it is useful for testing the standalone zip package binary.
- * (Every now and then, bugs surface because of missing entries in the
- * `pkg.assets` section of `package.json`, usually because of updated
- * dependencies that don't clearly declare the have compatibility issues
- * with `pkg`.)
  *
  * `mocha` runs on the parent process, and many of the tests inspect network
  * traffic intercepted with `nock`. But this interception only works in the

@@ -38,7 +38,6 @@ export const setupSentry = onceAsync(async () => {
 		release: packageJSON.version,
 	});
 	Sentry.getCurrentScope().setExtras({
-		is_pkg: !!(process as any).pkg,
 		node_version: process.version,
 		platform: process.platform,
 	});
