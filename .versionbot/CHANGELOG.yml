@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump @sentry/node to v10
+      hash: d40baeabcd26c494be31ec125cbbde60012e02db
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.4.13
+  title: ""
+  date: 2025-10-14T13:11:15.965Z
+- commits:
     - subject: Remove all references to removed `pkg` bundle method
       hash: 69f4e260b371175bce976d2f73d6bc0ef1ff1476
       body: ""
