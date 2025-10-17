@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused api mock for version command
+      hash: 973b784499a82e5af4b2e10c1507c062f8f514c1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.4.14
+  title: ""
+  date: 2025-10-17T16:58:02.290Z
+- commits:
     - subject: Bump @sentry/node to v10
       hash: d40baeabcd26c494be31ec125cbbde60012e02db
       body: ""
