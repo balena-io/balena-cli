@@ -418,5 +418,16 @@ export class MockHttpServer {
 				scopeOpts,
 			);
 		},
+
+		expectGetDeviceTypes: (opts?: ScopeOpts) =>
+			this.createMock(
+				'GET',
+				/^\/v\d+\/device_type($|\?)/,
+				{
+					status: 200,
+					file: 'device-type-GET-v7.json',
+				},
+				opts,
+			),
 	};
 }
