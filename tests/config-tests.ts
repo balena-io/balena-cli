@@ -52,3 +52,5 @@ chaiCfg.truncateThreshold = 0;
 // Otherwise if the user has BALENARC_BALENA_URL pointing at something else like staging, tests
 // will fail.
 process.env.BALENARC_BALENA_URL = 'balena-cloud.com';
+
+export const MOCKTTP_PORT = 8765;
