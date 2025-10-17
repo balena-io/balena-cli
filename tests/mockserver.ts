@@ -64,6 +64,10 @@ export class MockHttpServer {
 		this.nonOptionalEndpoints = [];
 	}
 
+	public get mockttp() {
+		return mockServer;
+	}
+
 	private async createMock(
 		method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
 		$path: string | RegExp,
@@ -195,5 +199,221 @@ export class MockHttpServer {
 				},
 				opts,
 			),
+
+		expectGetReleaseWithReleaseAssets: (
+			opts?: ScopeOpts & { empty?: boolean },
+		) => {
+			const { empty = false, ...scopeOpts } = opts || {};
+			const releaseAssets = empty
+				? []
+				: [
+						{
+							id: 1,
+							asset_key: 'config.json',
+							asset: {
+								filename: 'config.json',
+								size: 1024,
+								content_type: 'application/json',
+							},
+						},
+						{
+							id: 2,
+							asset_key: 'app.tar.gz',
+							asset: {
+								filename: 'app.tar.gz',
+								size: 5242880,
+								content_type: 'application/gzip',
+							},
+						},
+					];
+
+			return this.createMock(
+				'GET',
+				/\/v7\/release($|[(?])/,
+				{
+					status: 200,
+					body: {
+						d: [
+							{
+								id: 142334,
+								release_asset: releaseAssets,
+							},
+						],
+					},
+				},
+				scopeOpts,
+			);
+		},
+
+		expectDeleteReleaseAsset: (
+			opts: ScopeOpts & { assetKey: string; releaseId?: number },
+		) => {
+			const { assetKey, releaseId = 142334, ...scopeOpts } = opts;
+			return this.createMock(
+				'DELETE',
+				`/v7/release_asset(release=${releaseId},asset_key=%27${assetKey}%27)`,
+				{ status: 200 },
+				scopeOpts,
+			);
+		},
+
+		expectGetReleaseAsset: (
+			opts?: ScopeOpts & { found?: boolean; assetId?: number },
+		) => {
+			const { found = true, assetId, ...scopeOpts } = opts || {};
+			if (found && assetId) {
+				return this.createMock(
+					'GET',
+					/\/v7\/release_asset/,
+					{
+						status: 200,
+						body: {
+							d: [
+								{
+									id: assetId,
+									asset: {
+										href: `${mockServer.url}/download/release-asset-${assetId}.bin`,
+										size: 1024,
+										content_type: 'application/octet-stream',
+									},
+								},
+							],
+						},
+					},
+					scopeOpts,
+				);
+			} else if (found) {
+				return this.createMock(
+					'GET',
+					/\/v7\/release_asset/,
+					{
+						status: 200,
+						body: {
+							d: [
+								{
+									id: 456,
+									asset: {
+										href: `${mockServer.url}/download/release-asset-456.bin`,
+										size: 1024,
+										content_type: 'application/octet-stream',
+									},
+								},
+							],
+						},
+					},
+					scopeOpts,
+				);
+			} else {
+				return this.createMock(
+					'GET',
+					/\/v7\/release_asset/,
+					{ status: 200, body: { d: [] } },
+					scopeOpts,
+				);
+			}
+		},
+
+		expectGetReleaseAssetMissingOnce: async (
+			opts?: ScopeOpts & { assetId?: number },
+		) => {
+			const { assetId = 456, ...scopeOpts } = opts || {};
+			// First call returns empty
+			await this.createMock(
+				'GET',
+				/\/v7\/release_asset/,
+				{ status: 200, body: { d: [] } },
+				{ ...scopeOpts, times: 1 },
+			);
+			// Subsequent calls return found
+			return this.createMock(
+				'GET',
+				/\/v7\/release_asset/,
+				{
+					status: 200,
+					body: {
+						d: [
+							{
+								id: assetId,
+								asset: {
+									href: `${mockServer.url}/download/release-asset-${assetId}.bin`,
+									size: 1024,
+									content_type: 'application/octet-stream',
+								},
+							},
+						],
+					},
+				},
+				scopeOpts,
+			);
+		},
+
+		expectPostReleaseAsset: (
+			opts?: ScopeOpts & { assetKey?: string; assetId?: number },
+		) => {
+			const { assetKey, assetId = 123, ...scopeOpts } = opts || {};
+			return this.createMock(
+				'POST',
+				/^\/v7\/release_asset($|\?)/,
+				{ status: 201, body: { id: assetId, asset_key: assetKey } },
+				scopeOpts,
+			);
+		},
+
+		expectPatchReleaseAsset: (opts: ScopeOpts & { assetId: number }) => {
+			const { assetId, ...scopeOpts } = opts;
+			return this.createMock(
+				'PATCH',
+				/^\/v7\/release_asset/,
+				{ status: 200, body: { id: assetId } },
+				scopeOpts,
+			);
+		},
+
+		expectBeginUpload: (
+			opts: ScopeOpts & {
+				assetId: number;
+				uuid?: string;
+				uploadPath?: string;
+				chunkSize?: number;
+			},
+		) => {
+			const {
+				assetId,
+				uuid = 'test-upload-uuid',
+				uploadPath = `/upload/part1/${assetId}`,
+				chunkSize = 6 * 1024 * 1024,
+				...scopeOpts
+			} = opts;
+			return this.createMock(
+				'POST',
+				`/v7/release_asset(${assetId})/beginUpload`,
+				{
+					status: 200,
+					body: {
+						asset: {
+							uuid,
+							uploadParts: [
+								{
+									url: `${mockServer.url}${uploadPath}`,
+									chunkSize,
+									partNumber: 1,
+								},
+							],
+						},
+					},
+				},
+				scopeOpts,
+			);
+		},
+
+		expectCommitUpload: (opts: ScopeOpts & { assetId: number }) => {
+			const { assetId, ...scopeOpts } = opts;
+			return this.createMock(
+				'POST',
+				`/v7/release_asset(${assetId})/commitUpload`,
+				{ status: 200, body: { message: 'OK' } },
+				scopeOpts,
+			);
+		},
 	};
 }
