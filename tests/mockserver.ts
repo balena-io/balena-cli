@@ -29,8 +29,6 @@ export class MockHttpServer {
 		path: string | RegExp;
 	}> = [];
 
-	constructor() { }
-
 	public async start() {
 		mockServer = mockttp.getLocal();
 		await mockServer.start(MOCKTTP_PORT);
@@ -39,6 +37,7 @@ export class MockHttpServer {
 			apiUrl: mockServer.url,
 		});
 		const lazyModule = await import('../build/utils/lazy');
+		// @ts-expect-error - Overriding read-only property for testing
 		lazyModule.getBalenaSdk = () => sdk;
 	}
 
@@ -72,7 +71,7 @@ export class MockHttpServer {
 		method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
 		$path: string | RegExp,
 		defaultResponse: { status: number; body?: string | object; file?: string },
-		opts: MockParams = {}
+		opts: MockParams = {},
 	): Promise<mockttp.MockedEndpoint> {
 		const {
 			optional = false,
@@ -93,8 +92,12 @@ export class MockHttpServer {
 
 		let builder = methodMap[method]($path);
 
-		if (persist) builder = builder.always();
-		if (times && times > 0) builder = builder.times(times);
+		if (persist) {
+			builder = builder.always();
+		}
+		if (times && times > 0) {
+			builder = builder.times(times);
+		}
 
 		let rule: mockttp.MockedEndpoint;
 
