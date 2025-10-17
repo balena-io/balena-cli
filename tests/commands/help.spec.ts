@@ -17,7 +17,6 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
 import * as messages from '../../build/utils/messages';
 
@@ -105,17 +104,6 @@ GLOBAL OPTIONS
 const ONLINE_RESOURCES = messages.reachingOut;
 
 describe.skip('balena help', function () {
-	let api: BalenaAPIMock;
-
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
-	});
-
-	this.afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
-	});
-
 	it('should list primary command summaries', async () => {
 		const { out, err } = await runCommand('help');
 

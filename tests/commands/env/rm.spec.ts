@@ -17,24 +17,30 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena env rm', function () {
-	let api: BalenaAPIMock;
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		await server.start();
+		await server.api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should successfully delete an environment variable', async () => {
-		api.scope.delete(/device_environment_variable/).reply(200, 'OK');
+		await server.mockttp
+			.forDelete(/device_environment_variable/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand('env rm 144690 -d -y');
 

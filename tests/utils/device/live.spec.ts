@@ -124,16 +124,16 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 		return monitors;
 	}
 
-	this.beforeAll(async () => {
+	before(async () => {
 		await setupDockerignoreTestData();
 	});
 
-	this.afterAll(async () => {
+	after(async () => {
 		await setupDockerignoreTestData({ cleanup: true });
 	});
 
-	this.beforeEach(async () => {
-		await resetDockerignoreCache();
+	beforeEach(() => {
+		resetDockerignoreCache();
 	});
 
 	describe('for project no-docker-compose/basic', function () {

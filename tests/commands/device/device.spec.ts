@@ -18,21 +18,27 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
-import * as stripIndent from 'common-tags/lib/stripIndent';
+import { stripIndent } from '../../../build/utils/lazy';
+import { MockHttpServer, apiResponsePath } from '../../mockserver';
 
 describe('balena device', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should error if uuid not provided', async () => {
@@ -109,13 +115,20 @@ describe('balena device', function () {
 	});
 
 	it('should list device details for provided uuid', async () => {
-		api.scope
-			.get(
-				/^\/v7\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				'?$filter=startswith(uuid,%2727fda508c%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
-			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
-				'Content-Type': 'application/json',
-			});
+			.thenReply(
+				200,
+				await import('fs').then((fs) =>
+					fs.readFileSync(path.join(apiResponsePath, 'device.json'), 'utf8'),
+				),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
 
 		const { out } = await runCommand('device 27fda508c');
 
@@ -126,14 +139,20 @@ describe('balena device', function () {
 		expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
 	});
 
-	it.skip('correctly handles devices with missing fields', async () => {
-		api.scope
-			.get(
-				/^\/v7\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
+	it('correctly handles devices with missing fields', async () => {
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				'?$filter=startswith(uuid,%2727fda508c%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
-			.replyWithFile(
+			.thenReply(
 				200,
-				path.join(apiResponsePath, 'device-missing-fields.json'),
+				await import('fs').then((fs) =>
+					fs.readFileSync(
+						path.join(apiResponsePath, 'device-missing-fields.json'),
+						'utf8',
+					),
+				),
 				{
 					'Content-Type': 'application/json',
 				},
@@ -151,13 +170,19 @@ describe('balena device', function () {
 	it('correctly handles devices with missing application', async () => {
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
-		api.scope
-			.get(
-				/^\/v7\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				'?$filter=startswith(uuid,%2727fda508c%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
-			.replyWithFile(
+			.thenReply(
 				200,
-				path.join(apiResponsePath, 'device-missing-app.json'),
+				await import('fs').then((fs) =>
+					fs.readFileSync(
+						path.join(apiResponsePath, 'device-missing-app.json'),
+						'utf8',
+					),
+				),
 				{
 					'Content-Type': 'application/json',
 				},
@@ -172,20 +197,36 @@ describe('balena device', function () {
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 	});
 
-	it('outputs device as JSON with the --json flag', async () => {
-		api.scope
-			.get(/^\/v7\/device\?.+&\$expand=device_tag\(\$select=tag_key,value\)/)
-			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
-				'Content-Type': 'application/json',
-			});
-
-		api.scope
-			.get(
-				/^\/v\d+\/device\?.+&\$select=overall_status,overall_progress,should_be_running__release$/,
+	it('outputs device as JSON with the -j/--json flag', async () => {
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				'?$filter=startswith(uuid,%2727fda508c%27)&$expand=device_tag($select=tag_key,value),belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
-			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
-				'Content-Type': 'application/json',
-			});
+			.thenReply(
+				200,
+				await import('fs').then((fs) =>
+					fs.readFileSync(path.join(apiResponsePath, 'device.json'), 'utf8'),
+				),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
+
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				'?$filter=startswith(uuid,%2727fda508c%27)&$select=overall_status,overall_progress,should_be_running__release',
+			)
+			.thenReply(
+				200,
+				await import('fs').then((fs) =>
+					fs.readFileSync(path.join(apiResponsePath, 'device.json'), 'utf8'),
+				),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
 
 		const { out, err } = await runCommand('device 27fda508c --json');
 		expect(err).to.be.empty;
@@ -196,13 +237,20 @@ describe('balena device', function () {
 	});
 
 	it('should list devices from own and collaborator apps', async () => {
-		api.scope
-			.get(
-				'/v7/device?$orderby=device_name%20asc&$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				'?$select=id,uuid,device_name,status,is_online,supervisor_version,os_version&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)&$orderby=device_name%20asc',
 			)
-			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
-				'Content-Type': 'application/json',
-			});
+			.thenReply(
+				200,
+				await import('fs').then((fs) =>
+					fs.readFileSync(path.join(apiResponsePath, 'devices.json'), 'utf8'),
+				),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
 
 		const { out } = await runCommand('device list');
 

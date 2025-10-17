@@ -17,14 +17,13 @@
 
 import { expect } from 'chai';
 import * as _ from 'lodash';
-import * as mock from 'mock-require';
+import * as sinon from 'sinon';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import { stripIndent } from '../../build/utils/lazy';
-import { BalenaAPIMock } from '../nock/balena-api-mock';
+import { MockHttpServer } from '../mockserver';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
-import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
 import { cleanOutput, runCommand } from '../helpers';
 import type {
 	ExpectedTarStreamFiles,
@@ -38,6 +37,9 @@ import {
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
+const dockerResponsePath = path.normalize(
+	path.join(__dirname, '..', 'test-data', 'docker-response'),
+);
 
 const commonResponseLines: { [key: string]: string[] } = {
 	'build-POST.json': [
@@ -83,22 +85,31 @@ const commonComposeQueryParamsIntel = {
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
 describe('balena build', function () {
-	let api: BalenaAPIMock;
-	let docker: DockerMock;
+	let api: MockHttpServer['api'];
+	let docker: MockHttpServer['docker'];
+	let server: MockHttpServer;
 	const isWindows = process.platform === 'win32';
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
-		docker = new DockerMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		docker.expectGetPing();
-		docker.expectGetVersion({ persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		docker = server.docker;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	this.afterEach(() => {
+	after(async () => {
+		await server.stop();
+	});
+
+	beforeEach(async () => {
+		await docker.expectGetPing({ optional: true });
+		await docker.expectGetVersion({ persist: true, optional: true });
+	});
+
+	afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		api.done();
-		docker.done();
+		await server.assertAllCalled();
 	});
 
 	it('should create the expected tar stream (single container)', async () => {
@@ -131,8 +142,8 @@ describe('balena build', function () {
 				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
 			);
 		}
-		docker.expectGetInfo({});
-		docker.expectGetManifestBusybox();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
 			dockerMock: docker,
@@ -187,8 +198,8 @@ describe('balena build', function () {
 				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
 			);
 		}
-		docker.expectGetInfo({});
-		docker.expectGetManifestBusybox();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B BARG1=b1 -B barg2=B2 --cache-from my/img1,my/img2`,
 			dockerMock: docker,
@@ -204,7 +215,7 @@ describe('balena build', function () {
 		});
 	});
 
-	// Skip Standalone because we patch the source code with `mock-require` to avoid
+	// Skip Standalone because we patch the source code with sinon to avoid
 	// downloading and installing QEMU
 	itSS('should create the expected tar stream (--emulated)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
@@ -255,31 +266,30 @@ describe('balena build', function () {
 		}
 		const arch = 'rpi';
 		const deviceType = 'raspberry-pi';
-		const fsModPath = 'fs';
-		const fsMod = await import(fsModPath);
-		const qemuModPath = '../../build/utils/qemu';
-		const qemuMod = await import(qemuModPath);
+		const qemuMod = await import('../../build/utils/qemu');
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
+
+		// Stub fs.promises.access and fs.promises.stat to pretend that a copy of the Qemu binary
+		// already exists locally, thus preventing a download during tests
+		const accessStub = sinon.stub(fs, 'access').callsFake(async (p: any) => {
+			if (p === qemuBinPath) {
+				return undefined;
+			}
+			return accessStub.wrappedMethod.call(fs, p);
+		});
+
+		const statStub = sinon.stub(fs, 'stat').callsFake(async (p: any) => {
+			if (p === qemuBinPath) {
+				return { size: 1 } as any;
+			}
+			return statStub.wrappedMethod.call(fs, p);
+		});
+
+		const copyQemuStub = sinon.stub(qemuMod, 'copyQemu').resolves('');
+
 		try {
-			// patch fs.access and fs.stat to pretend that a copy of the Qemu binary
-			// already exists locally, thus preventing a download during tests
-			mock(fsModPath, {
-				...fsMod,
-				promises: {
-					...fsMod.promises,
-					access: (p: string) =>
-						p === qemuBinPath ? undefined : fsMod.promises.access(p),
-					stat: (p: string) =>
-						p === qemuBinPath ? { size: 1 } : fsMod.promises.stat(p),
-				},
-			});
-			mock(qemuModPath, {
-				...qemuMod,
-				copyQemu: () => '',
-			});
-			mock.reRequire('../../build/utils/qemu');
-			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
-			docker.expectGetManifestBusybox();
+			await docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
+			await docker.expectGetManifestBusybox();
 			await testDockerBuildStream({
 				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
 				dockerMock: docker,
@@ -294,8 +304,9 @@ describe('balena build', function () {
 				services: ['main'],
 			});
 		} finally {
-			mock.stop(fsModPath);
-			mock.stop(qemuModPath);
+			accessStub.restore();
+			statStub.restore();
+			copyQemuStub.restore();
 		}
 	});
 
@@ -333,8 +344,8 @@ describe('balena build', function () {
 				'[Warn] Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
 			);
 		}
-		docker.expectGetInfo({});
-		docker.expectGetManifestBusybox();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol -m`,
@@ -426,9 +437,9 @@ describe('balena build', function () {
 				)}`,
 			);
 		}
-		docker.expectGetInfo({});
-		docker.expectGetManifestNucAlpine();
-		docker.expectGetManifestBusybox();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestNucAlpine();
+		await docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
 			dockerMock: docker,
@@ -513,9 +524,9 @@ describe('balena build', function () {
 				)}`,
 			);
 		}
-		docker.expectGetInfo({});
-		docker.expectGetManifestNucAlpine();
-		docker.expectGetManifestBusybox();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestNucAlpine();
+		await docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2 --nologs`,
 			dockerMock: docker,
@@ -595,9 +606,9 @@ describe('balena build', function () {
 				)}`,
 			);
 		}
-		docker.expectGetInfo({});
-		docker.expectGetManifestBusybox();
-		docker.expectGetManifestNucAlpine();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
+		await docker.expectGetManifestNucAlpine();
 
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -m`,
@@ -680,9 +691,9 @@ describe('balena build', function () {
 		}
 		const projectName = 'spectest';
 		const tag = 'myTag';
-		docker.expectGetInfo({});
-		docker.expectGetManifestBusybox();
-		docker.expectGetManifestNucAlpine();
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
+		await docker.expectGetManifestNucAlpine();
 
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -m --tag ${tag} --projectName ${projectName}`,
@@ -701,15 +712,20 @@ describe('balena build', function () {
 });
 
 describe('balena build: project validation', function () {
-	let api: BalenaAPIMock;
+	let server: MockHttpServer;
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
+	before(async () => {
+		server = new MockHttpServer();
+		await server.start();
 	});
 
-	this.afterEach(() => {
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		api.done();
+		await server.assertAllCalled();
 	});
 
 	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {

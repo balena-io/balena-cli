@@ -16,24 +16,31 @@
  */
 
 import { expect } from 'chai';
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena release-asset delete', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should delete a release asset with --yes flag', async () => {
-		api.expectGetRelease();
-		api.expectDeleteReleaseAsset({ assetKey: 'config.json' });
+		await api.expectGetRelease();
+		await api.expectDeleteReleaseAsset({ assetKey: 'config.json' });
 
 		const { out, err } = await runCommand(
 			'release-asset delete 27fda508c --key config.json --yes',

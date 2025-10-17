@@ -16,9 +16,8 @@
  */
 
 import * as settings from 'balena-settings-client';
-import { getStorage } from 'balena-settings-storage';
+import * as balenaSettingsStorage from 'balena-settings-storage';
 import { expect } from 'chai';
-import * as mock from 'mock-require';
 import * as semver from 'semver';
 import * as sinon from 'sinon';
 
@@ -26,8 +25,7 @@ const packageJSON =
 	require('../package.json') as typeof import('../package.json');
 import type { ReleaseTimestampsByVersion } from '../build/deprecation';
 import { DeprecationChecker } from '../build/deprecation';
-import { BalenaAPIMock } from './nock/balena-api-mock';
-import { NpmMock } from './nock/npm-mock';
+import { MockHttpServer } from './mockserver';
 import type { TestOutput } from './helpers';
 import { runCommand } from './helpers';
 
@@ -41,10 +39,9 @@ describe('DeprecationChecker', function () {
 	const currentMajor = semver.major(packageJSON.version, { loose: true });
 	const nextMajorVersion = `${currentMajor + 1}.0.0`;
 	const dataDirectory = settings.get<string>('dataDirectory');
-	const storageModPath = 'balena-settings-storage';
-	const mockStorage = getStorage({ dataDirectory });
-	let api: BalenaAPIMock;
-	let npm: NpmMock;
+	const mockStorage = balenaSettingsStorage.getStorage({ dataDirectory });
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 	let checker: DeprecationChecker;
 	let getStub: sinon.SinonStub<
 		Parameters<typeof mockStorage.get>,
@@ -56,39 +53,37 @@ describe('DeprecationChecker', function () {
 	>;
 	let originalUnsupported: string | undefined;
 
-	this.beforeAll(() => {
+	before(() => {
 		// Temporarily undo settings from `tests/config-tests.ts`
 		originalUnsupported = process.env.BALENARC_UNSUPPORTED;
 		delete process.env.BALENARC_UNSUPPORTED;
 	});
-	this.afterAll(() => {
+	after(() => {
 		process.env.BALENARC_UNSUPPORTED = originalUnsupported;
 	});
 
-	this.beforeEach(() => {
-		npm = new NpmMock();
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	beforeEach(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 		checker = new DeprecationChecker(packageJSON.version);
+
+		// Stub getStorage to return our mockStorage instance so that stubs work
+		sandbox.stub(balenaSettingsStorage, 'getStorage').returns(mockStorage);
 
 		getStub = sandbox.stub(mockStorage, 'get').withArgs(checker.cacheFile);
 
 		setStub = sandbox
 			.stub(mockStorage, 'set')
 			.withArgs(checker.cacheFile, sinon.match.any);
-
-		mock(storageModPath, { getStorage: () => mockStorage });
 	});
 
-	this.afterEach(() => {
+	afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		(mockStorage.get as sinon.SinonStub).restore();
-		(mockStorage.set as sinon.SinonStub).restore();
+		sandbox.restore();
 
-		// originalStorage.set.restore();
-		api.done();
-		npm.done();
-		mock.stop(storageModPath);
+		await server.stop();
 	});
 
 	itSS(
@@ -228,10 +223,14 @@ describe('DeprecationChecker', function () {
 	});
 
 	it('should query the npm registry (empty cache file)', async () => {
-		npm.expectGetBalenaCli({
-			version: nextMajorVersion,
-			publishedAt: new Date().toISOString(),
-		});
+		// Mock npm registry response
+		await server.mockttp.forGet(`/balena-cli/${nextMajorVersion}`).thenReply(
+			200,
+			JSON.stringify({
+				versionist: { publishedAt: new Date().toISOString() },
+			}),
+			{ 'Content-Type': 'application/json' },
+		);
 
 		getStub.resolves(undefined);
 
@@ -253,10 +252,14 @@ describe('DeprecationChecker', function () {
 	});
 
 	it('should query the npm registry (not recently fetched)', async () => {
-		npm.expectGetBalenaCli({
-			version: nextMajorVersion,
-			publishedAt: new Date().toISOString(),
-		});
+		// Mock npm registry response
+		await server.mockttp.forGet(`/balena-cli/${nextMajorVersion}`).thenReply(
+			200,
+			JSON.stringify({
+				versionist: { publishedAt: new Date().toISOString() },
+			}),
+			{ 'Content-Type': 'application/json' },
+		);
 
 		const mockCache: ReleaseTimestampsByVersion = {
 			lastFetched: new Date(

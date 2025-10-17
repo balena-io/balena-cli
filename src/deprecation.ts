@@ -89,7 +89,10 @@ export class DeprecationChecker {
 	 * @param version Semver without 'v' prefix, e.g. '12.0.0.'
 	 */
 	protected getNpmUrl(version: string) {
-		return `https://registry.npmjs.org/balena-cli/${version}`;
+		// Allow override for testing with mock servers
+		const registryUrl =
+			process.env.BALENARC_NPM_REGISTRY ?? 'https://registry.npmjs.org';
+		return `${registryUrl}/balena-cli/${version}`;
 	}
 
 	/**

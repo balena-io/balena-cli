@@ -24,18 +24,17 @@ import * as tmp from 'tmp';
 import * as path from 'node:path';
 import { tmpdir } from 'node:os';
 import type * as $imagefs from 'balena-image-fs';
-import * as stripIndent from 'common-tags/lib/stripIndent';
+import { stripIndent } from '../../../build/utils/lazy';
 import { randomUUID } from 'node:crypto';
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
+import { MockHttpServer } from '../../mockserver';
 
 if (process.platform !== 'win32') {
 	describe('balena os configure', function () {
 		let imagefs: typeof $imagefs;
-		let api: BalenaAPIMock;
 
 		const testImageFilenames = {
 			dummy: 'dummy.img',
@@ -50,6 +49,8 @@ if (process.platform !== 'win32') {
 		const tmpImagePaths = {
 			...testImageFilenames,
 		};
+		let api: MockHttpServer['api'];
+		let server: MockHttpServer;
 
 		before(async function () {
 			// We conditionally import balena-image-fs, since when imported on top level then unrelated tests on win32 failed with:
@@ -103,13 +104,15 @@ if (process.platform !== 'win32') {
 			);
 		});
 
-		beforeEach(() => {
-			api = new BalenaAPIMock();
-			api.expectGetWhoAmI({ optional: true, persist: true });
+		beforeEach(async () => {
+			server = new MockHttpServer();
+			api = server.api;
+			await server.start();
+			await api.expectGetWhoAmI({ optional: true, persist: true });
 		});
 
-		afterEach(() => {
-			api.done();
+		afterEach(async () => {
+			await server.stop();
 		});
 
 		after(async () => {
@@ -133,7 +136,7 @@ if (process.platform !== 'win32') {
 				See more help with \`balena os configure --help\`
 			`
 					.split('\n')
-					.filter((line) => line !== ''),
+					.filter((line: string) => line !== ''),
 			);
 		});
 
@@ -246,12 +249,12 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should detect the OS version and inject a valid config.json file to a jetson-nano 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			// await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
@@ -294,12 +297,12 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should detect the OS version and inject a valid config.json file to a jetson-nano 6.1.25 image with partition 12 as boot & a non-matching device-type.json', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			// await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition}`,
@@ -342,12 +345,12 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should detect the OS version and inject a valid config.json file to an intel-nuc (MBR) image', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			// await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpImagePaths.intelNuc}`,
@@ -414,12 +417,12 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should detect the OS version and inject a valid config.json file to an generic-amd64 (GPT) image', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			// await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpImagePaths.genericAmd64}`,
@@ -486,7 +489,8 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should fail when it can not detect the OS version of the provided image', async () => {
-			api.expectGetApplication();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 
 			const command: string[] = [
 				`os configure ${tmpImagePaths.dummy}`,
@@ -516,8 +520,8 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should configure an image using --config with a config.json that has no networking setting without interactive questions', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 
 			const configJson = {
 				applicationId: 1301645,
@@ -571,8 +575,8 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should configure an image using --config with a config.json that has wifi settings without interactive questions', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 
 			const configJson = {
 				applicationId: 1301645,
@@ -669,12 +673,14 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should be able to configure a secureboot generic-amd64 image with just the --config config.json parameter', async () => {
-			api.expectGetDeviceTypes();
-			api.expectGetContractOfOsRelease({
+			await api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			// Register this AFTER expectGetApplication since mockttp uses "last match wins"
+			// and this mock has a more specific matching condition for is_host requests
+			await api.expectGetContractOfOsRelease({
 				deviceTypeSlug: 'generic-amd64',
 				rawVersion: '6.8.1',
 			});
-			api.expectGetApplication();
 
 			const configJson = {
 				applicationId: 1301645,

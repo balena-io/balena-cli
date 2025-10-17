@@ -74,7 +74,9 @@ export class DeviceAPI {
 		addr: string,
 		port = 48484,
 	) {
-		this.deviceAddress = `http://${addr}:${port}/`;
+		// Allow override for testing with mock servers
+		this.deviceAddress =
+			process.env.BALENARC_SUPERVISOR_ADDRESS ?? `http://${addr}:${port}/`;
 	}
 
 	// Either return nothing, or throw an error with the info

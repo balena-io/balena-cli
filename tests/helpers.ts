@@ -23,6 +23,7 @@ const packageJSON =
 	require('../package.json') as typeof import('../package.json');
 import { getNodeEngineVersionWarn } from '../build/utils/messages';
 import { warnify } from '../build/utils/messages';
+import { MOCKTTP_PORT } from './config-tests';
 
 const standalonePath = path.resolve(
 	__dirname,
@@ -159,31 +160,22 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
  * source code, but it is useful for testing the standalone zip package binary.
  *
  * `mocha` runs on the parent process, and many of the tests inspect network
- * traffic intercepted with `nock`. But this interception only works in the
- * parent process itself. To get around this, we run a HTTP proxy server on
- * the parent process, and get the child process to use it (the CLI already had
- * support for proxy servers as a product feature, and this testing arrangement
- * also exercises the proxy capabilities).
+ * traffic intercepted with `mockttp`.
  *
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  * @param proxyPort TCP port number for the HTTP proxy server running on the
  * parent process
  */
-async function runCommandInSubprocess(
-	cmd: string,
-	proxyPort: number,
-): Promise<TestOutput> {
+async function runCommandInSubprocess(cmd: string): Promise<TestOutput> {
 	let exitCode = 0;
 	let stdout = '';
 	let stderr = '';
 	const addedEnvs = {
-		// Use http instead of https, so we can intercept and test the data,
-		// for example the contents of tar streams sent by the CLI to Docker
-		BALENARC_API_URL: 'http://api.balena-cloud.com',
-		BALENARC_BUILDER_URL: 'http://builder.balena-cloud.com',
-		BALENARC_PROXY: `http://127.0.0.1:${proxyPort}`,
-		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
-		BALENARC_DO_PROXY: '127.0.0.1,localhost',
+		BALENARC_BALENA_URL: `localhost:${MOCKTTP_PORT}`,
+		BALENARC_API_URL: `http://localhost:${MOCKTTP_PORT}`,
+		BALENARC_BUILDER_URL: `http://localhost:${MOCKTTP_PORT}`,
+		BALENARC_SUPERVISOR_ADDRESS: `http://localhost:${MOCKTTP_PORT}/`,
+		BALENARC_NPM_REGISTRY: `http://localhost:${MOCKTTP_PORT}`,
 	};
 	const { exec } = await import('child_process');
 
@@ -318,9 +310,7 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 		} catch {
 			throw new Error(`Standalone executable not found: "${standalonePath}"`);
 		}
-		const proxy = await import('./nock/proxy-server');
-		const [proxyPort] = await proxy.createProxyServerOnce();
-		return runCommandInSubprocess(cmd, proxyPort);
+		return runCommandInSubprocess(cmd);
 	} else {
 		return runCommandInProcess(cmd);
 	}

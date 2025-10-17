@@ -16,59 +16,67 @@
  */
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
+import { MockHttpServer } from '../mockserver';
 
 describe('balena whoami', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
 	});
 
-	this.afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it(`should output login required message if haven't logged in`, async () => {
-		api.expectWhoAmIFail();
+		await api.expectWhoAmIFail();
 		const { err, out } = await runCommand('whoami');
 		expect(out).to.be.empty;
 		expect(err[0]).to.include('Login required');
 	});
 
 	it('should display device with device response', async () => {
-		api.expectDeviceWhoAmI();
+		await api.expectDeviceWhoAmI();
 		const { err, out } = await runCommand('whoami');
 
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.contain('== ACCOUNT INFORMATION');
 		expect(lines[1]).to.contain('DEVICE: a11dc1acd31b623a0e4e084a6cf13aaa');
-		expect(lines[2]).to.contain('URL:    balena-cloud.com');
+		expect(lines[2]).to.contain(`URL:    ${process.env.BALENARC_BALENA_URL}`);
 		expect(err).to.be.empty;
 	});
 
 	it('should display application with application response', async () => {
-		api.expectApplicationWhoAmI();
+		await api.expectApplicationWhoAmI();
 		const { err, out } = await runCommand('whoami');
 
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.contain('== ACCOUNT INFORMATION');
 		expect(lines[1]).to.contain('APPLICATION: mytestorf/mytestfleet');
-		expect(lines[2]).to.contain('URL:         balena-cloud.com');
+		expect(lines[2]).to.contain(
+			`URL:         ${process.env.BALENARC_BALENA_URL}`,
+		);
 		expect(err).to.be.empty;
 	});
 
 	it('should display user with user response', async () => {
-		api.expectGetWhoAmI();
+		await api.expectGetWhoAmI();
 		const { err, out } = await runCommand('whoami');
 
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.contain('== ACCOUNT INFORMATION');
 		expect(lines[1]).to.contain('USERNAME: gh_user');
 		expect(lines[2]).to.contain('EMAIL:    testuser@test.com');
-		expect(lines[3]).to.contain('URL:      balena-cloud.com');
+		expect(lines[3]).to.contain(`URL:      ${process.env.BALENARC_BALENA_URL}`);
 		expect(err).to.be.empty;
 	});
 });

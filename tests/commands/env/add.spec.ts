@@ -17,30 +17,36 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena env set', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
 	const fullUUID = 'f63fd7d7812c34c4c14ae023fdff05f5';
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should successfully add an environment variable', async () => {
-		api.expectGetDevice({ fullUUID });
-		api.expectGetConfigVars();
-		api.scope
-			.post(/^\/v\d+\/device_environment_variable($|\?)/)
-			.reply(200, 'OK');
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetConfigVars({ optional: true });
+		await server.mockttp
+			.forPost(/^\/v\d+\/device_environment_variable($|\?)/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand(`env set TEST 1 -d ${fullUUID}`);
 
@@ -65,11 +71,11 @@ describe('balena env set', function () {
 	});
 
 	it('should successfully add an environment variable w/o specifying a value when the process environment has an env var with the same name defined', async () => {
-		api.expectGetDevice({ fullUUID });
-		api.expectGetConfigVars();
-		api.scope
-			.post(/^\/v\d+\/device_environment_variable($|\?)/)
-			.reply(200, 'OK');
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetConfigVars({ optional: true });
+		await server.mockttp
+			.forPost(/^\/v\d+\/device_environment_variable($|\?)/)
+			.thenReply(200, 'OK');
 
 		process.env.TEST_ENV_VAR_ADD_NO_VALUE = '4';
 
@@ -88,11 +94,11 @@ describe('balena env set', function () {
 	});
 
 	it('should successfully add an environment variable w/ empty string as a value', async () => {
-		api.expectGetDevice({ fullUUID });
-		api.expectGetConfigVars();
-		api.scope
-			.post(/^\/v\d+\/device_environment_variable($|\?)/)
-			.reply(200, 'OK');
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetConfigVars({ optional: true });
+		await server.mockttp
+			.forPost(/^\/v\d+\/device_environment_variable($|\?)/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand(
 			`env set TEST_EMPTY_STRING '' -d ${fullUUID}`,

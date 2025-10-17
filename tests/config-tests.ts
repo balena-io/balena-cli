@@ -22,6 +22,9 @@ setEsVersion('es2018');
 // Disable Sentry.io error reporting while running test code
 process.env.BALENARC_NO_SENTRY = '1';
 
+// Force color output for consistent test behavior
+process.env.FORCE_COLOR = '1';
+
 // Disable deprecation checks while running test code
 // Like the global `--unsupported` flag
 process.env.BALENARC_UNSUPPORTED = '1';
@@ -48,7 +51,15 @@ import { config as chaiCfg } from 'chai';
 chaiCfg.showDiff = true;
 // enable diff comparison of large objects / arrays
 chaiCfg.truncateThreshold = 0;
-// Because mocks are pointed at "production", we need to make sure this is set to prod.
-// Otherwise if the user has BALENARC_BALENA_URL pointing at something else like staging, tests
-// will fail.
-process.env.BALENARC_BALENA_URL = 'balena-cloud.com';
+
+export const MOCKTTP_PORT = 8765;
+// Point API calls to the mockttp server
+process.env.BALENARC_BALENA_URL = `localhost:${MOCKTTP_PORT}`;
+// Point API calls to the mockttp server
+process.env.BALENARC_API_URL = `http://localhost:${MOCKTTP_PORT}`;
+// Point builder calls to the mockttp server (builder URL is constructed from balenaUrl + "builder." prefix, which breaks for localhost)
+process.env.BALENARC_BUILDER_URL = `http://localhost:${MOCKTTP_PORT}`;
+// Point supervisor API calls to the mockttp server (for local device tests)
+process.env.BALENARC_SUPERVISOR_ADDRESS = `http://localhost:${MOCKTTP_PORT}/`;
+// Point npm registry calls to the mockttp server (for deprecation checker tests)
+process.env.BALENARC_NPM_REGISTRY = `http://localhost:${MOCKTTP_PORT}`;

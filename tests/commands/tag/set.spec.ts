@@ -17,27 +17,35 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena tag set', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
 	const fullUUID = 'f63fd7d7812c34c4c14ae023fdff05f5';
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should successfully set a tag', async () => {
-		api.expectGetDevice({ fullUUID });
-		api.scope.post(/^\/v\d+\/device_tag($|\?)/).reply(200, 'OK');
+		await api.expectGetDevice({ fullUUID });
+		await server.mockttp
+			.forPost(/^\/v\d+\/device_tag($|\?)/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand(`tag set TEST 1 -d ${fullUUID}`);
 
@@ -46,8 +54,10 @@ describe('balena tag set', function () {
 	});
 
 	it('should successfully set a tag w/o specifying a value', async () => {
-		api.expectGetDevice({ fullUUID });
-		api.scope.post(/^\/v\d+\/device_tag($|\?)/).reply(200, 'OK');
+		await api.expectGetDevice({ fullUUID });
+		await server.mockttp
+			.forPost(/^\/v\d+\/device_tag($|\?)/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand(
 			`tag set TEST_NO_VALUE -d ${fullUUID}`,
@@ -58,8 +68,10 @@ describe('balena tag set', function () {
 	});
 
 	it('should successfully set a tag w/ empty string as a value', async () => {
-		api.expectGetDevice({ fullUUID });
-		api.scope.post(/^\/v\d+\/device_tag($|\?)/).reply(200, 'OK');
+		await api.expectGetDevice({ fullUUID });
+		await server.mockttp
+			.forPost(/^\/v\d+\/device_tag($|\?)/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand(
 			`tag set TEST_EMPTY_STRING '' -d ${fullUUID}`,
