@@ -16,30 +16,36 @@
  */
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
+import { MockHttpServer } from '../mockserver';
 
 describe('balena whoami', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
+	this.beforeAll(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
 	});
 
-	this.afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	this.afterAll(async () => {
+		await server.stop();
+	});
+
+	this.afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it(`should output login required message if haven't logged in`, async () => {
-		api.expectWhoAmIFail();
+		await api.expectWhoAmIFail();
 		const { err, out } = await runCommand('whoami');
 		expect(out).to.be.empty;
 		expect(err[0]).to.include('Login required');
 	});
 
 	it('should display device with device response', async () => {
-		api.expectDeviceWhoAmI();
+		await api.expectDeviceWhoAmI();
 		const { err, out } = await runCommand('whoami');
 
 		const lines = cleanOutput(out);
@@ -50,7 +56,7 @@ describe('balena whoami', function () {
 	});
 
 	it('should display application with application response', async () => {
-		api.expectApplicationWhoAmI();
+		await api.expectApplicationWhoAmI();
 		const { err, out } = await runCommand('whoami');
 
 		const lines = cleanOutput(out);
@@ -61,7 +67,7 @@ describe('balena whoami', function () {
 	});
 
 	it('should display user with user response', async () => {
-		api.expectGetWhoAmI();
+		await api.expectGetWhoAmI();
 		const { err, out } = await runCommand('whoami');
 
 		const lines = cleanOutput(out);

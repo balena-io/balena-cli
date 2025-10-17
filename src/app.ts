@@ -54,6 +54,10 @@ async function checkNodeVersion() {
 /** Setup balena-sdk options that are shared with imported packages */
 function setupBalenaSdkSharedOptions(settings: CliSettings) {
 	const BalenaSdk = require('balena-sdk') as typeof import('balena-sdk');
+	// let apiUrl = settings.get<string>('apiUrl');
+	// if (process.env.NODE_ENV === 'test') {
+	// 	apiUrl = apiUrl.replace('https', 'http');
+	// }
 	BalenaSdk.setSharedOptions({
 		apiUrl: settings.get<string>('apiUrl'),
 		dataDirectory: settings.get<string>('dataDirectory'),
