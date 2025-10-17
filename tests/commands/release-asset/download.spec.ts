@@ -54,14 +54,12 @@ describe('balena release-asset download', function () {
 		await api.expectGetReleaseAsset({ found: true, assetId: 123 });
 
 		// Mock the download endpoint
-		await server.mockttp.forGet('/download/release-asset-123.bin').thenReply(
-			200,
-			testContent,
-			{
+		await server.mockttp
+			.forGet('/download/release-asset-123.bin')
+			.thenReply(200, testContent, {
 				'content-type': 'application/octet-stream',
 				'content-length': testContent.length.toString(),
-			},
-		);
+			});
 
 		const { out, err } = await runCommand(
 			`release-asset download 27fda508c --key test-file.txt --output ${path.join(tempDir, 'downloaded-file.txt')}`,
@@ -78,41 +76,33 @@ describe('balena release-asset download', function () {
 		expect(downloadedContent).to.equal(testContent);
 	});
 
-	it(
-		'should download asset to current directory when no output specified',
-		async () => {
-			const testContent = 'test content without output path';
+	it('should download asset to current directory when no output specified', async () => {
+		const testContent = 'test content without output path';
 
-			await api.expectGetRelease();
-			await api.expectGetReleaseAsset({ found: true, assetId: 456 });
+		await api.expectGetRelease();
+		await api.expectGetReleaseAsset({ found: true, assetId: 456 });
 
-			// Mock the download endpoint
-			await server.mockttp.forGet('/download/release-asset-456.bin').thenReply(
-				200,
-				testContent,
-				{
-					'content-type': 'application/octet-stream',
-					'content-length': testContent.length.toString(),
-				},
-			);
+		// Mock the download endpoint
+		await server.mockttp
+			.forGet('/download/release-asset-456.bin')
+			.thenReply(200, testContent, {
+				'content-type': 'application/octet-stream',
+				'content-length': testContent.length.toString(),
+			});
 
-			const { out, err } = await runCommand(
-				`release-asset download 27fda508c --key config.json`,
-			);
+		const { out, err } = await runCommand(
+			`release-asset download 27fda508c --key config.json`,
+		);
 
-			const lines = cleanOutput(out);
-			expect(lines.join(' ')).to.contain('downloaded successfully');
-			expect(err).to.be.empty;
+		const lines = cleanOutput(out);
+		expect(lines.join(' ')).to.contain('downloaded successfully');
+		expect(err).to.be.empty;
 
-			const downloadedContent = await fs.promises.readFile(
-				'config.json',
-				'utf8',
-			);
-			expect(downloadedContent).to.equal(testContent);
+		const downloadedContent = await fs.promises.readFile('config.json', 'utf8');
+		expect(downloadedContent).to.equal(testContent);
 
-			await fs.promises.unlink('config.json');
-		},
-	);
+		await fs.promises.unlink('config.json');
+	});
 
 	it('should handle asset not found error', async () => {
 		await api.expectGetRelease();
@@ -133,14 +123,12 @@ describe('balena release-asset download', function () {
 		await api.expectGetReleaseAsset({ found: true, assetId: 789 });
 
 		// Mock the download endpoint
-		await server.mockttp.forGet('/download/release-asset-789.bin').thenReply(
-			200,
-			testContent,
-			{
+		await server.mockttp
+			.forGet('/download/release-asset-789.bin')
+			.thenReply(200, testContent, {
 				'content-type': 'application/octet-stream',
 				'content-length': testContent.length.toString(),
-			},
-		);
+			});
 
 		const { out, err } = await runCommand(
 			`release-asset download 27fda508c --key test-file.txt --output ${outputPath}`,

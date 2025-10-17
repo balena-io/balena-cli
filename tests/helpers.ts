@@ -155,9 +155,7 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
  * @param proxyPort TCP port number for the HTTP proxy server running on the
  * parent process
  */
-async function runCommandInSubprocess(
-	cmd: string,
-): Promise<TestOutput> {
+async function runCommandInSubprocess(cmd: string): Promise<TestOutput> {
 	let exitCode = 0;
 	let stdout = '';
 	let stderr = '';
