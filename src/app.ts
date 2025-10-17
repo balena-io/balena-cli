@@ -148,7 +148,17 @@ async function oclifRun(command: string[], options: AppOptions) {
 
 	const { trackPromise } = await import('./hooks/prerun');
 
-	await Promise.all([trackPromise, deprecationPromise, runPromise]);
+	// Help command and others may not trigger the prerun hook, so we need
+	// to handle the case where trackPromise never resolves. We use Promise.race
+	// to complete when runPromise finishes, even if trackPromise hasn't resolved.
+	await Promise.race([
+		Promise.all([trackPromise, deprecationPromise, runPromise]),
+		runPromise.then(async () => {
+			if (deprecationPromise) {
+				await deprecationPromise;
+			}
+		}),
+	]);
 }
 
 /** CLI entrypoint. Called by the `bin/run.js` and `bin/dev.js` scripts. */
