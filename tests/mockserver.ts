@@ -36,6 +36,12 @@ export class MockHttpServer {
 		const sdk = getSdk({
 			apiUrl: mockServer.url,
 		});
+		const { getStorage } = await import('balena-settings-storage');
+		const settings = await import('balena-settings-client');
+		const dataDirectory: string = settings.get('dataDirectory');
+		const storage = getStorage({ dataDirectory });
+		await storage.set('token', 'test-token-for-ssh-test');
+
 		const lazyModule = await import('../build/utils/lazy');
 		// @ts-expect-error - Overriding read-only property for testing
 		lazyModule.getBalenaSdk = () => sdk;
@@ -220,25 +226,25 @@ export class MockHttpServer {
 			const releaseAssets = empty
 				? []
 				: [
-						{
-							id: 1,
-							asset_key: 'config.json',
-							asset: {
-								filename: 'config.json',
-								size: 1024,
-								content_type: 'application/json',
-							},
+					{
+						id: 1,
+						asset_key: 'config.json',
+						asset: {
+							filename: 'config.json',
+							size: 1024,
+							content_type: 'application/json',
 						},
-						{
-							id: 2,
-							asset_key: 'app.tar.gz',
-							asset: {
-								filename: 'app.tar.gz',
-								size: 5242880,
-								content_type: 'application/gzip',
-							},
+					},
+					{
+						id: 2,
+						asset_key: 'app.tar.gz',
+						asset: {
+							filename: 'app.tar.gz',
+							size: 5242880,
+							content_type: 'application/gzip',
 						},
-					];
+					},
+				];
 
 			return this.createMock(
 				'GET',
