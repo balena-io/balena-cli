@@ -16,20 +16,27 @@
  */
 
 import { expect } from 'chai';
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
+
 import { cleanOutput, runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena device move', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	this.beforeAll(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	this.afterAll(async () => {
+		await server.stop();
+	});
+
+	this.afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should error if uuid not provided', async () => {
