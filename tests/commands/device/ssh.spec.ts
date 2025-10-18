@@ -16,46 +16,25 @@
  */
 
 import { expect } from 'chai';
-import * as mock from 'mock-require';
+import * as sinon from 'sinon';
+import { EventEmitter } from 'stream';
 import type { Server } from 'net';
 import { createServer } from 'net';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
 describe('balena device ssh', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 	let sshServer: Server | undefined;
 	let sshServerPort: number;
 	let hasSshExecutable = false;
 	let mockedExitCode = 0;
-
-	async function mockSpawn({ revert = false } = {}) {
-		const childProcessPath = 'child_process';
-		if (revert) {
-			mock.stop(childProcessPath);
-			mock.reRequire('../../../build/utils/ssh');
-			mock.reRequire('../../../build/utils/device/ssh');
-			return;
-		}
-		const { EventEmitter } = await import('stream');
-		const childProcessMod = await import(childProcessPath);
-		const originalSpawn = childProcessMod.spawn;
-		mock(childProcessPath, {
-			...childProcessMod,
-			spawn: (program: string, ...args: any[]) => {
-				if (program.includes('ssh')) {
-					const emitter = new EventEmitter();
-					setTimeout(() => emitter.emit('close', mockedExitCode), 1);
-					return emitter;
-				}
-				return originalSpawn(program, ...args);
-			},
-		});
-	}
+	let spawnStub: sinon.SinonStub | undefined;
 
 	this.beforeAll(async function () {
 		hasSshExecutable = await checkSsh();
@@ -63,7 +42,10 @@ describe('balena device ssh', function () {
 			this.skip();
 		}
 		[sshServer, sshServerPort] = await startMockSshServer();
-		await mockSpawn();
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
 	this.afterAll(async function () {
@@ -71,22 +53,39 @@ describe('balena device ssh', function () {
 			sshServer.close();
 			sshServer = undefined;
 		}
-		await mockSpawn({ revert: true });
+		await server.stop();
 	});
 
 	this.beforeEach(function () {
-		api = new BalenaAPIMock();
+		// Stub child_process.spawn for SSH mocking
+		const childProcess = require('child_process');
+		spawnStub = sinon.stub(childProcess, 'spawn').callsFake(function (
+			program: string,
+			...args: any[]
+		) {
+			if (program.includes('ssh')) {
+				const emitter = new EventEmitter();
+				setTimeout(() => emitter.emit('close', mockedExitCode), 1);
+				return emitter;
+			}
+			// Call the original spawn for non-ssh commands
+			return spawnStub!.wrappedMethod.apply(this, [program, ...args]);
+		});
 	});
 
-	this.afterEach(function () {
+	this.afterEach(async function () {
+		// Restore the stub
+		if (spawnStub) {
+			spawnStub.restore();
+			spawnStub = undefined;
+		}
 		// Check all expected api calls have been made and clean up.
-		api.done();
+		await server.assertAllCalled();
 	});
 
 	itSS('should succeed (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
+		await api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
 		mockedExitCode = 0;
 
 		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
@@ -109,8 +108,7 @@ describe('balena device ssh', function () {
 			const expectedErrLines = [
 				'SSH: Remote command "host abc1234" exited with non-zero status code "255"',
 			];
-			api.expectGetWhoAmI({ optional: true, persist: true });
-			api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
+			await api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
 			mockedExitCode = 255;
 
 			const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
@@ -122,8 +120,7 @@ describe('balena device ssh', function () {
 	itSS('should fail if device not online (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
 		const expectedErrLines = ['Device with UUID abc1234 is disconnected'];
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: false });
+		await api.expectGetDevice({ fullUUID: deviceUUID, isOnline: false });
 		mockedExitCode = 0;
 
 		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
@@ -133,8 +130,11 @@ describe('balena device ssh', function () {
 	});
 
 	it('should produce the expected error message (real ssh, device IP address)', async function () {
-		await mockSpawn({ revert: true });
-		api.expectGetWhoAmI({ optional: true, persist: true });
+		if (spawnStub) {
+			spawnStub.restore();
+			spawnStub = undefined;
+		}
+
 		const expectedErrLines = [
 			'SSH: Process exited with non-zero status code "255"',
 		];
