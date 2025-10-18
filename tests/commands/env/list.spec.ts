@@ -18,33 +18,42 @@
 import { expect } from 'chai';
 import { stripIndent } from '../../../build/utils/lazy';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
 import { randomBytes } from 'node:crypto';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena env list', function () {
 	const appName = 'test';
 	let fullUUID: string;
 	let shortUUID: string;
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
+
+	this.beforeAll(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
+	});
+
+	this.afterAll(async () => {
+		await server.stop();
+	});
 
 	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
 		// Random device UUID used to frustrate _.memoize() in utils/cloud.ts
 		fullUUID = randomBytes(16).toString('hex');
 		shortUUID = fullUUID.substring(0, 7);
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	this.afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should successfully list env vars for a test fleet', async () => {
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
 
 		const { out, err } = await runCommand(`env list -f ${appName}`);
 
@@ -60,9 +69,27 @@ describe('balena env list', function () {
 		expect(err.join('')).to.equal('');
 	});
 
+	it('should successfully list env vars for a test fleet via `envs` alias', async () => {
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
+
+		const { out } = await runCommand(`envs -f ${appName}`);
+
+		expect(out.join('')).to.contain(
+			stripIndent`
+			ID     NAME  VALUE       FLEET           SERVICE
+			120110 svar1 svar1-value gh_user/testApp service1
+			120111 svar2 svar2-value gh_user/testApp service2
+			120101 var1  var1-val    gh_user/testApp *
+			120102 var2  22          gh_user/testApp *
+		` + '\n',
+		);
+	});
+
 	it('should successfully list config vars for a test fleet', async () => {
-		api.expectGetApplication();
-		api.expectGetAppConfigVars();
+		await api.expectGetApplication();
+		await api.expectGetAppConfigVars();
 
 		const { out, err } = await runCommand(`env list -f ${appName} --config`);
 
@@ -77,8 +104,8 @@ describe('balena env list', function () {
 	});
 
 	it('should successfully list config vars for a test fleet (JSON output)', async () => {
-		api.expectGetApplication();
-		api.expectGetAppConfigVars();
+		await api.expectGetApplication();
+		await api.expectGetAppConfigVars();
 
 		const { out, err } = await runCommand(`env list -cf ${appName} --json`);
 
@@ -95,10 +122,10 @@ describe('balena env list', function () {
 
 	it('should successfully list service variables for a test fleet (-s flag)', async () => {
 		const serviceName = 'service2';
-		api.expectGetServiceFromApp({ serviceName });
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
+		await api.expectGetServiceFromApp({ serviceName });
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
 
 		const { out, err } = await runCommand(
 			`env list -f ${appName} -s ${serviceName}`,
@@ -117,10 +144,10 @@ describe('balena env list', function () {
 
 	it('should successfully list env and service vars for a test fleet (-s flags)', async () => {
 		const serviceName = 'service1';
-		api.expectGetServiceFromApp({ serviceName });
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
+		await api.expectGetServiceFromApp({ serviceName });
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
 
 		const { out, err } = await runCommand(
 			`env list -f ${appName} -s ${serviceName}`,
@@ -138,13 +165,13 @@ describe('balena env list', function () {
 	});
 
 	it('should successfully list env variables for a test device', async () => {
-		api.expectGetDevice({ shortUUID, fullUUID });
-		api.expectGetDevice({ fullUUID });
-		api.expectGetDeviceEnvVars();
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
-		api.expectGetDeviceServiceVars();
+		await api.expectGetDevice({ shortUUID, fullUUID });
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetDeviceEnvVars();
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
+		await api.expectGetDeviceServiceVars();
 
 		const result = await runCommand(`env list -d ${shortUUID}`);
 		let { out } = result;
@@ -168,13 +195,13 @@ describe('balena env list', function () {
 	});
 
 	it('should successfully list env variables for a test device (JSON output)', async () => {
-		api.expectGetDevice({ shortUUID, fullUUID });
-		api.expectGetDevice({ fullUUID });
-		api.expectGetDeviceEnvVars();
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
-		api.expectGetDeviceServiceVars();
+		await api.expectGetDevice({ shortUUID, fullUUID });
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetDeviceEnvVars();
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
+		await api.expectGetDeviceServiceVars();
 
 		const { out, err } = await runCommand(`env list -d ${shortUUID} --json`);
 		const expected = `[
@@ -193,11 +220,11 @@ describe('balena env list', function () {
 	});
 
 	it('should successfully list config variables for a test device', async () => {
-		api.expectGetDevice({ shortUUID, fullUUID });
-		api.expectGetDevice({ fullUUID });
-		api.expectGetDeviceConfigVars();
-		api.expectGetApplication();
-		api.expectGetAppConfigVars();
+		await api.expectGetDevice({ shortUUID, fullUUID });
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetDeviceConfigVars();
+		await api.expectGetApplication();
+		await api.expectGetAppConfigVars();
 
 		const result = await runCommand(`env list -d ${shortUUID} --config`);
 		let { out } = result;
@@ -214,16 +241,19 @@ describe('balena env list', function () {
 		expect(out.join('')).to.equal(expected);
 	});
 
+	// // eslint-disable-next-line mocha/no-exclusive-tests
 	it('should successfully list service variables for a test device (-s flag)', async () => {
 		const serviceName = 'service2';
-		api.expectGetServiceFromApp({ serviceName });
-		api.expectGetApplication();
-		api.expectGetDevice({ shortUUID, fullUUID });
-		api.expectGetDevice({ fullUUID });
-		api.expectGetDeviceServiceVars();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
-		api.expectGetDeviceEnvVars();
+		await api.expectGetDevice({ shortUUID, fullUUID });
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetServiceFromApp({ serviceName });
+		// await api.expectGetService({ serviceName });
+		await api.expectGetApplication();
+
+		await api.expectGetDeviceServiceVars();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
+		await api.expectGetDeviceEnvVars();
 
 		const result = await runCommand(
 			`env list -d ${shortUUID} -s ${serviceName}`,
@@ -247,10 +277,10 @@ describe('balena env list', function () {
 	});
 
 	it('should successfully list env and service variables for a test device (unknown fleet)', async () => {
-		api.expectGetDevice({ shortUUID, fullUUID, inaccessibleApp: true });
-		api.expectGetDevice({ fullUUID, inaccessibleApp: true });
-		api.expectGetDeviceEnvVars();
-		api.expectGetDeviceServiceVars();
+		await api.expectGetDevice({ shortUUID, fullUUID, inaccessibleApp: true });
+		await api.expectGetDevice({ fullUUID, inaccessibleApp: true });
+		await api.expectGetDeviceEnvVars();
+		await api.expectGetDeviceServiceVars();
 
 		const result = await runCommand(`env list -d ${shortUUID}`);
 		let { out } = result;
@@ -271,14 +301,14 @@ describe('balena env list', function () {
 
 	it('should successfully list env and service vars for a test device (-s flags)', async () => {
 		const serviceName = 'service1';
-		api.expectGetServiceFromApp({ serviceName });
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
-		api.expectGetDevice({ shortUUID, fullUUID });
-		api.expectGetDevice({ fullUUID });
-		api.expectGetDeviceEnvVars();
-		api.expectGetDeviceServiceVars();
+		await api.expectGetServiceFromApp({ serviceName });
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
+		await api.expectGetDevice({ shortUUID, fullUUID });
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetDeviceEnvVars();
+		await api.expectGetDeviceServiceVars();
 
 		const result = await runCommand(
 			`env list -d ${shortUUID} -s ${serviceName}`,
@@ -303,14 +333,14 @@ describe('balena env list', function () {
 
 	it('should successfully list env and service vars for a test device (-s, --json flags)', async () => {
 		const serviceName = 'service1';
-		api.expectGetServiceFromApp({ serviceName });
-		api.expectGetApplication();
-		api.expectGetAppEnvVars();
-		api.expectGetAppServiceVars();
-		api.expectGetDevice({ shortUUID, fullUUID });
-		api.expectGetDevice({ fullUUID });
-		api.expectGetDeviceEnvVars();
-		api.expectGetDeviceServiceVars();
+		await api.expectGetServiceFromApp({ serviceName });
+		await api.expectGetApplication();
+		await api.expectGetAppEnvVars();
+		await api.expectGetAppServiceVars();
+		await api.expectGetDevice({ shortUUID, fullUUID });
+		await api.expectGetDevice({ fullUUID });
+		await api.expectGetDeviceEnvVars();
+		await api.expectGetDeviceServiceVars();
 
 		const { out, err } = await runCommand(
 			`env list -d ${shortUUID} -s ${serviceName} --json`,
