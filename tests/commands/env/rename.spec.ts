@@ -17,24 +17,30 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena env rename', function () {
-	let api: BalenaAPIMock;
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	this.beforeAll(async () => {
+		server = new MockHttpServer();
+		await server.start();
+		await server.api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	this.afterAll(async () => {
+		await server.stop();
+	});
+
+	this.afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should successfully rename an environment variable', async () => {
-		api.scope.patch(/device_environment_variable\(376\)/).reply(200, 'OK');
+		await server.mockttp
+			.forPatch(/device_environment_variable\(376\)/)
+			.thenReply(200, 'OK');
 
 		const { out, err } = await runCommand('env rename 376 emacs --device');
 
