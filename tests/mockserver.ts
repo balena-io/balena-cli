@@ -493,6 +493,9 @@ export class MockHttpServer {
 						}),
 					};
 				}
+				return {
+					status: 500,
+				};
 			});
 
 			if (!optional) {
