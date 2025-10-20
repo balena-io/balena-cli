@@ -326,6 +326,7 @@ export async function getOnlineTargetDeviceUuid(
 					owns__device: {
 						$select: ['device_name', 'uuid'],
 						$filter: { is_online: true },
+						$orderby: { device_name: 'asc' },
 					},
 				},
 			});
