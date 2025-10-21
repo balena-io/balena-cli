@@ -176,7 +176,7 @@
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
-    "@oclif/core": "^4.5.1",
+    "@oclif/core": "^4.5.6",
     "@sentry/node": "^10.17.0",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.1.14",
