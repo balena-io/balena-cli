@@ -1,4 +1,24 @@
 - commits:
+    - subject: Remove a patch to @oclif/core
+      hash: 4dca906f266a45919ffd4448e8ff5d67337dc36c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update @oclif/core
+      hash: f3d8ec649d7e8b58ced2dda553bda0492be2c4e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 22.4.15
+  title: ""
+  date: 2025-10-21T12:41:51.605Z
+- commits:
     - subject: Remove unused api mock for version command
       hash: 973b784499a82e5af4b2e10c1507c062f8f514c1
       body: ""
