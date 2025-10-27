@@ -28,8 +28,7 @@ import { URL } from 'url';
 import { diff } from 'deep-object-diff';
 import { makeImageName } from '../build/utils/compose_ts';
 import { stripIndent } from '../build/utils/lazy';
-import type { BuilderMock } from './nock/builder-mock';
-import type { DockerMock } from './nock/docker-mock';
+import type { MockHttpServer } from './mockserver';
 import {
 	cleanOutput,
 	deepJsonParse,
@@ -152,7 +151,7 @@ export async function expectStreamNoCRLF(
  */
 export async function testDockerBuildStream(o: {
 	commandLine: string;
-	dockerMock: DockerMock;
+	dockerMock: MockHttpServer['docker'];
 	expectedFilesByService: ExpectedTarStreamFilesByService;
 	expectedQueryParamsByService: { [service: string]: any[][] };
 	expectedErrorLines?: string[];
@@ -180,7 +179,7 @@ export async function testDockerBuildStream(o: {
 		const projectPath =
 			service === 'main' ? o.projectPath : path.join(o.projectPath, service);
 
-		o.dockerMock.expectPostBuild({
+		await o.dockerMock.expectPostBuild({
 			...o,
 			checkURI: (uri: string) => {
 				const url = new URL(uri, 'http://test.net/');
@@ -194,7 +193,7 @@ export async function testDockerBuildStream(o: {
 			tag,
 		});
 		if (o.commandLine.startsWith('build')) {
-			o.dockerMock.expectGetImages({ optional: true });
+			await o.dockerMock.expectGetImages({ optional: true });
 		}
 	}
 
@@ -226,7 +225,7 @@ export async function testDockerBuildStream(o: {
  */
 export async function testPushBuildStream(o: {
 	commandLine: string;
-	builderMock: BuilderMock;
+	builderMock: MockHttpServer['builder'];
 	expectedFiles: ExpectedTarStreamFiles;
 	expectedQueryParams: string[][];
 	expectedResponseLines: string[];
@@ -237,7 +236,7 @@ export async function testPushBuildStream(o: {
 	const expectedQueryParams = deepTemplateReplace(o.expectedQueryParams, o);
 	const expectedResponseLines = deepTemplateReplace(o.expectedResponseLines, o);
 
-	o.builderMock.expectPostBuild({
+	await o.builderMock.expectPostBuild({
 		...o,
 		checkURI: (uri: string) => {
 			const url = new URL(uri, 'http://test.net/');
