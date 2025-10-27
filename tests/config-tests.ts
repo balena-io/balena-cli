@@ -48,9 +48,7 @@ import { config as chaiCfg } from 'chai';
 chaiCfg.showDiff = true;
 // enable diff comparison of large objects / arrays
 chaiCfg.truncateThreshold = 0;
-// Because mocks are pointed at "production", we need to make sure this is set to prod.
-// Otherwise if the user has BALENARC_BALENA_URL pointing at something else like staging, tests
-// will fail.
-process.env.BALENARC_BALENA_URL = 'balena-cloud.com';
 
 export const MOCKTTP_PORT = 8765;
+// Point API calls to the mockttp server
+process.env.BALENARC_BALENA_URL = `http://localhost:${MOCKTTP_PORT}`;

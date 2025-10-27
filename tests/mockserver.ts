@@ -28,10 +28,19 @@ export class MockHttpServer {
 		method: string;
 		path: string | RegExp;
 	}> = [];
+	private originalDockerHost: string | undefined;
 
 	public async start() {
 		mockServer = mockttp.getLocal();
 		await mockServer.start(MOCKTTP_PORT);
+		await mockServer.forUnmatchedRequest().thenCallback((req) => {
+			console.error(`[UNMOCKED REQUEST] ${req.method} ${req.url}`);
+			return {
+				status: 404,
+				body: `Unmocked request: ${req.method} ${req.url}`,
+			};
+		});
+
 		const { getSdk } = await import('balena-sdk');
 		const sdk = getSdk({
 			apiUrl: mockServer.url,
@@ -45,6 +54,9 @@ export class MockHttpServer {
 		const lazyModule = await import('../build/utils/lazy');
 		// @ts-expect-error - Overriding read-only property for testing
 		lazyModule.getBalenaSdk = () => sdk;
+
+		this.originalDockerHost = process.env.DOCKER_HOST;
+		process.env.DOCKER_HOST = mockServer.url;
 	}
 
 	public async stop() {
@@ -98,13 +110,12 @@ export class MockHttpServer {
 
 		// Use a catch-all for forGet/forPost/etc, then apply the actual matching in .matching()
 		let builder = methodMap[method]($path).matching((req) => {
-			const decodedUrl = decodeURIComponent(req.url);
+			const decodedPath = decodeURIComponent(req.path);
 			if (typeof $path === 'string') {
 				const decodedPath = decodeURIComponent($path);
-				return decodedUrl.includes(decodedPath);
+				return decodedPath.includes(decodedPath);
 			} else {
-				// RegExp - test against the decoded URL
-				return $path.test(decodedUrl);
+				return $path.test(decodedPath);
 			}
 		});
 
@@ -208,16 +219,22 @@ export class MockHttpServer {
 				opts,
 			),
 
-		expectGetApplication: (opts?: ScopeOpts) =>
-			this.createMock(
+		expectGetApplication: (
+			opts?: { expandArchitecture?: boolean } & ScopeOpts,
+		) => {
+			const { expandArchitecture, ...scopeOpts } = opts || {};
+			return this.createMock(
 				'GET',
-				/\/v7\/application($|[(?])/,
+				/\/v7\/application/,
 				{
 					status: 200,
-					file: 'application-GET-v7-expanded-app-type.json',
+					file: expandArchitecture
+						? 'application-GET-v7-expanded-app-type-cpu-arch.json'
+						: 'application-GET-v7-expanded-app-type.json',
 				},
-				opts,
-			),
+				scopeOpts,
+			);
+		},
 
 		expectGetReleaseWithReleaseAssets: (
 			opts?: ScopeOpts & { empty?: boolean },
@@ -226,25 +243,25 @@ export class MockHttpServer {
 			const releaseAssets = empty
 				? []
 				: [
-					{
-						id: 1,
-						asset_key: 'config.json',
-						asset: {
-							filename: 'config.json',
-							size: 1024,
-							content_type: 'application/json',
+						{
+							id: 1,
+							asset_key: 'config.json',
+							asset: {
+								filename: 'config.json',
+								size: 1024,
+								content_type: 'application/json',
+							},
 						},
-					},
-					{
-						id: 2,
-						asset_key: 'app.tar.gz',
-						asset: {
-							filename: 'app.tar.gz',
-							size: 5242880,
-							content_type: 'application/gzip',
+						{
+							id: 2,
+							asset_key: 'app.tar.gz',
+							asset: {
+								filename: 'app.tar.gz',
+								size: 5242880,
+								content_type: 'application/gzip',
+							},
 						},
-					},
-				];
+					];
 
 			return this.createMock(
 				'GET',
@@ -755,7 +772,7 @@ export class MockHttpServer {
 			// Returns service info for service validation (matching old nock mock)
 			return this.createMock(
 				'GET',
-				/\/v\d+\/service($|\?)/,
+				/\/v\d+\/service/,
 				{
 					status: 200,
 					body: {
@@ -788,6 +805,440 @@ export class MockHttpServer {
 						'Content-Type': 'application/json',
 					},
 				);
+		},
+
+		expectGetUser: (opts?: ScopeOpts) =>
+			this.createMock(
+				'GET',
+				/^\/v7\/user/,
+				{
+					status: 200,
+					body: {
+						d: [
+							{
+								id: 99999,
+								actor: { __id: 1234567 },
+								username: 'gh_user',
+								created_at: '2018-08-19T13:55:04.485Z',
+							},
+						],
+					},
+				},
+				opts,
+			),
+
+		expectGetAuth: (opts?: ScopeOpts) =>
+			this.createMock(
+				'GET',
+				'/auth/v1/token',
+				{ status: 200, body: 'test-auth-token-for-registry' },
+				opts,
+			),
+
+		expectPostImage: (opts?: ScopeOpts) =>
+			this.createMock(
+				'POST',
+				/^\/v7\/image/,
+				{ status: 201, file: 'image-POST-v7.json' },
+				opts,
+			),
+
+		expectPostImageIsPartOfRelease: (opts?: ScopeOpts) =>
+			this.createMock(
+				'POST',
+				/^\/v7\/image__is_part_of__release/,
+				{ status: 200, file: 'image-is-part-of-release-POST-v7.json' },
+				opts,
+			),
+
+		expectPostRelease: (
+			opts?: {
+				statusCode?: number;
+				inspectRequest?: (uri: string, requestBody: any) => void;
+			} & ScopeOpts,
+		) => {
+			const { statusCode = 200, inspectRequest, ...scopeOpts } = opts || {};
+
+			if (inspectRequest) {
+				return (async () => {
+					let builder = mockServer.forPost(/^\/v7\/release($|\?)/);
+					if (scopeOpts.persist) {
+						builder = builder.always();
+					}
+					if (scopeOpts.times) {
+						builder = builder.times(scopeOpts.times);
+					}
+
+					const rule = await builder.thenCallback(async (req) => {
+						const body = await req.body.getJson();
+						inspectRequest(req.url, body);
+						const fileContent = await import('fs').then((fs) =>
+							fs.promises.readFile(
+								path.join(apiResponsePath, 'release-POST-v7.json'),
+								'utf8',
+							),
+						);
+						return {
+							status: statusCode,
+							headers: { 'Content-Type': 'application/json' },
+							body: fileContent,
+						};
+					});
+
+					if (!scopeOpts.optional) {
+						this.nonOptionalEndpoints.push({
+							endpoint: rule,
+							method: 'POST',
+							path: /^\/v7\/release($|\?)/,
+						});
+					}
+
+					return rule;
+				})();
+			}
+
+			return this.createMock(
+				'POST',
+				/^\/v7\/release($|\?)/,
+				{ status: statusCode, file: 'release-POST-v7.json' },
+				scopeOpts,
+			);
+		},
+
+		expectPatchImage: (
+			opts?: {
+				replyBody?: string | object;
+				statusCode?: number;
+				inspectRequest?: (
+					uri: string,
+					requestBody: any,
+				) => undefined | { status: number; body: any };
+			} & ScopeOpts,
+		) => {
+			const {
+				replyBody = {},
+				statusCode = 200,
+				inspectRequest,
+				...scopeOpts
+			} = opts || {};
+
+			if (inspectRequest) {
+				return (async () => {
+					let builder = mockServer.forPatch(/\/v7\/image/);
+					if (scopeOpts.persist) {
+						builder = builder.always();
+					}
+					if (scopeOpts.times) {
+						builder = builder.times(scopeOpts.times);
+					}
+
+					const rule = await builder.thenCallback(async (req) => {
+						const body = await req.body.getJson();
+						const customResponse = inspectRequest(req.url, body);
+
+						// If inspectRequest returns a custom response, use it
+						if (
+							customResponse &&
+							typeof customResponse === 'object' &&
+							'status' in customResponse
+						) {
+							const responseBody = JSON.stringify(customResponse.body);
+							return {
+								statusCode: customResponse.status,
+								headers: {
+									'content-type': 'application/json',
+									'content-length': String(responseBody.length),
+								},
+								body: responseBody,
+							};
+						}
+
+						// Otherwise use the default response
+						const responseBody = JSON.stringify(replyBody);
+						return {
+							statusCode: statusCode,
+							headers: {
+								'content-type': 'application/json',
+								'content-length': String(responseBody.length),
+							},
+							body: responseBody,
+						};
+					});
+
+					if (!scopeOpts.optional) {
+						this.nonOptionalEndpoints.push({
+							endpoint: rule,
+							method: 'PATCH',
+							path: /\/v7\/image/,
+						});
+					}
+
+					return rule;
+				})();
+			}
+
+			return this.createMock(
+				'PATCH',
+				/\/v7\/image/,
+				{ status: statusCode, body: replyBody },
+				scopeOpts,
+			);
+		},
+
+		expectPatchRelease: (
+			opts?: {
+				inspectRequest?: (uri: string, requestBody: any) => void;
+				statusCode?: number;
+			} & ScopeOpts,
+		) => {
+			const { inspectRequest, statusCode = 200, ...scopeOpts } = opts || {};
+
+			if (inspectRequest) {
+				return (async () => {
+					let builder = mockServer.forPatch(/^\/v7\/release/);
+					if (scopeOpts.persist) {
+						builder = builder.always();
+					}
+					if (scopeOpts.times) {
+						builder = builder.times(scopeOpts.times);
+					}
+
+					const rule = await builder.thenCallback(async (req) => {
+						const body = await req.body.getJson();
+						inspectRequest(req.url, body);
+						const bodyStr = '{}';
+						return {
+							status: statusCode,
+							headers: { 'Content-Type': 'application/json' },
+							body: bodyStr,
+						};
+					});
+
+					if (!scopeOpts.optional) {
+						this.nonOptionalEndpoints.push({
+							endpoint: rule,
+							method: 'PATCH',
+							path: /^\/v7\/release/,
+						});
+					}
+
+					return rule;
+				})();
+			}
+
+			return this.createMock(
+				'PATCH',
+				/^\/v7\/release/,
+				{ status: statusCode, body: '{}' },
+				scopeOpts,
+			);
+		},
+
+		expectPostImageLabel: (opts?: ScopeOpts) =>
+			this.createMock(
+				'POST',
+				/^\/v7\/image_label/,
+				{ status: 201, body: { id: 1 } },
+				opts,
+			),
+	};
+	public docker = {
+		expectGetPing: (opts: ScopeOpts = {}) =>
+			this.createMock('GET', '/_ping', { status: 200, body: 'OK' }, opts),
+
+		expectGetInfo: (
+			opts: {
+				OperatingSystem?: string;
+				Architecture?: string;
+			} & ScopeOpts = {},
+		) => {
+			const {
+				OperatingSystem = 'Docker Desktop',
+				Architecture = 'x86_64',
+				...scopeOpts
+			} = opts;
+			const body = { OperatingSystem, Architecture };
+			return this.createMock('GET', '/info', { status: 200, body }, scopeOpts);
+		},
+
+		expectGetVersion: (
+			opts: {
+				Engine?: string;
+				ApiVersion?: string;
+			} & ScopeOpts = {},
+		) => {
+			const {
+				Engine = 'balenaEngine',
+				ApiVersion = '1.41',
+				...scopeOpts
+			} = opts;
+			const body = { Version: '20.10.7', Engine, ApiVersion };
+			return this.createMock(
+				'GET',
+				'/version',
+				{ status: 200, body },
+				scopeOpts,
+			);
+		},
+
+		expectPostBuild: async (opts: {
+			optional?: boolean;
+			persist?: boolean;
+			responseBody: any;
+			responseCode: number;
+			tag: string;
+			checkURI: (uri: string) => Promise<void> | void;
+			checkBuildRequestBody: (requestBody: string) => Promise<void>;
+		}) => {
+			const { optional = false, persist = false } = opts;
+			let builder = mockServer.forPost().matching((req) => {
+				const decodedUrl = decodeURIComponent(req.url);
+				let pathOnly = decodedUrl;
+				try {
+					const url = new URL(decodedUrl, 'http://localhost');
+					pathOnly = url.pathname + url.search;
+				} catch {
+					pathOnly = decodedUrl;
+				}
+				// Check if it's a build request with the correct tag
+				if (!pathOnly.startsWith('/build?')) {
+					return false;
+				}
+				return (
+					pathOnly.includes(`t=${opts.tag}`) ||
+					pathOnly.includes(`t=${encodeURIComponent(opts.tag)}`)
+				);
+			});
+
+			if (persist) {
+				builder = builder.always();
+			}
+
+			const rule = await builder.thenCallback(async (req) => {
+				await opts.checkURI(req.url);
+				const body = await req.body.getText();
+				await opts.checkBuildRequestBody(body || '');
+				return {
+					status: opts.responseCode,
+					headers: { 'Content-Type': 'application/json' },
+					body: opts.responseBody,
+				};
+			});
+
+			if (!optional) {
+				this.nonOptionalEndpoints.push({
+					endpoint: rule,
+					method: 'POST',
+					path: '/build',
+				});
+			}
+
+			return rule;
+		},
+
+		expectGetImages: (opts: ScopeOpts = {}) => {
+			const body = [{ Id: 'sha256:abcd1234', RepoTags: ['test:latest'] }];
+			return this.createMock('GET', /^\/images\//, { status: 200, body }, opts);
+		},
+
+		expectDeleteImages: (opts: ScopeOpts = {}) => {
+			const body = [
+				{ Untagged: 'basic_main:latest' },
+				{
+					Untagged:
+						'registry2.balena-cloud.com/v2/c089c421fb2336d0475166fbf3d0f9fa@sha256:444a5e0c57eed51f5e752b908cb95188c25a0476fc6e5f43e5113edfc4d07199',
+				},
+			];
+			return this.createMock(
+				'DELETE',
+				/^\/images\//,
+				{ status: 200, body },
+				opts,
+			);
+		},
+
+		expectPostImagesTag: (opts: ScopeOpts = {}) =>
+			this.createMock('POST', /\/images\/.+?\/tag/, { status: 201 }, opts),
+
+		expectPostImagesPush: (opts: ScopeOpts = {}) =>
+			this.createMock(
+				'POST',
+				/^\/images\/.+?\/push/,
+				{ status: 200, file: '../docker-response/images-push-POST.json' },
+				opts,
+			),
+
+		expectGetManifestBusybox: (opts: ScopeOpts = {}) =>
+			this.createMock(
+				'GET',
+				'/distribution/busybox/json',
+				{
+					status: 200,
+					file: '../docker-response/distribution-busybox-GET.json',
+				},
+				opts,
+			),
+
+		expectGetManifestRpi3Alpine: (opts: ScopeOpts = {}) =>
+			this.createMock(
+				'GET',
+				'/distribution/balenalib/raspberrypi3-alpine/json',
+				{
+					status: 200,
+					file: '../docker-response/distribution-rpi3alpine.json',
+				},
+				opts,
+			),
+
+		expectGetManifestNucAlpine: (opts: ScopeOpts = {}) =>
+			this.createMock(
+				'GET',
+				'/distribution/balenalib/nuc-alpine/json',
+				{ status: 200, file: '../docker-response/distribution-nucalpine.json' },
+				opts,
+			),
+	};
+
+	public builder = {
+		expectPostBuild: async (opts: {
+			optional?: boolean;
+			persist?: boolean;
+			responseBody: any;
+			responseCode: number;
+			checkURI: (uri: string) => Promise<void> | void;
+			checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
+		}) => {
+			const { optional = false, persist = false } = opts;
+			let builder = mockServer.forPost(/^\/v3\/build/);
+
+			if (persist) {
+				builder = builder.always();
+			}
+
+			const rule = await builder.thenCallback(async (req) => {
+				await opts.checkURI(req.url);
+				const bodyBuffer = req.body.buffer;
+				const zlib = await import('zlib');
+				const { promisify } = await import('util');
+				const gunzipAsync = promisify(zlib.gunzip);
+				const gunzipped = await gunzipAsync(bodyBuffer);
+				await opts.checkBuildRequestBody(gunzipped);
+				return {
+					status: opts.responseCode,
+					headers: { 'Content-Type': 'application/json' },
+					body: opts.responseBody,
+				};
+			});
+
+			if (!optional) {
+				this.nonOptionalEndpoints.push({
+					endpoint: rule,
+					method: 'POST',
+					path: /^\/v3\/build/,
+				});
+			}
+
+			return rule;
 		},
 	};
 }
