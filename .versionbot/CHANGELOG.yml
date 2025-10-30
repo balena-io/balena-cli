@@ -1,4 +1,19 @@
 - commits:
+    - subject: "ssh,tunnel: Fix retrieving the online devices ordered by name"
+      hash: aa3cc4c38f2ab193f10eb2f5a44fa63d332eab9e
+      body: |
+        Fixes a regression introduced by v16.2.7,
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://github.com/balena-io/balena-cli/pull/2629
+        see: https://github.com/balena-io/balena-cli/pull/2629
+      author: Thodoris Greasidis
+      nested: []
+  version: 22.4.16
+  title: ""
+  date: 2025-10-30T10:09:57.309Z
+- commits:
     - subject: Remove a patch to @oclif/core
       hash: 4dca906f266a45919ffd4448e8ff5d67337dc36c
       body: ""
