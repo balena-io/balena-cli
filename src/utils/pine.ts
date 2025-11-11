@@ -22,4 +22,4 @@ export const getExpandedProp = <
 >(
 	obj: OptionalNavigationResource<T> | T[],
 	key: K,
-) => (Array.isArray(obj) && obj[0]?.[key]) || undefined;
+) => (Array.isArray(obj) ? obj[0]?.[key] : undefined);
