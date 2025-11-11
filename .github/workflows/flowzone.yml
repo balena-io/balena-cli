@@ -30,7 +30,7 @@ jobs:
           "os": [
             ["self-hosted", "X64"],
             ["self-hosted", "ARM64"],
-            ["macos-13"],
+            ["macos-15-intel"],
             ["windows-2022"],
             ["macos-latest-xlarge"]
           ]
@@ -40,7 +40,7 @@ jobs:
           "os": [
             ["self-hosted", "X64"],
             ["self-hosted", "ARM64"],
-            ["macos-13"],
+            ["macos-15-intel"],
             ["windows-2022"],
             ["macos-latest-xlarge"]
           ]
