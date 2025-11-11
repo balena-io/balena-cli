@@ -2,7 +2,8 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"allowJs": true,
-		"checkJs": true
+		"checkJs": true,
+		"removeComments": false
 	},
 	"include": [
 		"./automation/**/*",

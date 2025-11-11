@@ -90,9 +90,9 @@ export default class DeviceListCmd extends Command {
 		).map((device) => ({
 			...device,
 			dashboard_url: balena.models.device.getDashboardUrl(device.uuid),
-			fleet: device.belongs_to__application?.[0]?.slug || null,
+			fleet: device.belongs_to__application?.[0]?.slug ?? null,
 			uuid: options.json ? device.uuid : device.uuid.slice(0, 7),
-			device_type: device.is_of__device_type?.[0]?.slug || null,
+			device_type: device.is_of__device_type?.[0]?.slug ?? null,
 		}));
 
 		const fields: Array<keyof (typeof devices)[number]> = [

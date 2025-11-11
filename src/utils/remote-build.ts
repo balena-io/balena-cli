@@ -98,6 +98,7 @@ async function getBuilderEndpoint(
 	// Note that using https (rather than http) is a requirement when using the
 	// --registry-secrets feature, as the secrets are not otherwise encrypted.
 	let builderUrl =
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		process.env.BALENARC_BUILDER_URL || `https://builder.${baseUrl}`;
 	if (builderUrl.endsWith('/')) {
 		builderUrl = builderUrl.slice(0, -1);

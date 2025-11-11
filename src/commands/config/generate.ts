@@ -176,6 +176,7 @@ export default class ConfigGenerateCmd extends Command {
 			resourceDeviceType = application.is_for__device_type[0].slug;
 		}
 
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const deviceType = options.deviceType || resourceDeviceType;
 
 		// Check compatibility if application and deviceType provided

@@ -79,6 +79,7 @@ export class DeprecationChecker {
 		this.cachedTimestamps = {
 			...stored,
 			// '1970-01-01T00:00:00.000Z' is new Date(0).toISOString()
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			lastFetched: stored?.lastFetched || '1970-01-01T00:00:00.000Z',
 		};
 	}

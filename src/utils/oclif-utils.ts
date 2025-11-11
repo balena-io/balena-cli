@@ -19,7 +19,7 @@
 export function capitanoizeOclifUsage(
 	oclifUsage: string | string[] | undefined,
 ): string {
-	return (oclifUsage || '')
+	return (oclifUsage ?? '')
 		.toString()
 		.replace(/(?<=\s)[A-Z]+(?=(\s|$))/g, (match) => `<${match}>`)
 		.toLowerCase();

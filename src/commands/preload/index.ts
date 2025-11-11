@@ -315,7 +315,7 @@ Can be repeated to add multiple certificates.\
 			spinner.stop();
 		};
 
-		const commit = this.isCurrentCommit(options.commit || '')
+		const commit = this.isCurrentCommit(options.commit ?? '')
 			? 'latest'
 			: options.commit;
 		const image = params.image;
@@ -330,6 +330,7 @@ Can be repeated to add multiple certificates.\
 			);
 		}
 
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const certificates: string[] = options['add-certificate'] || [];
 		for (const certificate of certificates) {
 			if (!certificate.endsWith('.crt')) {

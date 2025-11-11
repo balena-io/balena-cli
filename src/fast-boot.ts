@@ -40,7 +40,7 @@ export async function start() {
 		if (process.env.DEBUG) {
 			console.error(`\
 [debug] Unable to start 'fast-boot2':
-[debug] ${(e.message || '').split('\n').join('\n[debug] ')}
+[debug] ${(e.message ?? '').split('\n').join('\n[debug] ')}
 [debug] The CLI should still work, but it will run a bit slower.`);
 		}
 	}
@@ -58,6 +58,7 @@ async function $start() {
 	// TODO: take into account `~/.balenarc.yml` or `./balenarc.yml`,
 	// without hurting performance at this early loading stage.
 	const dataDir = path.normalize(
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		process.env.BALENARC_DATA_DIRECTORY || path.join(os.homedir(), dotBalena),
 	);
 	// Consider that the CLI may be installed to a folder owned by root

@@ -107,7 +107,7 @@ const categoriesMap: { [key: string]: Category } = {};
 
 for (const commandPath of allCommandsPaths) {
 	const commandDir = path.basename(path.dirname(commandPath));
-	const heading = commandHeadings[commandDir] || formatTitle(commandDir);
+	const heading = commandHeadings[commandDir] ?? formatTitle(commandDir);
 
 	if (!categoriesMap[heading]) {
 		categoriesMap[heading] = { title: heading, files: [] };

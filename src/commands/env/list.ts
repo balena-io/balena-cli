@@ -172,7 +172,7 @@ export default class EnvListCmd extends Command {
 
 		// Replace undefined app names with 'N/A' or null
 		varArray = varArray.map((i: EnvironmentVariableInfo) => {
-			i.fleet ||= options.json ? null : 'N/A';
+			i.fleet ??= options.json ? null : 'N/A';
 			return i;
 		});
 
@@ -358,7 +358,7 @@ function fillInInfoFields(
 			)[0]?.service_name;
 		}
 		envVar.fleet = fleetSlug;
-		envVar.serviceName = envVar.serviceName || '*';
-		envVar.deviceUUID = deviceUUID || '*';
+		envVar.serviceName = envVar.serviceName ?? '*';
+		envVar.deviceUUID = deviceUUID ?? '*';
 	}
 }

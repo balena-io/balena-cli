@@ -181,6 +181,7 @@ async function mergeDevComposeOverlay(
 			services?: object;
 		}
 		const loadObj = (inputStr: string): ComposeObj =>
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			(yaml.load(inputStr) || {}) as ComposeObj;
 		try {
 			const compose = loadObj(composeStr);
@@ -491,6 +492,9 @@ async function qemuTransposeBuildStream({
 	task.buildStream = (await transpose.transposeTarStream(
 		task.buildStream,
 		transposeOptions,
+		// Should fall back to undefined if empty string so that
+		// transposeTarStream defaults to 'Dockerfile'.
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		dockerfilePath || undefined,
 	)) as Pack;
 
@@ -598,8 +602,8 @@ async function inspectBuiltImage({
 
 	const image: BuiltImage = {
 		serviceName: d.serviceName,
-		name: (isBuildConfig(d.image) ? d.image.tag : d.image) || '',
-		logs: truncateString(task?.logBuffer?.join('\n') || '', LOG_LENGTH_MAX),
+		name: (isBuildConfig(d.image) ? d.image.tag : d.image) ?? '',
+		logs: truncateString(task?.logBuffer?.join('\n') ?? '', LOG_LENGTH_MAX),
 		props: {
 			dockerfile: builtImage.dockerfile,
 			projectType: builtImage.projectType,
@@ -696,7 +700,8 @@ export async function getServiceDirsFromComposition(
 			let dir =
 				(typeof service.build === 'string'
 					? service.build
-					: service.build?.context) || '.';
+					: // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+						service.build?.context) || '.';
 			// Convert forward slashes to backslashes on Windows
 			dir = path.normalize(dir);
 			// Make sure the path is relative to the project directory
@@ -1161,7 +1166,7 @@ export async function validateProjectDirectory(
 	}
 
 	const result: ProjectValidationResult = {
-		dockerfilePath: opts.dockerfilePath || '',
+		dockerfilePath: opts.dockerfilePath ?? '',
 		registrySecrets: {},
 	};
 
@@ -1263,7 +1268,7 @@ async function pushAndUpdateServiceImages(
 			// TODO 'localImage as any': find out exactly why tsc warns about
 			// 'name' that exists as a matter of fact, with a value similar to:
 			// "name": "registry2.balena-cloud.com/v2/aa27790dff571ec7d2b4fbcf3d4648d5:latest"
-			const imgName: string = (localImage as any).name || '';
+			const imgName: string = (localImage as any).name ?? '';
 			const imageDigest: string = await retry({
 				func: () => progress.push(imgName, reporters[index], opts),
 				maxAttempts: 3, // try calling func 3 times (max)

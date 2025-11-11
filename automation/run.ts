@@ -41,7 +41,7 @@ process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
  * @param args Arguments to parse (default is process.argv.slice(2))
  */
 async function parse(args?: string[]) {
-	args = args || process.argv.slice(2);
+	args ??= process.argv.slice(2);
 	console.error(`[debug] automation/run.ts process.argv=[${process.argv}]`);
 	console.error(`[debug] automation/run.ts args=[${args}]`);
 	if (_.isEmpty(args)) {

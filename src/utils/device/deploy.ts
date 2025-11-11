@@ -566,7 +566,7 @@ async function assignDockerBuildOpts(
 	await Promise.all(
 		buildTasks.map((task: BuildTask) => {
 			task.dockerOpts = {
-				...(task.dockerOpts || {}),
+				...(task.dockerOpts ?? {}),
 				...{
 					cachefrom: images,
 					labels: {
@@ -654,8 +654,8 @@ export function generateTargetState(
 			commit: LOCAL_RELEASEHASH,
 			releaseId: '1',
 			services,
-			volumes: composition.volumes || {},
-			networks: composition.networks || {},
+			volumes: composition.volumes ?? {},
+			networks: composition.networks ?? {},
 		},
 	};
 

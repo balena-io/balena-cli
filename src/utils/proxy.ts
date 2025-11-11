@@ -107,7 +107,7 @@ async function setupGlobalAgentProxy(
 	// feature/hack added to facilitate testing of the CLI's standalone executable
 	// through a local proxy server, by setting BALENARC_DO_PROXY="localhost,127.0.0.1"
 	// See also runCommandInSubprocess() function in `tests/helpers.ts`.
-	const doProxy = (process.env.BALENARC_DO_PROXY || '').split(',');
+	const doProxy = (process.env.BALENARC_DO_PROXY ?? '').split(',');
 
 	const env = process.env;
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';

@@ -32,7 +32,8 @@ export async function join(
 	appUpdatePollInterval?: number,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
-	deviceHostnameOrIp = deviceHostnameOrIp || (await selectLocalDevice());
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+	deviceHostnameOrIp ||= await selectLocalDevice();
 	await assertDeviceIsCompatible(deviceHostnameOrIp);
 	logger.logDebug(`Using device: ${deviceHostnameOrIp}`);
 
@@ -73,7 +74,8 @@ export async function leave(
 	deviceHostnameOrIp?: string,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
-	deviceHostnameOrIp = deviceHostnameOrIp || (await selectLocalDevice());
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+	deviceHostnameOrIp ||= await selectLocalDevice();
 	await assertDeviceIsCompatible(deviceHostnameOrIp);
 	logger.logDebug(`Using device: ${deviceHostnameOrIp}`);
 
