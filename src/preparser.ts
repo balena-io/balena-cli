@@ -141,5 +141,5 @@ Please use "balena ${alternative}" instead.`);
 export async function isSubcommand(args: string[]) {
 	const { getCommandIdsFromManifest } = await import('./utils/oclif-utils');
 	const commandIds = await getCommandIdsFromManifest();
-	return commandIds.includes(`${args[0] || ''}:${args[1] || ''}`);
+	return commandIds.includes(`${args[0] ?? ''}:${args[1] ?? ''}`);
 }

@@ -93,7 +93,7 @@ async function $main() {
 		throw new Error(getUsage(upstreams, upstreamName));
 	}
 
-	const packageName = upstream.module || upstream.repo;
+	const packageName = upstream.module ?? upstream.repo;
 
 	const oldVersion = await getVersion(packageName);
 	await run(`npm install ${packageName}@${process.argv[3]}`);

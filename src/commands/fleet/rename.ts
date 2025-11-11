@@ -81,12 +81,12 @@ export default class FleetRenameCmd extends Command {
 
 		// Ascertain new name
 		const newName =
-			params.newName ||
+			params.newName ??
 			(await getCliForm().ask({
 				message: 'Please enter the new name for this fleet:',
 				type: 'input',
 				validate: validateApplicationName,
-			})) ||
+			})) ??
 			'';
 
 		// Check they haven't used slug in new name
@@ -101,11 +101,11 @@ export default class FleetRenameCmd extends Command {
 			await balena.models.application.rename(application.id, newName);
 		} catch (e) {
 			// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
-			if ((e.message || '').toLowerCase().includes('unique')) {
+			if ((e.message ?? '').toLowerCase().includes('unique')) {
 				throw new ExpectedError(`Error: fleet ${newName} already exists.`);
 			}
 			// BalenaRequestError: Request error: App name may only contain [a-zA-Z0-9_-].
-			if ((e.message || '').toLowerCase().includes('name may only contain')) {
+			if ((e.message ?? '').toLowerCase().includes('name may only contain')) {
 				throw new ExpectedError(
 					`Error: new fleet name may only include characters [a-zA-Z0-9_-].`,
 				);

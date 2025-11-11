@@ -253,7 +253,7 @@ async function signWindowsInstaller() {
 			'-sha1',
 			process.env.SM_CODE_SIGNING_CERT_SHA1_HASH,
 			'-tr',
-			process.env.TIMESTAMP_SERVER || 'http://timestamp.comodoca.com',
+			process.env.TIMESTAMP_SERVER ?? 'http://timestamp.comodoca.com',
 			'-td',
 			'SHA256',
 			'-fd',
@@ -275,9 +275,9 @@ async function signWindowsInstaller() {
  * Wait for Apple Installer Notarization to continue
  */
 async function notarizeMacInstaller(): Promise<void> {
-	const teamId = process.env.XCODE_APP_LOADER_TEAM_ID || '66H43P8FRG';
+	const teamId = process.env.XCODE_APP_LOADER_TEAM_ID ?? '66H43P8FRG';
 	const appleId =
-		process.env.XCODE_APP_LOADER_EMAIL || 'accounts+apple@balena.io';
+		process.env.XCODE_APP_LOADER_EMAIL ?? 'accounts+apple@balena.io';
 	const appleIdPassword = process.env.XCODE_APP_LOADER_PASSWORD;
 	const appPath = (await getOclifInstallersOriginalNames())[process.platform];
 	console.log(`Notarizing file "${appPath}"`);

@@ -25,7 +25,7 @@ import { getCliUx } from '../lazy';
 class DeviceConnectionLostError extends ExpectedError {
 	public static defaultMsg = 'Connection to device lost';
 	constructor(msg?: string) {
-		super(msg || DeviceConnectionLostError.defaultMsg);
+		super(msg ?? DeviceConnectionLostError.defaultMsg);
 	}
 }
 

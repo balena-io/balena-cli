@@ -64,8 +64,8 @@ export async function umount(device: string): Promise<void> {
 			const msg = [
 				'',
 				`Error executing "${cmd.join(' ')}"`,
-				stderr || '',
-				err.message || '',
+				stderr ?? '',
+				err.message ?? '',
 			];
 			if (process.platform === 'linux') {
 				// ignore errors like: "umount: /dev/sdb4: not mounted."

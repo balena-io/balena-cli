@@ -61,7 +61,7 @@ export default class DeviceNoteCmd extends Command {
 			throw new ExpectedError('Missing note content');
 		}
 
-		options.device = options.device || options.dev;
+		options.device = options.device ?? options.dev;
 		delete options.dev;
 
 		if (options.device == null || options.device.length === 0) {

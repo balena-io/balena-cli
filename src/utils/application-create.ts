@@ -17,11 +17,11 @@ export async function applicationCreateBase(
 ) {
 	// Ascertain device type
 	const deviceType =
-		options.type || (await (await import('./patterns')).selectDeviceType());
+		options.type ?? (await (await import('./patterns')).selectDeviceType());
 
 	// Ascertain organization
 	const organization =
-		options.organization?.toLowerCase() ||
+		options.organization?.toLowerCase() ??
 		(await (await import('./patterns')).getAndSelectOrganization());
 
 	// Create application
@@ -41,12 +41,12 @@ export async function applicationCreateBase(
 			}", device type "${deviceType}"`,
 		);
 	} catch (err) {
-		if ((err.message || '').toLowerCase().includes('unique')) {
+		if ((err.message ?? '').toLowerCase().includes('unique')) {
 			// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
 			throw new ExpectedError(
 				`Error: An app or block or fleet with the name "${params.name}" already exists in organization "${organization}".`,
 			);
-		} else if ((err.message || '').toLowerCase().includes('unauthorized')) {
+		} else if ((err.message ?? '').toLowerCase().includes('unauthorized')) {
 			// BalenaRequestError: Request error: Unauthorized
 			throw new ExpectedError(
 				`Error: You are not authorized to create ${resource}s in organization "${organization}".`,

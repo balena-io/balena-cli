@@ -73,7 +73,7 @@ export function instanceOf(err: any, klass: any): boolean {
 	if (err instanceof klass) {
 		return true;
 	}
-	const name: string | undefined = err.name || err.constructor?.name;
+	const name: string | undefined = err.name ?? err.constructor?.name;
 	return name != null && name === klass.name;
 }
 
@@ -244,10 +244,13 @@ export async function handleError(error: Error | string) {
 	}
 
 	// Set appropriate exitCode
+	const truncatedCode = Math.trunc((error as BalenaError).exitCode);
 	process.exitCode =
 		(error as BalenaError).exitCode === 0
 			? 0
-			: Math.trunc((error as BalenaError).exitCode) || process.exitCode || 1;
+			: Number.isFinite(truncatedCode)
+				? truncatedCode
+				: (process.exitCode ?? 1);
 
 	// Prepare message
 	const message = [interpret(error)];

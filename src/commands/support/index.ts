@@ -91,11 +91,11 @@ export default class SupportCmd extends Command {
 
 		// Calculate expiry ts
 		const durationDefault = '24h';
-		const duration = options.duration || durationDefault;
+		const duration = options.duration ?? durationDefault;
 		const expiryTs = Date.now() + this.parseDuration(duration);
 
-		const deviceUuids = options.device?.split(',') || [];
-		const appNames = options.fleet?.split(',') || [];
+		const deviceUuids = options.device?.split(',') ?? [];
+		const appNames = options.fleet?.split(',') ?? [];
 
 		const enablingMessage = 'Enabling support access for';
 		const disablingMessage = 'Disabling support access for';

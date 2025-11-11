@@ -22,7 +22,7 @@ import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
 import type { Category, Document } from './doc-types';
 
 function renderOclifCommand(command: Category['commands'][0]): string[] {
-	const result = [`## ${ent.encode(command.name || '')}`];
+	const result = [`## ${ent.encode(command.name ?? '')}`];
 	if (command.aliases?.length) {
 		result.push('### Aliases');
 		result.push(
@@ -39,7 +39,7 @@ function renderOclifCommand(command: Category['commands'][0]): string[] {
 	}
 
 	result.push('### Description');
-	const description = (command.description || '')
+	const description = (command.description ?? '')
 		.split('\n')
 		.slice(1) // remove the first line, which oclif uses as help header
 		.join('\n')
@@ -53,7 +53,7 @@ function renderOclifCommand(command: Category['commands'][0]): string[] {
 	if (!_.isEmpty(command.args)) {
 		result.push('### Arguments');
 		for (const [name, arg] of Object.entries(command.args!)) {
-			result.push(`#### ${name.toUpperCase()}`, arg.description || '');
+			result.push(`#### ${name.toUpperCase()}`, arg.description ?? '');
 		}
 	}
 
@@ -69,7 +69,7 @@ function renderOclifCommand(command: Category['commands'][0]): string[] {
 				.join()
 				.trim();
 			result.push(`#### ${flagUsage}`);
-			result.push(flag.description || '');
+			result.push(flag.description ?? '');
 		}
 	}
 	return result;

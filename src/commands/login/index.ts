@@ -173,13 +173,11 @@ ${messages.reachingOut}`);
 	): Promise<void> {
 		// Token
 		if (loginOptions.token) {
-			if (!token) {
-				token = await getCliForm().ask({
-					message: 'Session token or API key from the preferences page',
-					name: 'token',
-					type: 'input',
-				});
-			}
+			token ??= await getCliForm().ask({
+				message: 'Session token or API key from the preferences page',
+				name: 'token',
+				type: 'input',
+			});
 			const balena = getBalenaSdk();
 			await balena.auth.loginWithToken(token!);
 			try {

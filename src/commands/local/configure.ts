@@ -191,7 +191,7 @@ export default class LocalConfigureCmd extends Command {
 		// `persistentLogging` can be `undefined`, so we want
 		// to make sure that case defaults to `false`
 		data = _.assign(data, {
-			persistentLogging: data.persistentLogging || false,
+			persistentLogging: data.persistentLogging ?? false,
 		});
 
 		const answers = await inquirer.prompt(this.inquirerOptions(data));

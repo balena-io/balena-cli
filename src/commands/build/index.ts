@@ -164,7 +164,7 @@ ${dockerignoreHelp}
 			{
 				dockerfilePath: opts.dockerfile,
 				noParentCheck: opts['noparent-check'] || false,
-				projectPath: opts.source || '.',
+				projectPath: opts.source ?? '.',
 				registrySecretsPath: opts['registry-secrets'],
 			},
 		);

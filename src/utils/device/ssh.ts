@@ -104,7 +104,7 @@ export async function getContainerIdForService(
 	}
 
 	if (containerNames.length > 1) {
-		const [s, d] = [opts.service, opts.deviceUuid || opts.hostname];
+		const [s, d] = [opts.service, opts.deviceUuid ?? opts.hostname];
 		throw new ExpectedError(stripIndent`
 			Found more than one container matching service name "${s}" on device "${d}":
 			${containerNames.join(', ')}
@@ -112,7 +112,7 @@ export async function getContainerIdForService(
 		`);
 	}
 	if (!containerId) {
-		const [s, d] = [opts.service, opts.deviceUuid || opts.hostname];
+		const [s, d] = [opts.service, opts.deviceUuid ?? opts.hostname];
 		throw new ExpectedError(
 			`Could not find a container matching service name "${s}" on device "${d}".${
 				serviceNames.length > 0

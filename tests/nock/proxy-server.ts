@@ -152,13 +152,13 @@ async function createInterceptorServer(): Promise<number> {
 				const parsed = url.parse(proxiedFor);
 				const { hash, hostname, path: urlPath } = parsed;
 				let { port, protocol } = parsed;
-				protocol = (protocol || 'http:').toLowerCase();
-				port = port || (protocol === 'https:' ? '443' : '80');
+				protocol = (protocol ?? 'http:').toLowerCase();
+				port = port ?? (protocol === 'https:' ? '443' : '80');
 				const reqOpts = {
 					protocol,
 					port,
 					host: hostname,
-					path: `${urlPath || ''}${hash || ''}`,
+					path: `${urlPath ?? ''}${hash ?? ''}`,
 					method: cliReq.method,
 					headers: cliReq.headers,
 				};
@@ -176,8 +176,8 @@ async function createInterceptorServer(): Promise<number> {
 								cliRes.setHeader(key, val);
 							}
 						}
-						cliRes.statusCode = srvRes.statusCode || cliRes.statusCode;
-						cliRes.statusMessage = srvRes.statusMessage || cliRes.statusMessage;
+						cliRes.statusCode = srvRes.statusCode ?? cliRes.statusCode;
+						cliRes.statusMessage = srvRes.statusMessage ?? cliRes.statusMessage;
 						srvRes.pipe(cliRes).on('error', (err: Error) => {
 							console.error(
 								`Interceptor server error piping response to proxy server:\n${err}`,

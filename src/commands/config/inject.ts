@@ -55,7 +55,7 @@ export default class ConfigInjectCmd extends Command {
 		const { safeUmount } = await import('../../utils/umount');
 
 		const drive =
-			options.drive || (await getVisuals().drive('Select the device/OS drive'));
+			options.drive ?? (await getVisuals().drive('Select the device/OS drive'));
 		await safeUmount(drive);
 
 		const fs = await import('fs');

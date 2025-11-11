@@ -215,7 +215,7 @@ export function getDefaultDockerModemOpts(
 	const originalDockerHost = process.env.DOCKER_HOST;
 	try {
 		if (opts.dockerHost) {
-			process.env.DOCKER_HOST ||= opts.dockerPort
+			process.env.DOCKER_HOST ??= opts.dockerPort
 				? `${opts.dockerHost}:${opts.dockerPort}`
 				: opts.dockerHost;
 		}
@@ -248,7 +248,7 @@ export async function generateConnectOpts(opts: DockerConnectionCliFlags) {
 	} else if (opts.dockerHost != null && opts.docker == null) {
 		// Good a host is provided, and local socket isn't
 		connectOpts.host = opts.dockerHost;
-		connectOpts.port = opts.dockerPort || 2376;
+		connectOpts.port = opts.dockerPort ?? 2376;
 		delete connectOpts.socketPath;
 	} else if (opts.docker != null && opts.dockerHost != null) {
 		// Both provided, no obvious way to continue

@@ -141,7 +141,7 @@ export default class DeviceInitCmd extends Command {
 		const tmpPath = (await tmpNameAsync()) as string;
 		try {
 			logger.logDebug(`Downloading OS image...`);
-			const osVersion = options['os-version'] || 'default';
+			const osVersion = options['os-version'] ?? 'default';
 			const deviceType = application.is_for__device_type[0].slug;
 			await downloadOSImage(deviceType, tmpPath, osVersion);
 

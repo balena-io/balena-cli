@@ -63,7 +63,7 @@ function main() {
 	try {
 		checkNpmVersion();
 	} catch (e) {
-		console.error(e.message || e);
+		console.error(e.message ?? e);
 		process.exitCode = 1;
 	}
 }

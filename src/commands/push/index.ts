@@ -371,7 +371,7 @@ export default class PushCmd extends Command {
 				detached: options.detached,
 				services: options.service,
 				system: options.system,
-				env: options.env || [],
+				env: options.env ?? [],
 				convertEol: !options['noconvert-eol'],
 			});
 		} catch (e) {

@@ -50,7 +50,7 @@ export async function getDashboardLoginURL(
  * @returns whether the login was successful or not
  */
 export async function loginIfTokenValid(token?: string): Promise<boolean> {
-	token = (token || '').trim();
+	token = (token ?? '').trim();
 	if (!token) {
 		return false;
 	}

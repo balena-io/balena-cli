@@ -60,7 +60,7 @@ export default class ConfigWriteCmd extends Command {
 		const { denyMount, safeUmount } = await import('../../utils/umount');
 
 		const drive =
-			options.drive || (await getVisuals().drive('Select the device drive'));
+			options.drive ?? (await getVisuals().drive('Select the device drive'));
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
@@ -89,6 +89,6 @@ export default class ConfigWriteCmd extends Command {
 		// like `os.udevRules.101`, _.set() creates a udevRules array (rather
 		// than a dictionary) and sets the 101st array element to value, while
 		// we actually want udevRules to be dictionary like { '101': value }
-		_.setWith(configJSON, key, value, (v) => v || {});
+		_.setWith(configJSON, key, value, (v) => v ?? {});
 	}
 }

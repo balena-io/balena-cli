@@ -193,7 +193,7 @@ export default class OsConfigureCmd extends Command {
 			})) as ApplicationWithDeviceTypeSlug;
 			await checkDeviceTypeCompatibility(options, app);
 			deviceTypeSlug =
-				options['device-type'] || app.is_for__device_type[0].slug;
+				options['device-type'] ?? app.is_for__device_type[0].slug;
 		}
 
 		const deviceTypeManifest = await helpers.getManifest(
@@ -209,7 +209,7 @@ export default class OsConfigureCmd extends Command {
 
 		const { normalizeOsVersion } = await import('../../utils/normalization');
 		const osVersion = normalizeOsVersion(
-			options.version ||
+			options.version ??
 				(await getOsVersionFromImage(
 					params.image,
 					deviceTypeManifest,

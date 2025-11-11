@@ -181,7 +181,7 @@ async function mergeDevComposeOverlay(
 			services?: object;
 		}
 		const loadObj = (inputStr: string): ComposeObj =>
-			(yaml.load(inputStr) || {}) as ComposeObj;
+			(yaml.load(inputStr) ?? {}) as ComposeObj;
 		try {
 			const compose = loadObj(composeStr);
 			const devOverlay = loadObj(await fs.readFile(devOverlayPath, 'utf8'));
@@ -401,7 +401,7 @@ async function installQemuIfNeeded({
 			imageDescriptors.map(function (d) {
 				if (isBuildConfig(d.image)) {
 					return qemu.copyQemu(
-						path.join(projectPath, d.image.context || '.'),
+						path.join(projectPath, d.image.context ?? '.'),
 						arch,
 					);
 				}
@@ -491,6 +491,7 @@ async function qemuTransposeBuildStream({
 	task.buildStream = (await transpose.transposeTarStream(
 		task.buildStream,
 		transposeOptions,
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		dockerfilePath || undefined,
 	)) as Pack;
 
@@ -598,8 +599,8 @@ async function inspectBuiltImage({
 
 	const image: BuiltImage = {
 		serviceName: d.serviceName,
-		name: (isBuildConfig(d.image) ? d.image.tag : d.image) || '',
-		logs: truncateString(task?.logBuffer?.join('\n') || '', LOG_LENGTH_MAX),
+		name: (isBuildConfig(d.image) ? d.image.tag : d.image) ?? '',
+		logs: truncateString(task?.logBuffer?.join('\n') ?? '', LOG_LENGTH_MAX),
 		props: {
 			dockerfile: builtImage.dockerfile,
 			projectType: builtImage.projectType,
@@ -696,7 +697,7 @@ export async function getServiceDirsFromComposition(
 			let dir =
 				(typeof service.build === 'string'
 					? service.build
-					: service.build?.context) || '.';
+					: service.build?.context) ?? '.';
 			// Convert forward slashes to backslashes on Windows
 			dir = path.normalize(dir);
 			// Make sure the path is relative to the project directory
@@ -708,7 +709,7 @@ export async function getServiceDirsFromComposition(
 			// remove './' prefix (or '.\\' on Windows)
 			dir = dir.startsWith(relPrefix) ? dir.slice(2) : dir;
 
-			serviceDirs[serviceName] = dir || '.';
+			serviceDirs[serviceName] = dir ?? '.';
 		}
 	}
 	return serviceDirs;
@@ -1161,7 +1162,7 @@ export async function validateProjectDirectory(
 	}
 
 	const result: ProjectValidationResult = {
-		dockerfilePath: opts.dockerfilePath || '',
+		dockerfilePath: opts.dockerfilePath ?? '',
 		registrySecrets: {},
 	};
 
@@ -1263,7 +1264,7 @@ async function pushAndUpdateServiceImages(
 			// TODO 'localImage as any': find out exactly why tsc warns about
 			// 'name' that exists as a matter of fact, with a value similar to:
 			// "name": "registry2.balena-cloud.com/v2/aa27790dff571ec7d2b4fbcf3d4648d5:latest"
-			const imgName: string = (localImage as any).name || '';
+			const imgName: string = (localImage as any).name ?? '';
 			const imageDigest: string = await retry({
 				func: () => progress.push(imgName, reporters[index], opts),
 				maxAttempts: 3, // try calling func 3 times (max)
