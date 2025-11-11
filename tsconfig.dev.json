@@ -11,6 +11,9 @@
 		"./patches/*",
 		"./tests/**/*",
 		"./typings/**/*",
+		"./bin/**/*",
+		"./completion/**/*",
+		".mocharc.js",
 		".mocharc-standalone.js",
 	]
 }
