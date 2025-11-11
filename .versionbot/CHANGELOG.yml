@@ -1,4 +1,16 @@
 - commits:
+    - subject: Build with macos-15-intel as macos-13 is deprecated
+      hash: e225a5bb47a7e285eadbff5fdf7db565c8bd632b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 22.4.17
+  title: ""
+  date: 2025-11-11T15:21:57.983Z
+- commits:
     - subject: "ssh,tunnel: Fix retrieving the online devices ordered by name"
       hash: aa3cc4c38f2ab193f10eb2f5a44fa63d332eab9e
       body: |
