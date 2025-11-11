@@ -127,7 +127,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: import('@balena/compose/dist/release').Request['contract'],
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const _ = require('lodash') as typeof import('lodash');
