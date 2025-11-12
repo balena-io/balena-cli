@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import _ = require('lodash');
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
 import { getCliUx } from './lazy';
@@ -90,13 +89,13 @@ class Logger {
 			livepush: logger.createLogStream('live'),
 		};
 
-		_.forEach(this.streams, function (stream, key) {
+		for (const [key, stream] of Object.entries(this.streams)) {
 			if (key !== 'debug') {
 				stream.pipe(process.stdout);
 			} else if (process.env.DEBUG) {
 				stream.pipe(process.stderr);
 			}
-		});
+		}
 
 		this.formatMessage = logger.formatWithPrefix.bind(logger);
 

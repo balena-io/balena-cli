@@ -17,7 +17,6 @@
 
 // eslint-disable-next-line no-restricted-imports
 import { stripIndent } from 'common-tags';
-import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { simpleGit } from 'simple-git';
@@ -38,11 +37,13 @@ async function checkBuildTimestamps() {
 		fs.stat(docFile),
 		git.status(),
 	]);
-	const stagedFiles = _.uniq([
-		...gitStatus.created,
-		...gitStatus.staged,
-		...gitStatus.renamed.map((o) => o.to),
-	])
+	const stagedFiles = Array.from(
+		new Set([
+			...gitStatus.created,
+			...gitStatus.staged,
+			...gitStatus.renamed.map((o) => o.to),
+		]),
+	)
 		// select only staged files that start with src/ or typings/
 		.filter((f) => f.match(/^(src|typings)[/\\]/))
 		.map((f) => path.join(ROOT, f));

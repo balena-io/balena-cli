@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
 import * as path from 'path';
 
 import type { ScopeOpts } from './nock-mock';
@@ -558,7 +557,7 @@ export class BalenaAPIMock extends NockMock {
 					const varObj = appServiceVarsByService[serviceName];
 					varArray = varObj ? [varObj] : [];
 				} else {
-					varArray = _.map(appServiceVarsByService, (value) => value);
+					varArray = Object.values(appServiceVarsByService);
 				}
 				return [200, { d: varArray }];
 			},
@@ -606,7 +605,7 @@ export class BalenaAPIMock extends NockMock {
 				const varObj = deviceServiceVarsByService[serviceName];
 				varArray = varObj ? [varObj] : [];
 			} else {
-				varArray = _.map(deviceServiceVarsByService, (value) => value);
+				varArray = Object.values(deviceServiceVarsByService);
 			}
 			return [200, { d: varArray }];
 		});

@@ -31,6 +31,7 @@ import type {
 import Logger = require('./logger');
 import type { ProgressCallback } from 'docker-progress';
 import { getCliUx } from './lazy';
+import { pick } from './helpers';
 
 export function generateOpts(options: {
 	source?: string;
@@ -130,7 +131,6 @@ export const createRelease = async function (
 	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
-	const _ = require('lodash') as typeof import('lodash');
 	const crypto = require('crypto') as typeof import('crypto');
 	const releaseMod =
 		require('@balena/compose/dist/release') as typeof import('@balena/compose/dist/release');
@@ -169,9 +169,18 @@ export const createRelease = async function (
 		imgDescriptors,
 	});
 
+	for (const serviceImage of Object.values(serviceImages)) {
+		if ('created_at' in serviceImage) {
+			delete serviceImage.created_at;
+		}
+		if ('is_a_build_of__service' in serviceImage) {
+			delete serviceImage.is_a_build_of__service;
+		}
+	}
+
 	return {
 		client: pinejsClient,
-		release: _.pick(release, [
+		release: pick(release, [
 			'id',
 			'status',
 			'commit',
@@ -183,14 +192,7 @@ export const createRelease = async function (
 			'start_timestamp',
 			'end_timestamp',
 		]),
-		serviceImages: _.mapValues(
-			serviceImages,
-			(serviceImage) =>
-				_.omit(serviceImage, ['created_at', 'is_a_build_of__service']) as Omit<
-					typeof serviceImage,
-					'created_at' | 'is_a_build_of__service'
-				>,
-		),
+		serviceImages,
 	};
 };
 
@@ -317,8 +319,7 @@ const formatDuration = (seconds: number): string => {
 };
 
 const renderProgressBar = function (percentage: number, stepCount: number) {
-	const _ = require('lodash') as typeof import('lodash');
-	percentage = _.clamp(percentage, 0, 100);
+	percentage = Math.max(Math.min(percentage, 0), 100);
 	const barCount = Math.floor((stepCount * percentage) / 100);
 	const spaceCount = stepCount - barCount;
 	const bar = `[${'='.repeat(barCount)}>${' '.repeat(spaceCount)}]`;

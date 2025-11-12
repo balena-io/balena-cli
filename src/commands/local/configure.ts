@@ -65,7 +65,7 @@ export default class LocalConfigureCmd extends Command {
 			logger.logDebug('New config:');
 			logger.logDebug(JSON.stringify(answers));
 			if (!answers.hostname) {
-				await this.removeHostname(configurationSchema);
+				this.removeHostname(configurationSchema);
 			}
 			await reconfix.writeConfiguration(
 				configurationSchema,
@@ -227,7 +227,6 @@ export default class LocalConfigureCmd extends Command {
 	 * otherwise, the new file is created
 	 */
 	async prepareConnectionFile(target: string) {
-		const _ = await import('lodash');
 		const imagefs = await import('balena-image-fs');
 		const { getBootPartition } = await import('balena-config-json');
 
@@ -238,9 +237,9 @@ export default class LocalConfigureCmd extends Command {
 		});
 
 		let connectionFileName;
-		if (_.includes(files, 'resin-wifi')) {
+		if (files.includes('resin-wifi')) {
 			// The required file already exists, nothing to do
-		} else if (_.includes(files, 'resin-sample.ignore')) {
+		} else if (files.includes('resin-sample.ignore')) {
 			// Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
 			await imagefs.interact(target, bootPartition, async (_fs) => {
 				const contents = await _fs.promises.readFile(
@@ -252,7 +251,7 @@ export default class LocalConfigureCmd extends Command {
 					contents,
 				);
 			});
-		} else if (_.includes(files, 'resin-sample')) {
+		} else if (files.includes('resin-sample')) {
 			// Legacy mode, to be removed later
 			// We return the file name override from this branch
 			// When it is removed the following cleanup should be done:
@@ -273,10 +272,15 @@ export default class LocalConfigureCmd extends Command {
 		return this.getConfigurationSchema(bootPartition, connectionFileName);
 	}
 
-	async removeHostname(schema: any) {
-		const _ = await import('lodash');
-		schema.mapper = _.reject(schema.mapper, (mapper: any) =>
-			_.isEqual(Object.keys(mapper.template), ['hostname']),
-		);
+	removeHostname(
+		schema: Awaited<ReturnType<typeof this.prepareConnectionFile>>,
+	) {
+		schema.mapper = schema.mapper.filter((mapper) => {
+			const keys = Object.keys(mapper.template);
+			if (keys.length !== 1) {
+				return true;
+			}
+			return keys[0] !== 'hostname';
+		});
 	}
 }

@@ -16,7 +16,6 @@
  */
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { PathUtils } from '@balena/compose/dist/multibuild';
@@ -94,14 +93,16 @@ export async function inspectTarStream(
 		sourceTarStream.pipe(extract);
 	});
 
-	const $expected = _.mapValues(expectedFiles, (v) =>
-		_.omit(v, 'testStream', 'contents'),
-	);
+	for (const val of Object.values(expectedFiles)) {
+		delete val.testStream;
+		delete val.contents;
+	}
+
 	try {
-		expect($expected).to.deep.equal(found);
+		expect(expectedFiles).to.deep.equal(found);
 	} catch (e) {
 		const diffStr = JSON.stringify(
-			diff($expected, found),
+			diff(expectedFiles, found),
 			(_k, v) => (v === undefined ? 'undefined' : v),
 			4,
 		);

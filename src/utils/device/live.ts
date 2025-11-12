@@ -180,7 +180,7 @@ export class LivepushManager {
 				const buildVars = buildTask.buildMetadata.getBuildVarsForService(
 					buildTask.serviceName,
 				);
-				if (!_.isEmpty(buildVars)) {
+				if (Object.keys(buildVars).length) {
 					livepush.setBuildArgs(buildVars);
 				}
 
@@ -224,7 +224,7 @@ export class LivepushManager {
 	public async cleanup() {
 		this.logger.logLivepush('Cleaning up device...');
 		await Promise.all(
-			_.map(this.containers, (container) =>
+			Object.values(this.containers).map((container) =>
 				container.livepush.cleanupIntermediateContainers(),
 			),
 		);
@@ -321,7 +321,7 @@ export class LivepushManager {
 		// First we detect if the file changed is the Dockerfile
 		// used to build the service
 		if (
-			_.some(this.dockerfilePaths[serviceName], (name) =>
+			this.dockerfilePaths[serviceName].some((name) =>
 				updated.some((changed) => name === changed),
 			)
 		) {
@@ -437,9 +437,9 @@ export class LivepushManager {
 
 			const instance = this.containers[serviceName];
 			// Get the new container
-			const container = _.find(this.lastDeviceStatus!.containers, {
-				serviceName,
-			});
+			const container = this.lastDeviceStatus!.containers.find(
+				(container) => container.serviceName === serviceName,
+			);
 			if (container == null) {
 				throw new Error(
 					`Could not find new container for service ${serviceName}`,

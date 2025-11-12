@@ -280,13 +280,12 @@ ${dockerignoreHelp}
 			// multibuild takes in a composition and always attempts to
 			// build or pull all services. we workaround that here by
 			// passing a modified composition.
-			const compositionToBuild = _.cloneDeep(project.composition);
-			compositionToBuild.services = _.omit(
-				compositionToBuild.services,
-				servicesToSkip,
-			);
+			const compositionToBuild = structuredClone(project.composition);
+			for (const serviceToSkip of servicesToSkip) {
+				delete compositionToBuild.services[serviceToSkip];
+			}
 			let builtImagesByService: Dictionary<BuiltImage> = {};
-			if (_.size(compositionToBuild.services) === 0) {
+			if (Object.keys(compositionToBuild.services).length === 0) {
 				logger.logInfo(
 					'Everything is up to date (use --build to force a rebuild)',
 				);

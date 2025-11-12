@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
 import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
@@ -400,9 +399,10 @@ export function deepTemplateReplace(
 			if (Array.isArray(data)) {
 				return data.map((i) => deepTemplateReplace(i, templateVars));
 			}
-			return _.mapValues(data, (value) =>
-				deepTemplateReplace(value, templateVars),
-			);
+			for (const key of Object.keys(data)) {
+				data[key] = deepTemplateReplace(data[key], templateVars);
+			}
+			return data;
 		default:
 			// number, undefined, null, or something else
 			return data;
@@ -426,7 +426,10 @@ export function deepJsonParse(data: any): any {
 	} else if (Array.isArray(data)) {
 		return data.map((i) => deepJsonParse(i));
 	} else if (typeof data === 'object') {
-		return _.mapValues(data, (value) => deepJsonParse(value));
+		for (const key of Object.keys(data)) {
+			data[key] = deepJsonParse(data[key]);
+		}
+		return data;
 	}
 	return data;
 }
