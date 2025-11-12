@@ -1,4 +1,16 @@
 - commits:
+    - subject: "feat: add  update command"
+      hash: e7f5859e0e6fd12674cc79f1489f98c1134c20fa
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Otavio Jacobi
+      nested: []
+  version: 22.5.0
+  title: ""
+  date: 2025-11-12T13:39:32.342Z
+- commits:
     - subject: Build with macos-15-intel as macos-13 is deprecated
       hash: e225a5bb47a7e285eadbff5fdf7db565c8bd632b
       body: ""

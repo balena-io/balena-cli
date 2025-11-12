@@ -1,12 +1,12 @@
 {
   "name": "balena-cli",
-  "version": "22.4.17",
+  "version": "22.5.0",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "balena-cli",
-      "version": "22.4.17",
+      "version": "22.5.0",
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
