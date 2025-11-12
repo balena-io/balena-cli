@@ -179,7 +179,8 @@ ${dockerignoreHelp}
 				await validateProjectDirectory(sdk, {
 					dockerfilePath: options.dockerfile,
 					noParentCheck: options['noparent-check'] || false,
-					projectPath: options.source ?? '.',
+					// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+					projectPath: options.source || '.',
 					registrySecretsPath: options['registry-secrets'],
 				});
 			options.dockerfile = dockerfilePath;

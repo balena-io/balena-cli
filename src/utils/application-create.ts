@@ -17,11 +17,13 @@ export async function applicationCreateBase(
 ) {
 	// Ascertain device type
 	const deviceType =
-		options.type ?? (await (await import('./patterns')).selectDeviceType());
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		options.type || (await (await import('./patterns')).selectDeviceType());
 
 	// Ascertain organization
 	const organization =
-		options.organization?.toLowerCase() ??
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		options.organization?.toLowerCase() ||
 		(await (await import('./patterns')).getAndSelectOrganization());
 
 	// Create application

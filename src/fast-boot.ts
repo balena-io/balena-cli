@@ -58,7 +58,8 @@ async function $start() {
 	// TODO: take into account `~/.balenarc.yml` or `./balenarc.yml`,
 	// without hurting performance at this early loading stage.
 	const dataDir = path.normalize(
-		process.env.BALENARC_DATA_DIRECTORY ?? path.join(os.homedir(), dotBalena),
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		process.env.BALENARC_DATA_DIRECTORY || path.join(os.homedir(), dotBalena),
 	);
 	// Consider that the CLI may be installed to a folder owned by root
 	// such as `/usr[/local]/src/balena-cli`, while being executed by

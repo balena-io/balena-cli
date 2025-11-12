@@ -46,14 +46,14 @@ const hook: Hook<'command-not-found'> = async function (
 	}
 
 	const suggestions: string[] = [];
-	suggestions.push(closest(commandId).replace(':', ' ') ?? '');
+	suggestions.push(closest(commandId).replace(':', ' '));
 
 	// opts.argv contains everything after the first command word
 	// if there's something there, also test if it might be a double
 	// word command spelt wrongly, rather than command args.
 	if (opts.argv?.[0]) {
 		suggestions.unshift(
-			closest(`${commandId}: + ${opts.argv[0]}`).replace(':', ' ') ?? '',
+			closest(`${commandId}: + ${opts.argv[0]}`).replace(':', ' '),
 		);
 	}
 

@@ -356,7 +356,7 @@ export async function getOnlineTargetDeviceUuid(
 		type: 'list',
 		default: devices[0].uuid,
 		choices: devices.map((device) => ({
-			name: `${device.device_name ?? 'Untitled'} (${device.uuid.slice(0, 7)})`,
+			name: `${device.device_name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
 			value: device.uuid,
 		})),
 	});

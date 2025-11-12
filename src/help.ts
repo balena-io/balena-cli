@@ -84,7 +84,8 @@ export default class BalenaHelp extends Help {
 	getCustomRootHelp(showAllCommands: boolean): string {
 		const ux = getCliUx();
 		let commands = this.config.commands;
-		commands = commands.filter((c) => this.opts.all ?? !c.hidden);
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		commands = commands.filter((c) => this.opts.all || !c.hidden);
 
 		// Get Primary Commands, sorted as in manual list
 		const primaryCommands = this.manuallySortedPrimaryCommands

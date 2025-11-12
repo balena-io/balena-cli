@@ -181,7 +181,8 @@ async function mergeDevComposeOverlay(
 			services?: object;
 		}
 		const loadObj = (inputStr: string): ComposeObj =>
-			(yaml.load(inputStr) ?? {}) as ComposeObj;
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			(yaml.load(inputStr) || {}) as ComposeObj;
 		try {
 			const compose = loadObj(composeStr);
 			const devOverlay = loadObj(await fs.readFile(devOverlayPath, 'utf8'));
@@ -401,7 +402,7 @@ async function installQemuIfNeeded({
 			imageDescriptors.map(function (d) {
 				if (isBuildConfig(d.image)) {
 					return qemu.copyQemu(
-						path.join(projectPath, d.image.context ?? '.'),
+						path.join(projectPath, d.image.context || '.'),
 						arch,
 					);
 				}
@@ -491,8 +492,7 @@ async function qemuTransposeBuildStream({
 	task.buildStream = (await transpose.transposeTarStream(
 		task.buildStream,
 		transposeOptions,
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-		dockerfilePath || undefined,
+		dockerfilePath,
 	)) as Pack;
 
 	return transposeOptions;
@@ -697,7 +697,8 @@ export async function getServiceDirsFromComposition(
 			let dir =
 				(typeof service.build === 'string'
 					? service.build
-					: service.build?.context) ?? '.';
+					: // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+						service.build?.context) || '.';
 			// Convert forward slashes to backslashes on Windows
 			dir = path.normalize(dir);
 			// Make sure the path is relative to the project directory
@@ -709,7 +710,7 @@ export async function getServiceDirsFromComposition(
 			// remove './' prefix (or '.\\' on Windows)
 			dir = dir.startsWith(relPrefix) ? dir.slice(2) : dir;
 
-			serviceDirs[serviceName] = dir ?? '.';
+			serviceDirs[serviceName] = dir || '.';
 		}
 	}
 	return serviceDirs;

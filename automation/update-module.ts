@@ -93,6 +93,8 @@ async function $main() {
 		throw new Error(getUsage(upstreams, upstreamName));
 	}
 
+	// upstream.module could be an empty string, but requires it be defined as
+	// such within repo.yml, which won't happen with proper code review.
 	const packageName = upstream.module ?? upstream.repo;
 
 	const oldVersion = await getVersion(packageName);

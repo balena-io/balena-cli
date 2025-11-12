@@ -75,7 +75,8 @@ export default class GenerateCmd extends Command {
 		let expiryDateResponse: string | number | undefined = params.expiryDate;
 		let key;
 		try {
-			expiryDateResponse ??= await getCliForm().ask({
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			expiryDateResponse ||= await getCliForm().ask({
 				message: 'Please pick an expiry date for the API key',
 				type: 'list',
 				choices: [...durations, 'custom', 'never'].map((duration) => ({

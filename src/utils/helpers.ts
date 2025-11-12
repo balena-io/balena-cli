@@ -82,7 +82,8 @@ export async function sudo(
 
 	if (process.platform !== 'win32') {
 		console.log(
-			msg ??
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			msg ||
 				'Admin privileges required: you may be asked for your computer password to continue.',
 		);
 	}
@@ -393,7 +394,8 @@ export function getProxyConfig(): ProxyConfig | undefined {
 		};
 		// global-agent, or no proxy config
 	} else {
-		const proxyUrl = process.env.HTTPS_PROXY ?? process.env.HTTP_PROXY;
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 		if (proxyUrl) {
 			const { URL } = require('url') as typeof import('url');
 			let url: InstanceType<typeof URL>;

@@ -173,7 +173,8 @@ ${messages.reachingOut}`);
 	): Promise<void> {
 		// Token
 		if (loginOptions.token) {
-			token ??= await getCliForm().ask({
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			token ||= await getCliForm().ask({
 				message: 'Session token or API key from the preferences page',
 				name: 'token',
 				type: 'input',

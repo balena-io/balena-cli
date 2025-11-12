@@ -73,7 +73,8 @@ export function instanceOf(err: any, klass: any): boolean {
 	if (err instanceof klass) {
 		return true;
 	}
-	const name: string | undefined = err.name ?? err.constructor?.name;
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+	const name: string | undefined = err.name || err.constructor?.name;
 	return name != null && name === klass.name;
 }
 

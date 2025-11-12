@@ -119,7 +119,8 @@ export default class LocalFlashCmd extends Command {
 	}
 
 	async getDrive(options: { drive?: string }): Promise<BlockDevice> {
-		const drive = options.drive ?? (await getVisuals().drive('Select a drive'));
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		const drive = options.drive || (await getVisuals().drive('Select a drive'));
 
 		const sdk = await import('etcher-sdk');
 

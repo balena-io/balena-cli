@@ -321,7 +321,7 @@ Can be repeated to add multiple certificates.\
 		const image = params.image;
 		const splashImage = options['splash-image'];
 		const additionalSpace = options['additional-space'];
-		const dontCheckArch = options['dont-check-arch'] ?? false;
+		const dontCheckArch = options['dont-check-arch'] || false;
 		const pinDevice = options['pin-device-to-release'];
 
 		if (dontCheckArch && !fleetSlug) {
@@ -330,7 +330,8 @@ Can be repeated to add multiple certificates.\
 			);
 		}
 
-		const certificates: string[] = options['add-certificate'] ?? [];
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		const certificates: string[] = options['add-certificate'] || [];
 		for (const certificate of certificates) {
 			if (!certificate.endsWith('.crt')) {
 				throw new ExpectedError('Certificate file name must end with ".crt"');

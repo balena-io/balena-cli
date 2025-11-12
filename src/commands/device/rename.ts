@@ -49,11 +49,13 @@ export default class DeviceRenameCmd extends Command {
 		const balena = getBalenaSdk();
 
 		const newName =
-			params.newName ??
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			params.newName ||
 			(await getCliForm().ask({
 				message: 'How do you want to name this device?',
 				type: 'input',
-			})) ??
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			})) ||
 			'';
 
 		await balena.models.device.rename(params.uuid, newName);
