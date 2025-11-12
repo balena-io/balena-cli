@@ -114,10 +114,8 @@ export default class ReleaseCmd extends Command {
 				.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
 				.join('\n');
 
-			const _ = await import('lodash');
-			const values = _.mapValues(
-				release,
-				(val) => val ?? 'N/a',
+			const values = Object.fromEntries(
+				Object.entries(release).map(([key, val]) => [key, val ?? 'N/a']),
 			) as Dictionary<string>;
 			values['tags'] = tagStr;
 

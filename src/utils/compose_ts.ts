@@ -887,7 +887,10 @@ export async function checkBuildSecretsRequirements(
 	sourceDir: string,
 ) {
 	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
-	if (metaObj && !_.isEmpty(metaObj['build-secrets'])) {
+	if (
+		metaObj?.['build-secrets'] != null &&
+		Object.keys(metaObj['build-secrets']).length
+	) {
 		const dockerUtils = await import('./docker');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
 		if (!isBalenaEngine) {
@@ -1184,13 +1187,13 @@ export async function validateProjectDirectory(
 		}
 		if (!opts.noParentCheck) {
 			const checkCompose = async (folder: string) => {
-				return _.some(
+				return (
 					await Promise.all(
 						compositionFileNames.map((filename) =>
 							exists(path.join(folder, filename)),
 						),
-					),
-				);
+					)
+				).some(Boolean);
 			};
 			const [hasCompose, hasParentCompose] = await Promise.all([
 				checkCompose(opts.projectPath),
@@ -1227,7 +1230,7 @@ async function getTokenForPreviousRepos(
 		sdk,
 		apiEndpoint,
 		taggedImages[0].registry,
-		_.map(taggedImages, 'repo'),
+		taggedImages.map((taggedImg) => taggedImg.repo),
 		previousRepos,
 	);
 	return token;
@@ -1348,17 +1351,21 @@ async function pushServiceImages(
 
 			// These are the only update-able image fields in bC atm, and passing
 			// the whole image object in v7+ would result the allowlist to reject the request.
-			const imagePayload = _.pick(serviceImage, [
-				'end_timestamp',
-				'project_type',
-				'error_message',
-				'build_log',
-				'push_timestamp',
-				'status',
-				'content_hash',
-				'dockerfile',
-				'image_size',
-			]);
+			const imagePayload = Object.fromEntries(
+				Object.entries(serviceImage).filter(([key]) =>
+					[
+						'end_timestamp',
+						'project_type',
+						'error_message',
+						'build_log',
+						'push_timestamp',
+						'status',
+						'content_hash',
+						'dockerfile',
+						'image_size',
+					].includes(key),
+				),
+			);
 
 			if (
 				typeof imagePayload.error_message === 'string' &&

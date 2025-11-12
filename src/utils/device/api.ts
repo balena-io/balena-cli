@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
-
 import { retry } from '../helpers';
 import Logger = require('../logger');
 import * as ApiErrors from './errors';
@@ -190,7 +188,8 @@ export class DeviceAPI {
 				);
 			}
 
-			return _.omit(body, 'status') as Status;
+			delete body.status;
+			return body as Status;
 		});
 	}
 

@@ -71,10 +71,13 @@ export default class APIKeyListCmd extends Command {
 			},
 		});
 		const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];
-		const _ = await import('lodash');
 		console.log(
 			getVisuals().table.horizontal(
-				keys.map((key) => _.mapValues(key, (val) => val ?? 'N/a')),
+				keys.map((key) =>
+					Object.fromEntries(
+						Object.entries(key).map(([k, v]) => [k, v ?? 'N/a']),
+					),
+				),
 				fields,
 			),
 		);

@@ -94,10 +94,13 @@ export default class ReleaseListCmd extends Command {
 				}),
 			);
 		} else {
-			const _ = await import('lodash');
 			console.log(
 				getVisuals().table.horizontal(
-					releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
+					releases.map((rel) =>
+						Object.fromEntries(
+							Object.entries(rel).map(([key, val]) => [key, val ?? 'N/a']),
+						),
+					),
 					fields,
 				),
 			);

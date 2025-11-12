@@ -95,7 +95,7 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	> => {
 		const device = await sdk.models.device.get(deviceUUID, deviceOptions);
 		const apps = device.belongs_to__application;
-		if (_.isEmpty(apps) || _.isEmpty(apps[0])) {
+		if (!apps.length || !apps[0]) {
 			return [device, undefined] as const;
 		}
 		return [device, apps[0]] as const;

@@ -117,10 +117,13 @@ export default class DeviceListCmd extends Command {
 			const mapped = devices.map((device) => pickAndRename(device, fields));
 			console.log(JSON.stringify(mapped, null, 4));
 		} else {
-			const _ = await import('lodash');
 			console.log(
 				getVisuals().table.horizontal(
-					devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
+					devices.map((dev) =>
+						Object.fromEntries(
+							Object.entries(dev).map(([k, v]) => [k, v ?? 'N/a']),
+						),
+					),
 					fields,
 				),
 			);

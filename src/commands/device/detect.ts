@@ -144,12 +144,22 @@ export default class DeviceDetectCmd extends Command {
 		// Reduce properties if not --verbose
 		if (!options.verbose) {
 			devicesInfo.forEach((d: any) => {
-				d.dockerInfo = _.isObject(d.dockerInfo)
-					? _.pick(d.dockerInfo, DeviceDetectCmd.dockerInfoProperties)
-					: d.dockerInfo;
-				d.dockerVersion = _.isObject(d.dockerVersion)
-					? _.pick(d.dockerVersion, DeviceDetectCmd.dockerVersionProperties)
-					: d.dockerVersion;
+				d.dockerInfo =
+					d.dockerInfo != null && typeof d.dockerInfo === 'object'
+						? Object.fromEntries(
+								Object.entries(d.dockerInfo).filter(([key]) =>
+									DeviceDetectCmd.dockerInfoProperties.includes(key),
+								),
+							)
+						: d.dockerInfo;
+				d.dockerVersion =
+					d.dockerVersion != null && typeof d.dockerVersion === 'object'
+						? Object.fromEntries(
+								Object.entries(d.dockerVersion).filter(([key]) =>
+									DeviceDetectCmd.dockerVersionProperties.includes(key),
+								),
+							)
+						: d.dockerVersion;
 			});
 		}
 

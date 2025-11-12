@@ -26,11 +26,9 @@ import { getBalenaSdk, getCliUx, getVisuals } from './lazy';
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
 }): { [name: string]: string | number | undefined } {
-	return _.chain(group)
-		.get('options')
-		.map((question) => [question.name, question.default])
-		.fromPairs()
-		.value();
+	return Object.fromEntries(
+		group.options.map((question) => [question.name, question.default]),
+	);
 }
 
 export function stateToString(state: OperationState) {
@@ -509,5 +507,9 @@ export function pickAndRename<T extends Dictionary<any>>(
 		rename[renameFrom] = renameTo;
 		return renameFrom;
 	});
-	return _.mapKeys(_.pick(obj, fields), (_val, key) => rename[key]);
+	return Object.fromEntries(
+		Object.entries(obj)
+			.filter(([key]) => fields.includes(key))
+			.map(([key, val]) => [rename[key], val]),
+	);
 }
