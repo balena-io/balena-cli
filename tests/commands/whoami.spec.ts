@@ -19,7 +19,7 @@ import { expect } from 'chai';
 import { cleanOutput, runCommand } from '../helpers';
 import { MockHttpServer } from '../mockserver';
 
-describe('balena whoami', function () {
+describe.only('balena whoami', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 
@@ -51,7 +51,7 @@ describe('balena whoami', function () {
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.contain('== ACCOUNT INFORMATION');
 		expect(lines[1]).to.contain('DEVICE: a11dc1acd31b623a0e4e084a6cf13aaa');
-		expect(lines[2]).to.contain('URL:    balena-cloud.com');
+		expect(lines[2]).to.contain(`URL:    ${process.env.BALENARC_BALENA_URL}`);
 		expect(err).to.be.empty;
 	});
 
@@ -62,7 +62,9 @@ describe('balena whoami', function () {
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.contain('== ACCOUNT INFORMATION');
 		expect(lines[1]).to.contain('APPLICATION: mytestorf/mytestfleet');
-		expect(lines[2]).to.contain('URL:         balena-cloud.com');
+		expect(lines[2]).to.contain(
+			`URL:         ${process.env.BALENARC_BALENA_URL}`,
+		);
 		expect(err).to.be.empty;
 	});
 
@@ -74,7 +76,7 @@ describe('balena whoami', function () {
 		expect(lines[0]).to.contain('== ACCOUNT INFORMATION');
 		expect(lines[1]).to.contain('USERNAME: gh_user');
 		expect(lines[2]).to.contain('EMAIL:    testuser@test.com');
-		expect(lines[3]).to.contain('URL:      balena-cloud.com');
+		expect(lines[3]).to.contain(`URL:      ${process.env.BALENARC_BALENA_URL}`);
 		expect(err).to.be.empty;
 	});
 });

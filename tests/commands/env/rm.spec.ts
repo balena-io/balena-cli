@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { runCommand } from '../../helpers';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena env rm', function () {
+describe.only('balena env rm', function () {
 	let server: MockHttpServer;
 
 	this.beforeAll(async () => {

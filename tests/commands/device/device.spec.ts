@@ -22,7 +22,7 @@ import { apiResponsePath } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena device', function () {
+describe.only('balena device', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 

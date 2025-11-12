@@ -17,30 +17,37 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
-import { SupervisorMock } from '../../nock/supervisor-mock';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena device logs', function () {
-	let api: BalenaAPIMock;
-	let supervisor: SupervisorMock;
+	let api: MockHttpServer['api'];
+	let supervisor: MockHttpServer['supervisor'];
+	let server: MockHttpServer;
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
-		supervisor = new SupervisorMock();
-		api.expectGetWhoAmI();
+	this.beforeAll(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		supervisor = server.supervisor;
+		await server.start();
 	});
 
-	this.afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
-		supervisor.done();
+	this.afterAll(async () => {
+		await server.stop();
+	});
+
+	this.beforeEach(async () => {
+		await api.expectGetWhoAmI();
+	});
+
+	this.afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should reach the expected endpoints on a local device', async () => {
-		supervisor.expectGetPing();
-		supervisor.expectGetLogs();
-		supervisor.expectGetLogs();
+		await supervisor.expectGetPing();
+		await supervisor.expectGetLogs();
+		await supervisor.expectGetLogs();
 
 		const { err, out } = await runCommand('device logs 1.2.3.4 --max-retry 1');
 

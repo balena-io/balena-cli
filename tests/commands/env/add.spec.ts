@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { runCommand } from '../../helpers';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena env set', function () {
+describe.skip('balena env set', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 

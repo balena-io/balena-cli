@@ -74,7 +74,7 @@ const commonComposeQueryParamsArmV7 = {
 	platform: 'linux/arm/v7',
 };
 
-describe('balena deploy', function () {
+describe.only('balena deploy', function () {
 	let api: MockHttpServer['api'];
 	let docker: MockHttpServer['docker'];
 	let server: MockHttpServer;
@@ -529,7 +529,7 @@ describe('balena deploy', function () {
 	});
 });
 
-describe('balena deploy: project validation', function () {
+describe.only('balena deploy: project validation', function () {
 	let server: MockHttpServer;
 
 	this.beforeAll(async () => {

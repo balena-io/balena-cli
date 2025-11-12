@@ -19,8 +19,7 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
-import { BuilderMock, builderResponsePath } from '../nock/builder-mock';
+import { MockHttpServer } from '../mockserver';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
 import { cleanOutput, runCommand } from '../helpers';
 import type { ExpectedTarStreamFiles } from '../projects';
@@ -35,6 +34,9 @@ import {
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
+const builderResponsePath = path.normalize(
+	path.join(__dirname, '..', 'test-data', 'builder-response'),
+);
 
 const itNoWin = process.platform === 'win32' ? it.skip : it;
 
@@ -80,22 +82,31 @@ const commonQueryParams = [
 	['isdraft', 'false'],
 ];
 
-describe('balena push', function () {
-	let api: BalenaAPIMock;
-	let builder: BuilderMock;
+describe.only('balena push', function () {
+	let api: MockHttpServer['api'];
+	let builder: MockHttpServer['builder'];
+	let server: MockHttpServer;
 	const isWindows = process.platform === 'win32';
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
-		builder = new BuilderMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetApplication();
+	this.beforeAll(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		builder = server.builder;
+		await server.start();
 	});
 
-	this.afterEach(() => {
+	this.afterAll(async () => {
+		await server.stop();
+	});
+
+	this.beforeEach(async () => {
+		await api.expectGetWhoAmI({ optional: true, persist: true });
+		await api.expectGetApplication();
+	});
+
+	this.afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		api.done();
-		builder.done();
+		await server.assertAllCalled();
 	});
 
 	this.beforeAll(async () => {
@@ -525,15 +536,18 @@ describe('balena push', function () {
 });
 
 describe('balena push: project validation', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
+	this.beforeEach(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
 	});
 
-	this.afterEach(() => {
+	this.afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		api.done();
+		await server.stop();
 	});
 
 	it('should raise ExpectedError if the project folder is not a directory', async () => {

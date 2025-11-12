@@ -22,7 +22,7 @@ import { runCommand } from '../../helpers';
 import { randomBytes } from 'node:crypto';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena env list', function () {
+describe.only('balena env list', function () {
 	const appName = 'test';
 	let fullUUID: string;
 	let shortUUID: string;

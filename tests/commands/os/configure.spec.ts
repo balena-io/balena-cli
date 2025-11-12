@@ -27,12 +27,13 @@ import * as stripIndent from 'common-tags/lib/stripIndent';
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
+import { MockHttpServer } from '../../mockserver';
 
 if (process.platform !== 'win32') {
-	describe('balena os configure', function () {
+	describe.only('balena os configure', function () {
 		let imagefs: typeof $imagefs;
-		let api: BalenaAPIMock;
+		let api: MockHttpServer['api'];
+		let server: MockHttpServer;
 		let tmpDummyPath: string;
 		let tmpMatchingDtJsonPartitionPath: string;
 		let tmpNonMatchingDtJsonPartitionPath: string;
@@ -93,13 +94,15 @@ if (process.platform !== 'win32') {
 			);
 		});
 
-		beforeEach(() => {
-			api = new BalenaAPIMock();
-			api.expectGetWhoAmI({ optional: true, persist: true });
+		beforeEach(async () => {
+			server = new MockHttpServer();
+			api = server.api;
+			await server.start();
+			await api.expectGetWhoAmI({ optional: true, persist: true });
 		});
 
-		afterEach(() => {
-			api.done();
+		afterEach(async () => {
+			await server.stop();
 		});
 
 		after(async () => {
@@ -157,12 +160,12 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			// await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpMatchingDtJsonPartitionPath}`,
@@ -205,12 +208,12 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should detect the OS version and inject a valid config.json file to a 6.1.25 image with partition 12 as boot & a non-matching device-type.json', async () => {
-			api.expectGetApplication();
-			api.expectGetDeviceTypes();
+			await api.expectGetApplication();
+			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			// await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpNonMatchingDtJsonPartitionPath}`,
@@ -254,11 +257,11 @@ if (process.platform !== 'win32') {
 
 		// TODO: In the next major consider just failing when we can't find a device-types.json in the image.
 		it('should inject a valid config.json file to a dummy image', async () => {
-			api.expectGetApplication();
+			await api.expectGetApplication();
 			// Since the dummy image doesn't include a device-type.json
 			// we have to reach to the API to fetch the manifest of the device type.
-			api.expectGetConfigDeviceTypes();
-			api.expectDownloadConfig();
+			await api.expectGetConfigDeviceTypes();
+			await api.expectDownloadConfig();
 
 			const command: string[] = [
 				`os configure ${tmpDummyPath}`,

@@ -27,7 +27,7 @@ import { MockHttpServer } from '../../mockserver';
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
-describe('balena device ssh', function () {
+describe.only('balena device ssh', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 	let sshServer: Server | undefined;

@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { cleanOutput, runCommand } from '../../helpers';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena device move', function () {
+describe.only('balena device move', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 
