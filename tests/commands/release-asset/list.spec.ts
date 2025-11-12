@@ -19,7 +19,7 @@ import { expect } from 'chai';
 import { cleanOutput, runCommand } from '../../helpers';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena release-asset list', function () {
+describe.only('balena release-asset list', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 

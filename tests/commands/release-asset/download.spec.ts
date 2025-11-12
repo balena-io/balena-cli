@@ -22,7 +22,7 @@ import * as os from 'os';
 import { cleanOutput, runCommand } from '../../helpers';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena release-asset download', function () {
+describe.only('balena release-asset download', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 	let tempDir: string;

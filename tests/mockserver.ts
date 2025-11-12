@@ -112,8 +112,8 @@ export class MockHttpServer {
 		let builder = methodMap[method]($path).matching((req) => {
 			const decodedPath = decodeURIComponent(req.path);
 			if (typeof $path === 'string') {
-				const decodedPath = decodeURIComponent($path);
-				return decodedPath.includes(decodedPath);
+				const expectedPath = decodeURIComponent($path);
+				return decodedPath.includes(expectedPath);
 			} else {
 				return $path.test(decodedPath);
 			}
@@ -462,6 +462,68 @@ export class MockHttpServer {
 				},
 				opts,
 			),
+
+		expectGetConfigDeviceTypes: (opts?: ScopeOpts) =>
+			this.createMock(
+				'GET',
+				'/device-types/v1',
+				{
+					status: 200,
+					file: 'device-types-GET-v1.json',
+				},
+				opts,
+			),
+
+		expectDownloadConfig: async (opts?: ScopeOpts) => {
+			const { optional = false, persist = false, times } = opts || {};
+
+			let builder = mockServer.forPost('/download-config');
+
+			if (persist) {
+				builder = builder.always();
+			}
+			if (times && times > 0) {
+				builder = builder.times(times);
+			}
+
+			const rule = await builder.thenCallback(async (req) => {
+				const body = await req.body.getJson();
+				let deviceType = 'raspberrypi3';
+				if (typeof body === 'object' && body && 'deviceType' in body) {
+					deviceType = body.deviceType as string;
+				}
+
+				return {
+					status: 200,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						applicationId: 1301645,
+						deviceType,
+						userId: 43699,
+						appUpdatePollInterval: 600000,
+						listenPort: 48484,
+						vpnPort: 443,
+						apiEndpoint: 'https://api.balena-cloud.com',
+						vpnEndpoint: 'cloudlink.balena-cloud.com',
+						registryEndpoint: 'registry2.balena-cloud.com',
+						deltaEndpoint: 'https://delta.balena-cloud.com',
+						pubnubSubscribeKey: 'sub-c-12345678-1234-1234-1234-123456789012',
+						pubnubPublishKey: 'pub-c-12345678-1234-1234-1234-123456789012',
+						mixpanelToken: '12345678901234567890123456789012',
+					}),
+				};
+			});
+
+			if (!optional) {
+				this.nonOptionalEndpoints.push({
+					endpoint: rule,
+					method: 'POST',
+					path: '/download-config',
+				});
+			}
+
+			return rule;
+		},
 
 		expectGetDevice: async (
 			opts: {
@@ -1235,6 +1297,58 @@ export class MockHttpServer {
 					endpoint: rule,
 					method: 'POST',
 					path: /^\/v3\/build/,
+				});
+			}
+
+			return rule;
+		},
+	};
+
+	public supervisor = {
+		expectGetPing: (opts: ScopeOpts = {}) =>
+			this.createMock('GET', '/ping', { status: 200, body: 'OK' }, opts),
+
+		expectGetLogs: async (opts: ScopeOpts = {}) => {
+			const { optional = false, persist = false, times } = opts;
+			const chunks = [
+				'\n',
+				'{"message":"Streaming logs","isSystem":true}\n',
+				'{"serviceName":"bar","serviceId":1,"imageId":1,"isStdout":true,"timestamp":1591991625223,"message":"bar 8 (332) Linux 4e3f81149d71 4.19.75 #1 SMP PREEMPT Mon Mar 23 11:50:49 UTC 2020 aarch64 GNU/Linux"}\n',
+				'{"serviceName":"foo","serviceId":2,"imageId":2,"isStdout":true,"timestamp":1591991628757,"message":"foo 8 (200) Linux cc5df60d89ee 4.19.75 #1 SMP PREEMPT Mon Mar 23 11:50:49 UTC 2020 aarch64 GNU/Linux"}\n',
+			];
+
+			let builder = mockServer.forGet('/v2/local/logs');
+
+			if (persist) {
+				builder = builder.always();
+			}
+			if (times && times > 0) {
+				builder = builder.times(times);
+			}
+
+			const Readable = (await import('stream')).Readable;
+			const rule = await builder.thenCallback((_req) => {
+				let chunkCount = 0;
+				const chunkedStream = new Readable({
+					read(_size) {
+						setTimeout(() => {
+							this.push(
+								chunkCount === chunks.length ? null : chunks[chunkCount++],
+							);
+						}, 10);
+					},
+				});
+				return {
+					status: 200,
+					body: chunkedStream,
+				};
+			});
+
+			if (!optional) {
+				this.nonOptionalEndpoints.push({
+					endpoint: rule,
+					method: 'GET',
+					path: '/v2/local/logs',
 				});
 			}
 

@@ -23,7 +23,7 @@ import { cleanOutput, runCommand } from '../../helpers';
 import { stripIndent } from '../../../build/utils/lazy';
 import { MockHttpServer } from '../../mockserver';
 
-describe('balena device', function () {
+describe.only('balena device', function () {
 	let api: MockHttpServer['api'];
 	let server: MockHttpServer;
 

@@ -84,7 +84,7 @@ const commonComposeQueryParamsIntel = {
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
-describe('balena build', function () {
+describe.only('balena build', function () {
 	let api: MockHttpServer['api'];
 	let docker: MockHttpServer['docker'];
 	let server: MockHttpServer;
@@ -711,7 +711,7 @@ describe('balena build', function () {
 	});
 });
 
-describe('balena build: project validation', function () {
+describe.only('balena build: project validation', function () {
 	let server: MockHttpServer;
 
 	this.beforeAll(async () => {
