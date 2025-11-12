@@ -76,6 +76,9 @@
   },
   "oclif": {
     "bin": "balena",
+    "plugins": [
+      "@oclif/plugin-update"
+    ],
     "update": {
       "s3": {
         "host": "https://balena-cli.s3.us-east-1.amazonaws.com",
@@ -177,6 +180,7 @@
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^4.5.6",
+    "@oclif/plugin-update": "^4.7.14",
     "@sentry/node": "^10.17.0",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.1.14",
@@ -201,7 +205,7 @@
     "ejs": "^3.1.6",
     "etcher-sdk": "^10.0.0",
     "express": "^4.17.2",
-    "fast-boot2": "^1.1.0",
+    "fast-boot2": "^1.1.4",
     "fast-levenshtein": "^3.0.0",
     "filenamify": "^4.3.0",
     "glob": "^7.2.0",

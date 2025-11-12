@@ -86,7 +86,15 @@ export function filterCliOutputForTests({
 					// sdk.setSharedOptions multiple times in the same process
 					!line.startsWith('Shared SDK options') &&
 					!line.startsWith('WARN: disabling Sentry.io error reporting') &&
-					!matchesNodeEngineVersionWarn(line),
+					!matchesNodeEngineVersionWarn(line) &&
+					// Filter out Node.js warnings from @oclif/plugin-update trying to spawn balena executable
+					!line.match(/\(node:\d+\) \[ENOENT\] Error: spawn balena ENOENT/) &&
+					!line.match(
+						/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
+					) &&
+					!line.match(
+						/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
+					),
 			),
 		out: out
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
