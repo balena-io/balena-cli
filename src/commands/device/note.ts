@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Flags, Args, Command } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
@@ -42,11 +42,7 @@ export default class DeviceNoteCmd extends Command {
 	};
 
 	public static flags = {
-		device: { exclusive: ['dev'], ...cf.device },
-		dev: Flags.string({
-			exclusive: ['device'],
-			hidden: true,
-		}),
+		device: cf.device,
 	};
 
 	public static authenticated = true;
