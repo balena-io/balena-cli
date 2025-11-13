@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node action to v6
+      hash: 9d82d2dd30eb1e928ddb7596403cb1ea9bc33195
+      body: |
+        Update actions/setup-node from 4 to 6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 22.5.3
+  title: ""
+  date: 2025-11-13T20:03:26.907Z
+- commits:
     - subject: Update GitHub Artifact Actions to v5
       hash: baa5edade5fd205a31638b17014623e80a2231e4
       body: |
