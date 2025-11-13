@@ -216,8 +216,7 @@ export default class DeviceInitCmd extends Command {
 		logger: import('../../utils/logger'),
 	) {
 		let tmpConfigJsonPath: string | undefined;
-		const { promisify } = await import('util');
-		const rimraf = promisify(await import('rimraf'));
+		const rimraf = (await import('rimraf')).rimraf;
 
 		try {
 			const configureCommand = ['os', 'configure', osImagePath];
@@ -226,6 +225,7 @@ export default class DeviceInitCmd extends Command {
 				populateDeviceConfig(configJson, device, device.api_key);
 
 				const tmp = await import('tmp');
+				const { promisify } = await import('util');
 				const tmpNameAsync = promisify(tmp.tmpName);
 				tmp.setGracefulCleanup();
 
