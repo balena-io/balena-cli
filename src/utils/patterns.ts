@@ -294,10 +294,10 @@ export async function getOnlineTargetDeviceUuid(
 				`Trying to fetch device by UUID ${fleetOrDevice} (${typeof fleetOrDevice})`,
 			);
 			const device = await sdk.models.device.get(fleetOrDevice, {
-				$select: ['uuid', 'is_online'],
+				$select: ['uuid', 'is_connected_to_vpn'],
 			});
 
-			if (!device.is_online) {
+			if (!device.is_connected_to_vpn) {
 				throw new ExpectedError(
 					`Device with UUID ${fleetOrDevice} is disconnected`,
 				);
@@ -325,7 +325,7 @@ export async function getOnlineTargetDeviceUuid(
 				$expand: {
 					owns__device: {
 						$select: ['device_name', 'uuid'],
-						$filter: { is_online: true },
+						$filter: { is_connected_to_vpn: true },
 						$orderby: { device_name: 'asc' },
 					},
 				},
