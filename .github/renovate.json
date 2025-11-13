@@ -1,4 +1,18 @@
 {
 	"extends": ["github>balena-io/renovate-config"],
-	"postUpdateOptions": ["npmDedupe"]
+	"postUpdateOptions": ["npmDedupe"],
+	"packageRules": [
+    {
+	  "description": "Run npm install and npm dedupe after any package update",
+      "matchPackageNames": ["*"],
+      "postUpgradeTasks": {
+        "commands": [
+          "npm install",
+		  "npm dedupe"
+        ],
+        "fileFilters": ["npm-shrinkwrap.json"],
+        "executionMode": "update"
+      }
+    }
+  ]
 }
