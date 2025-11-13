@@ -410,7 +410,7 @@ async function performBuilds(
 	);
 
 	await Promise.all(
-		Array.from(new Set(imagesToRemove)).map((image) =>
+		Array.from(new Set(imagesToRemove), (image) =>
 			docker.getImage(image).remove({ force: true }),
 		),
 	);
@@ -611,7 +611,7 @@ export function generateTargetState(
 
 	const services: { [serviceId: string]: any } = {};
 	let idx = 1;
-	Object.entries(composition.services).forEach(([name, opts]) => {
+	for (let [name, opts] of Object.entries(composition.services)) {
 		// Get rid of any build specific stuff
 		opts = structuredClone(opts);
 		delete opts.build;
@@ -643,7 +643,7 @@ export function generateTargetState(
 			},
 		};
 		idx += 1;
-	});
+	}
 
 	const targetState = structuredClone(currentTargetState);
 	delete targetState.local.apps;

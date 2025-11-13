@@ -18,6 +18,7 @@
 import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { defaultValues } from '../../utils/helpers';
 
 export default class APIKeyListCmd extends Command {
 	public static aliases = ['api-keys'];
@@ -73,11 +74,7 @@ export default class APIKeyListCmd extends Command {
 		const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];
 		console.log(
 			getVisuals().table.horizontal(
-				keys.map((key) =>
-					Object.fromEntries(
-						Object.entries(key).map(([k, v]) => [k, v ?? 'N/a']),
-					),
-				),
+				keys.map((key) => defaultValues(key, 'N/a')),
 				fields,
 			),
 		);

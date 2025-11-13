@@ -284,7 +284,7 @@ ${dockerignoreHelp}
 				delete compositionToBuild.services[serviceToSkip];
 			}
 			let builtImagesByService: Dictionary<BuiltImage> = {};
-			if (!Object.keys(compositionToBuild.services).length) {
+			if (Object.keys(compositionToBuild.services).length === 0) {
 				logger.logInfo(
 					'Everything is up to date (use --build to force a rebuild)',
 				);

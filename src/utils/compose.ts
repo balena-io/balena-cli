@@ -31,6 +31,7 @@ import type {
 import Logger = require('./logger');
 import type { ProgressCallback } from 'docker-progress';
 import { getCliUx } from './lazy';
+import { pick } from './helpers';
 
 export function generateOpts(options: {
 	source?: string;
@@ -168,35 +169,30 @@ export const createRelease = async function (
 		imgDescriptors,
 	});
 
+	for (const serviceImage of Object.values(serviceImages)) {
+		if ('created_at' in serviceImage) {
+			delete serviceImage.created_at;
+		}
+		if ('is_a_build_of__service' in serviceImage) {
+			delete serviceImage.is_a_build_of__service;
+		}
+	}
+
 	return {
 		client: pinejsClient,
-		release: Object.fromEntries(
-			Object.entries(release).filter(([key]) =>
-				[
-					'id',
-					'status',
-					'commit',
-					'composition',
-					'source',
-					'is_final',
-					'contract',
-					'semver',
-					'start_timestamp',
-					'end_timestamp',
-				].includes(key),
-			),
-		) as typeof release,
-		serviceImages: Object.fromEntries(
-			Object.entries(serviceImages).map(([key, serviceImage]) => {
-				if ('created_at' in serviceImage) {
-					delete serviceImage.created_at;
-				}
-				if ('is_a_build_of__service' in serviceImage) {
-					delete serviceImage.is_a_build_of__service;
-				}
-				return [key, serviceImage];
-			}),
-		),
+		release: pick(release, [
+			'id',
+			'status',
+			'commit',
+			'composition',
+			'source',
+			'is_final',
+			'contract',
+			'semver',
+			'start_timestamp',
+			'end_timestamp',
+		]),
+		serviceImages,
 	};
 };
 

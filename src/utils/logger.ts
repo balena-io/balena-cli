@@ -89,13 +89,13 @@ class Logger {
 			livepush: logger.createLogStream('live'),
 		};
 
-		Object.entries(this.streams).forEach(([key, stream]) => {
+		for (const [key, stream] of Object.entries(this.streams)) {
 			if (key !== 'debug') {
 				stream.pipe(process.stdout);
 			} else if (process.env.DEBUG) {
 				stream.pipe(process.stderr);
 			}
-		});
+		}
 
 		this.formatMessage = logger.formatWithPrefix.bind(logger);
 

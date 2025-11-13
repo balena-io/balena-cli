@@ -276,10 +276,11 @@ export default class LocalConfigureCmd extends Command {
 		schema: Awaited<ReturnType<typeof this.prepareConnectionFile>>,
 	) {
 		schema.mapper = schema.mapper.filter((mapper) => {
-			if (Object.keys(mapper.template).length !== 1) {
+			const keys = Object.keys(mapper.template);
+			if (keys.length !== 1) {
 				return true;
 			}
-			return Object.keys(mapper.template)[0] !== 'hostname';
+			return keys[0] !== 'hostname';
 		});
 	}
 }

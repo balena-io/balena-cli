@@ -17,7 +17,7 @@
 
 import { Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
-import { expandForAppName } from '../../utils/helpers';
+import { defaultValues, expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo, jsonInfo } from '../../utils/messages';
 
@@ -119,11 +119,7 @@ export default class DeviceListCmd extends Command {
 		} else {
 			console.log(
 				getVisuals().table.horizontal(
-					devices.map((dev) =>
-						Object.fromEntries(
-							Object.entries(dev).map(([k, v]) => [k, v ?? 'N/a']),
-						),
-					),
+					devices.map((dev) => defaultValues(dev, 'N/a')),
 					fields,
 				),
 			);

@@ -93,18 +93,16 @@ export async function inspectTarStream(
 		sourceTarStream.pipe(extract);
 	});
 
-	const $expected = Object.fromEntries(
-		Object.entries(expectedFiles).map(([key, v]) => {
-			delete v.testStream;
-			delete v.contents;
-			return [key, v];
-		}),
-	);
+	for (const val of Object.values(expectedFiles)) {
+		delete val.testStream;
+		delete val.contents;
+	}
+
 	try {
-		expect($expected).to.deep.equal(found);
+		expect(expectedFiles).to.deep.equal(found);
 	} catch (e) {
 		const diffStr = JSON.stringify(
-			diff($expected, found),
+			diff(expectedFiles, found),
 			(_k, v) => (v === undefined ? 'undefined' : v),
 			4,
 		);

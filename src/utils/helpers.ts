@@ -513,3 +513,26 @@ export function pickAndRename<T extends Dictionary<any>>(
 			.map(([key, val]) => [rename[key], val]),
 	);
 }
+
+export const defaultValues = <T, U>(
+	obj: Record<string, T | U | undefined>,
+	defaultValue: U,
+): Record<string, Exclude<T, undefined | null> | U> => {
+	for (const key of Object.keys(obj)) {
+		obj[key] ??= defaultValue;
+	}
+	return obj as Record<string, Exclude<T, undefined | null> | U>;
+};
+
+export const pick = <T extends object, U extends keyof T>(
+	obj: T,
+	keys: U[],
+): Pick<T, U> => {
+	const result: Partial<Pick<T, U>> = {};
+	for (const key of keys) {
+		if (Object.hasOwn(obj, key)) {
+			result[key] = obj[key];
+		}
+	}
+	return result as Pick<T, U>;
+};

@@ -22,6 +22,7 @@ import type * as BalenaSdk from 'balena-sdk';
 import * as yaml from 'js-yaml';
 import { tryAsInteger } from '../../utils/validation';
 import { jsonInfo } from '../../utils/messages';
+import { defaultValues } from '../../utils/helpers';
 
 export const commitOrIdArg = Args.custom({
 	parse: tryAsInteger,
@@ -114,9 +115,7 @@ export default class ReleaseCmd extends Command {
 				.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
 				.join('\n');
 
-			const values = Object.fromEntries(
-				Object.entries(release).map(([key, val]) => [key, val ?? 'N/a']),
-			) as Dictionary<string>;
+			const values = defaultValues(release, 'N/a');
 			values['tags'] = tagStr;
 
 			console.log(getVisuals().table.vertical(values, [...fields, 'tags']));

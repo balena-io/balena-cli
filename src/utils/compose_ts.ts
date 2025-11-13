@@ -43,6 +43,7 @@ import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
 import Logger = require('./logger');
 import { exists } from './which';
+import { pick } from './helpers';
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 
@@ -889,7 +890,7 @@ export async function checkBuildSecretsRequirements(
 	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
 	if (
 		metaObj?.['build-secrets'] != null &&
-		Object.keys(metaObj['build-secrets']).length
+		Object.keys(metaObj['build-secrets']).length !== 0
 	) {
 		const dockerUtils = await import('./docker');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
@@ -1187,13 +1188,16 @@ export async function validateProjectDirectory(
 		}
 		if (!opts.noParentCheck) {
 			const checkCompose = async (folder: string) => {
-				return (
-					await Promise.all(
+				try {
+					await Promise.any(
 						compositionFileNames.map((filename) =>
-							exists(path.join(folder, filename)),
+							fs.access(path.join(folder, filename)),
 						),
-					)
-				).some(Boolean);
+					);
+					return true;
+				} catch {
+					return false;
+				}
 			};
 			const [hasCompose, hasParentCompose] = await Promise.all([
 				checkCompose(opts.projectPath),
@@ -1351,21 +1355,17 @@ async function pushServiceImages(
 
 			// These are the only update-able image fields in bC atm, and passing
 			// the whole image object in v7+ would result the allowlist to reject the request.
-			const imagePayload = Object.fromEntries(
-				Object.entries(serviceImage).filter(([key]) =>
-					[
-						'end_timestamp',
-						'project_type',
-						'error_message',
-						'build_log',
-						'push_timestamp',
-						'status',
-						'content_hash',
-						'dockerfile',
-						'image_size',
-					].includes(key),
-				),
-			);
+			const imagePayload = pick(serviceImage, [
+				'end_timestamp',
+				'project_type',
+				'error_message',
+				'build_log',
+				'push_timestamp',
+				'status',
+				'content_hash',
+				'dockerfile',
+				'image_size',
+			]);
 
 			if (
 				typeof imagePayload.error_message === 'string' &&

@@ -392,12 +392,10 @@ export function deepTemplateReplace(
 			if (Array.isArray(data)) {
 				return data.map((i) => deepTemplateReplace(i, templateVars));
 			}
-			return Object.fromEntries(
-				Object.entries(data).map(([key, value]) => [
-					key,
-					deepTemplateReplace(value, templateVars),
-				]),
-			);
+			for (const key of Object.keys(data)) {
+				data[key] = deepTemplateReplace(data[key], templateVars);
+			}
+			return data;
 		default:
 			// number, undefined, null, or something else
 			return data;
@@ -421,9 +419,10 @@ export function deepJsonParse(data: any): any {
 	} else if (Array.isArray(data)) {
 		return data.map((i) => deepJsonParse(i));
 	} else if (typeof data === 'object') {
-		return Object.fromEntries(
-			Object.entries(data).map(([key, value]) => [key, deepJsonParse(value)]),
-		);
+		for (const key of Object.keys(data)) {
+			data[key] = deepJsonParse(data[key]);
+		}
+		return data;
 	}
 	return data;
 }
