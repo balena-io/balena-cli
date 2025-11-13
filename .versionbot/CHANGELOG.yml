@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update GitHub Artifact Actions to v5
+      hash: baa5edade5fd205a31638b17014623e80a2231e4
+      body: |
+        Update actions/download-artifact from 4.1.9 to 5.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 22.5.2
+  title: ""
+  date: 2025-11-13T17:57:09.308Z
+- commits:
     - subject: Run npm install and npm dedupe after any package update
       hash: 6d625e468afff8c106d9df52c8258a0595d1f607
       body: ""
