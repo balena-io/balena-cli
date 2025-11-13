@@ -39,7 +39,7 @@ runs:
       run: tar -xf ${{ runner.temp }}/custom.tgz
 
     - name: Setup Node.js
-      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+      uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
       with:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: npm
