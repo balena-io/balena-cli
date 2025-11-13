@@ -1,4 +1,18 @@
 - commits:
+    - subject: Run npm install and npm dedupe after any package update
+      hash: 6d625e468afff8c106d9df52c8258a0595d1f607
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 22.5.1
+  title: ""
+  date: 2025-11-13T16:49:08.563Z
+- commits:
     - subject: "feat: add  update command"
       hash: e7f5859e0e6fd12674cc79f1489f98c1134c20fa
       body: ""
