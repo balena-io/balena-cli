@@ -164,6 +164,7 @@ ${dockerignoreHelp}
 			{
 				dockerfilePath: opts.dockerfile,
 				noParentCheck: opts['noparent-check'] || false,
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 				projectPath: opts.source || '.',
 				registrySecretsPath: opts['registry-secrets'],
 			},

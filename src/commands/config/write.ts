@@ -60,6 +60,7 @@ export default class ConfigWriteCmd extends Command {
 		const { denyMount, safeUmount } = await import('../../utils/umount');
 
 		const drive =
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			options.drive || (await getVisuals().drive('Select the device drive'));
 		await safeUmount(drive);
 
@@ -89,6 +90,7 @@ export default class ConfigWriteCmd extends Command {
 		// like `os.udevRules.101`, _.set() creates a udevRules array (rather
 		// than a dictionary) and sets the 101st array element to value, while
 		// we actually want udevRules to be dictionary like { '101': value }
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		_.setWith(configJSON, key, value, (v) => v || {});
 	}
 }

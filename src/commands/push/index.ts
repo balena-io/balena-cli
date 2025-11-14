@@ -371,6 +371,7 @@ export default class PushCmd extends Command {
 				detached: options.detached,
 				services: options.service,
 				system: options.system,
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 				env: options.env || [],
 				convertEol: !options['noconvert-eol'],
 			});

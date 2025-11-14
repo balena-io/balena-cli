@@ -72,7 +72,7 @@ export async function inspectTarStream(
 				try {
 					expect(foundFiles).to.not.have.property(header.name);
 					foundFiles[header.name] = {
-						fileSize: header.size || 0,
+						fileSize: header.size ?? 0,
 						type: header.type,
 					};
 					const expected = expectedFiles[header.name];
@@ -128,7 +128,7 @@ async function defaultTestStream(
 	}
 	const [buf, buf2] = await Promise.all([
 		streamToBuffer(stream),
-		expectedContents ||
+		expectedContents ??
 			fs.readFile(path.join(projectPath, PathUtils.toNativePath(header.name))),
 	]);
 	const msg = stripIndent`
@@ -165,12 +165,12 @@ export async function testDockerBuildStream(o: {
 	services: string[]; // e.g. ['main'] or ['service1', 'service2']
 	tag?: string; // --tag command line flag
 }) {
-	const expectedErrorLines = deepTemplateReplace(o.expectedErrorLines || [], o);
+	const expectedErrorLines = deepTemplateReplace(o.expectedErrorLines ?? [], o);
 	const expectedResponseLines = deepTemplateReplace(o.expectedResponseLines, o);
 
 	for (const service of o.services) {
 		// tagPrefix is, for example, 'myApp' if the path is 'path/to/myApp'
-		const projectName = o.projectName || path.basename(o.projectPath);
+		const projectName = o.projectName ?? path.basename(o.projectPath);
 		const tag = makeImageName(projectName, service, o.tag);
 		const expectedFiles = o.expectedFilesByService[service];
 		const expectedQueryParams = deepTemplateReplace(

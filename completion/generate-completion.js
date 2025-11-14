@@ -20,18 +20,19 @@ const rootDir = path.join(__dirname, '..');
 const fs = require('fs');
 const manifestFile = 'oclif.manifest.json';
 
-commandsFilePath = path.join(rootDir, manifestFile);
+const commandsFilePath = path.join(rootDir, manifestFile);
 if (fs.existsSync(commandsFilePath)) {
 	console.log('Generating shell auto completion files...');
 } else {
 	console.error(`generate-completion.js: Could not find "${manifestFile}"`);
-	process.exitCode = 1;
-	return;
+	process.exit(1);
 }
 
 const commandsJson = JSON.parse(fs.readFileSync(commandsFilePath, 'utf8'));
 
+/** @type {string[]} */
 const mainCommands = [];
+/** @type {string[][]} */
 const additionalCommands = [];
 for (const key of Object.keys(commandsJson.commands).sort()) {
 	const cmd = key.split(':');
@@ -47,20 +48,20 @@ for (const key of Object.keys(commandsJson.commands).sort()) {
 const mainCommandsStr = mainCommands.join(' ');
 
 // GENERATE BASH COMPLETION FILE
-bashFilePathIn = path.join(__dirname, '/templates/bash.template');
-bashFilePathOut = path.join(__dirname, 'balena-completion.bash');
+const bashFilePathIn = path.join(__dirname, '/templates/bash.template');
+const bashFilePathOut = path.join(__dirname, 'balena-completion.bash');
 
 try {
 	fs.unlinkSync(bashFilePathOut);
 } catch (error) {
-	process.exitCode = 1;
-	return console.error(error);
+	console.error(error);
+	process.exit(1);
 }
 
 fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 	if (err) {
-		process.exitCode = 1;
-		return console.error(err);
+		console.error(err);
+		process.exit(1);
 	}
 
 	data = data.replace(
@@ -72,6 +73,7 @@ fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 		/\$main_commands\$/g,
 		'main_commands="' + mainCommandsStr + '"',
 	);
+	/** @type {string[]} */
 	let subCommands = [];
 	let prevElement = additionalCommands[0][0];
 	additionalCommands.forEach(function (element) {
@@ -102,27 +104,27 @@ fs.readFile(bashFilePathIn, 'utf8', function (err, data) {
 
 	fs.writeFile(bashFilePathOut, data, 'utf8', function (error) {
 		if (error) {
-			process.exitCode = 1;
-			return console.error(error);
+			console.error(error);
+			process.exit(1);
 		}
 	});
 });
 
 // GENERATE ZSH COMPLETION FILE
-zshFilePathIn = path.join(__dirname, '/templates/zsh.template');
-zshFilePathOut = path.join(__dirname, '_balena');
+const zshFilePathIn = path.join(__dirname, '/templates/zsh.template');
+const zshFilePathOut = path.join(__dirname, '_balena');
 
 try {
 	fs.unlinkSync(zshFilePathOut);
 } catch (error) {
-	process.exitCode = 1;
-	return console.error(error);
+	console.error(error);
+	process.exit(1);
 }
 
 fs.readFile(zshFilePathIn, 'utf8', function (err, data) {
 	if (err) {
-		process.exitCode = 1;
-		return console.error(err);
+		console.error(err);
+		process.exit(1);
 	}
 
 	data = data.replace(
@@ -134,6 +136,7 @@ fs.readFile(zshFilePathIn, 'utf8', function (err, data) {
 		/\$main_commands\$/g,
 		'main_commands=( ' + mainCommandsStr + ' )',
 	);
+	/** @type {string[]} */
 	let subCommands = [];
 	let prevElement = additionalCommands[0][0];
 	additionalCommands.forEach(function (element) {
@@ -168,8 +171,8 @@ fs.readFile(zshFilePathIn, 'utf8', function (err, data) {
 
 	fs.writeFile(zshFilePathOut, data, 'utf8', function (error) {
 		if (error) {
-			process.exitCode = 1;
-			return console.error(error);
+			console.error(error);
+			process.exit(1);
 		}
 	});
 });

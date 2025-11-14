@@ -75,26 +75,25 @@ export default class GenerateCmd extends Command {
 		let expiryDateResponse: string | number | undefined = params.expiryDate;
 		let key;
 		try {
-			if (!expiryDateResponse) {
-				expiryDateResponse = await getCliForm().ask({
-					message: 'Please pick an expiry date for the API key',
-					type: 'list',
-					choices: [...durations, 'custom', 'never'].map((duration) => ({
-						name:
-							duration === 'never'
-								? 'No expiration'
-								: typeof duration === 'number'
-									? formatDuration(
-											intervalToDuration({
-												start: 0,
-												end: duration * 24 * 60 * 60 * 1000,
-											}),
-										)
-									: 'Custom expiration',
-						value: duration,
-					})),
-				});
-			}
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			expiryDateResponse ||= await getCliForm().ask({
+				message: 'Please pick an expiry date for the API key',
+				type: 'list',
+				choices: [...durations, 'custom', 'never'].map((duration) => ({
+					name:
+						duration === 'never'
+							? 'No expiration'
+							: typeof duration === 'number'
+								? formatDuration(
+										intervalToDuration({
+											start: 0,
+											end: duration * 24 * 60 * 60 * 1000,
+										}),
+									)
+								: 'Custom expiration',
+					value: duration,
+				})),
+			});
 			let expiryDate: Date | null;
 			if (expiryDateResponse === 'never') {
 				expiryDate = null;

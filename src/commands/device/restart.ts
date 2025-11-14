@@ -17,7 +17,7 @@
 
 import { Flags, Args, Command } from '@oclif/core';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
-import type { BalenaSDK } from 'balena-sdk';
+import type { BalenaSDK, CurrentService } from 'balena-sdk';
 
 export default class DeviceRestartCmd extends Command {
 	public static description = stripIndent`
@@ -122,7 +122,7 @@ export default class DeviceRestartCmd extends Command {
 			// Each service is an array of `CurrentServiceWithCommit`
 			// because when service is updating, it will actually hold 2 services
 			// Target commit matching `device.is_running__release`
-			const serviceContainer = service.find((s) => {
+			const serviceContainer = service.find((s: CurrentService) => {
 				return s.commit === activeRelease;
 			});
 

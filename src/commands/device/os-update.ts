@@ -131,7 +131,7 @@ export default class DeviceOsUpdateCmd extends Command {
 				hupVersionInfo.versions.map(async (version) => {
 					const takeoverRequired =
 						(await sdk.models.os.getOsUpdateType(
-							getExpandedProp(is_of__device_type, 'slug')!,
+							getExpandedProp(is_of__device_type, 'slug') ?? '',
 							currentOsVersion,
 							version,
 						)) === 'takeover';
@@ -151,7 +151,7 @@ export default class DeviceOsUpdateCmd extends Command {
 
 		const takeoverRequired =
 			(await sdk.models.os.getOsUpdateType(
-				getExpandedProp(is_of__device_type, 'slug')!,
+				getExpandedProp(is_of__device_type, 'slug') ?? '',
 				currentOsVersion,
 				targetOsVersion,
 			)) === 'takeover';

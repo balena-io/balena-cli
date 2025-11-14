@@ -104,6 +104,7 @@ export async function getContainerIdForService(
 	}
 
 	if (containerNames.length > 1) {
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const [s, d] = [opts.service, opts.deviceUuid || opts.hostname];
 		throw new ExpectedError(stripIndent`
 			Found more than one container matching service name "${s}" on device "${d}":
@@ -112,6 +113,7 @@ export async function getContainerIdForService(
 		`);
 	}
 	if (!containerId) {
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const [s, d] = [opts.service, opts.deviceUuid || opts.hostname];
 		throw new ExpectedError(
 			`Could not find a container matching service name "${s}" on device "${d}".${

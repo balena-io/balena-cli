@@ -106,6 +106,7 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 		});
 	} catch (e) {
 		if (process.env.DEBUG) {
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			console.error(`[debug] Event tracking error: ${e.message || e}`);
 		}
 

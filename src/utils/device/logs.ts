@@ -25,6 +25,7 @@ import { getCliUx } from '../lazy';
 class DeviceConnectionLostError extends ExpectedError {
 	public static defaultMsg = 'Connection to device lost';
 	constructor(msg?: string) {
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		super(msg || DeviceConnectionLostError.defaultMsg);
 	}
 }

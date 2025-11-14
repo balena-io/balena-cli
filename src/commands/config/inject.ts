@@ -55,6 +55,7 @@ export default class ConfigInjectCmd extends Command {
 		const { safeUmount } = await import('../../utils/umount');
 
 		const drive =
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			options.drive || (await getVisuals().drive('Select the device/OS drive'));
 		await safeUmount(drive);
 
