@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-python action to v6
+      hash: c366802695f24ae1029ab5c6613b4e4dfe82b388
+      body: |
+        Update actions/setup-python from 4 to 6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 22.5.5
+  title: ""
+  date: 2025-11-14T15:51:14.833Z
+- commits:
     - subject: "renovate: Clean node_modules and npm cache before dedupe"
       hash: 7899f0a36ae079ee9691f3b315015dc88f37722e
       body: ""
