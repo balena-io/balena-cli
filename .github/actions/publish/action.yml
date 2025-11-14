@@ -46,7 +46,7 @@ runs:
 
     - name: Set up Python 3.11
       if: runner.os == 'macOS'
-      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4
+      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
       with:
         python-version: '3.11'
 
