@@ -31,6 +31,16 @@ runs:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: npm
 
+    # TODO: remove once we update the Linux runner to a newer Ubuntu that ships with gcc/g++ 14
+    - name: Install gcc & g++ 14
+      if: runner.os == 'Linux' && runner.arch == 'ARM64'
+      shell: bash
+      run: |
+        # Install newer build dependencies to workaround a build issue
+        # with etcher-sdk's lzma-native failing to build on node24
+        sudo apt-get update && sudo apt-get -y install --no-install-recommends gcc-14 g++-14
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 60 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+
     - name: Set up Python 3.11
       if: runner.os == 'macOS'
       uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
