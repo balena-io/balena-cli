@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { Command } from '@oclif/core';
 
 export default class FleetListCmd extends Command {
-	public static aliases = ['fleets'];
-	public static deprecateAliases = true;
+	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
 		List all fleets.
@@ -33,10 +31,6 @@ export default class FleetListCmd extends Command {
 	`;
 
 	public static examples = ['$ balena fleet list'];
-
-	public static flags = {
-		json: cf.json,
-	};
 
 	public static authenticated = true;
 	public static primary = true;
@@ -74,8 +68,7 @@ export default class FleetListCmd extends Command {
 		}));
 
 		if (options.json) {
-			console.log(JSON.stringify(applicationsToDisplay, null, 4));
-			return;
+			return JSON.stringify(applicationsToDisplay, null, 4);
 		}
 
 		console.log(

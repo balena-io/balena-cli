@@ -36,7 +36,7 @@ const standalonePath = path.resolve(
 export interface TestOutput {
 	err: string[]; // stderr
 	out: string[]; // stdout
-	exitCode?: string | number; // process.exitCode
+	exitCode?: string | number | null; // process.exitCode
 }
 
 function matchesNodeEngineVersionWarn(msg: string) {
@@ -74,7 +74,7 @@ export function filterCliOutputForTests({
 	out: string[];
 }): { err: string[]; out: string[] } {
 	// eslint-disable-next-line no-control-regex
-	const unicodeCharacterEscapesRegex = /\u001b\[3[0-9]m/g;
+	const unicodeCharacterEscapesRegex = /\u001b\[[2,3][0-9]?m/g;
 	return {
 		err: err
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
@@ -94,6 +94,13 @@ export function filterCliOutputForTests({
 					) &&
 					!line.match(
 						/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
+					) &&
+					// TODO: Drop once https://github.com/oclif/plugin-update/pull/1222 gets merged and we update the plugin to that version
+					!(
+						process.platform === 'win32' &&
+						line.match(
+							/\(node:\d+\) \[DEP0190\] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated/,
+						)
 					),
 			),
 		out: out
