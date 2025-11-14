@@ -1,4 +1,18 @@
 - commits:
+    - subject: "renovate: Clean node_modules and npm cache before dedupe"
+      hash: 7899f0a36ae079ee9691f3b315015dc88f37722e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 22.5.4
+  title: ""
+  date: 2025-11-14T14:48:59.479Z
+- commits:
     - subject: Update actions/setup-node action to v6
       hash: 9d82d2dd30eb1e928ddb7596403cb1ea9bc33195
       body: |
