@@ -23,6 +23,7 @@ import { jsonInfo } from '../../utils/messages';
 import * as JSONStream from 'JSONStream';
 import { Readable, Writable } from 'stream';
 import { pipeline } from 'stream/promises';
+import { defaultValues } from '../../utils/helpers';
 
 export default class ReleaseListCmd extends Command {
 	public static aliases = ['releases'];
@@ -94,10 +95,9 @@ export default class ReleaseListCmd extends Command {
 				}),
 			);
 		} else {
-			const _ = await import('lodash');
 			console.log(
 				getVisuals().table.horizontal(
-					releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
+					releases.map((rel) => defaultValues(rel, 'N/a')),
 					fields,
 				),
 			);

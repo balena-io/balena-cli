@@ -126,8 +126,7 @@ export default class DeviceTunnelCmd extends Command {
 		const uuid = await getOnlineTargetDeviceUuid(sdk, params.deviceOrFleet);
 		logger.logInfo(`Opening a tunnel to ${uuid}...`);
 
-		const _ = await import('lodash');
-		const localListeners = _.chain(options.port)
+		const localListeners = options.port
 			.map((mapping) => {
 				return this.parsePortMapping(mapping);
 			})
@@ -184,8 +183,7 @@ export default class DeviceTunnelCmd extends Command {
 
 					return false;
 				}
-			})
-			.value();
+			});
 
 		const results = await Promise.all(localListeners);
 		if (!results.includes(true)) {
