@@ -20,6 +20,24 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 import { runCommand } from '../../utils/helpers';
+import type { ImgConfig } from '../../utils/config';
+
+async function validateArgsAndOptions(options: FlagsDef) {
+	// 'application' & 'config` options are declared "exclusive" in the oclif
+	// flag definitions above, so oclif will enforce that they are not used together.
+	if (!options.fleet && !options.config) {
+		const { ExpectedError } = await import('../../errors');
+		throw new ExpectedError(
+			"Either the '--fleet' or the '--config' option must be provided",
+		);
+	}
+
+	const { validateFilePath } = await import('../../utils/validation');
+
+	if (options.config != null) {
+		await validateFilePath(options.config);
+	}
+}
 
 interface FlagsDef {
 	fleet?: string;
@@ -68,43 +86,53 @@ export default class DeviceInitCmd extends Command {
 	public static examples = [
 		'$ balena device init',
 		'$ balena device init -f myorg/myfleet',
-		'$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes',
-		'$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes',
+		'$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5',
+		'$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5',
+		'$ balena device init --config config.json --os-version 2.101.7 --drive /dev/disk5 --yes',
 	];
 
-	public static flags = {
-		fleet: cf.fleet,
-		yes: cf.yes,
-		advanced: Flags.boolean({
-			char: 'v',
-			description: 'show advanced configuration options',
-		}),
-		'os-version': Flags.string({
-			description: stripIndent`
-				exact version number, or a valid semver range,
-				or 'latest' (includes pre-releases),
-				or 'default' (excludes pre-releases if at least one stable version is available),
-				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-				or 'menu' (will show the interactive menu)
-				`,
-		}),
-		drive: cf.drive,
-		config: Flags.string({
-			description: 'path to the config JSON file, see `balena config generate`',
-		}),
-		'provisioning-key-name': Flags.string({
-			description: 'custom key name assigned to generated provisioning api key',
-		}),
-		'provisioning-key-expiry-date': Flags.string({
-			description:
-				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
-		}),
-	};
+	public static flags = (() => {
+		const inlineConfiFlags = {
+			advanced: Flags.boolean({
+				char: 'v',
+				description: 'show advanced configuration options',
+			}),
+			'provisioning-key-name': Flags.string({
+				description:
+					'custom key name assigned to generated provisioning api key',
+			}),
+			'provisioning-key-expiry-date': Flags.string({
+				description:
+					'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
+			}),
+		};
+		return {
+			fleet: { ...cf.fleet, exclusive: ['config'] },
+			config: Flags.string({
+				description:
+					'path to the config JSON file, see `balena config generate`',
+				exclusive: ['fleet', ...Object.keys(inlineConfiFlags)],
+			}),
+			'os-version': Flags.string({
+				description: stripIndent`
+					exact version number, or a valid semver range,
+					or 'latest' (includes pre-releases),
+					or 'default' (excludes pre-releases if at least one stable version is available),
+					or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+					or 'menu' (will show the interactive menu)
+					`,
+			}),
+			...inlineConfiFlags,
+			drive: cf.drive,
+			yes: cf.yes,
+		};
+	})();
 
 	public static authenticated = true;
 
 	public async run() {
 		const { flags: options } = await this.parse(DeviceInitCmd);
+		await validateArgsAndOptions(options);
 
 		// Imports
 		const { promisify } = await import('util');
@@ -119,9 +147,17 @@ export default class DeviceInitCmd extends Command {
 		const logger = Logger.getLogger();
 		const balena = getBalenaSdk();
 
+		let fleetSlugOrId: string | number | undefined = options.fleet;
+		let configJson: ImgConfig | undefined;
+		if (options.config != null) {
+			const { readAndValidateConfigJson } = await import('../../utils/config');
+			configJson = await readAndValidateConfigJson(options.config);
+			fleetSlugOrId = configJson.applicationId;
+		}
+
 		// Get application and
-		const application = options.fleet
-			? await getApplication(balena, options.fleet, {
+		const application = fleetSlugOrId
+			? await getApplication(balena, fleetSlugOrId, {
 					$select: ['id', 'slug'],
 					$expand: {
 						is_for__device_type: {
@@ -134,19 +170,22 @@ export default class DeviceInitCmd extends Command {
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();
 		console.info(`Registering to ${application.slug}: ${deviceUuid}`);
-		await balena.models.device.register(application.id, deviceUuid);
-		const device = await balena.models.device.get(deviceUuid);
+		const device = await balena.models.device.register(
+			application.id,
+			deviceUuid,
+		);
 
 		// Download OS, configure, and flash
 		const tmpPath = (await tmpNameAsync()) as string;
 		try {
 			logger.logDebug(`Downloading OS image...`);
 			const osVersion = options['os-version'] || 'default';
-			const deviceType = application.is_for__device_type[0].slug;
+			const deviceType =
+				configJson?.deviceType ?? application.is_for__device_type[0].slug;
 			await downloadOSImage(deviceType, tmpPath, osVersion);
 
 			logger.logDebug(`Configuring OS image...`);
-			await this.configureOsImage(tmpPath, device.uuid, options);
+			await this.configureOsImage(tmpPath, device, options, configJson, logger);
 
 			logger.logDebug(`Writing OS image...`);
 			await this.writeOsImage(tmpPath, deviceType, options);
@@ -169,29 +208,66 @@ export default class DeviceInitCmd extends Command {
 		return device.uuid;
 	}
 
-	async configureOsImage(path: string, uuid: string, options: FlagsDef) {
-		const configureCommand = ['os', 'configure', path, '--device', uuid];
-		if (options.config) {
-			configureCommand.push('--config', options.config);
-		} else if (options.advanced) {
-			configureCommand.push('--advanced');
-		}
+	async configureOsImage(
+		osImagePath: string,
+		device: { id: number; uuid: string; api_key: string },
+		options: FlagsDef,
+		configJson: ImgConfig | undefined,
+		logger: import('../../utils/logger'),
+	) {
+		let tmpConfigJsonPath: string | undefined;
+		const { promises: fs } = await import('node:fs');
 
-		if (options['provisioning-key-name']) {
-			configureCommand.push(
-				'--provisioning-key-name',
-				options['provisioning-key-name'],
-			);
-		}
+		try {
+			const configureCommand = ['os', 'configure', osImagePath];
+			if (configJson != null) {
+				// Since `os configure` doesn't allow mixing --config with other parameters
+				// when the user has provided a config.json, we need to create a temp clone,
+				// augment it withe extra parameters (like device & api key), and pass that
+				// to `os configure` via --config
+				const { populateDeviceConfig } = await import('../../utils/config');
+				populateDeviceConfig(configJson, device, device.api_key);
 
-		if (options['provisioning-key-expiry-date']) {
-			configureCommand.push(
-				'--provisioning-key-expiry-date',
-				options['provisioning-key-expiry-date'],
-			);
-		}
+				const tmp = await import('tmp');
+				const { promisify } = await import('util');
+				const tmpNameAsync = promisify(tmp.tmpName);
+				tmp.setGracefulCleanup();
 
-		await runCommand(configureCommand);
+				tmpConfigJsonPath = (await tmpNameAsync()) as string;
+				const fs = await import('fs/promises');
+				await fs.writeFile(tmpConfigJsonPath, JSON.stringify(configJson));
+
+				configureCommand.push('--config', tmpConfigJsonPath);
+			} else {
+				configureCommand.push('--device', device.uuid);
+
+				if (options.advanced) {
+					configureCommand.push('--advanced');
+				}
+
+				if (options['provisioning-key-name']) {
+					configureCommand.push(
+						'--provisioning-key-name',
+						options['provisioning-key-name'],
+					);
+				}
+
+				if (options['provisioning-key-expiry-date']) {
+					configureCommand.push(
+						'--provisioning-key-expiry-date',
+						options['provisioning-key-expiry-date'],
+					);
+				}
+			}
+
+			await runCommand(configureCommand);
+		} finally {
+			if (tmpConfigJsonPath != null) {
+				// Remove temp config.json
+				logger.logDebug(`Removing temporary config.json...`);
+				await fs.rm(tmpConfigJsonPath, { recursive: true, force: true });
+			}
+		}
 	}
 
 	async writeOsImage(path: string, deviceType: string, options: FlagsDef) {

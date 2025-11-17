@@ -16,12 +16,12 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
 export default class FleetCmd extends Command {
+	public static enableJsonFlag = true;
 	public static description = stripIndent`
 		Display information about a single fleet.
 
@@ -44,7 +44,6 @@ export default class FleetCmd extends Command {
 			default: false,
 			description: 'open fleet dashboard page',
 		}),
-		json: cf.json,
 	};
 
 	public static authenticated = true;
@@ -82,8 +81,7 @@ export default class FleetCmd extends Command {
 		};
 
 		if (options.json) {
-			console.log(JSON.stringify(applicationToDisplay, null, 4));
-			return;
+			return JSON.stringify(applicationToDisplay, null, 4);
 		}
 
 		// Emulate table.vertical title output, but avoid uppercasing and inserting spaces

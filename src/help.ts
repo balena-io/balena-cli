@@ -220,7 +220,7 @@ See: https://git.io/JRHUW#deprecation-policy`,
 			desc = desc.substring(0, desc.length - 1);
 		}
 		// Lowercase first letter if second char is lowercase, to preserve e.g. 'SSH ...')
-		if (desc[1] === desc[1]?.toLowerCase()) {
+		if (desc.length > 1 && desc[1] === desc[1].toLowerCase()) {
 			desc = `${desc[0].toLowerCase()}${desc.substring(1)}`;
 		}
 		return ux.colorize('gray', desc);

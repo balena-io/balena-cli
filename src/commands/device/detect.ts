@@ -19,8 +19,7 @@ import { Flags, Command } from '@oclif/core';
 import { getCliUx, stripIndent } from '../../utils/lazy';
 
 export default class DeviceDetectCmd extends Command {
-	public static aliases = ['scan'];
-	public static deprecateAliases = true;
+	public static enableJsonFlag = true;
 
 	public static description = stripIndent`
 		Scan for balenaOS devices on your local network.
@@ -48,11 +47,6 @@ export default class DeviceDetectCmd extends Command {
 		timeout: Flags.integer({
 			char: 't',
 			description: 'scan timeout in seconds',
-		}),
-		json: Flags.boolean({
-			default: false,
-			char: 'j',
-			description: 'produce JSON output instead of tabular output',
 		}),
 	};
 
@@ -171,11 +165,10 @@ export default class DeviceDetectCmd extends Command {
 			);
 			return;
 		}
-		console.log(
-			options.json
-				? JSON.stringify(cmdOutput, null, 4)
-				: prettyjson.render(cmdOutput, { noColor: true }),
-		);
+		if (options.json) {
+			return JSON.stringify(cmdOutput, null, 4);
+		}
+		console.log(prettyjson.render(cmdOutput, { noColor: true }));
 	}
 
 	protected static dockerInfoProperties = [

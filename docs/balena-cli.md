@@ -44,10 +44,7 @@ are supported. Alternative shells include:
   balena CLI with WSL and Docker Desktop for Windows.
 
 On **macOS** and **Linux,** the standard terminal window is supported. Optionally, `bash` command
-auto completion may be enabled by copying the
-[balena_comp](https://github.com/balena-io/balena-cli/blob/master/completion/balena-completion.bash)
-file to your system's `bash_completion` directory: check [Docker's command completion
-guide](https://docs.docker.com/compose/completion/) for system setup instructions.
+auto completion may be enabled by running `balena autocomplete`.
 
 ## Logging in
 
@@ -257,7 +254,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - OS
 
-	- [os build-config](#os-build-config)
 	- [os configure](#os-configure)
 	- [os download](#os-download)
 	- [os initialize](#os-initialize)
@@ -316,10 +312,6 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [util available-drives](#util-available-drives)
 
-- Version
-
-	- [version](#version)
-
 # API Keys
 
 ## api-key generate
@@ -349,13 +341,6 @@ the API key name
 the expiry date of the API key as an ISO date string, or "never" for no expiry
 
 ## api-key list
-
-### Aliases
-
-- `api-keys` *(deprecated)*
-
-
-To use one of the aliases, replace `api-key list` with the alias.
 
 ### Description
 
@@ -653,10 +638,6 @@ custom device key - note that this is only supported on balenaOS 2.0.3+
 
 device type slug (run 'balena device-type list' for possible values)
 
-#### --generate-device-api-key
-
-generate a fresh device key for the device. No-op and deprecated since a key is always auto-generated unless --deviceApiKey is provided.
-
 #### -o, --output OUTPUT
 
 path of output file
@@ -737,10 +718,6 @@ Examples:
 #### -d, --drive DRIVE
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## config reconfigure
 
@@ -1241,13 +1218,6 @@ Docker host TLS key file
 
 ## device-type list
 
-### Aliases
-
-- `devices supported` *(deprecated)*
-
-
-To use one of the aliases, replace `device-type list` with the alias.
-
 ### Description
 
 List the device types supported by balena (like 'raspberrypi3' or 'intel-nuc').
@@ -1256,23 +1226,12 @@ By default, only actively supported device types are listed.
 The --all option can be used to list all device types, including those that are
 no longer supported by balena.
 
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings (for example, the ALIASES column contains a
-list of zero or more values). The 'jq' utility may be helpful in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena device-type list
 	$ balena device-type list --all
-	$ balena device-type list --json
 
 ### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### --all
 
@@ -1308,13 +1267,6 @@ answer "yes" to all questions (non interactive use)
 
 ## device detect
 
-### Aliases
-
-- `scan` *(deprecated)*
-
-
-To use one of the aliases, replace `device detect` with the alias.
-
 ### Description
 
 Scan for balenaOS devices on your local network.
@@ -1340,10 +1292,6 @@ display full info
 
 scan timeout in seconds
 
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 ## device identify
 
 ### Description
@@ -1366,17 +1314,10 @@ the uuid of the device to identify
 
 Show information about a single device.
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena device 7cf02a6
 	$ balena device 7cf02a6 --view
-	$ balena device 7cf02a6 --json
 
 ### Arguments
 
@@ -1385,10 +1326,6 @@ Examples:
 the device uuid
 
 ### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### --view
 
@@ -1438,8 +1375,9 @@ Examples:
 
 	$ balena device init
 	$ balena device init -f myorg/myfleet
-	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes
-	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes
+	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5
+	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5
+	$ balena device init --config config.json --os-version 2.101.7 --drive /dev/disk5 --yes
 
 ### Options
 
@@ -1447,13 +1385,9 @@ Examples:
 
 fleet name or slug (preferred)
 
-#### -y, --yes
+#### --config CONFIG
 
-answer "yes" to all questions (non interactive use)
-
-#### -v, --advanced
-
-show advanced configuration options
+path to the config JSON file, see `balena config generate`
 
 #### --os-version OS-VERSION
 
@@ -1463,15 +1397,9 @@ or 'default' (excludes pre-releases if at least one stable version is available)
 or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
 or 'menu' (will show the interactive menu)
 
-#### -d, --drive DRIVE
+#### -v, --advanced
 
-the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
-Careful with this as you can erase your hard drive.
-Check `balena util available-drives` for available options.
-
-#### --config CONFIG
-
-path to the config JSON file, see `balena config generate`
+show advanced configuration options
 
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
@@ -1481,14 +1409,17 @@ custom key name assigned to generated provisioning api key
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
+#### -d, --drive DRIVE
+
+the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
+Careful with this as you can erase your hard drive.
+Check `balena util available-drives` for available options.
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
+
 ## device list
-
-### Aliases
-
-- `devices` *(deprecated)*
-
-
-To use one of the aliases, replace `device list` with the alias.
 
 ### Description
 
@@ -1506,12 +1437,6 @@ from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
 environments).
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena device list
@@ -1523,10 +1448,6 @@ Examples:
 #### -f, --fleet FLEET
 
 fleet name or slug (preferred)
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## device local-mode
 
@@ -1563,13 +1484,6 @@ disable local mode
 output boolean indicating local mode status
 
 ## device logs
-
-### Aliases
-
-- `logs` *(deprecated)*
-
-
-To use one of the aliases, replace `device logs` with the alias.
 
 ### Description
 
@@ -1665,13 +1579,6 @@ fleet name or slug (preferred)
 
 ## device note
 
-### Aliases
-
-- `notes` *(deprecated)*
-
-
-To use one of the aliases, replace `device note` with the alias.
-
 ### Description
 
 Set or update a device note. If the note argument is not provided,
@@ -1695,10 +1602,6 @@ note content
 #### -d, --device DEVICE
 
 device UUID
-
-#### --dev DEV
-
-
 
 ## device os-update
 
@@ -1986,13 +1889,6 @@ force action if the update lock is set
 
 ## device ssh
 
-### Aliases
-
-- `ssh` *(deprecated)*
-
-
-To use one of the aliases, replace `device ssh` with the alias.
-
 ### Description
 
 Start a shell on a local or remote device. If a service name is not provided,
@@ -2124,13 +2020,6 @@ the uuid of the device to make track the fleet's release
 
 ## device tunnel
 
-### Aliases
-
-- `tunnel` *(deprecated)*
-
-
-To use one of the aliases, replace `device tunnel` with the alias.
-
 ### Description
 
 Use this command to open local TCP ports that tunnel to listening sockets in a
@@ -2186,13 +2075,6 @@ port mapping in the format <remotePort>[:[localIP:]localPort]
 
 ## env list
 
-### Aliases
-
-- `envs` *(deprecated)*
-
-
-To use one of the aliases, replace `env list` with the alias.
-
 ### Description
 
 List the environment or configuration variables of a fleet, device or
@@ -2215,15 +2097,12 @@ balena platform features, as opposed to custom environment variables defined
 by the user. The --config and the --service options are mutually exclusive
 because configuration variables cannot be set for specific services.
 
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents data
-types like lists and empty strings. The 'jq' utility may be helpful in shell
-scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
-JSON array ([]) is printed instead of an error message when no variables exist
-for the given query. When querying variables for a device, note that the fleet
-name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
-the device belonged to is no longer accessible by the current user (for example,
-in case the current user was removed from the fleet by the fleet's owner).
+When --json is used, an empty JSON array ([]) is printed instead of an error 
+message when no variables exist for the given query. When querying variables 
+for a device, note that the fleet name may be null in JSON output 
+(or 'N/A' in tabular output) if the fleet that the device belonged to is no 
+longer accessible by the current user (for example, in case the current user 
+was removed from the fleet by the fleet's owner).
 
 Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
@@ -2238,12 +2117,9 @@ environments).
 Examples:
 
 	$ balena env list --fleet myorg/myfleet
-	$ balena env list --fleet MyFleet --json
 	$ balena env list --fleet MyFleet --service MyService
 	$ balena env list --fleet MyFleet --config
 	$ balena env list --device 7cf02a6
-	$ balena env list --device 7cf02a6 --json
-	$ balena env list --device 7cf02a6 --config --json
 	$ balena env list --device 7cf02a6 --service MyService
 
 ### Options
@@ -2259,10 +2135,6 @@ show configuration variables only
 #### -d, --device DEVICE
 
 device UUID
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### -s, --service SERVICE
 
@@ -2403,13 +2275,6 @@ select a service variable (may be used together with the --device option)
 do not prompt for confirmation before deleting the variable
 
 ## env set
-
-### Aliases
-
-- `env add` *(deprecated)*
-
-
-To use one of the aliases, replace `env set` with the alias.
 
 ### Description
 
@@ -2565,18 +2430,7 @@ fleet name or slug (preferred)
 
 open fleet dashboard page
 
-#### -j, --json
-
-produce JSON output instead of tabular output
-
 ## fleet list
-
-### Aliases
-
-- `fleets` *(deprecated)*
-
-
-To use one of the aliases, replace `fleet list` with the alias.
 
 ### Description
 
@@ -2588,12 +2442,6 @@ For detailed information on a particular fleet, use
 Examples:
 
 	$ balena fleet list
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## fleet pin
 
@@ -2818,13 +2666,6 @@ answer "yes" to all questions (non interactive use)
 
 ## organization list
 
-### Aliases
-
-- `orgs` *(deprecated)*
-
-
-To use one of the aliases, replace `organization list` with the alias.
-
 ### Description
 
 list all the organizations that you are a member of.
@@ -2834,40 +2675,6 @@ Examples:
 	$ balena organization list
 
 # OS
-
-## os build-config
-
-### Description
-
-Interactively generate a configuration file that can then be used as
-non-interactive input by the 'balena os configure' command.
-
-DEPRECATED: Use 'balena config generate' instead.
-
-Examples:
-
-	$ balena os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
-	$ balena os configure ../path/rpi3.img --device 7cf02a6 --config rpi3-config.json
-
-### Arguments
-
-#### IMAGE
-
-os image
-
-#### DEVICE-TYPE
-
-device type
-
-### Options
-
-#### -v, --advanced
-
-show advanced configuration options
-
-#### -o, --output OUTPUT
-
-path to output JSON file
 
 ## os configure
 
@@ -2921,7 +2728,7 @@ Examples:
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
 	$ balena os configure ../path/rpi3.img --fleet myorg/myfleet
 	$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3
-	$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3 --config myWifiConfig.json
+	$ balena os configure ../path/rpi3.img --config myWifiConfig.json
 
 ### Arguments
 
@@ -2931,17 +2738,21 @@ path to a balenaOS image file, e.g. "rpi3.img"
 
 ### Options
 
-#### -v, --advanced
-
-ask advanced configuration questions (when in interactive mode)
-
 #### -f, --fleet FLEET
 
 fleet name or slug (preferred)
 
+#### -d, --device DEVICE
+
+device UUID
+
 #### --config CONFIG
 
 path to a pre-generated config.json file to be injected in the OS image
+
+#### -v, --advanced
+
+ask advanced configuration questions (when in interactive mode)
 
 #### --config-app-update-poll-interval CONFIG-APP-UPDATE-POLL-INTERVAL
 
@@ -2967,10 +2778,6 @@ Configure balenaOS to operate in development mode
 
 Configure balenaOS installer to opt-in secure boot and disk encryption
 
-#### -d, --device DEVICE
-
-device UUID
-
 #### --device-type DEVICE-TYPE
 
 device type slug (e.g. "raspberrypi3") to override the fleet device type
@@ -2979,14 +2786,6 @@ device type slug (e.g. "raspberrypi3") to override the fleet device type
 
 This option will set the device name when the device provisions
 
-#### --version VERSION
-
-balenaOS version, for example "2.32.0" or "2.44.0+rev1". Deprecated, will be removed in a future major release.
-
-#### -c, --system-connection SYSTEM-CONNECTION
-
-paths to local files to place into the 'system-connections' directory
-
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
 custom key name assigned to generated provisioning api key
@@ -2994,6 +2793,10 @@ custom key name assigned to generated provisioning api key
 #### --provisioning-key-expiry-date PROVISIONING-KEY-EXPIRY-DATE
 
 expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
+
+#### -c, --system-connection SYSTEM-CONNECTION
+
+paths to local files to place into the 'system-connections' directory
 
 ## os download
 
@@ -3615,29 +3418,17 @@ overwrite existing file without confirmation
 ### Description
 
 List all assets for a specific release.
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
 
 Examples:
 
 	$ balena release-asset list 1234567
 	$ balena release-asset list a777f7345fe3d655c1c981aa642e5555
-	$ balena release-asset list 1234567 --json
 
 ### Arguments
 
 #### COMMITORID
 
 the commit or ID of the release
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## release-asset upload
 
@@ -3713,17 +3504,12 @@ the commit or ID of the release to finalize
 
 ### Description
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
+
 
 Examples:
 
 	$ balena release a777f7345fe3d655c1c981aa642e5555
 	$ balena release 1234567
-	$ balena release d3f3151f5ad25ca6b070aa4d08296aca --json
 
 ### Arguments
 
@@ -3732,10 +3518,6 @@ Examples:
 the commit or ID of the release to get information
 
 ### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 #### -c, --composition
 
@@ -3764,13 +3546,6 @@ the commit or ID of the release to invalidate
 
 ## release list
 
-### Aliases
-
-- `releases` *(deprecated)*
-
-
-To use one of the aliases, replace `release list` with the alias.
-
 ### Description
 
 List all releases of the given fleet.
@@ -3784,28 +3559,15 @@ created public/open fleet, or with fleets from other balena accounts that you
 may be invited to join under any role.  For this reason, fleet names are
 especially discouraged in scripts (e.g. CI environments).
 
-The --json option is recommended when scripting the output of this command,
-because field names are less likely to change in JSON format and because it
-better represents data types like arrays, empty strings and null values.
-The 'jq' utility may be helpful for querying JSON fields in shell scripts
-(https://stedolan.github.io/jq/manual/).
-
 Examples:
 
 	$ balena release list myorg/myfleet
-	$ balena release list myorg/myfleet --json
 
 ### Arguments
 
 #### FLEET
 
 fleet name or slug (preferred)
-
-### Options
-
-#### -j, --json
-
-produce JSON output instead of tabular output
 
 ## release validate
 
@@ -3842,13 +3604,6 @@ Examples:
 # SSH Keys
 
 ## ssh-key add
-
-### Aliases
-
-- `key add` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key add` with the alias.
 
 ### Description
 
@@ -3889,13 +3644,6 @@ the path to the public key file
 
 ## ssh-key
 
-### Aliases
-
-- `key` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key` with the alias.
-
 ### Description
 
 Display a single SSH key registered in balenaCloud for the logged in user.
@@ -3912,14 +3660,6 @@ balenaCloud ID for the SSH key
 
 ## ssh-key list
 
-### Aliases
-
-- `keys` *(deprecated)*
-- `key list` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key list` with the alias.
-
 ### Description
 
 List all SSH keys registered in balenaCloud for the logged in user.
@@ -3929,13 +3669,6 @@ Examples:
 	$ balena ssh-key list
 
 ## ssh-key rm
-
-### Aliases
-
-- `key rm` *(deprecated)*
-
-
-To use one of the aliases, replace `ssh-key rm` with the alias.
 
 ### Description
 
@@ -4015,13 +3748,6 @@ length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d
 # Tags
 
 ## tag list
-
-### Aliases
-
-- `tags` *(deprecated)*
-
-
-To use one of the aliases, replace `tag list` with the alias.
 
 ### Description
 
@@ -4166,40 +3892,3 @@ release id
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
-
-# Version
-
-## version
-
-### Description
-
-Display version information for the balena CLI and/or Node.js. Note that the
-balena CLI executable installers for Windows and macOS, and the standalone
-zip packages, ship with a built-in copy of Node.js.  In this case, the
-reported version of Node.js regards this built-in copy, rather than any
-other `node` engine that may also be available on the command prompt.
-
-The --json option is recommended when scripting the output of this command,
-because the JSON format is less likely to change and it better represents
-data types like lists and empty strings. The 'jq' utility may be helpful
-in shell scripts (https://stedolan.github.io/jq/manual/).
-
-This command can also be invoked with 'balena --version' or 'balena -v'.
-
-Examples:
-
-	$ balena version
-	$ balena version -a
-	$ balena version -j
-	$ balena --version
-	$ balena -v
-
-### Options
-
-#### -a, --all
-
-include version information for additional components (Node.js)
-
-#### -j, --json
-
-output version information in JSON format for programmatic use

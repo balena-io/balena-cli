@@ -27,6 +27,7 @@ import {
 	devModeInfo,
 	secureBootInfo,
 } from '../../utils/messages';
+import type { ImgConfig } from '../../utils/config';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -80,7 +81,7 @@ export default class OsConfigureCmd extends Command {
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6',
 		'$ balena os configure ../path/rpi3.img --fleet myorg/myfleet',
 		'$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3',
-		'$ balena os configure ../path/rpi3.img -f myorg/myfleet --device-type raspberrypi3 --config myWifiConfig.json',
+		'$ balena os configure ../path/rpi3.img --config myWifiConfig.json',
 	];
 
 	public static args = {
@@ -90,71 +91,77 @@ export default class OsConfigureCmd extends Command {
 		}),
 	};
 
-	public static flags = {
-		advanced: Flags.boolean({
-			char: 'v',
-			description:
-				'ask advanced configuration questions (when in interactive mode)',
-		}),
-		fleet: { ...cf.fleet, exclusive: ['device'] },
-		config: Flags.string({
-			description:
-				'path to a pre-generated config.json file to be injected in the OS image',
-			exclusive: ['provisioning-key-name', 'provisioning-key-expiry-date'],
-		}),
-		'config-app-update-poll-interval': Flags.integer({
-			description:
-				'supervisor cloud polling interval in minutes (e.g. for variable updates)',
-		}),
-		'config-network': Flags.string({
-			description: 'device network type (non-interactive configuration)',
-			options: ['ethernet', 'wifi'],
-		}),
-		'config-wifi-key': Flags.string({
-			description: 'WiFi key (password) (non-interactive configuration)',
-		}),
-		'config-wifi-ssid': Flags.string({
-			description: 'WiFi SSID (network name) (non-interactive configuration)',
-		}),
-		dev: cf.dev,
-		secureBoot: cf.secureBoot,
-		device: {
-			...cf.device,
-			exclusive: [
-				'fleet',
-				'provisioning-key-name',
-				'provisioning-key-expiry-date',
-			],
-		},
-		'device-type': Flags.string({
-			description:
-				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
-		}),
-		'initial-device-name': Flags.string({
-			description:
-				'This option will set the device name when the device provisions',
-		}),
-		version: Flags.string({
-			description:
-				'balenaOS version, for example "2.32.0" or "2.44.0+rev1". Deprecated, will be removed in a future major release.',
-		}),
-		'system-connection': Flags.string({
-			multiple: true,
-			char: 'c',
-			required: false,
-			description:
-				"paths to local files to place into the 'system-connections' directory",
-		}),
-		'provisioning-key-name': Flags.string({
-			description: 'custom key name assigned to generated provisioning api key',
-			exclusive: ['config', 'device'],
-		}),
-		'provisioning-key-expiry-date': Flags.string({
-			description:
-				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
-			exclusive: ['config', 'device'],
-		}),
-	};
+	public static flags = (() => {
+		const inlineConfigFlags = {
+			advanced: Flags.boolean({
+				char: 'v',
+				description:
+					'ask advanced configuration questions (when in interactive mode)',
+			}),
+			'config-app-update-poll-interval': Flags.integer({
+				description:
+					'supervisor cloud polling interval in minutes (e.g. for variable updates)',
+			}),
+			'config-network': Flags.string({
+				description: 'device network type (non-interactive configuration)',
+				options: ['ethernet', 'wifi'],
+			}),
+			'config-wifi-key': Flags.string({
+				description: 'WiFi key (password) (non-interactive configuration)',
+			}),
+			'config-wifi-ssid': Flags.string({
+				description: 'WiFi SSID (network name) (non-interactive configuration)',
+			}),
+			dev: cf.dev,
+			secureBoot: cf.secureBoot,
+			'device-type': Flags.string({
+				description:
+					'device type slug (e.g. "raspberrypi3") to override the fleet device type',
+				dependsOn: ['fleet'],
+			}),
+			'initial-device-name': Flags.string({
+				description:
+					'This option will set the device name when the device provisions',
+			}),
+			'provisioning-key-name': Flags.string({
+				description:
+					'custom key name assigned to generated provisioning api key',
+				exclusive: ['config', 'device'],
+			}),
+			'provisioning-key-expiry-date': Flags.string({
+				description:
+					'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
+				exclusive: ['config', 'device'],
+			}),
+		};
+		return {
+			fleet: { ...cf.fleet, exclusive: ['device', 'config'] },
+			device: {
+				...cf.device,
+				exclusive: [
+					'fleet',
+					'device-type',
+					'config',
+					'provisioning-key-name',
+					'provisioning-key-expiry-date',
+				],
+			},
+			config: Flags.string({
+				description:
+					'path to a pre-generated config.json file to be injected in the OS image',
+				// The only compatible flag with --config is 'system-connection'.
+				exclusive: ['fleet', 'device', ...Object.keys(inlineConfigFlags)],
+			}),
+			...inlineConfigFlags,
+			'system-connection': Flags.string({
+				multiple: true,
+				char: 'c',
+				required: false,
+				description:
+					"paths to local files to place into the 'system-connections' directory",
+			}),
+		};
+	})();
 
 	public static authenticated = true;
 
@@ -164,18 +171,33 @@ export default class OsConfigureCmd extends Command {
 		await validateArgsAndOptions(params, options);
 
 		const devInit = await import('balena-device-init');
-		const { promises: fs } = await import('fs');
-		const { generateDeviceConfig, generateApplicationConfig } = await import(
-			'../../utils/config'
-		);
+		const {
+			generateDeviceConfig,
+			generateApplicationConfig,
+			readAndValidateConfigJson,
+		} = await import('../../utils/config');
 		const helpers = await import('../../utils/helpers');
 		const { getApplication } = await import('../../utils/sdk');
 
-		let app: ApplicationWithDeviceTypeSlug | undefined;
+		let app:
+			| Pick<ApplicationWithDeviceTypeSlug, 'slug' | 'is_for__device_type'>
+			| undefined;
 		let device;
-		let deviceTypeSlug: string;
+		let deviceTypeSlug = options['device-type'];
+		let fleetSlugOrId: string | number | undefined = options.fleet;
+		let secureBoot = options.secureBoot;
+		let developmentMode = options.dev;
 
 		const balena = getBalenaSdk();
+		let configJson: ImgConfig | undefined;
+		if (options.config != null) {
+			configJson = await readAndValidateConfigJson(options.config);
+			fleetSlugOrId = configJson.applicationId;
+			deviceTypeSlug = configJson.deviceType;
+			secureBoot = configJson.installer?.secureboot === true;
+			developmentMode = configJson.developmentMode === true;
+		}
+
 		if (options.device) {
 			device = (await balena.models.device.get(options.device, {
 				$expand: {
@@ -185,15 +207,19 @@ export default class OsConfigureCmd extends Command {
 				belongs_to__application: BalenaSdk.PineDeferred;
 			};
 			deviceTypeSlug = device.is_of__device_type[0].slug;
-		} else {
-			app = (await getApplication(balena, options.fleet!, {
+		} else if (fleetSlugOrId != null) {
+			app = await getApplication(balena, fleetSlugOrId, {
+				$select: 'slug',
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},
-			})) as ApplicationWithDeviceTypeSlug;
-			await checkDeviceTypeCompatibility(options, app);
-			deviceTypeSlug =
-				options['device-type'] || app.is_for__device_type[0].slug;
+			});
+			await checkDeviceTypeCompatibility(deviceTypeSlug, app);
+			deviceTypeSlug ??= app.is_for__device_type[0].slug;
+		} else {
+			throw new Error(
+				'Unreachable: neither a device nor a fleet were specified or resolved by the config json',
+			);
 		}
 
 		const deviceTypeManifest = await helpers.getManifest(
@@ -201,30 +227,19 @@ export default class OsConfigureCmd extends Command {
 			deviceTypeSlug,
 		);
 
-		let configJson: import('../../utils/config').ImgConfig | undefined;
-		if (options.config) {
-			const rawConfig = await fs.readFile(options.config, 'utf8');
-			configJson = JSON.parse(rawConfig);
-		}
-
 		const { normalizeOsVersion } = await import('../../utils/normalization');
 		const osVersion = normalizeOsVersion(
-			options.version ||
-				(await getOsVersionFromImage(
-					params.image,
-					deviceTypeManifest,
-					devInit,
-				)),
+			await getOsVersionFromImage(params.image, deviceTypeManifest, devInit),
 		);
 
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
-		await validateDevOptionAndWarn(options.dev, osVersion);
+		await validateDevOptionAndWarn(developmentMode, osVersion);
 
 		const { validateSecureBootOptionAndWarn } = await import(
 			'../../utils/config'
 		);
 		await validateSecureBootOptionAndWarn(
-			options.secureBoot,
+			secureBoot,
 			deviceTypeSlug,
 			osVersion,
 		);
@@ -234,44 +249,38 @@ export default class OsConfigureCmd extends Command {
 			options,
 			configJson,
 		);
-		if (options.fleet) {
-			answers.deviceType = deviceTypeSlug;
-		}
 		answers.version = osVersion;
-		answers.developmentMode = options.dev;
-		answers.secureBoot = options.secureBoot;
-		answers.provisioningKeyName = options['provisioning-key-name'];
-		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
+		answers.developmentMode = developmentMode;
+		answers.secureBoot = secureBoot;
 
-		if (_.isEmpty(configJson)) {
-			if (device) {
+		if (configJson == null) {
+			answers.provisioningKeyName = options['provisioning-key-name'];
+			answers.provisioningKeyExpiryDate =
+				options['provisioning-key-expiry-date'];
+			if (device != null) {
 				configJson = await generateDeviceConfig(device, undefined, answers);
 			} else {
+				answers.deviceType = deviceTypeSlug;
 				configJson = await generateApplicationConfig(app!, answers);
 			}
-		}
-
-		if (
-			options['initial-device-name'] != null &&
-			options['initial-device-name'] !== ''
-		) {
-			configJson!.initialDeviceName = options['initial-device-name'];
+			if (
+				options['initial-device-name'] != null &&
+				options['initial-device-name'] !== ''
+			) {
+				configJson.initialDeviceName = options['initial-device-name'];
+			}
 		}
 
 		console.info('Configuring operating system image');
 
 		const image = params.image;
 		await helpers.osProgressHandler(
-			await devInit.configure(
-				image,
-				deviceTypeManifest,
-				configJson || {},
-				answers,
-			),
+			await devInit.configure(image, deviceTypeManifest, configJson, answers),
 		);
 
 		if (options['system-connection']) {
 			const path = await import('path');
+			const fs = await import('fs/promises');
 
 			const files = await Promise.all(
 				options['system-connection'].map(async (filePath) => {
@@ -304,16 +313,11 @@ export default class OsConfigureCmd extends Command {
 }
 
 async function validateArgsAndOptions(args: ArgsDef, options: FlagsDef) {
-	// The 'device' and 'application' options are declared "exclusive" in the oclif
-	// flag definitions above, so oclif will enforce that they are not both used together.
-	if (!options.device && !options.fleet) {
+	// The 'device', 'application' & 'config` options are declared "exclusive" in the oclif
+	// flag definitions above, so oclif will enforce that they are not used together.
+	if (!options.device && !options.fleet && !options.config) {
 		throw new ExpectedError(
-			"Either the '--device' or the '--fleet' option must be provided",
-		);
-	}
-	if (!options.fleet && options['device-type']) {
-		throw new ExpectedError(
-			"The '--device-type' option can only be used in conjunction with the '--fleet' option",
+			"One of the '--device', '--fleet' or '--config' options must be provided",
 		);
 	}
 
@@ -346,9 +350,7 @@ async function getOsVersionFromImage(
 		deviceTypeManifest,
 	);
 	if (!osVersion) {
-		throw new ExpectedError(stripIndent`
-			Could not read OS version from the image. Please specify the balenaOS
-			version manually with the --version command-line option.`);
+		throw new ExpectedError('Could not read OS version from the image.');
 	}
 	return osVersion;
 }
@@ -362,21 +364,22 @@ async function getOsVersionFromImage(
  * @param app Balena SDK Application model object
  */
 async function checkDeviceTypeCompatibility(
-	options: FlagsDef,
+	deviceType: string | undefined,
 	app: {
+		slug: string;
 		is_for__device_type: Array<Pick<BalenaSdk.DeviceType['Read'], 'slug'>>;
 	},
 ) {
-	if (options['device-type']) {
+	if (deviceType) {
 		const helpers = await import('../../utils/helpers');
 		if (
 			!(await helpers.areDeviceTypesCompatible(
 				app.is_for__device_type[0].slug,
-				options['device-type'],
+				deviceType,
 			))
 		) {
 			throw new ExpectedError(
-				`Device type ${options['device-type']} is incompatible with fleet ${options.fleet}`,
+				`Device type ${deviceType} is incompatible with fleet ${app.is_for__device_type[0].slug}`,
 			);
 		}
 	}
@@ -399,7 +402,7 @@ async function checkDeviceTypeCompatibility(
 async function askQuestionsForDeviceType(
 	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 	options: FlagsDef,
-	configJson?: import('../../utils/config').ImgConfig,
+	configJson: import('../../utils/config').ImgConfig | undefined,
 ): Promise<Answers> {
 	const answerSources: any[] = [
 		{
@@ -412,7 +415,7 @@ async function askQuestionsForDeviceType(
 	const questions = deviceType.options ?? [];
 	let extraOpts: { override: Partial<Answers> } | undefined;
 
-	if (!_.isEmpty(configJson)) {
+	if (configJson != null) {
 		answerSources.push(configJson);
 	}
 

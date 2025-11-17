@@ -51,10 +51,7 @@ are supported. Alternative shells include:
   balena CLI with WSL and Docker Desktop for Windows.
 
 On **macOS** and **Linux,** the standard terminal window is supported. Optionally, `bash` command
-auto completion may be enabled by copying the
-[balena_comp](https://github.com/balena-io/balena-cli/blob/master/completion/balena-completion.bash)
-file to your system's `bash_completion` directory: check [Docker's command completion
-guide](https://docs.docker.com/compose/completion/) for system setup instructions.
+auto completion may be enabled by running `balena autocomplete`.
 
 ## Logging in
 

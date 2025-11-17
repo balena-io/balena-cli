@@ -16,45 +16,49 @@
  */
 import { expect } from 'chai';
 import * as fs from 'fs';
+import * as os from 'os';
 
 import { runCommand } from '../helpers';
 
-const packageJSON = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-const nodeVersion = process.version.startsWith('v')
-	? process.version.slice(1)
-	: process.version;
+const { version: packageJSONVersion } = JSON.parse(
+	fs.readFileSync('./package.json', 'utf8'),
+);
 
 describe('balena version', function () {
 	it('should print the installed version of the CLI', async () => {
 		const { err, out } = await runCommand('version');
 		expect(err).to.be.empty;
-		expect(out.join('')).to.equal(`${packageJSON.version}\n`);
+		expect(out[0]).to.include(`balena-cli/${packageJSONVersion}`);
 	});
 
-	it('should print additional version information with the -a flag', async () => {
-		const { err, out } = await runCommand('version -a');
+	// TODO: Come back to this when we migrate away from nock
+	// nock cannot catch requests made to endpoints made by external processes
+	it.skip('should print additional version information with the --verbose flag', async () => {
+		const { err, out } = await runCommand('version --verbose');
 		expect(err).to.be.empty;
-		expect(out[0].trim()).to.equal(
-			`balena-cli version "${packageJSON.version}"`,
+		const splitOutput = out[0].split('\n');
+		expect(splitOutput[1]).to.include(`balena-cli/${packageJSONVersion}`);
+		expect(splitOutput[15].toLowerCase()).to.include(
+			os.release().toLowerCase(),
 		);
 
 		if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {
-			expect(out[1]).to.match(/Node.js version "\d+\.\d+.\d+"/);
+			expect(splitOutput[7]).to.match(/node-v\d+\.\d+.\d+/);
 		} else {
-			expect(out[1].trim()).to.equal(`Node.js version "${nodeVersion}"`);
+			expect(splitOutput[7]).to.include(`node-${process.version}`);
 		}
 	});
 
-	it('should print version information as JSON with the the -j flag', async () => {
-		const { err, out } = await runCommand('version -j');
+	it('should print version information as JSON with the the --json flag', async () => {
+		const { err, out } = await runCommand('version --json');
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
-		expect(json['balena-cli']).to.equal(packageJSON.version);
+		expect(json['cliVersion']).to.equal(`balena-cli/${packageJSONVersion}`);
 
 		if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {
-			expect(json['Node.js']).to.match(/\d+\.\d+.\d+/);
+			expect(json['nodeVersion']).to.match(/node-v\d+\.\d+.\d+/);
 		} else {
-			expect(json['Node.js']).to.equal(nodeVersion);
+			expect(json['nodeVersion']).to.equal(`node-${process.version}`);
 		}
 	});
 });

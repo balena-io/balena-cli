@@ -52,6 +52,7 @@ export interface ImgConfig {
 		sshKeys?: string[];
 	};
 
+	developmentMode?: boolean;
 	installer?: {
 		secureboot?: boolean;
 	};
@@ -116,21 +117,55 @@ export async function generateDeviceConfig(
 	// TODO: Generate the correct key beforehand and pass it to os.getConfig() once
 	// the API supports injecting a provided key, to avoid generating an unused one.
 	const config = await generateApplicationConfig(application, baseConfigOpts);
-	// os.getConfig always returns a config for an app
-	delete config.apiKey;
-
-	config.deviceApiKey =
+	populateDeviceConfig(
+		config,
+		device,
 		typeof deviceApiKey === 'string' && deviceApiKey
 			? deviceApiKey
-			: await sdk.models.device.generateDeviceKey(device.uuid);
+			: await sdk.models.device.generateDeviceKey(device.uuid),
+	);
+
+	return config;
+}
+
+export function populateDeviceConfig(
+	config: ImgConfig,
+	device: { id: number; uuid: string },
+	deviceApiKey: string,
+) {
+	// Delete any Provisioning Api Key that might be there
+	// eg: os.getConfig always returns a config for the app.
+	delete config.apiKey;
+
+	config.deviceApiKey = deviceApiKey;
 
 	// Associate a device, to prevent the supervisor
 	// from creating another one on its own.
 	config.registered_at = Math.floor(Date.now() / 1000);
 	config.deviceId = device.id;
 	config.uuid = device.uuid;
+}
 
-	return config;
+export async function readAndValidateConfigJson(path: string) {
+	const fs = await import('fs/promises');
+	const [rawConfig, { ExpectedError }] = await Promise.all([
+		fs.readFile(path, 'utf8'),
+		import('../errors'),
+	]);
+	const configJson: ImgConfig | undefined = JSON.parse(rawConfig);
+	if (configJson == null || typeof configJson !== 'object') {
+		throw new ExpectedError(`Invalid config.json file: ${path}`);
+	}
+	if (typeof configJson.applicationId !== 'number') {
+		throw new ExpectedError('Missing or invalid applicationId in config.json');
+	}
+	if (
+		typeof configJson.deviceType !== 'string' ||
+		configJson.deviceType === ''
+	) {
+		throw new ExpectedError('Missing or invalid deviceType in config.json');
+	}
+	return configJson;
 }
 
 /**

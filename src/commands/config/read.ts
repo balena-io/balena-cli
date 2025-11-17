@@ -20,6 +20,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 export default class ConfigReadCmd extends Command {
+	public static enableJsonFlag = true;
 	public static description = stripIndent`
 		Read the config.json file of a balenaOS image or attached media.
 
@@ -38,7 +39,6 @@ export default class ConfigReadCmd extends Command {
 
 	public static flags = {
 		drive: cf.driveOrImg,
-		json: cf.json,
 	};
 
 	public static root = true;
@@ -57,10 +57,9 @@ export default class ConfigReadCmd extends Command {
 		const configJSON = await config.read(drive);
 
 		if (options.json) {
-			console.log(JSON.stringify(configJSON, null, 4));
-		} else {
-			const prettyjson = await import('prettyjson');
-			console.log(prettyjson.render(configJSON));
+			return JSON.stringify(configJSON, null, 4);
 		}
+		const prettyjson = await import('prettyjson');
+		console.log(prettyjson.render(configJSON));
 	}
 }
