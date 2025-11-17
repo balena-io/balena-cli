@@ -1,4 +1,204 @@
 - commits:
+    - subject: Fix lzma-native build on node24 on Linux ARM runners
+      hash: fd5f06d2bc5d723e60ece0ff140b3139f5f96bee
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device note: Drop the --dev flag in favor of the standardize --device"
+      hash: db5a67a1f7cb88d1deebf54e280cee544d53e5fd
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device init: Fix node DEP0190 deprecation warning"
+      hash: 684c2a98240aeca433e47ecf5d97599c12c96005
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Drop support for node <24.11.0
+      hash: acf6e708ef29604834f983b6aacd847b222e839b
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "config generate: Drop the deprecated no-op '--generate-device-api-key'
+        flag"
+      hash: 3bc2261ebf3a9c0ffec27f677970c193080752ea
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure: Use oclif relations to enforce --device-type dependency
+        on --fleet"
+      hash: fa020b470e61e29dd7bc0971d953098a22820927
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure: Add tests for how flags are allowed to be combined"
+      hash: 7d8f5d668df6f0dee6d11146a87a0dbfdbdbb12c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Drop all deprecated aliases
+      hash: 5a0bc30ed3a9f309bfc093409ae5eae2563a6b98
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Use oclif's native json support instead of manually adding it
+      hash: a4aaebbbec1e14b3181b6cb69f452d8130c20015
+      body: |
+        This is a major because we drop support for the shorthand `-j`
+      footer:
+        Change-type: major
+        change-type: major
+        Fibery: https://balena.fibery.io/Work/Project/CLI-Use-oclif's-built-in-json-flag-support-instead-of-manually-adding-the-flag-1818
+        fibery: https://balena.fibery.io/Work/Project/CLI-Use-oclif's-built-in-json-flag-support-instead-of-manually-adding-the-flag-1818
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Replace manual completion generation with `@oclif/plugin-autocomplete`
+      hash: 8ea0f3ac1dce3ea25df900e3fba32b54842cc5fc
+      body: |
+        This is a major because it changes how to set up auto completion. Simply
+        run `balena autocomplete` now for easy instructions!
+      footer:
+        Change-type: major
+        change-type: major
+        Fibery: https://balena.fibery.io/Work/Project/CLI-Replace-our-manual-autocomplete-with-oclif-autocomplete-plugin-1799
+        fibery: https://balena.fibery.io/Work/Project/CLI-Replace-our-manual-autocomplete-with-oclif-autocomplete-plugin-1799
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Replace custom `version` command with `@oclif/plugin-version`
+      hash: e551af5ab1f90645a0c883202f9940001503aac2
+      body: >
+        This is a major because the `-a` flag is replace with `--verbose` and we
+        drop the `-j` shorthand of `--json`
+      footer:
+        Change-type: major
+        change-type: major
+        Fibery: https://balena.fibery.io/Work/Project/CLI-Replace-our-custom-version-command-with-oclif's-plugin-version-1819
+        fibery: https://balena.fibery.io/Work/Project/CLI-Replace-our-custom-version-command-with-oclif's-plugin-version-1819
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "device init: Make --config incompatible with all other flags other
+        than --drive --version & --yes"
+      hash: 0c969e677ffa433c25bc91e102ff01d2a550b645
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device init: Validate that the provided config file paths exist"
+      hash: 91f217ea05cb5c48e28584d7778da7113b3d2b88
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure: Make --config incompatible with all other flags other
+        than --system-connection"
+      hash: 2ab5bc17281b716abbbb5cbf614dc7644450a7a2
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure, os initialize: Fail when a device-type.json can't be
+        detected in the provided image"
+      hash: 5ca2b07d49ff69b942344ea23f9de239d94de903
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure: Drop the --version flag & fail when the image version
+        can't be detected"
+      hash: a2846e7632ac339bc4e5720e2da48b1ccfcbafdc
+      body: ""
+      footer:
+        Depends-on: https://github.com/balena-io/balena-cli/pull/2977
+        depends-on: https://github.com/balena-io/balena-cli/pull/2977
+        Change-type: major
+        change-type: major
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Drop the 'balena os build-config' command in favor of `balena config
+        generate'
+      hash: 3d84d1338d9241aa28f56e5cdc02491f1549f7c3
+      body: ""
+      footer:
+        Depends-on: https://github.com/balena-io/balena-cli/pull/2974
+        depends-on: https://github.com/balena-io/balena-cli/pull/2974
+        Change-type: major
+        change-type: major
+        See: https://balena.fibery.io/Work/Project/1722
+        see: https://balena.fibery.io/Work/Project/1722
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "release: Include the build_log in the --json results"
+      hash: e2c6f859145178c8635f3d4f22323461950e0f4b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "release: Replace the semver field with raw_vesrion"
+      hash: 21bf25fc19d6a42821cf7db5d2fcc706c59eb2ff
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "release list: Replace the semver field with raw_vesrion"
+      hash: df1bf2f45dc780de43480f45427ec46325c13e3d
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.0.0
+  title: ""
+  date: 2025-11-17T19:33:35.010Z
+- commits:
     - subject: Update actions/setup-python action to v6
       hash: c366802695f24ae1029ab5c6613b4e4dfe82b388
       body: |
