@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { Command } from '@oclif/core';
+import type { Command, Interfaces } from '@oclif/core';
 import { Help } from '@oclif/core';
 import * as indent from 'indent-string';
 import type { ResolvableReturnType } from 'balena-sdk/typings/utils';
@@ -38,7 +38,49 @@ function getHelpSubject(args: string[]): string | undefined {
 	}
 }
 
+// See: https://github.com/oclif/core/blob/v1.16.4/src/help/index.ts#L45
 export default class BalenaHelp extends Help {
+	private SUPPRESS_SUBTOPICS_DEPTH: number | null = null;
+
+	protected get sortedCommands(): Command.Loadable[] {
+		const commands = super.sortedCommands;
+		if (this.SUPPRESS_SUBTOPICS_DEPTH == null) {
+			return commands;
+		}
+		// Assign it to a const so that TS knows that this can't change to null during the .filter
+		const depth = this.SUPPRESS_SUBTOPICS_DEPTH;
+		// This is excluding all commands with a depth higher than the SUPPRESS_SUBTOPICS_DEPTH
+		// so that when the base `showCommandHelp` is called and it accesses this.sortedCommands
+		// it will not find any sub-commands and hence will not print them.
+		// https://github.com/oclif/core/blob/v1.16.4/src/help/index.ts#L137-L138
+		// eg: when doing `balena device --help`, which has a depth of 1, this will omit commands
+		// like 'device:deactivate', 'device:init' etc since they have depth of 2.
+		return commands.filter((c) => c.id.split(':').length <= depth);
+	}
+
+	protected get sortedTopics(): Interfaces.Topic[] {
+		const topics = super.sortedTopics;
+		if (this.SUPPRESS_SUBTOPICS_DEPTH == null) {
+			return topics;
+		}
+		// Assign it to a const so that TS knows that this can't change to null during the .filter
+		const depth = this.SUPPRESS_SUBTOPICS_DEPTH;
+		// This is excluding all topics with a depth higher than the SUPPRESS_SUBTOPICS_DEPTH
+		// so that when the base `showCommandHelp` is called and it accesses this.sortedTopics
+		// it will not find any sub-topics and hence will not print them.
+		// https://github.com/oclif/core/blob/v1.16.4/src/help/index.ts#L137-L138
+		// We atm do not have any-sub-topic to give an example for
+		return topics.filter((t) => t.name.split(':').length <= depth);
+	}
+
+	public async showCommandHelp(command: Command.Loadable): Promise<void> {
+		const name = command.id;
+		const depth = name.split(':').length;
+		this.SUPPRESS_SUBTOPICS_DEPTH = depth;
+		await super.showCommandHelp(command);
+		this.SUPPRESS_SUBTOPICS_DEPTH = null;
+	}
+
 	public async showHelp(argv: string[]) {
 		const ux = getCliUx();
 		const subject = getHelpSubject(argv);

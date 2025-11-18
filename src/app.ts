@@ -24,7 +24,7 @@ import {
 } from './preparser';
 import { CliSettings } from './utils/bootstrap';
 import { onceAsync } from './utils/lazy';
-import { run as mainRun, settings } from '@oclif/core';
+import { run as mainRun, settings, Errors } from '@oclif/core';
 
 /**
  * Sentry.io setup
@@ -126,6 +126,34 @@ async function oclifRun(command: string[], options: AppOptions) {
 			if (error.oclif?.exit === 0) {
 				isEEXIT = true;
 			} else {
+				if (error instanceof Errors.CLIError) {
+					const RequiredArgsErrorRegex = /^Missing (\d+) required arg(s?\b)/;
+					if (RequiredArgsErrorRegex.exec(error.message) != null) {
+						error.message = error.message
+							.split('\n')
+							.map((line, i) => {
+								if (i === 0) {
+									// Replace 'arg(s)' with 'argument(s)'
+									return line.replace(
+										RequiredArgsErrorRegex,
+										'Missing $1 required argument$2',
+									);
+								}
+								// Add a ':' between the missing argument name and its description
+								return line.replace(
+									/^(?<argName>[\w-]+)(?<paddingSpaces>[ ]+)[ ](?<description>\w)/,
+									'$<argName>$<paddingSpaces>: $<description>',
+								);
+							})
+							.join('\n');
+						// Print the whole command used along with '--help'
+						const helpCommand = `balena ${command.map((c, i) => (i === 0 ? c.replace(/:/g, ' ') : c)).join(' ')} --help`;
+						error.message = error.message.replace(
+							'\nSee more help with --help',
+							`\nSee more help with \`${helpCommand}\``,
+						);
+					}
+				}
 				throw error;
 			}
 		}
