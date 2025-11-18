@@ -1,4 +1,16 @@
 - commits:
+    - subject: Drop some usage of lodash in favor of native equivalents
+      hash: a97c8db9364cbf0d45c403cfdb917e1f12d7efbd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 23.1.1
+  title: ""
+  date: 2025-11-18T14:37:20.834Z
+- commits:
     - subject: "device os-update: Add support for HUPing ESR devices"
       hash: 757061c894fdb662aabb4c3af28fd2b3d8f68dc1
       body: |
