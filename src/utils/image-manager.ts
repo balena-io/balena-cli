@@ -108,7 +108,7 @@ export const isImageCached = async (deviceType: string, version: string) => {
  */
 export const isESR = (version: string) => {
 	const match = version.match(/^v?(\d+)\.\d+\.\d+/);
-	const major = parseInt(match?.[1] || '', 10);
+	const major = parseInt(match?.[1] ?? '', 10);
 	return major >= 2018; // note: (NaN >= 2018) is false
 };
 
@@ -271,9 +271,7 @@ export const getStream = async (
 	versionOrRange?: string,
 	options: Omit<DownloadConfig, 'deviceType' | 'version'> = {},
 ) => {
-	if (versionOrRange == null) {
-		versionOrRange = 'latest';
-	}
+	versionOrRange ??= 'latest';
 	const version = await resolveVersion(deviceType, versionOrRange);
 	const isFresh = await isImageCached(deviceType, version);
 	const $stream = isFresh

@@ -72,6 +72,7 @@ export async function generateApplicationConfig(
 ): Promise<ImgConfig> {
 	options = {
 		...options,
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
 	};
 
@@ -83,7 +84,7 @@ export async function generateApplicationConfig(
 	// merge sshKeys to config, when they have been specified
 	if (options.os?.sshKeys) {
 		// Create config.os object if it does not exist
-		config.os = config.os ? config.os : {};
+		config.os ??= {};
 		config.os.sshKeys = config.os.sshKeys
 			? [...config.os.sshKeys, ...options.os.sshKeys]
 			: options.os.sshKeys;

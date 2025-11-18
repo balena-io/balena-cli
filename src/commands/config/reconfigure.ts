@@ -58,6 +58,7 @@ export default class ConfigReconfigureCmd extends Command {
 		const { safeUmount } = await import('../../utils/umount');
 
 		const drive =
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			options.drive || (await getVisuals().drive('Select the device drive'));
 		await safeUmount(drive);
 

@@ -552,7 +552,7 @@ export class BalenaAPIMock extends NockMock {
 		this.optGet(/^\/v\d+\/service_environment_variable($|\?)/, opts).reply(
 			function (uri, _requestBody) {
 				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
-				const serviceName = match?.[1] || undefined;
+				const serviceName = match?.[1] ?? undefined;
 				let varArray: any[];
 				if (serviceName) {
 					const varObj = appServiceVarsByService[serviceName];
@@ -600,7 +600,7 @@ export class BalenaAPIMock extends NockMock {
 			opts,
 		).reply(function (uri, _requestBody) {
 			const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
-			const serviceName = match?.[1] || undefined;
+			const serviceName = match?.[1] ?? undefined;
 			let varArray: any[];
 			if (serviceName) {
 				const varObj = deviceServiceVarsByService[serviceName];
@@ -646,7 +646,7 @@ export class BalenaAPIMock extends NockMock {
 		serviceId?: number;
 		serviceName: string;
 	}) {
-		const serviceId = opts.serviceId || 243768;
+		const serviceId = opts.serviceId ?? 243768;
 		this.optGet(/^\/v\d+\/service(\(\w+=\d+,\w+=%27\w+%27\))?$/, opts).reply(
 			200,
 			{
@@ -661,7 +661,7 @@ export class BalenaAPIMock extends NockMock {
 		serviceId?: number;
 		serviceName: string;
 	}) {
-		const serviceId = opts.serviceId || 243768;
+		const serviceId = opts.serviceId ?? 243768;
 		this.optGet(/^\/v7\/application($|\?).*\$expand=service.*/, opts).reply(
 			200,
 			{

@@ -109,6 +109,7 @@ export default class DeviceSSHCmd extends Command {
 			const { performLocalDeviceSSH } = await import('../../utils/device/ssh');
 			await performLocalDeviceSSH({
 				hostname: params.fleetOrDevice,
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 				port: options.port || 'local',
 				forceTTY: options.tty,
 				verbose: options.verbose,
@@ -194,6 +195,7 @@ export default class DeviceSSHCmd extends Command {
 			containerId = await getContainerIdForService({
 				deviceUuid,
 				hostname: `ssh.${proxyUrl}`,
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 				port: options.port || 'cloud',
 				proxyCommand,
 				service: params.service,
@@ -211,6 +213,7 @@ export default class DeviceSSHCmd extends Command {
 		await runRemoteCommand({
 			cmd: accessCommand,
 			hostname: `ssh.${proxyUrl}`,
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			port: options.port || 'cloud',
 			proxyCommand,
 			username,

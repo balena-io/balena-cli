@@ -171,12 +171,12 @@ export class NockMock {
 	}
 
 	protected handleUnexpectedRequest(req: any) {
-		const o = req.options || {};
-		const u = o.uri || {};
+		const o = req.options ?? {};
+		const u = o.uri ?? {};
 		const method = req.method;
-		const proto = req.protocol || req.proto || o.proto || u.protocol;
-		const host = req.host || req.headers?.host || o.host || u.host;
-		const path = req.path || o.path || u.path;
+		const proto = req.protocol ?? req.proto ?? o.proto ?? u.protocol;
+		const host = req.host ?? req.headers?.host ?? o.host ?? u.host;
+		const path = req.path ?? o.path ?? u.path;
 
 		// Requests made by the local proxy/interceptor server are OK
 		if (host === `127.0.0.1:${interceptorServerPort}`) {

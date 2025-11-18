@@ -42,7 +42,7 @@ export function generateOpts(options: {
 	'noparent-check': boolean;
 }): Promise<ComposeOpts> {
 	const { promises: fs } = require('fs') as typeof import('fs');
-	return fs.realpath(options.source || '.').then((projectPath) => ({
+	return fs.realpath(options.source ?? '.').then((projectPath) => ({
 		projectName: options.projectName,
 		projectPath,
 		inlineLogs: !options.nologs,
@@ -257,7 +257,7 @@ export const getPreviousRepos = (
 					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
 				return Promise.all(
 					images.map(function (d) {
-						const imageName = d.image[0].is_stored_at__image_location || '';
+						const imageName = d.image[0].is_stored_at__image_location ?? '';
 						const registry = getRegistryAndName(imageName);
 						logger.logDebug(
 							`Requesting access to previously pushed image repo (${registry.imageName})`,

@@ -179,6 +179,7 @@ ${dockerignoreHelp}
 				await validateProjectDirectory(sdk, {
 					dockerfilePath: options.dockerfile,
 					noParentCheck: options['noparent-check'] || false,
+					// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 					projectPath: options.source || '.',
 					registrySecretsPath: options['registry-secrets'],
 				});
@@ -264,7 +265,7 @@ ${dockerignoreHelp}
 					}
 					try {
 						await docker
-							.getImage((isBuildConfig(d.image) ? d.image.tag : d.image) || '')
+							.getImage((isBuildConfig(d.image) ? d.image.tag : d.image) ?? '')
 							.inspect();
 
 						return d.serviceName;
@@ -311,7 +312,7 @@ ${dockerignoreHelp}
 				(d) =>
 					builtImagesByService[d.serviceName] ?? {
 						serviceName: d.serviceName,
-						name: (isBuildConfig(d.image) ? d.image.tag : d.image) || '',
+						name: (isBuildConfig(d.image) ? d.image.tag : d.image) ?? '',
 						logs: 'Build skipped; image for service already exists.',
 						props: {},
 					},

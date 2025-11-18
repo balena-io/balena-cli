@@ -30,7 +30,7 @@ const rootDir = path.join(__dirname, '..');
 
 // Allow balena-dev to work with oclif by temporarily
 // pointing oclif config options to src/ instead of build/
-modifyOclifPaths();
+modifyOclifPaths(false);
 // Undo changes on exit
 process.on('exit', function () {
 	modifyOclifPaths(true);
@@ -63,7 +63,10 @@ void require('../src/app').run(undefined, {
 });
 
 // Modify package.json oclif paths from build/ -> src/, or vice versa
-function modifyOclifPaths(revert) {
+/**
+ * @param {boolean} revert
+ */
+function modifyOclifPaths(revert = false) {
 	const fs = require('fs');
 	const packageJsonPath = path.join(rootDir, 'package.json');
 

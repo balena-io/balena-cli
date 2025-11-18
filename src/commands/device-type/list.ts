@@ -71,8 +71,8 @@ export default class DeviceTypeListCmd extends Command {
 			return {
 				slug: dt.slug,
 				aliases: options.json ? aliases : [aliases.join(', ')],
-				arch: dt.is_of__cpu_architecture[0]?.slug || 'n/a',
-				name: dt.name || 'N/A',
+				arch: dt.is_of__cpu_architecture[0]?.slug ?? 'n/a',
+				name: dt.name ?? 'N/A',
 			};
 		});
 		const fields = ['slug', 'aliases', 'arch', 'name'];

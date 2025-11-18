@@ -109,12 +109,12 @@ export default class OsDownloadCmd extends Command {
 			await downloadOSImage(params.type, options.output, options.version);
 		} catch (e) {
 			e.deviceTypeSlug = params.type;
-			e.message ||= '';
+			e.message ??= '';
 			if (
 				e.code === 'BalenaRequestError' ||
 				e.message.toLowerCase().includes('no such version')
 			) {
-				const version = options.version || '';
+				const version = options.version ?? '';
 				if (
 					!version.endsWith('.dev') &&
 					!version.endsWith('.prod') &&

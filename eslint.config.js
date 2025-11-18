@@ -9,7 +9,6 @@ module.exports = [
 		parserOptions: {
 			project: 'tsconfig.dev.json',
 		},
-		ignorePatterns: ['**/bin/**/*'],
 		rules: {
 			ignoreDefinitionFiles: 0,
 			'@typescript-eslint/no-non-null-assertion': 'off',

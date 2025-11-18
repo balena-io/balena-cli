@@ -2,7 +2,8 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"allowJs": true,
-		"checkJs": true
+		"checkJs": true,
+		"removeComments": false
 	},
 	"include": [
 		"./automation/**/*",
@@ -10,6 +11,9 @@
 		"./patches/*",
 		"./tests/**/*",
 		"./typings/**/*",
+		"./bin/**/*",
+		"./completion/**/*",
+		".mocharc.js",
 		".mocharc-standalone.js",
 	]
 }

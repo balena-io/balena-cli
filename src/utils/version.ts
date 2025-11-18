@@ -19,5 +19,6 @@ import * as semver from 'semver';
 import { version } from '../../package.json';
 
 export function isVersionGTE(v: string): boolean {
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);
 }
