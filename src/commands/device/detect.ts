@@ -17,6 +17,7 @@
 
 import { Flags, Command } from '@oclif/core';
 import { getCliUx, stripIndent } from '../../utils/lazy';
+import { pick } from '../../utils/helpers';
 
 export default class DeviceDetectCmd extends Command {
 	public static enableJsonFlag = true;
@@ -138,12 +139,14 @@ export default class DeviceDetectCmd extends Command {
 		// Reduce properties if not --verbose
 		if (!options.verbose) {
 			devicesInfo.forEach((d: any) => {
-				d.dockerInfo = _.isObject(d.dockerInfo)
-					? _.pick(d.dockerInfo, DeviceDetectCmd.dockerInfoProperties)
-					: d.dockerInfo;
-				d.dockerVersion = _.isObject(d.dockerVersion)
-					? _.pick(d.dockerVersion, DeviceDetectCmd.dockerVersionProperties)
-					: d.dockerVersion;
+				d.dockerInfo =
+					d.dockerInfo != null && typeof d.dockerInfo === 'object'
+						? pick(d.dockerInfo, DeviceDetectCmd.dockerInfoProperties)
+						: d.dockerInfo;
+				d.dockerVersion =
+					d.dockerVersion != null && typeof d.dockerVersion === 'object'
+						? pick(d.dockerVersion, DeviceDetectCmd.dockerVersionProperties)
+						: d.dockerVersion;
 			});
 		}
 

@@ -17,7 +17,7 @@
 
 import { Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
-import { expandForAppName } from '../../utils/helpers';
+import { defaultValues, expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
@@ -113,10 +113,9 @@ export default class DeviceListCmd extends Command {
 			const mapped = devices.map((device) => pickAndRename(device, fields));
 			return JSON.stringify(mapped, null, 4);
 		}
-		const _ = await import('lodash');
 		console.log(
 			getVisuals().table.horizontal(
-				devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
+				devices.map((dev) => defaultValues(dev, 'N/a')),
 				fields,
 			),
 		);

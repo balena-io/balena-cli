@@ -26,11 +26,9 @@ import { getBalenaSdk, getCliUx, getVisuals } from './lazy';
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
 }): { [name: string]: string | number | undefined } {
-	return _.chain(group)
-		.get('options')
-		.map((question) => [question.name, question.default])
-		.fromPairs()
-		.value();
+	return Object.fromEntries(
+		group.options.map((question) => [question.name, question.default]),
+	);
 }
 
 export function stateToString(state: OperationState) {
@@ -506,5 +504,32 @@ export function pickAndRename<T extends Dictionary<any>>(
 		rename[renameFrom] = renameTo;
 		return renameFrom;
 	});
-	return _.mapKeys(_.pick(obj, fields), (_val, key) => rename[key]);
+	return Object.fromEntries(
+		Object.entries(obj)
+			.filter(([key]) => fields.includes(key))
+			.map(([key, val]) => [rename[key], val]),
+	);
 }
+
+export const defaultValues = <T, U>(
+	obj: Record<string, T | U | undefined>,
+	defaultValue: U,
+): Record<string, Exclude<T, undefined | null> | U> => {
+	for (const key of Object.keys(obj)) {
+		obj[key] ??= defaultValue;
+	}
+	return obj as Record<string, Exclude<T, undefined | null> | U>;
+};
+
+export const pick = <T extends object, U extends keyof T>(
+	obj: T,
+	keys: U[],
+): Pick<T, U> => {
+	const result: Partial<Pick<T, U>> = {};
+	for (const key of keys) {
+		if (Object.hasOwn(obj, key)) {
+			result[key] = obj[key];
+		}
+	}
+	return result as Pick<T, U>;
+};

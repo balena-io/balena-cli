@@ -43,6 +43,7 @@ import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
 import Logger = require('./logger');
 import { exists } from './which';
+import { pick } from './helpers';
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 
@@ -892,7 +893,10 @@ export async function checkBuildSecretsRequirements(
 	sourceDir: string,
 ) {
 	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
-	if (metaObj && !_.isEmpty(metaObj['build-secrets'])) {
+	if (
+		metaObj?.['build-secrets'] != null &&
+		Object.keys(metaObj['build-secrets']).length !== 0
+	) {
 		const dockerUtils = await import('./docker');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
 		if (!isBalenaEngine) {
@@ -1189,13 +1193,16 @@ export async function validateProjectDirectory(
 		}
 		if (!opts.noParentCheck) {
 			const checkCompose = async (folder: string) => {
-				return _.some(
-					await Promise.all(
+				try {
+					await Promise.any(
 						compositionFileNames.map((filename) =>
-							exists(path.join(folder, filename)),
+							fs.access(path.join(folder, filename)),
 						),
-					),
-				);
+					);
+					return true;
+				} catch {
+					return false;
+				}
 			};
 			const [hasCompose, hasParentCompose] = await Promise.all([
 				checkCompose(opts.projectPath),
@@ -1232,7 +1239,7 @@ async function getTokenForPreviousRepos(
 		sdk,
 		apiEndpoint,
 		taggedImages[0].registry,
-		_.map(taggedImages, 'repo'),
+		taggedImages.map((taggedImg) => taggedImg.repo),
 		previousRepos,
 	);
 	return token;
@@ -1353,7 +1360,7 @@ async function pushServiceImages(
 
 			// These are the only update-able image fields in bC atm, and passing
 			// the whole image object in v7+ would result the allowlist to reject the request.
-			const imagePayload = _.pick(serviceImage, [
+			const imagePayload = pick(serviceImage, [
 				'end_timestamp',
 				'project_type',
 				'error_message',

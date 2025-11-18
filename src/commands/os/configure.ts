@@ -18,7 +18,6 @@
 import { Flags, Args, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import * as _ from 'lodash';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
@@ -420,11 +419,10 @@ async function askQuestionsForDeviceType(
 	}
 
 	if (!options.advanced) {
-		const advancedGroup: any = _.find(questions, {
-			name: 'advanced',
-			isGroup: true,
-		});
-		if (!_.isEmpty(advancedGroup)) {
+		const advancedGroup = questions.find(
+			(question) => question.name === 'advanced' && question.isGroup,
+		);
+		if (advancedGroup != null && Object.keys(advancedGroup).length > 0) {
 			const helpers = await import('../../utils/helpers');
 			answerSources.push(helpers.getGroupDefaults(advancedGroup));
 		}
@@ -445,7 +443,7 @@ async function askQuestionsForDeviceType(
 		defaultAnswers.network = 'wifi';
 	}
 
-	if (!_.isEmpty(defaultAnswers)) {
+	if (defaultAnswers != null && Object.keys(defaultAnswers).length > 0) {
 		extraOpts = { override: defaultAnswers };
 	}
 
@@ -473,21 +471,19 @@ async function askQuestionsForDeviceType(
  * @return Array of question names, for example:
  *     [ 'network', 'wifiSsid', 'wifiKey', 'appUpdatePollInterval' ]
  */
-function getQuestionNames(
-	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
-): Array<keyof Answers> {
-	const questionNames: string[] = _.chain(deviceType.options)
-		.flatMap(
-			(group: BalenaSdk.DeviceTypeJson.DeviceTypeOptions) =>
-				(group.isGroup && group.options) || [],
-		)
-		.map(
-			(groupOption: BalenaSdk.DeviceTypeJson.DeviceTypeOptionsGroup) =>
-				groupOption.name,
-		)
-		.filter()
-		.value();
-	return questionNames as Array<keyof Answers>;
+function getQuestionNames(deviceType: BalenaSdk.DeviceTypeJson.DeviceType) {
+	const questionNames =
+		deviceType.options
+			?.flatMap(
+				(group: BalenaSdk.DeviceTypeJson.DeviceTypeOptions) =>
+					(group.isGroup && group.options) || [],
+			)
+			.map(
+				(groupOption: BalenaSdk.DeviceTypeJson.DeviceTypeOptionsGroup) =>
+					groupOption.name as keyof Answers,
+			)
+			.filter(Boolean) ?? [];
+	return questionNames;
 }
 
 /**
@@ -499,12 +495,17 @@ function getQuestionNames(
  *     { app: 'foo', wifiKey: 'mykey', wifiSsid: 'myssid' }
  */
 function camelifyConfigOptions(options: FlagsDef): { [key: string]: any } {
-	return _.mapKeys(options, (_value, key) => {
-		if (key.startsWith('config-')) {
-			return key
-				.substring('config-'.length)
-				.replace(/-[a-z]/g, (match) => match.substring(1).toUpperCase());
-		}
-		return key;
-	});
+	return Object.fromEntries(
+		Object.entries(options).map(([key, value]) => {
+			if (key.startsWith('config-')) {
+				return [
+					key
+						.substring('config-'.length)
+						.replace(/-[a-z]/g, (match) => match.substring(1).toUpperCase()),
+					value,
+				];
+			}
+			return [key, value];
+		}),
+	);
 }

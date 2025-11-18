@@ -18,6 +18,7 @@
 import { Flags, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { defaultValues } from '../../utils/helpers';
 
 export default class APIKeyListCmd extends Command {
 	public static description = stripIndent`
@@ -68,10 +69,9 @@ export default class APIKeyListCmd extends Command {
 			},
 		});
 		const fields = ['id', 'name', 'created_at', 'description', 'expiry_date'];
-		const _ = await import('lodash');
 		console.log(
 			getVisuals().table.horizontal(
-				keys.map((key) => _.mapValues(key, (val) => val ?? 'N/a')),
+				keys.map((key) => defaultValues(key, 'N/a')),
 				fields,
 			),
 		);

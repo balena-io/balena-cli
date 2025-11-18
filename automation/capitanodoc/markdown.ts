@@ -46,8 +46,8 @@ function renderOclifCommand(command: Category['commands'][0]): string[] {
 		.trim();
 	result.push(description);
 
-	if (!_.isEmpty(command.examples)) {
-		result.push('Examples:', command.examples!.map((v) => `\t${v}`).join('\n'));
+	if (command.examples?.length) {
+		result.push('Examples:', command.examples.map((v) => `\t${v}`).join('\n'));
 	}
 
 	if (!_.isEmpty(command.args)) {
