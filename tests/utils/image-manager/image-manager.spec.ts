@@ -1,7 +1,8 @@
 import * as stream from 'stream';
 import { expect } from 'chai';
 import { stub } from 'sinon';
-import * as tmp from 'tmp';
+import * as path from 'path';
+import { mkdtempDisposableSyncGraceful } from '../../../src/utils/gracefully-disposable-tmp';
 import { delay } from '../../utils';
 import * as fs from 'fs';
 import { promises as fsAsync } from 'fs';
@@ -30,16 +31,22 @@ describe('image-manager', function () {
 	describe('.getStream()', () => {
 		describe('given the existing image', function () {
 			beforeEach(function () {
-				this.image = tmp.fileSync();
-				fs.writeSync(this.image.fd, 'Cache image', 0, 'utf8');
+				const tmpDir = mkdtempDisposableSyncGraceful();
+				this.image = {
+					...tmpDir,
+					filepath: path.join(tmpDir.path, 'img'),
+				};
+				fs.writeFileSync(this.image.filepath, 'Cache image', {
+					encoding: 'utf8',
+				});
 
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				return this.cacheGetImagePathStub.resolves(this.image.name);
+				return this.cacheGetImagePathStub.resolves(this.image.filepath);
 			});
 
 			afterEach(function () {
 				this.cacheGetImagePathStub.restore();
-				return this.image.removeCallback();
+				return this.image.remove();
 			});
 
 			describe('given the image is fresh', function () {
@@ -97,7 +104,7 @@ describe('image-manager', function () {
 
 							stream.on('end', async () => {
 								expect(result).to.equal('Download image');
-								const contents = await fsAsync.readFile(this.image.name, {
+								const contents = await fsAsync.readFile(this.image.filepath, {
 									encoding: 'utf8',
 								});
 								expect(contents).to.equal('Download image');
@@ -149,7 +156,7 @@ describe('image-manager', function () {
 
 							stream.on('error', async () => {
 								const contents = await fsAsync
-									.stat(this.image.name + '.inprogress')
+									.stat(this.image.filepath + '.inprogress')
 									.then(function () {
 										throw new Error('Image cache should be deleted on failure');
 									})
@@ -157,7 +164,7 @@ describe('image-manager', function () {
 										if (err.code !== 'ENOENT') {
 											throw err;
 										}
-										return fsAsync.readFile(this.image.name, {
+										return fsAsync.readFile(this.image.filepath, {
 											encoding: 'utf8',
 										});
 									});
@@ -326,16 +333,22 @@ describe('image-manager', function () {
 	describe('.getImage()', () => {
 		describe('given an existing image', function () {
 			beforeEach(function () {
-				this.image = tmp.fileSync();
-				fs.writeSync(this.image.fd, 'Lorem ipsum dolor sit amet', 0, 'utf8');
+				const tmpDir = mkdtempDisposableSyncGraceful();
+				this.image = {
+					...tmpDir,
+					filepath: path.join(tmpDir.path, 'img'),
+				};
+				fs.writeFileSync(this.image.filepath, 'Lorem ipsum dolor sit amet', {
+					encoding: 'utf8',
+				});
 
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.resolves(this.image.name);
+				this.cacheGetImagePathStub.resolves(this.image.filepath);
 			});
 
-			afterEach(function (done) {
+			afterEach(function () {
 				this.cacheGetImagePathStub.restore();
-				fs.unlink(this.image.name, done);
+				this.image.remove();
 			});
 
 			it('should return a stream to the image', function (done) {
@@ -365,14 +378,18 @@ describe('image-manager', function () {
 	describe('.getImageWritableStream()', () => {
 		describe('given the valid image path', function () {
 			beforeEach(function () {
-				this.image = tmp.fileSync();
+				const tmpDir = mkdtempDisposableSyncGraceful();
+				this.image = {
+					...tmpDir,
+					filepath: path.join(tmpDir.path, 'img'),
+				};
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.resolves(this.image.name);
+				this.cacheGetImagePathStub.resolves(this.image.filepath);
 			});
 
-			afterEach(function (done) {
+			afterEach(function () {
 				this.cacheGetImagePathStub.restore();
-				fs.unlink(this.image.name, done);
+				this.image.remove();
 			});
 
 			it('should return a writable stream', () =>
@@ -394,7 +411,7 @@ describe('image-manager', function () {
 						stringStream.pipe(stream);
 						stream.on('finish', async () => {
 							await stream.persistCache();
-							const contents = await fsAsync.readFile(this.image.name, {
+							const contents = await fsAsync.readFile(this.image.filepath, {
 								encoding: 'utf8',
 							});
 							expect(contents).to.equal('Lorem ipsum dolor sit amet');
