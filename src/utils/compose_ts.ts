@@ -795,6 +795,30 @@ export async function tarDirectory(
 }
 
 /**
+ * Calculates the total size of a readable stream.
+ *
+ * @param stream A readable stream, such as the one returned by tarDirectory.
+ * @returns A promise that resolves to the total size of the stream in bytes.
+ */
+export async function getTarPackSize(stream: Readable): Promise<number> {
+	return new Promise((resolve, reject) => {
+		let totalSize = 0;
+
+		stream.on('data', (chunk: Buffer) => {
+			totalSize += chunk.length;
+		});
+
+		stream.on('end', () => {
+			resolve(totalSize);
+		});
+
+		stream.on('error', (err) => {
+			reject(err);
+		});
+	});
+}
+
+/**
  * Print warning messages for unused .dockerignore files, and info messages if
  * the --multi-dockerignore (-m) option is used in certain circumstances.
  * @param dockerignoreFiles All .dockerignore files found in the project

@@ -20,11 +20,11 @@ import type { PlainResponse } from 'got';
 import type got from 'got';
 import type { RegistrySecrets } from '@balena/compose/dist/multibuild';
 import type * as Stream from 'stream';
+import { PassThrough } from 'stream';
 import streamToPromise = require('stream-to-promise');
 import type { Pack } from 'tar-stream';
-
 import { ExpectedError, SIGINTError } from '../errors';
-import { tarDirectory } from './compose_ts';
+import { tarDirectory, getTarPackSize } from './compose_ts';
 import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
 
@@ -327,10 +327,17 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 			convertEol: build.opts.convertEol,
 			multiDockerignore: build.opts.multiDockerignore,
 		});
+		const passthrough = new PassThrough();
+		tarStream.pipe(passthrough);
+		const tarPackSize = await getTarPackSize(tarStream);
 		globalLogger.logDebug(
 			`Tarring complete in ${Date.now() - tarStartTime} ms`,
 		);
-		return tarStream;
+		const { humanizeSize } = await import('./helpers');
+		globalLogger.logDebug(
+			`The total size of the upload is ${humanizeSize(tarPackSize)}.`,
+		);
+		return passthrough;
 	} finally {
 		tarSpinner.stop();
 	}
