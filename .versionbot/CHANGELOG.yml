@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use nullish coalescing
+      hash: 00363df6e5d282ebc1e9e8b15930ec0effce2c79
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+      nested: []
+  version: 23.0.1
+  title: ""
+  date: 2025-11-18T03:19:23.174Z
+- commits:
     - subject: Fix lzma-native build on node24 on Linux ARM runners
       hash: fd5f06d2bc5d723e60ece0ff140b3139f5f96bee
       body: ""
