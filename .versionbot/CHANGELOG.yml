@@ -1,4 +1,216 @@
 - commits:
+    - subject: "device os-update: Add support for HUPing ESR devices"
+      hash: 757061c894fdb662aabb4c3af28fd2b3d8f68dc1
+      body: |
+        Update balena-sdk from 22.1.4 to 22.4.1
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: https://balena.fibery.io/Work/Project/2022
+        see: https://balena.fibery.io/Work/Project/2022
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Replace some lodash usage with native JS alternatives
+              hash: 944fc904b1b5b9387ff81985b2fafdc244a6d2fc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-22.4.1
+          title: ""
+          date: 2025-11-13T14:40:51.859Z
+        - commits:
+            - subject: "os.getSupportedOsUpdateVersions: List ESR versions when an ESR version
+                is provided & no osType is specified"
+              hash: 5ed9cf21398fc83d5041be5f83b2862af3ddf8be
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                See: https://balena.fibery.io/Work/Project/2022
+                see: https://balena.fibery.io/Work/Project/2022
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-22.4.0
+          title: ""
+          date: 2025-11-13T10:09:32.156Z
+        - commits:
+            - subject: Stop using Browserify in favor of Webpack
+              hash: a29dc5eb6127cda3b96423463ea078184dc0c4b8
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.fibery.io/Work/Project/2025
+                see: https://balena.fibery.io/Work/Project/2025
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-22.3.1
+          title: ""
+          date: 2025-11-13T09:50:55.646Z
+        - commits:
+            - subject: "os.getSupportedOsUpdateVersions: Add support for including ESR
+                versions"
+              hash: 34519469b546fe1fa46c6c4cd99ac1cf1f17f5ed
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                See: https://balena.fibery.io/Work/Project/2009
+                see: https://balena.fibery.io/Work/Project/2009
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tsconfig: Remove trailing comma so that it is a be a valid JSON"
+              hash: 0cb511167e104253f2bebcbd88f788415d605592
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "os.getSupportedOsUpdateVersions: Replace an Array.filter with
+                Array.find"
+              hash: 1cb7742c649a7a83d94751c39d1d54103a9fef1b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-22.3.0
+          title: ""
+          date: 2025-11-11T14:56:28.123Z
+        - commits:
+            - subject: Deprecate the device.lastOnline method
+              hash: 61c3865e45396466af1a12bb3f0f1be66a63664b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Reduce the usage of date-fns
+              hash: fcf6abe3f3b0bf1c17587bde95e98bd2356870e3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-22.2.2
+          title: ""
+          date: 2025-11-11T14:21:27.391Z
+        - commits:
+            - subject: Update pinejs-client-core to 8.4.0
+              hash: d51719ca9b3190f9341053ff5bef414a1471895b
+              body: |
+                Update pinejs-client-core from 8.3.0 to 8.4.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested:
+                - commits:
+                    - subject: Add a `StatusError` class that downstream is expected to use for errors
+                      hash: 5c589f1ddb12ffac87c13d3daed2bda09d386378
+                      body: >
+                        This isn't enforced currently but it will help to
+                        standardize errors
+
+                        across implementations and make it easier to switch
+                        between them
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Pagan Gazzard
+                      nested: []
+                  version: pinejs-client-js-8.4.0
+                  title: ""
+                  date: 2025-10-10T16:59:39.572Z
+                - commits:
+                    - subject: "Types: make use of inference for some simplification"
+                      hash: 9622554854b58352a581300d7a6cf97b156d2a9a
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                      nested: []
+                  version: pinejs-client-js-8.3.3
+                  title: ""
+                  date: 2025-10-10T13:05:32.557Z
+                - commits:
+                    - subject: "Improve typing of the `$: 'prop_name'` case"
+                      hash: adf6dbc6225ee22a72512e2416470556594fb566
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                      nested: []
+                  version: pinejs-client-js-8.3.2
+                  title: ""
+                  date: 2025-09-03T14:40:29.282Z
+                - commits:
+                    - subject: Update dependencies
+                      hash: 8836413c5bf77bb637e61e65fc54f73affeed69f
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Pagan Gazzard
+                      nested: []
+                  version: pinejs-client-js-8.3.1
+                  title: ""
+                  date: 2025-08-01T14:12:31.816Z
+          version: balena-sdk-22.2.1
+          title: ""
+          date: 2025-11-07T15:16:23.096Z
+        - commits:
+            - subject: temporarily disable logs subscription test and adapt builder test
+              hash: 8f3b0fd393f01b0860694a5d5beb3d054cd83f41
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Andrea Rosci
+              nested: []
+            - subject: "fix: prevent linter from suggesting incorrect optional chaining
+                comparison"
+              hash: 559370898f767b7bd54afb94d0b4c04c6c023794
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Andrea Rosci
+              nested: []
+            - subject: deprecate `current_services` in favour of `current_services_by_app`
+              hash: 06f63d8433b64955cdefcd84ef8cdb18af95018f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Andrea Rosci
+              nested: []
+            - subject: add `current_services_by_app` to group services by application;
+                deprecate `current_services`
+              hash: 71a59e7111e7ca5ecda178351c74a3bf9407785f
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Andrea Rosci
+              nested: []
+          version: balena-sdk-22.2.0
+          title: ""
+          date: 2025-10-29T14:59:15.364Z
+  version: 23.1.0
+  title: ""
+  date: 2025-11-18T11:45:30.118Z
+- commits:
     - subject: Use nullish coalescing
       hash: 00363df6e5d282ebc1e9e8b15930ec0effce2c79
       body: ""
