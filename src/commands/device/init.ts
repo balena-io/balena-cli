@@ -135,11 +135,6 @@ export default class DeviceInitCmd extends Command {
 		await validateArgsAndOptions(options);
 
 		// Imports
-		const { promisify } = await import('util');
-		const { promises: fs } = await import('node:fs');
-		const tmp = await import('tmp');
-		const tmpNameAsync = promisify(tmp.tmpName);
-		tmp.setGracefulCleanup();
 		const { downloadOSImage } = await import('../../utils/cloud');
 		const { getApplication } = await import('../../utils/sdk');
 		const Logger = await import('../../utils/logger');
@@ -175,21 +170,37 @@ export default class DeviceInitCmd extends Command {
 			deviceUuid,
 		);
 
+		const path = await import('node:path');
+		const { mkdtempDisposableSyncGraceful } = await import(
+			'../../utils/gracefully-disposable-tmp'
+		);
+		// The only reason we are using a DisposableStack is so that we can log right before disposal
+		using disposer = new DisposableStack();
+		const tmpDir = disposer.use(mkdtempDisposableSyncGraceful());
+		disposer.defer(() => {
+			logger.logDebug(`Removing temporary OS image download...`);
+		});
 		// Download OS, configure, and flash
-		const tmpPath = (await tmpNameAsync()) as string;
+		const tmpImagePath = path.join(tmpDir.path, 'tmp-image');
 		try {
 			logger.logDebug(`Downloading OS image...`);
 			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 			const osVersion = options['os-version'] || 'default';
 			const deviceType =
 				configJson?.deviceType ?? application.is_for__device_type[0].slug;
-			await downloadOSImage(deviceType, tmpPath, osVersion);
+			await downloadOSImage(deviceType, tmpImagePath, osVersion);
 
 			logger.logDebug(`Configuring OS image...`);
-			await this.configureOsImage(tmpPath, device, options, configJson, logger);
+			await this.configureOsImage(
+				tmpImagePath,
+				device,
+				options,
+				configJson,
+				logger,
+			);
 
 			logger.logDebug(`Writing OS image...`);
-			await this.writeOsImage(tmpPath, deviceType, options);
+			await this.writeOsImage(tmpImagePath, deviceType, options);
 		} catch (e) {
 			// Remove device in failed cases
 			try {
@@ -199,10 +210,6 @@ export default class DeviceInitCmd extends Command {
 				// Ignore removal failures, and throw original error
 			}
 			throw e;
-		} finally {
-			// Remove temp download
-			logger.logDebug(`Removing temporary OS image download...`);
-			await fs.rm(tmpPath, { recursive: true, force: true });
 		}
 
 		console.log('Done');
@@ -216,58 +223,53 @@ export default class DeviceInitCmd extends Command {
 		configJson: ImgConfig | undefined,
 		logger: import('../../utils/logger'),
 	) {
-		let tmpConfigJsonPath: string | undefined;
-		const { promises: fs } = await import('node:fs');
+		const configureCommand = ['os', 'configure', osImagePath];
+		if (configJson != null) {
+			// Since `os configure` doesn't allow mixing --config with other parameters
+			// when the user has provided a config.json, we need to create a temp clone,
+			// augment it withe extra parameters (like device & api key), and pass that
+			// to `os configure` via --config
+			const { populateDeviceConfig } = await import('../../utils/config');
+			populateDeviceConfig(configJson, device, device.api_key);
 
-		try {
-			const configureCommand = ['os', 'configure', osImagePath];
-			if (configJson != null) {
-				// Since `os configure` doesn't allow mixing --config with other parameters
-				// when the user has provided a config.json, we need to create a temp clone,
-				// augment it withe extra parameters (like device & api key), and pass that
-				// to `os configure` via --config
-				const { populateDeviceConfig } = await import('../../utils/config');
-				populateDeviceConfig(configJson, device, device.api_key);
-
-				const tmp = await import('tmp');
-				const { promisify } = await import('util');
-				const tmpNameAsync = promisify(tmp.tmpName);
-				tmp.setGracefulCleanup();
-
-				tmpConfigJsonPath = (await tmpNameAsync()) as string;
-				const fs = await import('fs/promises');
-				await fs.writeFile(tmpConfigJsonPath, JSON.stringify(configJson));
-
-				configureCommand.push('--config', tmpConfigJsonPath);
-			} else {
-				configureCommand.push('--device', device.uuid);
-
-				if (options.advanced) {
-					configureCommand.push('--advanced');
-				}
-
-				if (options['provisioning-key-name']) {
-					configureCommand.push(
-						'--provisioning-key-name',
-						options['provisioning-key-name'],
-					);
-				}
-
-				if (options['provisioning-key-expiry-date']) {
-					configureCommand.push(
-						'--provisioning-key-expiry-date',
-						options['provisioning-key-expiry-date'],
-					);
-				}
-			}
-
-			await runCommand(configureCommand);
-		} finally {
-			if (tmpConfigJsonPath != null) {
-				// Remove temp config.json
+			const path = await import('node:path');
+			const { mkdtempDisposableSyncGraceful } = await import(
+				'../../utils/gracefully-disposable-tmp'
+			);
+			// The only reason we are using a DisposableStack is so that we can log right before disposal
+			using disposer = new DisposableStack();
+			const tmpConfigJsonDir = disposer.use(mkdtempDisposableSyncGraceful());
+			disposer.defer(() => {
 				logger.logDebug(`Removing temporary config.json...`);
-				await fs.rm(tmpConfigJsonPath, { recursive: true, force: true });
+			});
+			const tmpConfigJsonPath = path.join(tmpConfigJsonDir.path, 'config.json');
+
+			const fs = await import('fs/promises');
+			await fs.writeFile(tmpConfigJsonPath, JSON.stringify(configJson));
+
+			configureCommand.push('--config', tmpConfigJsonPath);
+			await runCommand(configureCommand);
+		} else {
+			configureCommand.push('--device', device.uuid);
+
+			if (options.advanced) {
+				configureCommand.push('--advanced');
 			}
+
+			if (options['provisioning-key-name']) {
+				configureCommand.push(
+					'--provisioning-key-name',
+					options['provisioning-key-name'],
+				);
+			}
+
+			if (options['provisioning-key-expiry-date']) {
+				configureCommand.push(
+					'--provisioning-key-expiry-date',
+					options['provisioning-key-expiry-date'],
+				);
+			}
+			await runCommand(configureCommand);
 		}
 	}
 

@@ -19,18 +19,14 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as process from 'process';
 import { runCommand } from '../../helpers';
-import { promisify } from 'util';
-import * as tmp from 'tmp';
+import { mkdtempDisposableSyncGraceful } from '../../../src/utils/gracefully-disposable-tmp';
 import * as path from 'node:path';
-import { tmpdir } from 'node:os';
 import type * as $imagefs from 'balena-image-fs';
 import { stripIndent } from '../../../build/utils/lazy';
 import { randomUUID } from 'node:crypto';
 
-tmp.setGracefulCleanup();
-const tmpNameAsync = promisify(tmp.tmpName);
-
 import { MockHttpServer } from '../../mockserver';
+import type { DisposableTempDir } from 'node:fs';
 
 if (process.platform !== 'win32') {
 	describe('balena os configure', function () {
@@ -46,9 +42,10 @@ if (process.platform !== 'win32') {
 				'mock-jetson-nano-6.0.13.with-boot-partition-12.img',
 		};
 
-		const tmpImagePaths = {
-			...testImageFilenames,
-		};
+		const imageDisposableTempDirs = {} as Record<
+			keyof typeof testImageFilenames,
+			DisposableTempDir & { filepath: string }
+		>;
 		let api: MockHttpServer['api'];
 		let server: MockHttpServer;
 
@@ -61,16 +58,25 @@ if (process.platform !== 'win32') {
 			for (const key of Object.keys(testImageFilenames) as Array<
 				keyof typeof testImageFilenames
 			>) {
-				const imagePath = testImageFilenames[key];
-				tmpImagePaths[key] = (await tmpNameAsync()) as string;
-				await fs.copyFile(`./tests/test-data/${imagePath}`, tmpImagePaths[key]);
+				const imageFilename = testImageFilenames[key];
+				imageDisposableTempDirs[key] = (() => {
+					const disposableTempDir = mkdtempDisposableSyncGraceful();
+					return {
+						...disposableTempDir,
+						filepath: path.join(disposableTempDir.path, imageFilename),
+					};
+				})();
+				await fs.copyFile(
+					`./tests/test-data/${imageFilename}`,
+					imageDisposableTempDirs[key].filepath,
+				);
 			}
 
 			// Create an image with a device-type.json that mentions a non matching boot partition.
 			// We copy the pre-existing image and modify it, since including a separate one
 			// would add 18MB more to the repository.
 			await imagefs.interact(
-				tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition,
+				imageDisposableTempDirs.jetsonNanoNonMatchingDtJsonPartition.filepath,
 				12,
 				async (_fs) => {
 					const dtJson = JSON.parse(
@@ -115,9 +121,9 @@ if (process.platform !== 'win32') {
 			await server.stop();
 		});
 
-		after(async () => {
-			for (const tmpImagePath of Object.values(tmpImagePaths)) {
-				await fs.unlink(tmpImagePath);
+		after(() => {
+			for (const disposableTempDir of Object.values(imageDisposableTempDirs)) {
+				disposableTempDir.remove();
 			}
 		});
 
@@ -141,7 +147,7 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should fail when the provided image path does not exist', async () => {
-			const tmpInvalidImagePath = `${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}wrong.img`;
+			const tmpInvalidImagePath = `${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}wrong.img`;
 			const command: string[] = [
 				`os configure ${tmpInvalidImagePath}`,
 				'--device-type jetson-nano',
@@ -156,7 +162,10 @@ if (process.platform !== 'win32') {
 
 		it('should fail when the provided image path is a directory', async () => {
 			const tmpInvalidImagePath =
-				tmpImagePaths.jetsonNanoMatchingDtJsonPartition.replace(/\/[^/]+$/, '');
+				imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath.replace(
+					/\/[^/]+$/,
+					'',
+				);
 			const command: string[] = [
 				`os configure ${tmpInvalidImagePath}`,
 				'--device-type jetson-nano',
@@ -172,9 +181,9 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should fail when the provided config path does not exist', async () => {
-			const tmpInvalidConfigJsonPath = `${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}wrong-config.json`;
+			const tmpInvalidConfigJsonPath = `${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}wrong-config.json`;
 			const command: string[] = [
-				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
+				`os configure ${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}`,
 				`--config ${tmpInvalidConfigJsonPath}`,
 			];
 
@@ -186,7 +195,7 @@ if (process.platform !== 'win32') {
 
 		it('should fail when none of the --device, --fleet, --config is provided', async () => {
 			const command: string[] = [
-				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
+				`os configure ${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}`,
 			];
 
 			const { err } = await runCommand(command.join(' '));
@@ -204,9 +213,9 @@ if (process.platform !== 'win32') {
 		]) {
 			it(`should fail combining --config with ${argName}`, async () => {
 				const command: string[] = [
-					`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
+					`os configure ${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}`,
 					`${argName} ${argValue}`,
-					`--config ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
+					`--config ${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}`,
 				];
 
 				const { err } = await runCommand(command.join(' '));
@@ -221,7 +230,7 @@ if (process.platform !== 'win32') {
 							See more help with --help`
 						: stripIndent`
 							The following errors occurred:
-							  --config=${tmpImagePaths.jetsonNanoMatchingDtJsonPartition} cannot also be provided when using ${argName}
+							  --config=${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath} cannot also be provided when using ${argName}
 							  ${argName}=${argValue} cannot also be provided when using --config
 							See more help with --help`
 					).split('\n'),
@@ -231,7 +240,7 @@ if (process.platform !== 'win32') {
 
 		it('should fail when combining --device and --device-type', async () => {
 			const command: string[] = [
-				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
+				`os configure ${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}`,
 				'--device 276cc21e71574fd3802279ca11134c96',
 				'--device-type jetson-nano',
 			];
@@ -257,7 +266,7 @@ if (process.platform !== 'win32') {
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
+				`os configure ${imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath}`,
 				'--device-type jetson-nano',
 				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
@@ -272,7 +281,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.jetsonNanoMatchingDtJsonPartition,
+				imageDisposableTempDirs.jetsonNanoMatchingDtJsonPartition.filepath,
 				12,
 				async (_fs) => {
 					const dtJson = JSON.parse(
@@ -305,7 +314,7 @@ if (process.platform !== 'win32') {
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition}`,
+				`os configure ${imageDisposableTempDirs.jetsonNanoNonMatchingDtJsonPartition.filepath}`,
 				'--device-type jetson-nano',
 				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
@@ -320,7 +329,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition,
+				imageDisposableTempDirs.jetsonNanoNonMatchingDtJsonPartition.filepath,
 				12,
 				async (_fs) => {
 					const dtJson = JSON.parse(
@@ -353,7 +362,7 @@ if (process.platform !== 'win32') {
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.intelNuc}`,
+				`os configure ${imageDisposableTempDirs.intelNuc.filepath}`,
 				'--device-type intel-nuc',
 				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
@@ -368,7 +377,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.intelNuc,
+				imageDisposableTempDirs.intelNuc.filepath,
 				1,
 				async (_fs) => {
 					// confirm that there is no /os-release
@@ -425,7 +434,7 @@ if (process.platform !== 'win32') {
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.genericAmd64}`,
+				`os configure ${imageDisposableTempDirs.genericAmd64.filepath}`,
 				'--device-type generic-amd64',
 				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
@@ -440,7 +449,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.genericAmd64,
+				imageDisposableTempDirs.genericAmd64.filepath,
 				1,
 				async (_fs) => {
 					// confirm that there is no /os-release
@@ -493,7 +502,7 @@ if (process.platform !== 'win32') {
 			await api.expectGetDeviceTypes();
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.dummy}`,
+				`os configure ${imageDisposableTempDirs.dummy.filepath}`,
 				'--device-type raspberrypi3',
 				'--fleet testApp',
 			];
@@ -505,14 +514,14 @@ if (process.platform !== 'win32') {
 				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
 			).to.deep.equal(
 				stripIndent`
-					[warn] "${tmpImagePaths.dummy}":
+					[warn] "${imageDisposableTempDirs.dummy.filepath}":
 					[warn]   Found partition table with 1 partitions,
 					[warn]   but none with a name/label in ['resin-boot', 'flash-boot', 'balena-boot'].
 					[warn]   Will scan all partitions for contents.
-					[warn] "${tmpImagePaths.dummy}":
+					[warn] "${imageDisposableTempDirs.dummy.filepath}":
 					[warn]   1 partition(s) found, but none containing file "/device-type.json".
 					[warn]   Assuming default boot partition number '1'.
-					[warn] "${tmpImagePaths.dummy}":
+					[warn] "${imageDisposableTempDirs.dummy.filepath}":
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
 					[warn]   Proceeding anyway, but this is unexpected.
 					Error while finding a device-type.json on the provided image path.`.split('\n'),
@@ -533,18 +542,16 @@ if (process.platform !== 'win32') {
 				apiEndpoint: 'https://api.balena-cloud.com',
 				vpnEndpoint: 'vpn.balena-cloud.com',
 				registryEndpoint: 'registry2.balena-cloud.com',
-				deltaEndpoint: 'https://delta.balena-cloud.com',
+				deltaEndpoint: 'https://delta.balena-cl<oud.com',
 				apiKey: 'nothingtoseehere',
 				initialDeviceName: `testDeviceNameGenericAmd64-${randomUUID()}`,
 			};
-			await using tmpDir = await fs.mkdtempDisposable(
-				path.join(tmpdir(), 'os-configure-tests'),
-			);
+			using tmpDir = mkdtempDisposableSyncGraceful();
 			const tmpPath = path.join(tmpDir.path, 'config.json');
 			await fs.writeFile(tmpPath, JSON.stringify(configJson));
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.genericAmd64}`,
+				`os configure ${imageDisposableTempDirs.genericAmd64.filepath}`,
 				`--config ${tmpPath}`,
 			];
 
@@ -553,7 +560,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.genericAmd64,
+				imageDisposableTempDirs.genericAmd64.filepath,
 				1,
 				async (_fs) => {
 					return await _fs.promises.readFile('/config.json');
@@ -594,14 +601,12 @@ if (process.platform !== 'win32') {
 				wifiSsid: `wifiSsid-${randomUUID()}`,
 				wifiKey: `wifiKey-${randomUUID()}`,
 			};
-			await using tmpDir = await fs.mkdtempDisposable(
-				path.join(tmpdir(), 'os-configure-tests'),
-			);
+			using tmpDir = mkdtempDisposableSyncGraceful();
 			const tmpPath = path.join(tmpDir.path, 'config.json');
 			await fs.writeFile(tmpPath, JSON.stringify(configJson));
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.genericAmd64}`,
+				`os configure ${imageDisposableTempDirs.genericAmd64.filepath}`,
 				`--config ${tmpPath}`,
 			];
 
@@ -610,7 +615,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.genericAmd64,
+				imageDisposableTempDirs.genericAmd64.filepath,
 				1,
 				async (_fs) => {
 					return await _fs.promises.readFile('/config.json');
@@ -655,14 +660,12 @@ if (process.platform !== 'win32') {
 					secureboot: 'true',
 				},
 			};
-			await using tmpDir = await fs.mkdtempDisposable(
-				path.join(tmpdir(), 'os-configure-tests'),
-			);
+			using tmpDir = mkdtempDisposableSyncGraceful();
 			const tmpPath = path.join(tmpDir.path, 'config.json');
 			await fs.writeFile(tmpPath, JSON.stringify(configJson));
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.genericAmd64}`,
+				`os configure ${imageDisposableTempDirs.genericAmd64.filepath}`,
 				`--config ${tmpPath}`,
 			];
 
@@ -699,14 +702,12 @@ if (process.platform !== 'win32') {
 					secureboot: true,
 				},
 			};
-			await using tmpDir = await fs.mkdtempDisposable(
-				path.join(tmpdir(), 'os-configure-tests'),
-			);
+			using tmpDir = mkdtempDisposableSyncGraceful();
 			const tmpPath = path.join(tmpDir.path, 'config.json');
 			await fs.writeFile(tmpPath, JSON.stringify(configJson));
 
 			const command: string[] = [
-				`os configure ${tmpImagePaths.genericAmd64}`,
+				`os configure ${imageDisposableTempDirs.genericAmd64.filepath}`,
 				`--config ${tmpPath}`,
 			];
 
@@ -715,7 +716,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpImagePaths.genericAmd64,
+				imageDisposableTempDirs.genericAmd64.filepath,
 				1,
 				async (_fs) => {
 					return await _fs.promises.readFile('/config.json');
