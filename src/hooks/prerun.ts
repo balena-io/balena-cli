@@ -98,6 +98,9 @@ const hook: Hook<'prerun'> = async function (options) {
 		}
 
 		if (
+			// version and autocomplete come from oclif plugins, for which we cannot add offlineCompatible true
+			options.Command.id !== 'version' &&
+			!/^autocomplete\b/.test(options.Command.id) &&
 			!(
 				(options.Command as Command.Class & { offlineCompatible: boolean })
 					.offlineCompatible ?? DEFAULT_OFFLINE_COMPATIBLE
