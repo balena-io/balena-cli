@@ -1,4 +1,18 @@
 - commits:
+    - subject: "push,build: Use streaming while packing the build context files"
+      hash: ab7ececd46c1ec487c2accaa52af986fa921a816
+      body: ""
+      footer:
+        Resolves: "#1031"
+        resolves: "#1031"
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.1.2
+  title: ""
+  date: 2025-11-19T15:27:46.626Z
+- commits:
     - subject: Drop some usage of lodash in favor of native equivalents
       hash: a97c8db9364cbf0d45c403cfdb917e1f12d7efbd
       body: ""
