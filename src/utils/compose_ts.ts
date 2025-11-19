@@ -18,7 +18,7 @@ import { Flags } from '@oclif/core';
 import type { BalenaSDK } from 'balena-sdk';
 import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
-import { promises as fs } from 'fs';
+import { promises as fs, createReadStream } from 'fs';
 import * as yaml from 'js-yaml';
 import * as _ from 'lodash';
 import * as path from 'path';
@@ -30,6 +30,7 @@ import type {
 import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
+import { pipeline } from 'node:stream/promises';
 import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
 import type {
@@ -764,34 +765,57 @@ export async function tarDirectory(
 	const { toPosixPath } = (await import('@balena/compose/dist/multibuild'))
 		.PathUtils;
 
-	let readFile: (file: string) => Promise<Buffer>;
-	if (process.platform === 'win32') {
-		const { readFileWithEolConversion } = require('./eol-conversion');
-		readFile = (file) => readFileWithEolConversion(file, convertEol);
-	} else {
-		readFile = fs.readFile;
-	}
+	const getFileEolConverter =
+		process.platform === 'win32'
+			? (await import('./eol-conversion')).getFileEolConverter
+			: undefined;
+
 	const tar = await import('tar-stream');
 	const pack = tar.pack();
 	const serviceDirs = await getServiceDirsFromComposition(dir, composition);
 	const { filteredFileList, dockerignoreFiles } =
 		await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
 	printDockerignoreWarn(dockerignoreFiles, serviceDirs, multiDockerignore);
-	for (const fileStats of filteredFileList) {
-		pack.entry(
-			{
-				name: toPosixPath(fileStats.relPath),
-				mtime: fileStats.stats.mtime,
-				mode: fileStats.stats.mode,
-				size: fileStats.stats.size,
-			},
-			await readFile(fileStats.filePath),
-		);
-	}
-	if (preFinalizeCallback) {
-		await preFinalizeCallback(pack);
-	}
-	pack.finalize();
+	void (async () => {
+		try {
+			for (const fileStats of filteredFileList) {
+				const entryHeader = {
+					name: toPosixPath(fileStats.relPath),
+					mtime: fileStats.stats.mtime,
+					mode: fileStats.stats.mode,
+					size: fileStats.stats.size,
+				};
+
+				const eolConverter = getFileEolConverter?.(fileStats, convertEol);
+				if (eolConverter != null) {
+					pack.entry(
+						{
+							...entryHeader,
+							// When we need to convertEol we can't use streaming since pack.entry()
+							// only supports streaming when we do know the file size upfront, and
+							// we can't find the final size after the conversion upfront.
+							size: undefined,
+						},
+						// TODO: Consider using a tmp file/stream in a follow-up PR
+						// to allow streaming in this case as well. Since though we only
+						// convert eol for files up to LARGE_FILE_THRESHOLD (currently 10MB)
+						// the impact of such change is limited.
+						eolConverter(await fs.readFile(fileStats.filePath)),
+					);
+				} else {
+					const fileReadStream = createReadStream(fileStats.filePath);
+					const entry = pack.entry(entryHeader);
+					await pipeline(fileReadStream, entry);
+				}
+			}
+			if (preFinalizeCallback) {
+				await preFinalizeCallback(pack);
+			}
+			pack.finalize();
+		} catch (error) {
+			pack.emit('error', error);
+		}
+	})();
 	return pack;
 }
 
