@@ -44,18 +44,15 @@ describe('balena device', function () {
 		expect(out).to.eql([]);
 	});
 
-	// Tests hiding subtopics with overrides in the BalenaHelp class
-	it('should not include sub-commands in --help', async () => {
+	// Tests that the BalenaHelp class is adding a sub commands header
+	it('should include sub-commands in --help under a respective header', async () => {
 		const { out, err } = await runCommand('device --help');
 
 		expect(err).to.deep.equal([]);
 
-		expect(
-			cleanOutput(out)
-				.flatMap((line) => line.split('\n'))
-				.filter((line) => line !== ''),
-		).to.deep.equal(
-			stripIndent`
+		expect(cleanOutput(out)).to.deep.equal(
+			cleanOutput(
+				stripIndent`
 			Show info about a single device.
 
 			USAGE
@@ -79,10 +76,35 @@ describe('balena device', function () {
 			  $ balena device 7cf02a6
 
 			  $ balena device 7cf02a6 --view
-		`
-				.split('\n')
-				.filter((line) => line !== '')
-				.map((line) => line.replace(/^\s+/, '')),
+
+			SUB COMMANDS
+			  device deactivate     deactivate a device
+			  device detect         scan for balenaOS devices on your local network
+			  device identify       identify a device
+			  device init           initialize a device with balenaOS
+			  device list           list all devices
+			  device local-mode     get or manage the local mode status for a device
+			  device logs           show device logs
+			  device move           move one or more devices to another fleet
+			  device note           set a device note
+			  device os-update      start a Host OS update for a device
+			  device pin            pin a device to a release
+			  device public-url     get or manage the public URL for a device
+			  device purge          purge data from a device
+			  device reboot         restart a device
+			  device register       register a new device
+			  device rename         rename a device
+			  device restart        restart containers on a device
+			  device rm             remove one or more devices
+			  device shutdown       shutdown a device
+			  device ssh            open a SSH prompt on a device's host OS or service
+			                        container
+			  device start-service  start containers on a device
+			  device stop-service   stop containers on a device
+			  device track-fleet    make a device track the fleet's pinned release
+			  device tunnel         tunnel local ports to your balenaOS device
+			`.split('\n'),
+			),
 		);
 	});
 
