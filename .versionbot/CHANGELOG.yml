@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove the oclif/core patches in favor oclif overrides & customization
+      hash: 91cf9f3515ee54c5cc2a2ea305a31fa2a66003ab
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.1.4
+  title: ""
+  date: 2025-11-20T08:05:29.513Z
+- commits:
     - subject: Fix `version` and `autocomplete` commands not working in offline mode
       hash: 8a6630cd69ab7bfd93397d48a1fbf97b0130b09f
       body: ""
