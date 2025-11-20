@@ -108,6 +108,25 @@ if (process.platform !== 'win32') {
 			await fs.unlink(tmpNonMatchingDtJsonPartitionPath);
 		});
 
+		// Tests the "See more help" custom error generation
+		it('should fail when not provising any parameter', async () => {
+			const { err } = await runCommand('os configure');
+			expect(
+				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+			).to.deep.equal(
+				stripIndent`
+				Missing 1 required argument:
+				image : path to a balenaOS image file, e.g. "rpi3.img"
+
+				Note: --system-connection allows multiple values. Because of this you need to provide all arguments before providing that flag.
+				Alternatively, you can use "--" to signify the end of the flags and the beginning of arguments.
+				See more help with \`balena os configure --help\`
+			`
+					.split('\n')
+					.filter((line) => line !== ''),
+			);
+		});
+
 		it('should fail when the provided image path does not exist', async () => {
 			const tmpInvalidImagePath = `${tmpMatchingDtJsonPartitionPath}wrong.img`;
 			const command: string[] = [

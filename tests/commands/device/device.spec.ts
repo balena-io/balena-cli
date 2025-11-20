@@ -20,6 +20,7 @@ import * as path from 'path';
 
 import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+import * as stripIndent from 'common-tags/lib/stripIndent';
 
 describe('balena device', function () {
 	let api: BalenaAPIMock;
@@ -41,6 +42,48 @@ describe('balena device', function () {
 		expect(errLines[0]).to.equal('Missing 1 required argument:');
 		expect(errLines[1]).to.equal('uuid : the device uuid');
 		expect(out).to.eql([]);
+	});
+
+	// Tests hiding subtopics with overrides in the BalenaHelp class
+	it('should not include sub-commands in --help', async () => {
+		const { out, err } = await runCommand('device --help');
+
+		expect(err).to.deep.equal([]);
+
+		expect(
+			cleanOutput(out)
+				.flatMap((line) => line.split('\n'))
+				.filter((line) => line !== ''),
+		).to.deep.equal(
+			stripIndent`
+			Show info about a single device.
+
+			USAGE
+			  $ balena device UUID [--json] [--view]
+
+			ARGUMENTS
+			  UUID  the device uuid
+
+			FLAGS
+			  --view  open device dashboard page
+
+			GLOBAL FLAGS
+			  --json  Format output as json.
+
+			DESCRIPTION
+			  Show info about a single device.
+
+			  Show information about a single device.
+
+			EXAMPLES
+			  $ balena device 7cf02a6
+
+			  $ balena device 7cf02a6 --view
+		`
+				.split('\n')
+				.filter((line) => line !== '')
+				.map((line) => line.replace(/^\s+/, '')),
+		);
 	});
 
 	it('should list device details for provided uuid', async () => {

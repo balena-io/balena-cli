@@ -19,6 +19,7 @@ import { expect } from 'chai';
 
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
+import * as stripIndent from 'common-tags/lib/stripIndent';
 
 describe('balena env rename', function () {
 	let api: BalenaAPIMock;
@@ -31,6 +32,21 @@ describe('balena env rename', function () {
 	afterEach(() => {
 		// Check all expected api calls have been made and clean up.
 		api.done();
+	});
+
+	// Tests the custom error augmentation
+	it('should fail when not provising any parameter', async () => {
+		const { err } = await runCommand('env rename');
+		expect(
+			err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
+		).to.deep.equal(
+			stripIndent`
+			Missing 2 required arguments:
+			id    : variable's numeric database ID
+			value : variable value; if omitted, use value from this process' environment
+			See more help with \`balena env rename --help\`
+		`.split('\n'),
+		);
 	});
 
 	it('should successfully rename an environment variable', async () => {
