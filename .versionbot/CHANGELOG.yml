@@ -1,4 +1,16 @@
 - commits:
+    - subject: Include sub-commands in --help
+      hash: a8f87d1fd936d082901fc1c5cf1dd0b37de3e415
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.0
+  title: ""
+  date: 2025-11-21T15:17:55.221Z
+- commits:
     - subject: Remove the oclif/core patches in favor oclif overrides & customization
       hash: 91cf9f3515ee54c5cc2a2ea305a31fa2a66003ab
       body: ""
