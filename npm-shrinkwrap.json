@@ -98,7 +98,7 @@
         "@types/chai-as-promised": "^7.1.4",
         "@types/cli-truncate": "^2.0.0",
         "@types/common-tags": "^1.8.1",
-        "@types/dockerode": "3.3.23",
+        "@types/dockerode": "3.3.47",
         "@types/ejs": "^3.1.0",
         "@types/express": "^4.17.13",
         "@types/fast-levenshtein": "^0.0.4",
@@ -2633,7 +2633,6 @@
       "version": "3.713.0",
       "resolved": "https://registry.npmjs.org/@aws-sdk/client-sts/-/client-sts-3.713.0.tgz",
       "integrity": "sha512-sjXy6z5bS1uspOdA0B4xQVri0XxdM24MkK0XhLoFoWAWoMlrORAMy+zW3YyU/vlsLckNYs7B4+j0P0MK35d+AQ==",
-      "peer": true,
       "dependencies": {
         "@aws-crypto/sha256-browser": "5.2.0",
         "@aws-crypto/sha256-js": "5.2.0",
@@ -5891,7 +5890,6 @@
       "integrity": "sha512-Zhy8HCvBUEfBECzIl1PKqF4p11+d0aUJS1GeUiuqK9WmOug8YCmC4h4bjyBvMyAMI9sbRczmrYL5lKg/YMbrcQ==",
       "dev": true,
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "@typescript-eslint/scope-manager": "8.38.0",
         "@typescript-eslint/types": "8.38.0",
@@ -6100,7 +6098,6 @@
       "integrity": "sha512-BhHmn2yNOFA9H9JmmIVKJmd288g9hrVRDkdoIgRCRuSySRUHH7r/DI6aAXW9T1WwUuY3DFgrcaqB+deURBLR5g==",
       "dev": true,
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "@eslint-community/eslint-utils": "^4.8.0",
         "@eslint-community/regexpp": "^4.12.1",
@@ -6385,7 +6382,6 @@
       "integrity": "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==",
       "dev": true,
       "license": "Apache-2.0",
-      "peer": true,
       "bin": {
         "tsc": "bin/tsc",
         "tsserver": "bin/tsserver"
@@ -9020,7 +9016,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/api/-/api-1.9.0.tgz",
       "integrity": "sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==",
       "license": "Apache-2.0",
-      "peer": true,
       "engines": {
         "node": ">=8.0.0"
       }
@@ -9042,7 +9037,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/context-async-hooks/-/context-async-hooks-2.2.0.tgz",
       "integrity": "sha512-qRkLWiUEZNAmYapZ7KGS5C4OmBLcP/H2foXeOEaowYCR0wi89fHejrfYfbuLVCMLp/dWZXKvQusdbUEZjERfwQ==",
       "license": "Apache-2.0",
-      "peer": true,
       "engines": {
         "node": "^18.19.0 || >=20.6.0"
       },
@@ -9055,7 +9049,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/core/-/core-2.2.0.tgz",
       "integrity": "sha512-FuabnnUm8LflnieVxs6eP7Z383hgQU4W1e3KJS6aOG3RxWxcHyBxH8fDMHNgu/gFx/M2jvTOW/4/PHhLz6bjWw==",
       "license": "Apache-2.0",
-      "peer": true,
       "dependencies": {
         "@opentelemetry/semantic-conventions": "^1.29.0"
       },
@@ -9071,7 +9064,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/instrumentation/-/instrumentation-0.204.0.tgz",
       "integrity": "sha512-vV5+WSxktzoMP8JoYWKeopChy6G3HKk4UQ2hESCRDUUTZqQ3+nM3u8noVG0LmNfRWwcFBnbZ71GKC7vaYYdJ1g==",
       "license": "Apache-2.0",
-      "peer": true,
       "dependencies": {
         "@opentelemetry/api-logs": "0.204.0",
         "import-in-the-middle": "^1.8.1",
@@ -9479,7 +9471,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/resources/-/resources-2.2.0.tgz",
       "integrity": "sha512-1pNQf/JazQTMA0BiO5NINUzH0cbLbbl7mntLa4aJNmCCXSj0q03T5ZXXL0zw4G55TjdL9Tz32cznGClf+8zr5A==",
       "license": "Apache-2.0",
-      "peer": true,
       "dependencies": {
         "@opentelemetry/core": "2.2.0",
         "@opentelemetry/semantic-conventions": "^1.29.0"
@@ -9496,7 +9487,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/sdk-trace-base/-/sdk-trace-base-2.2.0.tgz",
       "integrity": "sha512-xWQgL0Bmctsalg6PaXExmzdedSp3gyKV8mQBwK/j9VGdCDu2fmXIb2gAehBKbkXCpJ4HPkgv3QfoJWRT4dHWbw==",
       "license": "Apache-2.0",
-      "peer": true,
       "dependencies": {
         "@opentelemetry/core": "2.2.0",
         "@opentelemetry/resources": "2.2.0",
@@ -9514,7 +9504,6 @@
       "resolved": "https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.38.0.tgz",
       "integrity": "sha512-kocjix+/sSggfJhwXqClZ3i9Y/MI0fp7b+g7kCRm6psy2dsf8uApTRclwG18h8Avm7C9+fnt+O36PspJ/OzoWg==",
       "license": "Apache-2.0",
-      "peer": true,
       "engines": {
         "node": ">=14"
       }
@@ -11115,12 +11104,14 @@
       }
     },
     "node_modules/@types/dockerode": {
-      "version": "3.3.23",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.23.tgz",
-      "integrity": "sha512-Lz5J+NFgZS4cEVhquwjIGH4oQwlVn2h7LXD3boitujBnzOE5o7s9H8hchEjoDK2SlRsJTogdKnQeiJgPPKLIEw==",
+      "version": "3.3.47",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.47.tgz",
+      "integrity": "sha512-ShM1mz7rCjdssXt7Xz0u1/R2BJC7piWa3SJpUBiVjCf2A3XNn4cP6pUVaD8bLanpPVVn4IKzJuw3dOvkJ8IbYw==",
+      "license": "MIT",
       "dependencies": {
         "@types/docker-modem": "*",
-        "@types/node": "*"
+        "@types/node": "*",
+        "@types/ssh2": "*"
       }
     },
     "node_modules/@types/ejs": {
@@ -11363,7 +11354,6 @@
       "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.1.tgz",
       "integrity": "sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==",
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "undici-types": "~7.16.0"
       }
@@ -11445,7 +11435,6 @@
       "resolved": "https://registry.npmjs.org/@types/react/-/react-18.3.26.tgz",
       "integrity": "sha512-RFA/bURkcKzx/X9oumPG9Vp3D3JUgus/d0b67KB0t5S/raciymilkOa66olh78MUI92QLbEJevO7rvqU/kjwKA==",
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "@types/prop-types": "*",
         "csstype": "^3.0.2"
@@ -12032,7 +12021,6 @@
       "resolved": "https://registry.npmjs.org/acorn/-/acorn-8.15.0.tgz",
       "integrity": "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==",
       "license": "MIT",
-      "peer": true,
       "bin": {
         "acorn": "bin/acorn"
       },
@@ -12529,7 +12517,6 @@
       "resolved": "https://registry.npmjs.org/axios/-/axios-1.9.0.tgz",
       "integrity": "sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==",
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "follow-redirects": "^1.15.6",
         "form-data": "^4.0.0",
@@ -12577,7 +12564,6 @@
       "resolved": "https://registry.npmjs.org/balena-auth/-/balena-auth-6.0.1.tgz",
       "integrity": "sha512-llJEg0kB0ZltdaXVfnq5efZ9gLl0vOirzPdTOHQ8PK/iZdPJBt2RlXjUKGkUb/0SQ/pHET0aIj1nu81vjIe/ZQ==",
       "license": "Apache-2.0",
-      "peer": true,
       "dependencies": {
         "balena-errors": "^4.7.1",
         "balena-settings-storage": "^8.1.0",
@@ -12702,7 +12688,6 @@
       "resolved": "https://registry.npmjs.org/balena-request/-/balena-request-14.0.6.tgz",
       "integrity": "sha512-SRl4kr2AhQVQB2kgmq3sArn0uaumja0fj9Wy7r3hMLI+wJGyJqnKyePzzLsWtxImOxnGTkhWLcy/oYzR2buuXg==",
       "license": "Apache-2.0",
-      "peer": true,
       "dependencies": {
         "@balena/node-web-streams": "^0.2.3",
         "balena-errors": "^4.9.0",
@@ -12872,6 +12857,7 @@
       "hasInstallScript": true,
       "license": "MIT",
       "optional": true,
+      "peer": true,
       "dependencies": {
         "node-addon-api": "^8.3.0",
         "node-gyp-build": "^4.8.4"
@@ -12894,6 +12880,7 @@
       "integrity": "sha512-/bRZty2mXUIFY/xU5HLvveNHlswNJej+RnxBjOMkidWfwZzgTbPG1E3K5TOxRLOR+5hX7bSofy8yf1hZevMS8A==",
       "license": "MIT",
       "optional": true,
+      "peer": true,
       "engines": {
         "node": "^18 || ^20 || >= 21"
       }
@@ -12904,6 +12891,7 @@
       "integrity": "sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==",
       "license": "BSD-3-Clause",
       "optional": true,
+      "peer": true,
       "bin": {
         "bcrypt": "bin/bcrypt"
       }
@@ -13376,7 +13364,6 @@
       "resolved": "https://registry.npmjs.org/chai/-/chai-4.3.4.tgz",
       "integrity": "sha512-yS5H68VYOCtN1cjfwumDSuzn/9c+yza4f3reKXlE5rUg7SFcCEy90gJvydNgOYtblyf4Zi6jIWRnXOgErta0KA==",
       "dev": true,
-      "peer": true,
       "dependencies": {
         "assertion-error": "^1.1.0",
         "check-error": "^1.0.2",
@@ -15227,7 +15214,6 @@
       "integrity": "sha512-ypowyDxpVSYpkXr9WPv2PAZCtNip1Mv5KTW0SCurXv/9iOpcrH9PaqUElksqEB6pChqHGDRCFTyrZlGhnLNGiA==",
       "deprecated": "This version is no longer supported. Please see https://eslint.org/version-support for other options.",
       "dev": true,
-      "peer": true,
       "dependencies": {
         "@eslint-community/eslint-utils": "^4.2.0",
         "@eslint-community/regexpp": "^4.6.1",
@@ -16585,8 +16571,7 @@
     "node_modules/fp-ts": {
       "version": "2.13.1",
       "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.13.1.tgz",
-      "integrity": "sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==",
-      "peer": true
+      "integrity": "sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ=="
     },
     "node_modules/fresh": {
       "version": "0.5.2",
@@ -18150,7 +18135,6 @@
       "version": "2.2.20",
       "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.2.20.tgz",
       "integrity": "sha512-Rq2BsYmtwS5vVttie4rqrOCIfHCS9TgpRLFpKQCM1wZBBRY9nWVGmEvm2FnDbSE2un1UE39DvFpTR5UL47YDcA==",
-      "peer": true,
       "peerDependencies": {
         "fp-ts": "^2.5.0"
       }
@@ -21686,7 +21670,6 @@
       "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-8.4.1.tgz",
       "integrity": "sha512-E6/VfvYcX9s8mX90fJgcFthXUBQgncmx++rrdbEoKG4xeCdFfNAYR0AcrmSGeOSz/Tq6so+3RsRJp8Q0ecaD6g==",
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "@balena/abstract-sql-to-typescript": "^6.0.0"
       },
@@ -22260,7 +22243,6 @@
       "resolved": "https://registry.npmjs.org/react/-/react-18.3.1.tgz",
       "integrity": "sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==",
       "license": "MIT",
-      "peer": true,
       "dependencies": {
         "loose-envify": "^1.1.0"
       },
@@ -23329,6 +23311,7 @@
       "integrity": "sha512-8LzC5+bvI45BjpfXU8V5fdU2mfeKiQe1D1gIMn7XUlF3OTUrpdJpPPH4EMAnF0DsHHdSZqCdSss5qCmJKuiO3w==",
       "license": "(MIT AND BSD-3-Clause)",
       "optional": true,
+      "peer": true,
       "dependencies": {
         "inherits": "^2.0.4",
         "safe-buffer": "^5.2.1",
@@ -23363,7 +23346,8 @@
         }
       ],
       "license": "MIT",
-      "optional": true
+      "optional": true,
+      "peer": true
     },
     "node_modules/shebang-command": {
       "version": "1.2.0",
@@ -24577,7 +24561,6 @@
       "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz",
       "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==",
       "license": "MIT",
-      "peer": true,
       "engines": {
         "node": ">=12"
       },
@@ -24948,7 +24931,6 @@
       "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
       "dev": true,
       "license": "Apache-2.0",
-      "peer": true,
       "bin": {
         "tsc": "bin/tsc",
         "tsserver": "bin/tsserver"
