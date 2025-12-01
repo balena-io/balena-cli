@@ -20,7 +20,10 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 import { runCommand } from '../../utils/helpers';
-import type { ImgConfig } from '../../utils/config';
+import type {
+	ImgConfig,
+	PartiallyValidatedConfigJson,
+} from '../../utils/config';
 
 async function validateArgsAndOptions(options: FlagsDef) {
 	// 'application' & 'config` options are declared "exclusive" in the oclif
@@ -148,7 +151,7 @@ export default class DeviceInitCmd extends Command {
 		const balena = getBalenaSdk();
 
 		let fleetSlugOrId: string | number | undefined = options.fleet;
-		let configJson: ImgConfig | undefined;
+		let configJson: ImgConfig | PartiallyValidatedConfigJson | undefined;
 		if (options.config != null) {
 			const { readAndValidateConfigJson } = await import('../../utils/config');
 			configJson = await readAndValidateConfigJson(options.config);
@@ -213,7 +216,7 @@ export default class DeviceInitCmd extends Command {
 		osImagePath: string,
 		device: { id: number; uuid: string; api_key: string },
 		options: FlagsDef,
-		configJson: ImgConfig | undefined,
+		configJson: ImgConfig | PartiallyValidatedConfigJson | undefined,
 		logger: import('../../utils/logger'),
 	) {
 		let tmpConfigJsonPath: string | undefined;

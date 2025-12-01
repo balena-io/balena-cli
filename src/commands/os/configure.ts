@@ -26,7 +26,10 @@ import {
 	devModeInfo,
 	secureBootInfo,
 } from '../../utils/messages';
-import type { ImgConfig } from '../../utils/config';
+import type {
+	ImgConfig,
+	PartiallyValidatedConfigJson,
+} from '../../utils/config';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -188,7 +191,7 @@ export default class OsConfigureCmd extends Command {
 		let developmentMode = options.dev;
 
 		const balena = getBalenaSdk();
-		let configJson: ImgConfig | undefined;
+		let configJson: ImgConfig | PartiallyValidatedConfigJson | undefined;
 		if (options.config != null) {
 			configJson = await readAndValidateConfigJson(options.config);
 			fleetSlugOrId = configJson.applicationId;
@@ -401,7 +404,7 @@ async function checkDeviceTypeCompatibility(
 async function askQuestionsForDeviceType(
 	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 	options: FlagsDef,
-	configJson: import('../../utils/config').ImgConfig | undefined,
+	configJson: ImgConfig | PartiallyValidatedConfigJson | undefined,
 ): Promise<Answers> {
 	const answerSources: any[] = [
 		{

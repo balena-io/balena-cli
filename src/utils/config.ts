@@ -15,6 +15,7 @@ limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
 import { getBalenaSdk, stripIndent } from './lazy';
+import type { PropsOfType } from 'balena-sdk/typings/utils';
 
 export interface ImgConfig {
 	applicationName: string;
@@ -130,7 +131,7 @@ export async function generateDeviceConfig(
 }
 
 export function populateDeviceConfig(
-	config: ImgConfig,
+	config: ImgConfig | PartiallyValidatedConfigJson,
 	device: { id: number; uuid: string },
 	deviceApiKey: string,
 ) {
@@ -147,17 +148,50 @@ export function populateDeviceConfig(
 	config.uuid = device.uuid;
 }
 
+export type PartiallyValidatedConfigJson = Awaited<
+	ReturnType<typeof readAndValidateConfigJson>
+>;
+
+const numericConfigJsonFields = [
+	'applicationId',
+	'userId',
+	'appUpdatePollInterval',
+	'listenPort',
+	'vpnPort',
+	'deviceId',
+	'registered_at',
+] satisfies Array<PropsOfType<ImgConfig, number | undefined>>;
+
 export async function readAndValidateConfigJson(path: string) {
 	const fs = await import('fs/promises');
 	const [rawConfig, { ExpectedError }] = await Promise.all([
 		fs.readFile(path, 'utf8'),
 		import('../errors'),
 	]);
-	const configJson: ImgConfig | undefined = JSON.parse(rawConfig);
+	const configJson: Partial<Record<keyof ImgConfig, unknown>> | undefined =
+		JSON.parse(rawConfig);
 	if (configJson == null || typeof configJson !== 'object') {
 		throw new ExpectedError(`Invalid config.json file: ${path}`);
 	}
-	if (typeof configJson.applicationId !== 'number') {
+	// Numeric fields of the config.json, like the applicationId,
+	// are actually quoted strings in images downloaded from the image maker.
+	for (const fieldToParse of numericConfigJsonFields) {
+		// TODO: A cli major some years after the API completely moves to using
+		// POST requests to the image-maker, we can consider dropping support
+		// for parsing the config.json of OS images downloaded while the API
+		// was still using GETs, in favor of just validating the type & throwing.
+		// https://github.com/balena-io/balena-api/pull/6094
+		if (
+			typeof configJson[fieldToParse] === 'string' &&
+			/^[1-9]\d+$/.test(configJson[fieldToParse])
+		) {
+			configJson[fieldToParse] = parseInt(configJson[fieldToParse], 10);
+		}
+	}
+	if (
+		typeof configJson.applicationId !== 'number' ||
+		!Number.isInteger(configJson.applicationId)
+	) {
 		throw new ExpectedError('Missing or invalid applicationId in config.json');
 	}
 	if (
@@ -166,7 +200,18 @@ export async function readAndValidateConfigJson(path: string) {
 	) {
 		throw new ExpectedError('Missing or invalid deviceType in config.json');
 	}
-	return configJson;
+	if (
+		configJson.installer != null &&
+		typeof configJson.installer === 'object' &&
+		'secureboot' in configJson.installer &&
+		configJson.installer.secureboot === 'true'
+	) {
+		configJson.installer.secureboot = true;
+	}
+	// At some point TS might be able to infer the types of the props that we have already checked,
+	// but atm we have to cast the result manually.
+	return configJson as typeof configJson &
+		Required<Pick<ImgConfig, 'applicationId' | 'deviceType' | 'installer'>>;
 }
 
 /**
