@@ -33,33 +33,38 @@ if (process.platform !== 'win32') {
 	describe('balena os configure', function () {
 		let imagefs: typeof $imagefs;
 		let api: BalenaAPIMock;
-		let tmpDummyPath: string;
-		let tmpMatchingDtJsonPartitionPath: string;
-		let tmpNonMatchingDtJsonPartitionPath: string;
+
+		const testImageFilenames = {
+			dummy: 'dummy.img',
+			jetsonNanoMatchingDtJsonPartition:
+				'mock-jetson-nano-6.0.13.with-boot-partition-12.img',
+			jetsonNanoNonMatchingDtJsonPartition:
+				'mock-jetson-nano-6.0.13.with-boot-partition-12.img',
+		};
+
+		const tmpImagePaths = {
+			...testImageFilenames,
+		};
 
 		before(async function () {
 			// We conditionally import balena-image-fs, since when imported on top level then unrelated tests on win32 failed with:
 			// EPERM: operation not permitted, rename 'C:\Users\RUNNER~1\AppData\Local\Temp\tmp-<...>.inprogress' -> 'C:\Users\RUNNER~1\AppData\Local\Temp\tmp-<...>'
 			//    at async Object.rename (node:internal/fs/promises:782:10) {
 			imagefs = await import('balena-image-fs');
-			tmpDummyPath = (await tmpNameAsync()) as string;
-			await fs.copyFile('./tests/test-data/dummy.img', tmpDummyPath);
-			tmpMatchingDtJsonPartitionPath = (await tmpNameAsync()) as string;
-			await fs.copyFile(
-				'./tests/test-data/mock-jetson-nano-6.0.13.with-boot-partition-12.img',
-				tmpMatchingDtJsonPartitionPath,
-			);
 
-			tmpNonMatchingDtJsonPartitionPath = (await tmpNameAsync()) as string;
+			for (const key of Object.keys(testImageFilenames) as Array<
+				keyof typeof testImageFilenames
+			>) {
+				const imagePath = testImageFilenames[key];
+				tmpImagePaths[key] = (await tmpNameAsync()) as string;
+				await fs.copyFile(`./tests/test-data/${imagePath}`, tmpImagePaths[key]);
+			}
+
 			// Create an image with a device-type.json that mentions a non matching boot partition.
 			// We copy the pre-existing image and modify it, since including a separate one
 			// would add 18MB more to the repository.
-			await fs.copyFile(
-				'./tests/test-data/mock-jetson-nano-6.0.13.with-boot-partition-12.img',
-				tmpNonMatchingDtJsonPartitionPath,
-			);
 			await imagefs.interact(
-				tmpNonMatchingDtJsonPartitionPath,
+				tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition,
 				12,
 				async (_fs) => {
 					const dtJson = JSON.parse(
@@ -103,9 +108,9 @@ if (process.platform !== 'win32') {
 		});
 
 		after(async () => {
-			await fs.unlink(tmpDummyPath);
-			await fs.unlink(tmpMatchingDtJsonPartitionPath);
-			await fs.unlink(tmpNonMatchingDtJsonPartitionPath);
+			for (const tmpImagePath of Object.values(tmpImagePaths)) {
+				await fs.unlink(tmpImagePath);
+			}
 		});
 
 		// Tests the "See more help" custom error generation
@@ -128,7 +133,7 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should fail when the provided image path does not exist', async () => {
-			const tmpInvalidImagePath = `${tmpMatchingDtJsonPartitionPath}wrong.img`;
+			const tmpInvalidImagePath = `${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}wrong.img`;
 			const command: string[] = [
 				`os configure ${tmpInvalidImagePath}`,
 				'--device-type jetson-nano',
@@ -142,10 +147,8 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should fail when the provided image path is a directory', async () => {
-			const tmpInvalidImagePath = tmpMatchingDtJsonPartitionPath.replace(
-				/\/[^/]+$/,
-				'',
-			);
+			const tmpInvalidImagePath =
+				tmpImagePaths.jetsonNanoMatchingDtJsonPartition.replace(/\/[^/]+$/, '');
 			const command: string[] = [
 				`os configure ${tmpInvalidImagePath}`,
 				'--device-type jetson-nano',
@@ -161,9 +164,9 @@ if (process.platform !== 'win32') {
 		});
 
 		it('should fail when the provided config path does not exist', async () => {
-			const tmpInvalidConfigJsonPath = `${tmpMatchingDtJsonPartitionPath}wrong-config.json`;
+			const tmpInvalidConfigJsonPath = `${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}wrong-config.json`;
 			const command: string[] = [
-				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
 				`--config ${tmpInvalidConfigJsonPath}`,
 			];
 
@@ -175,7 +178,7 @@ if (process.platform !== 'win32') {
 
 		it('should fail when none of the --device, --fleet, --config is provided', async () => {
 			const command: string[] = [
-				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
 			];
 
 			const { err } = await runCommand(command.join(' '));
@@ -193,9 +196,9 @@ if (process.platform !== 'win32') {
 		]) {
 			it(`should fail combining --config with ${argName}`, async () => {
 				const command: string[] = [
-					`os configure ${tmpMatchingDtJsonPartitionPath}`,
+					`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
 					`${argName} ${argValue}`,
-					`--config ${tmpMatchingDtJsonPartitionPath}`,
+					`--config ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
 				];
 
 				const { err } = await runCommand(command.join(' '));
@@ -210,7 +213,7 @@ if (process.platform !== 'win32') {
 							See more help with --help`
 						: stripIndent`
 							The following errors occurred:
-							  --config=${tmpMatchingDtJsonPartitionPath} cannot also be provided when using ${argName}
+							  --config=${tmpImagePaths.jetsonNanoMatchingDtJsonPartition} cannot also be provided when using ${argName}
 							  ${argName}=${argValue} cannot also be provided when using --config
 							See more help with --help`
 					).split('\n'),
@@ -220,7 +223,7 @@ if (process.platform !== 'win32') {
 
 		it('should fail when combining --device and --device-type', async () => {
 			const command: string[] = [
-				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
 				'--device 276cc21e71574fd3802279ca11134c96',
 				'--device-type jetson-nano',
 			];
@@ -237,7 +240,7 @@ if (process.platform !== 'win32') {
 			);
 		});
 
-		it('should detect the OS version and inject a valid config.json file to a 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
+		it('should detect the OS version and inject a valid config.json file to a jetson-nano 6.0.13 image with partition 12 as boot & matching device-type.json', async () => {
 			api.expectGetApplication();
 			api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
@@ -246,7 +249,7 @@ if (process.platform !== 'win32') {
 			api.expectDownloadConfig();
 
 			const command: string[] = [
-				`os configure ${tmpMatchingDtJsonPartitionPath}`,
+				`os configure ${tmpImagePaths.jetsonNanoMatchingDtJsonPartition}`,
 				'--device-type jetson-nano',
 				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
@@ -261,7 +264,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpMatchingDtJsonPartitionPath,
+				tmpImagePaths.jetsonNanoMatchingDtJsonPartition,
 				12,
 				async (_fs) => {
 					const dtJson = JSON.parse(
@@ -285,7 +288,7 @@ if (process.platform !== 'win32') {
 			expect(configObj).to.have.property('initialDeviceName', 'testDeviceName');
 		});
 
-		it('should detect the OS version and inject a valid config.json file to a 6.1.25 image with partition 12 as boot & a non-matching device-type.json', async () => {
+		it('should detect the OS version and inject a valid config.json file to a jetson-nano 6.1.25 image with partition 12 as boot & a non-matching device-type.json', async () => {
 			api.expectGetApplication();
 			api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
@@ -294,7 +297,7 @@ if (process.platform !== 'win32') {
 			api.expectDownloadConfig();
 
 			const command: string[] = [
-				`os configure ${tmpNonMatchingDtJsonPartitionPath}`,
+				`os configure ${tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition}`,
 				'--device-type jetson-nano',
 				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
@@ -309,7 +312,7 @@ if (process.platform !== 'win32') {
 
 			// confirm the image contains a config.json...
 			const config = await imagefs.interact(
-				tmpNonMatchingDtJsonPartitionPath,
+				tmpImagePaths.jetsonNanoNonMatchingDtJsonPartition,
 				12,
 				async (_fs) => {
 					const dtJson = JSON.parse(
@@ -337,7 +340,7 @@ if (process.platform !== 'win32') {
 			api.expectGetApplication();
 
 			const command: string[] = [
-				`os configure ${tmpDummyPath}`,
+				`os configure ${tmpImagePaths.dummy}`,
 				'--device-type raspberrypi3',
 				'--fleet testApp',
 			];
@@ -349,14 +352,14 @@ if (process.platform !== 'win32') {
 				err.flatMap((line) => line.split('\n')).filter((line) => line !== ''),
 			).to.deep.equal(
 				stripIndent`
-					[warn] "${tmpDummyPath}":
+					[warn] "${tmpImagePaths.dummy}":
 					[warn]   Found partition table with 1 partitions,
 					[warn]   but none with a name/label in ['resin-boot', 'flash-boot', 'balena-boot'].
 					[warn]   Will scan all partitions for contents.
-					[warn] "${tmpDummyPath}":
+					[warn] "${tmpImagePaths.dummy}":
 					[warn]   1 partition(s) found, but none containing file "/device-type.json".
 					[warn]   Assuming default boot partition number '1'.
-					[warn] "${tmpDummyPath}":
+					[warn] "${tmpImagePaths.dummy}":
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
 					[warn]   Proceeding anyway, but this is unexpected.
 					Error while finding a device-type.json on the provided image path.`.split('\n'),
