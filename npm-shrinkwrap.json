@@ -20,7 +20,7 @@
         "@oclif/plugin-version": "^2.2.32",
         "@sentry/node": "^10.17.0",
         "balena-config-json": "^4.2.7",
-        "balena-device-init": "^8.1.14",
+        "balena-device-init": "^8.2.0",
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.5.2",
         "balena-preload": "^18.0.5",
@@ -12600,9 +12600,9 @@
       }
     },
     "node_modules/balena-device-init": {
-      "version": "8.1.14",
-      "resolved": "https://registry.npmjs.org/balena-device-init/-/balena-device-init-8.1.14.tgz",
-      "integrity": "sha512-aanHWsXhlfzo5IpAuBjLGvAPgCJhKEO8pJ1szL7FKv1d9fIuonAz9ueNFk4H46UlNmpiqo1a6A+jbzUkR7EfHQ==",
+      "version": "8.2.0",
+      "resolved": "https://registry.npmjs.org/balena-device-init/-/balena-device-init-8.2.0.tgz",
+      "integrity": "sha512-No8AIt+L5ytJdNkTJTy4XU3JX/bS92nO7e42YModInT1mqYuaqQOgCTSuGE5/1uAIE6WhQRGeZ+/hE5catFrww==",
       "license": "Apache-2.0",
       "dependencies": {
         "balena-config-json": "^4.2.0",
