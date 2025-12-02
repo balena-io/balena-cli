@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/download-artifact action to v6
+      hash: 92eee38f4ad591499bc5543395d9fbc862ab0907
+      body: |
+        Update actions/download-artifact from 5.0.0 to 6.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.2
+  title: ""
+  date: 2025-12-02T13:38:00.967Z
+- commits:
     - subject: "tests/os/configure.spec: Abstract the temp image creation and cleanup"
       hash: b4668b0f214925f5660709e4f159f1ddafa018fc
       body: ""
