@@ -1,4 +1,18 @@
 - commits:
+    - subject: "tests/os/configure.spec: Abstract the temp image creation and cleanup"
+      hash: b4668b0f214925f5660709e4f159f1ddafa018fc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2084
+        see: https://balena.fibery.io/Work/Project/2084
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.1
+  title: ""
+  date: 2025-12-02T11:43:37.973Z
+- commits:
     - subject: Include sub-commands in --help
       hash: a8f87d1fd936d082901fc1c5cf1dd0b37de3e415
       body: ""
