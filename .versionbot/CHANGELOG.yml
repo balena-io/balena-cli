@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update GitHub Actions
+      hash: 373c66052653da4d84531fee62397a0118bcb8b2
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.4
+  title: ""
+  date: 2025-12-03T22:45:18.989Z
+- commits:
     - subject: Lock file maintenance
       hash: 81d29d60924d7f576240010e92811d694b74b29f
       body: |
