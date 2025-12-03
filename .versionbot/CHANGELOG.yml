@@ -1,4 +1,17 @@
 - commits:
+    - subject: Lock file maintenance
+      hash: 81d29d60924d7f576240010e92811d694b74b29f
+      body: |
+        Update 
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.3
+  title: ""
+  date: 2025-12-03T20:41:13.294Z
+- commits:
     - subject: Update actions/download-artifact action to v6
       hash: 92eee38f4ad591499bc5543395d9fbc862ab0907
       body: |
