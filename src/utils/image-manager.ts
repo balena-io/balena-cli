@@ -274,13 +274,8 @@ export const getStream = async (
 	versionOrRange ??= 'latest';
 	const version = await resolveVersion(deviceType, versionOrRange);
 	const isFresh = await isImageCached(deviceType, version);
-	const $stream = isFresh
+	const stream = isFresh
 		? await getImage(deviceType, version)
 		: await doDownload({ ...options, deviceType, version });
-	// schedule the 'version' event for the next iteration of the event loop
-	// so that callers have a chance of adding an event handler
-	setImmediate(() =>
-		$stream.emit('balena-image-manager:resolved-version', version),
-	);
-	return $stream;
+	return { version, stream };
 };
