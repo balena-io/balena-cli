@@ -203,7 +203,6 @@ export const deployLegacy = async function (
 	tmp.setGracefulCleanup();
 
 	const { appName, imageName, buildLogs, shouldUploadLogs } = opts;
-	const logs = buildLogs;
 
 	const bufferFile = await tmpNameAsync();
 
@@ -224,15 +223,7 @@ export const deployLegacy = async function (
 
 	if (shouldUploadLogs) {
 		logger.logInfo('Uploading logs...');
-		const args = await Promise.all([
-			logs,
-			token,
-			url,
-			buildId,
-			username,
-			appName,
-		]);
-		await uploadLogs(...args);
+		await uploadLogs(buildLogs, token, url, buildId, username, appName);
 	}
 
 	return buildId;

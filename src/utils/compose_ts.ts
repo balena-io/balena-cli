@@ -310,10 +310,10 @@ async function $buildProject(
 
 	const transposeOptArray: Array<TransposeOptions | undefined> =
 		await Promise.all(
-			tasks.map((task) => {
+			tasks.map(async (task) => {
 				// Setup emulation if needed
 				if (needsQemu && !task.external) {
-					return qemuTransposeBuildStream({ task, ...opts });
+					return await qemuTransposeBuildStream({ task, ...opts });
 				}
 			}),
 		);
@@ -401,9 +401,9 @@ async function installQemuIfNeeded({
 		logger.logInfo('Emulation is enabled');
 		// Copy qemu into all build contexts
 		await Promise.all(
-			imageDescriptors.map(function (d) {
+			imageDescriptors.map(async function (d) {
 				if (isBuildConfig(d.image)) {
-					return qemu.copyQemu(
+					return await qemu.copyQemu(
 						path.join(projectPath, d.image.context || '.'),
 						arch,
 					);

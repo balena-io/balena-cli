@@ -257,16 +257,14 @@ export const getPreviousRepos = (
 				const images = release[0].release_image;
 				const { getRegistryAndName } =
 					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
-				return Promise.all(
-					images.map(function (d) {
-						const imageName = d.image[0].is_stored_at__image_location ?? '';
-						const registry = getRegistryAndName(imageName);
-						logger.logDebug(
-							`Requesting access to previously pushed image repo (${registry.imageName})`,
-						);
-						return registry.imageName;
-					}),
-				);
+				return images.map(function (d) {
+					const imageName = d.image[0].is_stored_at__image_location ?? '';
+					const registry = getRegistryAndName(imageName);
+					logger.logDebug(
+						`Requesting access to previously pushed image repo (${registry.imageName})`,
+					);
+					return registry.imageName;
+				});
 			} else {
 				return [];
 			}
