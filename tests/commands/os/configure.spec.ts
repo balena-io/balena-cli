@@ -21,6 +21,8 @@ import * as process from 'process';
 import { runCommand } from '../../helpers';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
+import * as path from 'node:path';
+import { tmpdir } from 'node:os';
 import type * as $imagefs from 'balena-image-fs';
 import * as stripIndent from 'common-tags/lib/stripIndent';
 
@@ -443,7 +445,7 @@ if (process.platform !== 'win32') {
 							encoding: 'utf8',
 						});
 						throw new Error(
-							'Found /os-release on the boot partition of an intel-nuc image, which is not expected to be there',
+							'Found /os-release on the boot partition of a generic-amd64 image, which is not expected to be there',
 						);
 					} catch (err) {
 						const isFileNotFoundError =
@@ -509,6 +511,40 @@ if (process.platform !== 'win32') {
 					[warn]   Could not find a previous "/config.json" file in partition '1'.
 					[warn]   Proceeding anyway, but this is unexpected.
 					Error while finding a device-type.json on the provided image path.`.split('\n'),
+			);
+		});
+
+		it('should fail when providing --config config.json with an invalid installer.secureboot value', async () => {
+			const configJson = {
+				applicationId: 1301645,
+				deviceType: 'generic-amd64',
+				userId: 43699,
+				appUpdatePollInterval: 600000,
+				listenPort: 48484,
+				vpnPort: 443,
+				apiEndpoint: 'https://api.balena-cloud.com',
+				vpnEndpoint: 'vpn.balena-cloud.com',
+				registryEndpoint: 'registry2.balena-cloud.com',
+				deltaEndpoint: 'https://delta.balena-cloud.com',
+				apiKey: 'nothingtoseehere',
+				installer: {
+					secureboot: 'true',
+				},
+			};
+			await using tmpDir = await fs.mkdtempDisposable(
+				path.join(tmpdir(), 'os-configure-tests'),
+			);
+			const tmpPath = path.join(tmpDir.path, 'config.json');
+			await fs.writeFile(tmpPath, JSON.stringify(configJson));
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.genericAmd64}`,
+				`--config ${tmpPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('').replaceAll('\n', '')).to.equal(
+				`Invalid installer.secureboot in config.json: value must be a boolean, found string: 'true'`,
 			);
 		});
 	});
