@@ -1,4 +1,82 @@
 - commits:
+    - subject: "os configure: Fix detecting the OS version of flasher images"
+      hash: 65daaaa8d7be0bc8df6f3526351b7902a89bd1b4
+      body: >
+        Update balena-device-init from 8.1.14 to 8.2.0
+
+
+        Depends-on:
+        https://github.com/balena-io-modules/balena-device-init/pull/68
+
+        Change-type: patch
+
+        See: https://balena.fibery.io/Work/Project/2084
+
+
+        Update balena-device-init to 8.2.0
+
+
+        Update balena-device-init from 8.1.14 to 8.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Add test for the getImageOsVersion() function on GPT flasher images
+              hash: e9ca9e86636cb0e0ec3c4c568fbd847c02cddadd
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Deprecate support for the edison
+              hash: d856df8e6c4b22f80e710520d1f09ffdc553692c
+              body: >
+                Atm `(await sdk.models.config.getDeviceTypes()).filter(dt =>
+                dt.configuration?.config?.image)`
+
+                gives back only the 'edison', which the
+
+                balena-cli has already dropped support for.
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "getImageOsVersion: Support detecting the version on flasher images"
+              hash: ff45b5c9d04cabab33085a51b8c1343c078dc088
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add test for the getImageOsVersion() function on raw DT images
+              hash: d773fa1e266327f4c9125603f7e785830f3234f6
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests/images/raspberrypi-os2.img: Rename the RESIN-BOOT partition to
+                resin-boot as it is supposed to be"
+              hash: c23545739092e276d5f7a84495f83fb5c8249145
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-device-init-8.2.0
+          title: ""
+          date: 2025-12-03T17:39:17.163Z
+  version: 23.2.5
+  title: ""
+  date: 2025-12-05T09:23:32.890Z
+- commits:
     - subject: Update GitHub Actions
       hash: 373c66052653da4d84531fee62397a0118bcb8b2
       body: |
