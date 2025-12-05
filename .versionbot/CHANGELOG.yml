@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update apple-actions/import-codesign-certs action to v3
+      hash: e84019593ae7613107a71828ca15343f310d10bc
+      body: |
+        Update apple-actions/import-codesign-certs from 2 to 3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.6
+  title: ""
+  date: 2025-12-05T11:00:04.499Z
+- commits:
     - subject: "os configure: Fix detecting the OS version of flasher images"
       hash: 65daaaa8d7be0bc8df6f3526351b7902a89bd1b4
       body: >
