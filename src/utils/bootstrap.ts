@@ -122,7 +122,7 @@ export async function getCachedUsername(): Promise<CachedUsername | undefined> {
 		const result = (await storage.get('cachedUsername')) as
 			| CachedUsername
 			| undefined;
-		if (result && result.token === token && result.username) {
+		if (result?.token === token && result.username) {
 			cachedUsername = result;
 			return cachedUsername;
 		}

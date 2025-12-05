@@ -191,11 +191,11 @@ ${dockerignoreHelp}
 		const app = await helpers.getAppWithArch(fleet);
 
 		const dockerUtils = await import('../../utils/docker');
-		const [docker, buildOpts, composeOpts] = await Promise.all([
+		const [docker, composeOpts] = await Promise.all([
 			dockerUtils.getDocker(options),
-			dockerUtils.generateBuildOpts(options as FlagsDef),
 			compose.generateOpts(options),
 		]);
+		const buildOpts = dockerUtils.generateBuildOpts(options as FlagsDef);
 
 		const release = await this.deployProject(docker, logger, composeOpts, {
 			app,
@@ -328,18 +328,18 @@ ${dockerignoreHelp}
 				);
 				logger.logWarn(msg);
 
-				const [token, { username }, url, options] = await Promise.all([
+				const [token, { username }, url] = await Promise.all([
 					sdk.auth.getToken(),
 					sdk.auth.getUserInfo(),
 					sdk.settings.get('balenaUrl'),
-					{
-						// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
-						appName: opts.appName,
-						imageName: images[0].name,
-						buildLogs: images[0].logs,
-						shouldUploadLogs: opts.shouldUploadLogs,
-					},
 				]);
+				const options = {
+					// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
+					appName: opts.appName,
+					imageName: images[0].name,
+					buildLogs: images[0].logs,
+					shouldUploadLogs: opts.shouldUploadLogs,
+				};
 				const releaseId = await deployLegacy(
 					docker,
 					logger,
