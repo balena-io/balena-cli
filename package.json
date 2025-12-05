@@ -186,7 +186,7 @@
     "@oclif/plugin-version": "^2.2.32",
     "@sentry/node": "^10.17.0",
     "balena-config-json": "^4.2.7",
-    "balena-device-init": "^8.1.14",
+    "balena-device-init": "^8.2.0",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.5.2",
     "balena-preload": "^18.0.5",

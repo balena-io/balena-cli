@@ -36,6 +36,8 @@ if (process.platform !== 'win32') {
 
 		const testImageFilenames = {
 			dummy: 'dummy.img',
+			genericAmd64: 'mock-generic-amd64-6.8.1.img',
+			intelNuc: 'mock-intel-nuc-6.8.0.img',
 			jetsonNanoMatchingDtJsonPartition:
 				'mock-jetson-nano-6.0.13.with-boot-partition-12.img',
 			jetsonNanoNonMatchingDtJsonPartition:
@@ -334,6 +336,150 @@ if (process.platform !== 'win32') {
 			const configObj = JSON.parse(config.toString('utf8'));
 			expect(configObj).to.have.property('deviceType', 'jetson-nano');
 			expect(configObj).to.have.property('initialDeviceName', 'testDeviceName');
+		});
+
+		it('should detect the OS version and inject a valid config.json file to an intel-nuc (MBR) image', async () => {
+			api.expectGetApplication();
+			api.expectGetDeviceTypes();
+			// It should not reach to /config or /device-types/v1 but instead find
+			// everything required from the device-type.json in the image.
+			// api.expectGetConfigDeviceTypes();
+			api.expectDownloadConfig();
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.intelNuc}`,
+				'--device-type intel-nuc',
+				'--fleet testApp',
+				'--config-app-update-poll-interval 10',
+				'--config-network ethernet',
+				'--initial-device-name testDeviceNameIntelNuc',
+				'--provisioning-key-name testKey',
+				'--provisioning-key-expiry-date 2050-12-12',
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('')).to.equal('');
+
+			// confirm the image contains a config.json...
+			const config = await imagefs.interact(
+				tmpImagePaths.intelNuc,
+				1,
+				async (_fs) => {
+					// confirm that there is no /os-release
+					try {
+						await _fs.promises.readFile('/os-release', {
+							encoding: 'utf8',
+						});
+						throw new Error(
+							'Found /os-release on the boot partition of an intel-nuc image, which is not expected to be there',
+						);
+					} catch (err) {
+						const isFileNotFoundError =
+							err instanceof Error &&
+							'code' in err &&
+							// fatfs throws errors with NOENT code, even though ENOENT is the standard
+							// See: https://github.com/balena-io-modules/balena-image-fs/blob/v7.5.3/tests/e2e.ts#L300
+							(err.code === 'ENOENT' || err.code === 'NOENT');
+						if (!isFileNotFoundError) {
+							throw err;
+						}
+						// reaching this point confirms that there is no /os-release in the boot partition
+					}
+
+					const dtJson = JSON.parse(
+						await _fs.promises.readFile('/device-type.json', {
+							encoding: 'utf8',
+						}),
+					);
+					// confirm that the device-type.json mentions the expected partition
+					expect(dtJson).to.have.nested.property(
+						'configuration.config.partition.primary',
+						1,
+					);
+					return await _fs.promises.readFile('/config.json');
+				},
+			);
+			expect(config).to.not.be.empty;
+
+			// confirm the image has the correct config.json values...
+			const configObj = JSON.parse(config.toString('utf8'));
+			expect(configObj).to.have.property('deviceType', 'intel-nuc');
+			expect(configObj).to.have.property(
+				'initialDeviceName',
+				'testDeviceNameIntelNuc',
+			);
+		});
+
+		it('should detect the OS version and inject a valid config.json file to an generic-amd64 (GPT) image', async () => {
+			api.expectGetApplication();
+			api.expectGetDeviceTypes();
+			// It should not reach to /config or /device-types/v1 but instead find
+			// everything required from the device-type.json in the image.
+			// api.expectGetConfigDeviceTypes();
+			api.expectDownloadConfig();
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.genericAmd64}`,
+				'--device-type generic-amd64',
+				'--fleet testApp',
+				'--config-app-update-poll-interval 10',
+				'--config-network ethernet',
+				'--initial-device-name testDeviceNameGenericAmd64',
+				'--provisioning-key-name testKey',
+				'--provisioning-key-expiry-date 2050-12-12',
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('')).to.equal('');
+
+			// confirm the image contains a config.json...
+			const config = await imagefs.interact(
+				tmpImagePaths.genericAmd64,
+				1,
+				async (_fs) => {
+					// confirm that there is no /os-release
+					try {
+						await _fs.promises.readFile('/os-release', {
+							encoding: 'utf8',
+						});
+						throw new Error(
+							'Found /os-release on the boot partition of an intel-nuc image, which is not expected to be there',
+						);
+					} catch (err) {
+						const isFileNotFoundError =
+							err instanceof Error &&
+							'code' in err &&
+							// fatfs throws errors with NOENT code, even though ENOENT is the standard
+							// See: https://github.com/balena-io-modules/balena-image-fs/blob/v7.5.3/tests/e2e.ts#L300
+							(err.code === 'ENOENT' || err.code === 'NOENT');
+						if (!isFileNotFoundError) {
+							throw err;
+						}
+						// reaching this point confirms that there is no /os-release in the boot partition
+					}
+
+					const dtJson = JSON.parse(
+						await _fs.promises.readFile('/device-type.json', {
+							encoding: 'utf8',
+						}),
+					);
+					// confirm that the device-type.json mentions the expected partition
+					expect(dtJson).to.have.nested.property(
+						'configuration.config.partition.primary',
+						1,
+					);
+					return await _fs.promises.readFile('/config.json');
+				},
+			);
+			expect(config).to.not.be.empty;
+
+			// confirm the image has the correct config.json values...
+			const configObj = JSON.parse(config.toString('utf8'));
+			expect(configObj).to.have.property('deviceType', 'generic-amd64');
+			expect(configObj).to.have.property(
+				'initialDeviceName',
+				'testDeviceNameGenericAmd64',
+			);
 		});
 
 		it('should fail when it can not detect the OS version of the provided image', async () => {
