@@ -219,11 +219,11 @@ ${dockerignoreHelp}
 
 	protected async prepareBuild(options: PrepareBuildOpts) {
 		const { getDocker, generateBuildOpts } = await import('../../utils/docker');
-		const [docker, buildOpts, composeOpts] = await Promise.all([
+		const [docker, composeOpts] = await Promise.all([
 			getDocker(options),
-			generateBuildOpts(options),
 			compose.generateOpts(options),
 		]);
+		const buildOpts = generateBuildOpts(options);
 		return {
 			docker,
 			buildOpts,

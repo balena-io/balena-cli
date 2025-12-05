@@ -563,36 +563,34 @@ async function assignDockerBuildOpts(
 
 	globalLogger.logDebug(`Using ${images.length} on-device images for cache...`);
 
-	await Promise.all(
-		buildTasks.map((task: BuildTask) => {
-			task.dockerOpts = {
-				...(task.dockerOpts ?? {}),
-				...{
-					cachefrom: images,
-					labels: {
-						'io.resin.local.image': '1',
-						'io.resin.local.service': task.serviceName,
-					},
-					t: getImageNameFromTask(task),
-					nocache: opts.nocache,
-					forcerm: true,
-					pull: opts.pull,
+	for (const task of buildTasks) {
+		task.dockerOpts = {
+			...(task.dockerOpts ?? {}),
+			...{
+				cachefrom: images,
+				labels: {
+					'io.resin.local.image': '1',
+					'io.resin.local.service': task.serviceName,
 				},
 				t: getImageNameFromTask(task),
 				nocache: opts.nocache,
 				forcerm: true,
 				pull: opts.pull,
-			};
-			if (task.external) {
-				task.dockerOpts.authconfig = getAuthConfigObj(
-					task.imageName!,
-					opts.registrySecrets,
-				);
-			} else {
-				task.dockerOpts.registryconfig = opts.registrySecrets;
-			}
-		}),
-	);
+			},
+			t: getImageNameFromTask(task),
+			nocache: opts.nocache,
+			forcerm: true,
+			pull: opts.pull,
+		};
+		if (task.external) {
+			task.dockerOpts.authconfig = getAuthConfigObj(
+				task.imageName!,
+				opts.registrySecrets,
+			);
+		} else {
+			task.dockerOpts.registryconfig = opts.registrySecrets;
+		}
+	}
 }
 
 function getImageNameFromTask(task: BuildTask): string {
