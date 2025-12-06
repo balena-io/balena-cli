@@ -21,8 +21,11 @@ import * as process from 'process';
 import { runCommand } from '../../helpers';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
+import * as path from 'node:path';
+import { tmpdir } from 'node:os';
 import type * as $imagefs from 'balena-image-fs';
 import * as stripIndent from 'common-tags/lib/stripIndent';
+import { randomUUID } from 'node:crypto';
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
@@ -443,7 +446,7 @@ if (process.platform !== 'win32') {
 							encoding: 'utf8',
 						});
 						throw new Error(
-							'Found /os-release on the boot partition of an intel-nuc image, which is not expected to be there',
+							'Found /os-release on the boot partition of a generic-amd64 image, which is not expected to be there',
 						);
 					} catch (err) {
 						const isFileNotFoundError =
@@ -510,6 +513,125 @@ if (process.platform !== 'win32') {
 					[warn]   Proceeding anyway, but this is unexpected.
 					Error while finding a device-type.json on the provided image path.`.split('\n'),
 			);
+		});
+
+		it('should configure an image using --config with a config.json that has no networking setting without interactive questions', async () => {
+			api.expectGetApplication();
+			api.expectGetDeviceTypes();
+
+			const configJson = {
+				applicationId: 1301645,
+				deviceType: 'generic-amd64',
+				userId: 43699,
+				appUpdatePollInterval: 600000,
+				listenPort: 48484,
+				vpnPort: 443,
+				apiEndpoint: 'https://api.balena-cloud.com',
+				vpnEndpoint: 'vpn.balena-cloud.com',
+				registryEndpoint: 'registry2.balena-cloud.com',
+				deltaEndpoint: 'https://delta.balena-cloud.com',
+				apiKey: 'nothingtoseehere',
+				initialDeviceName: `testDeviceNameGenericAmd64-${randomUUID()}`,
+			};
+			await using tmpDir = await fs.mkdtempDisposable(
+				path.join(tmpdir(), 'os-configure-tests'),
+			);
+			const tmpPath = path.join(tmpDir.path, 'config.json');
+			await fs.writeFile(tmpPath, JSON.stringify(configJson));
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.genericAmd64}`,
+				`--config ${tmpPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('')).to.equal('');
+
+			// confirm the image contains a config.json...
+			const config = await imagefs.interact(
+				tmpImagePaths.genericAmd64,
+				1,
+				async (_fs) => {
+					return await _fs.promises.readFile('/config.json');
+				},
+			);
+			expect(config).to.not.be.empty;
+
+			const configObj = JSON.parse(config.toString('utf8'));
+			expect(configObj).to.deep.equal({
+				...configJson,
+				files: {
+					'network/network.config': [
+						'[service_home_ethernet]',
+						'Type=ethernet',
+						'Nameservers=8.8.8.8,8.8.4.4',
+					].join('\n'),
+				},
+			});
+		});
+
+		it('should configure an image using --config with a config.json that has wifi settings without interactive questions', async () => {
+			api.expectGetApplication();
+			api.expectGetDeviceTypes();
+
+			const configJson = {
+				applicationId: 1301645,
+				deviceType: 'generic-amd64',
+				userId: 43699,
+				appUpdatePollInterval: 600000,
+				listenPort: 48484,
+				vpnPort: 443,
+				apiEndpoint: 'https://api.balena-cloud.com',
+				vpnEndpoint: 'vpn.balena-cloud.com',
+				registryEndpoint: 'registry2.balena-cloud.com',
+				deltaEndpoint: 'https://delta.balena-cloud.com',
+				apiKey: 'nothingtoseehere',
+				initialDeviceName: `testDeviceNameGenericAmd64-${randomUUID()}`,
+				wifiSsid: `wifiSsid-${randomUUID()}`,
+				wifiKey: `wifiKey-${randomUUID()}`,
+			};
+			await using tmpDir = await fs.mkdtempDisposable(
+				path.join(tmpdir(), 'os-configure-tests'),
+			);
+			const tmpPath = path.join(tmpDir.path, 'config.json');
+			await fs.writeFile(tmpPath, JSON.stringify(configJson));
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.genericAmd64}`,
+				`--config ${tmpPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('')).to.equal('');
+
+			// confirm the image contains a config.json...
+			const config = await imagefs.interact(
+				tmpImagePaths.genericAmd64,
+				1,
+				async (_fs) => {
+					return await _fs.promises.readFile('/config.json');
+				},
+			);
+			expect(config).to.not.be.empty;
+
+			const configObj = JSON.parse(config.toString('utf8'));
+			expect(configObj).to.deep.equal({
+				...configJson,
+				files: {
+					'network/network.config': [
+						'[service_home_ethernet]',
+						'Type=ethernet',
+						'Nameservers=8.8.8.8,8.8.4.4',
+						'',
+						'[service_home_wifi]',
+						'Hidden=true',
+						'Type=wifi',
+						`Name=${configJson.wifiSsid}`,
+						`Passphrase=${configJson.wifiKey}`,
+						'Nameservers=8.8.8.8,8.8.4.4',
+					].join('\n'),
+				},
+			});
 		});
 	});
 }

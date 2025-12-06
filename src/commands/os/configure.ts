@@ -35,13 +35,16 @@ type FlagsDef = Interfaces.InferredFlags<typeof OsConfigureCmd.flags>;
 
 interface Answers {
 	appUpdatePollInterval: number; // in minutes
+	network: 'ethernet' | 'wifi';
+	wifiSsid?: string;
+	wifiKey?: string;
+}
+
+interface AugmentedAnswers extends Answers {
 	developmentMode?: boolean; // balenaOS development variant
 	secureBoot?: boolean;
 	deviceType: string; // e.g. "raspberrypi3"
-	network: 'ethernet' | 'wifi';
 	version: string; // e.g. "2.32.0+rev1"
-	wifiSsid?: string;
-	wifiKey?: string;
 	provisioningKeyName?: string;
 	provisioningKeyExpiryDate?: string;
 }
@@ -243,14 +246,23 @@ export default class OsConfigureCmd extends Command {
 			osVersion,
 		);
 
-		const answers: Answers = await askQuestionsForDeviceType(
-			deviceTypeManifest,
-			options,
-			configJson,
-		);
-		answers.version = osVersion;
-		answers.developmentMode = developmentMode;
-		answers.secureBoot = secureBoot;
+		const _ = await import('lodash');
+		const baseAnswers: Answers =
+			configJson == null
+				? await askQuestionsForDeviceType(deviceTypeManifest, options)
+				: {
+						appUpdatePollInterval: configJson.appUpdatePollInterval,
+						network:
+							!configJson.wifiSsid && !configJson.wifiKey ? 'ethernet' : 'wifi',
+						..._.pick(configJson, ['wifiSsid', 'wifiKey']),
+					};
+		const answers: AugmentedAnswers = {
+			...baseAnswers,
+			deviceType: deviceTypeSlug,
+			version: osVersion,
+			developmentMode: developmentMode,
+			secureBoot: secureBoot,
+		};
 
 		if (configJson == null) {
 			answers.provisioningKeyName = options['provisioning-key-name'];
@@ -259,7 +271,6 @@ export default class OsConfigureCmd extends Command {
 			if (device != null) {
 				configJson = await generateDeviceConfig(device, undefined, answers);
 			} else {
-				answers.deviceType = deviceTypeSlug;
 				configJson = await generateApplicationConfig(app!, answers);
 			}
 			if (
@@ -401,7 +412,6 @@ async function checkDeviceTypeCompatibility(
 async function askQuestionsForDeviceType(
 	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 	options: FlagsDef,
-	configJson: import('../../utils/config').ImgConfig | undefined,
 ): Promise<Answers> {
 	const answerSources: any[] = [
 		{
@@ -413,10 +423,6 @@ async function askQuestionsForDeviceType(
 	const defaultAnswers: Partial<Answers> = {};
 	const questions = deviceType.options ?? [];
 	let extraOpts: { override: Partial<Answers> } | undefined;
-
-	if (configJson != null) {
-		answerSources.push(configJson);
-	}
 
 	if (!options.advanced) {
 		const advancedGroup = questions.find(
