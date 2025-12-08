@@ -1,4 +1,34 @@
 - commits:
+    - subject: Update @balena/lint to 9.3.7 to support async disposables
+      hash: adde76243450cd9f22dfc2414aa813c61a492748
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Add tests for os configure --config
+      hash: b85ccb778fd0929a70b306e17c86b366853226b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure: Fix asking interactive questions when --config is used"
+      hash: 0bc9b488012f05649fa903ef6ee3859b77c9e9b4
+      body: ""
+      footer:
+        See: https://balena.fibery.io/Work/Project/1831
+        see: https://balena.fibery.io/Work/Project/1831
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.7
+  title: ""
+  date: 2025-12-08T17:00:52.074Z
+- commits:
     - subject: Update apple-actions/import-codesign-certs action to v3
       hash: e84019593ae7613107a71828ca15343f310d10bc
       body: |
