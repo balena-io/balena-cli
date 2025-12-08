@@ -166,6 +166,12 @@ export async function readAndValidateConfigJson(path: string) {
 	) {
 		throw new ExpectedError('Missing or invalid deviceType in config.json');
 	}
+	const secureboot = configJson.installer?.secureboot;
+	if (secureboot != null && typeof secureboot !== 'boolean') {
+		throw new ExpectedError(
+			`Invalid installer.secureboot in config.json: value must be a boolean, found ${typeof secureboot}: '${secureboot}'`,
+		);
+	}
 	return configJson;
 }
 

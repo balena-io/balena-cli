@@ -669,6 +669,68 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	public expectGetContractOfOsRelease(opts: {
+		optional?: boolean;
+		persist?: boolean;
+		deviceTypeSlug: string;
+		rawVersion: string;
+	}) {
+		const rawVersion = opts.rawVersion.replaceAll('.', '\\.');
+		const regexp = new RegExp(
+			`^\\/v7\\/application\\?\\$select=is_for__device_type&\\$expand=application_tag\\(\\$select=tag_key,value\\),is_for__device_type\\(\\$select=slug\\),owns__release\\(\\$select=id,known_issue_list,raw_version,variant,phase,contract;\\$expand=release_tag\\(\\$select=tag_key,value\\);\\$filter=raw_version%20eq%20%27${rawVersion}%27\\)&\\$filter=\\(is_host%20eq%20true\\)%20and%20\\(is_for__device_type\\/any\\(dt:dt\\/slug%20in%20\\(%27${opts.deviceTypeSlug}%27\\)\\)\\)`,
+		);
+		this.optGet(regexp, opts).reply(200, () => {
+			console.info(`*** this`);
+			return {
+				d: [
+					{
+						application_tag: [],
+						is_for__device_type: [
+							{
+								slug: opts.deviceTypeSlug,
+							},
+						],
+						owns__release: [
+							{
+								release_tag: [],
+								id: 3783341,
+								known_issue_list: null,
+								raw_version: opts.rawVersion,
+								variant: '',
+								phase: null,
+								contract: {
+									name: `Balena OS for ${opts.deviceTypeSlug}`,
+									type: 'sw.block',
+									version: opts.rawVersion,
+									provides: [
+										...(opts.deviceTypeSlug === 'generic-amd64'
+											? [
+													{
+														slug: 'secureboot',
+														type: 'sw.feature',
+													},
+												]
+											: []),
+										{
+											slug: 'balena-os',
+											type: 'sw.os',
+										},
+										{
+											slug: opts.deviceTypeSlug,
+											type: 'hw.device-type',
+										},
+									],
+									composedOf: ['balena-os', opts.deviceTypeSlug],
+									description: `Balena OS for a ${opts.deviceTypeSlug}`,
+								},
+							},
+						],
+					},
+				],
+			};
+		});
+	}
+
 	/**
 	 * Mocks balena-release call
 	 */

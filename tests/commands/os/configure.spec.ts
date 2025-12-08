@@ -633,5 +633,102 @@ if (process.platform !== 'win32') {
 				},
 			});
 		});
+
+		it('should fail when providing --config config.json with an invalid installer.secureboot value', async () => {
+			const configJson = {
+				applicationId: 1301645,
+				deviceType: 'generic-amd64',
+				userId: 43699,
+				appUpdatePollInterval: 600000,
+				listenPort: 48484,
+				vpnPort: 443,
+				apiEndpoint: 'https://api.balena-cloud.com',
+				vpnEndpoint: 'vpn.balena-cloud.com',
+				registryEndpoint: 'registry2.balena-cloud.com',
+				deltaEndpoint: 'https://delta.balena-cloud.com',
+				apiKey: 'nothingtoseehere',
+				installer: {
+					secureboot: 'true',
+				},
+			};
+			await using tmpDir = await fs.mkdtempDisposable(
+				path.join(tmpdir(), 'os-configure-tests'),
+			);
+			const tmpPath = path.join(tmpDir.path, 'config.json');
+			await fs.writeFile(tmpPath, JSON.stringify(configJson));
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.genericAmd64}`,
+				`--config ${tmpPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('').replaceAll('\n', '')).to.equal(
+				`Invalid installer.secureboot in config.json: value must be a boolean, found string: 'true'`,
+			);
+		});
+
+		it('should be able to configure a secureboot generic-amd64 image with just the --config config.json parameter', async () => {
+			api.expectGetDeviceTypes();
+			api.expectGetContractOfOsRelease({
+				deviceTypeSlug: 'generic-amd64',
+				rawVersion: '6.8.1',
+			});
+			api.expectGetApplication();
+
+			const configJson = {
+				applicationId: 1301645,
+				deviceType: 'generic-amd64',
+				userId: 43699,
+				appUpdatePollInterval: 600000,
+				listenPort: 48484,
+				vpnPort: 443,
+				apiEndpoint: 'https://api.balena-cloud.com',
+				vpnEndpoint: 'vpn.balena-cloud.com',
+				registryEndpoint: 'registry2.balena-cloud.com',
+				deltaEndpoint: 'https://delta.balena-cloud.com',
+				apiKey: 'nothingtoseehere',
+				initialDeviceName: `testDeviceNameGenericAmd64-${randomUUID()}`,
+				installer: {
+					secureboot: true,
+				},
+			};
+			await using tmpDir = await fs.mkdtempDisposable(
+				path.join(tmpdir(), 'os-configure-tests'),
+			);
+			const tmpPath = path.join(tmpDir.path, 'config.json');
+			await fs.writeFile(tmpPath, JSON.stringify(configJson));
+
+			const command: string[] = [
+				`os configure ${tmpImagePaths.genericAmd64}`,
+				`--config ${tmpPath}`,
+			];
+
+			const { err } = await runCommand(command.join(' '));
+			expect(err.join('')).to.equal('');
+
+			// confirm the image contains a config.json...
+			const config = await imagefs.interact(
+				tmpImagePaths.genericAmd64,
+				1,
+				async (_fs) => {
+					return await _fs.promises.readFile('/config.json');
+				},
+			);
+			expect(config).to.not.be.empty;
+
+			const configObj = JSON.parse(config.toString('utf8'));
+			expect(configObj).to.deep.equal({
+				...configJson,
+				files: {
+					'network/network.config': [
+						'[service_home_ethernet]',
+						'Type=ethernet',
+						'Nameservers=8.8.8.8,8.8.4.4',
+					].join('\n'),
+				},
+			});
+			expect(configObj).to.have.nested.property('installer.secureboot', true);
+		});
 	});
 }
