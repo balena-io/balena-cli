@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add test for os configure --config using secureboot
+      hash: b138ce3c6f2c34d53689a364b809e6dd2ae5b203
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "os configure, device init: Validate that the config.json's
+        installer.secureboot is a boolean when set"
+      hash: 55f230c4f34227a563d94ecd35a542b6ad962650
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2087
+        see: https://balena.fibery.io/Work/Project/2087
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.8
+  title: ""
+  date: 2025-12-08T19:55:19.978Z
+- commits:
     - subject: Update @balena/lint to 9.3.7 to support async disposables
       hash: adde76243450cd9f22dfc2414aa813c61a492748
       body: ""
