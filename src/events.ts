@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import * as packageJSON from '../package.json';
+const packageJSON =
+	require('../package.json') as typeof import('../package.json');
 import { stripIndent } from './utils/lazy';
 
 /**
