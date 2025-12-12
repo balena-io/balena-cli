@@ -22,7 +22,8 @@ import * as mock from 'mock-require';
 import * as semver from 'semver';
 import * as sinon from 'sinon';
 
-import * as packageJSON from '../package.json';
+const packageJSON =
+	require('../package.json') as typeof import('../package.json');
 import type { ReleaseTimestampsByVersion } from '../build/deprecation';
 import { DeprecationChecker } from '../build/deprecation';
 import { BalenaAPIMock } from './nock/balena-api-mock';

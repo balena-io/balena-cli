@@ -16,7 +16,8 @@
  */
 
 import * as semver from 'semver';
-import { version } from '../../package.json';
+const { version } =
+	require('../../package.json') as typeof import('../../package.json');
 
 export function isVersionGTE(v: string): boolean {
 	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

@@ -20,7 +20,8 @@ import type * as BalenaSdk from 'balena-sdk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
 import type { ux } from '@oclif/core';
-import { version } from '../../package.json';
+const { version } =
+	require('../../package.json') as typeof import('../../package.json');
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {

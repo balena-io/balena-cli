@@ -19,7 +19,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
 
-import * as packageJSON from '../package.json';
+const packageJSON =
+	require('../package.json') as typeof import('../package.json');
 import { getNodeEngineVersionWarn } from '../build/utils/messages';
 import { warnify } from '../build/utils/messages';
 
