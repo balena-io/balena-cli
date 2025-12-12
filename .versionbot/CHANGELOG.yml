@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update apple-actions/import-codesign-certs action to v5
+      hash: 68c8debf61490a6ff3551bc7ea4887dc709f99cf
+      body: |
+        Update apple-actions/import-codesign-certs from 3 to 5
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.10
+  title: ""
+  date: 2025-12-12T20:58:44.419Z
+- commits:
     - subject: Fix Node.js 22+ JSON import error by using require()
       hash: 6423901fbce0ed14ab13c8c032813bad86137162
       body: |
