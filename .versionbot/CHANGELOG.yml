@@ -1,4 +1,39 @@
 - commits:
+    - subject: Fix Node.js 22+ JSON import error by using require()
+      hash: 6423901fbce0ed14ab13c8c032813bad86137162
+      body: |
+        Node.js 22+ requires import attributes (`with { type: 'json' }`) for
+        ESM JSON imports. Since this project uses CommonJS, switch to require()
+        to avoid the ERR_IMPORT_ATTRIBUTE_MISSING error on Node.js 24.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+    - subject: "renovate: Only run npm dedupe for github-actions updates"
+      hash: b2b7c99510be687912aff7d9c396397a16c19f7d
+      body: |
+        Simplify the postUpgradeTasks configuration to only run npm dedupe
+        for github-actions manager updates instead of all package updates.
+
+        Also remove the manual prune and install steps of dedupe by using
+        the --package-lock-only flag.
+
+        This reduces unnecessary operations since npmDedupe is already
+        enabled globally via postUpdateOptions for npm packages.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 23.2.9
+  title: ""
+  date: 2025-12-12T19:14:01.549Z
+- commits:
     - subject: Add test for os configure --config using secureboot
       hash: b138ce3c6f2c34d53689a364b809e6dd2ae5b203
       body: ""
