@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update oclif from 4.22.0 to 4.22.61
+      hash: aaaebf44c29b05c6b4c233ab54f2ffe1637bc608
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 23.2.12
+  title: ""
+  date: 2025-12-29T13:46:44.527Z
+- commits:
     - subject: Update aws-actions/configure-aws-credentials action to v5
       hash: 6ff189c0685ef8ba6c088610ff5612a0de80251b
       body: |
