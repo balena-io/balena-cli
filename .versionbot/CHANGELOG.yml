@@ -1,4 +1,214 @@
 - commits:
+    - subject: Update docker-progress to 5.4.0
+      hash: 11745cd340eeb2790888818f755922221cd78df9
+      body: |
+        Update docker-progress from 5.1.3 to 5.4.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "pull/push/build: Support detecting the result digest when pushing only
+                the reference of a pre-built image"
+              hash: 68c5bcbba8508d7bc2cdc1c2d59c9846be2e40ac
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                See: https://forums.balena.io/t/deploy-fails-unable-to-extract-image-digest/373474/10
+                see: https://forums.balena.io/t/deploy-fails-unable-to-extract-image-digest/373474/10
+              author: Thodoris Greasidis
+          version: docker-progress-5.4.0
+          title: ""
+          date: 2025-12-03T19:06:39.659Z
+        - commits:
+            - subject: "pull: fix digest hash parsing"
+              hash: 69b72c1ef46f1d7fc9b2f642d91a956c646766de
+              body: >
+                The current code assumes the digest status line is in the form
+
+                `Digest: <alg>:<hash>`, taking up the whole line. This is not at
+                all the
+
+                case on all docker daemon versions, which is now in the form
+
+                `<tag>: digest: <alg>:<hash> size: <size>`.
+
+
+                Fix the regex to accept both formats:
+
+
+                - accept leading characters before the digest part
+
+                - make the `d` case-insensitive
+
+                - accept trailing elements after the hash
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Tuetuopay
+          version: docker-progress-5.3.4
+          title: ""
+          date: 2025-12-03T17:25:25.724Z
+        - commits:
+            - subject: Update flowzone workflow to allow external contributions
+              hash: d1b1699251cfd8384832319bbfc04f5b3bcf0957
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+          version: docker-progress-5.3.3
+          title: ""
+          date: 2025-11-28T17:29:49.302Z
+        - commits:
+            - subject: Fix TS errors for the latest dockerode
+              hash: 6e713c0d50393abfd6e342f6dd5a2447375ce362
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+          version: docker-progress-5.3.2
+          title: ""
+          date: 2025-11-28T17:25:12.012Z
+        - commits:
+            - subject: Make abortSignal optional in pull/push options
+              hash: 1d95c2219a79a928793a5d501b3003b0c3d9126a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Felipe Lalanne
+          version: docker-progress-5.3.1
+          title: ""
+          date: 2025-05-15T17:40:54.083Z
+        - commits:
+            - subject: Support AbortSignal option for image push/pull
+              hash: 3f4c3fe5dbfdf37740a6c80e0ef08a8dd91eb815
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Christina Ying Wang <christina@balena.io>
+                signed-off-by: Christina Ying Wang <christina@balena.io>
+              author: Christina Ying Wang
+          version: docker-progress-5.3.0
+          title: ""
+          date: 2025-05-12T21:49:23.254Z
+        - commits:
+            - subject: Update @balena/lint to 9.x
+              hash: 1266dd748790690c8df6ebf45ac64c9ad0f26a85
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: docker-progress-5.2.7
+          title: ""
+          date: 2025-04-10T13:59:53.882Z
+        - commits:
+            - subject: Update dependency rimraf to v6
+              hash: ec2f2a1170e1f0468822e0234870a14418a06c03
+              body: |
+                Update rimraf from 5.0.10 to 6.0.1
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+          version: docker-progress-5.2.6
+          title: ""
+          date: 2025-04-02T14:09:16.841Z
+        - commits:
+            - subject: Update dependency @balena/lint to v8
+              hash: 60ee04e45c8876ef0f4facfd39c1d891026f2be4
+              body: |
+                Update @balena/lint from 7.3.0 to 8.2.8
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+          version: docker-progress-5.2.5
+          title: ""
+          date: 2025-03-25T17:20:55.020Z
+        - commits:
+            - subject: Propagate NodeJS Error from stream directly
+              hash: 32f0685f9120e9fdb78c469f23d710428a2faaf5
+              body: |
+                If the error throw from registry stream is
+                already a Node Error, wrapping it in an error
+                again may obfuscate additional properties
+                of the Node error. This commit passes the
+                error directly if it's already an Error instance.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Christina Ying Wang <christina@balena.io>
+                signed-off-by: Christina Ying Wang <christina@balena.io>
+              author: Christina Ying Wang
+          version: docker-progress-5.2.4
+          title: ""
+          date: 2025-02-12T18:51:20.905Z
+        - commits:
+            - subject: Make use of nullish coalescing
+              hash: f42513b5eab0ed2aac9e28bb76ed61a8126eb730
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: docker-progress-5.2.3
+          title: ""
+          date: 2024-01-05T17:02:09.867Z
+        - commits:
+            - subject: Reduce lodash usage
+              hash: 9eb5d54942699c44480f1b261888e51c9c7e9c74
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: docker-progress-5.2.2
+          title: ""
+          date: 2024-01-05T14:55:03.667Z
+        - commits:
+            - subject: Update dependencies
+              hash: 8d8d919ca6593fde3b2b3bb6329fb69e2ec0019a
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: docker-progress-5.2.1
+          title: ""
+          date: 2024-01-05T14:45:55.146Z
+        - commits:
+            - subject: Add support for tracking delta generation progress
+              hash: 8d090f515e3d3c14b0be32db3d926324daedc936
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Akis Kesoglou
+          version: docker-progress-5.2.0
+          title: ""
+          date: 2023-06-30T18:07:36.352Z
+        - commits:
+            - subject: Build with Flowzone
+              hash: b533a310839d4031d0e0a6d9197439c5ba92bb38
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Akis Kesoglou
+          version: docker-progress-5.1.4
+          title: ""
+          date: 2023-06-30T17:32:18.924Z
+  version: 23.2.13
+  title: ""
+  date: 2025-12-29T16:35:16.655Z
+- commits:
     - subject: Update oclif from 4.22.0 to 4.22.61
       hash: aaaebf44c29b05c6b4c233ab54f2ffe1637bc608
       body: ""
