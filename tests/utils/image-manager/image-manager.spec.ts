@@ -55,7 +55,9 @@ describe('image-manager', function () {
 				it('should eventually become a readable stream of the cached image', function (done) {
 					this.timeout(5000);
 
-					void imageManager.getStream('raspberry-pi').then(function (stream) {
+					void imageManager.getStream('raspberry-pi').then(function ({
+						stream,
+					}) {
 						let result = '';
 
 						stream.on('data', (chunk: string) => (result += chunk.toString()));
@@ -90,7 +92,7 @@ describe('image-manager', function () {
 					});
 
 					it('should eventually become a readable stream of the download image and save a backup copy', function (done) {
-						void imageManager.getStream('raspberry-pi').then((stream) => {
+						void imageManager.getStream('raspberry-pi').then(({ stream }) => {
 							let result = '';
 
 							stream.on('data', (chunk: string) => (result += chunk));
@@ -107,21 +109,23 @@ describe('image-manager', function () {
 					});
 
 					it('should be able to read from the stream after a slight delay', function (done) {
-						void imageManager.getStream('raspberry-pi').then(async (s) => {
-							await delay(200);
+						void imageManager
+							.getStream('raspberry-pi')
+							.then(async ({ stream: s }) => {
+								await delay(200);
 
-							const pass = new stream.PassThrough();
-							s.pipe(pass);
+								const pass = new stream.PassThrough();
+								s.pipe(pass);
 
-							let result = '';
+								let result = '';
 
-							pass.on('data', (chunk) => (result += chunk));
+								pass.on('data', (chunk) => (result += chunk));
 
-							pass.on('end', function () {
-								expect(result).to.equal('Download image');
-								done();
+								pass.on('end', function () {
+									expect(result).to.equal('Download image');
+									done();
+								});
 							});
-						});
 					});
 				});
 
@@ -141,7 +145,7 @@ describe('image-manager', function () {
 							// Skipping test on Windows because we get `EPERM: operation not permitted, rename` for `getImageWritableStream` on the windows runner
 							this.skip();
 						}
-						void imageManager.getStream('raspberry-pi').then((stream) => {
+						void imageManager.getStream('raspberry-pi').then(({ stream }) => {
 							stream.on('data', () => {
 								// After the first chunk, error
 								return this.osDownloadStream.emit('error');
@@ -190,7 +194,7 @@ describe('image-manager', function () {
 					it('should preserve the property', () =>
 						imageManager
 							.getStream('raspberry-pi')
-							.then((resultStream) =>
+							.then(({ stream: resultStream }) =>
 								expect(resultStream.mime).to.equal('application/zip'),
 							));
 				});
