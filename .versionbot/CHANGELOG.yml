@@ -1,4 +1,98 @@
 - commits:
+    - subject: Use the device.is_connected_to_vpn field for device actions, ssh &
+        tunnel checks
+      hash: df951366098de80c598efd426fbd9efbd3caf95b
+      body: ""
+      footer:
+        Depends-on: https://github.com/balena-io/balena-sdk/pull/1584
+        depends-on: https://github.com/balena-io/balena-sdk/pull/1584
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2068
+        see: https://balena.fibery.io/Work/Project/2068
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-sdk to 22.4.5
+      hash: 9ebf2447628b052227e6200e96a121912606891d
+      body: |
+        Update balena-sdk from 22.4.1 to 22.4.5
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Use the device.is_connected_to_vpn instead of is_online where possible
+              hash: 834bef87b2a5bac00d38670cb802370301c5d121
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.fibery.io/Work/Project/2068
+                see: https://balena.fibery.io/Work/Project/2068
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-22.4.5
+          title: ""
+          date: 2025-12-29T17:39:43.999Z
+        - commits:
+            - subject: Drop gulp from the dev dependencies
+              hash: 2612a173182f3c53c1e66dc0a03439f5e74839cd
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update @balena/lint to 9.3.12
+              hash: f7380404f19c0160a42ccd6f822483112200a50b
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "tests: Type fixes for newer pinejs-client-core version"
+              hash: d1594aac9481ff0c7320a0239be024d0404e4eab
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-22.4.4
+          title: ""
+          date: 2025-12-22T14:23:53.693Z
+        - commits:
+            - subject: Update actions/setup-node action to v6
+              hash: 80e2ae32d1d6f30cb82688e7e8b71bd29a922893
+              body: |
+                Update actions/setup-node from 4 to 6
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+              nested: []
+          version: balena-sdk-22.4.3
+          title: ""
+          date: 2025-11-24T16:48:55.469Z
+        - commits:
+            - subject: Update sinon to v20
+              hash: 17ab71d9fac594517c3bf7e54bf961c753886a06
+              body: |
+                Update @types/sinon from 17.0.4 to 20.0.0
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: balena-renovate[bot]
+              nested: []
+          version: balena-sdk-22.4.2
+          title: ""
+          date: 2025-11-24T16:02:01.628Z
+  version: 23.2.14
+  title: ""
+  date: 2026-01-02T16:40:45.013Z
+- commits:
     - subject: Update docker-progress to 5.4.0
       hash: 11745cd340eeb2790888818f755922221cd78df9
       body: |
