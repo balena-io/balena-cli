@@ -153,8 +153,10 @@ export default class DeviceRestartCmd extends Command {
 		// Remove this workaround when SDK issue resolved: https://github.com/balena-io/balena-sdk/issues/649
 		const { instanceOf, ExpectedError } = await import('../../errors');
 		try {
-			const device = await balena.models.device.get(deviceUuid);
-			if (!device.is_online) {
+			const device = await balena.models.device.get(deviceUuid, {
+				$select: 'is_connected_to_vpn',
+			});
+			if (!device.is_connected_to_vpn) {
 				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
 			}
 		} catch (e) {

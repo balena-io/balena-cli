@@ -86,7 +86,7 @@ describe('balena device ssh', function () {
 	itSS('should succeed (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
+		api.expectGetDevice({ fullUUID: deviceUUID, isConnectedToVpn: true });
 		mockedExitCode = 0;
 
 		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
@@ -110,7 +110,7 @@ describe('balena device ssh', function () {
 				'SSH: Remote command "host abc1234" exited with non-zero status code "255"',
 			];
 			api.expectGetWhoAmI({ optional: true, persist: true });
-			api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
+			api.expectGetDevice({ fullUUID: deviceUUID, isConnectedToVpn: true });
 			mockedExitCode = 255;
 
 			const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
@@ -123,7 +123,7 @@ describe('balena device ssh', function () {
 		const deviceUUID = 'abc1234';
 		const expectedErrLines = ['Device with UUID abc1234 is disconnected'];
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: false });
+		api.expectGetDevice({ fullUUID: deviceUUID, isConnectedToVpn: false });
 		mockedExitCode = 0;
 
 		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);

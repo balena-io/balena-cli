@@ -479,7 +479,7 @@ export class BalenaAPIMock extends NockMock {
 		fullUUID: string;
 		shortUUID?: string;
 		inaccessibleApp?: boolean;
-		isOnline?: boolean;
+		isConnectedToVpn?: boolean;
 		optional?: boolean;
 		persist?: boolean;
 	}) {
@@ -495,7 +495,7 @@ export class BalenaAPIMock extends NockMock {
 				{
 					id,
 					uuid: opts.fullUUID,
-					is_online: opts.isOnline,
+					is_connected_to_vpn: opts.isConnectedToVpn,
 					belongs_to__application: opts.inaccessibleApp
 						? []
 						: [{ app_name: 'test', slug: 'org/test' }],
