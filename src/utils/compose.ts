@@ -26,6 +26,7 @@ import type {
 	ComposeOpts,
 	ComposeProject,
 	Release,
+	Contract,
 	TaggedImage,
 } from './compose-types';
 import Logger = require('./logger');
@@ -128,7 +129,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: Contract | undefined,
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -165,16 +166,18 @@ export const createRelease = async function (
 		commit: crypto.pseudoRandomBytes(16).toString('hex').toLowerCase(),
 		semver,
 		is_final: !draft,
-		contract,
+		contract: contract ?? undefined,
 		imgDescriptors,
 	});
 
 	for (const serviceImage of Object.values(serviceImages)) {
 		if ('created_at' in serviceImage) {
-			delete serviceImage.created_at;
+			// created_at is not an optional field in the SDK, but we need to delete it
+			serviceImage.created_at = undefined as any;
 		}
 		if ('is_a_build_of__service' in serviceImage) {
-			delete serviceImage.is_a_build_of__service;
+			// is_a_build_of__service is not an optional field in the SDK, but we need to delete it
+			serviceImage.is_a_build_of__service = undefined as any;
 		}
 	}
 
@@ -191,7 +194,7 @@ export const createRelease = async function (
 			'semver',
 			'start_timestamp',
 			'end_timestamp',
-		]),
+		]) as Release['release'],
 		serviceImages,
 	};
 };
