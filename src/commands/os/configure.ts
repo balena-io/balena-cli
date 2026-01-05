@@ -208,7 +208,7 @@ export default class OsConfigureCmd extends Command {
 			})) as DeviceWithDeviceType & {
 				belongs_to__application: BalenaSdk.PineDeferred;
 			};
-			deviceTypeSlug = device.is_of__device_type[0].slug;
+			deviceTypeSlug = device.is_of__device_type[0].slug!;
 		} else if (fleetSlugOrId != null) {
 			app = await getApplication(balena, fleetSlugOrId, {
 				$select: 'slug',
@@ -226,7 +226,7 @@ export default class OsConfigureCmd extends Command {
 
 		const deviceTypeManifest = await helpers.getManifest(
 			params.image,
-			deviceTypeSlug,
+			deviceTypeSlug!,
 		);
 
 		const { normalizeOsVersion } = await import('../../utils/normalization');
@@ -242,7 +242,7 @@ export default class OsConfigureCmd extends Command {
 		);
 		await validateSecureBootOptionAndWarn(
 			secureBoot,
-			deviceTypeSlug,
+			deviceTypeSlug!,
 			osVersion,
 		);
 
@@ -258,7 +258,7 @@ export default class OsConfigureCmd extends Command {
 					};
 		const answers: AugmentedAnswers = {
 			...baseAnswers,
-			deviceType: deviceTypeSlug,
+			deviceType: deviceTypeSlug!,
 			version: osVersion,
 			developmentMode: developmentMode,
 			secureBoot: secureBoot,
