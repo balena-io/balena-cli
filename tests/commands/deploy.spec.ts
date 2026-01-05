@@ -23,6 +23,7 @@ import * as _ from 'lodash';
 import type * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
+import type { BalenaModel } from 'balena-sdk';
 
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
@@ -300,7 +301,7 @@ describe('balena deploy', function () {
 			times: maxRequestRetries,
 			inspectRequest: (_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ImageModel
+					BalenaModel['image']['Read']
 				>;
 				expect(imageBody.status).to.equal('success');
 				failedImagePatchRequests++;
@@ -310,7 +311,7 @@ describe('balena deploy', function () {
 		api.expectPatchRelease({
 			inspectRequest: (_uri, requestBody) => {
 				const releaseBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ReleaseModel
+					BalenaModel['release']['Read']
 				>;
 				expect(releaseBody.status).to.equal('failed');
 			},
@@ -388,7 +389,7 @@ describe('balena deploy', function () {
 			.optPatch(/^\/v7\/image($|[(?])/, { times: maxRequestRetries })
 			.reply((_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ImageModel
+					BalenaModel['image']['Read']
 				>;
 				expect(imageBody.status).to.equal('success');
 				if (failedImagePatchRequests < maxRequestRetries - 1) {
