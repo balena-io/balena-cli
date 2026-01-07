@@ -8797,9 +8797,9 @@
       }
     },
     "node_modules/@oclif/plugin-update/node_modules/normalize-url": {
-      "version": "8.1.0",
-      "resolved": "https://registry.npmjs.org/normalize-url/-/normalize-url-8.1.0.tgz",
-      "integrity": "sha512-X06Mfd/5aKsRHc0O0J5CUedwnPmnDtLF2+nq+KN9KSDlJHkPuh0JUviWjEWMe0SW/9TDdSLVPuk7L5gGTIA1/w==",
+      "version": "8.1.1",
+      "resolved": "https://registry.npmjs.org/normalize-url/-/normalize-url-8.1.1.tgz",
+      "integrity": "sha512-JYc0DPlpGWB40kH5g07gGTrYuMqV653k3uBKY6uITPWds3M0ov3GaWGp9lbE3Bzngx8+XkfzgvASb9vk9JDFXQ==",
       "license": "MIT",
       "engines": {
         "node": ">=14.16"
@@ -20770,9 +20770,9 @@
       }
     },
     "node_modules/oclif/node_modules/normalize-url": {
-      "version": "8.1.0",
-      "resolved": "https://registry.npmjs.org/normalize-url/-/normalize-url-8.1.0.tgz",
-      "integrity": "sha512-X06Mfd/5aKsRHc0O0J5CUedwnPmnDtLF2+nq+KN9KSDlJHkPuh0JUviWjEWMe0SW/9TDdSLVPuk7L5gGTIA1/w==",
+      "version": "8.1.1",
+      "resolved": "https://registry.npmjs.org/normalize-url/-/normalize-url-8.1.1.tgz",
+      "integrity": "sha512-JYc0DPlpGWB40kH5g07gGTrYuMqV653k3uBKY6uITPWds3M0ov3GaWGp9lbE3Bzngx8+XkfzgvASb9vk9JDFXQ==",
       "dev": true,
       "license": "MIT",
       "engines": {
