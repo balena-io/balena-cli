@@ -34,11 +34,19 @@ describe('image-manager', function () {
 				fs.writeSync(this.image.fd, 'Cache image', 0, 'utf8');
 
 				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				return this.cacheGetImagePathStub.resolves(this.image.name);
+				this.cacheGetImagePathStub.resolves(this.image.name);
+
+				// Mock getMaxSatisfyingVersion to avoid network calls during version resolution
+				this.getMaxSatisfyingVersionStub = stub(
+					balena.models.os,
+					'getMaxSatisfyingVersion',
+				);
+				return this.getMaxSatisfyingVersionStub.resolves('2.0.0');
 			});
 
 			afterEach(function () {
 				this.cacheGetImagePathStub.restore();
+				this.getMaxSatisfyingVersionStub.restore();
 				return this.image.removeCallback();
 			});
 
