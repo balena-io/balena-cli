@@ -33,6 +33,7 @@ import type {
 	ExpectedTarStreamFilesByService,
 } from '../projects';
 import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects';
+import type { BalenaModel } from 'balena-sdk';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -299,9 +300,7 @@ describe('balena deploy', function () {
 			// b/c failed requests are retried
 			times: maxRequestRetries,
 			inspectRequest: (_uri, requestBody) => {
-				const imageBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ImageModel
-				>;
+				const imageBody = requestBody as Partial<BalenaModel['image']['Write']>;
 				expect(imageBody.status).to.equal('success');
 				failedImagePatchRequests++;
 			},
@@ -310,7 +309,7 @@ describe('balena deploy', function () {
 		api.expectPatchRelease({
 			inspectRequest: (_uri, requestBody) => {
 				const releaseBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ReleaseModel
+					BalenaModel['release']['Write']
 				>;
 				expect(releaseBody.status).to.equal('failed');
 			},
@@ -387,9 +386,7 @@ describe('balena deploy', function () {
 		api
 			.optPatch(/^\/v7\/image($|[(?])/, { times: maxRequestRetries })
 			.reply((_uri, requestBody) => {
-				const imageBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ImageModel
-				>;
+				const imageBody = requestBody as Partial<BalenaModel['image']['Write']>;
 				expect(imageBody.status).to.equal('success');
 				if (failedImagePatchRequests < maxRequestRetries - 1) {
 					failedImagePatchRequests++;

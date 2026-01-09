@@ -128,7 +128,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: import('@balena/compose').release.Request['contract'],
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -156,7 +156,7 @@ export const createRelease = async function (
 		);
 
 	const { id: userId } = await sdk.auth.getUserInfo();
-	const { release, serviceImages } = await releaseMod.create({
+	const { release, serviceImages: $serviceImages } = await releaseMod.create({
 		client: pinejsClient,
 		user: userId,
 		application: appId,
@@ -169,14 +169,19 @@ export const createRelease = async function (
 		imgDescriptors,
 	});
 
-	for (const serviceImage of Object.values(serviceImages)) {
-		if ('created_at' in serviceImage) {
-			delete serviceImage.created_at;
-		}
-		if ('is_a_build_of__service' in serviceImage) {
-			delete serviceImage.is_a_build_of__service;
-		}
-	}
+	const serviceImages = Object.fromEntries(
+		Object.entries($serviceImages).map(([key, serviceImage]) => {
+			if (
+				'created_at' in serviceImage ||
+				'is_a_build_of__service' in serviceImage
+			) {
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars -- omit the created_at, is_a_build_of__service props
+				const { created_at, is_a_build_of__service, ...si } = serviceImage;
+				return [key, si];
+			}
+			return [key, serviceImage];
+		}),
+	);
 
 	return {
 		client: pinejsClient,
