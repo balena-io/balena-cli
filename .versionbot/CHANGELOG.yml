@@ -1,4 +1,25 @@
 - commits:
+    - subject: Unpin balena-request from v14.0.6
+      hash: 81e653796032947baeffc4d9f2a9df89b25f1032
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: "tests: Replace `nock`, `mock-require` and `rewire` with `mockttp` and
+        `sinon`"
+      hash: ff73fed7455685e2fbcf59a0879a1457f478fe1b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 23.2.16
+  title: ""
+  date: 2026-01-09T19:11:01.962Z
+- commits:
     - subject: Fix intermitent test on image-manager
       hash: d0b98adc791ee8637e63448aa568c0493cadf3b9
       body: ""
