@@ -259,7 +259,7 @@
     "inline-source-cli": {
       "inline-source": "^8.0.3"
     },
-    "balena-request": "14.0.6"
+    "balena-request": "14.0.8"
   },
   "versionist": {
     "publishedAt": "2026-01-09T14:39:01.807Z"
