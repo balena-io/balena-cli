@@ -27,10 +27,7 @@ import * as ErrorsModule from '../build/errors';
 import { getHelp } from '../build/utils/messages';
 
 function red(s: string) {
-	if (process.env.CI) {
-		// If CI, don't color.
-		return s;
-	}
+	// FORCE_COLOR=1 is set in tests/config-tests.ts to ensure consistent color output
 	return `\u001b[31m${s}\u001b[39m`;
 }
 

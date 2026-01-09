@@ -50,14 +50,14 @@ describe('Login server:', function () {
 	let server: LoginServer;
 	let addr: { host: string; port: number; urlPath: string };
 
-	this.beforeEach(async () => {
+	beforeEach(async () => {
 		server = new LoginServer();
 		await server.start();
 		addr = server.getAddress();
 		expect(addr.host).to.equal('127.0.0.1');
 	});
 
-	this.afterEach(() => {
+	afterEach(() => {
 		server.shutdown();
 	});
 

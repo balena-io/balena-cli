@@ -24,7 +24,7 @@ describe('getProxyConfig() function', function () {
 	let originalHttpProxy: [boolean, string | undefined];
 	let originalHttpsProxy: [boolean, string | undefined];
 
-	this.beforeEach(() => {
+	beforeEach(() => {
 		originalProxyConfig = [
 			Object.hasOwn(global, 'PROXY_CONFIG'),
 			(global as any).PROXY_CONFIG,
@@ -42,7 +42,7 @@ describe('getProxyConfig() function', function () {
 		delete process.env.HTTPS_PROXY;
 	});
 
-	this.afterEach(() => {
+	afterEach(() => {
 		if (originalProxyConfig[0]) {
 			(global as any).PROXY_CONFIG = originalProxyConfig[1];
 		}

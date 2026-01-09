@@ -43,11 +43,11 @@ describe('compare new and old tarDirectory implementations', function () {
 		pack.entry(extraEntry, extraContent);
 	};
 
-	this.beforeAll(async () => {
+	before(async () => {
 		await setupDockerignoreTestData();
 	});
 
-	this.afterAll(async () => {
+	after(async () => {
 		await setupDockerignoreTestData({ cleanup: true });
 	});
 

@@ -17,26 +17,30 @@
 
 import { expect } from 'chai';
 import * as fs from 'fs';
-import * as nock from 'nock';
 import * as path from 'path';
 import * as os from 'os';
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
-
-// "itSS" means "it() Skip Standalone"
-const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena release-asset upload', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 	let tempDir: string;
 	let smallFilePath: string;
 	let largeFilePath: string;
-	let uploadPartMock: nock.Scope;
+
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
+	});
+
+	after(async () => {
+		await server.stop();
+	});
 
 	beforeEach(async () => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
-
 		tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'balena-test-'));
 
 		// Create a small file (< 5MB)
@@ -52,16 +56,13 @@ describe('balena release-asset upload', function () {
 
 	afterEach(async () => {
 		await fs.promises.rm(tempDir, { recursive: true, force: true });
-		api.done();
-		if (uploadPartMock) {
-			uploadPartMock.done();
-		}
+		await server.assertAllCalled();
 	});
 
 	it('should upload a small release asset successfully', async () => {
-		api.expectGetRelease();
-		api.expectGetReleaseAsset({ found: false });
-		api.expectPostReleaseAsset({ assetKey: 'small-file.txt' });
+		await api.expectGetRelease();
+		await api.expectGetReleaseAsset({ found: false });
+		await api.expectPostReleaseAsset({ assetKey: 'small-file.txt' });
 
 		const { out, err } = await runCommand(
 			`release-asset upload 27fda508c ${smallFilePath} --key small-file.txt`,
@@ -72,34 +73,37 @@ describe('balena release-asset upload', function () {
 		expect(err).to.be.empty;
 	});
 
-	itSS(
-		'should upload a large release asset using multipart upload',
-		async () => {
-			api.expectGetRelease();
-			api.expectGetReleaseAssetMissingOnce();
-			api.expectPostReleaseAsset({ assetKey: 'large-file.bin', assetId: 456 });
-			api.expectBeginUpload({ assetId: 456 });
+	it('should upload a large release asset using multipart upload', async () => {
+		await api.expectGetRelease();
+		await api.expectGetReleaseAssetMissingOnce();
+		await api.expectPostReleaseAsset({
+			assetKey: 'large-file.bin',
+			assetId: 456,
+		});
+		await api.expectBeginUpload({ assetId: 456 });
 
-			// Mock the external upload part request
-			uploadPartMock = nock('https://test-upload.example.com')
-				.put('/part1')
-				.reply(200, {}, { ETag: '"test-etag-12345"' });
+		// Mock the upload part endpoint - use thenCallback to consume request body
+		await server.mockttp.forPut('/upload/part1/456').thenCallback(() => {
+			return {
+				status: 200,
+				headers: { ETag: '"test-etag-12345"' },
+			};
+		});
 
-			api.expectCommitUpload({ assetId: 456 });
+		await api.expectCommitUpload({ assetId: 456 });
 
-			const { out, err } = await runCommand(
-				`release-asset upload 27fda508c ${largeFilePath} --key large-file.bin`,
-			);
+		const { out, err } = await runCommand(
+			`release-asset upload 27fda508c ${largeFilePath} --key large-file.bin --debug`,
+		);
 
-			const lines = cleanOutput(out);
-			expect(lines.join(' ')).to.contain('uploaded successfully');
-			expect(err).to.be.empty;
-		},
-	);
+		const lines = cleanOutput(out);
+		expect(lines.join(' ')).to.contain('uploaded successfully');
+		expect(err).to.be.empty;
+	});
 
 	it('should handle asset already exists error when overwrite is false', async () => {
-		api.expectGetRelease();
-		api.expectGetReleaseAsset({ found: true, assetId: 456 });
+		await api.expectGetRelease();
+		await api.expectGetReleaseAsset({ found: true, assetId: 456 });
 
 		const { err } = await runCommand(
 			`release-asset upload 27fda508c ${smallFilePath} --key small-file.txt`,
@@ -108,9 +112,9 @@ describe('balena release-asset upload', function () {
 	});
 
 	it('should upload small asset when overwrite is true and asset exists', async () => {
-		api.expectGetRelease();
-		api.expectGetReleaseAsset({ found: true, assetId: 456 });
-		api.expectPatchReleaseAsset({ assetId: 456 });
+		await api.expectGetRelease();
+		await api.expectGetReleaseAsset({ found: true, assetId: 456 });
+		await api.expectPatchReleaseAsset({ assetId: 456 });
 
 		const { out, err } = await runCommand(
 			`release-asset upload 27fda508c ${smallFilePath} --key small-file.txt --overwrite`,
@@ -121,31 +125,32 @@ describe('balena release-asset upload', function () {
 		expect(err).to.be.empty;
 	});
 
-	itSS(
-		'should upload large asset when overwrite is true and asset exists',
-		async () => {
-			api.expectGetRelease();
-			api.expectGetReleaseAsset({ found: true, assetId: 789 });
-			api.expectBeginUpload({
-				assetId: 789,
-				uuid: 'test-overwrite-uuid',
-				uploadUrl: 'https://test-upload.example.com/overwrite-part1',
+	it('should upload large asset when overwrite is true and asset exists', async () => {
+		await api.expectGetRelease();
+		await api.expectGetReleaseAsset({ found: true, assetId: 789 });
+		await api.expectBeginUpload({
+			assetId: 789,
+			uuid: 'test-overwrite-uuid',
+			uploadPath: '/upload/overwrite-part1/789',
+		});
+
+		await server.mockttp
+			.forPut('/upload/overwrite-part1/789')
+			.thenCallback(() => {
+				return {
+					status: 200,
+					headers: { ETag: '"test-etag-overwrite"' },
+				};
 			});
 
-			// Mock the external upload part request for overwrite
-			uploadPartMock = nock('https://test-upload.example.com')
-				.put('/overwrite-part1')
-				.reply(200, {}, { ETag: '"test-etag-overwrite"' });
+		await api.expectCommitUpload({ assetId: 789 });
 
-			api.expectCommitUpload({ assetId: 789 });
+		const { out, err } = await runCommand(
+			`release-asset upload 27fda508c ${largeFilePath} --key large-file.bin --overwrite --debug`,
+		);
 
-			const { out, err } = await runCommand(
-				`release-asset upload 27fda508c ${largeFilePath} --key large-file.bin --overwrite`,
-			);
-
-			const lines = cleanOutput(out);
-			expect(lines.join(' ')).to.contain('uploaded successfully');
-			expect(err).to.be.empty;
-		},
-	);
+		const lines = cleanOutput(out);
+		expect(lines.join(' ')).to.contain('uploaded successfully');
+		expect(err).to.be.empty;
+	});
 });

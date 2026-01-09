@@ -17,20 +17,26 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena device-type list', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should print help text with the --help flag', async () => {
@@ -42,7 +48,7 @@ describe('balena device-type list', function () {
 	});
 
 	it('should list currently supported devices, with correct filtering', async () => {
-		api.expectGetDeviceTypes();
+		await api.expectGetDeviceTypes();
 
 		const { out, err } = await runCommand('device-type list');
 

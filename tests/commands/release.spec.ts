@@ -17,24 +17,30 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
+import { MockHttpServer } from '../mockserver';
 
 describe('balena release', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		// Check all expected api calls have been made and clean up.
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should show release details', async () => {
-		api.expectGetRelease();
+		await api.expectGetRelease();
 		const { out } = await runCommand('release 27fda508c');
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.contain('ID: ');
@@ -44,7 +50,7 @@ describe('balena release', function () {
 	});
 
 	it('should return release composition', async () => {
-		api.expectGetRelease();
+		await api.expectGetRelease();
 		const { out } = await runCommand('release 27fda508c --composition');
 		const lines = cleanOutput(out);
 		expect(lines[0]).to.be.equal("version: '2.1'");
@@ -56,7 +62,7 @@ describe('balena release', function () {
 	});
 
 	it('should print version information as JSON with the --json flag', async () => {
-		api.expectGetRelease();
+		await api.expectGetRelease();
 		const { err, out } = await runCommand('release 27fda508c --json');
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
@@ -66,8 +72,8 @@ describe('balena release', function () {
 	});
 
 	it('should list releases', async () => {
-		api.expectGetRelease();
-		api.expectGetApplication();
+		await api.expectGetRelease();
+		await api.expectGetApplication();
 		const { out } = await runCommand('release list someapp');
 		const lines = cleanOutput(out);
 		expect(lines.length).to.be.equal(2);
@@ -76,8 +82,8 @@ describe('balena release', function () {
 	});
 
 	it('should list releases as JSON with the --json flag', async () => {
-		api.expectGetRelease();
-		api.expectGetApplication();
+		await api.expectGetRelease();
+		await api.expectGetApplication();
 		const { err, out } = await runCommand('release list someapp --json');
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));

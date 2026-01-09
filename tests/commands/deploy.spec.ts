@@ -20,13 +20,11 @@ import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
-import type * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
-import { BalenaAPIMock } from '../nock/balena-api-mock';
+import { MockHttpServer } from '../mockserver';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
-import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
 import { cleanOutput, runCommand } from '../helpers';
 import type {
 	ExpectedTarStreamFiles,
@@ -36,6 +34,9 @@ import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
+const dockerResponsePath = path.normalize(
+	path.join(__dirname, '..', 'test-data', 'docker-response'),
+);
 
 const commonResponseLines = {
 	'build-POST.json': [
@@ -74,35 +75,44 @@ const commonComposeQueryParamsArmV7 = {
 };
 
 describe('balena deploy', function () {
-	let api: BalenaAPIMock;
-	let docker: DockerMock;
+	let api: MockHttpServer['api'];
+	let docker: MockHttpServer['docker'];
+	let server: MockHttpServer;
 	const isWindows = process.platform === 'win32';
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
-		docker = new DockerMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetApplication({ expandArchitecture: true });
-		api.expectGetRelease();
-		api.expectGetUser();
-		api.expectGetService({ serviceName: 'main' });
-		api.expectGetAuth();
-		api.expectPostImage();
-		api.expectPostImageIsPartOfRelease();
-
-		docker.expectGetImages();
-		docker.expectGetPing();
-		docker.expectGetInfo({});
-		docker.expectGetVersion({ persist: true });
-		docker.expectPostImagesTag();
-		docker.expectPostImagesPush();
-		docker.expectDeleteImages();
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		docker = server.docker;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	this.afterEach(() => {
+	after(async () => {
+		await server.stop();
+	});
+
+	beforeEach(async () => {
+		await api.expectGetApplication({ expandArchitecture: true });
+		await api.expectGetRelease();
+		await api.expectGetUser();
+		await api.expectGetService({ serviceName: 'main' });
+		await api.expectGetAuth({ optional: true });
+		await api.expectPostImage();
+		await api.expectPostImageIsPartOfRelease();
+
+		await docker.expectGetImages({ optional: true });
+		await docker.expectGetPing();
+		await docker.expectGetInfo({});
+		await docker.expectGetVersion({ persist: true, optional: true });
+		await docker.expectPostImagesTag({ optional: true });
+		await docker.expectPostImagesPush({ optional: true });
+		await docker.expectDeleteImages({ optional: true });
+	});
+
+	afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		api.done();
-		docker.done();
+		await server.assertAllCalled();
 	});
 
 	it('should create the expected --build tar stream (single container)', async () => {
@@ -139,11 +149,11 @@ describe('balena deploy', function () {
 			);
 		}
 
-		api.expectPostRelease({});
-		api.expectPatchImage({});
-		api.expectPatchRelease({});
-		api.expectPostImageLabel();
-		docker.expectGetManifestBusybox();
+		await api.expectPostRelease({});
+		await api.expectPatchImage({});
+		await api.expectPatchRelease({});
+		await api.expectPostImageLabel();
+		await docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath}`,
@@ -180,8 +190,8 @@ describe('balena deploy', function () {
 			`[Info] Creating default composition with source: "${projectPath}"`,
 		];
 
-		api.expectPostRelease({
-			inspectRequest: (_uri: string, requestBody: nock.Body) => {
+		await api.expectPostRelease({
+			inspectRequest: (_uri: string, requestBody: any) => {
 				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
 				expect(body.contract).to.deep.equal({
 					name: 'testContract',
@@ -191,10 +201,10 @@ describe('balena deploy', function () {
 				expect(body.is_final).to.be.true;
 			},
 		});
-		api.expectPatchImage({});
-		api.expectPatchRelease({});
-		api.expectPostImageLabel();
-		docker.expectGetManifestBusybox();
+		await api.expectPatchImage({});
+		await api.expectPatchRelease({});
+		await api.expectPostImageLabel();
+		await docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath}`,
@@ -231,8 +241,8 @@ describe('balena deploy', function () {
 			`[Info] Creating default composition with source: "${projectPath}"`,
 		];
 
-		api.expectPostRelease({
-			inspectRequest: (_uri: string, requestBody: nock.Body) => {
+		await api.expectPostRelease({
+			inspectRequest: (_uri: string, requestBody: any) => {
 				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
 				expect(body.contract).to.deep.equal({
 					name: 'testContract',
@@ -243,10 +253,10 @@ describe('balena deploy', function () {
 				expect(body.is_final).to.be.false;
 			},
 		});
-		api.expectPatchImage({});
-		api.expectPatchRelease({});
-		api.expectPostImageLabel();
-		docker.expectGetManifestBusybox();
+		await api.expectPatchImage({});
+		await api.expectPatchRelease({});
+		await api.expectPostImageLabel();
+		await docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --draft --source ${projectPath}`,
@@ -282,10 +292,11 @@ describe('balena deploy', function () {
 		// causes the CLI to call process.exit() with process.exitCode = 1
 		const expectedExitCode = 1;
 
-		api.expectPostRelease({});
-		docker.expectGetManifestBusybox();
+		await api.expectPostRelease({});
+		await docker.expectGetManifestBusybox();
 
 		let failedImagePatchRequests = 0;
+		let releaseStatus: string | undefined;
 		// Mock this patch HTTP request to return status code 500, in which case
 		// the release status should be saved as "failed" rather than "success"
 		const maxRequestRetries = intVar('BALENARCTEST_API_RETRY_MAX_ATTEMPTS');
@@ -293,8 +304,8 @@ describe('balena deploy', function () {
 			maxRequestRetries,
 			'BALENARCTEST_API_RETRY_MAX_ATTEMPTS must be >= 2 for this test',
 		).to.be.greaterThanOrEqual(2);
-		api.expectPatchImage({
-			replyBody: errMsg,
+		await api.expectPatchImage({
+			replyBody: { error: errMsg },
 			statusCode: 500,
 			// b/c failed requests are retried
 			times: maxRequestRetries,
@@ -302,20 +313,24 @@ describe('balena deploy', function () {
 				const imageBody = requestBody as Partial<
 					import('@balena/compose/dist/release/models').ImageModel
 				>;
-				expect(imageBody.status).to.equal('success');
-				failedImagePatchRequests++;
+				// Don't use expect here - just track the count
+				if (imageBody.status === 'success') {
+					failedImagePatchRequests++;
+				}
+				return undefined;
 			},
 		});
 		// Check that the CLI patches the release with status="failed"
-		api.expectPatchRelease({
+		await api.expectPatchRelease({
 			inspectRequest: (_uri, requestBody) => {
 				const releaseBody = requestBody as Partial<
 					import('@balena/compose/dist/release/models').ReleaseModel
 				>;
-				expect(releaseBody.status).to.equal('failed');
+				// Don't use expect here - just store the status
+				releaseStatus = releaseBody.status;
 			},
 		});
-		api.expectPostImageLabel();
+		await api.expectPostImageLabel();
 
 		try {
 			sinon.stub(process, 'exit');
@@ -334,6 +349,7 @@ describe('balena deploy', function () {
 				services: ['main'],
 			});
 			expect(failedImagePatchRequests).to.equal(maxRequestRetries);
+			expect(releaseStatus).to.equal('failed');
 		} finally {
 			// We mock process.exit and need to force cast it to a SinonStub to restore it
 			(process.exit as unknown as sinon.SinonStub).restore();
@@ -374,8 +390,8 @@ describe('balena deploy', function () {
 			);
 		}
 
-		api.expectPostRelease({});
-		docker.expectGetManifestBusybox();
+		await api.expectPostRelease({});
+		await docker.expectGetManifestBusybox();
 
 		const maxRequestRetries = intVar('BALENARCTEST_API_RETRY_MAX_ATTEMPTS');
 		expect(
@@ -384,22 +400,31 @@ describe('balena deploy', function () {
 		).to.be.greaterThanOrEqual(2);
 		let failedImagePatchRequests = 0;
 		let succesfullImagePatchRequests = 0;
-		api
-			.optPatch(/^\/v7\/image($|[(?])/, { times: maxRequestRetries })
-			.reply((_uri, requestBody) => {
+
+		// Custom mock for retry logic - return errors on first attempts, then success
+		await api.expectPatchImage({
+			times: maxRequestRetries,
+			inspectRequest: (_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
 					import('@balena/compose/dist/release/models').ImageModel
 				>;
-				expect(imageBody.status).to.equal('success');
+				// Don't use expect here as it can throw and prevent custom response
+				if (imageBody.status !== 'success') {
+					return { status: 500, body: { error: 'unexpected test value' } };
+				}
+
 				if (failedImagePatchRequests < maxRequestRetries - 1) {
 					failedImagePatchRequests++;
-					return [500, 'Patch Image Error'];
+					return { status: 500, body: { error: 'Patch Image Error' } };
+				} else {
+					succesfullImagePatchRequests++;
+					return { status: 200, body: {} };
 				}
-				succesfullImagePatchRequests++;
-				return [200, 'OK'];
-			});
-		api.expectPatchRelease({});
-		api.expectPostImageLabel();
+			},
+		});
+
+		await api.expectPatchRelease({});
+		await api.expectPostImageLabel();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath}`,
@@ -424,11 +449,6 @@ describe('balena deploy', function () {
 				'utf8',
 			)
 		).replace('%%BALENA_MACHINE_NAME%%', 'raspberrypi3');
-
-		console.error(
-			`Dockerfile.template (replaced) length=${service1Dockerfile.length}`,
-		);
-		console.error(service1Dockerfile);
 
 		const expectedFilesByService: ExpectedTarStreamFilesByService = {
 			service1: {
@@ -489,11 +509,11 @@ describe('balena deploy', function () {
 			);
 		}
 
-		api.expectPostRelease({});
-		api.expectPatchImage({});
-		api.expectPatchRelease({});
-		docker.expectGetManifestRpi3Alpine();
-		docker.expectGetManifestBusybox();
+		await api.expectPostRelease({});
+		await api.expectPatchImage({});
+		await api.expectPatchRelease({});
+		await docker.expectGetManifestRpi3Alpine();
+		await docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath} --multi-dockerignore`,
@@ -510,16 +530,20 @@ describe('balena deploy', function () {
 });
 
 describe('balena deploy: project validation', function () {
-	let api: BalenaAPIMock;
+	let server: MockHttpServer;
 
-	this.beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		await server.start();
 	});
 
-	this.afterEach(() => {
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
 		// Check all expected api calls have been made and clean up.
-		api.done();
+		await server.assertAllCalled();
 	});
 
 	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {

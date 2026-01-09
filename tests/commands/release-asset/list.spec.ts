@@ -16,23 +16,30 @@
  */
 
 import { expect } from 'chai';
-import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+import { MockHttpServer } from '../../mockserver';
 
 describe('balena release-asset list', function () {
-	let api: BalenaAPIMock;
+	let api: MockHttpServer['api'];
+	let server: MockHttpServer;
 
-	beforeEach(() => {
-		api = new BalenaAPIMock();
-		api.expectGetWhoAmI({ optional: true, persist: true });
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		await server.start();
+		await api.expectGetWhoAmI({ optional: true, persist: true });
 	});
 
-	afterEach(() => {
-		api.done();
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
 	});
 
 	it('should list release assets', async () => {
-		api.expectGetReleaseWithReleaseAssets();
+		await api.expectGetReleaseWithReleaseAssets();
 
 		const { out } = await runCommand('release-asset list 27fda508c');
 		const lines = cleanOutput(out);
@@ -44,7 +51,7 @@ describe('balena release-asset list', function () {
 	});
 
 	it('should show message when no assets found', async () => {
-		api.expectGetReleaseWithReleaseAssets({ empty: true });
+		await api.expectGetReleaseWithReleaseAssets({ empty: true });
 
 		const { out } = await runCommand('release-asset list 27fda508c');
 		const lines = cleanOutput(out);
@@ -53,7 +60,7 @@ describe('balena release-asset list', function () {
 	});
 
 	it('should list release assets as JSON with --json flag', async () => {
-		api.expectGetReleaseWithReleaseAssets();
+		await api.expectGetReleaseWithReleaseAssets();
 
 		const { err, out } = await runCommand(
 			'release-asset list 27fda508c --json',
