@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix intermitent test on image-manager
+      hash: d0b98adc791ee8637e63448aa568c0493cadf3b9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 23.2.15
+  title: ""
+  date: 2026-01-09T14:39:00.872Z
+- commits:
     - subject: Use the device.is_connected_to_vpn field for device actions, ssh &
         tunnel checks
       hash: df951366098de80c598efd426fbd9efbd3caf95b
