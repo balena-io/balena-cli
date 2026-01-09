@@ -39,6 +39,8 @@ import type {
 	ComposeProject,
 	TaggedImage,
 	TarDirectoryOptions,
+	Release,
+	Contract,
 } from './compose-types';
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
@@ -1274,7 +1276,7 @@ async function pushAndUpdateServiceImages(
 	token: string,
 	images: TaggedImage[],
 	afterEach: (
-		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
+		serviceImage: TaggedImage['serviceImage'],
 		props: object,
 	) => Promise<void>,
 ) {
@@ -1330,15 +1332,15 @@ async function pushAndUpdateServiceImages(
 			serviceImage.image_size = `${imgInfo.Size}`;
 			serviceImage.content_hash = imgDigest;
 			serviceImage.build_log = logs;
-			serviceImage.dockerfile = props.dockerfile;
-			serviceImage.project_type = props.projectType;
+			serviceImage.dockerfile = props.dockerfile ?? null;
+			serviceImage.project_type = props.projectType ?? null;
 			if (props.startTime) {
-				serviceImage.start_timestamp = props.startTime;
+				serviceImage.start_timestamp = props.startTime.toISOString();
 			}
 			if (props.endTime) {
-				serviceImage.end_timestamp = props.endTime;
+				serviceImage.end_timestamp = props.endTime.toISOString();
 			}
-			serviceImage.push_timestamp = new Date();
+			serviceImage.push_timestamp = new Date().toISOString();
 			serviceImage.status = 'success';
 		} catch (error) {
 			serviceImage.error_message = '' + error;
@@ -1379,7 +1381,7 @@ async function pushServiceImages(
 				`Saving image ${serviceImage.is_stored_at__image_location}`,
 			);
 			if (skipLogUpload) {
-				delete serviceImage.build_log;
+				serviceImage.build_log = null;
 			}
 
 			// These are the only update-able image fields in bC atm, and passing
@@ -1425,7 +1427,7 @@ export async function deployProject(
 	projectPath: string,
 	isDraft: boolean,
 	imgDescriptors: ImageDescriptor[],
-): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
+): Promise<Release['release']> {
 	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
@@ -1496,7 +1498,7 @@ export async function deployProject(
 		}
 	} finally {
 		await runSpinner(tty, spinner, `${prefix}Saving release...`, async () => {
-			release.end_timestamp = new Date();
+			release.end_timestamp = new Date().toISOString();
 			if (release.id != null) {
 				await releaseMod.updateRelease(pineClient, release.id, {
 					status: release.status,
@@ -1552,9 +1554,7 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 
 async function getContractContent(
 	filePath: string,
-): Promise<
-	import('@balena/compose/dist/release/models').ReleaseModel['contract']
-> {
+): Promise<Contract | undefined> {
 	let fileContentAsString;
 	try {
 		fileContentAsString = await fs.readFile(filePath, 'utf8');
@@ -1584,7 +1584,7 @@ async function getContractContent(
 	return asJson;
 }
 
-function isContract(obj: any): obj is Dictionary<any> {
+function isContract(obj: any): obj is Contract {
 	return obj?.type && allowedContractTypes.includes(obj.type);
 }
 

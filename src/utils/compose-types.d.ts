@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 
-import type {
-	ImageModel,
-	ReleaseModel,
-} from '@balena/compose/dist/release/models';
+import type { BalenaModel } from 'balena-sdk';
 import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type { Pack } from 'tar-stream';
 
@@ -27,25 +24,32 @@ interface Image {
 	tag: string;
 }
 
+interface ImageProperties {
+	dockerfile?: string;
+	projectType?: string;
+	size?: number;
+	startTime?: Date;
+	endTime?: Date;
+}
+
 export interface BuiltImage {
 	logs: string;
 	name: string;
-	props: {
-		dockerfile?: string;
-		projectType?: string;
-		size?: number;
-		startTime?: Date;
-		endTime?: Date;
-	};
+	props: ImageProperties;
 	serviceName: string;
 }
 
+type ServiceImage = Omit<
+	BalenaModel['image']['Read'],
+	'created_at' | 'is_a_build_of__service'
+>;
+
 export interface TaggedImage {
 	localImage: import('dockerode').Image;
-	serviceImage: import('@balena/compose/dist/release/models').ImageModel;
+	serviceImage: ServiceImage;
 	serviceName: string;
 	logs: string;
-	props: BuiltImage.props;
+	props: ImageProperties;
 	registry: string;
 	repo: string;
 }
@@ -82,22 +86,31 @@ export interface ComposeProject {
 export interface Release {
 	client: import('@balena/compose').release.Request['client'];
 	release: Pick<
-		ReleaseModel,
+		BalenaModel['release']['Read'],
 		| 'id'
 		| 'status'
 		| 'commit'
 		| 'composition'
 		| 'source'
 		| 'is_final'
-		| 'contract'
 		| 'semver'
 		| 'start_timestamp'
 		| 'end_timestamp'
-	>;
-	serviceImages: Dictionary<
-		Omit<ImageModel, 'created_at' | 'is_a_build_of__service'>
-	>;
+	> & {
+		contract: Contract | null;
+	};
+	serviceImages: Dictionary<ServiceImage>;
 }
+
+// TODO: The balena contract model for release.contract is `{ [key: string]: JSON } | JSON[] | null`
+// which appears to be incorrect, as a contract is represented as `{ [key: string]: any }`
+// (more specifically, `{ type: string, [key: string]: any }`) when querying a release for its contract.
+// @balena/contrato also defines a ContractObject as the type below, see:
+// https://github.com/balena-io/contrato/blob/543e891249431aa98474e17fecc66617ab9ca8f3/lib/types.ts#L15-L17
+export type Contract = {
+	type: string;
+	[key: string]: any;
+};
 
 interface TarDirectoryOptions {
 	composition?: Composition;

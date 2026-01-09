@@ -89,10 +89,10 @@ export default class ReleaseListCmd extends Command {
 				(r) => r.id,
 			);
 
-			const augmentedReleases = releases.map((release) => ({
-				...release,
-				...releasesWithExplicitReadFieldsById[release.id],
-			}));
+			const augmentedReleases = releases.map((release) => {
+				const extra = releasesWithExplicitReadFieldsById[release.id];
+				return typeof extra === 'object' ? { ...release, ...extra } : release;
+			});
 
 			await pipeline(
 				Readable.from(augmentedReleases),
