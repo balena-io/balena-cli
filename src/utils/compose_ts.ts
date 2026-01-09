@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Flags } from '@oclif/core';
-import type { BalenaSDK } from 'balena-sdk';
+import type { BalenaSDK, BalenaModel } from 'balena-sdk';
 import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
 import { promises as fs, createReadStream } from 'fs';
@@ -39,6 +39,7 @@ import type {
 	ComposeProject,
 	TaggedImage,
 	TarDirectoryOptions,
+	Release
 } from './compose-types';
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
@@ -1274,7 +1275,7 @@ async function pushAndUpdateServiceImages(
 	token: string,
 	images: TaggedImage[],
 	afterEach: (
-		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
+		serviceImage: TaggedImage['serviceImage'],
 		props: object,
 	) => Promise<void>,
 ) {
@@ -1425,7 +1426,7 @@ export async function deployProject(
 	projectPath: string,
 	isDraft: boolean,
 	imgDescriptors: ImageDescriptor[],
-): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
+): Promise<Release['release']> {
 	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
@@ -1553,7 +1554,7 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 async function getContractContent(
 	filePath: string,
 ): Promise<
-	import('@balena/compose/dist/release/models').ReleaseModel['contract']
+	BalenaModel['release']['Write']['contract']
 > {
 	let fileContentAsString;
 	try {

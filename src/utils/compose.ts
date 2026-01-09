@@ -128,7 +128,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: SDK.BalenaModel['release']['Write']['contract'],
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -174,7 +174,7 @@ export const createRelease = async function (
 			delete serviceImage.created_at;
 		}
 		if ('is_a_build_of__service' in serviceImage) {
-			delete serviceImage.is_a_build_of__service;
+			serviceImage.is_a_build_of__service = undefined as any;
 		}
 	}
 
