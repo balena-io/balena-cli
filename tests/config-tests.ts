@@ -16,6 +16,7 @@
  */
 
 import { set as setEsVersion } from '@balena/es-version';
+import { mkdtempDisposableSyncGraceful } from '../src/utils/gracefully-disposable-tmp';
 // Set the desired es version for downstream modules that support it
 setEsVersion('es2018');
 
@@ -34,10 +35,15 @@ process.env.BALENARCTEST_API_RETRY_MIN_DELAY_MS = '100';
 process.env.BALENARCTEST_API_RETRY_MAX_DELAY_MS = '1000';
 process.env.BALENARCTEST_API_RETRY_MAX_ATTEMPTS = '2';
 
-import * as tmp from 'tmp';
-tmp.setGracefulCleanup();
+const tmpDir = mkdtempDisposableSyncGraceful();
+process.once('SIGINT', () => {
+	tmpDir.remove();
+	console.error(
+		`[debug] tests/config-tests.ts: Cleaned up BALENARC_DATA_DIRECTORY="${process.env.BALENARC_DATA_DIRECTORY}" b/c of SIGINT`,
+	);
+});
 // Use a temporary dir for tests data
-process.env.BALENARC_DATA_DIRECTORY = tmp.dirSync().name;
+process.env.BALENARC_DATA_DIRECTORY = tmpDir.path;
 console.error(
 	`[debug] tests/config-tests.ts: BALENARC_DATA_DIRECTORY="${process.env.BALENARC_DATA_DIRECTORY}"`,
 );

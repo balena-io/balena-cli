@@ -469,24 +469,16 @@ describe('balena push', function () {
 		// reason use use a temp dir is that Unix domain socket paths are
 		// limited in length to just over 100 characters, while the project
 		// paths in the test-data folder easily exceed that limit.
-		const tmp = await import('tmp');
-		tmp.setGracefulCleanup();
-		const projectPath = await new Promise<string>((resolve, reject) => {
-			const opts = { template: 'tmp-XXXXXX', unsafeCleanup: true };
-			tmp.dir(opts, (e, p) => {
-				if (e) {
-					reject(e);
-				} else {
-					resolve(p);
-				}
-			});
-		});
-		console.error(`[debug] Temp project dir: ${projectPath}`);
+		const { mkdtempDisposableSyncGraceful: mkdtempGracefulDisposableSync } =
+			await import('../../src/utils/gracefully-disposable-tmp');
+
+		using projectDisposableDir = mkdtempGracefulDisposableSync();
+		console.error(`[debug] Temp project dir: ${projectDisposableDir}`);
 
 		// Create a Unix Domain Socket file that should not be included in the tar stream
 		const net = await import('net');
 		const server = net.createServer();
-		const socketPath = path.join(projectPath, 'socket');
+		const socketPath = path.join(projectDisposableDir.path, 'socket');
 		await new Promise<void>((resolve, reject) => {
 			server.on('error', reject);
 			try {
@@ -498,7 +490,10 @@ describe('balena push', function () {
 		console.error(`[debug] Checking existence of socket at '${socketPath}'`);
 		expect(await exists(socketPath), 'Socket existence').to.be.true;
 
-		await fs.writeFile(path.join(projectPath, 'Dockerfile'), 'FROM busybox\n');
+		await fs.writeFile(
+			path.join(projectDisposableDir.path, 'Dockerfile'),
+			'FROM busybox\n',
+		);
 
 		const expectedFiles: ExpectedTarStreamFiles = {
 			Dockerfile: { fileSize: 13, type: 'file' },
@@ -511,11 +506,11 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath}`,
+			commandLine: `push testApp -s ${projectDisposableDir.path}`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines: commonResponseLines[responseFilename],
-			projectPath,
+			projectPath: projectDisposableDir.path,
 			responseBody,
 			responseCode: 200,
 		});

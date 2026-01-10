@@ -16,7 +16,6 @@
  */
 
 import { getVisuals } from './lazy';
-import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
 import type Logger = require('./logger');
 import type got from 'got';
@@ -196,31 +195,25 @@ export const deployLegacy = async function (
 		shouldUploadLogs: boolean;
 	},
 ): Promise<number> {
-	const tmp = require('tmp') as typeof import('tmp');
-	const tmpNameAsync = promisify(tmp.tmpName);
-
-	// Ensure the tmp files gets deleted
-	tmp.setGracefulCleanup();
-
 	const { appName, imageName, buildLogs, shouldUploadLogs } = opts;
 	const logs = buildLogs;
 
-	const bufferFile = await tmpNameAsync();
+	const path = await import('node:path');
+	const { mkdtempDisposableSyncGraceful } = await import(
+		'./gracefully-disposable-tmp'
+	);
 
-	logger.logInfo('Initializing deploy...');
-	const { buildId } = await bufferImage(docker, imageName, bufferFile)
-		.then((stream) =>
-			uploadImage(stream, token, username, url, appName, logger),
-		)
-		.finally(() =>
-			// If the file was never written to (for instance because an error
-			// has occured before any data was written) this call will throw an
-			// ugly error, just suppress it
+	let buildId: number;
+	{
+		using tmpDir = mkdtempDisposableSyncGraceful();
+		const bufferFile = path.join(tmpDir.path, 'tmpBuffer');
 
-			(require('fs') as typeof import('fs')).promises
-				.unlink(bufferFile)
-				.catch(() => undefined),
-		);
+		logger.logInfo('Initializing deploy...');
+		const deployStream = await bufferImage(docker, imageName, bufferFile);
+		buildId = (
+			await uploadImage(deployStream, token, username, url, appName, logger)
+		).buildId;
+	}
 
 	if (shouldUploadLogs) {
 		logger.logInfo('Uploading logs...');
