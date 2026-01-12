@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import fs = require('fs');
+import * as fs from 'fs';
 
 export function buffer(
 	stream: NodeJS.ReadableStream,

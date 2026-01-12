@@ -21,23 +21,23 @@ import type * as Dockerode from 'dockerode';
 import type Logger from './logger.js';
 import type got from 'got';
 
-const getBuilderPushEndpoint = function (
+const getBuilderPushEndpoint = async function (
 	baseUrl: string,
 	owner: string,
 	app: string,
 ) {
-	const querystring = require('querystring') as typeof import('querystring');
+	const querystring = await import('querystring');
 	const args = querystring.stringify({ owner, app });
 	return `https://builder.${baseUrl}/v1/push?${args}`;
 };
 
-const getBuilderLogPushEndpoint = function (
+const getBuilderLogPushEndpoint = async function (
 	baseUrl: string,
 	buildId: number,
 	owner: string,
 	app: string,
 ) {
-	const querystring = require('querystring') as typeof import('querystring');
+	const querystring = await import('querystring');
 	const args = querystring.stringify({ owner, app, buildId });
 	return `https://builder.${baseUrl}/v1/pushLogs?${args}`;
 };
@@ -47,12 +47,12 @@ const getBuilderLogPushEndpoint = function (
  * @param {string} imageId
  * @param {string} bufferFile
  */
-const bufferImage = function (
+const bufferImage = async function (
 	docker: Dockerode,
 	imageId: string,
 	bufferFile: string,
 ): Promise<NodeJS.ReadableStream & { length: number }> {
-	const streamUtils = require('./streams.js') as typeof import('./streams.js');
+	const streamUtils = await import('./streams.js');
 
 	const image = docker.getImage(imageId);
 	const sizePromise = image.inspect().then((img) => img.Size);
@@ -141,7 +141,7 @@ const uploadImage = async function (
 	);
 
 	const uploadRequest = got.default.stream.post(
-		getBuilderPushEndpoint(url, username, appName),
+		await getBuilderPushEndpoint(url, username, appName),
 		{
 			headers: {
 				'Content-Encoding': 'gzip',
@@ -169,7 +169,7 @@ const uploadLogs = async function (
 ) {
 	const { default: got } = await import('got');
 	return got.default.post(
-		getBuilderLogPushEndpoint(url, buildId, username, appName),
+		await getBuilderLogPushEndpoint(url, buildId, username, appName),
 		{
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ export const deployLegacy = async function (
 		shouldUploadLogs: boolean;
 	},
 ): Promise<number> {
-	const tmp = require('tmp') as typeof import('tmp');
+	const tmp = await import('tmp');
 	const tmpNameAsync = promisify(tmp.tmpName);
 
 	// Ensure the tmp files gets deleted
@@ -215,15 +215,13 @@ export const deployLegacy = async function (
 		.then((stream) =>
 			uploadImage(stream, token, username, url, appName, logger),
 		)
-		.finally(() =>
+		.finally(async () => {
 			// If the file was never written to (for instance because an error
 			// has occured before any data was written) this call will throw an
 			// ugly error, just suppress it
-
-			(require('fs') as typeof import('fs')).promises
-				.unlink(bufferFile)
-				.catch(() => undefined),
-		);
+			const fs = await import('fs');
+			await fs.promises.unlink(bufferFile).catch(() => undefined);
+		});
 
 	if (shouldUploadLogs) {
 		logger.logInfo('Uploading logs...');

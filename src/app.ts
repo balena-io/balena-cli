@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 const packageJSON =
 	require('../package.json') as typeof import('../package.json');
 import type { AppOptions } from './preparser.js';

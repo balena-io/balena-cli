@@ -16,6 +16,8 @@
  */
 
 import type { BalenaSettingsStorage } from 'balena-settings-storage';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export interface ReleaseTimestampsByVersion {
 	[version: string]: string; // e.g. { '12.0.0': '2021-06-16T12:54:52.000Z' }

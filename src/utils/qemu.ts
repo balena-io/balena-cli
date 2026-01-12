@@ -20,6 +20,8 @@ import type * as Dockerode from 'dockerode';
 import { ExpectedError } from '../errors.js';
 import { getBalenaSdk, stripIndent } from './lazy.js';
 import type Logger from './logger.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';

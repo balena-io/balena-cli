@@ -22,6 +22,8 @@ import _ from 'lodash';
 import { promisify } from 'util';
 
 import { getBalenaSdk, getCliUx, getVisuals } from './lazy.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;

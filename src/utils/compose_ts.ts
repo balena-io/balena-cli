@@ -45,6 +45,8 @@ import { getBalenaSdk, getCliUx, stripIndent } from './lazy.js';
 import Logger from './logger.js';
 import { exists } from './which.js';
 import { pick } from './helpers.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 

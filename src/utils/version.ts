@@ -16,6 +16,8 @@
  */
 
 import * as semver from 'semver';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 const { version } =
 	require('../../package.json') as typeof import('../../package.json');
 

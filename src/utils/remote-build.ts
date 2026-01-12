@@ -20,7 +20,7 @@ import type { PlainResponse } from 'got';
 import type got from 'got';
 import type { RegistrySecrets } from '@balena/compose/dist/multibuild/index.js';
 import type * as Stream from 'stream';
-import streamToPromise = require('stream-to-promise');
+import streamToPromise from 'stream-to-promise';
 import type { Pack } from 'tar-stream';
 
 import { ExpectedError, SIGINTError } from '../errors.js';

@@ -18,6 +18,8 @@
 import type { ChildProcess, SpawnOptions } from 'child_process';
 import { spawn } from 'child_process';
 import { stripIndent } from './lazy.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 /**
  * Execute a child process with admin / superuser privileges, prompting the user for

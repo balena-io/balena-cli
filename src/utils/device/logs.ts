@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import ColorHash = require('color-hash');
+import ColorHash from 'color-hash';
 import _ from 'lodash';
 import type { Readable } from 'stream';
 

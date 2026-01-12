@@ -14,10 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import isRoot = require('is-root');
+import isRoot from 'is-root';
 import UpdateNotifier from 'update-notifier';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
-import packageJSON = require('../../package.json');
+const packageJSON =
+	require('../../package.json') as typeof import('../../package.json');
 
 // Check for an update at most once a day. 1 day granularity should be
 // enough, rather than every run. Note because we show the information

@@ -35,6 +35,8 @@ import type Logger from './logger.js';
 import type { ProgressCallback } from 'docker-progress';
 import { getCliUx } from './lazy.js';
 import { pick } from './helpers.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export function generateOpts(options: {
 	source?: string;

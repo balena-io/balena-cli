@@ -20,6 +20,8 @@ import { Flags } from '@oclif/core';
 
 import { ExpectedError } from '../errors.js';
 import { parseAsInteger } from './validation.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 interface BalenaEngineVersion extends dockerode.DockerVersion {
 	Engine?: string;

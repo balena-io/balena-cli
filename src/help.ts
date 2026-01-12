@@ -19,6 +19,8 @@ import { Help } from '@oclif/core';
 import indent from 'indent-string';
 import type { ResolvableReturnType } from 'balena-sdk/typings/utils.js';
 import { getCliUx } from './utils/lazy.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 // Partially overrides standard implementation of help plugin
 // https://github.com/oclif/plugin-help/blob/master/src/index.ts

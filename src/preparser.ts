@@ -16,6 +16,8 @@
  */
 
 import type { Interfaces } from '@oclif/core';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export let unsupportedFlag = false;
 

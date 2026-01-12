@@ -319,7 +319,7 @@ ${dockerignoreHelp}
 
 			let release: Pick<Release['Read'], 'commit' | 'id'>;
 			if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
-				const { deployLegacy } = require('../../utils/deploy-legacy.js');
+				const { deployLegacy } = await import('../../utils/deploy-legacy.js');
 
 				const ux = getCliUx();
 				const msg = ux.colorize(

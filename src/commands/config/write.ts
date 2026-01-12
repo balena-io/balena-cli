@@ -18,6 +18,8 @@
 import { Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags.js';
 import { getVisuals, stripIndent } from '../../utils/lazy.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export default class ConfigWriteCmd extends Command {
 	public static description = stripIndent`

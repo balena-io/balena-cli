@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 /** Convert e.g. 'env set NAME [VALUE]' to 'env set <name> [value]' */
 export function capitanoizeOclifUsage(

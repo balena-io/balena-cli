@@ -17,6 +17,8 @@
 
 import { promises as fs, constants } from 'fs';
 import * as path from 'path';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 export const { F_OK, R_OK, W_OK, X_OK } = constants;
 

@@ -27,6 +27,8 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { getPackageJson } from './utils/lazy.js';
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 
 let fastBootStarted = false;
 

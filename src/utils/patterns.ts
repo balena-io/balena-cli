@@ -23,7 +23,7 @@ import {
 	NotAvailableInOfflineModeError,
 } from '../errors.js';
 import { getBalenaSdk, stripIndent, getCliForm } from './lazy.js';
-import validation = require('./validation.js');
+import * as validation from './validation.js';
 
 export async function authenticate(options: object): Promise<void> {
 	const balena = getBalenaSdk();
