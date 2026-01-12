@@ -204,6 +204,7 @@
     "express": "^4.17.2",
     "fast-boot2": "^1.1.4",
     "fast-levenshtein": "^3.0.0",
+    "file-disk": "^8.0.1",
     "filenamify": "^4.3.0",
     "glob": "^7.2.0",
     "global-agent": "^2.2.0",

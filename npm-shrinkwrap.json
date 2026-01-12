@@ -44,6 +44,7 @@
         "express": "^4.17.2",
         "fast-boot2": "^1.1.4",
         "fast-levenshtein": "^3.0.0",
+        "file-disk": "^8.0.1",
         "filenamify": "^4.3.0",
         "glob": "^7.2.0",
         "global-agent": "^2.2.0",
@@ -15988,6 +15989,7 @@
       "version": "8.0.1",
       "resolved": "https://registry.npmjs.org/file-disk/-/file-disk-8.0.1.tgz",
       "integrity": "sha512-oO1bkG2RmZnMqteiAO3Uhffj/f6PJ5WY3fdVJJuI5tDbDgW3MgQvhQsDpijX81TXCbxRAKaNFdEQABTTyjL+og==",
+      "license": "Apache-2.0",
       "dependencies": {
         "tslib": "^2.0.0"
       }
