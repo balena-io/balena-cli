@@ -50,6 +50,7 @@
         "global-tunnel-ng": "^2.1.1",
         "got": "^11.8.3",
         "humanize": "0.0.9",
+        "indent-string": "^4.0.0",
         "inquirer": "^7.3.3",
         "is-elevated": "^3.0.0",
         "is-root": "^2.1.0",
@@ -17364,6 +17365,7 @@
       "version": "4.0.0",
       "resolved": "https://registry.npmjs.org/indent-string/-/indent-string-4.0.0.tgz",
       "integrity": "sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==",
+      "license": "MIT",
       "engines": {
         "node": ">=8"
       }
