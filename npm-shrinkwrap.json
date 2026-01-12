@@ -106,7 +106,6 @@
         "@types/glob": "^7.2.0",
         "@types/global-agent": "^2.1.1",
         "@types/global-tunnel-ng": "^2.1.1",
-        "@types/http-proxy": "^1.17.8",
         "@types/inquirer": "^7.3.3",
         "@types/intercept-stdout": "^0.1.0",
         "@types/is-root": "^2.1.2",
@@ -140,7 +139,6 @@
         "deep-object-diff": "^1.1.0",
         "ent": "^2.2.0",
         "fs-extra": "^11.2.0",
-        "http-proxy": "^1.18.1",
         "husky": "^9.1.5",
         "inline-source-cli": "^2.0.0",
         "intercept-stdout": "^0.1.2",
@@ -151,7 +149,6 @@
         "mock-fs": "^5.2.0",
         "mockttp": "^4.2.0",
         "oclif": "^4.22.61",
-        "rimraf": "^6.0.1",
         "simple-git": "^3.14.1",
         "sinon": "^19.0.0",
         "string-to-stream": "^3.0.1",
@@ -10977,15 +10974,6 @@
       "resolved": "https://registry.npmjs.org/@types/http-cache-semantics/-/http-cache-semantics-4.0.4.tgz",
       "integrity": "sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA=="
     },
-    "node_modules/@types/http-proxy": {
-      "version": "1.17.8",
-      "resolved": "https://registry.npmjs.org/@types/http-proxy/-/http-proxy-1.17.8.tgz",
-      "integrity": "sha512-5kPLG5BKpWYkw/LVOGWpiq3nEVqxiN32rTgI53Sk12/xHFQ2rG3ehI9IO+O3W2QoKeyB92dJkoka8SUm6BX1pA==",
-      "dev": true,
-      "dependencies": {
-        "@types/node": "*"
-      }
-    },
     "node_modules/@types/inquirer": {
       "version": "7.3.3",
       "resolved": "https://registry.npmjs.org/@types/inquirer/-/inquirer-7.3.3.tgz",
@@ -15693,13 +15681,6 @@
         "through": "^2.3.8"
       }
     },
-    "node_modules/eventemitter3": {
-      "version": "4.0.7",
-      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.7.tgz",
-      "integrity": "sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==",
-      "dev": true,
-      "license": "MIT"
-    },
     "node_modules/execa": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/execa/-/execa-1.0.0.tgz",
@@ -17236,20 +17217,6 @@
       },
       "engines": {
         "node": ">= 0.8"
-      }
-    },
-    "node_modules/http-proxy": {
-      "version": "1.18.1",
-      "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz",
-      "integrity": "sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==",
-      "dev": true,
-      "dependencies": {
-        "eventemitter3": "^4.0.0",
-        "follow-redirects": "^1.0.0",
-        "requires-port": "^1.0.0"
-      },
-      "engines": {
-        "node": ">=8.0.0"
       }
     },
     "node_modules/http-proxy-agent": {
@@ -22581,12 +22548,6 @@
       "integrity": "sha512-uuoJ1hU/k6M0779t3VMVIYpb2VMJk05cehCaABFhXaibcbvfgR8wKiozLjVFSzJPmQMRqIcO0HMyTFqfV09V6Q==",
       "dev": true
     },
-    "node_modules/requires-port": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz",
-      "integrity": "sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=",
-      "dev": true
-    },
     "node_modules/resin-cli-form": {
       "version": "5.0.0",
       "resolved": "https://registry.npmjs.org/resin-cli-form/-/resin-cli-form-5.0.0.tgz",
@@ -22778,87 +22739,6 @@
       "engines": {
         "iojs": ">=1.0.0",
         "node": ">=0.10.0"
-      }
-    },
-    "node_modules/rimraf": {
-      "version": "6.1.2",
-      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-6.1.2.tgz",
-      "integrity": "sha512-cFCkPslJv7BAXJsYlK1dZsbP8/ZNLkCAQ0bi1hf5EKX2QHegmDFEFA6QhuYJlk7UDdc+02JjO80YSOrWPpw06g==",
-      "dev": true,
-      "license": "BlueOak-1.0.0",
-      "dependencies": {
-        "glob": "^13.0.0",
-        "package-json-from-dist": "^1.0.1"
-      },
-      "bin": {
-        "rimraf": "dist/esm/bin.mjs"
-      },
-      "engines": {
-        "node": "20 || >=22"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/isaacs"
-      }
-    },
-    "node_modules/rimraf/node_modules/glob": {
-      "version": "13.0.0",
-      "resolved": "https://registry.npmjs.org/glob/-/glob-13.0.0.tgz",
-      "integrity": "sha512-tvZgpqk6fz4BaNZ66ZsRaZnbHvP/jG3uKJvAZOwEVUL4RTA5nJeeLYfyN9/VA8NX/V3IBG+hkeuGpKjvELkVhA==",
-      "dev": true,
-      "license": "BlueOak-1.0.0",
-      "dependencies": {
-        "minimatch": "^10.1.1",
-        "minipass": "^7.1.2",
-        "path-scurry": "^2.0.0"
-      },
-      "engines": {
-        "node": "20 || >=22"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/isaacs"
-      }
-    },
-    "node_modules/rimraf/node_modules/lru-cache": {
-      "version": "11.2.4",
-      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.2.4.tgz",
-      "integrity": "sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==",
-      "dev": true,
-      "license": "BlueOak-1.0.0",
-      "engines": {
-        "node": "20 || >=22"
-      }
-    },
-    "node_modules/rimraf/node_modules/minimatch": {
-      "version": "10.1.1",
-      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.1.1.tgz",
-      "integrity": "sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==",
-      "dev": true,
-      "license": "BlueOak-1.0.0",
-      "dependencies": {
-        "@isaacs/brace-expansion": "^5.0.0"
-      },
-      "engines": {
-        "node": "20 || >=22"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/isaacs"
-      }
-    },
-    "node_modules/rimraf/node_modules/path-scurry": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/path-scurry/-/path-scurry-2.0.1.tgz",
-      "integrity": "sha512-oWyT4gICAu+kaA7QWk/jvCHWarMKNs6pXOGWKDTr7cw4IGcUbW+PeTfbaQiLGheFRpjo6O9J0PmyMfQPjH71oA==",
-      "dev": true,
-      "license": "BlueOak-1.0.0",
-      "dependencies": {
-        "lru-cache": "^11.0.0",
-        "minipass": "^7.1.2"
-      },
-      "engines": {
-        "node": "20 || >=22"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/isaacs"
       }
     },
     "node_modules/rindle": {
