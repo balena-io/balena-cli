@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as url from 'url';
-import { getBalenaSdk } from '../../build/utils/lazy.js';
-import * as utils from '../../build/auth/utils.js';
+import { getBalenaSdk } from '../../build/src/utils/lazy.js';
+import * as utils from '../../build/src/auth/utils.js';
 import tokens from './tokens.js';
 
 const balena = getBalenaSdk();

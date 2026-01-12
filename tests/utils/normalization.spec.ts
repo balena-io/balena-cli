@@ -18,8 +18,8 @@
 import { BalenaReleaseNotFound } from 'balena-errors';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { ExpectedError } from '../../build/errors.js';
-import { disambiguateReleaseParam } from '../../build/utils/normalization.js';
+import { ExpectedError } from '../../build/src/errors.js';
+import { disambiguateReleaseParam } from '../../build/src/utils/normalization.js';
 
 describe('disambiguateReleaseParam() function', () => {
 	it('should reject empty values', async () => {

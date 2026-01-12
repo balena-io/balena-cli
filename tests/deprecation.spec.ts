@@ -23,8 +23,8 @@ import * as sinon from 'sinon';
 
 const packageJSON =
 	require('../package.json') as typeof import('../package.json');
-import type { ReleaseTimestampsByVersion } from '../build/deprecation.js';
-import { DeprecationChecker } from '../build/deprecation.js';
+import type { ReleaseTimestampsByVersion } from '../build/src/deprecation.js';
+import { DeprecationChecker } from '../build/src/deprecation.js';
 import { MockHttpServer } from './mockserver.js';
 import type { TestOutput } from './helpers.js';
 import { runCommand } from './helpers.js';

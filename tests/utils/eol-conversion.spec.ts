@@ -22,7 +22,7 @@ import * as path from 'path';
 import {
 	convertEolInPlace,
 	detectEncoding,
-} from '../../build/utils/eol-conversion.js';
+} from '../../build/src/utils/eol-conversion.js';
 
 describe('convertEolInPlace() function', function () {
 	it('should return expected values', () => {
@@ -62,7 +62,7 @@ describe('convertEolInPlace() function', function () {
 describe('detectEncoding() function', function () {
 	it('should correctly detect the encoding of a few selected files', async () => {
 		const sampleBinary = [
-			'drivelist/build/Release/drivelist.node',
+			'drivelist/build/src/Release/drivelist.node',
 			'mountutils/prebuilds/linux-x64/mountutils.node',
 		];
 		const sampleText = [

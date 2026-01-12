@@ -21,7 +21,7 @@ import * as sinon from 'sinon';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { stripIndent } from '../../build/utils/lazy.js';
+import { stripIndent } from '../../build/src/utils/lazy.js';
 import { MockHttpServer } from '../mockserver.js';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build.js';
 import { cleanOutput, runCommand } from '../helpers.js';
@@ -266,7 +266,7 @@ describe('balena build', function () {
 		}
 		const arch = 'rpi';
 		const deviceType = 'raspberry-pi';
-		const qemuMod = await import('../../build/utils/qemu.js');
+		const qemuMod = await import('../../build/src/utils/qemu.js');
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
 
 		// Stub fs.promises.access and fs.promises.stat to pretend that a copy of the Qemu binary

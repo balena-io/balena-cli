@@ -19,7 +19,7 @@ import { expect } from 'chai';
 import * as path from 'path';
 
 import { cleanOutput, runCommand } from '../../helpers.js';
-import { stripIndent } from '../../../build/utils/lazy.js';
+import { stripIndent } from '../../../build/src/utils/lazy.js';
 import { MockHttpServer, apiResponsePath } from '../../mockserver.js';
 
 describe('balena device', function () {

@@ -25,8 +25,8 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 import { diff } from 'deep-object-diff';
-import { makeImageName } from '../build/utils/compose_ts.js';
-import { stripIndent } from '../build/utils/lazy.js';
+import { makeImageName } from '../build/src/utils/compose_ts.js';
+import { stripIndent } from '../build/src/utils/lazy.js';
 import type { MockHttpServer } from './mockserver.js';
 import {
 	cleanOutput,
@@ -262,6 +262,6 @@ export function resetDockerignoreCache() {
 	if (process.env.BALENA_CLI_TEST_TYPE !== 'source') {
 		return;
 	}
-	const ignorePath = '../build/utils/ignore';
+	const ignorePath = '../build/src/utils/ignore';
 	delete require.cache[require.resolve(ignorePath)];
 }

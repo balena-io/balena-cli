@@ -16,7 +16,7 @@
  */
 
 import { expect } from 'chai';
-import { stripIndent } from '../../../build/utils/lazy.js';
+import { stripIndent } from '../../../build/src/utils/lazy.js';
 
 import { runCommand } from '../../helpers.js';
 import { randomBytes } from 'node:crypto';

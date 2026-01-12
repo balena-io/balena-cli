@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 
-import ConfigWriteCmd from '../../../build/commands/config/write.js';
+import ConfigWriteCmd from '../../../build/src/commands/config/write.js';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

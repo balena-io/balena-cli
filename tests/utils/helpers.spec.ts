@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 
-import { getProxyConfig } from '../../build/utils/helpers.js';
+import { getProxyConfig } from '../../build/src/utils/helpers.js';
 
 describe('getProxyConfig() function', function () {
 	let originalProxyConfig: [boolean, object | undefined];
