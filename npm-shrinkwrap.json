@@ -150,6 +150,7 @@
         "mock-fs": "^5.2.0",
         "mockttp": "^4.2.0",
         "oclif": "^4.22.61",
+        "pinejs-client-core": "^8.5.0",
         "simple-git": "^3.14.1",
         "sinon": "^19.0.0",
         "string-to-stream": "^3.0.1",
@@ -21619,9 +21620,9 @@
       }
     },
     "node_modules/pinejs-client-core": {
-      "version": "8.4.1",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-8.4.1.tgz",
-      "integrity": "sha512-E6/VfvYcX9s8mX90fJgcFthXUBQgncmx++rrdbEoKG4xeCdFfNAYR0AcrmSGeOSz/Tq6so+3RsRJp8Q0ecaD6g==",
+      "version": "8.5.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-8.5.0.tgz",
+      "integrity": "sha512-sqRL5wcchveAx0xWOPTURkol6p/y9k9HDfn5at+aHrndZT/SiTI4KjPSYnssxP2BaqWYkSyAeoF4rA/sQfmrmg==",
       "license": "MIT",
       "peer": true,
       "dependencies": {

@@ -162,6 +162,7 @@
     "mock-fs": "^5.2.0",
     "mockttp": "^4.2.0",
     "oclif": "^4.22.61",
+    "pinejs-client-core": "^8.5.0",
     "simple-git": "^3.14.1",
     "sinon": "^19.0.0",
     "string-to-stream": "^3.0.1",
