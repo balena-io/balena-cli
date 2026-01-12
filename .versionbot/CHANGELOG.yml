@@ -1,4 +1,48 @@
 - commits:
+    - subject: Drop `exit-hook` patch
+      hash: d8f50d01e48f73b029fb94f315d59cf877042785
+      body: ""
+      footer:
+        Connects-to: https://github.com/balena-io/balena-cli/issues/719
+        connects-to: https://github.com/balena-io/balena-cli/issues/719
+        Resolves: https://github.com/balena-io/balena-cli/issues/867
+        resolves: https://github.com/balena-io/balena-cli/issues/867
+        Depends-on: https://github.com/balena-io/reconfix/pull/64
+        depends-on: https://github.com/balena-io/reconfix/pull/64
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update balena-device-init to 8.2.1
+      hash: 15bf2d69f85538c936353a00794589b17260f594
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update reconfix to 1.0.2
+      hash: 59b639d402b2f61078968bb09faea669d9089706
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "os download: Correct img names to match devices type in examples"
+      hash: 23c645ac263d1b93a98b7bfb6a0f0de75c07c0bb
+      body: ""
+      footer:
+        Resolves: https://github.com/balena-io/balena-cli/issues/464
+        resolves: https://github.com/balena-io/balena-cli/issues/464
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 23.2.17
+  title: ""
+  date: 2026-01-12T21:34:04.193Z
+- commits:
     - subject: Unpin balena-request from v14.0.6
       hash: 81e653796032947baeffc4d9f2a9df89b25f1032
       body: ""
