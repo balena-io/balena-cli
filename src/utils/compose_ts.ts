@@ -16,35 +16,35 @@
  */
 import { Flags } from '@oclif/core';
 import type { BalenaSDK } from 'balena-sdk';
-import type { TransposeOptions } from '@balena/compose/dist/emulate';
+import type { TransposeOptions } from '@balena/compose/dist/emulate/index.js';
 import type * as Dockerode from 'dockerode';
 import { promises as fs, createReadStream } from 'fs';
 import * as yaml from 'js-yaml';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 import type {
 	BuildConfig,
 	Composition,
 	ImageDescriptor,
-} from '@balena/compose/dist/parse';
-import type * as MultiBuild from '@balena/compose/dist/multibuild';
+} from '@balena/compose/dist/parse/index.js';
+import type * as MultiBuild from '@balena/compose/dist/multibuild/index.js';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import { pipeline } from 'node:stream/promises';
 import type { Pack } from 'tar-stream';
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 import type {
 	BuiltImage,
 	ComposeOpts,
 	ComposeProject,
 	TaggedImage,
 	TarDirectoryOptions,
-} from './compose-types';
-import type { DeviceInfo } from './device/api';
-import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
-import Logger = require('./logger');
-import { exists } from './which';
-import { pick } from './helpers';
+} from './compose-types.js';
+import type { DeviceInfo } from './device/api.js';
+import { getBalenaSdk, getCliUx, stripIndent } from './lazy.js';
+import Logger from './logger.js';
+import { exists } from './which.js';
+import { pick } from './helpers.js';
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 
@@ -118,8 +118,8 @@ export async function loadProject(
 	image?: string,
 	imageTag?: string,
 ): Promise<ComposeProject> {
-	const compose = await import('@balena/compose/dist/parse');
-	const { createProject } = await import('./compose');
+	const compose = await import('@balena/compose/dist/parse/index.js');
+	const { createProject } = await import('./compose.js');
 	let composeName: string;
 	let composeStr: string;
 
@@ -251,7 +251,7 @@ export interface BuildProjectOpts {
 	arch: string;
 	deviceType: string;
 	emulated: boolean;
-	buildOpts: import('./docker').BuildOpts;
+	buildOpts: import('./docker.js').BuildOpts;
 	inlineLogs?: boolean;
 	convertEol: boolean;
 	dockerfilePath?: string;
@@ -262,12 +262,12 @@ export async function buildProject(
 	opts: BuildProjectOpts,
 ): Promise<BuiltImage[]> {
 	await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
-	const compose = await import('@balena/compose/dist/parse');
+	const compose = await import('@balena/compose/dist/parse/index.js');
 	const imageDescriptors = compose.parse(opts.composition);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
 	let buildSummaryByService: Dictionary<string> | undefined;
 	try {
-		const { awaitInterruptibleTask } = await import('./helpers');
+		const { awaitInterruptibleTask } = await import('./helpers.js');
 		const [images, summaryMsgByService] = await awaitInterruptibleTask(
 			$buildProject,
 			imageDescriptors,
@@ -332,8 +332,8 @@ async function $buildProject(
 
 	logger.logDebug('Prepared tasks; building...');
 
-	const { BALENA_ENGINE_TMP_PATH } = await import('../config');
-	const builder = await import('@balena/compose/dist/multibuild');
+	const { BALENA_ENGINE_TMP_PATH } = await import('../config.js');
+	const builder = await import('@balena/compose/dist/multibuild/index.js');
 
 	const builtImages = await builder.performBuilds(
 		tasks,
@@ -360,13 +360,13 @@ async function startRenderer({
 }): Promise<Renderer> {
 	let renderer: Renderer;
 	if (inlineLogs) {
-		renderer = new (await import('./compose')).BuildProgressInline(
+		renderer = new (await import('./compose.js')).BuildProgressInline(
 			logger.streams['build'],
 			imageDescriptors,
 		);
 	} else {
-		const tty = (await import('./tty'))(process.stdout);
-		renderer = new (await import('./compose')).BuildProgressUI(
+		const tty = (await import('./tty.js')).default(process.stdout);
+		renderer = new (await import('./compose.js')).BuildProgressUI(
 			tty,
 			imageDescriptors,
 		);
@@ -390,7 +390,7 @@ async function installQemuIfNeeded({
 	logger: Logger;
 	projectPath: string;
 }): Promise<boolean> {
-	const qemu = await import('./qemu');
+	const qemu = await import('./qemu.js');
 	const needsQemu = await qemu.installQemuIfNeeded(
 		emulated,
 		logger,
@@ -433,7 +433,7 @@ function setTaskAttributes({
 	projectName,
 }: {
 	tasks: BuildTaskPlus[];
-	buildOpts: import('./docker').BuildOpts;
+	buildOpts: import('./docker.js').BuildOpts;
 	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
 	projectName: string;
 }) {
@@ -473,7 +473,7 @@ async function qemuTransposeBuildStream({
 	dockerfilePath?: string;
 	projectPath: string;
 }): Promise<TransposeOptions> {
-	const qemu = await import('./qemu');
+	const qemu = await import('./qemu.js');
 	const binPath = qemu.qemuPathInContext(
 		path.join(projectPath, task.context ?? ''),
 	);
@@ -481,9 +481,10 @@ async function qemuTransposeBuildStream({
 		throw new Error(`No buildStream for task '${task.tag}'`);
 	}
 
-	const transpose = await import('@balena/compose/dist/emulate');
-	const { toPosixPath } = (await import('@balena/compose/dist/multibuild'))
-		.PathUtils;
+	const transpose = await import('@balena/compose/dist/emulate/index.js');
+	const { toPosixPath } = (
+		await import('@balena/compose/dist/multibuild/index.js')
+	).PathUtils;
 
 	const transposeOptions: TransposeOptions = {
 		hostQemuPath: toPosixPath(binPath),
@@ -512,9 +513,9 @@ async function setTaskProgressHooks({
 	inlineLogs?: boolean;
 	renderer: Renderer;
 	task: BuildTaskPlus;
-	transposeOptions?: import('@balena/compose/dist/emulate').TransposeOptions;
+	transposeOptions?: import('@balena/compose/dist/emulate/index.js').TransposeOptions;
 }) {
-	const transpose = await import('@balena/compose/dist/emulate');
+	const transpose = await import('@balena/compose/dist/emulate/index.js');
 	// Get the service-specific log stream
 	const logStream = renderer.streams[task.serviceName];
 	task.logBuffer = [];
@@ -684,7 +685,7 @@ export async function getServiceDirsFromComposition(
 	sourceDir: string,
 	composition?: Composition,
 ): Promise<Dictionary<string>> {
-	const { createProject } = await import('./compose');
+	const { createProject } = await import('./compose.js');
 	const serviceDirs: Dictionary<string> = {};
 	if (!composition) {
 		const [, composeStr] = await resolveProject(
@@ -761,13 +762,14 @@ export async function tarDirectory(
 		preFinalizeCallback,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	const { filterFilesWithDockerignore } = await import('./ignore');
-	const { toPosixPath } = (await import('@balena/compose/dist/multibuild'))
-		.PathUtils;
+	const { filterFilesWithDockerignore } = await import('./ignore.js');
+	const { toPosixPath } = (
+		await import('@balena/compose/dist/multibuild/index.js')
+	).PathUtils;
 
 	const getFileEolConverter =
 		process.platform === 'win32'
-			? (await import('./eol-conversion')).getFileEolConverter
+			? (await import('./eol-conversion.js')).getFileEolConverter
 			: undefined;
 
 	const tar = await import('tar-stream');
@@ -827,17 +829,17 @@ export async function tarDirectory(
  * @param multiDockerignore Whether --multi-dockerignore (-m) was provided
  */
 function printDockerignoreWarn(
-	dockerignoreFiles: Array<import('./ignore').FileStats>,
+	dockerignoreFiles: Array<import('./ignore.js').FileStats>,
 	serviceDirsByService: Dictionary<string>,
 	multiDockerignore: boolean,
 ) {
-	let rootDockerignore: import('./ignore').FileStats | undefined;
+	let rootDockerignore: import('./ignore.js').FileStats | undefined;
 	const logger = Logger.getLogger();
 	const relPrefix = '.' + path.sep;
 	const serviceDirs = Object.values(serviceDirsByService || {});
 	// compute a list of unused .dockerignore files
 	const unusedFiles = dockerignoreFiles.filter(
-		(dockerignoreStats: import('./ignore').FileStats) => {
+		(dockerignoreStats: import('./ignore.js').FileStats) => {
 			let dirname = path.dirname(dockerignoreStats.relPath);
 			dirname = dirname.startsWith(relPrefix) ? dirname.slice(2) : dirname;
 			const isProjectRootDir = !dirname || dirname === '.';
@@ -900,7 +902,8 @@ function printDockerignoreWarn(
 		}
 	}
 	if (msg.length) {
-		const { warnify } = require('./messages') as typeof import('./messages');
+		const { warnify } =
+			require('./messages.js') as typeof import('./messages.js');
 		logFunc.call(logger, ' \n' + warnify(msg.join('\n'), ''));
 	}
 }
@@ -921,7 +924,7 @@ export async function checkBuildSecretsRequirements(
 		metaObj?.['build-secrets'] != null &&
 		Object.keys(metaObj['build-secrets']).length !== 0
 	) {
-		const dockerUtils = await import('./docker');
+		const dockerUtils = await import('./docker.js');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
 		if (!isBalenaEngine) {
 			throw new ExpectedError(stripIndent`
@@ -971,7 +974,7 @@ async function parseRegistrySecrets(
 			throw new ExpectedError('Filename must end with .json, .yml or .yaml');
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
-		const multiBuild = await import('@balena/compose/dist/multibuild');
+		const multiBuild = await import('@balena/compose/dist/multibuild/index.js');
 		const registrySecrets =
 			new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
 				isYaml ? yaml.load(raw) : JSON.parse(raw),
@@ -1000,7 +1003,7 @@ export async function makeBuildTasks(
 	releaseHash = 'unavailable',
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const multiBuild = await import('@balena/compose/dist/multibuild');
+	const multiBuild = await import('@balena/compose/dist/multibuild/index.js');
 	const buildTasks = await multiBuild.splitBuildStream(composition, tarStream);
 
 	logger.logDebug('Found build tasks:');
@@ -1046,7 +1049,7 @@ async function performResolution(
 	releaseHash: string,
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const multiBuild = await import('@balena/compose/dist/multibuild');
+	const multiBuild = await import('@balena/compose/dist/multibuild/index.js');
 	const resolveListeners: MultiBuild.ResolveListeners = {};
 	const resolvePromise = new Promise<never>((_resolve, reject) => {
 		resolveListeners.error = [reject];
@@ -1111,7 +1114,7 @@ async function validateSpecifiedDockerfile(
 	dockerfilePath: string,
 ): Promise<string> {
 	const { contains, toNativePath, toPosixPath } = (
-		await import('@balena/compose/dist/multibuild')
+		await import('@balena/compose/dist/multibuild/index.js')
 	).PathUtils;
 
 	const nativeProjectPath = path.normalize(projectPath);
@@ -1255,7 +1258,7 @@ async function getTokenForPreviousRepos(
 	taggedImages: TaggedImage[],
 ): Promise<string> {
 	logger.logDebug('Authorizing push...');
-	const { authorizePush, getPreviousRepos } = await import('./compose');
+	const { authorizePush, getPreviousRepos } = await import('./compose.js');
 	const sdk = getBalenaSdk();
 	const previousRepos = await getPreviousRepos(sdk, logger, appId);
 
@@ -1274,14 +1277,14 @@ async function pushAndUpdateServiceImages(
 	token: string,
 	images: TaggedImage[],
 	afterEach: (
-		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
+		serviceImage: import('@balena/compose/dist/release/models.js').ImageModel,
 		props: object,
 	) => Promise<void>,
 ) {
 	const { DockerProgress } = await import('docker-progress');
-	const { retry } = await import('./helpers');
-	const { pushProgressRenderer } = await import('./compose');
-	const tty = (await import('./tty'))(process.stdout);
+	const { retry } = await import('./helpers.js');
+	const { pushProgressRenderer } = await import('./compose.js');
+	const tty = (await import('./tty.js')).default(process.stdout);
 	const opts = { authconfig: { registrytoken: token } };
 	const progress = new DockerProgress({ docker });
 	const ux = getCliUx();
@@ -1368,7 +1371,7 @@ async function pushServiceImages(
 	token: string,
 	skipLogUpload: boolean,
 ): Promise<void> {
-	const releaseMod = await import('@balena/compose/dist/release');
+	const releaseMod = await import('@balena/compose/dist/release/index.js');
 	logger.logInfo('Pushing images to registry...');
 	await pushAndUpdateServiceImages(
 		docker,
@@ -1425,10 +1428,10 @@ export async function deployProject(
 	projectPath: string,
 	isDraft: boolean,
 	imgDescriptors: ImageDescriptor[],
-): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
-	const releaseMod = await import('@balena/compose/dist/release');
-	const { createRelease, tagServiceImages } = await import('./compose');
-	const tty = (await import('./tty'))(process.stdout);
+): Promise<import('@balena/compose/dist/release/models.js').ReleaseModel> {
+	const releaseMod = await import('@balena/compose/dist/release/index.js');
+	const { createRelease, tagServiceImages } = await import('./compose.js');
+	const tty = (await import('./tty.js')).default(process.stdout);
 	const ux = getCliUx();
 
 	const prefix = ux.colorize('cyan', '[Info]') + '    ';
@@ -1465,7 +1468,7 @@ export async function deployProject(
 		logger.logDebug('Tagging images...');
 		const taggedImages = await tagServiceImages(docker, images, serviceImages);
 		try {
-			const { awaitInterruptibleTask } = await import('./helpers');
+			const { awaitInterruptibleTask } = await import('./helpers.js');
 			// awaitInterruptibleTask throws SIGINTError on CTRL-C,
 			// causing the release status to be set to 'failed'
 			await awaitInterruptibleTask(async () => {
@@ -1515,7 +1518,7 @@ export function createSpinner() {
 }
 
 async function runSpinner<T>(
-	tty: ReturnType<typeof import('./tty')>,
+	tty: ReturnType<typeof import('./tty.js').default>,
 	spinner: () => string,
 	msg: string,
 	fn: () => Promise<T>,
@@ -1553,7 +1556,7 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 async function getContractContent(
 	filePath: string,
 ): Promise<
-	import('@balena/compose/dist/release/models').ReleaseModel['contract']
+	import('@balena/compose/dist/release/models.js').ReleaseModel['contract']
 > {
 	let fileContentAsString;
 	try {

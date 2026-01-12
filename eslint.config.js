@@ -1,10 +1,12 @@
-const { FlatCompat } = require('@eslint/eslintrc');
+import { FlatCompat } from '@eslint/eslintrc';
+import balenaLintConfig from '@balena/lint/config/eslint.config.js';
 
 const compat = new FlatCompat({
-	baseDirectory: __dirname,
+	baseDirectory: import.meta.dirname,
 });
-module.exports = [
-	...require('@balena/lint/config/eslint.config'),
+
+export default [
+	...balenaLintConfig,
 	...compat.config({
 		parserOptions: {
 			project: 'tsconfig.dev.json',

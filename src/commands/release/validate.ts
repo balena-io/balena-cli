@@ -16,8 +16,8 @@
  */
 
 import { Command } from '@oclif/core';
-import { commitOrIdArg } from '.';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { commitOrIdArg } from './index.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class ReleaseValidateCmd extends Command {
 	public static description = stripIndent`

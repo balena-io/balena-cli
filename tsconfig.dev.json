@@ -13,7 +13,7 @@
 		"./typings/**/*",
 		"./bin/**/*",
 		"./completion/**/*",
-		".mocharc.js",
-		".mocharc-standalone.js",
+		".mocharc.cjs",
+		".mocharc-standalone.cjs",
 	]
 }

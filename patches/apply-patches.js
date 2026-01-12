@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-const { execFile } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-
-const { promisify } = require('util');
+import { execFile } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
 
 const execFileAsync = promisify(execFile);
 const patchesDir = 'patches';

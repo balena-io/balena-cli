@@ -17,10 +17,10 @@
 
 import { Args, Command } from '@oclif/core';
 import type { BalenaSDK } from 'balena-sdk';
-import * as cf from '../../utils/common-flags';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import * as cf from '../../utils/common-flags.js';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class DeviceMoveCmd extends Command {
 	public static description = stripIndent`
@@ -87,7 +87,7 @@ export default class DeviceMoveCmd extends Command {
 		const devices = await this.getDevices(balena, deviceUuids);
 
 		// Disambiguate application
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		// Get destination application
 		const application = options.fleet
@@ -109,7 +109,7 @@ export default class DeviceMoveCmd extends Command {
 	async interactivelySelectApplication(
 		balena: BalenaSDK,
 		devices: Awaited<ReturnType<typeof this.getDevices>>,
-	): ReturnType<typeof import('../../utils/patterns').selectApplication> {
+	): ReturnType<typeof import('../../utils/patterns.js').selectApplication> {
 		// deduplicate the slugs
 		const deviceCpuArchs = Array.from(
 			new Set(
@@ -137,7 +137,7 @@ export default class DeviceMoveCmd extends Command {
 			})
 			.map((deviceType) => deviceType.id);
 
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 		try {
 			const application = await patterns.selectApplication(
 				{

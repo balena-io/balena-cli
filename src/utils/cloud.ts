@@ -16,10 +16,10 @@
  */
 
 import type * as SDK from 'balena-sdk';
-import * as _ from 'lodash';
-import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy';
+import _ from 'lodash';
+import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy.js';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export const serviceIdToName = _.memoize(
 	async (
@@ -138,7 +138,7 @@ export async function downloadOSImage(
 	// some ongoing issues with the os download stream.
 	process.env.ZLIB_FLUSH = 'Z_NO_FLUSH';
 
-	const { getStream } = await import('./image-manager');
+	const { getStream } = await import('./image-manager.js');
 	const stream = await getStream(deviceType, OSVersion);
 
 	const displayVersion = await new Promise((resolve, reject) => {
@@ -198,7 +198,7 @@ async function resolveOSVersion(
 			false,
 		);
 	}
-	const { normalizeOsVersion } = await import('./normalization');
+	const { normalizeOsVersion } = await import('./normalization.js');
 	version = normalizeOsVersion(version);
 	return version;
 }

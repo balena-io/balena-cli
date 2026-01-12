@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import * as stripIndent from 'common-tags/lib/stripIndent';
 
-import { getNotifierMessage } from '../../build/utils/update';
+import { getNotifierMessage } from '../../build/utils/update.js';
 
 import type { UpdateInfo } from 'update-notifier';
 

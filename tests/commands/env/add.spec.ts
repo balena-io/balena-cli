@@ -17,8 +17,8 @@
 
 import { expect } from 'chai';
 
-import { runCommand } from '../../helpers';
-import { MockHttpServer } from '../../mockserver';
+import { runCommand } from '../../helpers.js';
+import { MockHttpServer } from '../../mockserver.js';
 
 describe('balena env set', function () {
 	let api: MockHttpServer['api'];

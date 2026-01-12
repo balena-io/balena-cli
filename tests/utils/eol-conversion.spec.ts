@@ -22,7 +22,7 @@ import * as path from 'path';
 import {
 	convertEolInPlace,
 	detectEncoding,
-} from '../../build/utils/eol-conversion';
+} from '../../build/utils/eol-conversion.js';
 
 describe('convertEolInPlace() function', function () {
 	it('should return expected values', () => {

@@ -18,15 +18,15 @@
 import { Flags, Args, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
 import {
 	applicationIdInfo,
 	devModeInfo,
 	secureBootInfo,
-} from '../../utils/messages';
-import type { ImgConfig } from '../../utils/config';
+} from '../../utils/messages.js';
+import type { ImgConfig } from '../../utils/config.js';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -137,17 +137,14 @@ export default class OsConfigureCmd extends Command {
 			}),
 		};
 		return {
-			fleet: { ...cf.fleet, exclusive: ['device', 'config'] },
-			device: {
-				...cf.device,
-				exclusive: [
-					'fleet',
-					'device-type',
-					'config',
-					'provisioning-key-name',
-					'provisioning-key-expiry-date',
-				],
-			},
+			fleet: cf.fleetExclusive(['device', 'config']),
+			device: cf.deviceExclusive([
+				'fleet',
+				'device-type',
+				'config',
+				'provisioning-key-name',
+				'provisioning-key-expiry-date',
+			]),
 			config: Flags.string({
 				description:
 					'path to a pre-generated config.json file to be injected in the OS image',
@@ -177,9 +174,9 @@ export default class OsConfigureCmd extends Command {
 			generateDeviceConfig,
 			generateApplicationConfig,
 			readAndValidateConfigJson,
-		} = await import('../../utils/config');
-		const helpers = await import('../../utils/helpers');
-		const { getApplication } = await import('../../utils/sdk');
+		} = await import('../../utils/config.js');
+		const helpers = await import('../../utils/helpers.js');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		let app:
 			| Pick<ApplicationWithDeviceTypeSlug, 'slug' | 'is_for__device_type'>
@@ -229,16 +226,16 @@ export default class OsConfigureCmd extends Command {
 			deviceTypeSlug,
 		);
 
-		const { normalizeOsVersion } = await import('../../utils/normalization');
+		const { normalizeOsVersion } = await import('../../utils/normalization.js');
 		const osVersion = normalizeOsVersion(
 			await getOsVersionFromImage(params.image, deviceTypeManifest, devInit),
 		);
 
-		const { validateDevOptionAndWarn } = await import('../../utils/config');
+		const { validateDevOptionAndWarn } = await import('../../utils/config.js');
 		await validateDevOptionAndWarn(developmentMode, osVersion);
 
 		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
+			'../../utils/config.js'
 		);
 		await validateSecureBootOptionAndWarn(
 			secureBoot,
@@ -331,14 +328,14 @@ async function validateArgsAndOptions(args: ArgsDef, options: FlagsDef) {
 		);
 	}
 
-	const { validateFilePath } = await import('../../utils/validation');
+	const { validateFilePath } = await import('../../utils/validation.js');
 	await validateFilePath(args.image);
 
 	if (options.config != null) {
 		await validateFilePath(options.config);
 	}
 
-	const { checkLoggedIn } = await import('../../utils/patterns');
+	const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 	await checkLoggedIn();
 }
@@ -381,7 +378,7 @@ async function checkDeviceTypeCompatibility(
 	},
 ) {
 	if (deviceType) {
-		const helpers = await import('../../utils/helpers');
+		const helpers = await import('../../utils/helpers.js');
 		if (
 			!(await helpers.areDeviceTypesCompatible(
 				app.is_for__device_type[0].slug,
@@ -429,7 +426,7 @@ async function askQuestionsForDeviceType(
 			(question) => question.name === 'advanced' && question.isGroup,
 		);
 		if (advancedGroup != null && Object.keys(advancedGroup).length > 0) {
-			const helpers = await import('../../utils/helpers');
+			const helpers = await import('../../utils/helpers.js');
 			answerSources.push(helpers.getGroupDefaults(advancedGroup));
 		}
 	}

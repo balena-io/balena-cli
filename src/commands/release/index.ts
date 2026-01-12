@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args, type Interfaces, Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 import type * as BalenaSdk from 'balena-sdk';
 import * as yaml from 'js-yaml';
-import { tryAsInteger } from '../../utils/validation';
+import { tryAsInteger } from '../../utils/validation.js';
 
 export const commitOrIdArg = Args.custom({
 	parse: tryAsInteger,

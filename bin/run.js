@@ -9,13 +9,16 @@ process.env.OCLIF_TS_NODE = '0';
 
 async function run() {
 	// Use fast-boot to cache require lookups, speeding up startup
-	await require('../build/fast-boot').start();
+	const fastBoot = await import('../build/fast-boot.js');
+	await fastBoot.start();
 
 	// Set the desired es version for downstream modules that support it
-	require('@balena/es-version').set('es2018');
+	const esVersion = await import('@balena/es-version');
+	esVersion.set('es2018');
 
 	// Run the CLI
-	await require('../build/app').run(undefined, { dir: __dirname });
+	const app = await import('../build/app.js');
+	await app.run(undefined, { dir: import.meta.dirname });
 }
 
 void run();

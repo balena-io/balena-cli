@@ -1,4 +1,4 @@
-const commonConfig = require('./.mocharc.js');
+const commonConfig = require('./.mocharc.cjs');
 
 module.exports = {
 	...commonConfig,

@@ -4,6 +4,7 @@
   "description": "The official balena Command Line Interface",
   "main": "./build/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git@github.com:balena-io/balena-cli.git"
@@ -45,7 +46,7 @@
     "test:shrinkwrap": "ts-node --transpile-only automation/run.ts test-shrinkwrap",
     "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha",
     "test:standalone": "npm run build:standalone && npm run test:standalone:fast",
-    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha --config .mocharc-standalone.js",
+    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha --config .mocharc-standalone.cjs",
     "test:fast": "npm run build:fast && npm run test:source",
     "test:fast-profile": "npm run test:fast -- -- --inspect-brk=0.0.0.0",
     "test:debug": "cross-env BALENA_CLI_TEST_TYPE=source mocha --inspect-brk=0.0.0.0",
@@ -54,7 +55,7 @@
     "ci": "npm run test && npm run catch-uncommitted",
     "lint": "npm run lint-tsconfig && npm run lint-other",
     "lint-tsconfig": "balena-lint -e ts -e js -t tsconfig.dev.json --fix automation/ src/ tests/ typings/",
-    "lint-other": "balena-lint -e ts -e js --fix bin/run.js bin/dev.js .mocharc.js .mocharc-standalone.js",
+    "lint-other": "balena-lint -e ts -e js --fix bin/run.js bin/dev.js .mocharc.cjs .mocharc-standalone.cjs",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepare": "echo {} > bin/.fast-boot.json && husky",
     "prepublishOnly": "npm run build"

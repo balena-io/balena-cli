@@ -110,7 +110,7 @@ export class DeprecationChecker {
 		const url = this.getNpmUrl(version);
 		let response: import('got').Response<Dictionary<any>> | undefined;
 		try {
-			response = await got(url, {
+			response = await got.default(url, {
 				responseType: 'json',
 				retry: 0,
 				timeout: 4000,
@@ -202,7 +202,7 @@ or release date not available`);
 		const nextMajorDate = new Date(nextMajorDateStr).getTime();
 		const daysElapsed = Math.trunc((this.now - nextMajorDate) / this.msInDay);
 		if (daysElapsed > this.expiryDays) {
-			const { ExpectedError } = await import('./errors');
+			const { ExpectedError } = await import('./errors.js');
 			throw new ExpectedError(this.getExpiryMsg(daysElapsed));
 		} else if (daysElapsed > this.deprecationDays && process.stderr.isTTY) {
 			console.error(this.getDeprecationMsg(daysElapsed));
@@ -212,7 +212,7 @@ or release date not available`);
 	/** Separate function for the benefit of code testing */
 	getDeprecationMsg(daysElapsed: number) {
 		const { warnify } =
-			require('./utils/messages') as typeof import('./utils/messages');
+			require('./utils/messages.js') as typeof import('./utils/messages.js');
 		return warnify(`\
 CLI version ${this.nextMajorVersion} was released ${daysElapsed} days ago: please upgrade.
 This version of the balena CLI (${this.currentVersion}) will exit with an error

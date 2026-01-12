@@ -17,9 +17,9 @@
 
 import type * as Dockerode from 'dockerode';
 
-import { ExpectedError } from '../errors';
-import { getBalenaSdk, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { ExpectedError } from '../errors.js';
+import { getBalenaSdk, stripIndent } from './lazy.js';
+import type Logger from './logger.js';
 
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
@@ -117,7 +117,7 @@ async function installQemu(arch: string, qemuPath: string) {
 					reject(err as Error);
 				}
 			});
-			got.stream
+			got.default.stream
 				.get(qemuUrl)
 				.on('error', reject)
 				.pipe(zlib.createGunzip())

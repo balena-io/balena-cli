@@ -16,10 +16,10 @@
  */
 
 import { Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { defaultValues, expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import * as cf from '../../utils/common-flags.js';
+import { defaultValues, expandForAppName } from '../../utils/helpers.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 const devicesSelectFields = {
 	$select: [
@@ -72,7 +72,7 @@ export default class DeviceListCmd extends Command {
 		const devices = (
 			await (async () => {
 				if (options.fleet != null) {
-					const { getApplication } = await import('../../utils/sdk');
+					const { getApplication } = await import('../../utils/sdk.js');
 					const application = await getApplication(balena, options.fleet, {
 						$select: 'slug',
 						$expand: {
@@ -109,7 +109,7 @@ export default class DeviceListCmd extends Command {
 		];
 
 		if (options.json) {
-			const { pickAndRename } = await import('../../utils/helpers');
+			const { pickAndRename } = await import('../../utils/helpers.js');
 			const mapped = devices.map((device) => pickAndRename(device, fields));
 			return JSON.stringify(mapped, null, 4);
 		}

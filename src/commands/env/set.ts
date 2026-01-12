@@ -17,10 +17,10 @@
 
 import { Args, Command } from '@oclif/core';
 import type * as BalenaSdk from 'balena-sdk';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 interface FlagsDef {
 	fleet?: string;
@@ -92,8 +92,8 @@ export default class EnvSetCmd extends Command {
 	public static strict = false;
 
 	public static flags = {
-		fleet: { ...cf.fleet, exclusive: ['device'] },
-		device: { ...cf.device, exclusive: ['fleet'] },
+		fleet: cf.fleetExclusive(['device', 'release']),
+		device: cf.deviceExclusive(['fleet', 'release']),
 		quiet: cf.quiet,
 		service: cf.service,
 	};
@@ -108,7 +108,7 @@ export default class EnvSetCmd extends Command {
 			);
 		}
 
-		const { checkLoggedIn } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 		await checkLoggedIn();
 
@@ -183,7 +183,7 @@ async function resolveFleetSlugs(
 	fleetOption: string,
 ) {
 	const fleetSlugs: string[] = [];
-	const { getFleetSlug } = await import('../../utils/sdk');
+	const { getFleetSlug } = await import('../../utils/sdk.js');
 	for (const appNameOrSlug of fleetOption.split(',')) {
 		try {
 			fleetSlugs.push(await getFleetSlug(balena, appNameOrSlug));
@@ -220,7 +220,7 @@ async function setServiceVars(
 			}
 		}
 	} else if (options.device) {
-		const { getDeviceAndAppFromUUID } = await import('../../utils/cloud');
+		const { getDeviceAndAppFromUUID } = await import('../../utils/cloud.js');
 		for (const uuid of options.device.split(',')) {
 			let device;
 			let app;

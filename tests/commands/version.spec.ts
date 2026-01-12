@@ -18,7 +18,7 @@ import { expect } from 'chai';
 import * as fs from 'fs';
 import * as os from 'os';
 
-import { runCommand } from '../helpers';
+import { runCommand } from '../helpers.js';
 
 const { version: packageJSONVersion } = JSON.parse(
 	fs.readFileSync('./package.json', 'utf8'),

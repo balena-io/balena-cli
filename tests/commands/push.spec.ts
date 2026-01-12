@@ -19,10 +19,10 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { MockHttpServer } from '../mockserver';
-import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
-import { cleanOutput, runCommand } from '../helpers';
-import type { ExpectedTarStreamFiles } from '../projects';
+import { MockHttpServer } from '../mockserver.js';
+import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build.js';
+import { cleanOutput, runCommand } from '../helpers.js';
+import type { ExpectedTarStreamFiles } from '../projects.js';
 import {
 	addRegSecretsEntries,
 	exists,
@@ -30,7 +30,7 @@ import {
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
 	setupDockerignoreTestData,
-} from '../projects';
+} from '../projects.js';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');

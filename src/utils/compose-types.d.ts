@@ -18,8 +18,11 @@
 import type {
 	ImageModel,
 	ReleaseModel,
-} from '@balena/compose/dist/release/models';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+} from '@balena/compose/dist/release/models.js';
+import type {
+	Composition,
+	ImageDescriptor,
+} from '@balena/compose/dist/parse/index.js';
 import type { Pack } from 'tar-stream';
 
 interface Image {
@@ -42,7 +45,7 @@ export interface BuiltImage {
 
 export interface TaggedImage {
 	localImage: import('dockerode').Image;
-	serviceImage: import('@balena/compose/dist/release/models').ImageModel;
+	serviceImage: import('@balena/compose/dist/release/models.js').ImageModel;
 	serviceName: string;
 	logs: string;
 	props: BuiltImage.props;

@@ -16,10 +16,10 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class SupportCmd extends Command {
 	public static description = stripIndent`
@@ -60,7 +60,7 @@ export default class SupportCmd extends Command {
 			...cf.fleet,
 			description:
 				'comma-separated list (no spaces) of fleet names or slugs (preferred)',
-		},
+		} as typeof cf.fleet,
 		duration: Flags.string({
 			description:
 				'length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d',
@@ -115,7 +115,7 @@ export default class SupportCmd extends Command {
 			ux.action.stop();
 		}
 
-		const { getFleetSlug } = await import('../../utils/sdk');
+		const { getFleetSlug } = await import('../../utils/sdk.js');
 
 		// Process applications
 		for (const appName of appNames) {

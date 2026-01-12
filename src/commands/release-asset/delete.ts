@@ -16,8 +16,8 @@
  */
 
 import { Command, Flags } from '@oclif/core';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { commitOrIdArg } from '../release';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { commitOrIdArg } from '../release/index.js';
 
 export default class ReleaseAssetDeleteCmd extends Command {
 	public static description = stripIndent`
@@ -61,7 +61,7 @@ export default class ReleaseAssetDeleteCmd extends Command {
 			$select: ['id'],
 		});
 
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 		await patterns.confirm(
 			flags.yes,
 			`Are you sure you want to delete release asset '${flags.key}'?`,

@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationNameNote } from '../../utils/messages';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationNameNote } from '../../utils/messages.js';
 import * as JSONStream from 'JSONStream';
 import { Readable, Writable } from 'stream';
 import { pipeline } from 'stream/promises';
@@ -60,7 +60,7 @@ export default class ReleaseListCmd extends Command {
 		};
 
 		const balena = getBalenaSdk();
-		const { getFleetSlug } = await import('../../utils/sdk');
+		const { getFleetSlug } = await import('../../utils/sdk.js');
 
 		const slug = await getFleetSlug(balena, params.fleet);
 		const releases = await balena.models.release.getAllByApplication(

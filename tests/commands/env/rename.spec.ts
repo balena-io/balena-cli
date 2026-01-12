@@ -17,9 +17,9 @@
 
 import { expect } from 'chai';
 
-import { runCommand } from '../../helpers';
-import { stripIndent } from '../../../build/utils/lazy';
-import { MockHttpServer } from '../../mockserver';
+import { runCommand } from '../../helpers.js';
+import { stripIndent } from '../../../build/utils/lazy.js';
+import { MockHttpServer } from '../../mockserver.js';
 
 describe('balena env rename', function () {
 	let server: MockHttpServer;
