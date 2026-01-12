@@ -228,7 +228,7 @@
     "patch-package": "^8.0.0",
     "prettyjson": "^1.2.5",
     "progress-stream": "^2.0.0",
-    "reconfix": "^1.0.1",
+    "reconfix": "^1.0.2",
     "resin-cli-form": "^5.0.0",
     "resin-cli-visuals": "^4.0.1",
     "resin-doodles": "^0.2.2",
