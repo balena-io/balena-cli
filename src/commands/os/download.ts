@@ -40,17 +40,17 @@ export default class OsDownloadCmd extends Command {
 		Development images can be selected by appending \`.dev\` to the version.
 `;
 	public static examples = [
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.101.7',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2022.7.0',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.90.0',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2.101.7',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2022.7.0',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version ^2.90.0',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2.60.1+rev1',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2.60.1+rev1.dev',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2021.10.2.prod',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version latest',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version default',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu-esr',
 	];
 
 	public static args = {
