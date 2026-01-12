@@ -3,7 +3,6 @@
 The official balena Command Line Interface.
 
 [![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)
-[![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)
 
 ## About
 
