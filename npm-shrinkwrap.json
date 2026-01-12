@@ -65,6 +65,7 @@
         "node-cleanup": "^2.1.2",
         "node-unzip-2": "^0.2.8",
         "open": "^7.1.0",
+        "partitioninfo": "^6.0.3",
         "patch-package": "^8.0.0",
         "prettyjson": "^1.2.5",
         "progress-stream": "^2.0.0",
@@ -21285,6 +21286,7 @@
       "version": "6.0.3",
       "resolved": "https://registry.npmjs.org/partitioninfo/-/partitioninfo-6.0.3.tgz",
       "integrity": "sha512-4B88aRAwZm/KYT9dxvdTbrqZ24AiUOnVfkuKVqjQWO3tNvnD2o8g6afZzQnd6+JUuCZWzMq7JrfxtfbL8EyPNQ==",
+      "license": "MIT",
       "dependencies": {
         "file-disk": "^8.0.1",
         "gpt": "^2.0.4",
