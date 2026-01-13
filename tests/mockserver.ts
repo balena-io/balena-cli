@@ -597,9 +597,44 @@ export class MockHttpServer {
 
 			const rule = await builder.thenCallback(async (req) => {
 				const body = await req.body.getJson();
-				let deviceType = 'raspberrypi3';
-				if (typeof body === 'object' && body && 'deviceType' in body) {
-					deviceType = body.deviceType as string;
+				if (body == null || typeof body !== 'object') {
+					console.error(
+						`[BAD REQUEST TO expectDownloadConfig] Unexpected body : ${body}`,
+					);
+					return {
+						status: 400,
+						body: `Unexpected body : ${body}`,
+					};
+				}
+				const extraParamDefinitions = [
+					['appUpdatePollInterval', 'number'],
+					['deviceType', 'string'],
+					['wifiSsid', 'string'],
+					['wifiKey', 'string'],
+				] as const;
+				const extraParams: Partial<
+					Record<(typeof extraParamDefinitions)[number][0], unknown>
+				> = Object.create(null);
+				for (const [paramName, paramType] of extraParamDefinitions) {
+					if (paramName in body) {
+						const bodyValue = (body as Record<string, unknown>)[paramName];
+						if (typeof bodyValue !== paramType) {
+							console.error(
+								`[BAD REQUEST TO expectDownloadConfig] Invalid ${paramName} type: ${bodyValue}`,
+							);
+							return {
+								status: 400,
+								body: `Invalid ${paramName} type: ${bodyValue}`,
+							};
+						}
+						extraParams[paramName] = bodyValue;
+					}
+				}
+				if (typeof extraParams.appUpdatePollInterval === 'number') {
+					// mimicking what the API does
+					// https://github.com/balena-io/open-balena-api/blob/v43.5.8/src/features/device-config/device-config.ts#L113-L116
+					extraParams.appUpdatePollInterval =
+						extraParams.appUpdatePollInterval * 60 * 1000;
 				}
 
 				return {
@@ -607,7 +642,7 @@ export class MockHttpServer {
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({
 						applicationId: 1301645,
-						deviceType,
+						deviceType: 'raspberrypi3',
 						userId: 43699,
 						appUpdatePollInterval: 600000,
 						listenPort: 48484,
@@ -617,6 +652,7 @@ export class MockHttpServer {
 						registryEndpoint: 'registry2.balena-cloud.com',
 						deltaEndpoint: 'https://delta.balena-cloud.com',
 						apiKey: 'nothingtoseehere',
+						...extraParams,
 					}),
 				};
 			});
