@@ -59,16 +59,6 @@ function setupBalenaSdkSharedOptions(settings: CliSettings) {
 	});
 }
 
-/**
- * Addresses the console warning:
- * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
- * leak detected. 11 error listeners added. Use emitter.setMaxListeners() to
- * increase limit
- */
-export function setMaxListeners(maxListeners: number) {
-	require('events').EventEmitter.defaultMaxListeners = maxListeners;
-}
-
 /** Selected CLI initialization steps */
 async function init() {
 	if (process.env.BALENARC_NO_SENTRY) {
