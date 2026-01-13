@@ -21,6 +21,33 @@ import { getBalenaSdk } from './lazy.js';
 // eslint-disable-next-line no-useless-escape
 const BALENAOS_VERSION_REGEX = /v?\d+\.\d+\.\d+(\.rev\d+)?((\-|\+).+)?/;
 
+// For testing - allow overriding functions
+let _getImagePathOverride:
+	| ((deviceType: string, version?: string) => Promise<string>)
+	| null = null;
+let _isImageCachedOverride:
+	| ((deviceType: string, version: string) => Promise<boolean>)
+	| null = null;
+let _getFileCreatedDateOverride:
+	| ((filePath: string) => Promise<Date>)
+	| null = null;
+
+export function setImageManagerTestOverrides(overrides: {
+	getImagePath?: ((deviceType: string, version?: string) => Promise<string>) | null;
+	isImageCached?: ((deviceType: string, version: string) => Promise<boolean>) | null;
+	getFileCreatedDate?: ((filePath: string) => Promise<Date>) | null;
+}) {
+	if (overrides.getImagePath !== undefined) {
+		_getImagePathOverride = overrides.getImagePath;
+	}
+	if (overrides.isImageCached !== undefined) {
+		_isImageCachedOverride = overrides.isImageCached;
+	}
+	if (overrides.getFileCreatedDate !== undefined) {
+		_getFileCreatedDateOverride = overrides.getFileCreatedDate;
+	}
+}
+
 /**
  * @summary Check if the string is a valid balenaOS version number
  * @description Throws an error if the version is invalid
@@ -45,6 +72,9 @@ const validateVersion = (version: string) => {
  * 	console.log("The file was created in #{createdTime}")
  */
 export const getFileCreatedDate = async (filePath: string) => {
+	if (_getFileCreatedDateOverride) {
+		return _getFileCreatedDateOverride(filePath);
+	}
 	const { promises: fs } = await import('fs');
 	const { ctime } = await fs.stat(filePath);
 	return ctime;
@@ -62,6 +92,9 @@ export const getFileCreatedDate = async (filePath: string) => {
  * 	console.log(imagePath)
  */
 export const getImagePath = async (deviceType: string, version?: string) => {
+	if (_getImagePathOverride) {
+		return _getImagePathOverride(deviceType, version);
+	}
 	if (typeof version === 'string') {
 		validateVersion(version);
 	}
@@ -91,6 +124,9 @@ export const getImagePath = async (deviceType: string, version?: string) => {
  * 		console.log('The Raspberry Pi image v1.2.3 is cached!')
  */
 export const isImageCached = async (deviceType: string, version: string) => {
+	if (_isImageCachedOverride) {
+		return _isImageCachedOverride(deviceType, version);
+	}
 	const imagePath = await getImagePath(deviceType, version);
 	try {
 		const createdDate = await getFileCreatedDate(imagePath);

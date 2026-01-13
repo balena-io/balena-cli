@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import * as path from 'path';
-import { getCapitanoDoc } from './capitanodoc';
-import type { Category, Document, OclifCommand } from './doc-types';
-import * as markdown from './markdown';
+import { getCapitanoDoc } from './capitanodoc.js';
+import type { Category, Document, OclifCommand } from './doc-types.js';
+import * as markdown from './markdown.js';
 
 /**
  * Generates the markdown document (as a string) for the CLI documentation
@@ -52,11 +52,11 @@ async function importOclifCommands(jsFilename: string) {
 
 	return {
 		...command,
-		// build/commands/device/index.js -> device
-		// build/commands/device/list.js -> device list
+		// build/src/commands/device/index.js -> device
+		// build/src/commands/device/list.js -> device list
 		name: jsFilename
 			.split('/')
-			.slice(2)
+			.slice(3)
 			.join(' ')
 			.split('.')
 			.slice(0, 1)

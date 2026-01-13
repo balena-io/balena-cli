@@ -16,7 +16,7 @@
  */
 
 import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
+import chaiAsPromised from 'chai-as-promised';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -33,10 +33,11 @@ const { expect } = chai;
 
 function getPage(name: string): string {
 	const pagePath = path.join(
-		__dirname,
+		import.meta.dirname,
 		'..',
 		'..',
 		'build',
+		'src',
 		'auth',
 		'pages',
 		`${name}.ejs`,
@@ -73,6 +74,8 @@ describe('Login server:', function () {
 		verb?: 'post' | 'put';
 	}) {
 		opt.urlPath = opt.urlPath ?? addr.urlPath;
+
+		// @ts-expect-error - should be fixed when bumping got
 		const res = await got[verb](
 			`http://${addr.host}:${addr.port}${opt.urlPath}`,
 			{
@@ -125,12 +128,11 @@ describe('Login server:', function () {
 
 	describe('given the token authenticates with the server', function () {
 		beforeEach(function () {
-			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
-			this.loginIfTokenValidStub.resolves(true);
+			utils.setLoginIfTokenValidForTesting(async () => true);
 		});
 
 		afterEach(function () {
-			this.loginIfTokenValidStub.restore();
+			utils.setLoginIfTokenValidForTesting(null);
 		});
 
 		it('should eventually be the token', async () => {
@@ -144,12 +146,11 @@ describe('Login server:', function () {
 
 	describe('given the token does not authenticate with the server', function () {
 		beforeEach(function () {
-			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
-			return this.loginIfTokenValidStub.resolves(false);
+			utils.setLoginIfTokenValidForTesting(async () => false);
 		});
 
 		afterEach(function () {
-			return this.loginIfTokenValidStub.restore();
+			utils.setLoginIfTokenValidForTesting(null);
 		});
 
 		it('should be rejected', async () => {

@@ -123,7 +123,12 @@ async function defaultTestStream(
 	}
 	if (header.name === '.balena/registry-secrets.json') {
 		expectedContents = await fs.readFile(
-			path.join(__dirname, 'test-data', 'projects', 'registry-secrets.json'),
+			path.join(
+				import.meta.dirname,
+				'test-data',
+				'projects',
+				'registry-secrets.json',
+			),
 		);
 	}
 	const [buf, buf2] = await Promise.all([
@@ -198,7 +203,7 @@ export async function testDockerBuildStream(o: {
 		}
 	}
 
-	resetDockerignoreCache();
+	await resetDockerignoreCache();
 
 	const { exitCode, out, err } = await runCommand(o.commandLine);
 
@@ -250,7 +255,7 @@ export async function testPushBuildStream(o: {
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 
-	resetDockerignoreCache();
+	await resetDockerignoreCache();
 
 	const { out, err } = await runCommand(o.commandLine);
 
@@ -258,10 +263,12 @@ export async function testPushBuildStream(o: {
 	expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 }
 
-export function resetDockerignoreCache() {
+export async function resetDockerignoreCache() {
 	if (process.env.BALENA_CLI_TEST_TYPE !== 'source') {
 		return;
 	}
-	const ignorePath = '../build/src/utils/ignore';
-	delete require.cache[require.resolve(ignorePath)];
+	const { resetDockerignoreCache: reset } = await import(
+		'../build/src/utils/ignore.js'
+	);
+	reset();
 }

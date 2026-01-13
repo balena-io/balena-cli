@@ -20,5 +20,10 @@
 		],
 		"preserveSymlinks": true
 	},
+	"ts-node": {
+		"esm": true,
+		"experimentalResolver": true,
+		"transpileOnly": true
+	},
 	"include": ["./src/**/*", "./typings/**/*"]
 }

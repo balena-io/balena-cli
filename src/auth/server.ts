@@ -56,7 +56,7 @@ export class LoginServer extends EventEmitter {
 		);
 
 		app.set('view engine', 'ejs');
-		app.set('views', path.join(__dirname, 'pages'));
+		app.set('views', path.join(import.meta.dirname, 'pages'));
 
 		this.server = await new Promise<import('net').Server>((resolve, reject) => {
 			const callback = (err: Error) => {

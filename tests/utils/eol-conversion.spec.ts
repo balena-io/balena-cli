@@ -62,8 +62,8 @@ describe('convertEolInPlace() function', function () {
 describe('detectEncoding() function', function () {
 	it('should correctly detect the encoding of a few selected files', async () => {
 		const sampleBinary = [
-			'drivelist/build/src/Release/drivelist.node',
-			'mountutils/prebuilds/linux-x64/mountutils.node',
+			'@ronomon/direct-io/binding.node',
+			'xxhash-addon/build/Release/addon.node',
 		];
 		const sampleText = [
 			'node_modules/.bin/mocha',

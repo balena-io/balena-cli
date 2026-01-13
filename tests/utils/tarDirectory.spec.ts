@@ -22,7 +22,7 @@ import * as tar from 'tar-stream';
 import { tarDirectory } from '../../build/src/utils/compose_ts.js';
 import { setupDockerignoreTestData } from '../projects.js';
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 interface TarFiles {

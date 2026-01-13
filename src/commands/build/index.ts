@@ -106,7 +106,10 @@ ${dockerignoreHelp}
 
 		await checkLoggedInIf(!!options.fleet);
 
-		(await import('events')).defaultMaxListeners = 1000;
+		// In ESM, module exports are read-only, so use require() for this
+		const { createRequire } = await import('node:module');
+		createRequire(import.meta.url)('events').EventEmitter.defaultMaxListeners =
+			1000;
 
 		const sdk = getBalenaSdk();
 

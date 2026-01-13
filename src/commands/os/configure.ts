@@ -243,7 +243,7 @@ export default class OsConfigureCmd extends Command {
 			osVersion,
 		);
 
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		const baseAnswers: Answers =
 			configJson == null
 				? await askQuestionsForDeviceType(deviceTypeManifest, options)

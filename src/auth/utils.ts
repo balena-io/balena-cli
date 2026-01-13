@@ -37,6 +37,16 @@ export async function getDashboardLoginURL(
 	return new URL(`/login/cli/${callbackUrl}`, dashboardUrl).href;
 }
 
+// For testing - allow overriding loginIfTokenValid
+let _loginIfTokenValidOverride: ((token?: string) => Promise<boolean>) | null =
+	null;
+
+export function setLoginIfTokenValidForTesting(
+	fn: ((token?: string) => Promise<boolean>) | null,
+) {
+	_loginIfTokenValidOverride = fn;
+}
+
 /**
  * Log in using a token, but only if the token is valid.
  *
@@ -50,6 +60,9 @@ export async function getDashboardLoginURL(
  * @returns whether the login was successful or not
  */
 export async function loginIfTokenValid(token?: string): Promise<boolean> {
+	if (_loginIfTokenValidOverride) {
+		return _loginIfTokenValidOverride(token);
+	}
 	token = (token ?? '').trim();
 	if (!token) {
 		return false;

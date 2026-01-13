@@ -140,7 +140,10 @@ ${dockerignoreHelp}
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeployCmd);
 
-		(await import('events')).defaultMaxListeners = 1000;
+		// In ESM, module exports are read-only, so use require() for this
+		const { createRequire } = await import('node:module');
+		createRequire(import.meta.url)('events').EventEmitter.defaultMaxListeners =
+			1000;
 
 		const { default: Logger } = await import('../../utils/logger.js');
 
@@ -234,7 +237,7 @@ ${dockerignoreHelp}
 			createAsDraft: boolean;
 		},
 	) {
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		const doodles = await import('resin-doodles');
 		const sdk = getBalenaSdk();
 		const { deployProject: $deployProject, loadProject } = await import(

@@ -28,7 +28,9 @@ import { setupDockerignoreTestData } from '../../projects.js';
 const delay = promisify(setTimeout);
 const FS_WATCH_DURATION_MS = 500;
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..', '..'));
+const repoPath = path.normalize(
+	path.join(import.meta.dirname, '..', '..', '..'),
+);
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 interface ByService<T> {
@@ -43,7 +45,7 @@ class MockLivepushManager extends LivepushManager {
 			buildTasks: [],
 			docker: {} as import('dockerode'),
 			api: {} as import('../../../src/utils/device/api.js').DeviceAPI,
-			logger: {} as import('../../../src/utils/logger.js'),
+			logger: {} as import('../../../src/utils/logger.js').default,
 			imageIds: {},
 			deployOpts:
 				{} as import('../../../src/utils/device/deploy.js').DeviceDeployOptions,

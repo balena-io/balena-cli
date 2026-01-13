@@ -16,8 +16,8 @@
  */
 
 import * as path from 'path';
-import { MarkdownFileParser } from './utils';
-import { GlobSync } from 'glob';
+import { MarkdownFileParser } from './utils.js';
+import glob from 'glob';
 
 /**
  * This is the skeleton of CLI documentation/reference web page at:
@@ -73,13 +73,13 @@ const commandHeadings: { [key: string]: string } = {
 };
 
 // Fetch all available commands
-const allCommandsPaths = new GlobSync('build/commands/**/*.js', {
-	ignore: 'build/commands/internal/**',
+const allCommandsPaths = new glob.GlobSync('build/src/commands/**/*.js', {
+	ignore: 'build/src/commands/internal/**',
 }).found;
 
 // Throw error if any commands found outside of command directories
 const illegalCommandPaths = allCommandsPaths.filter((commandPath: string) =>
-	/^build\/commands\/[^/]+\.js$/.test(commandPath),
+	/^build\/src\/commands\/[^/]+\.js$/.test(commandPath),
 );
 
 if (illegalCommandPaths.length !== 0) {
@@ -135,7 +135,7 @@ capitanoDoc.categories.forEach((category) => {
  * for the documentation web page.
  */
 export async function getCapitanoDoc(): Promise<typeof capitanoDoc> {
-	const readmePath = path.join(__dirname, '..', '..', 'README.md');
+	const readmePath = path.join(import.meta.dirname, '..', '..', 'README.md');
 	const mdParser = new MarkdownFileParser(readmePath);
 	const sections: string[] = await Promise.all([
 		mdParser.getSectionOfTitle('About').then((sectionLines: string) => {

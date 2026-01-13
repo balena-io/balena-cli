@@ -185,7 +185,7 @@ export default class LocalConfigureCmd extends Command {
 	];
 
 	getConfiguration = async (data: any) => {
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		const inquirer = await import('inquirer');
 
 		// `persistentLogging` can be `undefined`, so we want

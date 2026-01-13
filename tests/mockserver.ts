@@ -12,7 +12,7 @@ function getIPv4Url(): string {
 }
 
 export const apiResponsePath = path.normalize(
-	path.join(__dirname, 'test-data', 'api-response'),
+	path.join(import.meta.dirname, 'test-data', 'api-response'),
 );
 
 interface ScopeOpts {
@@ -37,7 +37,6 @@ export class MockHttpServer {
 		path: string | RegExp;
 	}> = [];
 	private originalDockerHost: string | undefined;
-	private originalGetBalenaSdk: (() => any) | undefined;
 
 	public async start() {
 		mockServer = mockttp.getLocal();
@@ -60,10 +59,10 @@ export class MockHttpServer {
 		const storage = getStorage({ dataDirectory });
 		await storage.set('token', 'test-token-for-ssh-test');
 
-		const lazyModule = await import('../build/src/utils/lazy.js');
-		this.originalGetBalenaSdk = lazyModule.getBalenaSdk;
-		// @ts-expect-error - Overriding read-only property for testing
-		lazyModule.getBalenaSdk = () => sdk;
+		const { setBalenaSdkForTesting } = await import(
+			'../build/src/utils/lazy.js'
+		);
+		setBalenaSdkForTesting(sdk);
 
 		this.originalDockerHost = process.env.DOCKER_HOST;
 		process.env.DOCKER_HOST = mockServer.url;
@@ -78,11 +77,10 @@ export class MockHttpServer {
 			process.env.DOCKER_HOST = this.originalDockerHost;
 		}
 		// Restore original getBalenaSdk to prevent module state pollution
-		if (this.originalGetBalenaSdk) {
-			const lazyModule = await import('../build/src/utils/lazy.js');
-			// @ts-expect-error - Overriding read-only property for testing
-			lazyModule.getBalenaSdk = this.originalGetBalenaSdk;
-		}
+		const { setBalenaSdkForTesting } = await import(
+			'../build/src/utils/lazy.js'
+		);
+		setBalenaSdkForTesting(null);
 	}
 
 	public async assertAllCalled() {

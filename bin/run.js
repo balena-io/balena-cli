@@ -9,7 +9,7 @@ process.env.OCLIF_TS_NODE = '0';
 
 async function run() {
 	// Use fast-boot to cache require lookups, speeding up startup
-	const fastBoot = await import('../build/fast-boot.js');
+	const fastBoot = await import('../build/src/fast-boot.js');
 	await fastBoot.start();
 
 	// Set the desired es version for downstream modules that support it
@@ -17,7 +17,7 @@ async function run() {
 	esVersion.set('es2018');
 
 	// Run the CLI
-	const app = await import('../build/app.js');
+	const app = await import('../build/src/app.js');
 	await app.run(undefined, { dir: import.meta.dirname });
 }
 

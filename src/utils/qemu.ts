@@ -26,6 +26,17 @@ const require = Module.createRequire(import.meta.url);
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
 
+// For testing - allow overriding copyQemu
+let _copyQemuOverride:
+	| ((context: string, arch: string) => Promise<string>)
+	| null = null;
+
+export function setCopyQemuForTesting(
+	fn: ((context: string, arch: string) => Promise<string>) | null,
+) {
+	_copyQemuOverride = fn;
+}
+
 export function qemuPathInContext(context: string) {
 	const path = require('path') as typeof import('path');
 	const binDir = path.join(context, '.balena');
@@ -34,6 +45,9 @@ export function qemuPathInContext(context: string) {
 }
 
 export function copyQemu(context: string, arch: string) {
+	if (_copyQemuOverride) {
+		return _copyQemuOverride(context, arch);
+	}
 	const path = require('path') as typeof import('path');
 	const fs = require('fs') as typeof import('fs');
 	// Create a hidden directory in the build context, containing qemu

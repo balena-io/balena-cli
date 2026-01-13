@@ -21,7 +21,7 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { simpleGit } from 'simple-git';
 
-const ROOT = path.normalize(path.join(__dirname, '..'));
+const ROOT = path.normalize(path.join(import.meta.dirname, '..'));
 
 /**
  * Compare the timestamp of balena-cli.md with the timestamp of staged files,

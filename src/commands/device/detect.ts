@@ -56,7 +56,7 @@ export default class DeviceDetectCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const _ = await import('lodash');
+		const { default: _ } = await import('lodash');
 		const { discoverLocalBalenaOsDevices } = await import(
 			'../../utils/discover.js'
 		);

@@ -233,6 +233,11 @@ export async function filterFilesWithDockerignore(
 
 let dockerignoreByService: { [serviceName: string]: Ignore } | null = null;
 
+// For testing only - allows resetting the dockerignore cache
+export function resetDockerignoreCache() {
+	dockerignoreByService = null;
+}
+
 /**
  * Get dockerignore instances for each service in serviceDirsByService.
  * Dockerignore instances are cached and may be shared between services.

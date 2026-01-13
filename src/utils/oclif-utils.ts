@@ -28,7 +28,7 @@ export function capitanoizeOclifUsage(
 }
 
 export function getCommandsFromManifest() {
-	const manifest = require('../../oclif.manifest.json');
+	const manifest = require('../../../oclif.manifest.json');
 
 	if (manifest.commands == null) {
 		throw new Error('Commands section not found in manifest.');

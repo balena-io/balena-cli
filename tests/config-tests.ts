@@ -42,8 +42,10 @@ console.error(
 	`[debug] tests/config-tests.ts: BALENARC_DATA_DIRECTORY="${process.env.BALENARC_DATA_DIRECTORY}"`,
 );
 
-import { EventEmitter } from 'events';
-EventEmitter.defaultMaxListeners = 35; // it appears that 'nock' adds a bunch of listeners - bug?
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
+// In ESM, EventEmitter.defaultMaxListeners is read-only, so we use require()
+require('events').EventEmitter.defaultMaxListeners = 35; // it appears that 'nock' adds a bunch of listeners - bug?
 // SL: Looks like it's not nock causing this, as have seen the problem triggered from help.spec,
 //     which is not using nock.  Perhaps mocha/chai? (unlikely), or something in the CLI?
 

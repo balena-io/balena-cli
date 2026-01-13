@@ -16,7 +16,7 @@
  */
 
 import { intVar } from '@balena/env-parsing';
-import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
+import type { Request as ReleaseRequest } from '@balena/compose/dist/release/index.js';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import _ from 'lodash';
@@ -32,10 +32,10 @@ import type {
 } from '../projects.js';
 import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects.js';
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 const dockerResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'docker-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'docker-response'),
 );
 
 const commonResponseLines = {

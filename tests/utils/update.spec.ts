@@ -16,6 +16,7 @@
  */
 
 import { expect } from 'chai';
+// @ts-expect-error - no types for this specific path
 import stripIndent from 'common-tags/lib/stripIndent/index.js';
 
 import { getNotifierMessage } from '../../build/src/utils/update.js';

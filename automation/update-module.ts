@@ -54,7 +54,10 @@ interface Upstream {
 
 const getUpstreams = async () => {
 	const fs = await import('fs');
-	const repoYaml = fs.readFileSync(__dirname + '/../repo.yml', 'utf8');
+	const repoYaml = fs.readFileSync(
+		import.meta.dirname + '/../repo.yml',
+		'utf8',
+	);
 
 	const yaml = await import('js-yaml');
 	const { upstream } = yaml.load(repoYaml) as {

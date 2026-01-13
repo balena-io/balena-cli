@@ -221,9 +221,21 @@ const EXPECTED_ERROR_REGEXES = [
 	/^Error parsing config file.*balenarc\.yml/,
 ];
 
+interface SentryLike {
+	captureException: (error: Error) => void;
+	close: (timeout: number) => Promise<boolean>;
+}
+
+// For testing - allow overriding getSentry
+let _getSentry: (() => Promise<SentryLike>) | null = null;
+
 // Support unit testing of handleError
-export const getSentry = async function () {
-	return (await import('@sentry/node')).default;
+const defaultGetSentry = async function (): Promise<SentryLike> {
+	return await import('@sentry/node');
+};
+
+export const getSentry = async function (): Promise<SentryLike> {
+	return (_getSentry ?? defaultGetSentry)();
 };
 
 async function sentryCaptureException(error: Error) {
@@ -284,7 +296,11 @@ export async function handleError(error: Error | string) {
 	}
 }
 
-export const printErrorMessage = function (message: string) {
+// For testing - allow overriding these functions
+let _printErrorMessage: ((message: string) => void) | null = null;
+let _printExpectedErrorMessage: ((message: string) => void) | null = null;
+
+const defaultPrintErrorMessage = function (message: string) {
 	const ux = getCliUx();
 	// Only first line should be red
 	const messageLines = message.split('\n');
@@ -297,6 +313,31 @@ export const printErrorMessage = function (message: string) {
 	console.error(`\n${getHelp()}\n`);
 };
 
-export const printExpectedErrorMessage = function (message: string) {
+const defaultPrintExpectedErrorMessage = function (message: string) {
 	console.error(`${message}\n`);
+};
+
+export const printErrorMessage = function (message: string) {
+	(_printErrorMessage ?? defaultPrintErrorMessage)(message);
+};
+
+export const printExpectedErrorMessage = function (message: string) {
+	(_printExpectedErrorMessage ?? defaultPrintExpectedErrorMessage)(message);
+};
+
+// For testing only
+export const setTestOverrides = (overrides: {
+	printErrorMessage?: ((message: string) => void) | null;
+	printExpectedErrorMessage?: ((message: string) => void) | null;
+	getSentry?: (() => Promise<SentryLike>) | null;
+}) => {
+	if (overrides.printErrorMessage !== undefined) {
+		_printErrorMessage = overrides.printErrorMessage;
+	}
+	if (overrides.printExpectedErrorMessage !== undefined) {
+		_printExpectedErrorMessage = overrides.printExpectedErrorMessage;
+	}
+	if (overrides.getSentry !== undefined) {
+		_getSentry = overrides.getSentry;
+	}
 };

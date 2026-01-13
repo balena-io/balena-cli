@@ -166,7 +166,7 @@ export const createRelease = async function (
 		application: appId,
 		composition,
 		source: 'local',
-		commit: crypto.pseudoRandomBytes(16).toString('hex').toLowerCase(),
+		commit: crypto.randomBytes(16).toString('hex').toLowerCase(),
 		semver,
 		is_final: !draft,
 		contract,

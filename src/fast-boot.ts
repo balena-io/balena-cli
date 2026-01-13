@@ -68,7 +68,7 @@ async function $start() {
 	// such as `/usr[/local]/src/balena-cli`, while being executed by
 	// a regular user account.
 	const cacheFile = path.join(dataDir, 'cli-module-cache.json');
-	const root = path.join(__dirname, '..');
+	const root = path.join(import.meta.dirname, '..');
 	const [, pStat, nStat] = await Promise.all([
 		ensureCanWrite(dataDir, cacheFile),
 		fs.promises.stat(path.join(root, 'package.json'), { bigint: true }),

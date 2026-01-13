@@ -19,6 +19,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
 
+import { Module } from 'node:module';
+const require = Module.createRequire(import.meta.url);
 const packageJSON =
 	require('../package.json') as typeof import('../package.json');
 import { getNodeEngineVersionWarn } from '../build/src/utils/messages.js';
@@ -26,7 +28,7 @@ import { warnify } from '../build/src/utils/messages.js';
 import { MOCKTTP_PORT } from './config-tests.js';
 
 const standalonePath = path.resolve(
-	__dirname,
+	import.meta.dirname,
 	'..',
 	'dist',
 	'balena',
@@ -135,11 +137,11 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 			err.push(log);
 		}
 	};
-	const unhookIntercept = intercept(stdoutHook, stderrHook);
+	const unhookIntercept = intercept.default(stdoutHook, stderrHook);
 
 	try {
 		await balenaCLI.run(preArgs.concat(cmd.split(' ').filter((c) => c)), {
-			dir: path.resolve(__dirname, '..'),
+			dir: path.resolve(import.meta.dirname, '..'),
 			noFlush: true,
 		});
 	} finally {
@@ -228,7 +230,9 @@ ${$error}`;
 
 async function extractTarStream() {
 	if (
-		fs.existsSync(path.join(__dirname, '..', 'dist', 'balena', 'bin', 'balena'))
+		fs.existsSync(
+			path.join(import.meta.dirname, '..', 'dist', 'balena', 'bin', 'balena'),
+		)
 	) {
 		return;
 	}
@@ -245,12 +249,12 @@ async function extractTarStream() {
 				: process.platform;
 
 	const sourceFile = path.join(
-		__dirname,
+		import.meta.dirname,
 		'..',
 		'dist',
 		`balena-cli-${version}-${platform}-${arch}-standalone.tar.gz`,
 	);
-	const destinationDir = path.join(__dirname, '..', 'dist');
+	const destinationDir = path.join(import.meta.dirname, '..', 'dist');
 
 	const extract = tar.extract();
 

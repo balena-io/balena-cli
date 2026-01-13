@@ -20,12 +20,12 @@ import { exec, execFile } from 'child_process';
 import type { Stats } from 'fs';
 import * as fs from 'fs-extra';
 import { promises as fsAsync } from 'fs';
-import * as klaw from 'klaw';
+import klaw from 'klaw';
 import * as path from 'path';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';
 
-import { loadPackageJson, ROOT, whichSpawn } from './utils';
+import { loadPackageJson, ROOT, whichSpawn } from './utils.js';
 
 const execFileAsync = promisify(execFile);
 const execAsync = promisify(exec);
@@ -411,7 +411,9 @@ export async function testShrinkwrap(): Promise<void> {
 		console.error(`[debug] platform=${process.platform}`);
 	}
 	if (process.platform !== 'win32') {
-		await whichSpawn(path.resolve(__dirname, 'test-lock-deduplicated.sh'));
+		await whichSpawn(
+			path.resolve(import.meta.dirname, 'test-lock-deduplicated.sh'),
+		);
 	}
 	await Promise.resolve();
 }

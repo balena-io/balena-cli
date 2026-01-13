@@ -30,7 +30,7 @@ const hook: Hook<'command-not-found'> = async function (
 	opts: object & { config: Interfaces.Config; id?: string; argv?: string[] },
 ) {
 	const Levenshtein = await import('fast-levenshtein');
-	const _ = await import('lodash');
+	const { default: _ } = await import('lodash');
 
 	const commandId = opts.id ?? '';
 	const command = opts.id?.replace(':', ' ') ?? '';

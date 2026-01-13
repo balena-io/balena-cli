@@ -83,7 +83,7 @@ export default class ReleaseListCmd extends Command {
 				await balena.models.release.getAllByApplication(slug, {
 					$select: ['id', ...explicitReadFields],
 				});
-			const _ = await import('lodash');
+			const { default: _ } = await import('lodash');
 			const releasesWithExplicitReadFieldsById = _.keyBy(
 				releasesWithExplicitReadFields,
 				(r) => r.id,

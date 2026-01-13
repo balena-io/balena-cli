@@ -32,10 +32,10 @@ import {
 	setupDockerignoreTestData,
 } from '../projects.js';
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 const builderResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'builder-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'builder-response'),
 );
 
 const itNoWin = process.platform === 'win32' ? it.skip : it;

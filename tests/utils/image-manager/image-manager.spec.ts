@@ -9,7 +9,7 @@ import stringToStream from 'string-to-stream';
 import { Writable as WritableStream } from 'stream';
 import * as imageManager from '../../../build/src/utils/image-manager.js';
 import { resolve, extname } from 'path';
-import * as mockFs from 'mock-fs';
+import mockFs from 'mock-fs';
 import { promisify } from 'util';
 import * as os from 'os';
 
@@ -33,8 +33,10 @@ describe('image-manager', function () {
 				this.image = tmp.fileSync();
 				fs.writeSync(this.image.fd, 'Cache image', 0, 'utf8');
 
-				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.resolves(this.image.name);
+				// Use override instead of stub for ESM compatibility
+				imageManager.setImageManagerTestOverrides({
+					getImagePath: async () => this.image.name,
+				});
 
 				// Mock getMaxSatisfyingVersion to avoid network calls during version resolution
 				this.getMaxSatisfyingVersionStub = stub(
@@ -45,19 +47,26 @@ describe('image-manager', function () {
 			});
 
 			afterEach(function () {
-				this.cacheGetImagePathStub.restore();
+				imageManager.setImageManagerTestOverrides({
+					getImagePath: null,
+					isImageCached: null,
+				});
 				this.getMaxSatisfyingVersionStub.restore();
 				return this.image.removeCallback();
 			});
 
 			describe('given the image is fresh', function () {
 				beforeEach(function () {
-					this.cacheIsImageFresh = stub(imageManager, 'isImageCached');
-					return this.cacheIsImageFresh.resolves(true);
+					// Use override instead of stub for ESM compatibility
+					imageManager.setImageManagerTestOverrides({
+						isImageCached: async () => true,
+					});
 				});
 
 				afterEach(function () {
-					return this.cacheIsImageFresh.restore();
+					imageManager.setImageManagerTestOverrides({
+						isImageCached: null,
+					});
 				});
 
 				it('should eventually become a readable stream of the cached image', function (done) {
@@ -78,12 +87,16 @@ describe('image-manager', function () {
 
 			describe('given the image is not fresh', function () {
 				beforeEach(function () {
-					this.cacheIsImageFresh = stub(imageManager, 'isImageCached');
-					return this.cacheIsImageFresh.resolves(false);
+					// Use override instead of stub for ESM compatibility
+					imageManager.setImageManagerTestOverrides({
+						isImageCached: async () => false,
+					});
 				});
 
 				afterEach(function () {
-					return this.cacheIsImageFresh.restore();
+					imageManager.setImageManagerTestOverrides({
+						isImageCached: null,
+					});
 				});
 
 				// Skipping test because we keep getting `Cache image` instead of `Download image`
@@ -310,17 +323,18 @@ describe('image-manager', function () {
 
 			describe('given the file does not exist', function () {
 				beforeEach(function () {
-					this.utilsGetFileCreatedDate = stub(
-						imageManager,
-						'getFileCreatedDate',
-					);
-					this.utilsGetFileCreatedDate.rejects(
-						new Error("ENOENT, stat 'raspberry-pi'"),
-					);
+					// Use override instead of stub for ESM compatibility
+					imageManager.setImageManagerTestOverrides({
+						getFileCreatedDate: async () => {
+							throw new Error("ENOENT, stat 'raspberry-pi'");
+						},
+					});
 				});
 
 				afterEach(function () {
-					this.utilsGetFileCreatedDate.restore();
+					imageManager.setImageManagerTestOverrides({
+						getFileCreatedDate: null,
+					});
 				});
 
 				it('should return false', async function () {
@@ -337,12 +351,16 @@ describe('image-manager', function () {
 				this.image = tmp.fileSync();
 				fs.writeSync(this.image.fd, 'Lorem ipsum dolor sit amet', 0, 'utf8');
 
-				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.resolves(this.image.name);
+				// Use override instead of stub for ESM compatibility
+				imageManager.setImageManagerTestOverrides({
+					getImagePath: async () => this.image.name,
+				});
 			});
 
 			afterEach(function (done) {
-				this.cacheGetImagePathStub.restore();
+				imageManager.setImageManagerTestOverrides({
+					getImagePath: null,
+				});
 				fs.unlink(this.image.name, done);
 			});
 
@@ -374,12 +392,16 @@ describe('image-manager', function () {
 		describe('given the valid image path', function () {
 			beforeEach(function () {
 				this.image = tmp.fileSync();
-				this.cacheGetImagePathStub = stub(imageManager, 'getImagePath');
-				this.cacheGetImagePathStub.resolves(this.image.name);
+				// Use override instead of stub for ESM compatibility
+				imageManager.setImageManagerTestOverrides({
+					getImagePath: async () => this.image.name,
+				});
 			});
 
 			afterEach(function (done) {
-				this.cacheGetImagePathStub.restore();
+				imageManager.setImageManagerTestOverrides({
+					getImagePath: null,
+				});
 				fs.unlink(this.image.name, done);
 			});
 

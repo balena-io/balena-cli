@@ -35,10 +35,10 @@ import {
 	getDockerignoreWarn3,
 } from '../projects.js';
 
-const repoPath = path.normalize(path.join(__dirname, '..', '..'));
+const repoPath = path.normalize(path.join(import.meta.dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 const dockerResponsePath = path.normalize(
-	path.join(__dirname, '..', 'test-data', 'docker-response'),
+	path.join(import.meta.dirname, '..', 'test-data', 'docker-response'),
 );
 
 const commonResponseLines: { [key: string]: string[] } = {
@@ -285,7 +285,7 @@ describe('balena build', function () {
 			return statStub.wrappedMethod.call(fs, p);
 		});
 
-		const copyQemuStub = sinon.stub(qemuMod, 'copyQemu').resolves('');
+		qemuMod.setCopyQemuForTesting(async () => '');
 
 		try {
 			await docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
@@ -306,7 +306,7 @@ describe('balena build', function () {
 		} finally {
 			accessStub.restore();
 			statStub.restore();
-			copyQemuStub.restore();
+			qemuMod.setCopyQemuForTesting(null);
 		}
 	});
 

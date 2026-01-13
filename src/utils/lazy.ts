@@ -59,13 +59,27 @@ const cliXBalenaClientHeaderInterceptor: BalenaSdk.Interceptor = {
 	},
 };
 
-export const getBalenaSdk = once(() => {
+// Allow SDK to be overridden for testing
+let overriddenSdk: ReturnType<typeof BalenaSdk.fromSharedOptions> | null = null;
+
+const getDefaultBalenaSdk = once(() => {
 	const sdk = (require('balena-sdk') as typeof BalenaSdk).fromSharedOptions();
 	if (!sdk.interceptors.includes(cliXBalenaClientHeaderInterceptor)) {
 		sdk.interceptors.push(cliXBalenaClientHeaderInterceptor);
 	}
 	return sdk;
 });
+
+export const getBalenaSdk = () => {
+	return overriddenSdk ?? getDefaultBalenaSdk();
+};
+
+// For testing only - allows overriding the SDK instance
+export const setBalenaSdkForTesting = (
+	sdk: ReturnType<typeof BalenaSdk.fromSharedOptions> | null,
+) => {
+	overriddenSdk = sdk;
+};
 
 export const getVisuals = once(
 	() => require('resin-cli-visuals') as typeof visuals,
