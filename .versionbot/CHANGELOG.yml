@@ -1,4 +1,33 @@
 - commits:
+    - subject: Remove no longer needed direct dependencies `file-disk` and
+        `partitioninfo`
+      hash: 7c978a0d8112437418f9e4d9b0d0a0be042ab167
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Remove no longer needed code in favor of `balena-image-fs`
+      hash: 221659843fd1706cf4a596c3f762601551c089e4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update `balena-image-fs` to 7.6.0
+      hash: 0a43fa0b8711026aef42f2415a4af824ef4c81eb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 23.2.21
+  title: ""
+  date: 2026-01-13T23:38:49.283Z
+- commits:
     - subject: Add `getPackageJson` lazy getter to centralize package.json access
       hash: eb140dbef976f56961576c38addc55bfa0a7777a
       body: ""
