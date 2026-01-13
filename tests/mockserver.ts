@@ -485,17 +485,6 @@ export class MockHttpServer {
 				opts,
 			),
 
-		expectGetConfigDeviceTypes: (opts?: ScopeOpts) =>
-			this.createMock(
-				'GET',
-				'/device-types/v1',
-				{
-					status: 200,
-					file: 'device-types-GET-v1.json',
-				},
-				opts,
-			),
-
 		expectGetContractOfOsRelease: async (
 			opts: {
 				deviceTypeSlug: string;

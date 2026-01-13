@@ -253,7 +253,6 @@ if (process.platform !== 'win32') {
 			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// await api.expectGetConfigDeviceTypes();
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
@@ -301,7 +300,6 @@ if (process.platform !== 'win32') {
 			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// await api.expectGetConfigDeviceTypes();
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
@@ -349,7 +347,6 @@ if (process.platform !== 'win32') {
 			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// await api.expectGetConfigDeviceTypes();
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
@@ -421,7 +418,6 @@ if (process.platform !== 'win32') {
 			await api.expectGetDeviceTypes();
 			// It should not reach to /config or /device-types/v1 but instead find
 			// everything required from the device-type.json in the image.
-			// await api.expectGetConfigDeviceTypes();
 			await api.expectDownloadConfig();
 
 			const command: string[] = [
