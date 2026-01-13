@@ -22,7 +22,7 @@
         "balena-config-json": "^4.2.7",
         "balena-device-init": "^8.2.1",
         "balena-errors": "^4.7.3",
-        "balena-image-fs": "^7.5.2",
+        "balena-image-fs": "^7.6.0",
         "balena-preload": "^18.0.5",
         "balena-sdk": "^22.4.5",
         "balena-semver": "^3.0.10",
@@ -44,7 +44,6 @@
         "express": "^4.17.2",
         "fast-boot2": "^1.1.4",
         "fast-levenshtein": "^3.0.0",
-        "file-disk": "^8.0.1",
         "filenamify": "^4.3.0",
         "glob": "^7.2.0",
         "global-agent": "^2.2.0",
@@ -65,7 +64,6 @@
         "node-cleanup": "^2.1.2",
         "node-unzip-2": "^0.2.8",
         "open": "^7.1.0",
-        "partitioninfo": "^6.0.3",
         "patch-package": "^8.0.0",
         "prettyjson": "^1.2.5",
         "progress-stream": "^2.0.0",
@@ -9061,9 +9059,9 @@
       }
     },
     "node_modules/balena-image-fs": {
-      "version": "7.5.3",
-      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.5.3.tgz",
-      "integrity": "sha512-ADucnh/aV63k6qNJ8xnbFaunDSZgzu/VSRDAkQKlQgju2rtdiPEG9I7fJxAkwMTv+1sURxqdIelPqnPB2DBk9g==",
+      "version": "7.6.0",
+      "resolved": "https://registry.npmjs.org/balena-image-fs/-/balena-image-fs-7.6.0.tgz",
+      "integrity": "sha512-/D86V8N4YYdWi+9toSlBJevS9PVAkzlXxH1H808xWUzxggaqP/Q9SfmcgqhfqnDg8Xw+z9uGjNV8TYVh8cPGqw==",
       "license": "Apache-2.0",
       "dependencies": {
         "ext2fs": "^4.2.4",
