@@ -1,4 +1,64 @@
 - commits:
+    - subject: Run `npm audit fix`
+      hash: e10fdcbbea29b1aa539255c164362d237670eb97
+      body: Brings us from 25 vulnerabilities to 9
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Add missing dependency `partitioninfo`
+      hash: 2e4cf499230c84fcfd859ae070847de26fbee08e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Add missing dependency `file-disk`
+      hash: a54c4d1635689e774eacba3102eb515c3c2ef715
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Add missing dev dependency `pinejs-client-core`
+      hash: 7eb41c385a0ca939edc7d19dfa81589b76227a54
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Add missing dependency `indent-string`
+      hash: 6c9066644dca7d161d1a96b7393f1fcf7c2590d2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Remove unused dev dependencies
+      hash: 156af67827c75304f72dd91b8909d5562e808cb7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "README: remove `david-dm` link"
+      hash: d3392a9f1df45366046100cfd4fb3c36e1a75211
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 23.2.19
+  title: ""
+  date: 2026-01-13T14:57:30.265Z
+- commits:
     - subject: Add tests for balena config generate
       hash: 2eaa5c1937358530ae853a826bab595732d5bc98
       body: ""
