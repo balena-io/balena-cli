@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add `getPackageJson` lazy getter to centralize package.json access
+      hash: eb140dbef976f56961576c38addc55bfa0a7777a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 23.2.20
+  title: ""
+  date: 2026-01-13T18:51:11.377Z
+- commits:
     - subject: Run `npm audit fix`
       hash: e10fdcbbea29b1aa539255c164362d237670eb97
       body: Brings us from 25 vulnerabilities to 9
