@@ -20,8 +20,6 @@ import type * as BalenaSdk from 'balena-sdk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
 import type { ux } from '@oclif/core';
-const { version } =
-	require('../../package.json') as typeof import('../../package.json');
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {
@@ -44,6 +42,10 @@ export const onceAsync = <T>(fn: () => Promise<T>) => {
 	};
 };
 
+export const getPackageJson = once(
+	() => require('../../package.json') as typeof import('../../package.json'),
+);
+
 const cliXBalenaClientHeaderInterceptor: BalenaSdk.Interceptor = {
 	request($request) {
 		if ($request.headers['X-Balena-Client']) {
@@ -51,7 +53,8 @@ const cliXBalenaClientHeaderInterceptor: BalenaSdk.Interceptor = {
 			// to conserve bandwidth. We only do that when the SDK already has specified
 			// the X-Balena-Client header, since that signals that this is a safe url to
 			// include the extra header and will not cause CORS errors.
-			$request.headers['X-Balena-Client'] = `balena-cli/${version}`;
+			$request.headers['X-Balena-Client'] =
+				`balena-cli/${getPackageJson().version}`;
 		}
 		return $request;
 	},

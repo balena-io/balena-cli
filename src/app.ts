@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-const packageJSON =
-	require('../package.json') as typeof import('../package.json');
 import type { AppOptions } from './preparser';
 import {
 	checkDeletedCommand,
@@ -24,7 +22,7 @@ import {
 	unsupportedFlag,
 } from './preparser';
 import { CliSettings } from './utils/bootstrap';
-import { onceAsync } from './utils/lazy';
+import { getPackageJson, onceAsync } from './utils/lazy';
 import { run as mainRun, settings, Errors } from '@oclif/core';
 
 /**
@@ -36,7 +34,7 @@ export const setupSentry = onceAsync(async () => {
 	const Sentry = await import('@sentry/node');
 	Sentry.init({
 		dsn: config.sentryDsn,
-		release: packageJSON.version,
+		release: getPackageJson().version,
 	});
 	Sentry.getCurrentScope().setExtras({
 		node_version: process.version,
@@ -45,7 +43,7 @@ export const setupSentry = onceAsync(async () => {
 });
 
 async function checkNodeVersion() {
-	const validNodeVersions = packageJSON.engines.node;
+	const validNodeVersions = getPackageJson().engines.node;
 	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
 		const { getNodeEngineVersionWarn } = await import('./utils/messages');
 		console.warn(getNodeEngineVersionWarn(process.version, validNodeVersions));
@@ -101,7 +99,7 @@ async function oclifRun(command: string[], options: AppOptions) {
 	// check and enforce the CLI's deprecation policy
 	if (!(unsupportedFlag || process.env.BALENARC_UNSUPPORTED)) {
 		const { DeprecationChecker } = await import('./deprecation');
-		const deprecationChecker = new DeprecationChecker(packageJSON.version);
+		const deprecationChecker = new DeprecationChecker(getPackageJson().version);
 		// warnAndAbortIfDeprecated uses previously cached data only
 		await deprecationChecker.warnAndAbortIfDeprecated();
 		// checkForNewReleasesIfNeeded may query the npm registry

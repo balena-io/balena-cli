@@ -19,8 +19,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
 
-const packageJSON =
-	require('../package.json') as typeof import('../package.json');
+import { getPackageJson } from '../build/utils/lazy';
 import { getNodeEngineVersionWarn } from '../build/utils/messages';
 import { warnify } from '../build/utils/messages';
 import { MOCKTTP_PORT } from './config-tests';
@@ -54,7 +53,7 @@ function matchesNodeEngineVersionWarn(msg: string) {
 
 	let nodeEngineWarn: string = getNodeEngineVersionWarn(
 		'x.y.z',
-		packageJSON.engines.node,
+		getPackageJson().engines.node,
 	);
 	const nodeEngineWarnArray = cleanup(nodeEngineWarn);
 	nodeEngineWarn = nodeEngineWarnArray.join('\n');
@@ -235,7 +234,7 @@ async function extractTarStream() {
 
 	const tar = await import('tar-stream');
 
-	const version = 'v' + packageJSON.version;
+	const version = 'v' + getPackageJson().version;
 	const arch = process.arch;
 	const platform =
 		process.platform === 'win32'
