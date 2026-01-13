@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add tests for balena config generate
+      hash: 2eaa5c1937358530ae853a826bab595732d5bc98
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: "#2266"
+        see: "#2266"
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.18
+  title: ""
+  date: 2026-01-13T11:12:23.464Z
+- commits:
     - subject: Drop `exit-hook` patch
       hash: d8f50d01e48f73b029fb94f315d59cf877042785
       body: ""
