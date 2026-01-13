@@ -248,12 +248,10 @@ Can be repeated to add multiple certificates.\
 		// total 864696
 		// -rw-r--r-- 1 root root 2378170368 Mar 26 09:14 balena-image-generic-amd64.balenaos-img
 		// -rw-r--r-- 1 root root        512 Mar  9  2018 balena-image-generic-amd64.balenaos-img.sig
-		const { explorePartition, BalenaPartition } = await import(
-			'../../utils/image-contents'
-		);
+		const { explorePartition } = await import('balena-image-fs');
 		const isSecureBoot = await explorePartition<boolean>(
 			params.image,
-			BalenaPartition.ROOTA,
+			['resin', 'flash', 'balena'].map((prefix) => `${prefix}-rootA`),
 			async (fs: typeof Fs): Promise<boolean> => {
 				try {
 					const files = await fs.promises.readdir('/opt');
