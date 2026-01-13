@@ -23,7 +23,7 @@ import ConfigWriteCmd from '../../../build/commands/config/write';
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
 describe('balena config write', function () {
-	itSS('updateConfigJson should match expected output', () => {
+	itSS('updateConfigJson should match expected output', async () => {
 		const testVector: Array<[object, string, any, object]> = [
 			[{}, 'a.b', 'c', { a: { b: 'c' } }],
 			[{}, 'a.1', true, { a: { '1': true } }],
@@ -65,7 +65,7 @@ describe('balena config write', function () {
 			],
 		];
 		for (const [configJson, key, value, expected] of testVector) {
-			ConfigWriteCmd.updateConfigJson(configJson, key, value);
+			await ConfigWriteCmd.updateConfigJson(configJson, key, value);
 			expect(configJson).to.deep.equal(expected);
 		}
 	});

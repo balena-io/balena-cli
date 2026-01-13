@@ -56,7 +56,7 @@ export async function executeWithPrivileges(
 		await spawnAndPipe(command, opts, stderr);
 	} else {
 		opts.shell = true;
-		const escapedCmd = shellEscape(command);
+		const escapedCmd = await shellEscape(command);
 		// running as ordinary user: elevate privileges
 		if (process.platform === 'win32') {
 			await windosuExec(escapedCmd, stderr);

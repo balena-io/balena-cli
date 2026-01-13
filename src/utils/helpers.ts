@@ -90,8 +90,7 @@ export async function sudo(
 }
 
 export async function runCommand<T>(commandArgs: string[]): Promise<T> {
-	const { isSubcommand } =
-		require('../preparser') as typeof import('../preparser');
+	const { isSubcommand } = await import('../preparser');
 	if (await isSubcommand(commandArgs)) {
 		commandArgs = [
 			commandArgs[0] + ':' + commandArgs[1],
@@ -99,7 +98,7 @@ export async function runCommand<T>(commandArgs: string[]): Promise<T> {
 		];
 	}
 
-	const { run } = require('@oclif/core') as typeof import('@oclif/core');
+	const { run } = await import('@oclif/core');
 	return run(commandArgs) as Promise<T>;
 }
 
@@ -323,14 +322,17 @@ export function isWindowsComExeShell() {
  * functions, set this to false because child_process.spawn() always uses
  * env.ComSpec (cmd.exe) on Windows, even when running on MSYS / MSYS2.
  */
-export function shellEscape(args: string[], detectShell = false): string[] {
+export async function shellEscape(
+	args: string[],
+	detectShell = false,
+): Promise<string[]> {
 	const isCmdExe = detectShell
 		? isWindowsComExeShell()
 		: process.platform === 'win32';
 	if (isCmdExe) {
 		return args.map((v) => windowsCmdExeEscapeArg(v));
 	} else {
-		const shellEscapeFunc: typeof import('shell-escape') = require('shell-escape');
+		const shellEscapeFunc = await import('shell-escape');
 		return args.map((v) => shellEscapeFunc([v]));
 	}
 }
@@ -364,7 +366,7 @@ export interface ProxyConfig {
  * Check whether a proxy has been configured (whether global-tunnel-ng or
  * global-agent) and if so, return a ProxyConfig object.
  */
-export function getProxyConfig(): ProxyConfig | undefined {
+export async function getProxyConfig(): Promise<ProxyConfig | undefined> {
 	const tunnelNgConfig: any = (global as any).PROXY_CONFIG;
 	// global-tunnel-ng
 	if (tunnelNgConfig) {
@@ -390,7 +392,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 		if (proxyUrl) {
-			const { URL } = require('url') as typeof import('url');
+			const { URL } = await import('url');
 			let url: InstanceType<typeof URL>;
 			try {
 				url = new URL(proxyUrl);

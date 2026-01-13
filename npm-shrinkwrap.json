@@ -20713,6 +20713,7 @@
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/strip-ansi-stream/-/strip-ansi-stream-1.0.0.tgz",
       "integrity": "sha512-G8NIkSYbX2J0dvqGvznZSlXYy3CnHwfXRq+Y5zX6qDMfsVWBZINqthIjwdN3JO/gJ9ueKw4NAeY9xmSP4dxoRA==",
+      "license": "MIT",
       "dependencies": {
         "ansi-regex": "^3.0.0",
         "replacestream": "^4.0.3"
@@ -20725,6 +20726,7 @@
       "version": "3.0.1",
       "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-3.0.1.tgz",
       "integrity": "sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==",
+      "license": "MIT",
       "engines": {
         "node": ">=4"
       }

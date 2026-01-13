@@ -57,9 +57,9 @@ describe('balena device ssh', function () {
 		await server.stop();
 	});
 
-	beforeEach(function () {
+	beforeEach(async function () {
 		// Stub child_process.spawn for SSH mocking
-		const childProcess = require('child_process');
+		const childProcess = await import('child_process');
 		spawnStub = sinon.stub(childProcess, 'spawn').callsFake(function (
 			this: unknown,
 			...fnArgs: unknown[]

@@ -570,7 +570,7 @@ async function inspectBuiltImages({
 		),
 	);
 
-	const humanize = require('humanize');
+	const humanize = await import('humanize');
 	const summaryMsgByService: { [serviceName: string]: string } = {};
 	for (const image of images) {
 		summaryMsgByService[image.serviceName] = `Image size: ${humanize.filesize(
@@ -775,7 +775,11 @@ export async function tarDirectory(
 	const serviceDirs = await getServiceDirsFromComposition(dir, composition);
 	const { filteredFileList, dockerignoreFiles } =
 		await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
-	printDockerignoreWarn(dockerignoreFiles, serviceDirs, multiDockerignore);
+	await printDockerignoreWarn(
+		dockerignoreFiles,
+		serviceDirs,
+		multiDockerignore,
+	);
 	void (async () => {
 		try {
 			for (const fileStats of filteredFileList) {
@@ -826,7 +830,7 @@ export async function tarDirectory(
  * @param serviceDirsByService Map of service names to service subdirectories
  * @param multiDockerignore Whether --multi-dockerignore (-m) was provided
  */
-function printDockerignoreWarn(
+async function printDockerignoreWarn(
 	dockerignoreFiles: Array<import('./ignore').FileStats>,
 	serviceDirsByService: Dictionary<string>,
 	multiDockerignore: boolean,
@@ -900,7 +904,7 @@ function printDockerignoreWarn(
 		}
 	}
 	if (msg.length) {
-		const { warnify } = require('./messages') as typeof import('./messages');
+		const { warnify } = await import('./messages');
 		logFunc.call(logger, ' \n' + warnify(msg.join('\n'), ''));
 	}
 }

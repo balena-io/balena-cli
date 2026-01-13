@@ -34,8 +34,8 @@ export async function exists(filename: string, mode = F_OK) {
  * and '.' or '..' with an underscore, plus other rules enforced by the filenamify
  * package. See https://github.com/sindresorhus/filenamify/
  */
-export function sanitizePath(filepath: string) {
-	const filenamify = require('filenamify') as typeof import('filenamify');
+export async function sanitizePath(filepath: string) {
+	const filenamify = await import('filenamify');
 	// normalize also converts forward slash to backslash on Windows
 	return path
 		.normalize(filepath)

@@ -17,7 +17,7 @@
 
 import type { Renderer } from './compose_ts';
 import type * as SDK from 'balena-sdk';
-import type Dockerode = require('dockerode');
+import type * as Dockerode from 'dockerode';
 import * as path from 'path';
 import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type { RetryParametersObj } from 'pinejs-client-core';
