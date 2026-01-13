@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-const packageJSON =
-	require('../package.json') as typeof import('../package.json');
-import { stripIndent } from './utils/lazy';
+import { getPackageJson, stripIndent } from './utils/lazy';
 
 /**
  * Track balena CLI usage events (product improvement analytics).
@@ -81,7 +79,7 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 			{
 				event_type: event,
 				user_id: username,
-				version_name: packageJSON.version,
+				version_name: getPackageJson().version,
 				event_properties: {
 					balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
 					arch: process.arch,

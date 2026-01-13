@@ -2899,9 +2899,9 @@
       }
     },
     "node_modules/@balena/abstract-sql-to-typescript/node_modules/@types/node": {
-      "version": "20.19.28",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.28.tgz",
-      "integrity": "sha512-VyKBr25BuFDzBFCK5sUM6ZXiWfqgCTwTAOK8qzGV/m9FCirXYDlmczJ+d5dXBAQALGCdRRdbteKYfJ84NGEusw==",
+      "version": "20.19.29",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.29.tgz",
+      "integrity": "sha512-YrT9ArrGaHForBaCNwFjoqJWmn8G1Pr7+BH/vwyLHciA9qT/wSiuOhxGCT50JA5xLvFBd6PIiGkE3afxcPE1nw==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -3880,9 +3880,9 @@
       }
     },
     "node_modules/@inquirer/core/node_modules/@types/node": {
-      "version": "22.19.5",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.19.5.tgz",
-      "integrity": "sha512-HfF8+mYcHPcPypui3w3mvzuIErlNOh2OAG+BCeBZCEwyiD5ls2SiCwEyT47OELtf7M3nHxBdu0FsmzdKxkN52Q==",
+      "version": "22.19.6",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.19.6.tgz",
+      "integrity": "sha512-qm+G8HuG6hOHQigsi7VGuLjUVu6TtBo/F05zvX04Mw2uCg9Dv0Qxy3Qw7j41SidlTcl5D/5yg0SEZqOB+EqZnQ==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -7782,9 +7782,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "24.10.7",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.7.tgz",
-      "integrity": "sha512-+054pVMzVTmRQV8BhpGv3UyfZ2Llgl8rdpDTon+cUH9+na0ncBVXj3wTUKh14+Kiz18ziM3b4ikpP5/Pc0rQEQ==",
+      "version": "24.10.8",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.8.tgz",
+      "integrity": "sha512-r0bBaXu5Swb05doFYO2kTWHMovJnNVbCsII0fhesM8bNRlLhXIuckley4a2DaD+vOdmm5G+zGkQZAPZsF80+YQ==",
       "license": "MIT",
       "peer": true,
       "dependencies": {
@@ -9171,9 +9171,9 @@
       }
     },
     "node_modules/balena-sdk/node_modules/@types/node": {
-      "version": "20.19.28",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.28.tgz",
-      "integrity": "sha512-VyKBr25BuFDzBFCK5sUM6ZXiWfqgCTwTAOK8qzGV/m9FCirXYDlmczJ+d5dXBAQALGCdRRdbteKYfJ84NGEusw==",
+      "version": "20.19.29",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.29.tgz",
+      "integrity": "sha512-YrT9ArrGaHForBaCNwFjoqJWmn8G1Pr7+BH/vwyLHciA9qT/wSiuOhxGCT50JA5xLvFBd6PIiGkE3afxcPE1nw==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"
@@ -18365,9 +18365,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@types/node": {
-      "version": "20.19.28",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.28.tgz",
-      "integrity": "sha512-VyKBr25BuFDzBFCK5sUM6ZXiWfqgCTwTAOK8qzGV/m9FCirXYDlmczJ+d5dXBAQALGCdRRdbteKYfJ84NGEusw==",
+      "version": "20.19.29",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.29.tgz",
+      "integrity": "sha512-YrT9ArrGaHForBaCNwFjoqJWmn8G1Pr7+BH/vwyLHciA9qT/wSiuOhxGCT50JA5xLvFBd6PIiGkE3afxcPE1nw==",
       "license": "MIT",
       "dependencies": {
         "undici-types": "~6.21.0"

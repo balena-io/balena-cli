@@ -17,7 +17,7 @@ limitations under the License.
 import isRoot = require('is-root');
 import * as UpdateNotifier from 'update-notifier';
 
-import packageJSON = require('../../package.json');
+import { getPackageJson } from './lazy';
 
 // Check for an update at most once a day. 1 day granularity should be
 // enough, rather than every run. Note because we show the information
@@ -36,7 +36,7 @@ export function notify() {
 			return;
 		} else {
 			notifier = UpdateNotifier({
-				pkg: packageJSON,
+				pkg: getPackageJson(),
 				updateCheckInterval: balenaUpdateInterval,
 			});
 		}

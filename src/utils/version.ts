@@ -16,10 +16,12 @@
  */
 
 import * as semver from 'semver';
-const { version } =
-	require('../../package.json') as typeof import('../../package.json');
+
+import { getPackageJson } from './lazy';
 
 export function isVersionGTE(v: string): boolean {
-	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);
+	return semver.gte(
+		process.env.BALENA_CLI_VERSION_OVERRIDE || getPackageJson().version,
+		v,
+	);
 }

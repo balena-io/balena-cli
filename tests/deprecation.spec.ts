@@ -21,8 +21,7 @@ import { expect } from 'chai';
 import * as semver from 'semver';
 import * as sinon from 'sinon';
 
-const packageJSON =
-	require('../package.json') as typeof import('../package.json');
+import { getPackageJson } from '../build/utils/lazy';
 import type { ReleaseTimestampsByVersion } from '../build/deprecation';
 import { DeprecationChecker } from '../build/deprecation';
 import { MockHttpServer } from './mockserver';
@@ -36,7 +35,7 @@ describe('DeprecationChecker', function () {
 	const sandbox = sinon.createSandbox();
 	const now = new Date().getTime();
 	const anHourAgo = now - 3600000;
-	const currentMajor = semver.major(packageJSON.version, { loose: true });
+	const currentMajor = semver.major(getPackageJson().version, { loose: true });
 	const nextMajorVersion = `${currentMajor + 1}.0.0`;
 	const dataDirectory = settings.get<string>('dataDirectory');
 	const mockStorage = balenaSettingsStorage.getStorage({ dataDirectory });
@@ -67,7 +66,7 @@ describe('DeprecationChecker', function () {
 		api = server.api;
 		await server.start();
 		await api.expectGetWhoAmI({ optional: true, persist: true });
-		checker = new DeprecationChecker(packageJSON.version);
+		checker = new DeprecationChecker(getPackageJson().version);
 
 		// Stub getStorage to return our mockStorage instance so that stubs work
 		sandbox.stub(balenaSettingsStorage, 'getStorage').returns(mockStorage);
@@ -115,7 +114,7 @@ describe('DeprecationChecker', function () {
 			expect(getStub.callCount).to.equal(1);
 			expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-			expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+			expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 			expect(err.join('')).to.equal(
 				checker.getDeprecationMsg(checker.deprecationDays + 1) + '\n',
 			);
@@ -151,7 +150,7 @@ describe('DeprecationChecker', function () {
 			expect(getStub.callCount).to.equal(1);
 			expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-			expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+			expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 			expect(err.join('')).to.equal('');
 		},
 	);
@@ -174,7 +173,7 @@ describe('DeprecationChecker', function () {
 			expect(setStub.callCount).to.equal(0);
 			expect(getStub.callCount).to.equal(0);
 
-			expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+			expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 			expect(err.join('')).to.be.empty;
 		},
 	);
@@ -218,7 +217,7 @@ describe('DeprecationChecker', function () {
 		expect(setStub.callCount).to.equal(0);
 		expect(getStub.callCount).to.equal(0);
 
-		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+		expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 		expect(err.join('')).to.be.empty;
 	});
 
@@ -247,7 +246,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+		expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 		expect(err.join('')).to.equal('');
 	});
 
@@ -282,7 +281,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+		expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 		expect(err.join('')).to.equal('');
 	});
 
@@ -301,7 +300,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+		expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 		expect(err.join('')).to.equal('');
 	});
 
@@ -322,7 +321,7 @@ describe('DeprecationChecker', function () {
 		expect(getStub.callCount).to.equal(1);
 		expect(getStub.firstCall.args).to.deep.equal([checker.cacheFile]);
 
-		expect(out.join('')).to.include(`balena-cli/${packageJSON.version}`);
+		expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 		expect(err.join('')).to.equal('');
 	});
 });
