@@ -12822,16 +12822,17 @@
       }
     },
     "node_modules/finalhandler": {
-      "version": "1.3.1",
-      "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-1.3.1.tgz",
-      "integrity": "sha512-6BN9trH7bp3qvnrRyzsBz+g3lZxTNZTbVO2EV1CS0WIcDbawYVdYvGflME/9QP0h0pYlCDBCTjYa9nZzMDpyxQ==",
+      "version": "1.3.2",
+      "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-1.3.2.tgz",
+      "integrity": "sha512-aA4RyPcd3badbdABGDuTXCMTtOneUCAYH/gxoYRTZlIJdF0YPWuGqiAsIrhNnnqdXGswYk6dGujem4w80UJFhg==",
+      "license": "MIT",
       "dependencies": {
         "debug": "2.6.9",
         "encodeurl": "~2.0.0",
         "escape-html": "~1.0.3",
-        "on-finished": "2.4.1",
+        "on-finished": "~2.4.1",
         "parseurl": "~1.3.3",
-        "statuses": "2.0.1",
+        "statuses": "~2.0.2",
         "unpipe": "~1.0.0"
       },
       "engines": {
@@ -12858,6 +12859,15 @@
       "version": "2.0.0",
       "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
       "integrity": "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A=="
+    },
+    "node_modules/finalhandler/node_modules/statuses": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/statuses/-/statuses-2.0.2.tgz",
+      "integrity": "sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
     },
     "node_modules/find-up": {
       "version": "5.0.0",
@@ -13171,17 +13181,6 @@
       },
       "bin": {
         "mkdirp": "bin/cmd.js"
-      }
-    },
-    "node_modules/fstream/node_modules/rimraf": {
-      "version": "2.7.1",
-      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.7.1.tgz",
-      "integrity": "sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==",
-      "dependencies": {
-        "glob": "^7.1.3"
-      },
-      "bin": {
-        "rimraf": "bin.js"
       }
     },
     "node_modules/function-bind": {
@@ -19457,6 +19456,19 @@
         "node": ">=0.10.0"
       }
     },
+    "node_modules/rimraf": {
+      "version": "2.7.1",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.7.1.tgz",
+      "integrity": "sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==",
+      "deprecated": "Rimraf versions prior to v4 are no longer supported",
+      "license": "ISC",
+      "dependencies": {
+        "glob": "^7.1.3"
+      },
+      "bin": {
+        "rimraf": "bin.js"
+      }
+    },
     "node_modules/rindle": {
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/rindle/-/rindle-3.0.0.tgz",
@@ -22022,18 +22034,6 @@
       "resolved": "https://registry.npmjs.org/cli-width/-/cli-width-1.1.1.tgz",
       "integrity": "sha512-eMU2akIeEIkCxGXUNmDnJq1KzOIiPnJ+rKqRe6hcxE3vIOPvpMrBYOn/Bl7zNlYJj/zQxXquAnozHUCf9Whnsg==",
       "optional": true
-    },
-    "node_modules/windosu/node_modules/rimraf": {
-      "version": "2.7.1",
-      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.7.1.tgz",
-      "integrity": "sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==",
-      "optional": true,
-      "dependencies": {
-        "glob": "^7.1.3"
-      },
-      "bin": {
-        "rimraf": "bin.js"
-      }
     },
     "node_modules/window-size": {
       "version": "1.1.1",
