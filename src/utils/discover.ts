@@ -67,7 +67,7 @@ async function searchBalenaDevicesOnInterface(
 				bind: '0.0.0.0',
 			},
 			async (err: string | Error) => {
-				await (await import('../errors')).handleError(err);
+				await (await import('../errors.js')).handleError(err);
 			},
 		);
 		const resinSshServices: Service[] = [];

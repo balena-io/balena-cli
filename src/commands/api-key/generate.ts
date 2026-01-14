@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy.js';
 import {
 	formatDuration,
 	intervalToDuration,

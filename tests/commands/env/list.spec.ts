@@ -18,9 +18,9 @@
 import { expect } from 'chai';
 import { stripIndent } from '../../../build/utils/lazy';
 
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 import { randomBytes } from 'node:crypto';
-import { MockHttpServer } from '../../mockserver';
+import { MockHttpServer } from '../../mockserver.js';
 
 describe('balena env list', function () {
 	const appName = 'test';

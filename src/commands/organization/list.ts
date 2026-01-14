@@ -16,7 +16,7 @@
  */
 
 import { Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class OrganizationListCmd extends Command {
 	public static description = stripIndent`
@@ -31,7 +31,7 @@ export default class OrganizationListCmd extends Command {
 	public async run() {
 		await this.parse(OrganizationListCmd);
 
-		const { getOwnOrganizations } = await import('../../utils/sdk');
+		const { getOwnOrganizations } = await import('../../utils/sdk.js');
 
 		// Get organizations
 		const organizations = await getOwnOrganizations(getBalenaSdk(), {

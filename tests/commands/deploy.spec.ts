@@ -16,21 +16,21 @@
  */
 
 import { intVar } from '@balena/env-parsing';
-import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
+import type { Request as ReleaseRequest } from '@balena/compose/dist/release/index.js';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
-import { MockHttpServer } from '../mockserver';
-import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
-import { cleanOutput, runCommand } from '../helpers';
+import { MockHttpServer } from '../mockserver.js';
+import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build.js';
+import { cleanOutput, runCommand } from '../helpers.js';
 import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-} from '../projects';
-import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects';
+} from '../projects.js';
+import { getDockerignoreWarn1, getDockerignoreWarn3 } from '../projects.js';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
-import { getBalenaSdk, stripIndent } from './lazy';
+import { getBalenaSdk, stripIndent } from './lazy.js';
 
 export interface ImgConfig {
 	applicationName: string;
@@ -151,7 +151,7 @@ export async function readAndValidateConfigJson(path: string) {
 	const fs = await import('fs/promises');
 	const [rawConfig, { ExpectedError }] = await Promise.all([
 		fs.readFile(path, 'utf8'),
-		import('../errors'),
+		import('../errors.js'),
 	]);
 	const configJson: ImgConfig | undefined = JSON.parse(rawConfig);
 	if (configJson == null || typeof configJson !== 'object') {
@@ -184,19 +184,19 @@ export async function readAndValidateConfigJson(path: string) {
 export async function validateDevOptionAndWarn(
 	dev?: boolean,
 	version?: string,
-	logger?: import('./logger'),
+	logger?: import('./logger.js'),
 ) {
 	if (!dev) {
 		return;
 	}
 	if (version && /\bprod\b/.test(version)) {
-		const { ExpectedError } = await import('../errors');
+		const { ExpectedError } = await import('../errors.js');
 		throw new ExpectedError(
 			`Error: The '--dev' option conflicts with production balenaOS version '${version}'`,
 		);
 	}
 	if (!logger) {
-		const Logger = await import('./logger');
+		const Logger = await import('./logger.js');
 		logger = Logger.getLogger();
 	}
 	logger.logInfo(stripIndent`
@@ -216,12 +216,12 @@ export async function validateSecureBootOptionAndWarn(
 	secureBoot: boolean,
 	slug: string,
 	version: string,
-	logger?: import('./logger'),
+	logger?: import('./logger.js'),
 ) {
 	if (!secureBoot) {
 		return;
 	}
-	const { ExpectedError } = await import('../errors');
+	const { ExpectedError } = await import('../errors.js');
 	if (!version) {
 		throw new ExpectedError(`Error: No version provided`);
 	}
@@ -244,7 +244,7 @@ export async function validateSecureBootOptionAndWarn(
 		})
 	) {
 		if (!logger) {
-			const Logger = await import('./logger');
+			const Logger = await import('./logger.js');
 			logger = Logger.getLogger();
 		}
 		logger.logInfo(stripIndent`

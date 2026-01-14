@@ -18,9 +18,9 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { cleanOutput, runCommand } from '../../helpers';
+import { cleanOutput, runCommand } from '../../helpers.js';
 import { stripIndent } from '../../../build/utils/lazy';
-import { MockHttpServer, apiResponsePath } from '../../mockserver';
+import { MockHttpServer, apiResponsePath } from '../../mockserver.js';
 
 describe('balena device', function () {
 	let api: MockHttpServer['api'];

@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { retry } from '../helpers';
+import { retry } from '../helpers.js';
 import Logger = require('../logger');
-import * as ApiErrors from './errors';
-import { getBalenaSdk } from '../lazy';
+import * as ApiErrors from './errors.js';
+import { getBalenaSdk } from '../lazy.js';
 import type { BalenaSDK } from 'balena-sdk';
 
 export interface DeviceResponse {

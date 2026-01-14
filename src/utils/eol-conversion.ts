@@ -16,7 +16,7 @@
  */
 
 import Logger = require('./logger');
-import type { FileStats } from './ignore';
+import type { FileStats } from './ignore.js';
 
 const globalLogger = Logger.getLogger();
 

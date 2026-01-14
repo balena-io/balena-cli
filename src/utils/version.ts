@@ -17,7 +17,7 @@
 
 import * as semver from 'semver';
 
-import { getPackageJson } from './lazy';
+import { getPackageJson } from './lazy.js';
 
 export function isVersionGTE(v: string): boolean {
 	return semver.gte(

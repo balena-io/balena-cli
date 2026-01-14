@@ -16,7 +16,7 @@
  */
 import { Flags, Command } from '@oclif/core';
 import * as _ from 'lodash';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class DeviceTypeListCmd extends Command {
 	public static enableJsonFlag = true;

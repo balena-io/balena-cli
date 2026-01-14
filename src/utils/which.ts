@@ -83,7 +83,7 @@ export async function which(
 	} catch (err) {
 		if (err.code === 'ENOENT') {
 			if (rejectOnMissing) {
-				const { ExpectedError } = await import('../errors');
+				const { ExpectedError } = await import('../errors.js');
 				throw new ExpectedError(
 					`'${program}' program not found. Is it installed?`,
 				);

@@ -16,7 +16,7 @@
  */
 
 import type { Hook, Interfaces } from '@oclif/core';
-import { getCliUx } from '../../utils/lazy';
+import { getCliUx } from '../../utils/lazy.js';
 
 /*
  A modified version of the command-not-found plugin logic,

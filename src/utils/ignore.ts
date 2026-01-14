@@ -21,7 +21,7 @@ import * as path from 'path';
 
 import type { Ignore } from '@balena/dockerignore';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 export interface FileStats {
 	filePath: string;

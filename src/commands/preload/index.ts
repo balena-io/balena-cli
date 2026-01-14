@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
 import {
 	getBalenaSdk,
 	getCliForm,
 	getVisuals,
 	stripIndent,
-} from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import { dockerConnectionCliFlags } from '../../utils/docker';
-import { parseAsInteger } from '../../utils/validation';
+} from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
+import { dockerConnectionCliFlags } from '../../utils/docker.js';
+import { parseAsInteger } from '../../utils/validation.js';
 import { Flags, Args, Command } from '@oclif/core';
 import type { Application, BalenaSDK, Pine, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
@@ -221,7 +221,7 @@ Can be repeated to add multiple certificates.\
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
 		const nodeCleanup = await import('node-cleanup');
-		const { instanceOf } = await import('../../errors');
+		const { instanceOf } = await import('../../errors.js');
 
 		// Check image file exists
 		try {
@@ -279,7 +279,7 @@ Can be repeated to add multiple certificates.\
 		// Load app here, and use app slug from hereon
 		const fleetSlug: string | undefined = options.fleet
 			? await (
-					await import('../../utils/sdk')
+					await import('../../utils/sdk.js')
 				).getFleetSlug(balena, options.fleet)
 			: undefined;
 
@@ -337,7 +337,7 @@ Can be repeated to add multiple certificates.\
 		}
 
 		// Get a configured dockerode instance
-		const dockerUtils = await import('../../utils/docker');
+		const dockerUtils = await import('../../utils/docker.js');
 		const docker = await dockerUtils.getDocker(options);
 		const preloader = new balenaPreload.Preloader(
 			undefined,
@@ -537,7 +537,7 @@ Would you like to disable automatic updates for this fleet now?\
 		balenaSdk: BalenaSDK,
 		slug: string,
 	): Promise<ApplicationWithReleases> {
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		return await getApplication(balenaSdk, slug, {
 			$expand: applicationExpandOptions,

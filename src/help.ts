@@ -18,7 +18,7 @@ import type { Command } from '@oclif/core';
 import { Help } from '@oclif/core';
 import * as indent from 'indent-string';
 import type { ResolvableReturnType } from 'balena-sdk/typings/utils';
-import { getCliUx } from './utils/lazy';
+import { getCliUx } from './utils/lazy.js';
 
 // Partially overrides standard implementation of help plugin
 // https://github.com/oclif/plugin-help/blob/master/src/index.ts
@@ -156,7 +156,7 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		globalOps[0][0] = globalOps[0][0].padEnd(cmdLength);
 
 		const { deprecationPolicyNote, reachingOut } = await import(
-			'./utils/messages'
+			'./utils/messages.js'
 		);
 
 		return [

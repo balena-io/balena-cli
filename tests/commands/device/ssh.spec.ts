@@ -21,8 +21,8 @@ import { EventEmitter } from 'stream';
 import type { Server } from 'net';
 import { createServer } from 'net';
 
-import { cleanOutput, runCommand } from '../../helpers';
-import { MockHttpServer } from '../../mockserver';
+import { cleanOutput, runCommand } from '../../helpers.js';
+import { MockHttpServer } from '../../mockserver.js';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

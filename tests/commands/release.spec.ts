@@ -17,8 +17,8 @@
 
 import { expect } from 'chai';
 
-import { cleanOutput, runCommand } from '../helpers';
-import { MockHttpServer } from '../mockserver';
+import { cleanOutput, runCommand } from '../helpers.js';
+import { MockHttpServer } from '../mockserver.js';
 
 describe('balena release', function () {
 	let api: MockHttpServer['api'];

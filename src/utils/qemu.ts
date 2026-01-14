@@ -16,10 +16,10 @@
  */
 
 import type * as Dockerode from 'dockerode';
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 import * as path from 'path';
 import * as fs from 'fs';
-import { getBalenaSdk, stripIndent } from './lazy';
+import { getBalenaSdk, stripIndent } from './lazy.js';
 import Logger = require('./logger');
 
 export const QEMU_VERSION = 'v7.0.0+balena1';

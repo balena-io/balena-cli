@@ -16,8 +16,8 @@
  */
 
 import { Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { commitOrIdArg } from '../release';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { commitOrIdArg } from '../release/index.js';
 
 export default class ReleaseAssetListCmd extends Command {
 	public static enableJsonFlag = true;

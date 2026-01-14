@@ -16,8 +16,8 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { expandForAppName } from '../../utils/helpers.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 
 import type { Application, Release } from 'balena-sdk';
 

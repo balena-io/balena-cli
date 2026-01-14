@@ -17,9 +17,9 @@ limitations under the License.
 import type { BalenaError } from 'balena-errors';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
-import { getCliUx, stripIndent } from './utils/lazy';
-import { getHelp } from './utils/messages';
-import { CliSettings } from './utils/bootstrap';
+import { getCliUx, stripIndent } from './utils/lazy.js';
+import { getHelp } from './utils/messages.js';
+import { CliSettings } from './utils/bootstrap.js';
 
 export class ExpectedError extends TypedError {
 	public code?: string;

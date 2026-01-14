@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { getVisuals } from './lazy';
+import { getVisuals } from './lazy.js';
 import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
 import type Logger = require('./logger');
@@ -52,7 +52,7 @@ const bufferImage = async function (
 	imageId: string,
 	bufferFile: string,
 ): Promise<NodeJS.ReadableStream & { length: number }> {
-	const streamUtils = await import('./streams');
+	const streamUtils = await import('./streams.js');
 
 	const image = docker.getImage(imageId);
 	const sizePromise = image.inspect().then((img) => img.Size);

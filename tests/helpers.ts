@@ -22,7 +22,7 @@ import { createGunzip } from 'zlib';
 import { getPackageJson } from '../build/utils/lazy';
 import { getNodeEngineVersionWarn } from '../build/utils/messages';
 import { warnify } from '../build/utils/messages';
-import { MOCKTTP_PORT } from './config-tests';
+import { MOCKTTP_PORT } from './config-tests.js';
 
 const standalonePath = path.resolve(
 	__dirname,

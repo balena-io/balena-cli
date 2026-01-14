@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 
-import { cleanOutput, runCommand } from '../helpers';
+import { cleanOutput, runCommand } from '../helpers.js';
 import * as messages from '../../build/utils/messages';
 
 const SIMPLE_HELP = `

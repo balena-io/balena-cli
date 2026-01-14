@@ -2,7 +2,7 @@ import * as stream from 'stream';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import * as tmp from 'tmp';
-import { delay } from '../../utils';
+import { delay } from '../../utils.js';
 import * as fs from 'fs';
 import { promises as fsAsync } from 'fs';
 import * as stringToStream from 'string-to-stream';

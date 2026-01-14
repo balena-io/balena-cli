@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { getPackageJson, stripIndent } from './utils/lazy';
+import { getPackageJson, stripIndent } from './utils/lazy.js';
 
 /**
  * Track balena CLI usage events (product improvement analytics).
@@ -43,7 +43,7 @@ export async function trackCommand(commandSignature: string) {
 			scope = Sentry.getCurrentScope();
 			scope.setExtra('command', commandSignature);
 		}
-		const { getCachedUsername } = await import('./utils/bootstrap');
+		const { getCachedUsername } = await import('./utils/bootstrap.js');
 		let username: string | undefined;
 		try {
 			username = (await getCachedUsername())?.username;

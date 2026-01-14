@@ -1,7 +1,7 @@
 import * as mockttp from 'mockttp';
 import * as path from 'path';
 import * as fs from 'fs';
-import { MOCKTTP_PORT } from './config-tests';
+import { MOCKTTP_PORT } from './config-tests.js';
 import { Readable } from 'stream';
 
 // Helper to get IPv4 URL - mockServer.url returns http://localhost:PORT but

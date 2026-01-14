@@ -18,8 +18,8 @@
 import type * as dockerode from 'dockerode';
 import { Flags } from '@oclif/core';
 
-import { ExpectedError } from '../errors';
-import { parseAsInteger } from './validation';
+import { ExpectedError } from '../errors.js';
+import { parseAsInteger } from './validation.js';
 
 interface BalenaEngineVersion extends dockerode.DockerVersion {
 	Engine?: string;
@@ -105,7 +105,7 @@ export interface BuildOpts {
 	cachefrom?: string[];
 	nocache?: boolean;
 	pull?: boolean;
-	registryconfig?: import('@balena/compose/dist/multibuild').RegistrySecrets;
+	registryconfig?: import('@balena/compose/dist/multibuild/index.js').RegistrySecrets;
 	squash?: boolean;
 	t?: string; // only the tag portion of the image name, e.g. 'abc' in 'myimg:abc'
 }
@@ -132,7 +132,7 @@ export function generateBuildOpts(options: {
 	'cache-from'?: string;
 	nocache: boolean;
 	pull?: boolean;
-	'registry-secrets'?: import('@balena/compose/dist/multibuild').RegistrySecrets;
+	'registry-secrets'?: import('@balena/compose/dist/multibuild/index.js').RegistrySecrets;
 	squash: boolean;
 	tag?: string;
 }): BuildOpts {

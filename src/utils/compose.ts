@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import type { Renderer } from './compose_ts';
+import type { Renderer } from './compose_ts.js';
 import type * as SDK from 'balena-sdk';
 import type * as Dockerode from 'dockerode';
 import * as path from 'path';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse/index.js';
 import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
 	BuiltImage,
@@ -30,8 +30,8 @@ import type {
 } from './compose-types';
 import Logger = require('./logger');
 import type { ProgressCallback } from 'docker-progress';
-import { getCliUx } from './lazy';
-import { pick } from './helpers';
+import { getCliUx } from './lazy.js';
+import { pick } from './helpers.js';
 
 export function generateOpts(options: {
 	source?: string;
@@ -66,7 +66,7 @@ export function createProject(
 ): ComposeProject {
 	const yml = require('js-yaml') as typeof import('js-yaml');
 	const compose =
-		require('@balena/compose/dist/parse') as typeof import('@balena/compose/dist/parse');
+		require('@balena/compose/dist/parse/index.js') as typeof import('@balena/compose/dist/parse/index.js');
 
 	// both methods below may throw.
 	const rawComposition = yml.load(composeStr);
@@ -83,7 +83,7 @@ export function createProject(
 			descr.image.tag == null
 		) {
 			const { makeImageName } =
-				require('./compose_ts') as typeof import('./compose_ts');
+				require('./compose_ts') as typeof import('./compose_ts.js');
 			descr.image.tag = makeImageName(projectName, descr.serviceName, imageTag);
 		}
 		return descr;
@@ -133,7 +133,7 @@ export const createRelease = async function (
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
 	const releaseMod =
-		require('@balena/compose/dist/release') as typeof import('@balena/compose/dist/release');
+		require('@balena/compose/dist/release/index.js') as typeof import('@balena/compose/dist/release/index.js');
 
 	const pinejsClient: import('@balena/compose').release.Request['client'] =
 		sdk.pine.clone(
@@ -256,7 +256,7 @@ export const getPreviousRepos = (
 			if (release.length > 0) {
 				const images = release[0].release_image;
 				const { getRegistryAndName } =
-					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
+					require('@balena/compose/dist/multibuild/index.js') as typeof import('@balena/compose/dist/multibuild/index.js');
 				return Promise.all(
 					images.map(function (d) {
 						const imageName = d.image[0].is_stored_at__image_location ?? '';
@@ -327,7 +327,7 @@ const renderProgressBar = function (percentage: number, stepCount: number) {
 };
 
 export const pushProgressRenderer = function (
-	tty: ReturnType<typeof import('./tty')>,
+	tty: ReturnType<typeof import('./tty.js')>,
 	prefix: string,
 ): ProgressCallback & { end: () => void } {
 	const fn: ProgressCallback & { end: () => void } = function (e) {
@@ -361,14 +361,14 @@ export class BuildProgressUI implements Renderer {
 	private _spinner;
 	private _runloop:
 		| undefined
-		| ReturnType<typeof import('./compose_ts').createRunLoop>;
+		| ReturnType<typeof import('./compose_ts.js').createRunLoop>;
 
 	// these are to handle window wrapping
 	private _maxLineWidth: undefined | number;
 	private _lineWidths: number[] = [];
 
 	constructor(
-		tty: ReturnType<typeof import('./tty')>,
+		tty: ReturnType<typeof import('./tty.js')>,
 		descriptors: ImageDescriptor[],
 	) {
 		this._handleEvent = this._handleEvent.bind(this);
@@ -408,7 +408,7 @@ export class BuildProgressUI implements Renderer {
 		this._ended = false;
 		this._cancelled = false;
 		this._spinner = (
-			require('./compose_ts') as typeof import('./compose_ts')
+			require('./compose_ts') as typeof import('./compose_ts.js')
 		).createSpinner();
 
 		this.streams = streams;
@@ -427,7 +427,7 @@ export class BuildProgressUI implements Renderer {
 			this.streams[service].write({ status: 'Preparing...' });
 		});
 		this._runloop = (
-			require('./compose_ts') as typeof import('./compose_ts')
+			require('./compose_ts') as typeof import('./compose_ts.js')
 		).createRunLoop(this._display);
 		this._startTime = Date.now();
 	}

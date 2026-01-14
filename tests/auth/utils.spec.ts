@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import * as url from 'url';
 import { getBalenaSdk } from '../../build/utils/lazy';
 import * as utils from '../../build/auth/utils';
-import tokens from './tokens';
+import tokens from './tokens.js';
 
 const balena = getBalenaSdk();
 

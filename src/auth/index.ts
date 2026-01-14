@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { getBalenaSdk } from '../utils/lazy';
-import { LoginServer } from './server';
+import { getBalenaSdk } from '../utils/lazy.js';
+import { LoginServer } from './server.js';
 
 /**
  * @module auth
@@ -42,7 +42,7 @@ import { LoginServer } from './server';
  *   console.log("My session token is: #{sessionToken}")
  */
 export async function login({ host = '127.0.0.1', port = 0 }) {
-	const utils = await import('./utils');
+	const utils = await import('./utils.js');
 
 	const loginServer = new LoginServer();
 	const {

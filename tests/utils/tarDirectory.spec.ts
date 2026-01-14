@@ -20,7 +20,7 @@ import * as path from 'path';
 import * as tar from 'tar-stream';
 
 import { tarDirectory } from '../../build/utils/compose_ts';
-import { setupDockerignoreTestData } from '../projects';
+import { setupDockerignoreTestData } from '../projects.js';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');

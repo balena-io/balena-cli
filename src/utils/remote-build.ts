@@ -18,14 +18,14 @@ import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
 import type { PlainResponse } from 'got';
 import type got from 'got';
-import type { RegistrySecrets } from '@balena/compose/dist/multibuild';
+import type { RegistrySecrets } from '@balena/compose/dist/multibuild/index.js';
 import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
 import type { Pack } from 'tar-stream';
 
-import { ExpectedError, SIGINTError } from '../errors';
-import { tarDirectory } from './compose_ts';
-import { getVisuals, stripIndent } from './lazy';
+import { ExpectedError, SIGINTError } from '../errors.js';
+import { tarDirectory } from './compose_ts.js';
+import { getVisuals, stripIndent } from './lazy.js';
 import Logger = require('./logger');
 
 const globalLogger = Logger.getLogger();
@@ -128,7 +128,7 @@ export async function startRemoteBuild(
 		}
 	};
 
-	const { addSIGINTHandler } = await import('./helpers');
+	const { addSIGINTHandler } = await import('./helpers.js');
 	addSIGINTHandler(sigintHandler);
 
 	try {

@@ -18,7 +18,7 @@ import { Parser } from '@oclif/core';
 import * as ent from 'ent';
 import * as _ from 'lodash';
 
-import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils';
+import { capitanoizeOclifUsage } from '../../src/utils/oclif-utils.js';
 import type { Category, Document } from './doc-types';
 
 function renderOclifCommand(command: Category['commands'][0]): string[] {

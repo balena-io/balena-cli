@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import * as path from 'path';
-import { getCapitanoDoc } from './capitanodoc';
+import { getCapitanoDoc } from './capitanodoc.js';
 import type { Category, Document, OclifCommand } from './doc-types';
-import * as markdown from './markdown';
+import * as markdown from './markdown.js';
 
 /**
  * Generates the markdown document (as a string) for the CLI documentation

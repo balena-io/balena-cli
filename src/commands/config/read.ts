@@ -16,8 +16,8 @@
  */
 
 import { Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getVisuals, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getVisuals, stripIndent } from '../../utils/lazy.js';
 
 export default class ConfigReadCmd extends Command {
 	public static enableJsonFlag = true;
@@ -47,7 +47,7 @@ export default class ConfigReadCmd extends Command {
 	public async run() {
 		const { flags: options } = await this.parse(ConfigReadCmd);
 
-		const { safeUmount } = await import('../../utils/umount');
+		const { safeUmount } = await import('../../utils/umount.js');
 
 		const drive =
 			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

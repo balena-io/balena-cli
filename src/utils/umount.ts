@@ -38,7 +38,7 @@ export async function umount(device: string): Promise<void> {
 	if (process.platform === 'win32') {
 		return;
 	}
-	const { sanitizePath, whichBin } = await import('./which');
+	const { sanitizePath, whichBin } = await import('./which.js');
 	// sanitize user's input (regular expression attacks ?)
 	device = await sanitizePath(device);
 	const cmd: string[] = [];
@@ -74,7 +74,7 @@ export async function umount(device: string): Promise<void> {
 				}
 				return;
 			}
-			const { ExpectedError } = await import('../errors');
+			const { ExpectedError } = await import('../errors.js');
 			throw new ExpectedError(msg.join('\n'));
 		}
 	}
@@ -91,7 +91,7 @@ export async function isMounted(device: string): Promise<boolean> {
 	if (!device) {
 		return false;
 	}
-	const { whichBin } = await import('./which');
+	const { whichBin } = await import('./which.js');
 	const mountCmd = await whichBin('mount');
 	let stdout = '';
 	let stderr = '';
@@ -100,7 +100,7 @@ export async function isMounted(device: string): Promise<boolean> {
 		stdout = proc.stdout;
 		stderr = proc.stderr;
 	} catch (err) {
-		const { ExpectedError } = await import('../errors');
+		const { ExpectedError } = await import('../errors.js');
 		throw new ExpectedError(
 			`Error executing "${mountCmd}":\n${stderr}\n${err.message}`,
 		);

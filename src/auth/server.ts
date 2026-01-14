@@ -20,8 +20,8 @@ import * as express from 'express';
 import type { Socket } from 'net';
 import * as path from 'path';
 
-import * as utils from './utils';
-import { ExpectedError } from '../errors';
+import * as utils from './utils.js';
+import { ExpectedError } from '../errors.js';
 
 export class LoginServer extends EventEmitter {
 	protected expressApp: express.Express;

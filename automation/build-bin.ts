@@ -25,7 +25,7 @@ import * as path from 'path';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';
 
-import { loadPackageJson, ROOT, whichSpawn } from './utils';
+import { loadPackageJson, ROOT, whichSpawn } from './utils.js';
 
 const execFileAsync = promisify(execFile);
 const execAsync = promisify(exec);

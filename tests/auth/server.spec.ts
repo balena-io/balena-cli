@@ -25,7 +25,7 @@ import * as sinon from 'sinon';
 
 import { LoginServer } from '../../build/auth/server';
 import * as utils from '../../build/auth/utils';
-import tokens from './tokens';
+import tokens from './tokens.js';
 
 chai.use(chaiAsPromised);
 

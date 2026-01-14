@@ -16,23 +16,23 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import { runCommand } from '../../utils/helpers';
-import type { ImgConfig } from '../../utils/config';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
+import { runCommand } from '../../utils/helpers.js';
+import type { ImgConfig } from '../../utils/config.js';
 
 async function validateArgsAndOptions(options: FlagsDef) {
 	// 'application' & 'config` options are declared "exclusive" in the oclif
 	// flag definitions above, so oclif will enforce that they are not used together.
 	if (!options.fleet && !options.config) {
-		const { ExpectedError } = await import('../../errors');
+		const { ExpectedError } = await import('../../errors.js');
 		throw new ExpectedError(
 			"Either the '--fleet' or the '--config' option must be provided",
 		);
 	}
 
-	const { validateFilePath } = await import('../../utils/validation');
+	const { validateFilePath } = await import('../../utils/validation.js');
 
 	if (options.config != null) {
 		await validateFilePath(options.config);
@@ -140,9 +140,9 @@ export default class DeviceInitCmd extends Command {
 		const tmp = await import('tmp');
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
-		const { downloadOSImage } = await import('../../utils/cloud');
-		const { getApplication } = await import('../../utils/sdk');
-		const Logger = await import('../../utils/logger');
+		const { downloadOSImage } = await import('../../utils/cloud.js');
+		const { getApplication } = await import('../../utils/sdk.js');
+		const Logger = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 		const balena = getBalenaSdk();
@@ -150,7 +150,7 @@ export default class DeviceInitCmd extends Command {
 		let fleetSlugOrId: string | number | undefined = options.fleet;
 		let configJson: ImgConfig | undefined;
 		if (options.config != null) {
-			const { readAndValidateConfigJson } = await import('../../utils/config');
+			const { readAndValidateConfigJson } = await import('../../utils/config.js');
 			configJson = await readAndValidateConfigJson(options.config);
 			fleetSlugOrId = configJson.applicationId;
 		}
@@ -165,7 +165,7 @@ export default class DeviceInitCmd extends Command {
 						},
 					},
 				})
-			: await (await import('../../utils/patterns')).selectApplication();
+			: await (await import('../../utils/patterns.js')).selectApplication();
 
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();
@@ -214,7 +214,7 @@ export default class DeviceInitCmd extends Command {
 		device: { id: number; uuid: string; api_key: string },
 		options: FlagsDef,
 		configJson: ImgConfig | undefined,
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger.js'),
 	) {
 		let tmpConfigJsonPath: string | undefined;
 		const { promises: fs } = await import('node:fs');
@@ -226,7 +226,7 @@ export default class DeviceInitCmd extends Command {
 				// when the user has provided a config.json, we need to create a temp clone,
 				// augment it withe extra parameters (like device & api key), and pass that
 				// to `os configure` via --config
-				const { populateDeviceConfig } = await import('../../utils/config');
+				const { populateDeviceConfig } = await import('../../utils/config.js');
 				populateDeviceConfig(configJson, device, device.api_key);
 
 				const tmp = await import('tmp');

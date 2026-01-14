@@ -16,8 +16,8 @@
  */
 
 import { Command, Flags } from '@oclif/core';
-import { getBalenaSdk, stripIndent, getVisuals } from '../../utils/lazy';
-import { commitOrIdArg } from '../release';
+import { getBalenaSdk, stripIndent, getVisuals } from '../../utils/lazy.js';
+import { commitOrIdArg } from '../release/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { pipeline } from 'stream/promises';
@@ -101,7 +101,7 @@ export default class ReleaseAssetDownloadCmd extends Command {
 		}
 
 		if (fs.existsSync(outputPath) && !flags.overwrite) {
-			const patterns = await import('../../utils/patterns');
+			const patterns = await import('../../utils/patterns.js');
 			await patterns.confirm(
 				false,
 				`File ${outputPath} already exists. Do you want to overwrite it?`,

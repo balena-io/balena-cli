@@ -16,31 +16,31 @@
  */
 
 import { Args, Flags, Command } from '@oclif/core';
-import type { ImageDescriptor } from '@balena/compose/dist/parse';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
+import type { ImageDescriptor } from '@balena/compose/dist/parse/index.js';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy.js';
 import {
 	dockerignoreHelp,
 	registrySecretsHelp,
 	buildArgDeprecation,
-} from '../../utils/messages';
-import type { getAppWithArch } from '../../utils/helpers';
-import * as ca from '../../utils/common-args';
-import * as compose from '../../utils/compose';
+} from '../../utils/messages.js';
+import type { getAppWithArch } from '../../utils/helpers.js';
+import * as ca from '../../utils/common-args.js';
+import * as compose from '../../utils/compose.js';
 import type {
 	BuiltImage,
 	ComposeCliFlags,
 	ComposeOpts,
 } from '../../utils/compose-types';
-import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
+import type { BuildOpts, DockerCliFlags } from '../../utils/docker.js';
 import {
 	applyReleaseTagKeysAndValues,
 	buildProject,
 	composeCliFlags,
 	isBuildConfig,
 	parseReleaseTagKeysAndValues,
-} from '../../utils/compose_ts';
-import { dockerCliFlags } from '../../utils/docker';
+} from '../../utils/compose_ts.js';
+import { dockerCliFlags } from '../../utils/docker.js';
 import type { Release } from 'balena-sdk';
 
 // TODO: For this special one we can't use Interfaces.InferredFlags/InferredArgs
@@ -142,7 +142,7 @@ ${dockerignoreHelp}
 
 		(await import('events')).defaultMaxListeners = 1000;
 
-		const Logger = await import('../../utils/logger');
+		const Logger = await import('../../utils/logger.js');
 
 		const logger = Logger.getLogger();
 		logger.logDebug('Parsing input...');
@@ -162,7 +162,7 @@ ${dockerignoreHelp}
 
 		const sdk = getBalenaSdk();
 		const { getRegistrySecrets, validateProjectDirectory } = await import(
-			'../../utils/compose_ts'
+			'../../utils/compose_ts.js'
 		);
 
 		const { releaseTagKeys, releaseTagValues } = parseReleaseTagKeysAndValues(
@@ -187,10 +187,10 @@ ${dockerignoreHelp}
 			(options as FlagsDef)['registry-secrets'] = registrySecrets;
 		}
 
-		const helpers = await import('../../utils/helpers');
+		const helpers = await import('../../utils/helpers.js');
 		const app = await helpers.getAppWithArch(fleet);
 
-		const dockerUtils = await import('../../utils/docker');
+		const dockerUtils = await import('../../utils/docker.js');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			dockerUtils.getDocker(options),
 			dockerUtils.generateBuildOpts(options as FlagsDef),
@@ -220,7 +220,7 @@ ${dockerignoreHelp}
 
 	async deployProject(
 		docker: import('dockerode'),
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger.js'),
 		composeOpts: ComposeOpts,
 		opts: {
 			app: Awaited<ReturnType<typeof getAppWithArch>>; // the application instance to deploy to
@@ -238,7 +238,7 @@ ${dockerignoreHelp}
 		const doodles = await import('resin-doodles');
 		const sdk = getBalenaSdk();
 		const { deployProject: $deployProject, loadProject } = await import(
-			'../../utils/compose_ts'
+			'../../utils/compose_ts.js'
 		);
 
 		const appType = opts.app.application_type[0];
@@ -319,7 +319,7 @@ ${dockerignoreHelp}
 
 			let release: Pick<Release['Read'], 'commit' | 'id'>;
 			if (appType.slug === 'legacy-v1' || appType.slug === 'legacy-v2') {
-				const { deployLegacy } = await import('../../utils/deploy-legacy');
+				const { deployLegacy } = await import('../../utils/deploy-legacy.js');
 
 				const ux = getCliUx();
 				const msg = ux.colorize(

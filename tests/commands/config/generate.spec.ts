@@ -17,13 +17,13 @@
 
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 import * as path from 'node:path';
 import { tmpdir } from 'node:os';
 import { stripIndent } from '../../../build/utils/lazy';
 import { randomUUID } from 'node:crypto';
 
-import { MockHttpServer } from '../../mockserver';
+import { MockHttpServer } from '../../mockserver.js';
 
 describe('balena os generate', function () {
 	let api: MockHttpServer['api'];
