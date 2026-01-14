@@ -423,3 +423,63 @@ export function deepJsonParse(data: any): any {
 	}
 	return data;
 }
+
+/**
+ * Known Docker socket paths to check across platforms.
+ * Order matters: more common paths are checked first.
+ */
+const DOCKER_SOCKET_PATHS = [
+	'/var/run/docker.sock', // Linux default, Docker Desktop on macOS
+	'/run/docker.sock', // Alternative Linux path
+	`${process.env.HOME}/.docker/run/docker.sock`, // Docker Desktop user socket (macOS)
+	'//./pipe/docker_engine', // Windows named pipe
+];
+
+/**
+ * Check if Docker is available by verifying a Docker socket exists.
+ * Checks DOCKER_HOST env var first, then tries known socket paths.
+ * Does not assume Docker availability based on OS.
+ *
+ * @returns Object with availability status and the path found (if any)
+ */
+export function isDockerAvailable(): { available: boolean; path?: string } {
+	// Check if DOCKER_HOST is set (e.g., tcp://localhost:2375)
+	if (process.env.DOCKER_HOST) {
+		return { available: true, path: process.env.DOCKER_HOST };
+	}
+
+	// Try each known socket path
+	for (const socketPath of DOCKER_SOCKET_PATHS) {
+		try {
+			fs.accessSync(socketPath);
+			return { available: true, path: socketPath };
+		} catch {
+			// Continue to next path
+		}
+	}
+
+	return { available: false };
+}
+
+/**
+ * Skip tests that require Docker when Docker is not available.
+ * Call this in a before() hook to skip the entire describe block.
+ * Prints a warning message listing checked paths when skipping.
+ *
+ * @param context - Mocha context (this) from before/beforeEach hook
+ * @param suiteName - Name of the test suite for the warning message
+ */
+export function skipIfNoDocker(
+	context: Mocha.Context,
+	suiteName = 'tests',
+): void {
+	const docker = isDockerAvailable();
+	if (!docker.available) {
+		const pathsList = DOCKER_SOCKET_PATHS.map((p) => `     - ${p}`).join('\n');
+		console.warn(
+			`\n⚠️  Skipping ${suiteName}: Docker not detected.\n` +
+				`   Checked DOCKER_HOST env var and these socket paths:\n${pathsList}\n`,
+		);
+		context.skip();
+	}
+}

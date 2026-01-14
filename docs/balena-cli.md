@@ -312,6 +312,13 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [util available-drives](#util-available-drives)
 
+- Virtual Devices
+
+	- [virtual-device list](#virtual-device-list)
+	- [virtual-device rm](#virtual-device-rm)
+	- [virtual-device start](#virtual-device-start)
+	- [virtual-device stop](#virtual-device-stop)
+
 # API Keys
 
 ## api-key generate
@@ -3892,3 +3899,188 @@ release id
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
+
+# Virtual Devices
+
+## virtual-device list
+
+### Description
+
+List all running virtual balenaOS device instances with their
+SSH connection details and status.
+
+This command is useful when running virtual devices in detached mode
+(started with 'balena virt start --detached'). In interactive mode,
+press Ctrl+C to stop the VM directly.
+
+Examples:
+
+	$ balena virtual-device list
+	$ balena virt list
+	$ balena virtual-device list --json
+
+## virtual-device rm
+
+### Description
+
+Remove one or all virtual balenaOS device instances.
+This permanently deletes the container and its working copy image file.
+
+For running instances, the VM will be stopped first before removal.
+Use 'balena virt stop' if you only want to stop a VM temporarily
+(the VM can be restarted later with 'balena virt start <instance>').
+
+You can specify the instance by:
+  - Full container name (e.g., balenaos-vm-1-1234567890)
+  - Instance number (e.g., 1)
+  - Container ID
+
+Use --all to remove all instances at once.
+
+Examples:
+
+	$ balena virtual-device rm 1
+	$ balena virt rm 1
+	$ balena virtual-device rm balenaos-vm-1-1234567890
+	$ balena virtual-device rm --all
+
+### Arguments
+
+#### INSTANCE
+
+Name, number, or ID of the virtual device instance to remove
+
+### Options
+
+#### --all
+
+Remove all virtual device instances
+
+## virtual-device start
+
+### Description
+
+Start a virtual balenaOS device using QEMU emulation in Docker.
+This enables local testing of balenaOS deployments without physical hardware.
+
+STARTING A NEW VM:
+Use --image to start a new VM from a balenaOS image file.
+
+RESTARTING A STOPPED VM:
+Provide an instance identifier (number, name, or ID) to restart a
+previously stopped VM. Use 'balena virt list' to see stopped instances.
+
+COMPLETE WORKFLOW EXAMPLE:
+
+  Step 1: Download a balenaOS image
+    $ balena os download generic-amd64 -o balena.img --version default
+
+  Step 2: Configure the image (--dev enables SSH access)
+    $ balena os configure balena.img --fleet myFleet --dev
+
+  Step 3: Start the virtual device
+    $ balena virt start --image balena.img
+
+  Step 4: Connect via SSH (once booted, typically 30-60 seconds)
+    $ ssh root@localhost -p 22222
+
+SSH ACCESS: The --dev flag in 'os configure' enables development mode,
+which allows SSH access with the root user. Alternatively, you can add
+SSH keys to config.json before configuring the image. Without --dev or
+SSH keys, you can only interact via the serial console.
+
+The image file must be uncompressed (raw format). If you downloaded
+a compressed image (.gz or .zip), decompress it first with gunzip.
+
+INTERACTIVE MODE (default):
+By default, the command attaches to the VM's serial console interactively.
+You can type directly into the console and interact with the VM.
+
+Keyboard controls:
+  Ctrl+C         - Stop the virtual device and clean up
+  Ctrl+P, Ctrl+Q - Detach (VM keeps running in background)
+  Ctrl+A, C      - Access QEMU monitor (type 'quit' to exit)
+
+DETACHED MODE (--detached):
+Use --detached to start the virtual device in the background.
+This is useful for scripting or when you want to manage multiple VMs.
+
+VM LIFECYCLE:
+  - 'balena virt stop' stops a VM but preserves it for restart
+  - 'balena virt rm' removes a VM and cleans up its working copy
+
+Examples:
+
+	$ balena os download generic-amd64 -o balena.img --version default
+	$ balena os configure balena.img --fleet myFleet --dev
+	$ balena virt start --image balena.img
+	$ ssh root@localhost -p 22222
+	$ balena virtual-device start --image balena.img --detached
+	$ balena virtual-device start --image balena.img --data-size 16G
+	$ balena virtual-device start --image balena.img --memory 4096 --cpus 2
+	$ balena virt start 1  # restart stopped instance 1
+
+### Arguments
+
+#### INSTANCE
+
+Name, number, or ID of a stopped instance to restart
+
+### Options
+
+#### -i, --image IMAGE
+
+path to the balenaOS image file (for new VMs)
+
+#### --data-size DATA-SIZE
+
+data partition size (e.g., 8G, 16G)
+
+#### -d, --detached
+
+run in background (do not stream logs)
+
+#### --memory MEMORY
+
+VM memory in MB
+
+#### --cpus CPUS
+
+VM CPU cores
+
+## virtual-device stop
+
+### Description
+
+Stop one or all running virtual balenaOS device instances.
+The container and working copy are preserved, allowing you to restart
+the VM later with 'balena virt start <instance>'.
+
+To permanently remove a stopped VM and clean up its working copy,
+use 'balena virt rm <instance>'.
+
+You can specify the instance by:
+  - Full container name (e.g., balenaos-vm-1-1234567890)
+  - Instance number (e.g., 1)
+  - Container ID
+
+Use --all to stop all running instances at once.
+
+Examples:
+
+	$ balena virtual-device stop 1
+	$ balena virt stop 1
+	$ balena virtual-device stop balenaos-vm-1-1234567890
+	$ balena virtual-device stop --all
+
+### Arguments
+
+#### INSTANCE
+
+Name, number, or ID of the virtual device instance to stop
+
+### Options
+
+#### --all
+
+Stop all running virtual device instances
