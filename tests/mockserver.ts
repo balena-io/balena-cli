@@ -62,7 +62,6 @@ export class MockHttpServer {
 
 		const lazyModule = await import('../build/utils/lazy.js');
 		this.originalGetBalenaSdk = lazyModule.getBalenaSdk;
-		// @ts-expect-error - Overriding read-only property for testing
 		lazyModule.getBalenaSdk = () => sdk;
 
 		this.originalDockerHost = process.env.DOCKER_HOST;
@@ -80,7 +79,6 @@ export class MockHttpServer {
 		// Restore original getBalenaSdk to prevent module state pollution
 		if (this.originalGetBalenaSdk) {
 			const lazyModule = await import('../build/utils/lazy.js');
-			// @ts-expect-error - Overriding read-only property for testing
 			lazyModule.getBalenaSdk = this.originalGetBalenaSdk;
 		}
 	}

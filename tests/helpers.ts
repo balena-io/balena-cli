@@ -115,7 +115,7 @@ export function filterCliOutputForTests({
  */
 async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 	const balenaCLI = await import('../build/app.js');
-	const intercept = await import('intercept-stdout');
+	const { default: intercept } = await import('intercept-stdout');
 
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
