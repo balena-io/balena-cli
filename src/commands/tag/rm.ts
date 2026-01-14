@@ -45,18 +45,9 @@ export default class TagRmCmd extends Command {
 	};
 
 	public static flags = {
-		fleet: {
-			...cf.fleet,
-			exclusive: ['device', 'release'],
-		},
-		device: {
-			...cf.device,
-			exclusive: ['fleet', 'release'],
-		},
-		release: {
-			...cf.release,
-			exclusive: ['fleet', 'device'],
-		},
+		fleet: cf.fleet({ exclusive: ['device', 'release'] }),
+		device: cf.device({ exclusive: ['fleet', 'release'] }),
+		release: cf.release({ exclusive: ['fleet', 'device'] }),
 	};
 
 	public static authenticated = true;

@@ -87,7 +87,7 @@ ${dockerignoreHelp}
 			description: 'the type of device this build is for',
 			char: 'd',
 		}),
-		fleet: cf.fleet,
+		fleet: cf.fleet(),
 		...composeCliFlags,
 		...dockerCliFlags,
 	};

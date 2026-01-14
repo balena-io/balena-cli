@@ -107,7 +107,7 @@ export default class DeviceInitCmd extends Command {
 			}),
 		};
 		return {
-			fleet: { ...cf.fleet, exclusive: ['config'] },
+			fleet: cf.fleet({ exclusive: ['config'] }),
 			config: Flags.string({
 				description:
 					'path to the config JSON file, see `balena config generate`',
@@ -123,8 +123,8 @@ export default class DeviceInitCmd extends Command {
 					`,
 			}),
 			...inlineConfiFlags,
-			drive: cf.drive,
-			yes: cf.yes,
+			drive: cf.drive(),
+			yes: cf.yes(),
 		};
 	})();
 

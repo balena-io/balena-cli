@@ -48,9 +48,9 @@ export default class OsInitializeCmd extends Command {
 	};
 
 	public static flags = {
-		type: cf.deviceType,
-		drive: cf.drive,
-		yes: cf.yes,
+		type: cf.deviceType(),
+		drive: cf.drive(),
+		yes: cf.yes(),
 	};
 
 	public static authenticated = true;
@@ -62,7 +62,7 @@ export default class OsInitializeCmd extends Command {
 
 		console.info(`Initializing device ${INIT_WARNING_MESSAGE}`);
 
-		const manifest = await getManifest(params.image, options.type);
+		const manifest = await getManifest(params.image, options.type!);
 
 		const answers = await getCliForm().run(
 			manifest.initialization?.options ?? [],
@@ -88,7 +88,7 @@ export default class OsInitializeCmd extends Command {
 			'internal',
 			'osinit',
 			params.image,
-			options.type,
+			options.type!,
 			JSON.stringify(answers),
 		]);
 

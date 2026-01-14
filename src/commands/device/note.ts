@@ -42,7 +42,7 @@ export default class DeviceNoteCmd extends Command {
 	};
 
 	public static flags = {
-		device: cf.device,
+		device: cf.device(),
 	};
 
 	public static authenticated = true;
