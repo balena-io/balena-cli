@@ -83,10 +83,10 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 		changedPathHandler: (serviceName: string, changedPath: string) => void,
 	): Promise<ByService<chokidar.FSWatcher>> {
 		const { getServiceDirsFromComposition } = await import(
-			'../../../build/utils/compose_ts'
+			'../../../build/utils/compose_ts.js'
 		);
 		const { getDockerignoreByService } = await import(
-			'../../../build/utils/ignore'
+			'../../../build/utils/ignore.js'
 		);
 		const rootContext = path.resolve(projectPath);
 

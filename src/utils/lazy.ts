@@ -88,7 +88,9 @@ export const getCliForm = once(
 	() => require('resin-cli-form') as typeof CliForm,
 );
 
-export const getCliUx = once(() => require('@oclif/core/ux').ux) as () => typeof ux;
+export const getCliUx = once(
+	() => require('@oclif/core/ux').ux,
+) as () => typeof ux;
 
 // Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
 export const stripIndent =

@@ -157,7 +157,7 @@ describe('balena device ssh', function () {
 
 /** Check whether the 'ssh' tool (executable) exists in the PATH */
 async function checkSsh(): Promise<boolean> {
-	const { which } = await import('../../../build/utils/which');
+	const { which } = await import('../../../build/utils/which.js');
 	const sshPath = await which('ssh', false);
 	if ((sshPath ?? '').includes('\\Windows\\System32\\OpenSSH\\ssh')) {
 		// don't use Windows' built-in ssh tool for these test cases

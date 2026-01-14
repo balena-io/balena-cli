@@ -106,7 +106,9 @@ export default class DeviceSSHCmd extends Command {
 
 		// Local connection
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
-			const { performLocalDeviceSSH } = await import('../../utils/device/ssh.js');
+			const { performLocalDeviceSSH } = await import(
+				'../../utils/device/ssh.js'
+			);
 			await performLocalDeviceSSH({
 				hostname: params.fleetOrDevice,
 				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

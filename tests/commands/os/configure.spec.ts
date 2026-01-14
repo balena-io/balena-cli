@@ -24,7 +24,7 @@ import * as tmp from 'tmp';
 import * as path from 'node:path';
 import { tmpdir } from 'node:os';
 import type * as $imagefs from 'balena-image-fs';
-import { stripIndent } from '../../../build/utils/lazy';
+import { stripIndent } from '../../../build/utils/lazy.js';
 import { randomUUID } from 'node:crypto';
 
 tmp.setGracefulCleanup();

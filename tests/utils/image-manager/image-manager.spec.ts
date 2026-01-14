@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import { promises as fsAsync } from 'fs';
 import * as stringToStream from 'string-to-stream';
 import { Writable as WritableStream } from 'stream';
-import * as imageManager from '../../../build/utils/image-manager';
+import * as imageManager from '../../../build/utils/image-manager.js';
 import { resolve, extname } from 'path';
 import * as mockFs from 'mock-fs';
 import { promisify } from 'util';
@@ -15,7 +15,7 @@ import * as os from 'os';
 
 // Make sure we're all using literally the same instance of balena-sdk
 // so we can mock out methods called by the real code
-import { getBalenaSdk } from '../../../build/utils/lazy';
+import { getBalenaSdk } from '../../../build/utils/lazy.js';
 const balena = getBalenaSdk();
 
 const fsExistsAsync = promisify(fs.exists);
@@ -182,6 +182,7 @@ describe('image-manager', function () {
 					beforeEach(function () {
 						this.osDownloadStub = stub(balena.models.os, 'download');
 						const message = 'Lorem ipsum dolor sit amet';
+						// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 						const mockResultStream = stringToStream(message) as ReturnType<
 							typeof stringToStream
 						> & {

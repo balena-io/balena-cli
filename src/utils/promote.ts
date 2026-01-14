@@ -335,7 +335,7 @@ async function getOrSelectApplication(
 		await confirm(
 			false,
 			`No fleet found with name "${appName}".\n` +
-			'Would you like to create it now?',
+				'Would you like to create it now?',
 			undefined,
 			true,
 		);
@@ -379,7 +379,7 @@ async function createOrSelectApp(
 		await confirm(
 			false,
 			'You have no fleets this device can join.\n' +
-			'Would you like to create one now?',
+				'Would you like to create one now?',
 			undefined,
 			true,
 		);

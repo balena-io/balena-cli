@@ -119,7 +119,9 @@ export default class DeviceTunnelCmd extends Command {
 		}
 
 		// Ascertain device uuid
-		const { getOnlineTargetDeviceUuid } = await import('../../utils/patterns.js');
+		const { getOnlineTargetDeviceUuid } = await import(
+			'../../utils/patterns.js'
+		);
 		const uuid = await getOnlineTargetDeviceUuid(sdk, params.deviceOrFleet);
 		logger.logInfo(`Opening a tunnel to ${uuid}...`);
 

@@ -60,7 +60,7 @@ export class MockHttpServer {
 		const storage = getStorage({ dataDirectory });
 		await storage.set('token', 'test-token-for-ssh-test');
 
-		const lazyModule = await import('../build/utils/lazy');
+		const lazyModule = await import('../build/utils/lazy.js');
 		this.originalGetBalenaSdk = lazyModule.getBalenaSdk;
 		// @ts-expect-error - Overriding read-only property for testing
 		lazyModule.getBalenaSdk = () => sdk;
@@ -79,7 +79,7 @@ export class MockHttpServer {
 		}
 		// Restore original getBalenaSdk to prevent module state pollution
 		if (this.originalGetBalenaSdk) {
-			const lazyModule = await import('../build/utils/lazy');
+			const lazyModule = await import('../build/utils/lazy.js');
 			// @ts-expect-error - Overriding read-only property for testing
 			lazyModule.getBalenaSdk = this.originalGetBalenaSdk;
 		}

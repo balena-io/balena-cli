@@ -150,7 +150,9 @@ export default class DeviceInitCmd extends Command {
 		let fleetSlugOrId: string | number | undefined = options.fleet;
 		let configJson: ImgConfig | undefined;
 		if (options.config != null) {
-			const { readAndValidateConfigJson } = await import('../../utils/config.js');
+			const { readAndValidateConfigJson } = await import(
+				'../../utils/config.js'
+			);
 			configJson = await readAndValidateConfigJson(options.config);
 			fleetSlugOrId = configJson.applicationId;
 		}

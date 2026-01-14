@@ -19,7 +19,10 @@ import type { Renderer } from './compose_ts.js';
 import type * as SDK from 'balena-sdk';
 import type * as Dockerode from 'dockerode';
 import * as path from 'path';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse/index.js';
+import type {
+	Composition,
+	ImageDescriptor,
+} from '@balena/compose/dist/parse/index.js';
 import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
 	BuiltImage,

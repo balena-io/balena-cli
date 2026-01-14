@@ -50,7 +50,9 @@ export default class FleetRenameCmd extends Command {
 	public async run() {
 		const { args: params } = await this.parse(FleetRenameCmd);
 
-		const { validateApplicationName } = await import('../../utils/validation.js');
+		const { validateApplicationName } = await import(
+			'../../utils/validation.js'
+		);
 		const { ExpectedError } = await import('../../errors.js');
 
 		const balena = getBalenaSdk();

@@ -482,8 +482,9 @@ async function qemuTransposeBuildStream({
 	}
 
 	const transpose = await import('@balena/compose/dist/emulate/index.js');
-	const { toPosixPath } = (await import('@balena/compose/dist/multibuild/index.js'))
-		.PathUtils;
+	const { toPosixPath } = (
+		await import('@balena/compose/dist/multibuild/index.js')
+	).PathUtils;
 
 	const transposeOptions: TransposeOptions = {
 		hostQemuPath: toPosixPath(binPath),
@@ -762,8 +763,9 @@ export async function tarDirectory(
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
 	const { filterFilesWithDockerignore } = await import('./ignore.js');
-	const { toPosixPath } = (await import('@balena/compose/dist/multibuild/index.js'))
-		.PathUtils;
+	const { toPosixPath } = (
+		await import('@balena/compose/dist/multibuild/index.js')
+	).PathUtils;
 
 	const getFileEolConverter =
 		process.platform === 'win32'

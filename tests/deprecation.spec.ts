@@ -21,9 +21,9 @@ import { expect } from 'chai';
 import * as semver from 'semver';
 import * as sinon from 'sinon';
 
-import { getPackageJson } from '../build/utils/lazy';
-import type { ReleaseTimestampsByVersion } from '../build/deprecation';
-import { DeprecationChecker } from '../build/deprecation';
+import { getPackageJson } from '../build/utils/lazy.js';
+import type { ReleaseTimestampsByVersion } from '../build/deprecation.js';
+import { DeprecationChecker } from '../build/deprecation.js';
 import { MockHttpServer } from './mockserver.js';
 import type { TestOutput } from './helpers.js';
 import { runCommand } from './helpers.js';

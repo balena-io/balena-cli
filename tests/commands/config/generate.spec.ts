@@ -20,7 +20,7 @@ import { promises as fs } from 'fs';
 import { runCommand } from '../../helpers.js';
 import * as path from 'node:path';
 import { tmpdir } from 'node:os';
-import { stripIndent } from '../../../build/utils/lazy';
+import { stripIndent } from '../../../build/utils/lazy.js';
 import { randomUUID } from 'node:crypto';
 
 import { MockHttpServer } from '../../mockserver.js';

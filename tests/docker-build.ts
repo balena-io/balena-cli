@@ -25,8 +25,8 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 import { diff } from 'deep-object-diff';
-import { makeImageName } from '../build/utils/compose_ts';
-import { stripIndent } from '../build/utils/lazy';
+import { makeImageName } from '../build/utils/compose_ts.js';
+import { stripIndent } from '../build/utils/lazy.js';
 import type { MockHttpServer } from './mockserver.js';
 import {
 	cleanOutput,
