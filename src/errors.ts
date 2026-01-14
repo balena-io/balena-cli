@@ -223,7 +223,8 @@ const EXPECTED_ERROR_REGEXES = [
 
 // Support unit testing of handleError
 export const getSentry = async function () {
-	return await import('@sentry/node');
+	const { captureException, close } = await import('@sentry/node');
+	return { captureException, close };
 };
 
 async function sentryCaptureException(error: Error) {
