@@ -110,7 +110,7 @@ export class DeprecationChecker {
 		const url = this.getNpmUrl(version);
 		let response: import('got').Response<Dictionary<any>> | undefined;
 		try {
-			response = await got(url, {
+			response = await got.default(url, {
 				responseType: 'json',
 				retry: 0,
 				timeout: 4000,

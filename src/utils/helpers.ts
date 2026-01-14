@@ -332,7 +332,7 @@ export async function shellEscape(
 	if (isCmdExe) {
 		return args.map((v) => windowsCmdExeEscapeArg(v));
 	} else {
-		const shellEscapeFunc = await import('shell-escape');
+		const { default: shellEscapeFunc } = await import('shell-escape');
 		return args.map((v) => shellEscapeFunc([v]));
 	}
 }

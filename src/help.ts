@@ -16,7 +16,7 @@
  */
 import type { Command } from '@oclif/core';
 import { Help } from '@oclif/core';
-import * as indent from 'indent-string';
+import indent from 'indent-string';
 import type { ResolvableReturnType } from 'balena-sdk/typings/utils';
 import { getCliUx } from './utils/lazy.js';
 

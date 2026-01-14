@@ -220,7 +220,7 @@ Can be repeated to add multiple certificates.\
 		const balena = getBalenaSdk();
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
-		const nodeCleanup = await import('node-cleanup');
+		const { default: nodeCleanup } = await import('node-cleanup');
 		const { instanceOf } = await import('../../errors.js');
 
 		// Check image file exists

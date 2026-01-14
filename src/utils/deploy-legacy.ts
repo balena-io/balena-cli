@@ -18,7 +18,7 @@
 import { getVisuals } from './lazy.js';
 import { promisify } from 'util';
 import type * as Dockerode from 'dockerode';
-import type Logger = require('./logger');
+import type Logger from './logger.js';
 import type got from 'got';
 
 const getBuilderPushEndpoint = async function (
@@ -118,7 +118,7 @@ const uploadImage = async function (
 	logger: Logger,
 ): Promise<{ buildId: number }> {
 	const { default: got } = await import('got');
-	const progressStream = await import('progress-stream');
+	const { default: progressStream } = await import('progress-stream');
 	const zlib = await import('zlib');
 
 	// Need to strip off the newline
@@ -140,7 +140,7 @@ const uploadImage = async function (
 		),
 	);
 
-	const uploadRequest = got.stream.post(
+	const uploadRequest = got.default.stream.post(
 		await getBuilderPushEndpoint(url, username, appName),
 		{
 			headers: {
@@ -168,7 +168,7 @@ const uploadLogs = async function (
 	appName: string,
 ) {
 	const { default: got } = await import('got');
-	return got.post(
+	return got.default.post(
 		await getBuilderLogPushEndpoint(url, buildId, username, appName),
 		{
 			headers: {

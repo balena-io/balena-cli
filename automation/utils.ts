@@ -18,7 +18,7 @@
 import { spawn } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as whichMod from 'which';
+import whichMod from 'which';
 
 export const ROOT = path.join(__dirname, '..');
 

@@ -153,7 +153,7 @@ export const getImage = async (deviceType: string, version: string) => {
 	> & { mime: string };
 	// Default to application/octet-stream if we could not find a more specific mime type
 
-	const { getType } = await import('mime');
+	const { default: { getType } } = await import('mime');
 	stream.mime = getType(imagePath) ?? 'application/octet-stream';
 	return stream;
 };

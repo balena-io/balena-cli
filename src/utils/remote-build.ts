@@ -26,7 +26,7 @@ import type { Pack } from 'tar-stream';
 import { ExpectedError, SIGINTError } from '../errors.js';
 import { tarDirectory } from './compose_ts.js';
 import { getVisuals, stripIndent } from './lazy.js';
-import Logger = require('./logger');
+import Logger from './logger.js';
 
 const globalLogger = Logger.getLogger();
 
@@ -351,7 +351,7 @@ async function createRemoteBuildRequest(
 	if (DEBUG_MODE) {
 		console.error(`[debug] Connecting to builder at ${builderUrl}`);
 	}
-	return got.stream
+	return got.default.stream
 		.post(builderUrl, {
 			headers: {
 				Authorization: `Bearer ${build.auth}`,

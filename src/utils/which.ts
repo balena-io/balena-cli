@@ -35,7 +35,7 @@ export async function exists(filename: string, mode = F_OK) {
  * package. See https://github.com/sindresorhus/filenamify/
  */
 export async function sanitizePath(filepath: string) {
-	const filenamify = await import('filenamify');
+	const { default: filenamify } = await import('filenamify');
 	// normalize also converts forward slash to backslash on Windows
 	return path
 		.normalize(filepath)
@@ -76,7 +76,7 @@ export async function which(
 	program: string,
 	rejectOnMissing = true,
 ): Promise<string> {
-	const whichMod = await import('which');
+	const { default: whichMod } = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);

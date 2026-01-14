@@ -28,7 +28,7 @@ import type {
 	Release,
 	TaggedImage,
 } from './compose-types';
-import Logger = require('./logger');
+import type Logger from './logger.js';
 import type { ProgressCallback } from 'docker-progress';
 import { getCliUx } from './lazy.js';
 import { pick } from './helpers.js';

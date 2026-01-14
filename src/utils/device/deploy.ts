@@ -16,7 +16,7 @@
  */
 
 import * as semver from 'balena-semver';
-import * as Docker from 'dockerode';
+import Docker from 'dockerode';
 import * as _ from 'lodash';
 import type { Composition } from '@balena/compose/dist/parse/index.js';
 import type {
@@ -36,7 +36,7 @@ import {
 	tarDirectory,
 	makeImageName,
 } from '../compose_ts.js';
-import Logger = require('../logger');
+import Logger from '../logger.js';
 import type { DeviceInfo } from './api.js';
 import { DeviceAPI } from './api.js';
 import * as LocalPushErrors from './errors.js';

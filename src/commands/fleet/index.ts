@@ -64,7 +64,7 @@ export default class FleetCmd extends Command {
 		});
 
 		if (options.view) {
-			const open = await import('open');
+			const { default: open } = await import('open');
 			const dashboardUrl = balena.models.application.getDashboardUrl(
 				application.id,
 			);

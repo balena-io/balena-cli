@@ -92,7 +92,7 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 	const url = `https://data.${balenaUrl}/amplitude/2/httpapi`;
 
 	try {
-		await got.post(url, {
+		await got.default.post(url, {
 			json: trackData,
 			retry: 0,
 			timeout: {

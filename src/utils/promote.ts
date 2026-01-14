@@ -18,7 +18,7 @@ import type * as BalenaSdk from 'balena-sdk';
 
 import { ExpectedError, printErrorMessage } from '../errors.js';
 import { getVisuals, stripIndent, getCliForm } from './lazy.js';
-import Logger = require('./logger');
+import type Logger from './logger.js';
 import { confirm } from './patterns.js';
 import { getLocalDeviceCmdStdout, getDeviceOsRelease } from './ssh.js';
 
@@ -178,7 +178,7 @@ async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	});
 
 	const responsiveDevices: typeof devices = [];
-	const Docker = await import('dockerode');
+	const { default: Docker } = await import('dockerode');
 	await Promise.all(
 		devices.map(async function (device) {
 			const address = device?.address;
@@ -335,7 +335,7 @@ async function getOrSelectApplication(
 		await confirm(
 			false,
 			`No fleet found with name "${appName}".\n` +
-				'Would you like to create it now?',
+			'Would you like to create it now?',
 			undefined,
 			true,
 		);
@@ -379,7 +379,7 @@ async function createOrSelectApp(
 		await confirm(
 			false,
 			'You have no fleets this device can join.\n' +
-				'Would you like to create one now?',
+			'Would you like to create one now?',
 			undefined,
 			true,
 		);

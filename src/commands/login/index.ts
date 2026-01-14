@@ -208,7 +208,7 @@ ${messages.reachingOut}`);
 			// User had not selected login preference, prompt interactively
 			const loginType = await patterns.askLoginType();
 			if (loginType === 'register') {
-				const open = await import('open');
+				const { default: open } = await import('open');
 				const signupUrl = `https://dashboard.${balenaUrl}/signup`;
 				await open(signupUrl, { wait: false });
 				throw new ExpectedError(`Please sign up at ${signupUrl}`);

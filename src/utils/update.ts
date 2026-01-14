@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import isRoot = require('is-root');
-import * as UpdateNotifier from 'update-notifier';
+import isRoot from 'is-root';
+import UpdateNotifier from 'update-notifier';
 
 import { getPackageJson } from './lazy.js';
 

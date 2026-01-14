@@ -25,7 +25,7 @@ import type { Composition } from '@balena/compose/dist/parse/index.js';
 import type { BuildTask } from '@balena/compose/dist/multibuild/index.js';
 
 import { instanceOf } from '../../errors.js';
-import Logger = require('../logger');
+import type Logger from '../logger.js';
 
 import { Dockerfile } from 'livepush';
 import type { DeviceAPI } from './api.js';

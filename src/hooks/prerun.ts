@@ -40,7 +40,7 @@ export const trackPromise = new Promise((resolve) => {
  *  - other code needs to execute before check
  */
 const checkElevatedPrivileges = async () => {
-	const isElevated = await (await import('is-elevated'))();
+	const isElevated = await (await import('is-elevated')).default();
 	if (!isElevated) {
 		throw new InsufficientPrivilegesError(
 			'You need root/admin privileges to run this command',
