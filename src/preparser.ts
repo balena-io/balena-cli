@@ -68,7 +68,7 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		process.env.BLUEBIRD_LONG_STACK_TRACES = '1';
 	}
 
-	const Logger = await import('./utils/logger.js');
+	const { default: Logger } = await import('./utils/logger.js');
 	Logger.command = cmdSlice[0];
 
 	let args = cmdSlice;

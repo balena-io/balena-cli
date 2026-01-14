@@ -30,6 +30,7 @@ import { Flags, Args, Command } from '@oclif/core';
 import type { Application, BalenaSDK, Pine, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 import type * as Fs from 'fs';
+import type { EventEmitter } from 'node:events';
 
 // Define query options at the module level for proper typing
 const applicationExpandOptions = {
@@ -351,7 +352,7 @@ Can be repeated to add multiple certificates.\
 			pinDevice ?? false,
 			certificates,
 			additionalSpace,
-		);
+		) as Preloader & EventEmitter;
 
 		let gotSignal = false;
 

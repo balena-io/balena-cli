@@ -29,13 +29,14 @@ import type { ComposeCliFlags, ComposeOpts } from '../../utils/compose-types';
 import { buildProject, composeCliFlags } from '../../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../../utils/docker';
 import { dockerCliFlags } from '../../utils/docker';
+import type Dockerode from 'dockerode';
 
 type ComposeGenerateOptsParam = Parameters<typeof compose.generateOpts>[0];
 
 interface PrepareBuildOpts
 	extends ComposeCliFlags,
-		DockerCliFlags,
-		ComposeGenerateOptsParam {
+	DockerCliFlags,
+	ComposeGenerateOptsParam {
 	arch?: string;
 	deviceType?: string;
 	fleet?: string;
@@ -217,7 +218,11 @@ ${dockerignoreHelp}
 		}
 	}
 
-	protected async prepareBuild(options: PrepareBuildOpts) {
+	protected async prepareBuild(options: PrepareBuildOpts): Promise<{
+		docker: Dockerode;
+		buildOpts: BuildOpts;
+		composeOpts: ComposeOpts;
+	}> {
 		const { getDocker, generateBuildOpts } = await import('../../utils/docker.js');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
 			getDocker(options),
@@ -272,7 +277,7 @@ ${dockerignoreHelp}
 		) {
 			logger.logWarn(
 				'Target fleet does not support multiple containers.\n' +
-					'Continuing with build, but you will not be able to deploy.',
+				'Continuing with build, but you will not be able to deploy.',
 			);
 		}
 
