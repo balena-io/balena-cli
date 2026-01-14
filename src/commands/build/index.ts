@@ -106,7 +106,7 @@ ${dockerignoreHelp}
 
 		const sdk = getBalenaSdk();
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 		logger.logDebug('Parsing input...');
 
 		const prepareBuildOpts = {

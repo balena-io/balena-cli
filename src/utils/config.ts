@@ -197,7 +197,7 @@ export async function validateDevOptionAndWarn(
 	}
 	if (!logger) {
 		const Logger = await import('./logger.js');
-		logger = Logger.getLogger();
+		logger = Logger.default.getLogger();
 	}
 	logger.logInfo(stripIndent`
 		The '--dev' option is being used to configure a balenaOS image in development mode.
@@ -245,7 +245,7 @@ export async function validateSecureBootOptionAndWarn(
 	) {
 		if (!logger) {
 			const Logger = await import('./logger.js');
-			logger = Logger.getLogger();
+			logger = Logger.default.getLogger();
 		}
 		logger.logInfo(stripIndent`
 			The '--secureBoot' option is being used to configure a balenaOS installer image

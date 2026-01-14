@@ -144,7 +144,7 @@ ${dockerignoreHelp}
 
 		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 		logger.logDebug('Parsing input...');
 
 		const { fleet, image } = params;

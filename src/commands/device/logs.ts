@@ -100,7 +100,7 @@ export default class DeviceLogsCmd extends Command {
 		);
 		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 
 		const displayCloudLog = async (line: LogMessage) => {
 			if (!line.isSystem) {

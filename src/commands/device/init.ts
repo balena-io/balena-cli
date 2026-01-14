@@ -144,7 +144,7 @@ export default class DeviceInitCmd extends Command {
 		const { getApplication } = await import('../../utils/sdk.js');
 		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 		const balena = getBalenaSdk();
 
 		let fleetSlugOrId: string | number | undefined = options.fleet;

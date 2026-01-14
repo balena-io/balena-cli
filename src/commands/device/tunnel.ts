@@ -93,7 +93,7 @@ export default class DeviceTunnelCmd extends Command {
 
 		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 		const sdk = getBalenaSdk();
 
 		const logConnection = (

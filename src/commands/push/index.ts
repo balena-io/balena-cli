@@ -226,7 +226,7 @@ export default class PushCmd extends Command {
 
 		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 		logger.logDebug(`Using build source directory: ${options.source} `);
 
 		const sdk = getBalenaSdk();

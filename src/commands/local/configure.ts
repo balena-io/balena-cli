@@ -47,7 +47,7 @@ export default class LocalConfigureCmd extends Command {
 		const { denyMount, safeUmount } = await import('../../utils/umount.js');
 		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 
 		const configurationSchema = await this.prepareConnectionFile(params.target);
 

@@ -285,7 +285,7 @@ export async function getOnlineTargetDeviceUuid(
 	sdk: BalenaSDK,
 	fleetOrDevice: string,
 ) {
-	const logger = (await import('../utils/logger.js')).getLogger();
+	const logger = (await import('../utils/logger.js')).default.getLogger();
 
 	// If looks like UUID, probably device
 	if (validation.validateUuid(fleetOrDevice)) {
