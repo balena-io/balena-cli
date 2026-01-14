@@ -1,4 +1,24 @@
 - commits:
+    - subject: Reduce overall usage of `require`
+      hash: 9f720307181e5e21058a165e27cc37ad8140b981
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+    - subject: Remove unused `setMaxListeners` function
+      hash: 26977465d5d418b565c9b89968f09aca29e35d57
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 23.2.22
+  title: ""
+  date: 2026-01-14T13:05:46.082Z
+- commits:
     - subject: Remove no longer needed direct dependencies `file-disk` and
         `partitioninfo`
       hash: 7c978a0d8112437418f9e4d9b0d0a0be042ab167
