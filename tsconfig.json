@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"declaration": true,
-		"module": "commonjs",
+		"module": "nodenext",
 		"target": "es2018",
 		"outDir": "build",
 		"strict": true,
