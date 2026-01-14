@@ -39,7 +39,7 @@ export default class ConfigReconfigureCmd extends Command {
 	];
 
 	public static flags = {
-		drive: cf.driveOrImg,
+		drive: cf.driveOrImg(),
 		advanced: Flags.boolean({
 			description: 'show advanced commands',
 			char: 'v',

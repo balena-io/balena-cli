@@ -19,80 +19,116 @@ import { Flags } from '@oclif/core';
 import { stripIndent } from './lazy';
 import { lowercaseIfSlug } from './normalization';
 
-export const fleet = Flags.string({
-	char: 'f',
-	description: 'fleet name or slug (preferred)',
-	parse: lowercaseIfSlug,
-});
+type StringFlagOptions = NonNullable<Parameters<(typeof Flags)['string']>[0]>;
+type BooleanFlagOptions = NonNullable<Parameters<(typeof Flags)['boolean']>[0]>;
 
-export const device = Flags.string({
-	char: 'd',
-	description: 'device UUID',
-});
+type StringFlagProps = Partial<
+	Pick<StringFlagOptions, 'exclusive' | 'description' | 'required' | 'char'>
+>;
+type BooleanFlagProps = Partial<
+	Pick<BooleanFlagOptions, 'exclusive' | 'description' | 'char'>
+>;
 
-export const quiet = Flags.boolean({
-	char: 'q',
-	description: 'suppress warning messages',
-	default: false,
-});
+export const fleet = (props: StringFlagProps = {}) =>
+	Flags.string({
+		char: 'f',
+		description: 'fleet name or slug (preferred)',
+		parse: lowercaseIfSlug,
+		...props,
+	});
 
-export const release = Flags.string({
-	char: 'r',
-	description: 'release id',
-});
+export const device = (props: StringFlagProps = {}) =>
+	Flags.string({
+		char: 'd',
+		description: 'device UUID',
+		...props,
+	});
 
-export const service = Flags.string({
-	char: 's',
-	description: 'service name',
-});
+export const quiet = (props: BooleanFlagProps = {}) =>
+	Flags.boolean({
+		char: 'q',
+		description: 'suppress warning messages',
+		default: false,
+		...props,
+	});
 
-export const verbose = Flags.boolean({
-	char: 'v',
-	description: 'produce verbose output',
-	default: false,
-});
+export const release = (props: StringFlagProps = {}) =>
+	Flags.string({
+		char: 'r',
+		description: 'release id',
+		...props,
+	});
 
-export const yes = Flags.boolean({
-	char: 'y',
-	description: 'answer "yes" to all questions (non interactive use)',
-	default: false,
-});
+export const service = (props: StringFlagProps = {}) =>
+	Flags.string({
+		char: 's',
+		description: 'service name',
+		...props,
+	});
 
-export const force = Flags.boolean({
-	char: 'f',
-	description: 'force action if the update lock is set',
-	default: false,
-});
+export const verbose = (props: BooleanFlagProps = {}) =>
+	Flags.boolean({
+		char: 'v',
+		description: 'produce verbose output',
+		default: false,
+		...props,
+	});
 
-export const dev = Flags.boolean({
-	description: 'Configure balenaOS to operate in development mode',
-	default: false,
-});
+export const yes = (props: BooleanFlagProps = {}) =>
+	Flags.boolean({
+		char: 'y',
+		description: 'answer "yes" to all questions (non interactive use)',
+		default: false,
+		...props,
+	});
 
-export const secureBoot = Flags.boolean({
-	description:
-		'Configure balenaOS installer to opt-in secure boot and disk encryption',
-	default: false,
-});
+export const force = (props: BooleanFlagProps = {}) =>
+	Flags.boolean({
+		char: 'f',
+		description: 'force action if the update lock is set',
+		default: false,
+		...props,
+	});
 
-export const drive = Flags.string({
-	char: 'd',
-	description: stripIndent`
+export const dev = (props: BooleanFlagProps = {}) =>
+	Flags.boolean({
+		description: 'Configure balenaOS to operate in development mode',
+		default: false,
+		...props,
+	});
+
+export const secureBoot = (props: BooleanFlagProps = {}) =>
+	Flags.boolean({
+		description:
+			'Configure balenaOS installer to opt-in secure boot and disk encryption',
+		default: false,
+		...props,
+	});
+
+export const drive = (props: StringFlagProps = {}) =>
+	Flags.string({
+		char: 'd',
+		description: stripIndent`
 		the drive to write the image to, eg. \`/dev/sdb\` or \`/dev/mmcblk0\`.
 		Careful with this as you can erase your hard drive.
 		Check \`balena util available-drives\` for available options.
 	`,
-});
+		...props,
+	});
 
-export const driveOrImg = Flags.string({
-	char: 'd',
-	description:
-		'path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)',
-});
+export const driveOrImg = (props: StringFlagProps = {}) =>
+	Flags.string({
+		char: 'd',
+		description:
+			'path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)',
+		...props,
+	});
 
-export const deviceType = Flags.string({
-	description:
-		'device type (Check available types with `balena device-type list`)',
-	char: 't',
-	required: true,
-});
+export const deviceType = (props: StringFlagProps = {}) =>
+	Flags.string({
+		description:
+			'device type (Check available types with `balena device-type list`)',
+		char: 't',
+		required: true,
+		...props,
+	});

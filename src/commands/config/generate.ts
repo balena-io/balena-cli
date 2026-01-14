@@ -70,17 +70,16 @@ export default class ConfigGenerateCmd extends Command {
 			description: 'a balenaOS version',
 			required: true,
 		}),
-		fleet: { ...cf.fleet, exclusive: ['device'] },
-		dev: cf.dev,
-		secureBoot: cf.secureBoot,
-		device: {
-			...cf.device,
+		fleet: cf.fleet({ exclusive: ['device'] }),
+		dev: cf.dev(),
+		secureBoot: cf.secureBoot(),
+		device: cf.device({
 			exclusive: [
 				'fleet',
 				'provisioning-key-name',
 				'provisioning-key-expiry-date',
 			],
-		},
+		}),
 		deviceApiKey: Flags.string({
 			description:
 				'custom device key - note that this is only supported on balenaOS 2.0.3+',

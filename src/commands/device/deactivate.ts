@@ -41,7 +41,7 @@ export default class DeviceDeactivateCmd extends Command {
 	};
 
 	public static flags = {
-		yes: cf.yes,
+		yes: cf.yes(),
 	};
 
 	public static authenticated = true;

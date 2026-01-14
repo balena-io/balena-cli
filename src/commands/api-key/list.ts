@@ -35,7 +35,7 @@ export default class APIKeyListCmd extends Command {
 			char: 'u',
 			description: 'show API keys for your user',
 		}),
-		fleet: cf.fleet,
+		fleet: cf.fleet(),
 	};
 
 	public static authenticated = true;

@@ -60,7 +60,7 @@ export default class JoinCmd extends Command {
 	};
 
 	public static flags = {
-		fleet: cf.fleet,
+		fleet: cf.fleet(),
 		pollInterval: Flags.integer({
 			description: 'the interval in minutes to check for updates',
 			char: 'i',

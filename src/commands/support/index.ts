@@ -56,11 +56,10 @@ export default class SupportCmd extends Command {
 			description: 'comma-separated list (no spaces) of device UUIDs',
 			char: 'd',
 		}),
-		fleet: {
-			...cf.fleet,
+		fleet: cf.fleet({
 			description:
 				'comma-separated list (no spaces) of fleet names or slugs (preferred)',
-		},
+		}),
 		duration: Flags.string({
 			description:
 				'length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d',
