@@ -40,7 +40,7 @@ export async function umount(device: string): Promise<void> {
 	}
 	const { sanitizePath, whichBin } = await import('./which');
 	// sanitize user's input (regular expression attacks ?)
-	device = sanitizePath(device);
+	device = await sanitizePath(device);
 	const cmd: string[] = [];
 
 	if (process.platform === 'darwin') {

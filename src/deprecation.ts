@@ -205,14 +205,13 @@ or release date not available`);
 			const { ExpectedError } = await import('./errors');
 			throw new ExpectedError(this.getExpiryMsg(daysElapsed));
 		} else if (daysElapsed > this.deprecationDays && process.stderr.isTTY) {
-			console.error(this.getDeprecationMsg(daysElapsed));
+			console.error(await this.getDeprecationMsg(daysElapsed));
 		}
 	}
 
 	/** Separate function for the benefit of code testing */
-	getDeprecationMsg(daysElapsed: number) {
-		const { warnify } =
-			require('./utils/messages') as typeof import('./utils/messages');
+	async getDeprecationMsg(daysElapsed: number) {
+		const { warnify } = await import('./utils/messages');
 		return warnify(`\
 CLI version ${this.nextMajorVersion} was released ${daysElapsed} days ago: please upgrade.
 This version of the balena CLI (${this.currentVersion}) will exit with an error

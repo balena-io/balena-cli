@@ -51,22 +51,12 @@ async function checkNodeVersion() {
 }
 
 /** Setup balena-sdk options that are shared with imported packages */
-function setupBalenaSdkSharedOptions(settings: CliSettings) {
-	const BalenaSdk = require('balena-sdk') as typeof import('balena-sdk');
+async function setupBalenaSdkSharedOptions(settings: CliSettings) {
+	const BalenaSdk = await import('balena-sdk');
 	BalenaSdk.setSharedOptions({
 		apiUrl: settings.get<string>('apiUrl'),
 		dataDirectory: settings.get<string>('dataDirectory'),
 	});
-}
-
-/**
- * Addresses the console warning:
- * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
- * leak detected. 11 error listeners added. Use emitter.setMaxListeners() to
- * increase limit
- */
-export function setMaxListeners(maxListeners: number) {
-	require('events').EventEmitter.defaultMaxListeners = maxListeners;
 }
 
 /** Selected CLI initialization steps */
@@ -85,7 +75,7 @@ async function init() {
 	// Proxy setup should be done early on, before loading balena-sdk
 	await (await import('./utils/proxy')).setupGlobalHttpProxy(settings);
 
-	setupBalenaSdkSharedOptions(settings);
+	await setupBalenaSdkSharedOptions(settings);
 
 	// check for CLI updates once a day
 	if (!process.env.BALENARC_OFFLINE_MODE) {
@@ -190,7 +180,7 @@ export async function run(cliArgs = process.argv, options: AppOptions) {
 		await init();
 
 		// Look for commands that have been removed and if so, exit with a notice
-		checkDeletedCommand(cliArgs.slice(2));
+		await checkDeletedCommand(cliArgs.slice(2));
 
 		const args = await preparseArgs(cliArgs);
 		await oclifRun(args, options);

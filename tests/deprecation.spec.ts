@@ -116,7 +116,7 @@ describe('DeprecationChecker', function () {
 
 			expect(out.join('')).to.include(`balena-cli/${getPackageJson().version}`);
 			expect(err.join('')).to.equal(
-				checker.getDeprecationMsg(checker.deprecationDays + 1) + '\n',
+				(await checker.getDeprecationMsg(checker.deprecationDays + 1)) + '\n',
 			);
 		},
 	);

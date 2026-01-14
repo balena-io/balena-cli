@@ -104,8 +104,8 @@ function extractBooleanFlag(argv: string[], flag: string): boolean {
  * Check whether the command line refers to a command that has been deprecated
  * and removed and, if so, exit with an informative error message.
  */
-export function checkDeletedCommand(argvSlice: string[]): void {
-	const { ExpectedError } = require('./errors') as typeof import('./errors');
+export async function checkDeletedCommand(argvSlice: string[]): Promise<void> {
+	const { ExpectedError } = await import('./errors');
 
 	if (argvSlice[0] === 'help') {
 		argvSlice = argvSlice.slice(1);

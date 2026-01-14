@@ -127,7 +127,7 @@ export default class DeviceSSHCmd extends Command {
 		} = await import('../../utils/patterns');
 		const sdk = getBalenaSdk();
 
-		const proxyConfig = getProxyConfig();
+		const proxyConfig = await getProxyConfig();
 		const useProxy = !!proxyConfig && !options.noproxy;
 
 		// this will be a tunnelled SSH connection...
