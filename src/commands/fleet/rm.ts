@@ -43,7 +43,7 @@ export default class FleetRmCmd extends Command {
 	};
 
 	public static flags = {
-		yes: cf.yes,
+		yes: cf.yes(),
 	};
 
 	public static authenticated = true;

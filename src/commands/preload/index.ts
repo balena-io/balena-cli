@@ -159,7 +159,7 @@ export default class PreloadCmd extends Command {
 	};
 
 	public static flags = {
-		fleet: cf.fleet,
+		fleet: cf.fleet(),
 		commit: Flags.string({
 			description: `\
 The commit hash of the release to preload. Use "current" to specify the current

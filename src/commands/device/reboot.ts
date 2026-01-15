@@ -35,7 +35,7 @@ export default class DeviceRebootCmd extends Command {
 	};
 
 	public static flags = {
-		force: cf.force,
+		force: cf.force(),
 	};
 
 	public static authenticated = true;

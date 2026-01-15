@@ -114,8 +114,8 @@ export default class OsConfigureCmd extends Command {
 			'config-wifi-ssid': Flags.string({
 				description: 'WiFi SSID (network name) (non-interactive configuration)',
 			}),
-			dev: cf.dev,
-			secureBoot: cf.secureBoot,
+			dev: cf.dev(),
+			secureBoot: cf.secureBoot(),
 			'device-type': Flags.string({
 				description:
 					'device type slug (e.g. "raspberrypi3") to override the fleet device type',
@@ -137,9 +137,8 @@ export default class OsConfigureCmd extends Command {
 			}),
 		};
 		return {
-			fleet: { ...cf.fleet, exclusive: ['device', 'config'] },
-			device: {
-				...cf.device,
+			fleet: cf.fleet({ exclusive: ['device', 'config'] }),
+			device: cf.device({
 				exclusive: [
 					'fleet',
 					'device-type',
@@ -147,7 +146,7 @@ export default class OsConfigureCmd extends Command {
 					'provisioning-key-name',
 					'provisioning-key-expiry-date',
 				],
-			},
+			}),
 			config: Flags.string({
 				description:
 					'path to a pre-generated config.json file to be injected in the OS image',
