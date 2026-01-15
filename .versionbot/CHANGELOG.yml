@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/upload-artifact action to v6
+      hash: c5e6f3ac61b4912ebe4ff1187a25ffd98dd7b778
+      body: |
+        Update actions/upload-artifact from 5 to 6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.24
+  title: ""
+  date: 2026-01-15T17:19:53.265Z
+- commits:
     - subject: Change common-flags modules to factories instead of static object
       hash: 836ce0cb8dc13d952b2d3f61327f6cf8ad3bd44f
       body: ""
