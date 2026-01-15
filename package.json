@@ -185,7 +185,7 @@
     "balena-image-fs": "^7.6.0",
     "balena-preload": "^18.0.5",
     "balena-sdk": "^22.4.5",
-    "balena-semver": "^3.0.10",
+    "balena-semver": "^4.0.0",
     "balena-settings-client": "^5.0.2",
     "balena-settings-storage": "^8.1.0",
     "body-parser": "^1.19.1",
