@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node digest to 6044e13
+      hash: 43c24a59c4417318a45cfc1469199b966a7aba7d
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.27
+  title: ""
+  date: 2026-01-15T23:45:52.444Z
+- commits:
     - subject: Update apple-actions/import-codesign-certs action to v6
       hash: 31ad3655d279a3b3aedf6e0a86361dc4466f85bd
       body: |
