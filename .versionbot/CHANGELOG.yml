@@ -1,4 +1,16 @@
 - commits:
+    - subject: Change common-flags modules to factories instead of static object
+      hash: 836ce0cb8dc13d952b2d3f61327f6cf8ad3bd44f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otavio Jacobi
+      nested: []
+  version: 23.2.23
+  title: ""
+  date: 2026-01-15T01:22:05.566Z
+- commits:
     - subject: Reduce overall usage of `require`
       hash: 9f720307181e5e21058a165e27cc37ad8140b981
       body: ""
