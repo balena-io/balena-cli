@@ -175,15 +175,18 @@ ${dockerignoreHelp}
 				options['registry-secrets'],
 			);
 		} else {
-			const { dockerfilePath, registrySecrets } =
+			const { dockerfilePath, registrySecrets, composeFilePath, projectPath } =
 				await validateProjectDirectory(sdk, {
 					dockerfilePath: options.dockerfile,
+					composeFilePath: options.file,
 					noParentCheck: options['noparent-check'] || false,
 					// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 					projectPath: options.source || '.',
 					registrySecretsPath: options['registry-secrets'],
 				});
 			options.dockerfile = dockerfilePath;
+			options.file = composeFilePath;
+			options.source = projectPath;
 			(options as FlagsDef)['registry-secrets'] = registrySecrets;
 		}
 
