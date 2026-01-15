@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update apple-actions/import-codesign-certs action to v6
+      hash: 31ad3655d279a3b3aedf6e0a86361dc4466f85bd
+      body: |
+        Update apple-actions/import-codesign-certs from 5 to 6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.26
+  title: ""
+  date: 2026-01-15T22:23:42.082Z
+- commits:
     - subject: Update actions/download-artifact action to v7
       hash: 8bde33452d108ab9ba2b975330c3d5aec72974a2
       body: |
