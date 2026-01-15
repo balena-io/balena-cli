@@ -161,7 +161,7 @@ runs:
         REF_NAME: ${{ github.event.pull_request.head.ref }}
         REF_SHA: ${{ github.event.pull_request.head.sha }}
     - name: Upload artifacts
-      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
       with:
         name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ strategy.job-index }}
         path: |
