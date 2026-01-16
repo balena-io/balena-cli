@@ -178,5 +178,15 @@ describe('Login server:', function () {
 				expectedErrorMsg: 'Invalid token',
 			});
 		});
+
+		it('should be rejected if no body is provided', async () => {
+			const res = await got.post(
+				`http://${addr.host}:${addr.port}${addr.urlPath}`,
+				{
+					throwHttpErrors: false,
+				},
+			);
+			expect(res.statusCode).to.equal(401);
+		});
 	});
 });
