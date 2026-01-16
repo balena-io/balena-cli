@@ -19,10 +19,10 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
 
-import { getPackageJson } from '../build/utils/lazy';
-import { getNodeEngineVersionWarn } from '../build/utils/messages';
-import { warnify } from '../build/utils/messages';
-import { MOCKTTP_PORT } from './config-tests';
+import { getPackageJson } from '../build/utils/lazy.js';
+import { getNodeEngineVersionWarn } from '../build/utils/messages.js';
+import { warnify } from '../build/utils/messages.js';
+import { MOCKTTP_PORT } from './config-tests.js';
 
 const standalonePath = path.resolve(
 	__dirname,
@@ -114,8 +114,8 @@ export function filterCliOutputForTests({
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  */
 async function runCommandInProcess(cmd: string): Promise<TestOutput> {
-	const balenaCLI = await import('../build/app');
-	const intercept = await import('intercept-stdout');
+	const balenaCLI = await import('../build/app.js');
+	const { default: intercept } = await import('intercept-stdout');
 
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 

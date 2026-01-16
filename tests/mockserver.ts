@@ -1,7 +1,7 @@
 import * as mockttp from 'mockttp';
 import * as path from 'path';
 import * as fs from 'fs';
-import { MOCKTTP_PORT } from './config-tests';
+import { MOCKTTP_PORT } from './config-tests.js';
 import { Readable } from 'stream';
 
 // Helper to get IPv4 URL - mockServer.url returns http://localhost:PORT but
@@ -60,9 +60,8 @@ export class MockHttpServer {
 		const storage = getStorage({ dataDirectory });
 		await storage.set('token', 'test-token-for-ssh-test');
 
-		const lazyModule = await import('../build/utils/lazy');
+		const lazyModule = await import('../build/utils/lazy.js');
 		this.originalGetBalenaSdk = lazyModule.getBalenaSdk;
-		// @ts-expect-error - Overriding read-only property for testing
 		lazyModule.getBalenaSdk = () => sdk;
 
 		this.originalDockerHost = process.env.DOCKER_HOST;
@@ -79,8 +78,7 @@ export class MockHttpServer {
 		}
 		// Restore original getBalenaSdk to prevent module state pollution
 		if (this.originalGetBalenaSdk) {
-			const lazyModule = await import('../build/utils/lazy');
-			// @ts-expect-error - Overriding read-only property for testing
+			const lazyModule = await import('../build/utils/lazy.js');
 			lazyModule.getBalenaSdk = this.originalGetBalenaSdk;
 		}
 	}

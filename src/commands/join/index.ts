@@ -16,10 +16,10 @@
  */
 
 import { Args, Flags, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import { parseAsLocalHostnameOrIp } from '../../utils/validation';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
+import { parseAsLocalHostnameOrIp } from '../../utils/validation.js';
 
 export default class JoinCmd extends Command {
 	public static description = stripIndent`
@@ -73,10 +73,10 @@ export default class JoinCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(JoinCmd);
 
-		const promote = await import('../../utils/promote');
+		const promote = await import('../../utils/promote.js');
 		const sdk = getBalenaSdk();
-		const Logger = await import('../../utils/logger');
-		const logger = Logger.getLogger();
+		const Logger = await import('../../utils/logger.js');
+		const logger = Logger.default.getLogger();
 		return promote.join(
 			logger,
 			sdk,

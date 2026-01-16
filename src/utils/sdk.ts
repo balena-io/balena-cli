@@ -38,7 +38,7 @@ export async function getApplication(
 	nameOrSlugOrId: string | number,
 	options?: Pine.ODataOptionsWithoutCount<Application['Read']>,
 ) {
-	const { looksLikeFleetSlug } = await import('./validation');
+	const { looksLikeFleetSlug } = await import('./validation.js');
 	const whoamiResult = await sdk.auth.whoami();
 	const isDeviceActor = whoamiResult?.actorType === 'device';
 
@@ -93,7 +93,7 @@ export async function getFleetSlug(
 	sdk: BalenaSDK,
 	nameOrSlug: string,
 ): Promise<string> {
-	const { looksLikeFleetSlug } = await import('./validation');
+	const { looksLikeFleetSlug } = await import('./validation.js');
 	if (!looksLikeFleetSlug(nameOrSlug)) {
 		// Not a slug: must be an app name.
 		// TODO: revisit this logic when we add support for fleet UUIDs.

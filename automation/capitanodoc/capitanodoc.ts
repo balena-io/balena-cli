@@ -16,7 +16,7 @@
  */
 
 import * as path from 'path';
-import { MarkdownFileParser } from './utils';
+import { MarkdownFileParser } from './utils.js';
 import { GlobSync } from 'glob';
 
 /**

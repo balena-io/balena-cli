@@ -16,7 +16,7 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy.js';
 
 export default class DeviceRenameCmd extends Command {
 	public static description = stripIndent`

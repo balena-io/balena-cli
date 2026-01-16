@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
 
 export default class DeviceRmCmd extends Command {
 	public static description = stripIndent`
@@ -52,7 +52,7 @@ export default class DeviceRmCmd extends Command {
 		const { args: params, flags: options } = await this.parse(DeviceRmCmd);
 
 		const balena = getBalenaSdk();
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../utils/patterns.js');
 
 		// Confirm
 		const uuids = params.uuid.split(',');

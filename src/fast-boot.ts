@@ -66,12 +66,14 @@ async function $start() {
 	// a regular user account.
 	const cacheFile = path.join(dataDir, 'cli-module-cache.json');
 	const root = path.join(__dirname, '..');
-	const [, pJson, pStat, nStat] = await Promise.all([
+	const packageJsonPath = path.join(root, 'package.json');
+	const [, pJsonContent, pStat, nStat] = await Promise.all([
 		ensureCanWrite(dataDir, cacheFile),
-		import('../package.json'),
-		fs.promises.stat(path.join(root, 'package.json'), { bigint: true }),
+		fs.promises.readFile(packageJsonPath, 'utf8'),
+		fs.promises.stat(packageJsonPath, { bigint: true }),
 		fs.promises.stat(path.join(root, 'npm-shrinkwrap.json'), { bigint: true }),
 	]);
+	const pJson: { version: string } = JSON.parse(pJsonContent);
 	// Include timestamps to account for dev-time changes to node_modules
 	const cacheKiller = `${pJson.version}-${pStat.mtimeMs}-${nStat.mtimeMs}`;
 	require('fast-boot2').start({

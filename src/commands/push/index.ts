@@ -17,16 +17,16 @@
 
 import { Flags, Args, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { dockerignoreHelp, registrySecretsHelp } from '../../utils/messages';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { dockerignoreHelp, registrySecretsHelp } from '../../utils/messages.js';
 import type { BalenaSDK } from 'balena-sdk';
-import { ExpectedError, instanceOf } from '../../errors';
-import type { RegistrySecrets } from '@balena/compose/dist/multibuild';
-import { lowercaseIfSlug } from '../../utils/normalization';
+import { ExpectedError, instanceOf } from '../../errors.js';
+import type { RegistrySecrets } from '@balena/compose/dist/multibuild/index.js';
+import { lowercaseIfSlug } from '../../utils/normalization.js';
 import {
 	applyReleaseTagKeysAndValues,
 	parseReleaseTagKeysAndValues,
-} from '../../utils/compose_ts';
+} from '../../utils/compose_ts.js';
 
 enum BuildTarget {
 	Cloud,
@@ -224,13 +224,15 @@ export default class PushCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(PushCmd);
 
-		const Logger = await import('../../utils/logger');
+		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 		logger.logDebug(`Using build source directory: ${options.source} `);
 
 		const sdk = getBalenaSdk();
-		const { validateProjectDirectory } = await import('../../utils/compose_ts');
+		const { validateProjectDirectory } = await import(
+			'../../utils/compose_ts.js'
+		);
 		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
 			sdk,
 			{
@@ -273,8 +275,8 @@ export default class PushCmd extends Command {
 		dockerfilePath: string,
 		registrySecrets: RegistrySecrets,
 	) {
-		const remote = await import('../../utils/remote-build');
-		const { getApplication } = await import('../../utils/sdk');
+		const remote = await import('../../utils/remote-build.js');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		// Check for invalid options
 		const localOnlyOptions: Array<keyof FlagsDef> = [
@@ -293,7 +295,7 @@ export default class PushCmd extends Command {
 			options['release-tag'] ?? [],
 		);
 
-		const { checkLoggedIn } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 		await checkLoggedIn();
 		const [token, baseUrl] = await Promise.all([
@@ -355,7 +357,7 @@ export default class PushCmd extends Command {
 			'is only valid when pushing to a fleet',
 		);
 
-		const deviceDeploy = await import('../../utils/device/deploy');
+		const deviceDeploy = await import('../../utils/device/deploy.js');
 
 		try {
 			await deviceDeploy.deployToDevice({
@@ -376,7 +378,7 @@ export default class PushCmd extends Command {
 				convertEol: !options['noconvert-eol'],
 			});
 		} catch (e) {
-			const { BuildError } = await import('../../utils/device/errors');
+			const { BuildError } = await import('../../utils/device/errors.js');
 			if (instanceOf(e, BuildError)) {
 				throw new ExpectedError(e.toString());
 			} else {
@@ -387,7 +389,7 @@ export default class PushCmd extends Command {
 
 	protected async getBuildTarget(appOrDevice: string): Promise<BuildTarget> {
 		const { validateLocalHostnameOrIp } = await import(
-			'../../utils/validation'
+			'../../utils/validation.js'
 		);
 
 		return validateLocalHostnameOrIp(appOrDevice)

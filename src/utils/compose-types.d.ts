@@ -19,7 +19,10 @@ import type {
 	ImageModel,
 	ReleaseModel,
 } from '@balena/compose/dist/release/models';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type {
+	Composition,
+	ImageDescriptor,
+} from '@balena/compose/dist/parse/index.js';
 import type { Pack } from 'tar-stream';
 
 interface Image {

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
 import { Command } from '@oclif/core';
 
 export default class FleetListCmd extends Command {

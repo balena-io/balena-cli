@@ -16,7 +16,7 @@
  */
 
 import type * as SDK from 'balena-sdk';
-import { getBalenaSdk } from './lazy';
+import { getBalenaSdk } from './lazy.js';
 
 // eslint-disable-next-line no-useless-escape
 const BALENAOS_VERSION_REGEX = /v?\d+\.\d+\.\d+(\.rev\d+)?((\-|\+).+)?/;
@@ -153,7 +153,9 @@ export const getImage = async (deviceType: string, version: string) => {
 	> & { mime: string };
 	// Default to application/octet-stream if we could not find a more specific mime type
 
-	const { getType } = await import('mime');
+	const {
+		default: { getType },
+	} = await import('mime');
 	stream.mime = getType(imagePath) ?? 'application/octet-stream';
 	return stream;
 };

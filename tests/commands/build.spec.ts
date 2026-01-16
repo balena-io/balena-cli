@@ -21,19 +21,19 @@ import * as sinon from 'sinon';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { stripIndent } from '../../build/utils/lazy';
-import { MockHttpServer } from '../mockserver';
-import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
-import { cleanOutput, runCommand } from '../helpers';
+import { stripIndent } from '../../build/utils/lazy.js';
+import { MockHttpServer } from '../mockserver.js';
+import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build.js';
+import { cleanOutput, runCommand } from '../helpers.js';
 import type {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-} from '../projects';
+} from '../projects.js';
 import {
 	getDockerignoreWarn1,
 	getDockerignoreWarn2,
 	getDockerignoreWarn3,
-} from '../projects';
+} from '../projects.js';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -266,7 +266,7 @@ describe('balena build', function () {
 		}
 		const arch = 'rpi';
 		const deviceType = 'raspberry-pi';
-		const qemuMod = await import('../../build/utils/qemu');
+		const qemuMod = await import('../../build/utils/qemu.js');
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
 
 		// Stub fs.promises.access and fs.promises.stat to pretend that a copy of the Qemu binary

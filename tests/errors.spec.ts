@@ -23,8 +23,8 @@ import {
 } from 'balena-errors';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as ErrorsModule from '../build/errors';
-import { getHelp } from '../build/utils/messages';
+import * as ErrorsModule from '../build/errors.js';
+import { getHelp } from '../build/utils/messages.js';
 
 function red(s: string) {
 	// FORCE_COLOR=1 is set in tests/config-tests.ts to ensure consistent color output

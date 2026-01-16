@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import * as path from 'path';
-import { getCapitanoDoc } from './capitanodoc';
+import { getCapitanoDoc } from './capitanodoc.js';
 import type { Category, Document, OclifCommand } from './doc-types';
-import * as markdown from './markdown';
+import * as markdown from './markdown.js';
 
 /**
  * Generates the markdown document (as a string) for the CLI documentation
@@ -47,8 +47,10 @@ export async function renderMarkdown(): Promise<string> {
 }
 
 async function importOclifCommands(jsFilename: string) {
-	const command = (await import(path.join(process.cwd(), jsFilename)))
-		.default as OclifCommand;
+	const imported = await import(path.join(process.cwd(), jsFilename));
+	// Handle CJS-ESM interop: with NodeNext, .default may be { default: Class }
+	const command = (imported.default?.default ??
+		imported.default) as OclifCommand;
 
 	return {
 		...command,

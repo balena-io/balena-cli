@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import * as chaiAsPromised from 'chai-as-promised';
+import chaiAsPromised from 'chai-as-promised';
 import * as chai from 'chai';
-import { ExpectedError } from '../../build/errors';
-import * as v from '../../build/utils/validation';
+import { ExpectedError } from '../../build/errors.js';
+import * as v from '../../build/utils/validation.js';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

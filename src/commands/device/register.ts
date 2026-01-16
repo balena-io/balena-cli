@@ -16,9 +16,9 @@
  */
 
 import { Flags, Command } from '@oclif/core';
-import * as ca from '../../utils/common-args';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import * as ca from '../../utils/common-args.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class DeviceRegisterCmd extends Command {
 	public static description = stripIndent`
@@ -59,7 +59,7 @@ export default class DeviceRegisterCmd extends Command {
 		const { args: params, flags: options } =
 			await this.parse(DeviceRegisterCmd);
 
-		const { getApplication } = await import('../../utils/sdk');
+		const { getApplication } = await import('../../utils/sdk.js');
 
 		const balena = getBalenaSdk();
 

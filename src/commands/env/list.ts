@@ -18,10 +18,10 @@ import { Flags, Command } from '@oclif/core';
 import type { Interfaces } from '@oclif/core';
 import type * as SDK from 'balena-sdk';
 import * as _ from 'lodash';
-import { ExpectedError } from '../../errors';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { ExpectedError } from '../../errors.js';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 import type { PickExpanded } from '@balena/abstract-sql-to-typescript';
 
 type FlagsDef = Interfaces.InferredFlags<typeof EnvListCmd.flags>;
@@ -112,7 +112,7 @@ export default class EnvListCmd extends Command {
 
 		const variables: EnvironmentVariableInfo[] = [];
 
-		const { checkLoggedIn } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns.js');
 
 		await checkLoggedIn();
 
@@ -124,14 +124,14 @@ export default class EnvListCmd extends Command {
 
 		let fleetSlug: string | undefined = options.fleet
 			? await (
-					await import('../../utils/sdk')
+					await import('../../utils/sdk.js')
 				).getFleetSlug(balena, options.fleet)
 			: undefined;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
 			const { getDeviceAndMaybeAppFromUUID } = await import(
-				'../../utils/cloud'
+				'../../utils/cloud.js'
 			);
 			const [device, app] = await getDeviceAndMaybeAppFromUUID(
 				balena,
@@ -184,7 +184,7 @@ export default class EnvListCmd extends Command {
 		}
 
 		if (options.json) {
-			const { pickAndRename } = await import('../../utils/helpers');
+			const { pickAndRename } = await import('../../utils/helpers.js');
 			const mapped = varArray.map((o) => pickAndRename(o, fields));
 			return JSON.stringify(mapped, null, 4);
 		}

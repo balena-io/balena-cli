@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import * as fs from 'fs/promises';
-import { ExpectedError } from '../errors';
+import { ExpectedError } from '../errors.js';
 
 // Sufficiently good email regex in order not to bring in another dependency.
 const isValidEmail = (email: string): boolean => {

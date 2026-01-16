@@ -18,27 +18,27 @@
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { PathUtils } from '@balena/compose/dist/multibuild';
+import { PathUtils } from '@balena/compose/dist/multibuild/index.js';
 import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 import { diff } from 'deep-object-diff';
-import { makeImageName } from '../build/utils/compose_ts';
-import { stripIndent } from '../build/utils/lazy';
-import type { MockHttpServer } from './mockserver';
+import { makeImageName } from '../build/utils/compose_ts.js';
+import { stripIndent } from '../build/utils/lazy.js';
+import type { MockHttpServer } from './mockserver.js';
 import {
 	cleanOutput,
 	deepJsonParse,
 	deepTemplateReplace,
 	runCommand,
-} from './helpers';
+} from './helpers.js';
 import type {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-} from './projects';
+} from './projects.js';
 
 /**
  * Run a few chai.expect() test assertions on a tar stream/buffer produced by

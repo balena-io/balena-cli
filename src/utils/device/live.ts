@@ -21,21 +21,21 @@ import * as fs from 'fs';
 import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
-import type { Composition } from '@balena/compose/dist/parse';
-import type { BuildTask } from '@balena/compose/dist/multibuild';
+import type { Composition } from '@balena/compose/dist/parse/index.js';
+import type { BuildTask } from '@balena/compose/dist/multibuild/index.js';
 
-import { instanceOf } from '../../errors';
-import Logger = require('../logger');
+import { instanceOf } from '../../errors.js';
+import type Logger from '../logger.js';
 
 import { Dockerfile } from 'livepush';
-import type { DeviceAPI } from './api';
-import type { DeviceInfo, Status } from './api';
-import type { DeviceDeployOptions } from './deploy';
-import { generateTargetState, rebuildSingleTask } from './deploy';
-import { BuildError } from './errors';
-import { getServiceColor } from './logs';
-import { delay } from '../helpers';
-import { getCliUx } from '../lazy';
+import type { DeviceAPI } from './api.js';
+import type { DeviceInfo, Status } from './api.js';
+import type { DeviceDeployOptions } from './deploy.js';
+import { generateTargetState, rebuildSingleTask } from './deploy.js';
+import { BuildError } from './errors.js';
+import { getServiceColor } from './logs.js';
+import { delay } from '../helpers.js';
+import { getCliUx } from '../lazy.js';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
@@ -109,8 +109,8 @@ export class LivepushManager {
 		this.logger.logLivepush('Device state settled');
 
 		// Prepare dockerignore data for file watcher
-		const { getDockerignoreByService } = await import('../ignore');
-		const { getServiceDirsFromComposition } = await import('../compose_ts');
+		const { getDockerignoreByService } = await import('../ignore.js');
+		const { getServiceDirsFromComposition } = await import('../compose_ts.js');
 		const rootContext = path.resolve(this.buildContext);
 		const serviceDirsByService = await getServiceDirsFromComposition(
 			this.deployOpts.source,

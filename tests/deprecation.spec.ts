@@ -21,12 +21,12 @@ import { expect } from 'chai';
 import * as semver from 'semver';
 import * as sinon from 'sinon';
 
-import { getPackageJson } from '../build/utils/lazy';
-import type { ReleaseTimestampsByVersion } from '../build/deprecation';
-import { DeprecationChecker } from '../build/deprecation';
-import { MockHttpServer } from './mockserver';
-import type { TestOutput } from './helpers';
-import { runCommand } from './helpers';
+import { getPackageJson } from '../build/utils/lazy.js';
+import type { ReleaseTimestampsByVersion } from '../build/deprecation.js';
+import { DeprecationChecker } from '../build/deprecation.js';
+import { MockHttpServer } from './mockserver.js';
+import type { TestOutput } from './helpers.js';
+import { runCommand } from './helpers.js';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;

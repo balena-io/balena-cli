@@ -20,8 +20,8 @@ import {
 	type Command,
 	// ux
 } from '@oclif/core';
-import { InsufficientPrivilegesError } from '../errors';
-import { checkLoggedIn, checkNotUsingOfflineMode } from '../utils/patterns';
+import { InsufficientPrivilegesError } from '../errors.js';
+import { checkLoggedIn, checkNotUsingOfflineMode } from '../utils/patterns.js';
 
 let trackResolve: (result: Promise<any>) => void;
 
@@ -40,7 +40,7 @@ export const trackPromise = new Promise((resolve) => {
  *  - other code needs to execute before check
  */
 const checkElevatedPrivileges = async () => {
-	const isElevated = await (await import('is-elevated'))();
+	const isElevated = await (await import('is-elevated')).default();
 	if (!isElevated) {
 		throw new InsufficientPrivilegesError(
 			'You need root/admin privileges to run this command',
@@ -111,7 +111,7 @@ const hook: Hook<'prerun'> = async function (options) {
 	} catch (error) {
 		this.error(error);
 	}
-	const events = await import('../events');
+	const events = await import('../events.js');
 	const cmd = options.Command.id;
 
 	// Intentionally do not await for the track promise here, in order to

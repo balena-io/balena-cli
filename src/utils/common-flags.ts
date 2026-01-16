@@ -16,8 +16,8 @@
  */
 
 import { Flags } from '@oclif/core';
-import { stripIndent } from './lazy';
-import { lowercaseIfSlug } from './normalization';
+import { stripIndent } from './lazy.js';
+import { lowercaseIfSlug } from './normalization.js';
 
 type StringFlagOptions = NonNullable<Parameters<(typeof Flags)['string']>[0]>;
 type BooleanFlagOptions = NonNullable<Parameters<(typeof Flags)['boolean']>[0]>;

@@ -16,7 +16,7 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy.js';
 
 export default class LocalConfigureCmd extends Command {
 	public static description = stripIndent`
@@ -44,10 +44,10 @@ export default class LocalConfigureCmd extends Command {
 		const { args: params } = await this.parse(LocalConfigureCmd);
 
 		const reconfix = await import('reconfix');
-		const { denyMount, safeUmount } = await import('../../utils/umount');
-		const Logger = await import('../../utils/logger');
+		const { denyMount, safeUmount } = await import('../../utils/umount.js');
+		const Logger = await import('../../utils/logger.js');
 
-		const logger = Logger.getLogger();
+		const logger = Logger.default.getLogger();
 
 		const configurationSchema = await this.prepareConnectionFile(params.target);
 

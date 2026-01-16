@@ -19,8 +19,8 @@ import { expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { cleanOutput, runCommand } from '../../helpers';
-import { MockHttpServer } from '../../mockserver';
+import { cleanOutput, runCommand } from '../../helpers.js';
+import { MockHttpServer } from '../../mockserver.js';
 
 describe('balena release-asset download', function () {
 	let api: MockHttpServer['api'];

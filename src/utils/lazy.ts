@@ -16,6 +16,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 import type * as BalenaSdk from 'balena-sdk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
@@ -42,8 +45,17 @@ export const onceAsync = <T>(fn: () => Promise<T>) => {
 	};
 };
 
+interface PackageJson {
+	name: string;
+	version: string;
+	engines: { node: string };
+}
+
 export const getPackageJson = once(
-	() => require('../../package.json') as typeof import('../../package.json'),
+	() =>
+		JSON.parse(
+			readFileSync(join(__dirname, '../../package.json'), 'utf8'),
+		) as PackageJson,
 );
 
 const cliXBalenaClientHeaderInterceptor: BalenaSdk.Interceptor = {
@@ -76,7 +88,9 @@ export const getCliForm = once(
 	() => require('resin-cli-form') as typeof CliForm,
 );
 
-export const getCliUx = once(() => require('@oclif/core/ux').ux as typeof ux);
+export const getCliUx = once(
+	() => require('@oclif/core/ux').ux,
+) as () => typeof ux;
 
 // Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
 export const stripIndent =

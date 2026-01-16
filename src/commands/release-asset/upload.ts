@@ -16,8 +16,8 @@
  */
 
 import { Command, Flags, Args } from '@oclif/core';
-import { getBalenaSdk, stripIndent, getVisuals } from '../../utils/lazy';
-import { commitOrIdArg } from '../release';
+import { getBalenaSdk, stripIndent, getVisuals } from '../../utils/lazy.js';
+import { commitOrIdArg } from '../release/index.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 

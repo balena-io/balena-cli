@@ -16,7 +16,7 @@
  */
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
-import { getCliUx } from './lazy';
+import { getCliUx } from './lazy.js';
 
 enum Level {
 	BUILD = 'build',

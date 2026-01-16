@@ -19,8 +19,8 @@ import { expect } from 'chai';
 import * as path from 'path';
 import * as tar from 'tar-stream';
 
-import { tarDirectory } from '../../build/utils/compose_ts';
-import { setupDockerignoreTestData } from '../projects';
+import { tarDirectory } from '../../build/utils/compose_ts.js';
+import { setupDockerignoreTestData } from '../projects.js';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');

@@ -18,9 +18,9 @@ import ColorHash = require('color-hash');
 import * as _ from 'lodash';
 import type { Readable } from 'stream';
 
-import Logger = require('../logger');
-import { ExpectedError, SIGINTError } from '../../errors';
-import { getCliUx } from '../lazy';
+import type Logger from '../logger.js';
+import { ExpectedError, SIGINTError } from '../../errors.js';
+import { getCliUx } from '../lazy.js';
 
 class DeviceConnectionLostError extends ExpectedError {
 	public static defaultMsg = 'Connection to device lost';
@@ -63,7 +63,7 @@ async function displayDeviceLogs(
 	system: boolean,
 	filterServices?: string[],
 ): Promise<void> {
-	const { addSIGINTHandler } = await import('../helpers');
+	const { addSIGINTHandler } = await import('../helpers.js');
 	const { parse: ndjsonParse } = await import('ndjson');
 	let gotSignal = false;
 	const handleSignal = () => {
@@ -114,7 +114,7 @@ export async function connectAndDisplayDeviceLogs({
 	filterServices,
 	maxAttempts = 3,
 }: {
-	deviceApi: import('./api').DeviceAPI;
+	deviceApi: import('./api.js').DeviceAPI;
 	logger: Logger;
 	system: boolean;
 	filterServices?: string[];
@@ -126,7 +126,7 @@ export async function connectAndDisplayDeviceLogs({
 		return displayDeviceLogs(logStream, logger, system, filterServices);
 	}
 
-	const { retry } = await import('../../utils/helpers');
+	const { retry } = await import('../../utils/helpers.js');
 	try {
 		await retry({
 			func: connectAndDisplay,

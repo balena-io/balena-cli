@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { ExpectedError } from '../../errors';
-import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
+import { ExpectedError } from '../../errors.js';
+import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy.js';
 import {
 	formatDuration,
 	intervalToDuration,
@@ -33,7 +33,7 @@ async function isLoggedInWithJwt() {
 	try {
 		const token = await balena.auth.getToken();
 		const { default: jwtDecode } = await import('jwt-decode');
-		jwtDecode(token);
+		jwtDecode.default(token);
 		return true;
 	} catch {
 		return false;

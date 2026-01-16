@@ -68,7 +68,7 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		process.env.BLUEBIRD_LONG_STACK_TRACES = '1';
 	}
 
-	const Logger = await import('./utils/logger');
+	const { default: Logger } = await import('./utils/logger.js');
 	Logger.command = cmdSlice[0];
 
 	let args = cmdSlice;
@@ -105,7 +105,7 @@ function extractBooleanFlag(argv: string[], flag: string): boolean {
  * and removed and, if so, exit with an informative error message.
  */
 export async function checkDeletedCommand(argvSlice: string[]): Promise<void> {
-	const { ExpectedError } = await import('./errors');
+	const { ExpectedError } = await import('./errors.js');
 
 	if (argvSlice[0] === 'help') {
 		argvSlice = argvSlice.slice(1);
@@ -139,7 +139,7 @@ Please use "balena ${alternative}" instead.`);
 // Check if this is a space separated 'topic command' style command subcommand (e.g. `end add`)
 // by comparing with oclif style colon-separated subcommand list (e.g. `env:add`)
 export async function isSubcommand(args: string[]) {
-	const { getCommandIdsFromManifest } = await import('./utils/oclif-utils');
+	const { getCommandIdsFromManifest } = await import('./utils/oclif-utils.js');
 	const commandIds = await getCommandIdsFromManifest();
 	return commandIds.includes(`${args[0] ?? ''}:${args[1] ?? ''}`);
 }

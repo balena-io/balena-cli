@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk } from '../utils/lazy.js';
 
 /**
  * Get dashboard CLI login URL

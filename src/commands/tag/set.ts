@@ -16,9 +16,9 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import * as cf from '../../utils/common-flags.js';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy.js';
+import { applicationIdInfo } from '../../utils/messages.js';
 
 export default class TagSetCmd extends Command {
 	public static description = stripIndent`
@@ -73,14 +73,14 @@ export default class TagSetCmd extends Command {
 
 		// Check user has specified one of application/device/release
 		if (!options.fleet && !options.device && !options.release) {
-			const { ExpectedError } = await import('../../errors');
+			const { ExpectedError } = await import('../../errors.js');
 			throw new ExpectedError(TagSetCmd.missingResourceMessage);
 		}
 
 		params.value ??= '';
 
 		if (options.fleet) {
-			const { getFleetSlug } = await import('../../utils/sdk');
+			const { getFleetSlug } = await import('../../utils/sdk.js');
 			return balena.models.application.tags.set(
 				await getFleetSlug(balena, options.fleet),
 				params.tagKey,
@@ -96,7 +96,7 @@ export default class TagSetCmd extends Command {
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
+				'../../utils/normalization.js'
 			);
 			const releaseParam = await disambiguateReleaseParam(
 				balena,

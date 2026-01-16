@@ -16,8 +16,8 @@
  */
 
 import { Args, Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { parseAsInteger } from '../../utils/validation';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy.js';
+import { parseAsInteger } from '../../utils/validation.js';
 
 export default class SSHKeyCmd extends Command {
 	public static description = stripIndent`

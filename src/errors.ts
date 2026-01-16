@@ -17,9 +17,9 @@ limitations under the License.
 import type { BalenaError } from 'balena-errors';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
-import { getCliUx, stripIndent } from './utils/lazy';
-import { getHelp } from './utils/messages';
-import { CliSettings } from './utils/bootstrap';
+import { getCliUx, stripIndent } from './utils/lazy.js';
+import { getHelp } from './utils/messages.js';
+import { CliSettings } from './utils/bootstrap.js';
 
 export class ExpectedError extends TypedError {
 	public code?: string;
@@ -223,7 +223,8 @@ const EXPECTED_ERROR_REGEXES = [
 
 // Support unit testing of handleError
 export const getSentry = async function () {
-	return await import('@sentry/node');
+	const { captureException, close } = await import('@sentry/node');
+	return { captureException, close };
 };
 
 async function sentryCaptureException(error: Error) {

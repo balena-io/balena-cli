@@ -18,19 +18,19 @@
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as process from 'process';
-import { runCommand } from '../../helpers';
+import { runCommand } from '../../helpers.js';
 import { promisify } from 'util';
 import * as tmp from 'tmp';
 import * as path from 'node:path';
 import { tmpdir } from 'node:os';
 import type * as $imagefs from 'balena-image-fs';
-import { stripIndent } from '../../../build/utils/lazy';
+import { stripIndent } from '../../../build/utils/lazy.js';
 import { randomUUID } from 'node:crypto';
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
 
-import { MockHttpServer } from '../../mockserver';
+import { MockHttpServer } from '../../mockserver.js';
 
 if (process.platform !== 'win32') {
 	describe('balena os configure', function () {
