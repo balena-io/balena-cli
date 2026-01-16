@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency balena-settings-client to v6
+      hash: 22c69893c5837d7c6686ee38185ee117a6c559e2
+      body: |
+        Update balena-settings-client from 5.0.2 to 6.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.30
+  title: ""
+  date: 2026-01-16T17:53:40.335Z
+- commits:
     - subject: "server.spec: Test for undefined bodies"
       hash: cebc4c9243938d9f7850f4ec302888ec0b03f86a
       body: ""
