@@ -1,4 +1,49 @@
 - commits:
+    - subject: Update dependency balena-semver to v4
+      hash: 99b1d42c8a6cae27ce4263ce1717bdff86fce72b
+      body: |
+        Update balena-semver from 3.0.10 to 4.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested:
+        - commits:
+            - subject: Update tsconfig target to es2017
+              hash: bb223613283189e4b887275a82008380e27428b8
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-semver-4.0.1
+          title: ""
+          date: 2026-01-02T16:45:04.939Z
+        - commits:
+            - subject: Drop support for node < 20.12.0
+              hash: 5981f2b77de1f46c56d301a5458cd2ea1118281f
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Matthew Yarmolinsky
+              nested: []
+            - subject: Replace lodash with memoizee
+              hash: 74fd2868b398ad9aecbbbd12a5e83181e0a0c566
+              body: ""
+              footer:
+                Change-type: major
+                change-type: major
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-semver-4.0.0
+          title: ""
+          date: 2026-01-02T16:20:37.659Z
+  version: 23.2.28
+  title: ""
+  date: 2026-01-16T01:32:03.787Z
+- commits:
     - subject: Update actions/setup-node digest to 6044e13
       hash: 43c24a59c4417318a45cfc1469199b966a7aba7d
       body: |
