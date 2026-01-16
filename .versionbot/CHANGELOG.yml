@@ -1,4 +1,41 @@
 - commits:
+    - subject: "server.spec: Test for undefined bodies"
+      hash: cebc4c9243938d9f7850f4ec302888ec0b03f86a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "server: Add optional chain after `request.body`"
+      hash: aec94845252d578df183861879e577652a5f17f4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Drop unneeded dependency `@types/body-parser`
+      hash: b12ba3e88af5609b322915d9bd6de706166c4066
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update dependency body-parser to v2
+      hash: a4bb84b774bb9030f0f42157a7f4846349097e54
+      body: |
+        Update body-parser from 1.20.4 to 2.2.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 23.2.29
+  title: ""
+  date: 2026-01-16T16:18:35.201Z
+- commits:
     - subject: Update dependency balena-semver to v4
       hash: 99b1d42c8a6cae27ce4263ce1717bdff86fce72b
       body: |
