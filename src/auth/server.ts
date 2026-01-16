@@ -74,7 +74,7 @@ export class LoginServer extends EventEmitter {
 		this.expressApp.post(this.loginPath, async (request, response) => {
 			this.server.close(); // stop listening for new connections
 			try {
-				const token = request.body.token?.trim();
+				const token = request.body?.token?.trim();
 				if (!token) {
 					throw new ExpectedError('No token');
 				}
