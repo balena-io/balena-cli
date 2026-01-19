@@ -13,7 +13,7 @@ permissions:
 jobs:
   flowzone:
     name: Flowzone
-    uses: product-os/flowzone/.github/workflows/flowzone.yml@master
+    uses: product-os/flowzone/.github/workflows/flowzone.yml@ab77/Create-OIDC-trust-between-npm-and-GitHub-Actions-2091
     # prevent duplicate workflow executions for pull_request and pull_request_target
     if: |
       (
