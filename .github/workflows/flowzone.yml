@@ -1,4 +1,5 @@
 name: Flowzone
+
 on:
   pull_request:
     types: [opened, synchronize, closed]
@@ -6,6 +7,10 @@ on:
   pull_request_target:
     types: [opened, synchronize, closed]
     branches: [main, master]
+
+permissions:
+  id-token: write
+
 jobs:
   flowzone:
     name: Flowzone
