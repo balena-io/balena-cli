@@ -11258,10 +11258,11 @@
       "integrity": "sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g=="
     },
     "node_modules/diff": {
-      "version": "5.2.0",
-      "resolved": "https://registry.npmjs.org/diff/-/diff-5.2.0.tgz",
-      "integrity": "sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==",
+      "version": "5.2.2",
+      "resolved": "https://registry.npmjs.org/diff/-/diff-5.2.2.tgz",
+      "integrity": "sha512-vtcDfH3TOjP8UekytvnHH1o1P4FcUdt4eQ1Y+Abap1tk/OB2MWQvcwS2ClCd1zuIhc3JKOx6p3kod8Vfys3E+A==",
       "dev": true,
+      "license": "BSD-3-Clause",
       "engines": {
         "node": ">=0.3.1"
       }
@@ -18577,9 +18578,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@balena/abstract-sql-compiler": {
-      "version": "11.2.3",
-      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-compiler/-/abstract-sql-compiler-11.2.3.tgz",
-      "integrity": "sha512-E7Acbr6Wnf/uU3ZIoxCqlsrLonHpVbElgQH1iEmSSKoaTbpj5gduVQAlMdwJ0Pe9R6pszwHgzcQEGYvtZYBQVg==",
+      "version": "11.3.0",
+      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-compiler/-/abstract-sql-compiler-11.3.0.tgz",
+      "integrity": "sha512-U8iJDP8WDRKLZ6RStLeGfHELEHH4gwCN1Q6nMJUqC0wCjWdLAb0+CAbPTS/NnNWm1o6ipDehu09tfsoiw1PlHA==",
       "engines": {
         "node": ">=20.14.0",
         "npm": ">=10.7.0"
@@ -21576,10 +21577,11 @@
       }
     },
     "node_modules/ts-node/node_modules/diff": {
-      "version": "4.0.2",
-      "resolved": "https://registry.npmjs.org/diff/-/diff-4.0.2.tgz",
-      "integrity": "sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==",
+      "version": "4.0.4",
+      "resolved": "https://registry.npmjs.org/diff/-/diff-4.0.4.tgz",
+      "integrity": "sha512-X07nttJQkwkfKfvTPG/KSnE2OMdcUCao6+eXF3wmnIQRn2aPAHH3VxDbDOdegkd6JbPsXqShpvEOHfAT+nCNwQ==",
       "dev": true,
+      "license": "BSD-3-Clause",
       "engines": {
         "node": ">=0.3.1"
       }
