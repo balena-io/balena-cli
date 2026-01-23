@@ -139,12 +139,10 @@ export async function downloadOSImage(
 	process.env.ZLIB_FLUSH = 'Z_NO_FLUSH';
 
 	const { getStream } = await import('./image-manager');
-	const stream = await getStream(deviceType, OSVersion);
-
-	const displayVersion = await new Promise((resolve, reject) => {
-		stream.on('error', reject);
-		stream.on('balena-image-manager:resolved-version', resolve);
-	});
+	const { stream, version: displayVersion } = await getStream(
+		deviceType,
+		OSVersion,
+	);
 
 	const visuals = getVisuals();
 	const bar = new visuals.Progress(
