@@ -1,0 +1,202 @@
+/**
+ * @license
+ * Copyright 2026 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { expect } from 'chai';
+import { createWriteStream, promises as fs } from 'fs';
+import { execFile } from 'child_process';
+import { pipeline } from 'stream/promises';
+import * as tmp from 'tmp';
+import { promisify } from 'util';
+
+import { cleanOutput, runCommand, skipIfNoDocker } from '../../helpers';
+import { detectArchitecture } from '../../../build/utils/virtual-device/arch';
+import { getStream } from '../../../build/utils/image-manager';
+
+tmp.setGracefulCleanup();
+const tmpNameAsync = promisify(tmp.tmpName);
+const execFileAsync = promisify(execFile);
+
+// Timeouts for various operations
+const IMAGE_DOWNLOAD_TIMEOUT = 10 * 60 * 1000; // 10 min
+const VM_BOOT_TIMEOUT = 3 * 60 * 1000; // 3 min
+const SSH_CONNECT_TIMEOUT = 5 * 60 * 1000; // 5 min (emulated VMs are slow)
+const SSH_RETRY_INTERVAL = 5000; // 5 sec
+
+describe('virtual-device E2E', function () {
+	this.slow(60000);
+	this.timeout(IMAGE_DOWNLOAD_TIMEOUT + VM_BOOT_TIMEOUT + SSH_CONNECT_TIMEOUT);
+
+	let imagePath: string;
+	let configPath: string;
+	let deviceType: string;
+	let sshPort: number | null = null;
+
+	before(async function () {
+		// Skip if Docker not available
+		skipIfNoDocker(this, 'virtual-device E2E tests');
+
+		// // Skip in CI unless explicitly enabled
+		// if (process.env.CI && !process.env.BALENA_CLI_INTEGRATION_TESTS) {
+		// 	console.warn(
+		// 		'Skipping E2E tests in CI (set BALENA_CLI_INTEGRATION_TESTS=1 to enable)',
+		// 	);
+		// 	this.skip();
+		// }
+
+		// Create temp files (auto-cleaned by tmp module)
+		imagePath = ((await tmpNameAsync()) as string) + '.img';
+		configPath = ((await tmpNameAsync()) as string) + '.json';
+
+		// Detect architecture and select device type
+		const arch = detectArchitecture();
+		deviceType = arch === 'arm64' ? 'generic-aarch64' : 'generic-amd64';
+		console.log(`E2E test: using ${deviceType} on ${arch} host`);
+	});
+
+	after(async function () {
+		// Always clean up VMs (ignore errors if none running)
+		await runCommand('virtual-device rm --all').catch((_e) => {
+			// Intentionally ignore - cleanup best-effort
+		});
+
+		// Clean up temp files (ignore errors if files don't exist)
+		await fs.unlink(imagePath).catch((_e) => {
+			// Intentionally ignore - cleanup best-effort
+		});
+		await fs.unlink(configPath).catch((_e) => {
+			// Intentionally ignore - cleanup best-effort
+		});
+	});
+
+	describe('image download', function () {
+		this.timeout(IMAGE_DOWNLOAD_TIMEOUT);
+
+		it('downloads balenaOS image for host architecture', async function () {
+			// Use image-manager which handles version resolution and caching
+			console.log(`Downloading ${deviceType} development image...`);
+			const stream = await getStream(deviceType, 'latest', {
+				developmentMode: true,
+			});
+
+			// Get resolved version from stream event
+			const version = await new Promise<string>((resolve) => {
+				stream.on('balena-image-manager:resolved-version', resolve);
+			});
+			console.log(`Resolved OS version: ${version}`);
+
+			// Stream directly to file (raw image)
+			await pipeline(stream, createWriteStream(imagePath));
+
+			// Verify image was downloaded and has reasonable size (>100MB)
+			const stats = await fs.stat(imagePath);
+			expect(stats.size).to.be.greaterThan(100 * 1024 * 1024);
+		});
+	});
+
+	describe('virtual device boot', function () {
+		this.timeout(VM_BOOT_TIMEOUT);
+
+		it('starts virtual device in detached mode', async function () {
+			const { err } = await runCommand(
+				`virtual-device start --image ${imagePath} --detached`,
+			);
+
+			// Get SSH port from list command to verify it started
+			const { out: listOut } = await runCommand('virtual-device list --json');
+
+			const instances = JSON.parse(cleanOutput(listOut, true).join(''));
+			const running = instances
+				.reverse()
+				.find((i: { status: string }) => i.status === 'running');
+
+			if (!running) {
+				console.error('Start failed:', err.join('\n'));
+			}
+			expect(running, 'Should have a running instance').to.exist;
+			sshPort = running.ssh_port;
+			expect(sshPort).to.be.a('number');
+			console.log(`VM started, SSH available on port ${sshPort}`);
+		});
+	});
+
+	describe('SSH connection', function () {
+		this.timeout(SSH_CONNECT_TIMEOUT);
+
+		it('connects via SSH after boot completes', async function () {
+			if (sshPort == null) {
+				this.skip();
+			}
+
+			const trySSH = async (): Promise<boolean> => {
+				try {
+					const { stdout } = await execFileAsync(
+						'ssh',
+						[
+							'-o',
+							'StrictHostKeyChecking=no',
+							'-o',
+							'UserKnownHostsFile=/dev/null',
+							'-o',
+							'ConnectTimeout=5',
+							'-o',
+							'BatchMode=yes',
+							'-p',
+							String(sshPort),
+							'root@localhost',
+							'echo SSH_OK',
+						],
+						{ timeout: 10000 },
+					);
+					return stdout.includes('SSH_OK');
+				} catch {
+					return false;
+				}
+			};
+
+			const startTime = Date.now();
+			let connected = false;
+			let attempts = 0;
+
+			while (Date.now() - startTime < SSH_CONNECT_TIMEOUT - 10000) {
+				attempts++;
+				connected = await trySSH();
+				if (connected) {
+					console.log(`SSH connected after ${attempts} attempts`);
+					break;
+				}
+				await new Promise<void>((resolve) =>
+					setTimeout(() => {
+						resolve();
+					}, SSH_RETRY_INTERVAL),
+				);
+			}
+
+			expect(connected, 'SSH should connect within timeout').to.be.true;
+		});
+	});
+
+	describe('cleanup', function () {
+		it('removes virtual device', async function () {
+			await runCommand('virtual-device rm --all');
+
+			// Verify no instances remain
+			const { out } = await runCommand('virtual-device list --json');
+			const instances = JSON.parse(cleanOutput(out, true).join(''));
+			expect(instances).to.deep.equal([]);
+		});
+	});
+});
