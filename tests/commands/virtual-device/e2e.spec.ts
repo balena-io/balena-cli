@@ -18,6 +18,7 @@
 import { expect } from 'chai';
 import { createWriteStream, promises as fs } from 'fs';
 import { execFile } from 'child_process';
+import * as path from 'path';
 import { pipeline } from 'stream/promises';
 import * as tmp from 'tmp';
 import { promisify } from 'util';
@@ -47,7 +48,6 @@ async function getContainerLogs(containerId: string): Promise<string> {
 }
 
 tmp.setGracefulCleanup();
-const tmpNameAsync = promisify(tmp.tmpName);
 const execFileAsync = promisify(execFile);
 
 // Timeouts for various operations
@@ -77,9 +77,27 @@ describe('virtual-device E2E', function () {
 		// 	this.skip();
 		// }
 
-		// Create temp files (auto-cleaned by tmp module)
-		imagePath = ((await tmpNameAsync()) as string) + '.img';
-		configPath = ((await tmpNameAsync()) as string) + '.json';
+		// Use workspace disk instead of RAM-backed tmpfs for large image storage.
+		// The default BALENARC_DATA_DIRECTORY from config-tests.ts uses tmp.dirSync()
+		// which creates a tmpfs mount in RAM. On x86 CI runners with 8-12GB RAM,
+		// this causes OOM when downloading ~2.5GB OS images.
+		//
+		// TODO: Future optimization - use getImagePath() to get the cached image
+		// path directly instead of streaming to a temp file, avoiding the extra
+		// copy entirely. See image-manager.ts for getImagePath/isImageCached APIs.
+		let tempDir: string | undefined;
+		if (process.env.RUNNER_TEMP) {
+			const dataDir = path.join(process.env.RUNNER_TEMP, '.balena-test-data');
+			await fs.mkdir(dataDir, { recursive: true });
+			process.env.BALENARC_DATA_DIRECTORY = dataDir;
+			tempDir = dataDir;
+			console.log(`E2E test: using workspace data dir: ${dataDir}`);
+		}
+
+		// Create temp files - use workspace dir in CI to avoid RAM-backed tmpfs
+		// Use tmpNameSync with tmpdir option to override the system tmp directory
+		imagePath = tmp.tmpNameSync({ tmpdir: tempDir }) + '.img';
+		configPath = tmp.tmpNameSync({ tmpdir: tempDir }) + '.json';
 
 		// Detect architecture and select device type
 		// Allow override via TEST_DEVICE_TYPE for testing cross-arch extraction
