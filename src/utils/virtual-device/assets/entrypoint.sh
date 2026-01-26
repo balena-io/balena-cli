@@ -39,7 +39,7 @@ case "$(uname -m)" in
         -serial mon:stdio \
         -nographic \
         -device ahci,id=ahci \
-        -drive "file=${OS_IMAGE},media=disk,cache=none,format=raw,if=none,id=disk" \
+        -drive "file=${OS_IMAGE},media=disk,cache=writeback,format=raw,if=none,id=disk" \
         -device virtio-blk-pci,drive=disk \
         -device virtio-net-pci,netdev=n1 \
         -device virtio-rng-pci \
@@ -60,7 +60,7 @@ case "$(uname -m)" in
         -nographic \
         -device virtio-net-device,netdev=n1 \
         -netdev "user,id=n1,hostfwd=tcp::${SSH_PORT}-:${SSH_PORT}" \
-        -drive "file=${OS_IMAGE},media=disk,format=raw,cache=none" \
+        -drive "file=${OS_IMAGE},media=disk,format=raw,cache=writeback" \
         -device virtio-rng-device \
         -device virtio-balloon-device \
         -m "${MEMORY}" \
