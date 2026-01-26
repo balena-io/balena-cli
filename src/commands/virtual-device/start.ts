@@ -206,6 +206,7 @@ export default class VirtualDeviceStartCmd extends Command {
 		cpus: number;
 	}) {
 		const path = await import('path');
+		const fs = await import('fs/promises');
 
 		// Resolve image path to absolute
 		const imagePath = path.resolve(options.image);
@@ -228,7 +229,7 @@ export default class VirtualDeviceStartCmd extends Command {
 		console.log('Starting virtual device...\n');
 
 		// Step 1: Validate image exists
-		console.log('[1/5] Validating image...');
+		console.log('[1/6] Validating image...');
 		const exists = await validateImageExists(imagePath);
 		if (!exists) {
 			throw new ExpectedError(`Image file not found: ${imagePath}`);
@@ -246,8 +247,13 @@ export default class VirtualDeviceStartCmd extends Command {
 		const hostArch = detectArchitecture();
 		console.log(`  Host architecture: ${hostArch}`);
 
+		// Step 2: Build Docker image (needed for flasher extraction and expansion)
+		console.log('\n[2/6] Building Docker image...');
+		await buildDockerImage();
+		console.log('  Docker image ready.');
+
 		// Step 3: Check for flasher image and extract if needed
-		console.log('\n[2/5] Checking for flasher image...');
+		console.log('\n[3/6] Checking for flasher image...');
 		let sourceImagePath = imagePath;
 		let extractedPath: string | undefined;
 
@@ -271,25 +277,28 @@ export default class VirtualDeviceStartCmd extends Command {
 		}
 
 		// Step 4: Create working copy
-		console.log('\n[3/5] Creating working copy...');
+		console.log('\n[4/6] Creating working copy...');
 		let workingCopyPath: string;
-		try {
+		if (extractedPath) {
+			// For extracted flasher images, rename instead of copy to save disk space.
+			// The extracted file is already temporary, so we avoid needing 2x disk space.
+			const cacheDir = await getCacheDirectory();
+			const timestamp = Date.now();
+			const originalName = path.basename(extractedPath);
+			workingCopyPath = path.join(
+				cacheDir,
+				`virt-working-${timestamp}-${originalName}`,
+			);
+			await fs.rename(extractedPath, workingCopyPath);
+			console.log(`  Working copy created at: ${workingCopyPath}`);
+		} else {
 			workingCopyPath = await createWorkingCopy(sourceImagePath);
 			console.log(`  Working copy created at: ${workingCopyPath}`);
-		} finally {
-			// Clean up extracted flasher image if we created one
-			if (extractedPath) {
-				await removeWorkingCopy(extractedPath);
-			}
 		}
 
 		// Step 5: Expand image for data partition
-		console.log('\n[4/5] Expanding image...');
+		console.log('\n[5/6] Expanding image...');
 		try {
-			// Build Docker image first (needed for qemu-img)
-			console.log('  Building Docker image...');
-			await buildDockerImage();
-
 			const expandResult = await expandImage({
 				imagePath: workingCopyPath,
 				targetSize: options['data-size'],
@@ -306,7 +315,7 @@ export default class VirtualDeviceStartCmd extends Command {
 		// Step 6: Launch container
 		// In attached mode, launch with interactive=true for bidirectional console
 		const isInteractive = !options.detached;
-		console.log('\n[5/5] Launching virtual device...');
+		console.log('\n[6/6] Launching virtual device...');
 		let instance: Awaited<ReturnType<typeof launchContainer>>['instance'];
 		let accelerator: Awaited<ReturnType<typeof launchContainer>>['accelerator'];
 

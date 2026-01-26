@@ -204,6 +204,112 @@ export async function detectFlasherImage(
 }
 
 /**
+ * Options for Docker-based flasher extraction.
+ */
+interface ExtractViaDockerOptions {
+	/** Path to the flasher image on the host */
+	flasherPath: string;
+	/** Partition offset in bytes */
+	partitionOffset: number;
+	/** Path to the inner image within the partition (e.g., "/opt/balena-image.balenaos-img") */
+	innerImagePath: string;
+	/** Destination path on the host for the extracted image */
+	destPath: string;
+}
+
+/**
+ * Extract inner image from flasher using native e2fsprogs via Docker.
+ *
+ * This avoids the WASM memory limitations of ext2fs by using native Linux
+ * tools (losetup, debugfs) inside the Docker container. The container runs
+ * privileged (required for QEMU anyway), so loop devices are available.
+ *
+ * @param options - Extraction options
+ * @throws Error if Docker image not found or extraction fails
+ */
+async function extractFlasherImageViaDocker(
+	options: ExtractViaDockerOptions,
+): Promise<void> {
+	const { flasherPath, partitionOffset, innerImagePath, destPath } = options;
+
+	const { getDockerClient, imageExists: dockerImageExists } = await import(
+		'./docker'
+	);
+
+	const docker = await getDockerClient();
+
+	// Ensure the Docker image exists
+	if (!(await dockerImageExists(docker))) {
+		throw new Error(
+			`Docker image '${DOCKER_IMAGE_NAME}' not found. ` +
+				`Please ensure the image is built first.`,
+		);
+	}
+
+	// Get absolute paths
+	const absoluteFlasherPath = path.resolve(flasherPath);
+	const absoluteDestPath = path.resolve(destPath);
+	const destDir = path.dirname(absoluteDestPath);
+	const destFilename = path.basename(absoluteDestPath);
+
+	// Ensure destination directory exists
+	await fs.mkdir(destDir, { recursive: true });
+
+	// Create container to run extraction
+	// Mount flasher image read-only and output directory read-write
+	const container = await docker.createContainer({
+		Image: DOCKER_IMAGE_NAME,
+		Cmd: [
+			'/bin/bash',
+			'-c',
+			`set -e
+LOOP=$(losetup -f --show -o ${partitionOffset} /tmp/flasher.img)
+debugfs -R "dump ${innerImagePath} /tmp/output/${destFilename}" "$LOOP"
+losetup -d "$LOOP"`,
+		],
+		HostConfig: {
+			Privileged: true,
+			Binds: [
+				`${absoluteFlasherPath}:/tmp/flasher.img:ro`,
+				`${destDir}:/tmp/output:rw`,
+			],
+			AutoRemove: true,
+		},
+	});
+
+	// Start the container and wait for it to complete
+	await container.start();
+	const result = await container.wait();
+
+	if (result.StatusCode !== 0) {
+		// Try to get logs for error information
+		let errorMessage = `Flasher extraction failed with exit code ${result.StatusCode}`;
+		try {
+			const logStream = await container.logs({
+				stdout: true,
+				stderr: true,
+			});
+			const logOutput =
+				typeof logStream === 'string' ? logStream : logStream.toString('utf-8');
+			if (logOutput.trim()) {
+				errorMessage += `: ${logOutput.trim()}`;
+			}
+		} catch {
+			// Ignore log retrieval errors
+		}
+		throw new Error(errorMessage);
+	}
+
+	// Verify the output file was created
+	const outputExists = await validateImageExists(absoluteDestPath);
+	if (!outputExists) {
+		throw new Error(
+			`Extraction completed but output file not found: ${absoluteDestPath}`,
+		);
+	}
+}
+
+/**
  * Options for extracting a flasher image.
  */
 export interface ExtractFlasherOptions {
@@ -228,7 +334,8 @@ export interface ExtractFlasherResult {
  *
  * Flasher images contain the actual bootable OS image in the `flash-rootA`
  * partition's `/opt/` directory. This function extracts that inner image
- * to the specified destination directory.
+ * to the specified destination directory using native e2fsprogs tools
+ * via Docker to avoid WASM memory limitations with large images.
  *
  * @param options - Extraction options
  * @returns Result with path to extracted image
@@ -245,8 +352,8 @@ export async function extractFlasherImage(
 		throw new Error(`Not a flasher image: ${flasherPath}`);
 	}
 
-	const imagefs = await import('balena-image-fs');
 	const partitioninfo = await import('partitioninfo');
+	const imagefs = await import('balena-image-fs');
 	const { withOpenFile, FileDisk } = await import('file-disk');
 
 	const innerImageName = detection.innerImageName;
@@ -255,60 +362,44 @@ export async function extractFlasherImage(
 	// Ensure destination directory exists
 	await fs.mkdir(destDir, { recursive: true });
 
-	await withOpenFile(flasherPath, 'r', async (handle) => {
-		const fileDisk = new FileDisk(handle, true);
-		const partInfo = await partitioninfo.getPartitions(fileDisk);
-		const partResult = await imagefs.findPartition(
-			fileDisk,
-			partInfo,
-			FLASHER_PARTITION_NAMES,
-		);
+	// Get partition offset for the flasher partition
+	const partitionOffset = await withOpenFile(
+		flasherPath,
+		'r',
+		async (handle) => {
+			const fileDisk = new FileDisk(handle, true);
+			const partInfo = await partitioninfo.getPartitions(fileDisk);
+			const partResult = await imagefs.findPartition(
+				fileDisk,
+				partInfo,
+				FLASHER_PARTITION_NAMES,
+			);
 
-		if (!partResult) {
-			throw new Error('Could not find flasher partition');
-		}
+			if (!partResult) {
+				throw new Error('Could not find flasher partition');
+			}
 
-		// Extract the inner image using chunked reads to handle large files
-		await imagefs.interact(
-			flasherPath,
-			partResult.index,
-			async (_fs: typeof Fs): Promise<void> => {
-				const sourcePath = `/opt/${innerImageName}`;
+			// Find the partition in the list to get its offset
+			const partition = partInfo.partitions.find(
+				(p: { index: number }) => p.index === partResult.index,
+			);
+			if (!partition) {
+				throw new Error(
+					`Could not find partition offset for index ${partResult.index}`,
+				);
+			}
 
-				// Get file stats to know the size
-				const stats = await _fs.promises.stat(sourcePath);
-				const fileSize = stats.size;
+			return partition.offset;
+		},
+	);
 
-				// Read in 64MB chunks to avoid memory issues with large files
-				const CHUNK_SIZE = 64 * 1024 * 1024;
-
-				// Open source and destination files
-				const sourceHandle = await _fs.promises.open(sourcePath, 'r');
-				const destHandle = await fs.open(extractedPath, 'w');
-
-				try {
-					let bytesRead = 0;
-					const buffer = Buffer.alloc(CHUNK_SIZE);
-
-					while (bytesRead < fileSize) {
-						const result = await sourceHandle.read(
-							buffer,
-							0,
-							CHUNK_SIZE,
-							bytesRead,
-						);
-						if (result.bytesRead === 0) {
-							break;
-						}
-						await destHandle.write(buffer, 0, result.bytesRead);
-						bytesRead += result.bytesRead;
-					}
-				} finally {
-					await sourceHandle.close();
-					await destHandle.close();
-				}
-			},
-		);
+	// Extract via Docker using native e2fsprogs tools
+	// This avoids WASM memory limitations with large (2GB+) images
+	await extractFlasherImageViaDocker({
+		flasherPath,
+		partitionOffset,
+		innerImagePath: `/opt/${innerImageName}`,
+		destPath: extractedPath,
 	});
 
 	return {

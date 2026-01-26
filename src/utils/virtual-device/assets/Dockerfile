@@ -8,10 +8,11 @@ WORKDIR /opt
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install QEMU, OVMF firmware, and networking tools
+# Install QEMU, OVMF firmware, networking tools, and e2fsprogs for native ext4 extraction
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
+    e2fsprogs \
     netcat-openbsd \
     ovmf \
     qemu-efi-aarch64 \
