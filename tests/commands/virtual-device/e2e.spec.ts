@@ -21,10 +21,30 @@ import { execFile } from 'child_process';
 import { pipeline } from 'stream/promises';
 import * as tmp from 'tmp';
 import { promisify } from 'util';
+import * as Dockerode from 'dockerode';
 
 import { cleanOutput, runCommand, skipIfNoDocker } from '../../helpers';
 import { detectArchitecture } from '../../../build/utils/virtual-device/arch';
 import { getStream } from '../../../build/utils/image-manager';
+
+/**
+ * Get Docker container logs for debugging boot failures.
+ */
+async function getContainerLogs(containerId: string): Promise<string> {
+	const docker = new Dockerode();
+	const container = docker.getContainer(containerId);
+	const logs = await container.logs({
+		stdout: true,
+		stderr: true,
+		tail: 200,
+	});
+	// Docker logs have 8-byte header per line, strip them
+	return logs
+		.toString('utf-8')
+		.split('\n')
+		.map((line: string) => (line.length > 8 ? line.slice(8) : line))
+		.join('\n');
+}
 
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
@@ -62,9 +82,17 @@ describe('virtual-device E2E', function () {
 		configPath = ((await tmpNameAsync()) as string) + '.json';
 
 		// Detect architecture and select device type
+		// Allow override via TEST_DEVICE_TYPE for testing cross-arch extraction
 		const arch = detectArchitecture();
-		deviceType = arch === 'arm64' ? 'generic-aarch64' : 'generic-amd64';
+		deviceType =
+			process.env.TEST_DEVICE_TYPE ??
+			(arch === 'arm64' ? 'generic-aarch64' : 'generic-amd64');
 		console.log(`E2E test: using ${deviceType} on ${arch} host`);
+		if (process.env.TEST_DEVICE_TYPE) {
+			console.log(
+				'  (device type overridden via TEST_DEVICE_TYPE environment variable)',
+			);
+		}
 	});
 
 	after(async function () {
@@ -118,16 +146,39 @@ describe('virtual-device E2E', function () {
 			// Get SSH port from list command to verify it started
 			const { out: listOut } = await runCommand('virtual-device list --json');
 
-			const instances = JSON.parse(cleanOutput(listOut, true).join(''));
-			const running = instances
+			interface VirtInstance {
+				status: string;
+				containerId?: string;
+				ssh_port?: number;
+				name?: string;
+			}
+			const instances: VirtInstance[] = JSON.parse(
+				cleanOutput(listOut, true).join(''),
+			);
+			const running = [...instances]
 				.reverse()
-				.find((i: { status: string }) => i.status === 'running');
+				.find((i) => i.status === 'running');
 
 			if (!running) {
-				console.error('Start failed:', err.join('\n'));
+				console.error('Start command stderr:', err.join('\n'));
+				// Try to get logs from any container (running or crashed)
+				// Use 'name' which is the Docker container name (list JSON doesn't include containerId)
+				const anyInstance = instances[instances.length - 1];
+				if (anyInstance?.name) {
+					console.error(`Container status: ${anyInstance.status}`);
+					console.error('Container logs:');
+					try {
+						const logs = await getContainerLogs(anyInstance.name);
+						console.error(logs);
+					} catch (logErr) {
+						console.error('Failed to get container logs:', logErr);
+					}
+				} else {
+					console.error('No container found - start may have failed early');
+				}
 			}
 			expect(running, 'Should have a running instance').to.exist;
-			sshPort = running.ssh_port;
+			sshPort = running!.ssh_port ?? null;
 			expect(sshPort).to.be.a('number');
 			console.log(`VM started, SSH available on port ${sshPort}`);
 		});
