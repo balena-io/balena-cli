@@ -31,15 +31,21 @@ build_accel_args() {
 
 ACCEL_ARGS=$(build_accel_args "${QEMU_ACCEL}")
 
-case "$(uname -m)" in
+# Guest architecture - determines which QEMU binary to use
+# This is passed from the host based on the image type, NOT the container's arch
+# GUEST_ARCH should be "x86_64" or "aarch64"
+GUEST_ARCH=${GUEST_ARCH:-$(uname -m)}
+
+echo "Guest architecture: ${GUEST_ARCH}"
+
+case "${GUEST_ARCH}" in
 "x86_64" | "amd64")
-    echo "Starting QEMU for x86_64 (interactive console - Ctrl+A,C for monitor)..."
+    echo "Starting QEMU for x86_64 guest (interactive console - Ctrl+A,C for monitor)..."
     # shellcheck disable=SC2086
     exec qemu-system-x86_64 \
         -serial mon:stdio \
         -nographic \
-        -device ahci,id=ahci \
-        -drive "file=${OS_IMAGE},media=disk,cache=writeback,format=raw,if=none,id=disk" \
+        -drive "file=${OS_IMAGE},media=disk,format=raw,if=none,id=disk,cache=writeback" \
         -device virtio-blk-pci,drive=disk \
         -device virtio-net-pci,netdev=n1 \
         -device virtio-rng-pci \
@@ -53,7 +59,7 @@ case "$(uname -m)" in
         -nodefaults
     ;;
 "aarch64" | "arm64")
-    echo "Starting QEMU for aarch64 (interactive console - Ctrl+A,C for monitor)..."
+    echo "Starting QEMU for aarch64 guest (interactive console - Ctrl+A,C for monitor)..."
     # shellcheck disable=SC2086
     exec qemu-system-aarch64 \
         -serial mon:stdio \
@@ -72,7 +78,7 @@ case "$(uname -m)" in
         -nodefaults
     ;;
 *)
-    echo "Unsupported architecture: $(uname -m)"
+    echo "Unsupported guest architecture: ${GUEST_ARCH}"
     exit 1
     ;;
 esac

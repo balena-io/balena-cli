@@ -35,6 +35,42 @@ export const DEFAULT_MEMORY = 2048;
 /** Default VM CPU core count. */
 export const DEFAULT_CPUS = 4;
 
+/** Guest architecture for QEMU - determines which qemu-system-* binary to use. */
+export type GuestArch = 'x86_64' | 'aarch64';
+
+/**
+ * Detect the guest architecture from a balenaOS image.
+ *
+ * Checks for ARM64 EFI bootloader signature (BOOTAA64) in the image.
+ * If found, the image is aarch64; otherwise, it's x86_64.
+ *
+ * @param imagePath - Path to the OS image file
+ * @returns Detected guest architecture
+ */
+export async function detectGuestArch(imagePath: string): Promise<GuestArch> {
+	// Read first 100MB of image to check for EFI signatures
+	// ARM64 images contain "BOOTAA64" in the EFI partition
+	const SCAN_SIZE = 100 * 1024 * 1024; // 100MB
+	const handle = await fs.open(imagePath, 'r');
+	try {
+		const stats = await handle.stat();
+		const readSize = Math.min(SCAN_SIZE, stats.size);
+		const buffer = Buffer.alloc(readSize);
+		await handle.read(buffer, 0, readSize, 0);
+
+		// Check for ARM64 EFI bootloader signature
+		const content = buffer.toString('binary');
+		if (content.includes('BOOTAA64')) {
+			return 'aarch64';
+		}
+
+		// Default to x86_64
+		return 'x86_64';
+	} finally {
+		await handle.close();
+	}
+}
+
 /** Path to the assets directory containing Dockerfile and entrypoint script. */
 const ASSETS_DIR = path.join(__dirname, 'assets');
 
@@ -501,11 +537,15 @@ export async function launchContainer(
 	// Detect available accelerators for QEMU
 	const accelerator = await detectAccelerators();
 
+	// Detect guest architecture from the image
+	const guestArch = await detectGuestArch(options.osImagePath);
+
 	// Build environment variables
 	const env = [
 		`MEMORY=${options.memory ?? DEFAULT_MEMORY}`,
 		`CPUS=${options.cpus ?? DEFAULT_CPUS}`,
 		`QEMU_ACCEL=${accelerator.accel}`,
+		`GUEST_ARCH=${guestArch}`,
 	];
 
 	// Create container configuration
