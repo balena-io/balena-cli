@@ -64,6 +64,7 @@ describe('virtual-device E2E', function () {
 	let configPath: string;
 	let deviceType: string;
 	let sshPort: number | null = null;
+	let containerName: string | null = null;
 
 	before(async function () {
 		// Skip if Docker not available
@@ -128,6 +129,20 @@ describe('virtual-device E2E', function () {
 		});
 	});
 
+	afterEach(async function () {
+		// Print container logs on any test failure for debugging
+		if (this.currentTest?.state === 'failed' && containerName) {
+			console.error(`\n=== Container logs for ${containerName} ===`);
+			try {
+				const logs = await getContainerLogs(containerName);
+				console.error(logs);
+			} catch (logErr) {
+				console.error('Failed to get container logs:', logErr);
+			}
+			console.error('=== End container logs ===\n');
+		}
+	});
+
 	describe('image download', function () {
 		this.timeout(IMAGE_DOWNLOAD_TIMEOUT);
 
@@ -157,9 +172,15 @@ describe('virtual-device E2E', function () {
 		this.timeout(VM_BOOT_TIMEOUT);
 
 		it('starts virtual device in detached mode', async function () {
-			const { err } = await runCommand(
+			const { out, err } = await runCommand(
 				`virtual-device start --image ${imagePath} --detached`,
 			);
+
+			// Extract container name from start command output
+			const containerMatch = out.join('\n').match(/Container:\s+(\S+)/);
+			if (containerMatch) {
+				containerName = containerMatch[1];
+			}
 
 			// Get SSH port from list command to verify it started
 			const { out: listOut } = await runCommand('virtual-device list --json');
@@ -179,18 +200,11 @@ describe('virtual-device E2E', function () {
 
 			if (!running) {
 				console.error('Start command stderr:', err.join('\n'));
-				// Try to get logs from any container (running or crashed)
-				// Use 'name' which is the Docker container name (list JSON doesn't include containerId)
 				const anyInstance = instances[instances.length - 1];
-				if (anyInstance?.name) {
+				// Fallback: get container name from list if not captured from start output
+				containerName = containerName ?? anyInstance?.name ?? null;
+				if (anyInstance) {
 					console.error(`Container status: ${anyInstance.status}`);
-					console.error('Container logs:');
-					try {
-						const logs = await getContainerLogs(anyInstance.name);
-						console.error(logs);
-					} catch (logErr) {
-						console.error('Failed to get container logs:', logErr);
-					}
 				} else {
 					console.error('No container found - start may have failed early');
 				}
