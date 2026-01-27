@@ -134,7 +134,7 @@ describe('virtual-device E2E', function () {
 		it('downloads balenaOS image for host architecture', async function () {
 			// Use image-manager which handles version resolution and caching
 			console.log(`Downloading ${deviceType} development image...`);
-			const stream = await getStream(deviceType, 'latest', {
+			const stream = await getStream(deviceType, 'default', {
 				developmentMode: true,
 			});
 
