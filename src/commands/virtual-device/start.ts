@@ -206,7 +206,6 @@ export default class VirtualDeviceStartCmd extends Command {
 		cpus: number;
 	}) {
 		const path = await import('path');
-		const fs = await import('fs/promises');
 
 		// Resolve image path to absolute
 		const imagePath = path.resolve(options.image);
@@ -216,13 +215,11 @@ export default class VirtualDeviceStartCmd extends Command {
 			validateImageExists,
 			validateImageFormat,
 			detectFlasherImage,
-			extractFlasherImage,
 			createWorkingCopy,
 			expandImage,
 			buildDockerImage,
 			launchContainer,
 			detectArchitecture,
-			getCacheDirectory,
 			removeWorkingCopy,
 		} = await import('../../utils/virtual-device');
 
@@ -252,49 +249,29 @@ export default class VirtualDeviceStartCmd extends Command {
 		await buildDockerImage();
 		console.log('  Docker image ready.');
 
-		// Step 3: Check for flasher image and extract if needed
-		console.log('\n[3/6] Checking for flasher image...');
-		let sourceImagePath = imagePath;
-		let extractedPath: string | undefined;
-
+		// Step 3: Check for flasher image - error if detected
+		console.log('\n[3/6] Checking image type...');
 		const flasherResult = await detectFlasherImage(imagePath);
-		if (flasherResult.isFlasher && flasherResult.innerImageName) {
-			console.log(
-				`  Detected flasher image with inner image: ${flasherResult.innerImageName}`,
+		if (flasherResult.isFlasher) {
+			throw new ExpectedError(
+				`Flasher images are not supported. Please use a non-flasher image.\n\n` +
+					`Options to obtain a non-flasher image:\n\n` +
+					`1. Unwrap manually using balena-image-flasher-unwrap:\n` +
+					`   git clone https://github.com/balena-os/balena-image-flasher-unwrap\n` +
+					`   cd balena-image-flasher-unwrap\n` +
+					`   ./docker-run "${imagePath}"\n` +
+					`   # Output will be in ./output/\n\n` +
+					`2. Download a non-flasher image (for device types that support it):\n` +
+					`   curl -L -o balena.img.gz "https://api.balena-cloud.com/download?deviceType=<DEVICE_TYPE>&version=<VERSION>&fileType=.gz&imageType=raw"\n` +
+					`   gunzip balena.img.gz`,
 			);
-			console.log('  Extracting inner raw image...');
-
-			const cacheDir = await getCacheDirectory();
-			const extraction = await extractFlasherImage({
-				flasherPath: imagePath,
-				destDir: cacheDir,
-			});
-			extractedPath = extraction.extractedPath;
-			sourceImagePath = extractedPath;
-			console.log('  Extraction complete.');
-		} else {
-			console.log('  Not a flasher image, using directly.');
 		}
+		console.log('  Image type: OK (non-flasher)');
 
 		// Step 4: Create working copy
 		console.log('\n[4/6] Creating working copy...');
-		let workingCopyPath: string;
-		if (extractedPath) {
-			// For extracted flasher images, rename instead of copy to save disk space.
-			// The extracted file is already temporary, so we avoid needing 2x disk space.
-			const cacheDir = await getCacheDirectory();
-			const timestamp = Date.now();
-			const originalName = path.basename(extractedPath);
-			workingCopyPath = path.join(
-				cacheDir,
-				`virt-working-${timestamp}-${originalName}`,
-			);
-			await fs.rename(extractedPath, workingCopyPath);
-			console.log(`  Working copy created at: ${workingCopyPath}`);
-		} else {
-			workingCopyPath = await createWorkingCopy(sourceImagePath);
-			console.log(`  Working copy created at: ${workingCopyPath}`);
-		}
+		const workingCopyPath = await createWorkingCopy(imagePath);
+		console.log(`  Working copy created at: ${workingCopyPath}`);
 
 		// Step 5: Expand image for data partition
 		console.log('\n[5/6] Expanding image...');

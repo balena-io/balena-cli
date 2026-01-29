@@ -27,7 +27,6 @@ export {
 	detectFlasherImage,
 	detectImageFormat,
 	expandImage,
-	extractFlasherImage,
 	formatSize,
 	getCacheDirectory,
 	getFileSize,
@@ -40,8 +39,6 @@ export {
 export type {
 	ExpandImageOptions,
 	ExpandImageResult,
-	ExtractFlasherOptions,
-	ExtractFlasherResult,
 	FlasherDetectionResult,
 	ImageFormat,
 	ImageValidationResult,

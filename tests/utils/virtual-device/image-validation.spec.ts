@@ -473,4 +473,63 @@ describe('image validation', function () {
 			await removeWorkingCopy(filePath);
 		});
 	});
+
+	describe('detectFlasherImage()', function () {
+		let detectFlasherImage: typeof import('../../../build/utils/virtual-device/image.js').detectFlasherImage;
+		// Tests run from repo root, so use relative path from there
+		const TEST_DATA_DIR = path.join(
+			process.cwd(),
+			'tests/test-data/virtual-device',
+		);
+
+		beforeEach(async function () {
+			const imageModule = await import(
+				'../../../build/utils/virtual-device/image.js'
+			);
+			detectFlasherImage = imageModule.detectFlasherImage;
+		});
+
+		it('should throw for non-existent files', async function () {
+			const imagePath = path.join(tempDir, 'nonexistent.img');
+
+			await expect(detectFlasherImage(imagePath)).to.be.rejectedWith(
+				/ENOENT|no such file/i,
+			);
+		});
+
+		it('should handle empty/invalid images gracefully (throw or return isFlasher=false)', async function () {
+			// Create temp file with just zeros (no valid partition table)
+			// The behavior depends on how partitioninfo handles invalid images
+			const imagePath = path.join(tempDir, 'empty.img');
+			await fs.writeFile(imagePath, Buffer.alloc(1024));
+
+			try {
+				const result = await detectFlasherImage(imagePath);
+				// If it doesn't throw, it should indicate non-flasher
+				expect(result.isFlasher).to.be.false;
+				expect(result.innerImageName).to.be.undefined;
+			} catch (err) {
+				// It's acceptable to throw on invalid images
+				expect(err).to.be.an('error');
+			}
+		});
+
+		it('should return isFlasher=true for flasher images with .balenaos-img', async function () {
+			const imagePath = path.join(TEST_DATA_DIR, 'flasher-test.img');
+
+			const result = await detectFlasherImage(imagePath);
+
+			expect(result.isFlasher).to.be.true;
+			expect(result.innerImageName).to.equal('test.balenaos-img');
+		});
+
+		it('should return isFlasher=false for non-flasher images without .balenaos-img', async function () {
+			const imagePath = path.join(TEST_DATA_DIR, 'non-flasher-test.img');
+
+			const result = await detectFlasherImage(imagePath);
+
+			expect(result.isFlasher).to.be.false;
+			expect(result.innerImageName).to.be.undefined;
+		});
+	});
 });
