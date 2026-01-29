@@ -3992,11 +3992,18 @@ SSH keys, you can only interact via the serial console.
 The image file must be uncompressed (raw format). If you downloaded
 a compressed image (.gz or .zip), decompress it first with gunzip.
 
-INTERACTIVE MODE (default):
-By default, the command attaches to the VM's serial console interactively.
-You can type directly into the console and interact with the VM.
+OUTPUT MODES:
 
-Keyboard controls:
+LOGS MODE (default):
+By default, the command streams the VM's output to your terminal.
+You cannot type into the console in this mode.
+Press Ctrl+C to stop the virtual device.
+
+INTERACTIVE MODE (--tty):
+Use --tty to attach interactively with full TTY mode.
+This enables bidirectional communication with the VM's serial console.
+
+Keyboard controls in TTY mode:
   Ctrl+C         - Stop the virtual device and clean up
   Ctrl+P, Ctrl+Q - Detach (VM keeps running in background)
   Ctrl+A, C      - Access QEMU monitor (type 'quit' to exit)
@@ -4004,6 +4011,8 @@ Keyboard controls:
 DETACHED MODE (--detached):
 Use --detached to start the virtual device in the background.
 This is useful for scripting or when you want to manage multiple VMs.
+
+Note: --tty and --detached cannot be used together.
 
 VM LIFECYCLE:
   - 'balena virt stop' stops a VM but preserves it for restart
@@ -4015,6 +4024,7 @@ Examples:
 	$ balena os configure balena.img --fleet myFleet --dev
 	$ balena virt start --image balena.img
 	$ ssh root@localhost -p 22222
+	$ balena virt start --image balena.img --tty  # interactive TTY mode
 	$ balena virtual-device start --image balena.img --detached
 	$ balena virtual-device start --image balena.img --data-size 16G
 	$ balena virtual-device start --image balena.img --memory 4096 --cpus 2
@@ -4039,6 +4049,10 @@ data partition size (e.g., 8G, 16G)
 #### -d, --detached
 
 run in background (do not stream logs)
+
+#### -t, --tty
+
+attach interactively with TTY (enables stdin and keyboard controls)
 
 #### --memory MEMORY
 

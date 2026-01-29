@@ -874,6 +874,132 @@ export async function stopAllContainersWithCleanup(): Promise<{
 }
 
 /**
+ * Options for streaming container logs (non-interactive).
+ */
+export interface StreamContainerLogsOptions {
+	/** Container name or ID */
+	containerNameOrId: string;
+	/** Callback when user stops (Ctrl+C) - should stop container */
+	onStop?: () => Promise<void>;
+	/** Strip ANSI escape sequences from output (default: true) */
+	stripAnsi?: boolean;
+}
+
+/**
+ * Create a writable stream that strips ANSI escape sequences before
+ * writing to the target stream. This prevents terminal control codes
+ * (clear screen, colors, cursor movement) from affecting the user's
+ * terminal in logs mode.
+ *
+ * Uses strip-ansi (sync) rather than strip-ansi-stream because demuxStream
+ * writes directly to the stream rather than piping through it.
+ */
+function createAnsiStrippingWriter(
+	target: NodeJS.WritableStream,
+): NodeJS.WritableStream {
+	const stripAnsi = require('strip-ansi') as (str: string) => string;
+	const { Writable } = require('stream') as typeof import('stream');
+
+	return new Writable({
+		write(chunk: Buffer, _encoding, callback) {
+			const stripped = stripAnsi(chunk.toString());
+			target.write(stripped, callback);
+		},
+	});
+}
+
+/**
+ * Stream container logs without interactive input.
+ *
+ * Attaches to stdout/stderr only (no stdin, no TTY).
+ * Output is streamed directly to process.stdout/stderr.
+ * Handles SIGINT (Ctrl+C) to cleanly stop the container.
+ *
+ * By default, ANSI escape sequences are stripped to prevent the VM's
+ * serial console output from affecting the user's terminal (clearing
+ * screen, changing colors, etc.).
+ *
+ * @param options - Stream options
+ * @returns Promise that resolves when container stops or user presses Ctrl+C
+ */
+export async function streamContainerLogs(
+	options: StreamContainerLogsOptions,
+): Promise<void> {
+	const docker = await getDockerClient();
+	const container = docker.getContainer(options.containerNameOrId);
+	const stripAnsi = options.stripAnsi ?? true;
+
+	// Verify container exists and is running
+	const inspection = await container.inspect();
+	if (inspection.State.Status !== 'running') {
+		throw new Error(
+			`Container is not running: ${options.containerNameOrId} (status: ${inspection.State.Status})`,
+		);
+	}
+
+	// Attach to container with output streams only (no stdin)
+	// Type assertion through unknown needed because Dockerode's types don't reflect
+	// that attach() returns a different stream type based on options
+	const stream = (await container.attach({
+		stream: true,
+		stdin: false,
+		stdout: true,
+		stderr: true,
+	})) as unknown as import('stream').Readable;
+
+	// Track state for cleanup
+	let stopping = false;
+
+	// Handle SIGINT (Ctrl+C)
+	const sigintHandler = async () => {
+		if (!stopping) {
+			stopping = true;
+			console.log('\n\nReceived Ctrl+C, stopping virtual device...');
+			stream.destroy();
+			if (options.onStop) {
+				await options.onStop();
+			}
+			process.exit(0);
+		}
+	};
+
+	process.on('SIGINT', sigintHandler);
+
+	// Create output streams, optionally with ANSI stripping
+	const stdout: NodeJS.WritableStream = stripAnsi
+		? createAnsiStrippingWriter(process.stdout)
+		: process.stdout;
+	const stderr: NodeJS.WritableStream = stripAnsi
+		? createAnsiStrippingWriter(process.stderr)
+		: process.stderr;
+
+	// Stream container output to stdout/stderr
+	return new Promise((resolve, reject) => {
+		// Use demuxStream to separate stdout and stderr
+		docker.modem.demuxStream(stream, stdout, stderr);
+
+		stream.on('error', (err: Error) => {
+			process.removeListener('SIGINT', sigintHandler);
+			if (!stopping) {
+				reject(err);
+			} else {
+				resolve();
+			}
+		});
+
+		stream.on('end', () => {
+			process.removeListener('SIGINT', sigintHandler);
+			resolve();
+		});
+
+		stream.on('close', () => {
+			process.removeListener('SIGINT', sigintHandler);
+			resolve();
+		});
+	});
+}
+
+/**
  * Options for attaching to a container interactively.
  */
 export interface AttachContainerOptions {

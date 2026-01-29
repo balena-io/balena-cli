@@ -60,11 +60,18 @@ export default class VirtualDeviceStartCmd extends Command {
 		The image file must be uncompressed (raw format). If you downloaded
 		a compressed image (.gz or .zip), decompress it first with gunzip.
 
-		INTERACTIVE MODE (default):
-		By default, the command attaches to the VM's serial console interactively.
-		You can type directly into the console and interact with the VM.
+		OUTPUT MODES:
 
-		Keyboard controls:
+		LOGS MODE (default):
+		By default, the command streams the VM's output to your terminal.
+		You cannot type into the console in this mode.
+		Press Ctrl+C to stop the virtual device.
+
+		INTERACTIVE MODE (--tty):
+		Use --tty to attach interactively with full TTY mode.
+		This enables bidirectional communication with the VM's serial console.
+
+		Keyboard controls in TTY mode:
 		  Ctrl+C         - Stop the virtual device and clean up
 		  Ctrl+P, Ctrl+Q - Detach (VM keeps running in background)
 		  Ctrl+A, C      - Access QEMU monitor (type 'quit' to exit)
@@ -72,6 +79,8 @@ export default class VirtualDeviceStartCmd extends Command {
 		DETACHED MODE (--detached):
 		Use --detached to start the virtual device in the background.
 		This is useful for scripting or when you want to manage multiple VMs.
+
+		Note: --tty and --detached cannot be used together.
 
 		VM LIFECYCLE:
 		  - 'balena virt stop' stops a VM but preserves it for restart
@@ -83,6 +92,7 @@ export default class VirtualDeviceStartCmd extends Command {
 		'$ balena os configure balena.img --fleet myFleet --dev',
 		'$ balena virt start --image balena.img',
 		'$ ssh root@localhost -p 22222',
+		'$ balena virt start --image balena.img --tty  # interactive TTY mode',
 		'$ balena virtual-device start --image balena.img --detached',
 		'$ balena virtual-device start --image balena.img --data-size 16G',
 		'$ balena virtual-device start --image balena.img --memory 4096 --cpus 2',
@@ -111,6 +121,12 @@ export default class VirtualDeviceStartCmd extends Command {
 			char: 'd',
 			default: false,
 		}),
+		tty: Flags.boolean({
+			description:
+				'attach interactively with TTY (enables stdin and keyboard controls)',
+			char: 't',
+			default: false,
+		}),
 		memory: Flags.integer({
 			description: 'VM memory in MB',
 			default: DEFAULT_MEMORY,
@@ -128,11 +144,27 @@ export default class VirtualDeviceStartCmd extends Command {
 			VirtualDeviceStartCmd,
 		);
 
+		// Validate mutually exclusive flags
+		if (options.tty && options.detached) {
+			throw new ExpectedError(
+				'Cannot use --tty and --detached together.\n\n' +
+					'--tty attaches interactively with TTY mode\n' +
+					'--detached runs in the background without any output',
+			);
+		}
+
 		// Determine if this is a restart of an existing instance or a new VM
 		if (params.instance) {
-			await this.restartInstance(params.instance, options);
+			await this.restartInstance(params.instance, {
+				detached: options.detached,
+				tty: options.tty,
+			});
 		} else if (options.image) {
-			await this.startNewVm({ ...options, image: options.image });
+			await this.startNewVm({
+				...options,
+				image: options.image,
+				tty: options.tty,
+			});
 		} else {
 			throw new ExpectedError(
 				'You must specify either --image to start a new VM or an instance identifier to restart a stopped one.\n\n' +
@@ -149,7 +181,7 @@ export default class VirtualDeviceStartCmd extends Command {
 	 */
 	private async restartInstance(
 		identifier: string,
-		options: { detached: boolean },
+		options: { detached: boolean; tty: boolean },
 	) {
 		const { findContainer, startContainer } = await import(
 			'../../utils/virtual-device'
@@ -190,8 +222,10 @@ export default class VirtualDeviceStartCmd extends Command {
 
 		if (options.detached) {
 			this.printDetachedInfo(instance.name);
-		} else {
+		} else if (options.tty) {
 			await this.attachInteractive(instance.name, workingCopyPath ?? undefined);
+		} else {
+			await this.attachLogsOnly(instance.name);
 		}
 	}
 
@@ -202,6 +236,7 @@ export default class VirtualDeviceStartCmd extends Command {
 		image: string;
 		'data-size': string;
 		detached: boolean;
+		tty: boolean;
 		memory: number;
 		cpus: number;
 	}) {
@@ -291,8 +326,8 @@ export default class VirtualDeviceStartCmd extends Command {
 		}
 
 		// Step 5: Launch container
-		// In attached mode, launch with interactive=true for bidirectional console
-		const isInteractive = !options.detached;
+		// In TTY mode, launch with interactive=true for bidirectional console
+		const isInteractive = options.tty;
 		console.log('\n[5/5] Launching virtual device...');
 		let instance: Awaited<ReturnType<typeof launchContainer>>['instance'];
 		let accelerator: Awaited<ReturnType<typeof launchContainer>>['accelerator'];
@@ -333,8 +368,10 @@ export default class VirtualDeviceStartCmd extends Command {
 
 		if (options.detached) {
 			this.printDetachedInfo(instance.name);
-		} else {
+		} else if (options.tty) {
 			await this.attachInteractive(instance.name, workingCopyPath);
+		} else {
+			await this.attachLogsOnly(instance.name);
 		}
 	}
 
@@ -355,6 +392,41 @@ export default class VirtualDeviceStartCmd extends Command {
 		console.log('\nTo remove and clean up:');
 		console.log(`  balena virt rm ${containerName}`);
 		console.log('─'.repeat(60));
+	}
+
+	/**
+	 * Stream container logs without interactive TTY mode.
+	 * Only captures stdout/stderr, no stdin. Ctrl+C stops the VM.
+	 */
+	private async attachLogsOnly(containerName: string) {
+		console.log('\nStreaming logs (Ctrl+C to stop)...');
+		console.log('─'.repeat(60) + '\n');
+
+		const { streamContainerLogs, stopContainer } = await import(
+			'../../utils/virtual-device'
+		);
+
+		const instanceId = extractInstanceId(containerName);
+
+		try {
+			await streamContainerLogs({
+				containerNameOrId: containerName,
+				onStop: async () => {
+					await stopContainer(containerName);
+					console.log(`\nVirtual device stopped: ${containerName}`);
+					console.log(`To restart: balena virt start ${instanceId}`);
+					console.log(`To remove and clean up: balena virt rm ${instanceId}`);
+				},
+			});
+		} catch (err) {
+			// Stop on error (don't remove - let user investigate)
+			await stopContainer(containerName).catch(() => {
+				// Ignore stop errors
+			});
+			throw new ExpectedError(
+				`Error streaming logs: ${err instanceof Error ? err.message : String(err)}`,
+			);
+		}
 	}
 
 	/**

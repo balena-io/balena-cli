@@ -55,12 +55,14 @@ export {
 	stopAllContainersWithCleanup,
 	stopContainer,
 	stopContainerWithCleanup,
+	streamContainerLogs,
 } from './docker';
 export type {
 	AttachContainerOptions,
 	FindContainerResult,
 	LaunchContainerOptions,
 	LaunchContainerResult,
+	StreamContainerLogsOptions,
 } from './docker';
 
 // Import CONTAINER_PREFIX for internal use (it's also re-exported from types)
