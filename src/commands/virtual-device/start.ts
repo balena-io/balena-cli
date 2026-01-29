@@ -251,9 +251,11 @@ export default class VirtualDeviceStartCmd extends Command {
 					`   cd balena-image-flasher-unwrap\n` +
 					`   ./docker-run "${imagePath}"\n` +
 					`   # Output will be in ./output/\n\n` +
-					`2. Download a non-flasher image (for device types that support it):\n` +
+					`2. Download a non-flasher image via the API:\n` +
 					`   curl -L -o balena.img.gz "https://api.balena-cloud.com/download?deviceType=<DEVICE_TYPE>&version=<VERSION>&fileType=.gz&imageType=raw"\n` +
-					`   gunzip balena.img.gz`,
+					`   gunzip balena.img.gz\n\n` +
+					`   Add applicationName=<FLEET_SLUG> to pre-provision for cloud connectivity.\n\n` +
+					`   See: https://docs.balena.io/reference/api/resources/download/`,
 			);
 		}
 		console.log('  Image type: OK (non-flasher)');
