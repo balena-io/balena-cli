@@ -225,14 +225,14 @@ export default class VirtualDeviceStartCmd extends Command {
 
 		console.log('Starting virtual device...\n');
 
-		// Step 1: Validate image exists
-		console.log('[1/6] Validating image...');
+		// Step 1: Validate image (exists, format, type, architecture)
+		console.log('[1/5] Validating image...');
 		const exists = await validateImageExists(imagePath);
 		if (!exists) {
 			throw new ExpectedError(`Image file not found: ${imagePath}`);
 		}
 
-		// Step 2: Validate image format (must be raw/uncompressed)
+		// Validate image format (must be raw/uncompressed)
 		try {
 			await validateImageFormat(imagePath);
 		} catch (err) {
@@ -240,17 +240,7 @@ export default class VirtualDeviceStartCmd extends Command {
 		}
 		console.log('  Image format: OK (raw)');
 
-		// Detect host architecture
-		const hostArch = detectArchitecture();
-		console.log(`  Host architecture: ${hostArch}`);
-
-		// Step 2: Build Docker image (needed for flasher extraction and expansion)
-		console.log('\n[2/6] Building Docker image...');
-		await buildDockerImage();
-		console.log('  Docker image ready.');
-
-		// Step 3: Check for flasher image - error if detected
-		console.log('\n[3/6] Checking image type...');
+		// Check for flasher image - error if detected
 		const flasherResult = await detectFlasherImage(imagePath);
 		if (flasherResult.isFlasher) {
 			throw new ExpectedError(
@@ -268,13 +258,22 @@ export default class VirtualDeviceStartCmd extends Command {
 		}
 		console.log('  Image type: OK (non-flasher)');
 
-		// Step 4: Create working copy
-		console.log('\n[4/6] Creating working copy...');
+		// Detect host architecture
+		const hostArch = detectArchitecture();
+		console.log(`  Host architecture: ${hostArch}`);
+
+		// Step 2: Build Docker image (needed for expansion and launch)
+		console.log('\n[2/5] Building Docker image...');
+		await buildDockerImage();
+		console.log('  Docker image ready.');
+
+		// Step 3: Create working copy
+		console.log('\n[3/5] Creating working copy...');
 		const workingCopyPath = await createWorkingCopy(imagePath);
 		console.log(`  Working copy created at: ${workingCopyPath}`);
 
-		// Step 5: Expand image for data partition
-		console.log('\n[5/6] Expanding image...');
+		// Step 4: Expand image for data partition
+		console.log('\n[4/5] Expanding image...');
 		try {
 			const expandResult = await expandImage({
 				imagePath: workingCopyPath,
@@ -289,10 +288,10 @@ export default class VirtualDeviceStartCmd extends Command {
 			);
 		}
 
-		// Step 6: Launch container
+		// Step 5: Launch container
 		// In attached mode, launch with interactive=true for bidirectional console
 		const isInteractive = !options.detached;
-		console.log('\n[6/6] Launching virtual device...');
+		console.log('\n[5/5] Launching virtual device...');
 		let instance: Awaited<ReturnType<typeof launchContainer>>['instance'];
 		let accelerator: Awaited<ReturnType<typeof launchContainer>>['accelerator'];
 
