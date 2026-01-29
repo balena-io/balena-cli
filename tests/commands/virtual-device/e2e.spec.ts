@@ -18,15 +18,17 @@
 import { expect } from 'chai';
 import { createWriteStream, promises as fs } from 'fs';
 import { execFile } from 'child_process';
+import type { IncomingMessage } from 'http';
+import * as https from 'https';
 import * as path from 'path';
 import { pipeline } from 'stream/promises';
 import * as tmp from 'tmp';
 import { promisify } from 'util';
+import { createGunzip } from 'zlib';
 import * as Dockerode from 'dockerode';
 
 import { cleanOutput, runCommand, skipIfNoDocker } from '../../helpers';
 import { detectArchitecture } from '../../../build/utils/virtual-device/arch';
-import { getStream } from '../../../build/utils/image-manager';
 
 /**
  * Get Docker container logs for debugging boot failures.
@@ -49,6 +51,74 @@ async function getContainerLogs(containerId: string): Promise<string> {
 
 tmp.setGracefulCleanup();
 const execFileAsync = promisify(execFile);
+
+/**
+ * Download a raw (non-flasher) balenaOS image directly from the API.
+ *
+ * Uses the /download endpoint with imageType=raw to get pre-unwrapped images.
+ * This approach matches the virtual-balenaos spawn.sh reference implementation.
+ *
+ * @param deviceType - Device type (e.g., 'generic-amd64', 'generic-aarch64')
+ * @param version - OS version or 'latest'
+ * @param outputPath - Path to write the decompressed image
+ */
+async function downloadRawImage(
+	deviceType: string,
+	version: string,
+	outputPath: string,
+): Promise<void> {
+	const url = new URL('https://api.balena-cloud.com/download');
+	url.searchParams.set('deviceType', deviceType);
+	url.searchParams.set('version', version);
+	url.searchParams.set('fileType', '.gz');
+	// imageType=raw only supported for device types with multiple image types.
+	// Currently only generic-amd64 supports this; generic-aarch64 is already raw.
+	if (deviceType === 'generic-amd64') {
+		url.searchParams.set('imageType', 'raw');
+	}
+	// developmentMode enables SSH access on port 22222
+	url.searchParams.set('developmentMode', 'true');
+
+	return new Promise((resolve, reject) => {
+		const handleResponse = (response: IncomingMessage) => {
+			if (response.statusCode === 302 || response.statusCode === 301) {
+				// Follow redirect to actual download URL
+				const location = response.headers.location;
+				if (!location) {
+					reject(new Error('Redirect without location header'));
+					return;
+				}
+				https
+					.get(location, (redirectResponse) => {
+						if (redirectResponse.statusCode !== 200) {
+							reject(
+								new Error(
+									`Download failed with status ${redirectResponse.statusCode}`,
+								),
+							);
+							return;
+						}
+						pipeline(
+							redirectResponse,
+							createGunzip(),
+							createWriteStream(outputPath),
+						)
+							.then(resolve)
+							.catch(reject);
+					})
+					.on('error', reject);
+			} else if (response.statusCode === 200) {
+				pipeline(response, createGunzip(), createWriteStream(outputPath))
+					.then(resolve)
+					.catch(reject);
+			} else {
+				reject(new Error(`Download failed with status ${response.statusCode}`));
+			}
+		};
+
+		https.get(url, handleResponse).on('error', reject);
+	});
+}
 
 // Timeouts for various operations
 const IMAGE_DOWNLOAD_TIMEOUT = 10 * 60 * 1000; // 10 min
@@ -147,23 +217,16 @@ describe('virtual-device E2E', function () {
 		this.timeout(IMAGE_DOWNLOAD_TIMEOUT);
 
 		it('downloads balenaOS image for host architecture', async function () {
-			// Use image-manager which handles version resolution and caching
+			// Download raw (non-flasher) image directly from API
+			// Uses imageType=raw for generic-amd64; generic-aarch64 is already raw
 			console.log(`Downloading ${deviceType} development image...`);
-			const stream = await getStream(deviceType, 'default', {
-				developmentMode: true,
-			});
-
-			// Get resolved version from stream event
-			const version = await new Promise<string>((resolve) => {
-				stream.on('balena-image-manager:resolved-version', resolve);
-			});
-			console.log(`Resolved OS version: ${version}`);
-
-			// Stream directly to file (raw image)
-			await pipeline(stream, createWriteStream(imagePath));
+			await downloadRawImage(deviceType, 'latest', imagePath);
 
 			// Verify image was downloaded and has reasonable size (>100MB)
 			const stats = await fs.stat(imagePath);
+			console.log(
+				`Downloaded image size: ${(stats.size / (1024 * 1024)).toFixed(0)} MB`,
+			);
 			expect(stats.size).to.be.greaterThan(100 * 1024 * 1024);
 		});
 	});
