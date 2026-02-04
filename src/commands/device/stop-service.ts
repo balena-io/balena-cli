@@ -78,6 +78,7 @@ export default class DeviceStopServiceCmd extends Command {
 			deviceUuid,
 			{
 				$expand: {
+					belongs_to__application: { $select: 'slug' },
 					is_running__release: { $select: 'commit' },
 				},
 			},
@@ -89,18 +90,21 @@ export default class DeviceStopServiceCmd extends Command {
 		);
 
 		// Check specified services exist on this device before stoppinganything
-		serviceNames.forEach((service) => {
-			if (!device.current_services[service]) {
+		const fleetSlug = device.belongs_to__application[0].slug;
+		const serviceInfos = serviceNames.map((serviceName) => {
+			const serviceInfo =
+				device.current_services_by_app[fleetSlug]?.[serviceName];
+			if (serviceInfo == null) {
 				throw new ExpectedError(
-					`Service ${service} not found on device ${deviceUuid}.`,
+					`Service ${serviceName} not found on device ${deviceUuid}.`,
 				);
 			}
+			return serviceInfo;
 		});
 
 		// Stop services
 		const stopPromises: Array<Promise<void>> = [];
-		for (const serviceName of serviceNames) {
-			const service = device.current_services[serviceName];
+		for (const service of serviceInfos) {
 			// Each service is an array of `CurrentServiceWithCommit`
 			// because when service is updating, it will actually hold 2 services
 			// Target commit matching `device.is_running__release`

@@ -113,6 +113,12 @@ export const isESR = (version: string) => {
 };
 
 /**
+ * Returns whether the OS version is 'esr' or 'default'
+ */
+export const getOsType = (version: string) =>
+	isESR(version) ? 'esr' : 'default';
+
+/**
  * @summary Get the most recent compatible version
  *
  * @param {String} deviceType - device type slug or alias
@@ -126,7 +132,7 @@ const resolveVersion = async (deviceType: string, versionOrRange: string) => {
 	const version = await balena.models.os.getMaxSatisfyingVersion(
 		deviceType,
 		versionOrRange,
-		isESR(versionOrRange) ? 'esr' : 'default',
+		getOsType(versionOrRange),
 	);
 	if (!version) {
 		throw new Error('No such version for the device type');

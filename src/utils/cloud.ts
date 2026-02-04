@@ -236,6 +236,7 @@ export async function getOsVersions(
 	let slug = deviceType;
 	let versions: SDK.OsVersion[] = await sdk.models.os.getAvailableOsVersions(
 		slug,
+		undefined,
 		{ includeDraft },
 	);
 	// if slug is an alias, fetch the real slug
@@ -243,7 +244,7 @@ export async function getOsVersions(
 		// unalias device type slug
 		slug = (await sdk.models.deviceType.get(slug, { $select: 'slug' })).slug;
 		if (slug !== deviceType) {
-			versions = await sdk.models.os.getAvailableOsVersions(slug, {
+			versions = await sdk.models.os.getAvailableOsVersions(slug, undefined, {
 				includeDraft,
 			});
 		}

@@ -102,12 +102,16 @@ export default class DeviceOsUpdateCmd extends Command {
 				parsedVersion != null && parsedVersion.prerelease.length > 0;
 		}
 
+		const { getOsType } = await import('../../utils/image-manager');
+		const osType = getOsType(currentOsVersion);
+
 		// Get supported OS update versions
 		const hupVersionInfo = await sdk.models.os.getSupportedOsUpdateVersions(
 			is_of__device_type[0].slug,
 			currentOsVersion,
 			{
 				includeDraft,
+				osType,
 			},
 		);
 		if (hupVersionInfo.versions.length === 0) {
