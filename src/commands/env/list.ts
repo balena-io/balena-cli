@@ -229,10 +229,9 @@ async function getAppVars(
 	if (!fleetSlug) {
 		return appVars;
 	}
-	const vars =
-		await sdk.models.application[
-			options.config ? 'configVar' : 'envVar'
-		].getAllByApplication(fleetSlug);
+	const vars = options.config
+		? await sdk.models.application.configVar.getAllByApplication(fleetSlug)
+		: await sdk.models.application.envVar.getAllByApplication(fleetSlug);
 	fillInInfoFields(vars, fleetSlug);
 	appVars.push(...vars);
 	if (!options.config) {
