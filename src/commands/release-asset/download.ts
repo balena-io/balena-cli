@@ -69,7 +69,8 @@ export default class ReleaseAssetDownloadCmd extends Command {
 		const { args, flags } = await this.parse(ReleaseAssetDownloadCmd);
 		const balena = getBalenaSdk();
 
-		const release = await balena.models.release.get(args.commitOrId, {
+		const { getRelease } = await import('../../utils/sdk');
+		const release = await getRelease(args.commitOrId, {
 			$select: ['id'],
 		});
 

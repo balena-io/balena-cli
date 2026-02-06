@@ -64,21 +64,23 @@ export default class DevicePublicUrlCmd extends Command {
 			await this.parse(DevicePublicUrlCmd);
 
 		const balena = getBalenaSdk();
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(params.uuid);
 
 		if (options.enable) {
 			// Enable public URL
-			await balena.models.device.enableDeviceUrl(params.uuid);
+			await balena.models.device.enableDeviceUrl(uuid);
 		} else if (options.disable) {
 			// Disable public URL
-			await balena.models.device.disableDeviceUrl(params.uuid);
+			await balena.models.device.disableDeviceUrl(uuid);
 		} else if (options.status) {
 			// Output bool indicating if public URL enabled
-			const hasUrl = await balena.models.device.hasDeviceUrl(params.uuid);
+			const hasUrl = await balena.models.device.hasDeviceUrl(uuid);
 			console.log(hasUrl);
 		} else {
 			// Output public URL
 			try {
-				const url = await balena.models.device.getDeviceUrl(params.uuid);
+				const url = await balena.models.device.getDeviceUrl(uuid);
 				console.log(url);
 			} catch (e) {
 				if (e.message.includes('Device is not web accessible')) {
@@ -86,7 +88,7 @@ export default class DevicePublicUrlCmd extends Command {
 					Public URL is not enabled for this device.
 
 					To enable, use:
-						balena device public-url ${params.uuid} --enable
+						balena device public-url ${uuid} --enable
 					`);
 				} else {
 					throw e;

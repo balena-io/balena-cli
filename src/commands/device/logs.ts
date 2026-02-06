@@ -126,16 +126,17 @@ export default class DeviceLogsCmd extends Command {
 			validateIPAddress(params.device) ||
 			validateDotLocalUrl(params.device)
 		) {
+			const ipAddress = params.device;
 			// Logs from local device
 			const { DeviceAPI } = await import('../../utils/device/api');
-			const deviceApi = new DeviceAPI(logger, params.device);
+			const deviceApi = new DeviceAPI(logger, ipAddress);
 			logger.logDebug('Checking we can access device');
 			try {
 				await deviceApi.ping();
 			} catch {
 				const { ExpectedError } = await import('../../errors');
 				throw new ExpectedError(
-					`Cannot access device at address ${params.device}.  Device may not be in local mode.`,
+					`Cannot access device at address ${ipAddress}.  Device may not be in local mode.`,
 				);
 			}
 
@@ -151,8 +152,10 @@ export default class DeviceLogsCmd extends Command {
 			const { checkLoggedIn } = await import('../../utils/patterns');
 			// Logs from cloud
 			await checkLoggedIn();
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			const uuid = await resolveDeviceUuidParam(params.device);
 			if (options.tail) {
-				const logStream = await balena.logs.subscribe(params.device, {
+				const logStream = await balena.logs.subscribe(uuid, {
 					count: 100,
 				});
 				// Never resolve (quit with CTRL-C), but reject on a broken connection
@@ -161,7 +164,7 @@ export default class DeviceLogsCmd extends Command {
 					logStream.on('error', reject);
 				});
 			} else {
-				const logMessages = await balena.logs.history(params.device);
+				const logMessages = await balena.logs.history(uuid);
 				for (const logMessage of logMessages) {
 					await displayCloudLog(logMessage);
 				}

@@ -48,9 +48,12 @@ export default class DevicePurgeCmd extends Command {
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
-		const deviceUuids = params.uuid.split(',');
+		const { resolveDeviceUuidsParam } = await import('../../utils/sdk');
+		const fullDeviceUuids = await resolveDeviceUuidsParam(
+			params.uuid.split(','),
+		);
 
-		for (const uuid of deviceUuids) {
+		for (const uuid of fullDeviceUuids) {
 			ux.action.start(`Purging data from device ${uuid}`);
 			await balena.models.device.purge(uuid);
 			ux.action.stop();

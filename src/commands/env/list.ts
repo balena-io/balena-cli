@@ -133,10 +133,7 @@ export default class EnvListCmd extends Command {
 			const { getDeviceAndMaybeAppFromUUID } = await import(
 				'../../utils/cloud'
 			);
-			const [device, app] = await getDeviceAndMaybeAppFromUUID(
-				balena,
-				options.device,
-			);
+			const [device, app] = await getDeviceAndMaybeAppFromUUID(options.device);
 
 			fullUUID = device.uuid;
 			if (app) {

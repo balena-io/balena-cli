@@ -45,9 +45,11 @@ export default class DeviceRebootCmd extends Command {
 
 		const balena = getBalenaSdk();
 
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(params.uuid);
 		// The SDK current throws "BalenaDeviceNotFound: Device not found: xxxxx"
 		// when the device is not online, which may be confusing.
 		// https://github.com/balena-io/balena-cli/issues/1872
-		await balena.models.device.reboot(params.uuid, options);
+		await balena.models.device.reboot(uuid, options);
 	}
 }

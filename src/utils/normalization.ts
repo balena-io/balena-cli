@@ -17,6 +17,7 @@
 
 import type { BalenaSDK } from 'balena-sdk';
 import { ExpectedError } from '../errors';
+import { $getRelease } from './sdk';
 
 /**
  * Takes a string which may represent one of:
@@ -72,7 +73,7 @@ export async function disambiguateReleaseParam(
 	}
 
 	// Must be a number only uuid/hash (or nonexistent release)
-	return (await balena.models.release.get(release, { $select: 'id' })).id;
+	return (await $getRelease(balena, release, { $select: 'id' })).id;
 }
 
 /* eslint-disable @typescript-eslint/require-await -- oclif parse functions require a Promise return */

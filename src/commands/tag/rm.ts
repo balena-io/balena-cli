@@ -71,7 +71,9 @@ export default class TagRmCmd extends Command {
 			);
 		}
 		if (options.device) {
-			return balena.models.device.tags.remove(options.device, params.tagKey);
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			const uuid = await resolveDeviceUuidParam(options.device);
+			return balena.models.device.tags.remove(uuid, params.tagKey);
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(

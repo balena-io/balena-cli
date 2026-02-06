@@ -59,12 +59,11 @@ type DeviceWithOptions = NonNullable<
  */
 export const getDeviceAndAppFromUUID = _.memoize(
 	async (
-		sdk: SDK.BalenaSDK,
 		deviceUUID: string,
 	): Promise<
 		[DeviceWithOptions, DeviceWithOptions['belongs_to__application'][number]]
 	> => {
-		const [device, app] = await getDeviceAndMaybeAppFromUUID(sdk, deviceUUID);
+		const [device, app] = await getDeviceAndMaybeAppFromUUID(deviceUUID);
 		if (app == null) {
 			throw new ExpectedError(stripIndent`
 				Unable to access the fleet that device ${deviceUUID} belongs to.
@@ -74,8 +73,6 @@ export const getDeviceAndAppFromUUID = _.memoize(
 
 		return [device, app] as const;
 	},
-	// Memoize the call based on UUID
-	(_sdk, deviceUUID) => deviceUUID,
 );
 
 /**
@@ -87,17 +84,15 @@ export const getDeviceAndAppFromUUID = _.memoize(
  */
 export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	async (
-		sdk: SDK.BalenaSDK,
 		deviceUUID: string,
 	): Promise<
 		| [DeviceWithOptions, DeviceWithOptions['belongs_to__application'][number]]
 		| [DeviceWithOptions, undefined]
 	> => {
-		const device = await sdk.models.device.get(deviceUUID, deviceOptions);
+		const { getDevice } = await import('./sdk');
+		const device = await getDevice(deviceUUID, deviceOptions);
 		return [device, device.belongs_to__application[0]] as const;
 	},
-	// Memoize the call based on UUID
-	(_sdk, deviceUUID) => deviceUUID,
 );
 
 /**
