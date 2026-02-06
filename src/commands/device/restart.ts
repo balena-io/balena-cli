@@ -63,6 +63,8 @@ export default class DeviceRestartCmd extends Command {
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
+		// Not resolving partial UUIDs ahead of time,
+		// b/c restartAllServices can avoid the extra request
 		const deviceUuids = params.uuid.split(',');
 		const serviceNames = options.service?.split(',');
 
@@ -91,6 +93,8 @@ export default class DeviceRestartCmd extends Command {
 		// Get device
 		let device;
 		try {
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			deviceUuid = await resolveDeviceUuidParam(deviceUuid);
 			device = await balena.models.device.getWithServiceDetails(deviceUuid, {
 				$expand: {
 					belongs_to__application: { $select: 'slug' },
@@ -151,9 +155,11 @@ export default class DeviceRestartCmd extends Command {
 		// Need to use device.get first to distinguish between non-existant and disconnected devices.
 		// Remove this workaround when SDK issue resolved: https://github.com/balena-io/balena-sdk/issues/649
 		const { instanceOf, ExpectedError } = await import('../../errors');
+		const { getDevice } = await import('../../utils/sdk');
+		let device;
 		try {
-			const device = await balena.models.device.get(deviceUuid, {
-				$select: 'is_connected_to_vpn',
+			device = await getDevice(deviceUuid, {
+				$select: ['uuid', 'is_connected_to_vpn'],
 			});
 			if (!device.is_connected_to_vpn) {
 				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
@@ -167,6 +173,6 @@ export default class DeviceRestartCmd extends Command {
 			}
 		}
 
-		await balena.models.device.restartApplication(deviceUuid);
+		await balena.models.device.restartApplication(device.uuid);
 	}
 }

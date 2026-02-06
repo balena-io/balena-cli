@@ -60,33 +60,34 @@ export default class DeviceLocalModeCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } =
 			await this.parse(DeviceLocalModeCmd);
-
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(params.uuid);
 		const balena = getBalenaSdk();
 
 		if (options.enable) {
-			await balena.models.device.enableLocalMode(params.uuid);
-			console.log(`Local mode on device ${params.uuid} is now ENABLED.`);
+			await balena.models.device.enableLocalMode(uuid);
+			console.log(`Local mode on device ${uuid} is now ENABLED.`);
 		} else if (options.disable) {
-			await balena.models.device.disableLocalMode(params.uuid);
-			console.log(`Local mode on device ${params.uuid} is now DISABLED.`);
+			await balena.models.device.disableLocalMode(uuid);
+			console.log(`Local mode on device ${uuid} is now DISABLED.`);
 		} else if (options.status) {
 			// Output bool indicating local mode status
-			const isEnabled = await balena.models.device.isInLocalMode(params.uuid);
+			const isEnabled = await balena.models.device.isInLocalMode(uuid);
 			console.log(isEnabled);
 		} else {
 			// If no flag provided, output status and tip
-			const isEnabled = await balena.models.device.isInLocalMode(params.uuid);
+			const isEnabled = await balena.models.device.isInLocalMode(uuid);
 			console.log(
-				`Local mode on device ${params.uuid} is ${
+				`Local mode on device ${uuid} is ${
 					isEnabled ? 'ENABLED' : 'DISABLED'
 				}.`,
 			);
 			if (isEnabled) {
 				console.log('To disable, use:');
-				console.log(`  balena device local-mode ${params.uuid} --disable`);
+				console.log(`  balena device local-mode ${uuid} --disable`);
 			} else {
 				console.log('To enable, use:');
-				console.log(`  balena device local-mode ${params.uuid} --enable`);
+				console.log(`  balena device local-mode ${uuid} --enable`);
 			}
 		}
 	}

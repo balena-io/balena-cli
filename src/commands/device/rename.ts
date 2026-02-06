@@ -58,6 +58,8 @@ export default class DeviceRenameCmd extends Command {
 			})) ||
 			'';
 
-		await balena.models.device.rename(params.uuid, newName);
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(params.uuid);
+		await balena.models.device.rename(uuid, newName);
 	}
 }

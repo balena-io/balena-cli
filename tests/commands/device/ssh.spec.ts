@@ -84,13 +84,30 @@ describe('balena device ssh', function () {
 		await server.assertAllCalled();
 	});
 
+	const deviceUUID = 'abc1234b86f144d19f1e7855ffb611f7';
+	const deviceShortUUID = deviceUUID.slice(0, 7);
+
 	itSS('should succeed (mocked, device UUID)', async () => {
-		const deviceUUID = 'abc1234';
 		await api.expectGetWhoAmI({ optional: true, persist: true });
 		await api.expectGetDevice({ fullUUID: deviceUUID, isConnectedToVpn: true });
 		mockedExitCode = 0;
 
 		const { err, out } = await runCommand(`device ssh ${deviceUUID}`);
+
+		expect(err).to.be.empty;
+		expect(out).to.be.empty;
+	});
+
+	itSS('should succeed (mocked, device short UUID)', async () => {
+		await api.expectGetWhoAmI({ optional: true, persist: true });
+		await api.expectGetDevice({
+			fullUUID: deviceUUID,
+			shortUUID: deviceShortUUID,
+			isConnectedToVpn: true,
+		});
+		mockedExitCode = 0;
+
+		const { err, out } = await runCommand(`device ssh ${deviceShortUUID}`);
 
 		expect(err).to.be.empty;
 		expect(out).to.be.empty;
@@ -106,9 +123,8 @@ describe('balena device ssh', function () {
 	itSS(
 		'should produce the expected error message (mocked, device UUID)',
 		async () => {
-			const deviceUUID = 'abc1234';
 			const expectedErrLines = [
-				'SSH: Remote command "host abc1234" exited with non-zero status code "255"',
+				'SSH: Remote command "host abc1234b86f144d19f1e7855ffb611f7" exited with non-zero status code "255"',
 			];
 			await api.expectGetWhoAmI({ optional: true, persist: true });
 			await api.expectGetDevice({
@@ -124,8 +140,9 @@ describe('balena device ssh', function () {
 	);
 
 	itSS('should fail if device not online (mocked, device UUID)', async () => {
-		const deviceUUID = 'abc1234';
-		const expectedErrLines = ['Device with UUID abc1234 is disconnected'];
+		const expectedErrLines = [
+			'Device with UUID abc1234b86f144d19f1e7855ffb611f7 is disconnected',
+		];
 		await api.expectGetWhoAmI({ optional: true, persist: true });
 		await api.expectGetDevice({
 			fullUUID: deviceUUID,

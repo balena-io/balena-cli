@@ -39,7 +39,8 @@ export default class DeviceTrackFleetCmd extends Command {
 		const { args: params } = await this.parse(DeviceTrackFleetCmd);
 
 		const balena = getBalenaSdk();
-
-		await balena.models.device.trackApplicationRelease(params.uuid);
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(params.uuid);
+		await balena.models.device.trackApplicationRelease(uuid);
 	}
 }
