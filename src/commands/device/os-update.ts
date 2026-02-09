@@ -179,9 +179,7 @@ Make sure to back up all important data before continuing. For more details, che
 		);
 
 		await sdk.models.device
-			.startOsUpdate(uuid, targetOsVersion, {
-				runDetached: true,
-			})
+			.pinToOsRelease(uuid, targetOsVersion)
 			.then(() => {
 				console.log(
 					`The balena OS update has started. You can keep track of the progress via the dashboard.\n` +
