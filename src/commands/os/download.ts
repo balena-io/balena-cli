@@ -70,9 +70,7 @@ export default class OsDownloadCmd extends Command {
 			description: stripIndent`
 				version number (ESR or non-ESR versions),
 				or semver range (non-ESR versions only),
-				or 'latest' (includes pre-releases),
-				or 'default' (excludes pre-releases if at least one released version is available),
-				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+				or 'latest' (exludes invalidated & pre-releases),
 				or 'menu' (interactive menu, non-ESR versions),
 				or 'menu-esr' (interactive menu, ESR versions)
 				`,

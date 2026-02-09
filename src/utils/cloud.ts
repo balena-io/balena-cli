@@ -100,10 +100,8 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
  * `OSVersion` may be one of:
  *  - exact version number,
  *  - valid semver range,
- *  - `latest` (includes pre-releases),
- *  - `default` (excludes pre-releases if at  least one stable version is available),
- *  - `recommended` (excludes pre-releases, will fail if only pre-release versions are available),
- *  - `menu` (will show the interactive menu )
+ *  - `latest` (exludes invalidated & pre-releases),
+ *  - `menu`/'menu-esr' (will show the interactive menu )
  * If not provided, OSVersion will be set to `default`
  *
  * @param deviceType
@@ -119,11 +117,9 @@ export async function downloadOSImage(
 
 	if (!OSVersion) {
 		console.warn('OS version not specified: using latest released version');
+		OSVersion = 'latest';
 	}
-
-	OSVersion = OSVersion
-		? await resolveOSVersion(deviceType, OSVersion)
-		: 'default';
+	OSVersion = await resolveOSVersion(deviceType, OSVersion);
 
 	// Override the default zlib flush value as we've seen cases of
 	// incomplete files being identified as successful downloads when using Z_SYNC_FLUSH.

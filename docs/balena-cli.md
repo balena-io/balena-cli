@@ -1392,9 +1392,7 @@ path to the config JSON file, see `balena config generate`
 #### --os-version OS-VERSION
 
 exact version number, or a valid semver range,
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one stable version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'latest' (exludes invalidated & pre-releases),
 or 'menu' (will show the interactive menu)
 
 #### -v, --advanced
@@ -2849,9 +2847,7 @@ output path
 
 version number (ESR or non-ESR versions),
 or semver range (non-ESR versions only),
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one released version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'latest' (exludes invalidated & pre-releases),
 or 'menu' (interactive menu, non-ESR versions),
 or 'menu-esr' (interactive menu, ESR versions)
 
