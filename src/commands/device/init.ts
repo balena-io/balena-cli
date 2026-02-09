@@ -116,9 +116,7 @@ export default class DeviceInitCmd extends Command {
 			'os-version': Flags.string({
 				description: stripIndent`
 					exact version number, or a valid semver range,
-					or 'latest' (includes pre-releases),
-					or 'default' (excludes pre-releases if at least one stable version is available),
-					or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+					or 'latest' (exludes invalidated & pre-releases),
 					or 'menu' (will show the interactive menu)
 					`,
 			}),
@@ -179,8 +177,7 @@ export default class DeviceInitCmd extends Command {
 		const tmpPath = (await tmpNameAsync()) as string;
 		try {
 			logger.logDebug(`Downloading OS image...`);
-			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-			const osVersion = options['os-version'] || 'default';
+			const osVersion = options['os-version'] ?? 'latest';
 			const deviceType =
 				configJson?.deviceType ?? application.is_for__device_type[0].slug;
 			await downloadOSImage(deviceType, tmpPath, osVersion);

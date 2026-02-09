@@ -86,7 +86,7 @@ export async function lowercaseIfSlug(s: string) {
 }
 
 export function normalizeOsVersion(version: string) {
-	// Note that `version` may also be 'latest', 'recommended', 'default'
+	// Note that `version` may also be 'latest'
 	if (/^v?\d+\.\d+\.\d+/.test(version)) {
 		if (version.startsWith('v')) {
 			version = version.slice(1);
