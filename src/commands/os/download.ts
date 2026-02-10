@@ -48,7 +48,6 @@ export default class OsDownloadCmd extends Command {
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2.60.1+rev1.dev',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2021.10.2.prod',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version latest',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version default',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu-esr',
 	];
