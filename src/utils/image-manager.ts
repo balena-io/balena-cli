@@ -101,24 +101,6 @@ export const isImageCached = async (deviceType: string, version: string) => {
 };
 
 /**
- * Heuristically determine whether the given semver version is a balenaOS
- * ESR version.
- *
- * @param {string} version Semver version. If invalid or range, return false.
- */
-export const isESR = (version: string) => {
-	const match = version.match(/^v?(\d+)\.\d+\.\d+/);
-	const major = parseInt(match?.[1] ?? '', 10);
-	return major >= 2018; // note: (NaN >= 2018) is false
-};
-
-/**
- * Returns whether the OS version is 'esr' or 'default'
- */
-export const getOsType = (version: string) =>
-	isESR(version) ? 'esr' : 'default';
-
-/**
  * @summary Get the most recent compatible version
  *
  * @param {String} deviceType - device type slug or alias
@@ -129,6 +111,8 @@ export const getOsType = (version: string) =>
  */
 const resolveVersion = async (deviceType: string, versionOrRange: string) => {
 	const balena = getBalenaSdk();
+	// TODO: Consider moving the whole version resolution outside of the image-manager.ts
+	const { getOsType } = await import('./os');
 	const version = await balena.models.os.getMaxSatisfyingVersion(
 		deviceType,
 		versionOrRange,
