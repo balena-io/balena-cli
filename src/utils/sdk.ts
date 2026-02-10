@@ -115,10 +115,9 @@ export async function getDevice<
 export async function resolveDeviceUuidParam<T extends string | number>(
 	uuidOrId: T,
 ): Promise<string> {
-	if (isFullUuid(uuidOrId)) {
-		return uuidOrId;
-	}
-	return (await getDevice(uuidOrId, { $select: 'uuid' })).uuid;
+	return isFullUuid(uuidOrId)
+		? uuidOrId
+		: (await getDevice(uuidOrId, { $select: 'uuid' })).uuid;
 }
 
 // Atm we are just resolving all partial UUIDs in one go.
@@ -126,15 +125,7 @@ export async function resolveDeviceUuidParam<T extends string | number>(
 export async function resolveDeviceUuidsParam(
 	uuids: string[],
 ): Promise<string[]> {
-	const fullUuids: string[] = [];
-	for (const uuid of uuids) {
-		if (isFullUuid(uuid)) {
-			fullUuids.push(uuid);
-		} else {
-			fullUuids.push((await getDevice(uuid, { $select: 'uuid' })).uuid);
-		}
-	}
-	return fullUuids;
+	return await Promise.all(uuids.map(resolveDeviceUuidParam));
 }
 
 export async function getApplication<
