@@ -78,10 +78,10 @@ export default class OsDownloadCmd extends Command {
 
 	public async run() {
 		const { args: params, flags: options } = await this.parse(OsDownloadCmd);
+		const { downloadOSImage, isESR } = await import('../../utils/os');
 
 		// balenaOS ESR versions require user authentication
 		if (options.version) {
-			const { isESR } = await import('../../utils/image-manager');
 			if (options.version === 'menu-esr' || isESR(options.version)) {
 				try {
 					const { checkLoggedIn } = await import('../../utils/patterns');
@@ -99,8 +99,6 @@ export default class OsDownloadCmd extends Command {
 				}
 			}
 		}
-
-		const { downloadOSImage } = await import('../../utils/cloud');
 
 		try {
 			await downloadOSImage(params.type, options.output, options.version);

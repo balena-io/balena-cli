@@ -138,7 +138,7 @@ export default class DeviceInitCmd extends Command {
 		const tmp = await import('tmp');
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
-		const { downloadOSImage } = await import('../../utils/cloud');
+		const { downloadOSImage } = await import('../../utils/os');
 		const { getApplication } = await import('../../utils/sdk');
 		const Logger = await import('../../utils/logger');
 

@@ -103,7 +103,7 @@ export default class DeviceOsUpdateCmd extends Command {
 				parsedVersion != null && parsedVersion.prerelease.length > 0;
 		}
 
-		const { getOsType } = await import('../../utils/image-manager');
+		const { getOsType } = await import('../../utils/os');
 		const osType = getOsType(currentOsVersion);
 
 		// Get supported OS update versions
