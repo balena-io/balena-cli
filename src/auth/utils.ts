@@ -30,10 +30,7 @@ export async function getDashboardLoginURL(
 	// characters to avoid angular getting confused.
 	callbackUrl = encodeURIComponent(callbackUrl).replace(/%/g, '%25');
 
-	const [{ URL }, dashboardUrl] = await Promise.all([
-		import('url'),
-		getBalenaSdk().settings.get('dashboardUrl'),
-	]);
+	const dashboardUrl = await getBalenaSdk().settings.get('dashboardUrl');
 	return new URL(`/login/cli/${callbackUrl}`, dashboardUrl).href;
 }
 

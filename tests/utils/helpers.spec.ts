@@ -54,7 +54,7 @@ describe('getProxyConfig() function', function () {
 		}
 	});
 
-	it('should return a ProxyConfig object when global-tunnel-ng is in use', async () => {
+	it('should return a ProxyConfig object when global-tunnel-ng is in use', () => {
 		(global as any).PROXY_CONFIG = {
 			host: '127.0.0.1',
 			port: 8080,
@@ -69,10 +69,10 @@ describe('getProxyConfig() function', function () {
 			username: 'bob',
 			password: 'secret',
 		};
-		expect(await getProxyConfig()).to.deep.equal(expectedProxyConfig);
+		expect(getProxyConfig()).to.deep.equal(expectedProxyConfig);
 	});
 
-	it('should return a ProxyConfig object when the HTTP(S)_PROXY env vars are defined', async () => {
+	it('should return a ProxyConfig object when the HTTP(S)_PROXY env vars are defined', () => {
 		process.env.HTTPS_PROXY = 'http://bob:secret@proxy.company.com:12345';
 		process.env.HTTP_PROXY = 'http://my.net:8080';
 		const expectedProxyConfig = {
@@ -82,6 +82,6 @@ describe('getProxyConfig() function', function () {
 			username: 'bob',
 			password: 'secret',
 		};
-		expect(await getProxyConfig()).to.deep.equal(expectedProxyConfig);
+		expect(getProxyConfig()).to.deep.equal(expectedProxyConfig);
 	});
 });
