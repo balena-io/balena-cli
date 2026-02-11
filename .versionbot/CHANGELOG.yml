@@ -1,4 +1,16 @@
 - commits:
+    - subject: "tests: Add ignore rule for DEP0169 url.parse deprecation"
+      hash: 7a541ace40e1932edc36c4ba3ebb68392ea07960
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.31
+  title: ""
+  date: 2026-02-11T17:27:55.136Z
+- commits:
     - subject: Update dependency balena-settings-client to v6
       hash: 22c69893c5837d7c6686ee38185ee117a6c559e2
       body: |
