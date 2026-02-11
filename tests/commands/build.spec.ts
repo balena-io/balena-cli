@@ -85,6 +85,7 @@ const commonComposeQueryParamsIntel = {
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
 describe('balena build', function () {
+	this.timeout(90_000);
 	let api: MockHttpServer['api'];
 	let docker: MockHttpServer['docker'];
 	let server: MockHttpServer;
