@@ -366,7 +366,7 @@ export interface ProxyConfig {
  * Check whether a proxy has been configured (whether global-tunnel-ng or
  * global-agent) and if so, return a ProxyConfig object.
  */
-export async function getProxyConfig(): Promise<ProxyConfig | undefined> {
+export function getProxyConfig(): ProxyConfig | undefined {
 	const tunnelNgConfig: any = (global as any).PROXY_CONFIG;
 	// global-tunnel-ng
 	if (tunnelNgConfig) {
@@ -392,7 +392,6 @@ export async function getProxyConfig(): Promise<ProxyConfig | undefined> {
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 		if (proxyUrl) {
-			const { URL } = await import('url');
 			let url: InstanceType<typeof URL>;
 			try {
 				url = new URL(proxyUrl);
