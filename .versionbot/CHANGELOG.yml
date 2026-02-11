@@ -1,4 +1,36 @@
 - commits:
+    - subject: "tests/build: Increase the test timeout to 1.5 minute"
+      hash: 84edd2714b6389afee9299d4e403118841c4c831
+      body: |
+        Late in the UTC day these tests often timeout
+        after 48s on the macos-15-intel CI runner.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Remove unnecessary 'url' imports
+      hash: f8702f50145e9376863031852634c72870eebe1e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "tests: Replace the deprecated url.parse with new URL()"
+      hash: cc32211fe5e25fd44cd9ede57edf34c914f351e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2258
+        see: https://balena.fibery.io/Work/Project/2258
+      author: Thodoris Greasidis
+      nested: []
+  version: 23.2.32
+  title: ""
+  date: 2026-02-11T22:42:00.364Z
+- commits:
     - subject: "tests: Add ignore rule for DEP0169 url.parse deprecation"
       hash: 7a541ace40e1932edc36c4ba3ebb68392ea07960
       body: ""
