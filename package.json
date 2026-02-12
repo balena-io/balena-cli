@@ -183,6 +183,7 @@
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.6.0",
     "balena-preload": "^19.0.0",
+    "balena-request": "14.1.6-build-no-legacy-url-parse-6bac1f36bcf17443e1401d17477b82d42edb7478-1",
     "balena-sdk": "^23.0.0",
     "balena-semver": "^4.0.0",
     "balena-settings-client": "^6.0.0",
@@ -252,7 +253,8 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    }
+    },
+    "balena-request": "14.1.6-build-no-legacy-url-parse-6bac1f36bcf17443e1401d17477b82d42edb7478-1"
   },
   "versionist": {
     "publishedAt": "2026-02-11T22:42:01.272Z"
