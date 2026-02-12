@@ -83,6 +83,8 @@ const cliOutputPatternsToFilteredOutFromTests = [
 		: []),
 ];
 
+export const notYetUsedCliOutputFilterPatterns = new Set(cliOutputPatternsToFilteredOutFromTests);
+
 /**
  * Filter stdout / stderr lines to remove lines that start with `[debug]` and
  * other lines that can be ignored for testing purposes.
@@ -100,14 +102,15 @@ export function filterCliOutputForTests({
 	return {
 		err: err
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
-			.filter((line) => {
-				return (
-					line &&
-					!matchesNodeEngineVersionWarn(line) &&
-					cliOutputPatternsToFilteredOutFromTests.every(
-						(regex) => !regex.test(line),
-					)
-				);
+			.filter(
+				(line: string) => {
+					return line && !matchesNodeEngineVersionWarn(line) && cliOutputPatternsToFilteredOutFromTests.every(regex => {
+						const matches = line.match(regex) != null;
+						if (matches) {
+							notYetUsedCliOutputFilterPatterns.delete(regex);
+						}
+						return !matches
+				})
 			}),
 		out: out
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
