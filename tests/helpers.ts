@@ -61,6 +61,28 @@ function matchesNodeEngineVersionWarn(msg: string) {
 	return msg === nodeEngineWarn || nodeEngineWarnArray.includes(msg);
 }
 
+const cliOutputPatternsToFilteredOutFromTests = [
+	/\[debug\]/i,
+	// TODO stop this warning message from appearing when running
+	// sdk.setSharedOptions multiple times in the same process
+	/^Shared SDK options/,
+	/^WARN: disabling Sentry\.io error reporting/,
+	// Filter out Node.js warnings from @oclif/plugin-update trying to spawn balena executable
+	/\(node:\d+\) \[ENOENT\] Error: spawn balena ENOENT/,
+	/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
+	/\(Use `node --trace-deprecation \.\.\.` to show where the warning was created\)/,
+	/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
+	// TODO: Drop once the balena-sdk stops using url.parse & url.resolve
+	/\(node:\d+\) \[DEP0169\] DeprecationWarning: `url.parse\(\)` behavior is not standardized and prone to errors that have security implications\. Use the WHATWG URL API instead\. CVEs are not issued for `url.parse\(\)` vulnerabilities\./,
+	/\(node:\d+\) \[DEP0040\] DeprecationWarning: The `punycode` module is deprecated\. Please use a userland alternative instead\./,
+	// TODO: Drop once https://github.com/oclif/plugin-update/pull/1222 gets merged and we update the plugin to that version
+	...(process.platform === 'win32'
+		? [
+				/\(node:\d+\) \[DEP0190\] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated/,
+			]
+		: []),
+];
+
 /**
  * Filter stdout / stderr lines to remove lines that start with `[debug]` and
  * other lines that can be ignored for testing purposes.
@@ -78,41 +100,15 @@ export function filterCliOutputForTests({
 	return {
 		err: err
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
-			.filter(
-				(line: string) =>
+			.filter((line) => {
+				return (
 					line &&
-					!line.match(/\[debug\]/i) &&
-					// TODO stop this warning message from appearing when running
-					// sdk.setSharedOptions multiple times in the same process
-					!line.startsWith('Shared SDK options') &&
-					!line.startsWith('WARN: disabling Sentry.io error reporting') &&
 					!matchesNodeEngineVersionWarn(line) &&
-					// Filter out Node.js warnings from @oclif/plugin-update trying to spawn balena executable
-					!line.match(/\(node:\d+\) \[ENOENT\] Error: spawn balena ENOENT/) &&
-					!line.match(
-						/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
-					) &&
-					!line.match(
-						/\(Use `node --trace-deprecation \.\.\.` to show where the warning was created\)/,
-					) &&
-					!line.match(
-						/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
-					) &&
-					// TODO: Drop once the balena-sdk stops using url.parse & url.resolve
-					!line.match(
-						/\(node:\d+\) \[DEP0169\] DeprecationWarning: `url.parse\(\)` behavior is not standardized and prone to errors that have security implications\. Use the WHATWG URL API instead\. CVEs are not issued for `url.parse\(\)` vulnerabilities\./,
-					) &&
-					!line.match(
-						/\(node:\d+\) \[DEP0040\] DeprecationWarning: The `punycode` module is deprecated\. Please use a userland alternative instead\./,
-					) &&
-					// TODO: Drop once https://github.com/oclif/plugin-update/pull/1222 gets merged and we update the plugin to that version
-					!(
-						process.platform === 'win32' &&
-						line.match(
-							/\(node:\d+\) \[DEP0190\] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated/,
-						)
-					),
-			),
+					cliOutputPatternsToFilteredOutFromTests.every(
+						(regex) => !regex.test(line),
+					)
+				);
+			}),
 		out: out
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
 			.filter((line) => line && !line.match(/\[debug\]/i)),
