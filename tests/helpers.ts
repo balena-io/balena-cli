@@ -71,6 +71,7 @@ const cliOutputPatternsToFilteredOutFromTests = [
 	/\(node:\d+\) \[ENOENT\] Error: spawn balena ENOENT/,
 	/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
 	/\(Use `node --trace-deprecation \.\.\.` to show where the warning was created\)/,
+	/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
 	/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
 	// TODO: Drop once the balena-sdk stops using url.parse & url.resolve
 	/\(node:\d+\) \[DEP0169\] DeprecationWarning: `url.parse\(\)` behavior is not standardized and prone to errors that have security implications\. Use the WHATWG URL API instead\. CVEs are not issued for `url.parse\(\)` vulnerabilities\./,
