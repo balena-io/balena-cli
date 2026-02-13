@@ -67,14 +67,15 @@ const cliOutputPatternsToFilteredOutFromTests = [
 	// sdk.setSharedOptions multiple times in the same process
 	/^Shared SDK options/,
 	/^WARN: disabling Sentry\.io error reporting/,
-	// Filter out Node.js warnings from @oclif/plugin-update trying to spawn balena executable
-	/\(node:\d+\) \[ENOENT\] Error: spawn balena ENOENT/,
-	/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
-	/\(Use `node --trace-deprecation \.\.\.` to show where the warning was created\)/,
-	/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
-	// TODO: Drop once the balena-sdk stops using url.parse & url.resolve
-	/\(node:\d+\) \[DEP0169\] DeprecationWarning: `url.parse\(\)` behavior is not standardized and prone to errors that have security implications\. Use the WHATWG URL API instead\. CVEs are not issued for `url.parse\(\)` vulnerabilities\./,
-	/\(node:\d+\) \[DEP0040\] DeprecationWarning: The `punycode` module is deprecated\. Please use a userland alternative instead\./,
+	...(process.platform === 'darwin'
+		? [/\(node:\d+\) \[ENOENT\] Error: spawn balena ENOENT/]
+		: []),
+	...(process.platform === 'darwin' || process.platform === 'win32'
+		? [
+				/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
+				/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
+			]
+		: []),
 	// TODO: Drop once https://github.com/oclif/plugin-update/pull/1222 gets merged and we update the plugin to that version
 	...(process.platform === 'win32'
 		? [
@@ -83,7 +84,9 @@ const cliOutputPatternsToFilteredOutFromTests = [
 		: []),
 ];
 
-export const notYetUsedCliOutputFilterPatterns = new Set(cliOutputPatternsToFilteredOutFromTests);
+export const notYetUsedCliOutputFilterPatterns = new Set(
+	cliOutputPatternsToFilteredOutFromTests,
+);
 
 /**
  * Filter stdout / stderr lines to remove lines that start with `[debug]` and
@@ -102,15 +105,18 @@ export function filterCliOutputForTests({
 	return {
 		err: err
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
-			.filter(
-				(line: string) => {
-					return line && !matchesNodeEngineVersionWarn(line) && cliOutputPatternsToFilteredOutFromTests.every(regex => {
+			.filter((line: string) => {
+				return (
+					line &&
+					!matchesNodeEngineVersionWarn(line) &&
+					cliOutputPatternsToFilteredOutFromTests.every((regex) => {
 						const matches = line.match(regex) != null;
 						if (matches) {
 							notYetUsedCliOutputFilterPatterns.delete(regex);
 						}
-						return !matches
-				})
+						return !matches;
+					})
+				);
 			}),
 		out: out
 			.map((line) => line.replaceAll(unicodeCharacterEscapesRegex, ''))
