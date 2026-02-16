@@ -200,7 +200,8 @@ export default class OsConfigureCmd extends Command {
 		}
 
 		if (options.device) {
-			device = (await balena.models.device.get(options.device, {
+			const { getDevice } = await import('../../utils/sdk');
+			device = (await getDevice(options.device, {
 				$expand: {
 					is_of__device_type: { $select: 'slug' },
 				},

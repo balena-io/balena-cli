@@ -67,10 +67,11 @@ export default class DeviceOsUpdateCmd extends Command {
 			await this.parse(DeviceOsUpdateCmd);
 
 		const sdk = getBalenaSdk();
+		const { getDevice } = await import('../../utils/sdk');
 
 		// Get device info
 		const { uuid, is_of__device_type, os_version, os_variant } =
-			(await sdk.models.device.get(params.uuid, {
+			(await getDevice(params.uuid, {
 				$select: ['uuid', 'os_version', 'os_variant'],
 				$expand: {
 					is_of__device_type: {
@@ -102,12 +103,16 @@ export default class DeviceOsUpdateCmd extends Command {
 				parsedVersion != null && parsedVersion.prerelease.length > 0;
 		}
 
+		const { getOsType } = await import('../../utils/os');
+		const osType = getOsType(currentOsVersion);
+
 		// Get supported OS update versions
 		const hupVersionInfo = await sdk.models.os.getSupportedOsUpdateVersions(
 			is_of__device_type[0].slug,
 			currentOsVersion,
 			{
 				includeDraft,
+				osType,
 			},
 		);
 		if (hupVersionInfo.versions.length === 0) {

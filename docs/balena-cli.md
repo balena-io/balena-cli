@@ -1392,9 +1392,7 @@ path to the config JSON file, see `balena config generate`
 #### --os-version OS-VERSION
 
 exact version number, or a valid semver range,
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one stable version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'latest' (exludes invalidated & pre-releases),
 or 'menu' (will show the interactive menu)
 
 #### -v, --advanced
@@ -2829,7 +2827,6 @@ Examples:
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2.60.1+rev1.dev
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2021.10.2.prod
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version latest
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version default
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu-esr
 
@@ -2849,9 +2846,7 @@ output path
 
 version number (ESR or non-ESR versions),
 or semver range (non-ESR versions only),
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one released version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'latest' (exludes invalidated & pre-releases),
 or 'menu' (interactive menu, non-ESR versions),
 or 'menu-esr' (interactive menu, ESR versions)
 

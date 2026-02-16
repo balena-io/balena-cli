@@ -101,18 +101,6 @@ export const isImageCached = async (deviceType: string, version: string) => {
 };
 
 /**
- * Heuristically determine whether the given semver version is a balenaOS
- * ESR version.
- *
- * @param {string} version Semver version. If invalid or range, return false.
- */
-export const isESR = (version: string) => {
-	const match = version.match(/^v?(\d+)\.\d+\.\d+/);
-	const major = parseInt(match?.[1] ?? '', 10);
-	return major >= 2018; // note: (NaN >= 2018) is false
-};
-
-/**
  * @summary Get the most recent compatible version
  *
  * @param {String} deviceType - device type slug or alias
@@ -123,10 +111,12 @@ export const isESR = (version: string) => {
  */
 const resolveVersion = async (deviceType: string, versionOrRange: string) => {
 	const balena = getBalenaSdk();
+	// TODO: Consider moving the whole version resolution outside of the image-manager.ts
+	const { getOsType } = await import('./os');
 	const version = await balena.models.os.getMaxSatisfyingVersion(
 		deviceType,
 		versionOrRange,
-		isESR(versionOrRange) ? 'esr' : 'default',
+		getOsType(versionOrRange),
 	);
 	if (!version) {
 		throw new Error('No such version for the device type');
@@ -251,19 +241,15 @@ const doDownload = async (options: DownloadConfig) => {
  * * a [semver](https://www.npmjs.com/package/semver)-compatible
  * range specification, in which case the most recent satisfying version is used
  * if it exists, or the promise is rejected,
- * * `'latest'` in which case the most recent version is used, including pre-releases,
- * * `'recommended'` in which case the recommended version is used, i.e. the most
- * recent version excluding pre-releases, the promise is rejected
- * if only pre-release versions are available,
- * * `'default'` in which case the recommended version is used if available,
- * or `latest` is used otherwise.
+ * * `'latest'` in which case the most recent version is returned, excluding pre-releases.
+ *   The promise is rejected if only pre-release versions are available,
  * Defaults to `'latest'`.
  * @param {Object} options
  * @param {boolean} options?.developmentMode
  * @returns {Promise<NodeJS.ReadableStream>} image readable stream
  *
  * @example
- * getStream('raspberry-pi', 'default').then (stream) ->
+ * getStream('raspberry-pi', 'latest').then (stream) ->
  * 	stream.pipe(fs.createWriteStream('foo/bar.img'))
  */
 export const getStream = async (
@@ -273,8 +259,8 @@ export const getStream = async (
 ) => {
 	versionOrRange ??= 'latest';
 	const version = await resolveVersion(deviceType, versionOrRange);
-	const isFresh = await isImageCached(deviceType, version);
-	const $stream = isFresh
+	const existsInCache = await isImageCached(deviceType, version);
+	const $stream = existsInCache
 		? await getImage(deviceType, version)
 		: await doDownload({ ...options, deviceType, version });
 	// schedule the 'version' event for the next iteration of the event loop

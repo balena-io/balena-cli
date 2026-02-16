@@ -88,11 +88,9 @@ export default class TagSetCmd extends Command {
 			);
 		}
 		if (options.device) {
-			return balena.models.device.tags.set(
-				options.device,
-				params.tagKey,
-				params.value,
-			);
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			const uuid = await resolveDeviceUuidParam(options.device);
+			return balena.models.device.tags.set(uuid, params.tagKey, params.value);
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(

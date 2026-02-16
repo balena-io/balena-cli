@@ -54,9 +54,9 @@ export default class DeviceMoveCmd extends Command {
 
 	public static authenticated = true;
 
-	private async getDevices(balena: BalenaSDK, deviceUuids: string[]) {
+	private async getDevices(deviceUuids: string[]) {
 		const deviceOptions = {
-			$select: 'belongs_to__application',
+			$select: ['uuid', 'belongs_to__application'],
 			$expand: {
 				is_of__device_type: {
 					$select: 'id',
@@ -69,9 +69,10 @@ export default class DeviceMoveCmd extends Command {
 			},
 		} as const;
 
+		const { getDevice } = await import('../../utils/sdk');
 		// TODO: Refacor once `device.get()` accepts an array of uuids`
 		const devices = await Promise.all(
-			deviceUuids.map((uuid) => balena.models.device.get(uuid, deviceOptions)),
+			deviceUuids.map((uuid) => getDevice(uuid, deviceOptions)),
 		);
 		return devices;
 	}
@@ -84,7 +85,7 @@ export default class DeviceMoveCmd extends Command {
 		// Split uuids string into array of uuids
 		const deviceUuids = params.uuid.split(',');
 
-		const devices = await this.getDevices(balena, deviceUuids);
+		const devices = await this.getDevices(deviceUuids);
 
 		// Disambiguate application
 		const { getApplication } = await import('../../utils/sdk');
@@ -95,12 +96,14 @@ export default class DeviceMoveCmd extends Command {
 			: await this.interactivelySelectApplication(balena, devices);
 
 		// Move each device
-		for (const uuid of deviceUuids) {
+		for (const device of devices) {
 			try {
-				await balena.models.device.move(uuid, application.id);
-				console.info(`Device ${uuid} was moved to fleet ${application.slug}`);
+				await balena.models.device.move(device.uuid, application.id);
+				console.info(
+					`Device ${device.uuid} was moved to fleet ${application.slug}`,
+				);
 			} catch (err) {
-				console.info(`${err.message}, uuid: ${uuid}`);
+				console.info(`${err.message}, uuid: ${device.uuid}`);
 				process.exitCode = 1;
 			}
 		}

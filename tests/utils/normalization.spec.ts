@@ -136,17 +136,24 @@ describe('disambiguateReleaseParam() function', () => {
 	it('should return id from SDK on second call, if match is found', async () => {
 		const input = '1234';
 		const output = 1234;
-		const getRelease = sinon
-			.stub()
-			.onCall(0)
-			.rejects(new BalenaReleaseNotFound(input))
-			.onCall(1)
-			.resolves({ id: output });
+		const getRelease = sinon.stub().rejects(new BalenaReleaseNotFound(input));
+		const pineGet = sinon.stub().resolves([{ id: output }]);
 
 		const sdk: any = {
+			pine: {
+				get: pineGet,
+			},
 			models: {
 				release: {
 					get: getRelease,
+				},
+			},
+			utils: {
+				mergePineOptions: (param1: any, param2: any) => {
+					return {
+						...param1,
+						...param2,
+					};
 				},
 			},
 		};
@@ -154,20 +161,44 @@ describe('disambiguateReleaseParam() function', () => {
 		const result = await disambiguateReleaseParam(sdk, input);
 
 		expect(result).to.equal(output);
-		expect(getRelease.calledTwice).to.be.true;
+		expect(getRelease.calledOnce).to.be.true;
 		expect(getRelease.getCall(0).args[0]).to.equal(parseInt(input, 10));
-		expect(getRelease.getCall(1).args[0]).to.equal(input);
+		expect(pineGet.calledOnce).to.be.true;
+		expect(pineGet.getCall(0).args[0]).to.deep.equal({
+			resource: 'release',
+			options: {
+				$select: 'id',
+				$filter: {
+					commit: { $startswith: input },
+				},
+			},
+		});
 	});
 
 	it('should throw error if no match found', async () => {
 		const input = '1234';
 		const getRelease = sinon.stub().rejects(new BalenaReleaseNotFound(input));
+		const pineGet = sinon.stub().resolves([]);
 
 		const sdk: any = {
+			pine: {
+				get: pineGet,
+			},
 			models: {
 				release: {
 					get: getRelease,
 				},
+			},
+			utils: {
+				mergePineOptions: (param1: any, param2: any) => {
+					return {
+						...param1,
+						...param2,
+					};
+				},
+			},
+			errors: {
+				BalenaReleaseNotFound,
 			},
 		};
 
@@ -176,7 +207,18 @@ describe('disambiguateReleaseParam() function', () => {
 			throw new Error('should not be reached');
 		} catch (e) {
 			expect(e).to.be.an.instanceOf(BalenaReleaseNotFound);
-			expect(getRelease.calledTwice).to.be.true;
+			expect(getRelease.calledOnce).to.be.true;
+			expect(getRelease.getCall(0).args[0]).to.equal(parseInt(input, 10));
+			expect(pineGet.calledOnce).to.be.true;
+			expect(pineGet.getCall(0).args[0]).to.deep.equal({
+				resource: 'release',
+				options: {
+					$select: 'id',
+					$filter: {
+						commit: { $startswith: input },
+					},
+				},
+			});
 		}
 	});
 

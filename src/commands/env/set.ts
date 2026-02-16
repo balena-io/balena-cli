@@ -160,15 +160,19 @@ export default class EnvSetCmd extends Command {
 				}
 			}
 		} else if (options.device) {
-			for (const device of options.device.split(',')) {
+			const { resolveDeviceUuidsParam } = await import('../../utils/sdk');
+			const fullDeviceUuids = await resolveDeviceUuidsParam(
+				options.device.split(','),
+			);
+			for (const uuid of fullDeviceUuids) {
 				try {
 					await balena.models.device[varType].set(
-						device,
+						uuid,
 						params.name,
 						params.value,
 					);
 				} catch (err) {
-					console.error(`${err.message}, device: ${device}`);
+					console.error(`${err.message}, device: ${uuid}`);
 					process.exitCode = 1;
 				}
 			}
@@ -225,7 +229,7 @@ async function setServiceVars(
 			let device;
 			let app;
 			try {
-				[device, app] = await getDeviceAndAppFromUUID(sdk, uuid);
+				[device, app] = await getDeviceAndAppFromUUID(uuid);
 			} catch (err) {
 				console.error(`${err.message}, device: ${uuid}`);
 				process.exitCode = 1;
