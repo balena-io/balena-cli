@@ -18,15 +18,17 @@
 import { Args, Command } from '@oclif/core';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import {
-	formatDuration,
-	intervalToDuration,
-	isValid,
-	parseISO,
-} from 'date-fns';
 
 // In days
 const durations = [1, 7, 30, 90];
+
+function formatDays(days: number): string {
+	if (days >= 30 && days % 30 === 0) {
+		const months = days / 30;
+		return `${months} month${months > 1 ? 's' : ''}`;
+	}
+	return `${days} day${days > 1 ? 's' : ''}`;
+}
 
 async function isLoggedInWithJwt() {
 	const balena = getBalenaSdk();
@@ -84,12 +86,7 @@ export default class GenerateCmd extends Command {
 						duration === 'never'
 							? 'No expiration'
 							: typeof duration === 'number'
-								? formatDuration(
-										intervalToDuration({
-											start: 0,
-											end: duration * 24 * 60 * 60 * 1000,
-										}),
-									)
+								? formatDays(duration)
 								: 'Custom expiration',
 					value: duration,
 				})),
@@ -99,20 +96,20 @@ export default class GenerateCmd extends Command {
 				expiryDate = null;
 			} else if (expiryDateResponse === 'custom') {
 				do {
-					expiryDate = parseISO(
+					expiryDate = new Date(
 						await getCliForm().ask({
 							message:
 								'Please enter an expiry date for the API key as an ISO date string',
 							type: 'input',
 						}),
 					);
-					if (!isValid(expiryDate)) {
+					if (isNaN(expiryDate.getTime())) {
 						console.error('Invalid date format');
 					}
-				} while (!isValid(expiryDate));
+				} while (isNaN(expiryDate.getTime()));
 			} else if (typeof expiryDateResponse === 'string') {
-				expiryDate = parseISO(expiryDateResponse);
-				if (!isValid(expiryDate)) {
+				expiryDate = new Date(expiryDateResponse);
+				if (isNaN(expiryDate.getTime())) {
 					throw new Error(
 						'Invalid date format, please use a valid ISO date string',
 					);
