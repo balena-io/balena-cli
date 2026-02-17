@@ -38,8 +38,8 @@ describe('getNotifierMessage() unit test', function () {
 		};
 		const msg = getNotifierMessage(mockUpdateInfo);
 		expect(msg).to.equal(stripIndent`
-			Update available 12.1.1 → 12.3.0
-			https://github.com/balena-io/balena-cli/blob/master/INSTALL.md`);
+			Update available: 12.1.1 → 12.3.0
+			Run \`balena update\` to update to the latest version.`);
 	});
 
 	it('should include a release notes link when a new major version is available', () => {
@@ -50,8 +50,8 @@ describe('getNotifierMessage() unit test', function () {
 		};
 		const msg = getNotifierMessage(mockUpdateInfo);
 		expect(msg).to.equal(stripIndent`
-			Update available 12.1.1 → 13.3.0
-			https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
+			Update available: 12.1.1 → 13.3.0
+			Run \`balena update\` to update to the latest version.
 
 			Check the v13 release notes at:
 			https://github.com/balena-io/balena-cli/releases/tag/v13.0.0`);
