@@ -1,4 +1,186 @@
 - commits:
+    - subject: Update balena-sdk to 23.0.2
+      hash: d184e5e2fdab95a18aebe31005029b2bfdbbca13
+      body: |
+        Update balena-sdk from 23.0.0 to 23.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: Add url as a devDependency to fix mochttp in browser tests
+              hash: de962a311fa283f94c833d057adb1c18a976cdce
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update balena-request to 14.1.6
+              hash: 7ff731538de20635342f890f4cc78985ac3ef1e3
+              body: |
+                Update balena-request from 14.0.8 to 14.1.6
+              footer:
+                Depends-on: https://github.com/balena-io-modules/balena-request/pull/217
+                depends-on: https://github.com/balena-io-modules/balena-request/pull/217
+                Change-type: patch
+                change-type: patch
+                See: https://balena.fibery.io/Work/Project/2258
+                see: https://balena.fibery.io/Work/Project/2258
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Make url a devDependency since it should now only be necessary in the
+                        browser tests
+                      hash: 83c95a2d9d630ddd51dba2ad906295dceec2ef4a
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Replace internal uses of the deprecated url.parse & url.resolve with
+                        WHATWG URL API
+                      hash: d0f5f81f4b8e68cb17cc73142a3111f08a67f1b8
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        See: https://balena.fibery.io/Work/Project/2258
+                        see: https://balena.fibery.io/Work/Project/2258
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Update flowzone config
+                      hash: 197a199c14e95a046dd53a84fb3eb31f762adedc
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-14.1.6
+                  title: ""
+                  date: 2026-02-12T13:18:35.796Z
+                - commits:
+                    - subject: Remove no longer needed timekeeper dev dependency
+                      hash: 6a9cbc6b862dc30108038ee7c743cea0e65bc457
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-14.1.5
+                  title: ""
+                  date: 2025-05-29T11:26:52.369Z
+                - commits:
+                    - subject: Update dependency buffer to v6
+                      hash: f153b5da35a102597550a8fc1b9924448359862a
+                      body: |
+                        Update buffer from 5.7.1 to 6.0.3
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: balena-renovate[bot]
+                      nested: []
+                  version: balena-request-14.1.4
+                  title: ""
+                  date: 2025-05-29T07:05:01.734Z
+                - commits:
+                    - subject: Abstract the timeout implementation
+                      hash: 0fe4910a29415c8f293f68d9d9bcb32879db6fd8
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-14.1.3
+                  title: ""
+                  date: 2025-05-28T15:36:56.822Z
+                - commits:
+                    - subject: Simplify the event emitting logic in the stream() method
+                      hash: 5f82b96b68d6574ffa59dcd96e3b7c98edeeb2d2
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-14.1.2
+                  title: ""
+                  date: 2025-05-27T16:11:22.289Z
+                - commits:
+                    - subject: Update dependency temp to ^0.9.0
+                      hash: 47d34ab568e24fe7cb7a8c9030f55eb2977850d6
+                      body: |
+                        Update temp from 0.8.4 to 0.9.4
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: balena-renovate[bot]
+                      nested: []
+                  version: balena-request-14.1.1
+                  title: ""
+                  date: 2025-05-27T16:01:09.110Z
+                - commits:
+                    - subject: Add test for stream() progress events
+                      hash: acc60b08828da2d1019ce22b269610ac3495b2c7
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: "tests/stream: Remove redundant response length checks"
+                      hash: ae2775cc753639785d7673382afa5ea7839e2c61
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Convert the stream tests to async await
+                      hash: 0456af703d04895e2a543820b1aa7fff9a6800d1
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                      nested: []
+                    - subject: Add typing for the progress event on the result of the stream() method
+                      hash: 351dfdd509ebcd0e9c2ae14f215e2a99665030c5
+                      body: ""
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Thodoris Greasidis
+                      nested: []
+                  version: balena-request-14.1.0
+                  title: ""
+                  date: 2025-05-27T14:39:45.095Z
+          version: balena-sdk-23.0.2
+          title: ""
+          date: 2026-02-13T10:43:09.380Z
+        - commits:
+            - subject: Replace the deprecated url.parse & url.resolve with WHATWG URL API
+              hash: d5d0f24b2ccb1b3197d56ee2a7b0efd1a48cb4da
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://balena.fibery.io/Work/Project/2258
+                see: https://balena.fibery.io/Work/Project/2258
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-23.0.1
+          title: ""
+          date: 2026-02-11T22:39:24.024Z
+  version: 24.0.2
+  title: ""
+  date: 2026-02-18T12:11:39.631Z
+- commits:
     - subject: Nudge users to update using the OCLIF update command
       hash: 8ec00b0f4d33ea5160718dcc6772f2c198323617
       body: ""
