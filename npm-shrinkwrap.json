@@ -34,7 +34,6 @@
         "cli-truncate": "^2.1.0",
         "color-hash": "^1.1.1",
         "common-tags": "^1.7.2",
-        "date-fns": "^4.1.0",
         "denymount": "^2.3.0",
         "docker-modem": "^5.0.6",
         "docker-progress": "^5.4.0",
@@ -142,6 +141,7 @@
         "husky": "^9.1.5",
         "inline-source-cli": "^2.0.0",
         "intercept-stdout": "^0.1.2",
+        "is-docker": "^4.0.0",
         "jsonwebtoken": "^9.0.0",
         "klaw": "^4.1.0",
         "mkdirp": "^3.0.1",
@@ -10884,16 +10884,6 @@
         "url": "https://github.com/sponsors/ljharb"
       }
     },
-    "node_modules/date-fns": {
-      "version": "4.1.0",
-      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-4.1.0.tgz",
-      "integrity": "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==",
-      "license": "MIT",
-      "funding": {
-        "type": "github",
-        "url": "https://github.com/sponsors/kossnocorp"
-      }
-    },
     "node_modules/debug": {
       "version": "4.4.3",
       "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
@@ -15038,14 +15028,16 @@
       }
     },
     "node_modules/is-docker": {
-      "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/is-docker/-/is-docker-2.2.1.tgz",
-      "integrity": "sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==",
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/is-docker/-/is-docker-4.0.0.tgz",
+      "integrity": "sha512-LHE+wROyG/Y/0ZnbktRCoTix2c1RhgWaZraMZ8o1Q7zCh0VSrICJQO5oqIIISrcSBtrXv0o233w1IYwsWCjTzA==",
+      "dev": true,
+      "license": "MIT",
       "bin": {
         "is-docker": "cli.js"
       },
       "engines": {
-        "node": ">=8"
+        "node": ">=20"
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
@@ -15452,6 +15444,21 @@
       },
       "engines": {
         "node": ">=8"
+      }
+    },
+    "node_modules/is-wsl/node_modules/is-docker": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/is-docker/-/is-docker-2.2.1.tgz",
+      "integrity": "sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==",
+      "license": "MIT",
+      "bin": {
+        "is-docker": "cli.js"
+      },
+      "engines": {
+        "node": ">=8"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/is-yarn-global": {
@@ -17774,6 +17781,21 @@
       "dependencies": {
         "is-docker": "^2.0.0",
         "is-wsl": "^2.1.1"
+      },
+      "engines": {
+        "node": ">=8"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/open/node_modules/is-docker": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/is-docker/-/is-docker-2.2.1.tgz",
+      "integrity": "sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==",
+      "license": "MIT",
+      "bin": {
+        "is-docker": "cli.js"
       },
       "engines": {
         "node": ">=8"
