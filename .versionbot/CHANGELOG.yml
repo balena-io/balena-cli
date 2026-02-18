@@ -1,4 +1,16 @@
 - commits:
+    - subject: Nudge users to update using the OCLIF update command
+      hash: 8ec00b0f4d33ea5160718dcc6772f2c198323617
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Jonathan Berger
+      nested: []
+  version: 24.0.1
+  title: ""
+  date: 2026-02-18T09:30:48.198Z
+- commits:
     - subject: Group all OS related helpers to utils/os.ts
       hash: 8a1a4f8053549e6e11b316282830bd2b814843b2
       body: ""
