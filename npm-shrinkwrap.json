@@ -9249,9 +9249,9 @@
       }
     },
     "node_modules/balena-semver": {
-      "version": "4.0.1",
-      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-4.0.1.tgz",
-      "integrity": "sha512-TalE4WvMQarC8RbI4+ieK1hIYyhbOwUKmip1IyUeLzCetXNeV4MPWsg5QMoydnRq4EFgWkzhxBXNZqbsudB9vA==",
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-4.0.2.tgz",
+      "integrity": "sha512-bCIQ/KyLS3lSrbF3b5VQ+aF9G80lF9zSmPnIWqTFOzvJHBhs4TCKOW+3x7ZQuhOyf5rCCS00RlXkc/YoQ1qzkA==",
       "license": "Apache-2.0",
       "dependencies": {
         "@types/memoizee": "^0.4.12",
@@ -18578,9 +18578,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@balena/abstract-sql-compiler": {
-      "version": "11.3.1",
-      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-compiler/-/abstract-sql-compiler-11.3.1.tgz",
-      "integrity": "sha512-TkynUdwGqpCdoYuxbwYDC1E9+SZNKiUp6YQaazmJNFRhAmiiq9de1ROntd7qwDYUhCxiUYGT6/uB/Ez7Fp7RPw==",
+      "version": "11.3.2",
+      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-compiler/-/abstract-sql-compiler-11.3.2.tgz",
+      "integrity": "sha512-OSXv/s7hlwrKejSCNduT479vdwaxggmTR1R/CNc/WmtGbSR4Z2rR9xOWJxbygHO5uVdNxCSvHSoyu4QoHheZCA==",
       "engines": {
         "node": ">=20.14.0",
         "npm": ">=10.7.0"
@@ -18590,9 +18590,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@balena/abstract-sql-to-typescript": {
-      "version": "6.1.2",
-      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-to-typescript/-/abstract-sql-to-typescript-6.1.2.tgz",
-      "integrity": "sha512-YKYzmeUUwpUbvO5nDzkswRy36P8eAV8z66CSDih5gK/qkyvkDAoL+05TYYMwPOdJmUui5sdchWO4XF7kQmQivQ==",
+      "version": "6.1.3",
+      "resolved": "https://registry.npmjs.org/@balena/abstract-sql-to-typescript/-/abstract-sql-to-typescript-6.1.3.tgz",
+      "integrity": "sha512-uVTnfS1Htk104VXOTbtUlQKx3qimTyZ1nfeFpROkZPADJgNNsVS3ED4YXWAuzKisLUEnvJyC766KYrpy8gDhug==",
       "dependencies": {
         "@balena/abstract-sql-compiler": "^11.2.0",
         "@balena/odata-to-abstract-sql": "^10.0.0",
@@ -18608,9 +18608,9 @@
       }
     },
     "node_modules/pinejs-client-core/node_modules/@balena/odata-to-abstract-sql": {
-      "version": "10.0.6",
-      "resolved": "https://registry.npmjs.org/@balena/odata-to-abstract-sql/-/odata-to-abstract-sql-10.0.6.tgz",
-      "integrity": "sha512-KHCsLS3LrypBbiSU2CxuTA29V5ytSQDQAKEvEtl/+TZtinvJiFPs5AH2CnT0iG8KwO9ONyEuLFeGhIYDf6+pIQ==",
+      "version": "10.0.7",
+      "resolved": "https://registry.npmjs.org/@balena/odata-to-abstract-sql/-/odata-to-abstract-sql-10.0.7.tgz",
+      "integrity": "sha512-w0K0QCE/hBmhLBz4Jp9Nn82bIeQBZ90BC7W+V5DXQlhV60Wb2HKrETsEt6yqrSSl9QF1iXwtQzqwF5j92327fg==",
       "license": "BSD",
       "dependencies": {
         "@balena/abstract-sql-compiler": "^11.2.0",
