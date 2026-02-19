@@ -18,7 +18,7 @@
 import { Flags, Args, Command } from '@oclif/core';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import type { Device } from 'balena-sdk';
+import type { Device, OsVersion } from 'balena-sdk';
 import { ExpectedError } from '../../errors';
 import { getExpandedProp } from '../../utils/pine';
 
@@ -121,6 +121,30 @@ export default class DeviceOsUpdateCmd extends Command {
 			);
 		}
 
+		let currentOsRelease: OsVersion | undefined;
+		// Allow pinning the device back to the current OS version
+		const bSemver = await import('balena-semver');
+		if (bSemver.parse(os_version) != null) {
+			const allOsReleases = await sdk.models.os.getAvailableOsVersions(
+				is_of__device_type[0].slug,
+				undefined,
+			);
+			currentOsRelease = allOsReleases.find(
+				(r) =>
+					(r.variant === '' || r.variant === os_variant) &&
+					bSemver.compare(
+						r.raw_version.replace(/\.(dev|prod)\b/, ''),
+						os_version,
+					) === 0,
+			);
+		}
+		if (
+			currentOsRelease != null &&
+			!hupVersionInfo.versions.includes(currentOsRelease.raw_version)
+		) {
+			hupVersionInfo.versions.push(currentOsRelease.raw_version);
+		}
+
 		// Get target OS version
 		let targetOsVersion = options.version;
 		if (targetOsVersion != null) {
@@ -135,14 +159,24 @@ export default class DeviceOsUpdateCmd extends Command {
 			const choices = await Promise.all(
 				hupVersionInfo.versions.map(async (version) => {
 					const takeoverRequired =
+						currentOsRelease?.raw_version !== version &&
 						(await sdk.models.os.getOsUpdateType(
 							getExpandedProp(is_of__device_type, 'slug') ?? '',
 							currentOsVersion,
 							version,
 						)) === 'takeover';
 
+					const badgeSuffix =
+						version === currentOsRelease?.raw_version
+							? ` (current)`
+							: version === hupVersionInfo.recommended
+								? ' (recommended)'
+								: '';
+					const takeoverSuffix = takeoverRequired
+						? ' ADVANCED UPDATE: Requires disk re-partitioning with no rollback option'
+						: '';
 					return {
-						name: `${version}${hupVersionInfo.recommended === version ? ' (recommended)' : ''}${takeoverRequired ? ' ADVANCED UPDATE: Requires disk re-partitioning with no rollback option' : ''}`,
+						name: `${version}${badgeSuffix}${takeoverSuffix}`,
 						value: version,
 					};
 				}),
@@ -155,6 +189,7 @@ export default class DeviceOsUpdateCmd extends Command {
 		}
 
 		const takeoverRequired =
+			currentOsRelease?.raw_version !== targetOsVersion &&
 			(await sdk.models.os.getOsUpdateType(
 				getExpandedProp(is_of__device_type, 'slug') ?? '',
 				currentOsVersion,
@@ -179,9 +214,7 @@ Make sure to back up all important data before continuing. For more details, che
 		);
 
 		await sdk.models.device
-			.startOsUpdate(uuid, targetOsVersion, {
-				runDetached: true,
-			})
+			.pinToOsRelease(uuid, targetOsVersion)
 			.then(() => {
 				console.log(
 					`The balena OS update has started. You can keep track of the progress via the dashboard.\n` +
