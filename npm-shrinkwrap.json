@@ -24,7 +24,7 @@
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.6.0",
         "balena-preload": "^19.0.0",
-        "balena-sdk": "^23.0.2",
+        "balena-sdk": "23.1.0-build-pinToOsRelease-5aa6eb98bbbe0a251e081aff1772d3a1baae26a8-3",
         "balena-semver": "^4.0.0",
         "balena-settings-client": "^6.0.0",
         "balena-settings-storage": "^8.1.0",
@@ -9147,9 +9147,9 @@
       }
     },
     "node_modules/balena-sdk": {
-      "version": "23.0.2",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-23.0.2.tgz",
-      "integrity": "sha512-IlFkyBUVy6PDA1nbm185ArH708TKxtNnKQvlnKPAojPAziIiTNoso1CzbzXCzUxE85HQoyz2PKccPzIv22IHzQ==",
+      "version": "23.1.0-build-pinToOsRelease-5aa6eb98bbbe0a251e081aff1772d3a1baae26a8-3",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-23.1.0-build-pinToOsRelease-5aa6eb98bbbe0a251e081aff1772d3a1baae26a8-3.tgz",
+      "integrity": "sha512-ohhZbYSxqCWw948Y4EpkmvLuqR3xjasyzmdG7FGceV/VreSPFQvBjD7hI2xk9VEcE2BCsmy9qPKCac1VomGfag==",
       "license": "Apache-2.0",
       "dependencies": {
         "@balena/abstract-sql-to-typescript": "^5.1.1",

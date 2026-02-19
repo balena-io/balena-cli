@@ -183,7 +183,7 @@
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.6.0",
     "balena-preload": "^19.0.0",
-    "balena-sdk": "^23.0.2",
+    "balena-sdk": "23.1.0-build-pinToOsRelease-5aa6eb98bbbe0a251e081aff1772d3a1baae26a8-3",
     "balena-semver": "^4.0.0",
     "balena-settings-client": "^6.0.0",
     "balena-settings-storage": "^8.1.0",
@@ -252,7 +252,8 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    }
+    },
+    "balena-sdk": "23.1.0-build-pinToOsRelease-5aa6eb98bbbe0a251e081aff1772d3a1baae26a8-3"
   },
   "versionist": {
     "publishedAt": "2026-02-18T12:11:41.562Z"
