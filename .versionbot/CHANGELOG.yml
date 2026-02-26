@@ -1,4 +1,16 @@
 - commits:
+    - subject: Disable background auto-updates
+      hash: cb22fb0abb0d804f0840a31292d8092ae462a58e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 24.0.3
+  title: ""
+  date: 2026-02-26T15:23:48.626Z
+- commits:
     - subject: Update balena-sdk to 23.0.2
       hash: d184e5e2fdab95a18aebe31005029b2bfdbbca13
       body: |
