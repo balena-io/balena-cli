@@ -171,9 +171,12 @@ async function oclifRun(command: string[], options: AppOptions) {
 /** CLI entrypoint. Called by the `bin/run.js` and `bin/dev.js` scripts. */
 export async function run(cliArgs = process.argv, options: AppOptions) {
 	try {
-		const { setOfflineModeEnvVars, normalizeEnvVars } = await import(
-			'./utils/bootstrap'
-		);
+		const {
+			disableBackgroundAutoUpdates,
+			setOfflineModeEnvVars,
+			normalizeEnvVars,
+		} = await import('./utils/bootstrap');
+		disableBackgroundAutoUpdates();
 		setOfflineModeEnvVars();
 		normalizeEnvVars();
 
