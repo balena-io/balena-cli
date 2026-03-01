@@ -122,6 +122,9 @@ export async function loadProject(
 	const { createProject } = await import('./compose');
 	let composeName: string;
 	let composeStr: string;
+	const projectRoot = opts.composeFilePath
+		? path.dirname(opts.composeFilePath)
+		: opts.projectPath;
 
 	logger.logDebug('Loading project...');
 
@@ -130,7 +133,11 @@ export async function loadProject(
 		composeStr = compose.defaultComposition(image);
 	} else {
 		logger.logDebug('Resolving project...');
-		[composeName, composeStr] = await resolveProject(logger, opts.projectPath);
+		[composeName, composeStr] = await resolveProject(
+			logger,
+			projectRoot,
+			opts.composeFilePath,
+		);
 
 		if (composeName) {
 			if (opts.dockerfilePath) {
@@ -140,7 +147,7 @@ export async function loadProject(
 			}
 		} else {
 			logger.logInfo(
-				`Creating default composition with source: "${opts.projectPath}"`,
+				`Creating default composition with source: "${projectRoot}"`,
 			);
 			composeStr = compose.defaultComposition(undefined, opts.dockerfilePath);
 		}
@@ -150,17 +157,12 @@ export async function loadProject(
 			composeStr = await mergeDevComposeOverlay(
 				logger,
 				composeStr,
-				opts.projectPath,
+				projectRoot,
 			);
 		}
 	}
 	logger.logDebug('Creating project...');
-	return createProject(
-		opts.projectPath,
-		composeStr,
-		opts.projectName,
-		imageTag,
-	);
+	return createProject(projectRoot, composeStr, opts.projectName, imageTag);
 }
 
 /**
@@ -207,10 +209,29 @@ async function mergeDevComposeOverlay(
 async function resolveProject(
 	logger: Logger,
 	projectRoot: string,
+	composeFilePath?: string,
 	quiet = false,
 ): Promise<[string, string]> {
 	let composeFileName = '';
 	let composeFileContents = '';
+
+	if (composeFilePath) {
+		const targetPath = path.isAbsolute(composeFilePath)
+			? composeFilePath
+			: path.join(projectRoot, composeFilePath);
+		logger.logDebug(`Using composition file "${targetPath}"`);
+		try {
+			composeFileContents = await fs.readFile(targetPath, 'utf8');
+			composeFileName = path.basename(targetPath);
+		} catch (err) {
+			logger.logError(
+				`Error reading composition file "${targetPath}":\n${err}`,
+			);
+			throw err;
+		}
+		return [composeFileName, composeFileContents];
+	}
+
 	for (const fname of compositionFileNames) {
 		const fpath = path.join(projectRoot, fname);
 		if (await exists(fpath)) {
@@ -690,6 +711,7 @@ export async function getServiceDirsFromComposition(
 		const [, composeStr] = await resolveProject(
 			Logger.getLogger(),
 			sourceDir,
+			undefined,
 			true,
 		);
 		if (composeStr) {
@@ -1167,6 +1189,8 @@ async function validateSpecifiedDockerfile(
 
 export interface ProjectValidationResult {
 	dockerfilePath: string;
+	composeFilePath?: string;
+	projectPath: string;
 	registrySecrets: MultiBuild.RegistrySecrets;
 }
 
@@ -1182,33 +1206,57 @@ export interface ProjectValidationResult {
 export async function validateProjectDirectory(
 	sdk: BalenaSDK,
 	opts: {
+		composeFilePath?: string;
 		dockerfilePath?: string;
 		noParentCheck: boolean;
 		projectPath: string;
 		registrySecretsPath?: string;
 	},
 ): Promise<ProjectValidationResult> {
-	if (
-		!(await exists(opts.projectPath)) ||
-		!(await fs.stat(opts.projectPath)).isDirectory()
-	) {
+	const projectStatsExists = await exists(opts.projectPath);
+	if (!projectStatsExists || !(await fs.stat(opts.projectPath)).isDirectory()) {
 		throw new ExpectedError(
 			`Could not access source folder: "${opts.projectPath}"`,
 		);
 	}
 
+	const resolvedProjectPath = await fs.realpath(opts.projectPath);
+
 	const result: ProjectValidationResult = {
 		dockerfilePath: opts.dockerfilePath ?? '',
+		composeFilePath: undefined,
+		projectPath: resolvedProjectPath,
 		registrySecrets: {},
 	};
 
+	if (opts.composeFilePath) {
+		const targetPath = path.isAbsolute(opts.composeFilePath)
+			? opts.composeFilePath
+			: path.join(resolvedProjectPath, opts.composeFilePath);
+		let stats: import('fs').Stats;
+		try {
+			stats = await fs.stat(targetPath);
+		} catch {
+			throw new ExpectedError(
+				`Error: specified compose file not found: "${targetPath}"`,
+			);
+		}
+		if (!stats.isFile()) {
+			throw new ExpectedError(
+				`Error: specified compose file is not a file: "${targetPath}"`,
+			);
+		}
+		result.composeFilePath = await fs.realpath(targetPath);
+		result.projectPath = path.dirname(result.composeFilePath);
+	}
+
 	if (opts.dockerfilePath) {
 		result.dockerfilePath = await validateSpecifiedDockerfile(
-			opts.projectPath,
+			result.projectPath,
 			opts.dockerfilePath,
 		);
-	} else {
-		const files = await fs.readdir(opts.projectPath);
+	} else if (!result.composeFilePath) {
+		const files = await fs.readdir(result.projectPath);
 		const projectMatch = (file: string) =>
 			/^(Dockerfile|Dockerfile\.\S+|docker-compose.ya?ml|package.json)$/.test(
 				file,
@@ -1233,8 +1281,8 @@ export async function validateProjectDirectory(
 				}
 			};
 			const [hasCompose, hasParentCompose] = await Promise.all([
-				checkCompose(opts.projectPath),
-				checkCompose(path.join(opts.projectPath, '..')),
+				checkCompose(result.projectPath),
+				checkCompose(path.join(result.projectPath, '..')),
 			]);
 			if (!hasCompose && hasParentCompose) {
 				const msg = stripIndent`
@@ -1727,6 +1775,10 @@ export const composeCliFlags = {
 	dockerfile: Flags.string({
 		description:
 			'Alternative Dockerfile name/path, relative to the source folder',
+	}),
+	file: Flags.string({
+		description:
+			'Specify a docker-compose file to use (absolute path or relative to --source)',
 	}),
 	nologs: Flags.boolean({
 		description:

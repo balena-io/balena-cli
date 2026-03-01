@@ -367,6 +367,7 @@ describe('balena push', function () {
 	it('should create the expected tar stream (docker-compose)', async () => {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'docker-compose.alt.yml': { fileSize: 250, type: 'file' },
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
@@ -417,6 +418,7 @@ describe('balena push', function () {
 	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'docker-compose.alt.yml': { fileSize: 250, type: 'file' },
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },

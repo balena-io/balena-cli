@@ -512,7 +512,6 @@ describe('balena deploy', function () {
 		await api.expectPostRelease({});
 		await api.expectPatchImage({});
 		await api.expectPatchRelease({});
-		await docker.expectGetManifestRpi3Alpine();
 		await docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
@@ -525,6 +524,70 @@ describe('balena deploy', function () {
 			responseBody,
 			responseCode: 200,
 			services: ['service1', 'service2'],
+		});
+	});
+
+	it('should honor an explicit compose file via --file', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const composeFile = path.join(projectPath, 'docker-compose.alt.yml');
+
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service2: {
+				'.dockerignore': { fileSize: 12, type: 'file' },
+				'Dockerfile-alt': { fileSize: 13, type: 'file' },
+				'file2-crlf.sh': {
+					fileSize: isWindows ? 12 : 14,
+					testStream: isWindows ? expectStreamNoCRLF : undefined,
+					type: 'file',
+				},
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service2: Object.entries(
+				_.merge({}, commonComposeQueryParamsArmV7, {
+					buildargs: {
+						COMPOSE_ARG: 'an argument defined in docker-compose.alt.yml',
+					},
+					dockerfile: 'Dockerfile-alt',
+				}),
+			),
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			'[Build] service2 Step 1/4 : FROM busybox',
+			...getDockerignoreWarn3('deploy'),
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+
+		await api.expectPostRelease({});
+		await api.expectPatchImage({});
+		await api.expectPatchRelease({});
+		await docker.expectGetManifestRpi3Alpine();
+		await docker.expectGetManifestBusybox();
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath} --file ${composeFile} --multi-dockerignore`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service2'],
 		});
 	});
 });

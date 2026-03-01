@@ -913,6 +913,10 @@ Use QEMU for ARM architecture emulation during the image build
 
 Alternative Dockerfile name/path, relative to the source folder
 
+#### --file FILE
+
+Specify a docker-compose file to use (absolute path or relative to --source)
+
 #### --nologs
 
 Hide the image build log output (produce less verbose output)
@@ -1139,6 +1143,10 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
+
+#### --file FILE
+
+Specify a docker-compose file to use (absolute path or relative to --source)
 
 #### --nologs
 

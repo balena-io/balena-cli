@@ -159,18 +159,19 @@ ${dockerignoreHelp}
 
 		// Validate project directory
 		const { validateProjectDirectory } = await import('../../utils/compose_ts');
-		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
-			sdk,
-			{
+		const { dockerfilePath, registrySecrets, composeFilePath, projectPath } =
+			await validateProjectDirectory(sdk, {
+				composeFilePath: opts.file,
 				dockerfilePath: opts.dockerfile,
 				noParentCheck: opts['noparent-check'] || false,
 				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 				projectPath: opts.source || '.',
 				registrySecretsPath: opts['registry-secrets'],
-			},
-		);
+			});
 
 		opts.dockerfile = dockerfilePath;
+		opts.file = composeFilePath;
+		opts.source = projectPath;
 		opts['registry-secrets'] = registrySecrets;
 	}
 
