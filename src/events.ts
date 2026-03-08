@@ -58,7 +58,8 @@ export async function trackCommand(commandSignature: string) {
 		}
 		if (
 			!process.env.BALENA_CLI_TEST_TYPE &&
-			!process.env.BALENARC_NO_ANALYTICS
+			!process.env.BALENARC_NO_ANALYTICS &&
+			!process.env.BALENARC_OFFLINE_MODE
 		) {
 			const settings = await import('balena-settings-client');
 			const balenaUrl = settings.get<string>('balenaUrl');
