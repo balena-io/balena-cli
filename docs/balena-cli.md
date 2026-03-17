@@ -2810,6 +2810,10 @@ The '--version' option is used to select the balenaOS version. If omitted,
 the latest released version is downloaded (and if only pre-release versions
 exist, the latest pre-release version is downloaded).
 
+Use '--type' to specify the type of OS download
+If omitted, the default type for the specified device type-version combination is used.
+Some OS download types may not be available for certain device types and versions.
+
 Use '--version menu' or '--version menu-esr' to interactively select the
 OS version. The latter lists ESR versions which are only available for
 download on Production and Enterprise plans. See also:
@@ -2829,6 +2833,7 @@ Examples:
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version latest
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu-esr
+	$ balena os download generic-amd64 -o ../foo/bar/generic-amd64.img --type installation-media
 
 ### Arguments
 
@@ -2846,9 +2851,14 @@ output path
 
 version number (ESR or non-ESR versions),
 or semver range (non-ESR versions only),
-or 'latest' (exludes invalidated & pre-releases),
+or 'latest' (excludes invalidated & pre-releases),
 or 'menu' (interactive menu, non-ESR versions),
 or 'menu-esr' (interactive menu, ESR versions)
+
+#### --type TYPE
+
+'disk-image' (for flashing onto device system disk/storage)
+or 'installation-media' (for creating installation media to automatically erase, format, and install balenaOS on a device)
 
 ## os initialize
 

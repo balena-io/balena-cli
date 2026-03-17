@@ -32,6 +32,10 @@ export default class OsDownloadCmd extends Command {
 		the latest released version is downloaded (and if only pre-release versions
 		exist, the latest pre-release version is downloaded).
 
+		Use '--type' to specify the type of OS download
+		If omitted, the default type for the specified device type-version combination is used.
+		Some OS download types may not be available for certain device types and versions.
+
 		Use '--version menu' or '--version menu-esr' to interactively select the
 		OS version. The latter lists ESR versions which are only available for
 		download on Production and Enterprise plans. See also:
@@ -50,6 +54,7 @@ export default class OsDownloadCmd extends Command {
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version latest',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu-esr',
+		'$ balena os download generic-amd64 -o ../foo/bar/generic-amd64.img --type installation-media',
 	];
 
 	public static args = {
@@ -69,9 +74,16 @@ export default class OsDownloadCmd extends Command {
 			description: stripIndent`
 				version number (ESR or non-ESR versions),
 				or semver range (non-ESR versions only),
-				or 'latest' (exludes invalidated & pre-releases),
+				or 'latest' (excludes invalidated & pre-releases),
 				or 'menu' (interactive menu, non-ESR versions),
 				or 'menu-esr' (interactive menu, ESR versions)
+				`,
+		}),
+		type: Flags.string({
+			options: ['installation-media', 'disk-image'],
+			description: stripIndent`
+				'disk-image' (for flashing onto device system disk/storage)
+				or 'installation-media' (for creating installation media to automatically erase, format, and install balenaOS on a device)
 				`,
 		}),
 	};
@@ -79,6 +91,15 @@ export default class OsDownloadCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(OsDownloadCmd);
 		const { downloadOSImage, isESR } = await import('../../utils/os');
+
+		if (options.type === 'installation-media') {
+			// If the user is downloading an installation-media image, warn them that an installation-media image will wipe the target device's storage
+			// This is because some users may not understand the difference between an installation-media and disk-image, and may be surprised that the downloaded image will wipe their device when flashed
+			// Additionally, when no type is specified, the type of image downloaded depends on the device type, and some device types default to installation-media images, so we want to warn in that case as well
+			console.warn(
+				"WARNING: balenaOS installation media automatically and without confirmation erases and formats the target device's internal storage when booted.",
+			);
+		}
 
 		// balenaOS ESR versions require user authentication
 		if (options.version) {
@@ -101,14 +122,17 @@ export default class OsDownloadCmd extends Command {
 		}
 
 		try {
-			await downloadOSImage(params.type, options.output, options.version);
+			await downloadOSImage(
+				params.type,
+				options.output,
+				options.version,
+				options.type as 'installation-media' | 'disk-image' | undefined,
+			);
 		} catch (e) {
 			e.deviceTypeSlug = params.type;
 			e.message ??= '';
-			if (
-				e.code === 'BalenaRequestError' ||
-				e.message.toLowerCase().includes('no such version')
-			) {
+			const { OSVersionNotFoundError } = await import('../../errors');
+			if (e instanceof OSVersionNotFoundError) {
 				const version = options.version ?? '';
 				if (
 					!version.endsWith('.dev') &&

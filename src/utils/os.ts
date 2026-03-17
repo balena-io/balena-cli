@@ -46,15 +46,20 @@ export const getOsType = (version: string) =>
  *  - `latest` (exludes invalidated & pre-releases),
  *  - `menu`/'menu-esr' (will show the interactive menu )
  * If not provided, OSVersion will be set to `default`
+ * `type` may be one of:
+ * - `installation-media`
+ * - `disk-image`
  *
  * @param deviceType
  * @param outputPath
  * @param OSVersion
+ * @param type
  */
 export async function downloadOSImage(
 	deviceType: string,
 	outputPath: string,
-	OSVersion?: string,
+	OSVersion: string | undefined,
+	type?: 'installation-media' | 'disk-image',
 ) {
 	console.info(`Getting device operating system for ${deviceType}`);
 
@@ -72,53 +77,71 @@ export async function downloadOSImage(
 	// some ongoing issues with the os download stream.
 	process.env.ZLIB_FLUSH = 'Z_NO_FLUSH';
 
-	const { getStream } = await import('./image-manager');
-	const stream = await getStream(deviceType, OSVersion);
+	try {
+		const { getStream } = await import('./image-manager');
+		const stream = await getStream(deviceType, OSVersion, {
+			type,
+		});
 
-	const displayVersion = await new Promise((resolve, reject) => {
-		stream.on('error', reject);
-		stream.on('balena-image-manager:resolved-version', resolve);
-	});
+		const displayVersion = await new Promise((resolve, reject) => {
+			stream.on('error', reject);
+			stream.on('balena-image-manager:resolved-version', resolve);
+		});
 
-	const visuals = getVisuals();
-	const bar = new visuals.Progress(
-		`Downloading balenaOS version ${displayVersion}`,
-	);
-	const spinner = new visuals.Spinner(
-		`Downloading balenaOS version ${displayVersion} (size unknown)`,
-	);
+		const visuals = getVisuals();
+		const bar = new visuals.Progress(
+			`Downloading balenaOS version ${displayVersion}`,
+		);
+		const spinner = new visuals.Spinner(
+			`Downloading balenaOS version ${displayVersion} (size unknown)`,
+		);
 
-	stream.on('progress', (state: any) => {
-		if (state != null) {
-			return bar.update(state);
+		stream.on('progress', (state: any) => {
+			if (state != null) {
+				return bar.update(state);
+			}
+			spinner.start();
+		});
+
+		stream.on('end', () => {
+			spinner.stop();
+		});
+
+		// We completely rely on the `mime` custom property
+		// to make this decision.
+		// The actual stream should be checked instead.
+		let output;
+		if (stream.mime === 'application/zip') {
+			const unzip = await import('node-unzip-2');
+			output = unzip.Extract({ path: outputPath });
+		} else {
+			const fs = await import('fs');
+			output = fs.createWriteStream(outputPath);
 		}
-		spinner.start();
-	});
 
-	stream.on('end', () => {
-		spinner.stop();
-	});
+		const { pipeline } = await import('node:stream/promises');
+		await pipeline(stream, output);
 
-	// We completely rely on the `mime` custom property
-	// to make this decision.
-	// The actual stream should be checked instead.
-	let output;
-	if (stream.mime === 'application/zip') {
-		const unzip = await import('node-unzip-2');
-		output = unzip.Extract({ path: outputPath });
-	} else {
-		const fs = await import('fs');
-		output = fs.createWriteStream(outputPath);
+		console.info(
+			`balenaOS image version ${displayVersion} downloaded successfully`,
+		);
+
+		return outputPath;
+	} catch (e) {
+		const { getBalenaSdk } = await import('../utils/lazy');
+		const balenaSdk = getBalenaSdk();
+		if (e instanceof balenaSdk.errors.OSImageNotFound) {
+			if (type != null) {
+				throw new ExpectedError(
+					'The requested OS download type is unavailable for this device type and version.',
+				);
+			}
+			// The else here is unexpected, and it means that the img-maker was not able to find the
+			// OS release artifacts, so we let the SDK's error be thrown as an unexpected error,
+			// which should also report it to Sentry.
+		}
+		throw e;
 	}
-
-	const { pipeline } = await import('node:stream/promises');
-	await pipeline(stream, output);
-
-	console.info(
-		`balenaOS image version ${displayVersion} downloaded successfully`,
-	);
-
-	return outputPath;
 }
 
 async function resolveOSVersion(
