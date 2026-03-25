@@ -19,7 +19,7 @@ import type { Renderer } from './compose_ts';
 import type * as SDK from 'balena-sdk';
 import type * as Dockerode from 'dockerode';
 import * as path from 'path';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type { Composition, ImageDescriptor } from '@balena/compose-parser';
 import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
 	BuiltImage,
@@ -128,7 +128,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: Dictionary<any> | null,
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -165,16 +165,17 @@ export const createRelease = async function (
 		commit: crypto.pseudoRandomBytes(16).toString('hex').toLowerCase(),
 		semver,
 		is_final: !draft,
-		contract,
+		contract: contract ?? undefined,
 		imgDescriptors,
 	});
 
 	for (const serviceImage of Object.values(serviceImages)) {
 		if ('created_at' in serviceImage) {
-			delete serviceImage.created_at;
+			delete (serviceImage as Partial<typeof serviceImage>).created_at;
 		}
 		if ('is_a_build_of__service' in serviceImage) {
-			delete serviceImage.is_a_build_of__service;
+			delete (serviceImage as Partial<typeof serviceImage>)
+				.is_a_build_of__service;
 		}
 	}
 

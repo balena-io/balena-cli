@@ -16,7 +16,7 @@
  */
 
 import { Args, Flags, Command } from '@oclif/core';
-import type { ImageDescriptor } from '@balena/compose/dist/parse';
+import type { ImageDescriptor } from '@balena/compose-parser';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 import {

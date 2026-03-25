@@ -21,7 +21,7 @@ import * as fs from 'fs';
 import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
-import type { Composition } from '@balena/compose/dist/parse';
+import type { Composition } from '@balena/compose-parser';
 import type { BuildTask } from '@balena/compose/dist/multibuild';
 
 import { instanceOf } from '../../errors';

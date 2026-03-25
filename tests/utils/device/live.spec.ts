@@ -78,7 +78,7 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 
 	async function createMonitors(
 		projectPath: string,
-		composition: import('@balena/compose/dist/parse').Composition,
+		composition: import('@balena/compose-parser').Composition,
 		multiDockerignore: boolean,
 		changedPathHandler: (serviceName: string, changedPath: string) => void,
 	): Promise<ByService<chokidar.FSWatcher>> {
@@ -102,7 +102,7 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 
 		for (const serviceName of Object.keys(composition.services)) {
 			const service = composition.services[serviceName];
-			const serviceContext = path.resolve(rootContext, service.build!.context);
+			const serviceContext = path.resolve(rootContext, service.build!.context!);
 
 			const monitor = manager.testSetupFilesystemWatcher(
 				serviceName,
