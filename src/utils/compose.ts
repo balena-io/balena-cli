@@ -54,37 +54,34 @@ export function generateOpts(options: {
 	}));
 }
 
-/** Parse the given composition and return a structure with info. Input is:
+/** Create a ComposeProject from a Composition object.
  * - composePath: the *absolute* path to the directory containing the compose file
- *  - composeStr: the contents of the compose file, as a string
+ * - composition: the parsed Composition object
  */
 export function createProject(
 	composePath: string,
-	composeStr: string,
+	composition: Composition,
 	projectName = '',
 	imageTag = '',
 ): ComposeProject {
-	const yml = require('js-yaml') as typeof import('js-yaml');
-	const compose =
-		require('@balena/compose/dist/parse') as typeof import('@balena/compose/dist/parse');
-
-	// both methods below may throw.
-	const rawComposition = yml.load(composeStr);
-	const composition = compose.normalize(rawComposition);
+	const { toImageDescriptors } =
+		require('@balena/compose-parser') as typeof import('@balena/compose-parser');
 
 	projectName ||= path.basename(composePath);
 
-	const descriptors = compose.parse(composition).map(function (descr) {
+	const descriptors = toImageDescriptors(composition).map(function (descr) {
 		// generate an image name based on the project and service names
 		// if one is not given and the service requires a build
 		if (
 			typeof descr.image !== 'string' &&
 			descr.image.context != null &&
-			descr.image.tag == null
+			!descr.image.tags?.length
 		) {
 			const { makeImageName } =
 				require('./compose_ts') as typeof import('./compose_ts');
-			descr.image.tag = makeImageName(projectName, descr.serviceName, imageTag);
+			descr.image.tags = [
+				makeImageName(projectName, descr.serviceName, imageTag),
+			];
 		}
 		return descr;
 	});

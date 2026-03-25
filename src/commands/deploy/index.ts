@@ -263,7 +263,9 @@ ${dockerignoreHelp}
 					}
 					try {
 						await docker
-							.getImage((isBuildConfig(d.image) ? d.image.tag : d.image) ?? '')
+							.getImage(
+								(isBuildConfig(d.image) ? d.image.tags?.[0] : d.image) ?? '',
+							)
 							.inspect();
 
 						return d.serviceName;
@@ -309,7 +311,7 @@ ${dockerignoreHelp}
 				(d) =>
 					builtImagesByService[d.serviceName] ?? {
 						serviceName: d.serviceName,
-						name: (isBuildConfig(d.image) ? d.image.tag : d.image) ?? '',
+						name: (isBuildConfig(d.image) ? d.image.tags?.[0] : d.image) ?? '',
 						logs: 'Build skipped; image for service already exists.',
 						props: {},
 					},

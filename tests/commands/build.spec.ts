@@ -74,6 +74,7 @@ const commonComposeQueryParams = {
 		MY_VAR_2: 'Also a variable',
 	},
 	labels: '',
+	dockerfile: 'Dockerfile',
 };
 
 const commonComposeQueryParamsIntel = {

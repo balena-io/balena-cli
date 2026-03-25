@@ -168,7 +168,10 @@ export class LivepushManager {
 
 				// path.resolve() converts to an absolute path, removes trailing slashes,
 				// and also converts forward slashes to backslashes on Windows.
-				const context = path.resolve(rootContext, service.build.context);
+				const context = path.resolve(
+					rootContext,
+					service.build!.context ?? '.',
+				);
 
 				const livepush = await Livepush.init({
 					dockerfile,
