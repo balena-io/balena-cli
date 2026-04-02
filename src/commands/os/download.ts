@@ -140,7 +140,9 @@ export default class OsDownloadCmd extends Command {
 				params.type,
 				options.output,
 				options.version,
-				options.type as 'installation-media' | 'disk-image' | undefined,
+				defaultImageType === options.type
+					? undefined
+					: (options.type as 'installation-media' | 'disk-image' | undefined),
 			);
 		} catch (e) {
 			e.deviceTypeSlug = params.type;
