@@ -16,7 +16,7 @@
  */
 
 import { Flags, Args, Command } from '@oclif/core';
-import { stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 
 export default class OsDownloadCmd extends Command {
 	public static description = stripIndent`
@@ -92,7 +92,21 @@ export default class OsDownloadCmd extends Command {
 		const { args: params, flags: options } = await this.parse(OsDownloadCmd);
 		const { downloadOSImage, isESR } = await import('../../utils/os');
 
-		if (options.type === 'installation-media') {
+		const balena = getBalenaSdk();
+		// TODO: Check the OS release's assets for a file that would start with `balena-image-flasher-${DEVICE_TYPE_SLUG}.manifest` once they have been backfilled
+		const dtManifest = await balena.models.config.getDeviceTypeManifestBySlug(
+			params.type,
+		);
+		const defaultImageType = /^(resin|balena)-image-flasher\b/.test(
+			dtManifest.yocto.deployArtifact,
+		)
+			? 'installation-media'
+			: 'disk-image';
+
+		if (
+			options.type === 'installation-media' ||
+			(defaultImageType === 'installation-media' && !options.type)
+		) {
 			// If the user is downloading an installation-media image, warn them that an installation-media image will wipe the target device's storage
 			// This is because some users may not understand the difference between an installation-media and disk-image, and may be surprised that the downloaded image will wipe their device when flashed
 			// Additionally, when no type is specified, the type of image downloaded depends on the device type, and some device types default to installation-media images, so we want to warn in that case as well
