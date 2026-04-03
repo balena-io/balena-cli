@@ -711,6 +711,139 @@ describe('balena build', function () {
 			tag,
 		});
 	});
+
+	it('should create the expected tar stream when using extensions, fragments, include compose features with no version field', async () => {
+		const projectPath = path.join(
+			repoPath,
+			'tests',
+			'test-data',
+			'projects',
+			'docker-compose',
+			'compose-frag-ext-includes',
+		);
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: { fileSize: 31, type: 'file' },
+			},
+			service2: {
+				'Dockerfile-alt': { fileSize: 31, type: 'file' },
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: Object.entries({
+				t: '${tag}',
+				buildargs: {
+					SHARED_ARG: 'shared_value',
+					SERVICE1_ARG: 's1_value',
+				},
+				labels: '',
+				dockerfile: 'Dockerfile',
+				platform: 'linux/amd64',
+			}),
+			service2: Object.entries({
+				t: '${tag}',
+				buildargs: {
+					SHARED_ARG: 'shared_value',
+					SERVICE2_ARG: 's2_value',
+				},
+				labels: '',
+				dockerfile: 'Dockerfile-alt',
+				platform: 'linux/amd64',
+			}),
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Build] service1 Step 1/4 : FROM busybox',
+				'[Build] service2 Step 1/4 : FROM busybox',
+			],
+		];
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
+		await docker.expectGetManifestBusybox();
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+		});
+	});
+
+	it('should create the expected tar stream when using compose spec v2 service and network fields', async () => {
+		const projectPath = path.join(
+			repoPath,
+			'tests',
+			'test-data',
+			'projects',
+			'docker-compose',
+			'compose-fields',
+		);
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: { fileSize: 31, type: 'file' },
+			},
+			service2: {
+				'Dockerfile-alt': { fileSize: 31, type: 'file' },
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: Object.entries({
+				t: '${tag}',
+				buildargs: {},
+				labels: '',
+				dockerfile: 'Dockerfile',
+				platform: 'linux/amd64',
+			}),
+			service2: Object.entries({
+				t: '${tag}',
+				buildargs: {},
+				labels: '',
+				dockerfile: 'Dockerfile-alt',
+				platform: 'linux/amd64',
+			}),
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Build] service1 Step 1/4 : FROM busybox',
+				'[Build] service2 Step 1/4 : FROM busybox',
+			],
+		];
+		await docker.expectGetInfo({});
+		await docker.expectGetManifestBusybox();
+		await docker.expectGetManifestBusybox();
+		const expectedErrorLines = [
+			'Service "service1" uses compose fields that may not be supported on legacy Supervisor versions',
+			'Service "service2" uses compose fields that may not be supported on legacy Supervisor versions',
+		];
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
+			dockerMock: docker,
+			expectedErrorLines,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+		});
+	});
 });
 
 describe('balena build: project validation', function () {
@@ -747,5 +880,186 @@ describe('balena build: project validation', function () {
 		);
 		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
+	});
+});
+
+describe('balena build: compose field rejections', function () {
+	this.timeout(90_000);
+	let server: MockHttpServer;
+
+	const rejectionsPath = path.join(
+		projectsPath,
+		'docker-compose',
+		'rejections',
+	);
+	const composeFilePath = path.join(rejectionsPath, 'docker-compose.yml');
+
+	before(async () => {
+		server = new MockHttpServer();
+		await server.start();
+	});
+
+	after(async () => {
+		await server.stop();
+	});
+
+	afterEach(async () => {
+		await fs.unlink(composeFilePath).catch(() => {
+			/* noop */
+		});
+	});
+
+	async function expectRejection(composeFile: string, expectedError: string) {
+		await fs.copyFile(path.join(rejectionsPath, composeFile), composeFilePath);
+		// Prevent exiting test process on expected error
+		const exitStub = sinon.stub(process, 'exit');
+		// Silence logs from build process
+		const stdoutStub = sinon.stub(process.stdout, 'write').returns(true);
+		const stderrStub = sinon.stub(process.stderr, 'write').returns(true);
+		try {
+			const { out, err } = await runCommand(
+				`build ${rejectionsPath} -A amd64 -d nuc`,
+			);
+			const allOutput = cleanOutput([...err, ...out], true);
+			expect(allOutput).to.include.members([expectedError]);
+		} finally {
+			stderrStub.restore();
+			stdoutStub.restore();
+			exitStub.restore();
+		}
+	}
+
+	it('should reject top-level secrets', async () => {
+		await expectRejection(
+			'secrets.yml',
+			'Top-level secrets and/or configs are not supported',
+		);
+	});
+
+	it('should reject top-level configs', async () => {
+		await expectRejection(
+			'configs.yml',
+			'Top-level secrets and/or configs are not supported',
+		);
+	});
+
+	it('should reject service fields in SERVICE_CONFIG_DENY_LIST', async () => {
+		await expectRejection(
+			'service-deny-list.yml',
+			'service.blkio_config is not allowed',
+		);
+	});
+
+	it('should reject build fields in BUILD_CONFIG_DENY_LIST', async () => {
+		await expectRejection(
+			'build-deny-list.yml',
+			'service.build.isolation is not allowed',
+		);
+	});
+
+	it('should reject network_mode container:containerId', async () => {
+		await expectRejection(
+			'network-mode-container.yml',
+			'service.network_mode container:${containerId} is not allowed',
+		);
+	});
+
+	it('should reject pid container:containerId', async () => {
+		await expectRejection(
+			'pid-container.yml',
+			'service.pid container:${containerId} is not allowed',
+		);
+	});
+
+	it('should reject volumes_from referencing a container', async () => {
+		await expectRejection(
+			'volumes-from-container.yml',
+			'service.volumes_from which references a containerId is not allowed',
+		);
+	});
+
+	it('should reject security_opt other than no-new-privileges', async () => {
+		await expectRejection(
+			'security-opt.yml',
+			'Only no-new-privileges is allowed for service.security_opt',
+		);
+	});
+
+	it('should reject ipc referencing service:serviceName', async () => {
+		await expectRejection(
+			'ipc-service.yml',
+			'service.ipc which references service:${serviceName} is not supported',
+		);
+	});
+
+	it('should reject negative pids_limit', async () => {
+		await expectRejection(
+			'negative-pids-limit.yml',
+			'negative service.pids_limit is not supported',
+		);
+	});
+
+	it('should reject network.attachable', async () => {
+		await expectRejection(
+			'network-attachable.yml',
+			'network.attachable is not allowed',
+		);
+	});
+
+	it('should reject network.external', async () => {
+		await expectRejection(
+			'network-external.yml',
+			'network.external is not allowed',
+		);
+	});
+
+	it('should reject unsupported network.driver', async () => {
+		await expectRejection(
+			'network-driver.yml',
+			'Only "bridge" and "default" are supported for network.driver, got "overlay"',
+		);
+	});
+
+	it('should reject volume.external', async () => {
+		await expectRejection(
+			'volume-external.yml',
+			'volume.external is not allowed',
+		);
+	});
+
+	it('should reject unsupported volume.driver', async () => {
+		await expectRejection(
+			'volume-driver.yml',
+			'Only "local" and "default" are supported for volume.driver, got "nfs"',
+		);
+	});
+
+	it('should reject bind mount volumes not in allowedBindMounts', async () => {
+		await expectRejection(
+			'volume-bind-mount.yml',
+			'service.volumes cannot be of type "bind"',
+		);
+	});
+
+	it('should reject network.link_local_ips', async () => {
+		await expectRejection(
+			'network-link-local-ips.yml',
+			'service.network.link_local_ips is not supported',
+		);
+	});
+
+	it('should reject network.ipam.config.aux_addresses', async () => {
+		await expectRejection(
+			'network-aux-addresses.yml',
+			'network.ipam.config.aux_addresses is not supported',
+		);
+	});
+
+	it('should reject enable_ipv4', async () => {
+		await expectRejection('enable-ipv4.yml', 'enable_ipv4 is not supported');
+	});
+
+	it('should reject enable_ipv6', async () => {
+		await expectRejection('enable-ipv6.yml', 'enable_ipv6 is not supported');
 	});
 });

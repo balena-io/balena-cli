@@ -1,0 +1,6 @@
+services:
+  service1:
+    build:
+      context: ./service1
+    blkio_config:
+      weight: 300
