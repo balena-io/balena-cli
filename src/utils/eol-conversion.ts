@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import Logger = require('./logger');
+import { Logger } from './logger';
 import type { FileStats } from './ignore';
 
 const globalLogger = Logger.getLogger();

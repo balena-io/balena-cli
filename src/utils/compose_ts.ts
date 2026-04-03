@@ -42,7 +42,7 @@ import type {
 } from './compose-types';
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getCliUx, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { Logger } from './logger';
 import { exists } from './which';
 import { pick } from './helpers';
 
@@ -365,7 +365,7 @@ async function startRenderer({
 			imageDescriptors,
 		);
 	} else {
-		const tty = (await import('./tty'))(process.stdout);
+		const tty = ((await import('./tty')).default)(process.stdout);
 		renderer = new (await import('./compose')).BuildProgressUI(
 			tty,
 			imageDescriptors,
@@ -1285,7 +1285,7 @@ async function pushAndUpdateServiceImages(
 	const { DockerProgress } = await import('docker-progress');
 	const { retry } = await import('./helpers');
 	const { pushProgressRenderer } = await import('./compose');
-	const tty = (await import('./tty'))(process.stdout);
+	const tty = ((await import('./tty')).default)(process.stdout);
 	const opts = { authconfig: { registrytoken: token } };
 	const progress = new DockerProgress({ docker });
 	const ux = getCliUx();
@@ -1432,7 +1432,7 @@ export async function deployProject(
 ): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
 	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
-	const tty = (await import('./tty'))(process.stdout);
+	const tty = ((await import('./tty')).default)(process.stdout);
 	const ux = getCliUx();
 
 	const prefix = ux.colorize('cyan', '[Info]') + '    ';

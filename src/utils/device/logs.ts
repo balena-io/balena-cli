@@ -18,7 +18,7 @@ import ColorHash = require('color-hash');
 import * as _ from 'lodash';
 import type { Readable } from 'stream';
 
-import Logger = require('../logger');
+import { Logger } from '../logger';
 import { ExpectedError, SIGINTError } from '../../errors';
 import { getCliUx } from '../lazy';
 

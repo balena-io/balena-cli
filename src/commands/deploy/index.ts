@@ -142,7 +142,7 @@ ${dockerignoreHelp}
 
 		(await import('events')).defaultMaxListeners = 1000;
 
-		const Logger = await import('../../utils/logger');
+		const { Logger } = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 		logger.logDebug('Parsing input...');
@@ -219,7 +219,7 @@ ${dockerignoreHelp}
 
 	async deployProject(
 		docker: import('dockerode'),
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger').Logger,
 		composeOpts: ComposeOpts,
 		opts: {
 			app: Awaited<ReturnType<typeof getAppWithArch>>; // the application instance to deploy to
