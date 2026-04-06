@@ -25,6 +25,8 @@ import * as path from 'path';
 import { promisify } from 'util';
 import { notarize } from '@electron/notarize';
 
+import { GlobSync } from 'glob';
+
 import { loadPackageJson, ROOT, whichSpawn } from './utils';
 
 const execFileAsync = promisify(execFile);
@@ -77,6 +79,23 @@ const renamedOclifStandalone: PathByPlatform = {
 	win32: dPath(`balena-cli-${version}-windows-${arch}-standalone.tar.gz`),
 };
 
+async function pruneUnusedPrebuilds(): Promise<void> {
+	console.log('Pruning unused prebuild directories...');
+
+	// Remove all prebuilds/ under bare-* packages (unused on Node.js)
+	for (const dir of new GlobSync('node_modules/**/bare-*/prebuilds').found) {
+		console.log('Removing bare-* prebuilds:', dir);
+		await fs.remove(dir);
+	}
+
+	// Remove ios-* and android-* prebuild directories (irrelevant platforms)
+	for (const dir of new GlobSync('node_modules/**/prebuilds/{ios-*,android-*}')
+		.found) {
+		console.log('Removing mobile prebuilds:', dir);
+		await fs.remove(dir);
+	}
+}
+
 export async function signFilesForNotarization() {
 	console.log('Signing files for notarization');
 	// If signFilesForNotarization is called on the test CI environment (which will not set CSC_LINK)
@@ -85,6 +104,8 @@ export async function signFilesForNotarization() {
 		console.log('Skipping signing for notarization');
 		return;
 	}
+
+	await pruneUnusedPrebuilds();
 	console.log('Deleting unneeded zip files...');
 	await new Promise((resolve, reject) => {
 		klaw('node_modules/')
@@ -107,34 +128,46 @@ export async function signFilesForNotarization() {
 			.on('end', resolve)
 			.on('error', reject);
 	});
-	// Sign all .node files first
-	console.log('Signing .node files...');
+	// Collect all .node and .bare native binaries, then sign sequentially.
+	// Signing must happen after the walk completes — an async callback inside
+	// klaw's EventEmitter would silently swallow codesign failures.
+	const nativeBinaries: string[] = [];
 	await new Promise((resolve, reject) => {
 		klaw('node_modules/')
-			.on('data', async (item: { path: string; stats: Stats }) => {
+			.on('data', (item: { path: string; stats: Stats }) => {
 				if (!item.stats.isFile()) {
 					return;
 				}
-				if (path.basename(item.path).endsWith('.node')) {
-					console.log('running command:', 'codesign', [
-						'-d',
-						'-f',
-						'-s',
-						'Developer ID Application: Balena Ltd (66H43P8FRG)',
-						item.path,
-					]);
-					await whichSpawn('codesign', [
-						'-d',
-						'-f',
-						'-s',
-						'Developer ID Application: Balena Ltd (66H43P8FRG)',
-						item.path,
-					]);
+				const name = path.basename(item.path);
+				if (name.endsWith('.node') || name.endsWith('.bare')) {
+					nativeBinaries.push(item.path);
 				}
 			})
 			.on('end', resolve)
 			.on('error', reject);
 	});
+	if (nativeBinaries.length === 0) {
+		throw new Error(
+			'No .node or .bare files found in node_modules/ -- is the build directory correct?',
+		);
+	}
+	console.log(`Signing ${nativeBinaries.length} .node and .bare files...`);
+	for (const filePath of nativeBinaries) {
+		console.log('running command:', 'codesign', [
+			'-d',
+			'-f',
+			'-s',
+			'Developer ID Application: Balena Ltd (66H43P8FRG)',
+			filePath,
+		]);
+		await whichSpawn('codesign', [
+			'-d',
+			'-f',
+			'-s',
+			'Developer ID Application: Balena Ltd (66H43P8FRG)',
+			filePath,
+		]);
+	}
 	console.log('Signing other binaries...');
 	console.log('running command:', 'codesign', [
 		'-d',
