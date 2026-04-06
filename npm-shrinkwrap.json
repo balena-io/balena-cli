@@ -3141,9 +3141,9 @@
       }
     },
     "node_modules/@balena/lint/node_modules/lru-cache": {
-      "version": "11.3.1",
-      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.3.1.tgz",
-      "integrity": "sha512-Y71HWT4hydF1IAG/2OPync4dgQ/J2iWye7eg6CuzJHI+E97tvqFPlADzxiNnjH6WSljg8ecfXMr9k6bfFuqA5w==",
+      "version": "11.3.2",
+      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.3.2.tgz",
+      "integrity": "sha512-wgWa6FWQ3QRRJbIjbsldRJZxdxYngT/dO0I5Ynmlnin8qy7tC6xYzbcJjtN4wHLXtkbVwHzk0C+OejVw1XM+DQ==",
       "dev": true,
       "license": "BlueOak-1.0.0",
       "engines": {
