@@ -1,4 +1,30 @@
 - commits:
+    - subject: Prune unused prebuilds, sign .bare binaries, fix klaw codesign handler
+      hash: 1026def8ac6bb5192ae4c4b8a3bdd08b66ecb5bd
+      body: |
+        bare-fs, bare-os, and bare-url ship unsigned .bare native binaries that
+        cause Apple notarization to reject the CLI submission. These packages
+        are optional deps of tar-stream v3 targeting the Bare runtime, unused
+        by Node.js.
+
+        - Add pruneUnusedPrebuilds() to remove bare-*/prebuilds and
+          ios-*/android-* prebuild directories before signing
+        - Extend codesign filter to also sign .bare files as a defensive
+          fallback for any future native binaries
+        - Refactor klaw signing from async EventEmitter callback (which
+          silently swallowed codesign failures) to collect-then-sign pattern
+        - Guard against zero native binaries found (fail fast)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 24.0.4
+  title: ""
+  date: 2026-04-06T22:36:49.584Z
+- commits:
     - subject: Disable background auto-updates
       hash: cb22fb0abb0d804f0840a31292d8092ae462a58e
       body: ""
