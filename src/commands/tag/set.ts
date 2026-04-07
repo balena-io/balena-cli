@@ -93,9 +93,8 @@ export default class TagSetCmd extends Command {
 			return balena.models.device.tags.set(uuid, params.tagKey, params.value);
 		}
 		if (options.release) {
-			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
-			);
+			const { disambiguateReleaseParam } =
+				await import('../../utils/normalization');
 			const releaseParam = await disambiguateReleaseParam(
 				balena,
 				options.release,

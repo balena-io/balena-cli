@@ -129,9 +129,8 @@ export default class DeviceTunnelCmd extends Command {
 			})
 			.map(async ({ localPort, localAddress, remotePort }) => {
 				try {
-					const { tunnelConnectionToDevice } = await import(
-						'../../utils/tunnel'
-					);
+					const { tunnelConnectionToDevice } =
+						await import('../../utils/tunnel');
 					const handler = await tunnelConnectionToDevice(uuid, remotePort, sdk);
 
 					const { createServer } = await import('net');

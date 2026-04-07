@@ -55,9 +55,8 @@ export default class OsinitCmd extends Command {
 
 		const config = JSON.parse(params.config);
 
-		const { getManifest, osProgressHandler } = await import(
-			'../../utils/helpers'
-		);
+		const { getManifest, osProgressHandler } =
+			await import('../../utils/helpers');
 		const manifest = await getManifest(params.image, params.type);
 
 		const { initialize } = await import('balena-device-init');

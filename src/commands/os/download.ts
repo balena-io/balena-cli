@@ -122,9 +122,8 @@ export default class OsDownloadCmd extends Command {
 					const { checkLoggedIn } = await import('../../utils/patterns');
 					await checkLoggedIn();
 				} catch (e) {
-					const { ExpectedError, NotLoggedInError } = await import(
-						'../../errors'
-					);
+					const { ExpectedError, NotLoggedInError } =
+						await import('../../errors');
 					if (e instanceof NotLoggedInError) {
 						throw new ExpectedError(stripIndent`
 							${e.message}

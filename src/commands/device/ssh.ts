@@ -189,9 +189,8 @@ export default class DeviceSSHCmd extends Command {
 		// that we know exists and is accessible
 		let containerId: string | undefined;
 		if (params.service != null) {
-			const { getContainerIdForService } = await import(
-				'../../utils/device/ssh'
-			);
+			const { getContainerIdForService } =
+				await import('../../utils/device/ssh');
 			containerId = await getContainerIdForService({
 				deviceUuid,
 				hostname: `ssh.${proxyUrl}`,
