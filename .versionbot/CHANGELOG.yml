@@ -1,4 +1,50 @@
 - commits:
+    - subject: "os download: download the default type if the type passed is the same"
+      hash: 12146ec25fd7725edbd4a1add3b868c857c36501
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "os download: warn if no type is chosen and default is
+        installation-media"
+      hash: 1fa3b1c9e7e668bd6c1a0bf356078beb13587bca
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "os download: Add `type` flag for specifying `disk-image` or
+        `installation-media`"
+      hash: 3ba78fe10470387ff065aee40341db0556fa82a7
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update balena-sdk to 23.1.13
+      hash: fa721a4b99731632d90b18b5e990b591e7086e67
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update author
+      hash: 958c5be5213a2423e86231b1bf87dc5897743fbb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 24.1.0
+  title: ""
+  date: 2026-04-07T01:50:17.581Z
+- commits:
     - subject: Prune unused prebuilds, sign .bare binaries, fix klaw codesign handler
       hash: 1026def8ac6bb5192ae4c4b8a3bdd08b66ecb5bd
       body: |
