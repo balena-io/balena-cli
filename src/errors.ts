@@ -26,6 +26,8 @@ export class ExpectedError extends TypedError {
 	public exitCode?: number;
 }
 
+export class OSVersionNotFoundError extends ExpectedError {}
+
 export class NotLoggedInError extends ExpectedError {}
 
 export class InsufficientPrivilegesError extends ExpectedError {}

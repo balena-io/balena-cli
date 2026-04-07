@@ -68,7 +68,7 @@
     "resin.io",
     "git"
   ],
-  "author": "Balena Inc. (https://balena.io/)",
+  "author": "Balena Ltd. <hello@balena.io>",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=24.11.0 <25"
@@ -183,7 +183,7 @@
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.6.0",
     "balena-preload": "^19.0.0",
-    "balena-sdk": "^23.0.2",
+    "balena-sdk": "^23.1.13",
     "balena-semver": "^4.0.0",
     "balena-settings-client": "^6.0.0",
     "balena-settings-storage": "^8.1.0",
