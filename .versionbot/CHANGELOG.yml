@@ -1,4 +1,16 @@
 - commits:
+    - subject: Explicitly align express in package.json with the one in the shrinkwrap
+      hash: 50f7bf429379f8b80994f918f54e35140ef1eb7c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 24.1.1
+  title: ""
+  date: 2026-04-07T07:14:35.028Z
+- commits:
     - subject: "os download: download the default type if the type passed is the same"
       hash: 12146ec25fd7725edbd4a1add3b868c857c36501
       body: ""
