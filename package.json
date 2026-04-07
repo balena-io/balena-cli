@@ -184,7 +184,7 @@
     "balena-device-init": "^8.2.1",
     "balena-errors": "^4.7.3",
     "balena-image-fs": "^7.6.0",
-    "balena-preload": "^19.0.0",
+    "balena-preload": "20.0.0-build-bump-typescript-to-6-0-2-f0b34bcabb994ad58a67ede1005982bf1b2c63de-1",
     "balena-sdk": "^23.1.13",
     "balena-semver": "^4.0.0",
     "balena-settings-client": "^6.0.0",
@@ -254,7 +254,8 @@
   "overrides": {
     "inline-source-cli": {
       "inline-source": "^8.0.3"
-    }
+    },
+    "balena-preload": "20.0.0-build-bump-typescript-to-6-0-2-f0b34bcabb994ad58a67ede1005982bf1b2c63de-1"
   },
   "versionist": {
     "publishedAt": "2026-04-08T12:27:13.029Z"
