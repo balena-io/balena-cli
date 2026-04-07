@@ -57,7 +57,19 @@ describe('balena device ssh', function () {
 		await server.stop();
 	});
 
+	let savedProxyVars: Record<string, string | undefined>;
+
 	beforeEach(async function () {
+		// Unset proxy env vars that may be set by npm security wrappers.
+		// These cause getProxyConfig() to detect a proxy, triggering a
+		// proxytunnel warning on stderr that breaks assertions.
+		savedProxyVars = {
+			HTTPS_PROXY: process.env.HTTPS_PROXY,
+			HTTP_PROXY: process.env.HTTP_PROXY,
+		};
+		delete process.env.HTTPS_PROXY;
+		delete process.env.HTTP_PROXY;
+
 		// Stub child_process.spawn for SSH mocking
 		const childProcess = await import('child_process');
 		spawnStub = sinon.stub(childProcess, 'spawn').callsFake(function (
@@ -76,6 +88,13 @@ describe('balena device ssh', function () {
 	});
 
 	afterEach(async function () {
+		for (const [key, value] of Object.entries(savedProxyVars)) {
+			if (value == null) {
+				delete process.env[key];
+			} else {
+				process.env[key] = value;
+			}
+		}
 		// Restore the stub
 		if (spawnStub) {
 			spawnStub.restore();
