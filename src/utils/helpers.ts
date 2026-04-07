@@ -209,14 +209,9 @@ const appWithArchOptions = {
 	},
 } as const;
 
-export interface AppWithArch
-	extends NonNullable<
-		Pine.OptionsToResponse<
-			Application['Read'],
-			typeof appWithArchOptions,
-			string
-		>
-	> {
+export interface AppWithArch extends NonNullable<
+	Pine.OptionsToResponse<Application['Read'], typeof appWithArchOptions, string>
+> {
 	arch: string;
 }
 

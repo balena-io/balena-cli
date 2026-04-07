@@ -70,9 +70,8 @@ export default class TagListCmd extends Command {
 			tags = await balena.models.device.tags.getAllByDevice(uuid);
 		}
 		if (options.release) {
-			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
-			);
+			const { disambiguateReleaseParam } =
+				await import('../../utils/normalization');
 			const releaseParam = await disambiguateReleaseParam(
 				balena,
 				options.release,

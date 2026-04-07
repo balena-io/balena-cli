@@ -31,36 +31,34 @@ export function qemuPathInContext(context: string) {
 	return path.relative(context, binPath);
 }
 
-export function copyQemu(context: string, arch: string) {
+export async function copyQemu(context: string, arch: string) {
 	// Create a hidden directory in the build context, containing qemu
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
 
-	return fs.promises
-		.mkdir(binDir)
-		.catch(function (err) {
-			if (err.code === 'EEXIST') {
-				// ignore
-				return;
-			}
-			throw err;
-		})
-		.then(() => getQemuPath(arch))
-		.then(
-			(qemu) =>
-				new Promise<void>(function (resolve, reject) {
-					const read = fs.createReadStream(qemu);
-					const write = fs.createWriteStream(binPath);
+	try {
+		await fs.promises.mkdir(binDir);
+	} catch (err) {
+		if (err.code === 'EEXIST') {
+			// ignore
+			return;
+		}
+		throw err;
+	}
 
-					read
-						.on('error', reject)
-						.pipe(write)
-						.on('error', reject)
-						.on('finish', resolve);
-				}),
-		)
-		.then(() => fs.promises.chmod(binPath, '755'))
-		.then(() => path.relative(context, binPath));
+	const qemu = await getQemuPath(arch);
+	await new Promise<void>(function (resolve, reject) {
+		const read = fs.createReadStream(qemu);
+		const write = fs.createWriteStream(binPath);
+
+		read
+			.on('error', reject)
+			.pipe(write)
+			.on('error', reject)
+			.on('finish', resolve);
+	});
+	await fs.promises.chmod(binPath, '755');
+	return path.relative(context, binPath);
 }
 
 export const getQemuPath = function (balenaArch: string) {

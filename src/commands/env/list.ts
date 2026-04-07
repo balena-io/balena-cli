@@ -35,8 +35,7 @@ interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
 type DeviceServiceEnvironmentVariable = PickExpanded<
 	SDK.DeviceServiceEnvironmentVariable['Read']
 >;
-interface DeviceServiceEnvironmentVariableInfo
-	extends DeviceServiceEnvironmentVariable {
+interface DeviceServiceEnvironmentVariableInfo extends DeviceServiceEnvironmentVariable {
 	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
@@ -130,9 +129,8 @@ export default class EnvListCmd extends Command {
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
-			const { getDeviceAndMaybeAppFromUUID } = await import(
-				'../../utils/cloud'
-			);
+			const { getDeviceAndMaybeAppFromUUID } =
+				await import('../../utils/cloud');
 			const [device, app] = await getDeviceAndMaybeAppFromUUID(options.device);
 
 			fullUUID = device.uuid;

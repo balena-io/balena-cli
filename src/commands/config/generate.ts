@@ -198,9 +198,8 @@ export default class ConfigGenerateCmd extends Command {
 		const deviceManifest =
 			await balena.models.config.getDeviceTypeManifestBySlug(deviceType);
 
-		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
-		);
+		const { validateSecureBootOptionAndWarn } =
+			await import('../../utils/config');
 		await validateSecureBootOptionAndWarn(
 			options.secureBoot,
 			deviceType,
@@ -228,9 +227,8 @@ export default class ConfigGenerateCmd extends Command {
 		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
 
 		// Generate config
-		const { generateDeviceConfig, generateApplicationConfig } = await import(
-			'../../utils/config'
-		);
+		const { generateDeviceConfig, generateApplicationConfig } =
+			await import('../../utils/config');
 
 		let configJson;
 		if (device) {

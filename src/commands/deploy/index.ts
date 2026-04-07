@@ -161,9 +161,8 @@ ${dockerignoreHelp}
 		}
 
 		const sdk = getBalenaSdk();
-		const { getRegistrySecrets, validateProjectDirectory } = await import(
-			'../../utils/compose_ts'
-		);
+		const { getRegistrySecrets, validateProjectDirectory } =
+			await import('../../utils/compose_ts');
 
 		const { releaseTagKeys, releaseTagValues } = parseReleaseTagKeysAndValues(
 			options['release-tag'] ?? [],
@@ -191,9 +190,9 @@ ${dockerignoreHelp}
 		const app = await helpers.getAppWithArch(fleet);
 
 		const dockerUtils = await import('../../utils/docker');
-		const [docker, buildOpts, composeOpts] = await Promise.all([
+		const buildOpts = dockerUtils.generateBuildOpts(options as FlagsDef);
+		const [docker, composeOpts] = await Promise.all([
 			dockerUtils.getDocker(options),
-			dockerUtils.generateBuildOpts(options as FlagsDef),
 			compose.generateOpts(options),
 		]);
 
@@ -237,9 +236,8 @@ ${dockerignoreHelp}
 		const _ = await import('lodash');
 		const doodles = await import('resin-doodles');
 		const sdk = getBalenaSdk();
-		const { deployProject: $deployProject, loadProject } = await import(
-			'../../utils/compose_ts'
-		);
+		const { deployProject: $deployProject, loadProject } =
+			await import('../../utils/compose_ts');
 
 		const appType = opts.app.application_type[0];
 
@@ -328,17 +326,10 @@ ${dockerignoreHelp}
 				);
 				logger.logWarn(msg);
 
-				const [token, { username }, url, options] = await Promise.all([
+				const [token, { username }, url] = await Promise.all([
 					sdk.auth.getToken(),
 					sdk.auth.getUserInfo(),
 					sdk.settings.get('balenaUrl'),
-					{
-						// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
-						appName: opts.appName,
-						imageName: images[0].name,
-						buildLogs: images[0].logs,
-						shouldUploadLogs: opts.shouldUploadLogs,
-					},
 				]);
 				const releaseId = await deployLegacy(
 					docker,
@@ -346,7 +337,13 @@ ${dockerignoreHelp}
 					token,
 					username,
 					url,
-					options,
+					{
+						// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
+						appName: opts.appName,
+						imageName: images[0].name,
+						buildLogs: images[0].logs,
+						shouldUploadLogs: opts.shouldUploadLogs,
+					},
 				);
 
 				release = await sdk.models.release.get(releaseId, {

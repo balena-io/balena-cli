@@ -33,9 +33,7 @@ import { dockerCliFlags } from '../../utils/docker';
 type ComposeGenerateOptsParam = Parameters<typeof compose.generateOpts>[0];
 
 interface PrepareBuildOpts
-	extends ComposeCliFlags,
-		DockerCliFlags,
-		ComposeGenerateOptsParam {
+	extends ComposeCliFlags, DockerCliFlags, ComposeGenerateOptsParam {
 	arch?: string;
 	deviceType?: string;
 	fleet?: string;
@@ -219,9 +217,9 @@ ${dockerignoreHelp}
 
 	protected async prepareBuild(options: PrepareBuildOpts) {
 		const { getDocker, generateBuildOpts } = await import('../../utils/docker');
-		const [docker, buildOpts, composeOpts] = await Promise.all([
+		const buildOpts = generateBuildOpts(options);
+		const [docker, composeOpts] = await Promise.all([
 			getDocker(options),
-			generateBuildOpts(options),
 			compose.generateOpts(options),
 		]);
 		return {

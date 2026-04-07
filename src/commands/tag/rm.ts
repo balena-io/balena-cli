@@ -76,9 +76,8 @@ export default class TagRmCmd extends Command {
 			return balena.models.device.tags.remove(uuid, params.tagKey);
 		}
 		if (options.release) {
-			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
-			);
+			const { disambiguateReleaseParam } =
+				await import('../../utils/normalization');
 			const releaseParam = await disambiguateReleaseParam(
 				balena,
 				options.release,

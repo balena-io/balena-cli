@@ -92,12 +92,10 @@ export default class DeviceLogsCmd extends Command {
 
 		const balena = getBalenaSdk();
 		const { serviceIdToName } = await import('../../utils/cloud');
-		const { connectAndDisplayDeviceLogs, displayLogObject } = await import(
-			'../../utils/device/logs'
-		);
-		const { validateIPAddress, validateDotLocalUrl } = await import(
-			'../../utils/validation'
-		);
+		const { connectAndDisplayDeviceLogs, displayLogObject } =
+			await import('../../utils/device/logs');
+		const { validateIPAddress, validateDotLocalUrl } =
+			await import('../../utils/validation');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();

@@ -237,9 +237,8 @@ export default class OsConfigureCmd extends Command {
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
 		await validateDevOptionAndWarn(developmentMode, osVersion);
 
-		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
-		);
+		const { validateSecureBootOptionAndWarn } =
+			await import('../../utils/config');
 		await validateSecureBootOptionAndWarn(
 			secureBoot,
 			deviceTypeSlug,
