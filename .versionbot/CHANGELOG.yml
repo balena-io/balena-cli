@@ -1,4 +1,28 @@
 - commits:
+    - subject: Unblock color tests on CI after deduplicating supports-color
+      hash: 12a64e3017b6b5394a24f1333cf9befea84e9628
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2389
+        see: https://balena.fibery.io/Work/Project/2389
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update @balena/lint to prepare for TS6.0
+      hash: d0e19edbeb0713a08176af9ada50a8f79b08860b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2389
+        see: https://balena.fibery.io/Work/Project/2389
+      author: Thodoris Greasidis
+      nested: []
+  version: 24.1.2
+  title: ""
+  date: 2026-04-07T18:22:55.036Z
+- commits:
     - subject: Explicitly align express in package.json with the one in the shrinkwrap
       hash: 50f7bf429379f8b80994f918f54e35140ef1eb7c
       body: ""
