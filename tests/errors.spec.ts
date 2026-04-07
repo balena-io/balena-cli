@@ -25,6 +25,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as ErrorsModule from '../build/errors';
 import { getHelp } from '../build/utils/messages';
+import { stderr, stdout } from 'supports-color';
 
 function red(s: string) {
 	// FORCE_COLOR=1 is set in tests/config-tests.ts to ensure consistent color output
@@ -172,6 +173,11 @@ describe('handleError() function', () => {
 	});
 });
 
+// https://github.com/oclif/core/blob/4.8.0/src/ux/supports-color.ts
+function oclifColorizeSupportsColor(): boolean {
+	return Boolean(stdout) && Boolean(stderr);
+}
+
 describe('printErrorMessage() function', () => {
 	it('should correctly output message', () => {
 		const consoleError = sinon.spy(console, 'error');
@@ -184,7 +190,9 @@ describe('printErrorMessage() function', () => {
 
 		const inputMessage = errorMessageLines.join('\n');
 		const expectedOutputMessages = [
-			red(errorMessageLines[0]),
+			oclifColorizeSupportsColor()
+				? red(errorMessageLines[0])
+				: errorMessageLines[0],
 			errorMessageLines[1],
 			errorMessageLines[2],
 		];
