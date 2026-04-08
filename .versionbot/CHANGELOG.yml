@@ -1,4 +1,23 @@
 - commits:
+    - subject: "test(device ssh): unset proxy env vars that break stderr assertions"
+      hash: a97edb0ae4f730a46d6eede4d8d32e3f1327990e
+      body: |
+        npm security wrappers may inject HTTPS_PROXY into the process
+        environment, causing getProxyConfig() to detect a proxy and emit a
+        proxytunnel warning on stderr. These tests use mocked SSH and don't
+        need proxying, so save and unset HTTPS_PROXY and HTTP_PROXY in
+        beforeEach, restoring them in afterEach.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 24.1.3
+  title: ""
+  date: 2026-04-08T12:27:12.087Z
+- commits:
     - subject: Unblock color tests on CI after deduplicating supports-color
       hash: 12a64e3017b6b5394a24f1333cf9befea84e9628
       body: ""
