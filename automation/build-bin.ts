@@ -201,6 +201,22 @@ export async function signFilesForNotarization() {
 		'Developer ID Application: Balena Ltd (66H43P8FRG)',
 		'node_modules/macmount/bin/macmount',
 	]);
+	console.log('running command:', 'codesign', [
+		'-d',
+		'-f',
+		'--options=runtime',
+		'-s',
+		'Developer ID Application: Balena Ltd (66H43P8FRG)',
+		'node_modules/@balena/compose-parser/bin/balena-compose-parser',
+	]);
+	await whichSpawn('codesign', [
+		'-d',
+		'-f',
+		'--options=runtime',
+		'-s',
+		'Developer ID Application: Balena Ltd (66H43P8FRG)',
+		'node_modules/@balena/compose-parser/bin/balena-compose-parser',
+	]);
 }
 
 export async function runOclifCommand(cmd: string, opts: string[]) {
