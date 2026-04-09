@@ -311,7 +311,7 @@ export default class OsConfigureCmd extends Command {
 			for (const { name, content } of files) {
 				await imagefs.interact(image, bootPartition, async (_fs) => {
 					await _fs.promises.writeFile(
-						path.join(CONNECTIONS_FOLDER, name),
+						path.posix.join(CONNECTIONS_FOLDER, name),
 						content,
 					);
 				});
