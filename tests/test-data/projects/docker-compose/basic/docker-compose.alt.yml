@@ -1,0 +1,12 @@
+version: '2'
+volumes:
+  resin-data:
+services:
+  service2:
+    volumes:
+      - 'resin-data:/data'
+    build:
+      context: ./service2
+      dockerfile: Dockerfile-alt
+      args:
+        - 'COMPOSE_ARG=an argument defined in docker-compose.alt.yml'

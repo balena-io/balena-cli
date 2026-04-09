@@ -33,25 +33,39 @@ import type { ProgressCallback } from 'docker-progress';
 import { getCliUx } from './lazy';
 import { pick } from './helpers';
 
-export function generateOpts(options: {
+export async function generateOpts(options: {
 	source?: string;
 	projectName?: string;
 	nologs: boolean;
 	'noconvert-eol': boolean;
 	dockerfile?: string;
+	file?: string;
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
 }): Promise<ComposeOpts> {
 	const { promises: fs } = require('fs') as typeof import('fs');
-	return fs.realpath(options.source ?? '.').then((projectPath) => ({
+	const sourcePath = await fs.realpath(options.source ?? '.');
+	let composeFilePath: string | undefined;
+	let projectPath = sourcePath;
+
+	if (options.file) {
+		const candidatePath = path.isAbsolute(options.file)
+			? options.file
+			: path.join(sourcePath, options.file);
+		composeFilePath = await fs.realpath(candidatePath);
+		projectPath = path.dirname(composeFilePath);
+	}
+
+	return {
 		projectName: options.projectName,
 		projectPath,
+		composeFilePath,
 		inlineLogs: !options.nologs,
 		convertEol: !options['noconvert-eol'],
 		dockerfilePath: options.dockerfile,
 		multiDockerignore: !!options['multi-dockerignore'],
 		noParentCheck: options['noparent-check'],
-	}));
+	};
 }
 
 /** Parse the given composition and return a structure with info. Input is:

@@ -53,6 +53,7 @@ export interface TaggedImage {
 export interface ComposeOpts {
 	convertEol: boolean;
 	dockerfilePath?: string;
+	composeFilePath?: string;
 	inlineLogs?: boolean;
 	multiDockerignore: boolean;
 	noParentCheck: boolean;
@@ -64,6 +65,7 @@ export interface ComposeOpts {
 export interface ComposeCliFlags {
 	emulated: boolean;
 	dockerfile?: string;
+	file?: string;
 	nologs: boolean;
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
