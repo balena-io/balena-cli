@@ -106,6 +106,19 @@ export async function applyReleaseTagKeysAndValues(
 const LOG_LENGTH_MAX = 512 * 1024; // 512KB
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
 
+export async function parseComposePaths(
+	paths: string | string[],
+): Promise<Composition> {
+	const composeParser = await import('@balena/compose-parser');
+	const pathStr = Array.isArray(paths) ? paths.join(', ') : paths;
+	try {
+		return await composeParser.parse(paths);
+	} catch (err: any) {
+		err.message = `Error parsing composition file "${pathStr}":\n${err.message}`;
+		throw err;
+	}
+}
+
 /**
  * high-level function resolving a project and creating a composition out
  * of it in one go. if image is given, it'll create a default project for
@@ -119,7 +132,6 @@ export async function loadProject(
 	imageTag?: string,
 ): Promise<ComposeProject> {
 	const composeMod = await import('@balena/compose/dist/parse');
-	const composeParser = await import('@balena/compose-parser');
 	const { createProject } = await import('./compose');
 	let composition: Composition;
 
@@ -151,15 +163,12 @@ export async function loadProject(
 					logger.logInfo(
 						'Docker compose dev overlay detected (docker-compose.dev.yml) - merging.',
 					);
-					composition = await composeParser.parse([
-						composePath,
-						devOverlayPath,
-					]);
+					composition = await parseComposePaths([composePath, devOverlayPath]);
 				} else {
-					composition = await composeParser.parse(composePath);
+					composition = await parseComposePaths(composePath);
 				}
 			} else {
-				composition = await composeParser.parse(composePath);
+				composition = await parseComposePaths(composePath);
 			}
 		} else {
 			logger.logInfo(
@@ -661,14 +670,13 @@ export async function getServiceDirsFromComposition(
 ): Promise<Dictionary<string>> {
 	const serviceDirs: Dictionary<string> = {};
 	if (!composition) {
-		const composeParser = await import('@balena/compose-parser');
 		const [, composePath] = await resolveProject(
 			Logger.getLogger(),
 			sourceDir,
 			true,
 		);
 		if (composePath) {
-			composition = await composeParser.parse(composePath);
+			composition = await parseComposePaths(composePath);
 		}
 	}
 	if (composition?.services) {
