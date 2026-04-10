@@ -43,4 +43,26 @@ describe('parseComposePaths()', function () {
 			expect(err.message).to.include(badPath);
 		}
 	});
+
+	it('should merge a dev overlay with the base compose file', async function () {
+		const basePath = path.join(
+			projectsPath,
+			'dev-overlay',
+			'docker-compose.yml',
+		);
+		const devPath = path.join(
+			projectsPath,
+			'dev-overlay',
+			'docker-compose.dev.yml',
+		);
+		const composition = await parseComposePaths([basePath, devPath]);
+		expect(composition.services).to.have.property('service1');
+		expect(composition.services).to.have.property('service2');
+		// service1 should have the environment from the dev overlay merged in
+		expect(composition.services.service1.environment).to.deep.include({
+			DEBUG: '1',
+		});
+		// service1 should still have its build context from the base file
+		expect(composition.services.service1.build).to.have.property('context');
+	});
 });
