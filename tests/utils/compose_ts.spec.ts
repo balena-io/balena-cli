@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { parseComposePaths } from '../../build/utils/compose_ts';
+import { isBuildConfig, parseComposePaths } from '../../build/utils/compose_ts';
+import { createProject } from '../../build/utils/compose';
 
 const projectsPath = path.join(
 	__dirname,
@@ -41,6 +42,18 @@ describe('parseComposePaths()', function () {
 		} catch (err: any) {
 			expect(err.message).to.include(validPath);
 			expect(err.message).to.include(badPath);
+		}
+	});
+
+	it('should populate tags on build config descriptors in createProject', async function () {
+		const composePath = path.join(projectsPath, 'basic', 'docker-compose.yml');
+		const composition = await parseComposePaths(composePath);
+		const project = createProject(composePath, composition);
+		for (const d of project.descriptors) {
+			if (isBuildConfig(d.image)) {
+				expect(d.image.tags).to.be.an('array').that.is.not.empty;
+				expect(d.image.tags![0]).to.be.a('string').that.is.not.empty;
+			}
 		}
 	});
 
