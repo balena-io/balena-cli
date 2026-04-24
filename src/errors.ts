@@ -17,7 +17,7 @@ limitations under the License.
 import type { BalenaError } from 'balena-errors';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
-import { getCliUx, stripIndent } from './utils/lazy';
+import { getCliUx, stripIndent, getBalenaSdk } from './utils/lazy';
 import { getHelp } from './utils/messages';
 import { CliSettings } from './utils/bootstrap';
 
@@ -121,7 +121,7 @@ function loadDataDirectory(): string {
 }
 
 const messages: {
-	[key: string]: (error: Error & { path?: string }) => string;
+	[key: string]: (error: Error & { path?: string }) => string | undefined;
 } = {
 	EISDIR: (error) => `File is a directory: ${error.path}`,
 
@@ -194,6 +194,27 @@ const messages: {
 			Device type ${slug} not recognized. Perhaps misspelled?
 			Check available device types with "balena device-type list"`;
 	},
+
+	BalenaRequestError: (error) => {
+		const balena = getBalenaSdk();
+		if (
+			error instanceof balena.errors.BalenaRequestError &&
+			error.statusCode === 429
+		) {
+			const retryAfterStr = error.responseHeaders?.get('Retry-After');
+			const retryAfterMs =
+				retryAfterStr != null ? parseInt(retryAfterStr, 10) * 1000 : undefined;
+			if (typeof retryAfterMs === 'number' && Number.isInteger(retryAfterMs)) {
+				const retryAfterDate = new Date(Date.now() + retryAfterMs);
+				const retryAfterDateTimeMessage =
+					// when the retry-after is more than 24h later, also include the date in the message
+					retryAfterMs >= 24 * 60 * 60_000
+						? `${retryAfterDate.toDateString()} ${retryAfterDate.toLocaleTimeString()}`
+						: retryAfterDate.toLocaleTimeString();
+				return `We need to slow down your requests temporarily. Please retry after ${retryAfterDateTimeMessage}`;
+			}
+		}
+	},
 };
 
 // TODO remove these regexes when we have a way of uniquely indentifying errors.
@@ -221,6 +242,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/^Expected an integer/, // oclif parser (flags.integer)
 	/^Flag .* expects a value/, // oclif parser
 	/^Error parsing config file.*balenarc\.yml/,
+	/^We need to slow down your requests temporarily\./,
 ];
 
 // Support unit testing of handleError

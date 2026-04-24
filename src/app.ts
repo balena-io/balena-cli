@@ -50,12 +50,40 @@ async function checkNodeVersion() {
 	}
 }
 
+// Set the ratelimiter to 350 requests/minute, to be kind with the API
+// and only retry 429 requests with a Retry-After < 60 seconds,
+// stalling the CLI for more would make it look broken.
+// See: https://balena.fibery.io/Work/Project/2100
+const DEFAULT_REQUEST_LIMIT_PER_MINUTE = 350;
+const MAX_REQUEST_RETRY_AFTER_MS = 60_000;
+
+const REQUESTS_THROTTLED_NOTICE_MS = 10_000; // Show ratelimiting notices only once per 10 seconds
+let lastThrottlingLogTimestamp: number | undefined;
+
+function retryRateLimitedRequests(retryAfterMs: number) {
+	const shouldRetry = retryAfterMs < MAX_REQUEST_RETRY_AFTER_MS;
+	if (
+		shouldRetry &&
+		(lastThrottlingLogTimestamp == null ||
+			lastThrottlingLogTimestamp + REQUESTS_THROTTLED_NOTICE_MS < Date.now())
+	) {
+		// Only log this message once per RATELIMITED_REQUEST_ERROR_NOTICE_THROTTLING
+		console.info(
+			'We need to slow down your requests temporarily. Please wait a moment, we will process them shortly.',
+		);
+		lastThrottlingLogTimestamp = Date.now();
+	}
+	return shouldRetry;
+}
+
 /** Setup balena-sdk options that are shared with imported packages */
 async function setupBalenaSdkSharedOptions(settings: CliSettings) {
 	const BalenaSdk = await import('balena-sdk');
 	BalenaSdk.setSharedOptions({
 		apiUrl: settings.get<string>('apiUrl'),
 		dataDirectory: settings.get<string>('dataDirectory'),
+		requestLimit: DEFAULT_REQUEST_LIMIT_PER_MINUTE,
+		retryRateLimitedRequests,
 	});
 }
 
