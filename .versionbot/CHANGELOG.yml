@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update @balena/compose to v8, add @balena/compose-parser dependency
+      hash: f90e67ae3261f23202e37324b11897b6cb4fdf3a
+      body: |
+        @balena/compose v8 replaces built-in compose parsing with
+        @balena/compose-parser, so need to install compose-parser
+        for input compose files.
+      footer:
+        Change-type: major
+        change-type: major
+      author: Christina Ying Wang
+      nested: []
+  version: 25.0.0
+  title: ""
+  date: 2026-04-28T15:02:06.014Z
+- commits:
     - subject: Retry ratelimited requests that have a Retry-After less than 60 seconds
       hash: 6251f3c2aeefba4d8b8a9719a55e43deb5144d53
       body: ""
