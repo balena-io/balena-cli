@@ -18,7 +18,7 @@
 import * as semver from 'balena-semver';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
-import type { Composition } from '@balena/compose/dist/parse';
+import type { Composition } from '@balena/compose-parser';
 import type {
 	BuildTask,
 	LocalImage,

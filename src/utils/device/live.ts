@@ -21,7 +21,7 @@ import * as fs from 'fs';
 import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
-import type { Composition } from '@balena/compose/dist/parse';
+import type { Composition } from '@balena/compose-parser';
 import type { BuildTask } from '@balena/compose/dist/multibuild';
 
 import { instanceOf } from '../../errors';
@@ -168,7 +168,10 @@ export class LivepushManager {
 
 				// path.resolve() converts to an absolute path, removes trailing slashes,
 				// and also converts forward slashes to backslashes on Windows.
-				const context = path.resolve(rootContext, service.build.context);
+				const context = path.resolve(
+					rootContext,
+					service.build!.context ?? '.',
+				);
 
 				const livepush = await Livepush.init({
 					dockerfile,

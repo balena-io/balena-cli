@@ -15,17 +15,12 @@
  * limitations under the License.
  */
 
-import type {
-	ImageModel,
-	ReleaseModel,
-} from '@balena/compose/dist/release/models';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type { BalenaModel } from 'balena-sdk';
+import type { Composition, ImageDescriptor } from '@balena/compose-parser';
 import type { Pack } from 'tar-stream';
 
-interface Image {
-	context: string;
-	tag: string;
-}
+type ReleaseModel = BalenaModel['release']['Read'];
+type ImageModel = BalenaModel['image']['Read'];
 
 export interface BuiltImage {
 	logs: string;
@@ -42,7 +37,7 @@ export interface BuiltImage {
 
 export interface TaggedImage {
 	localImage: import('dockerode').Image;
-	serviceImage: import('@balena/compose/dist/release/models').ImageModel;
+	serviceImage: Omit<ImageModel, 'created_at' | 'is_a_build_of__service'>;
 	serviceName: string;
 	logs: string;
 	props: BuiltImage.props;

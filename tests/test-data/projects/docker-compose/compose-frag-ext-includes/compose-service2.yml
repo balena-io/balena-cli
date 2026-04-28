@@ -1,0 +1,14 @@
+services:
+  service2:
+    restart: always
+    build:
+      context: ./service2
+      dockerfile: Dockerfile-alt
+      args:
+        SHARED_ARG: shared_value
+        SERVICE2_ARG: s2_value
+    volumes:
+      - 'resin-data:/data'
+
+volumes:
+  resin-data:

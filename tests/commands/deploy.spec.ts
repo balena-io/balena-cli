@@ -67,6 +67,7 @@ const commonComposeQueryParams = {
 		MY_VAR_2: 'Also a variable',
 	},
 	labels: '',
+	dockerfile: 'Dockerfile',
 };
 
 const commonComposeQueryParamsArmV7 = {
@@ -311,7 +312,7 @@ describe('balena deploy', function () {
 			times: maxRequestRetries,
 			inspectRequest: (_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ImageModel
+					import('balena-sdk').BalenaModel['image']['Write']
 				>;
 				// Don't use expect here - just track the count
 				if (imageBody.status === 'success') {
@@ -324,7 +325,7 @@ describe('balena deploy', function () {
 		await api.expectPatchRelease({
 			inspectRequest: (_uri, requestBody) => {
 				const releaseBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ReleaseModel
+					import('balena-sdk').BalenaModel['release']['Write']
 				>;
 				// Don't use expect here - just store the status
 				releaseStatus = releaseBody.status;
@@ -406,7 +407,7 @@ describe('balena deploy', function () {
 			times: maxRequestRetries,
 			inspectRequest: (_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
-					import('@balena/compose/dist/release/models').ImageModel
+					import('balena-sdk').BalenaModel['image']['Write']
 				>;
 				// Don't use expect here as it can throw and prevent custom response
 				if (imageBody.status !== 'success') {

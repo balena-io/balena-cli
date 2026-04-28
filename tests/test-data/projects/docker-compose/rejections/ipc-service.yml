@@ -1,0 +1,8 @@
+services:
+  service1:
+    build:
+      context: ./service1
+  service2:
+    build:
+      context: ./service1
+    ipc: "service:service1"

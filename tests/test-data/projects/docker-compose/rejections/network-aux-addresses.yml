@@ -1,0 +1,12 @@
+services:
+  service1:
+    build:
+      context: ./service1
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
+          aux_addresses:
+            host1: 172.16.0.2

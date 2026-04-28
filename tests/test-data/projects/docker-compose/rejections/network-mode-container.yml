@@ -1,0 +1,5 @@
+services:
+  service1:
+    build:
+      context: ./service1
+    network_mode: "container:abc123"

@@ -16,7 +16,7 @@
  */
 
 import { Args, Flags, Command } from '@oclif/core';
-import type { ImageDescriptor } from '@balena/compose/dist/parse';
+import type { ImageDescriptor } from '@balena/compose-parser';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, getCliUx, stripIndent } from '../../utils/lazy';
 import {
@@ -263,7 +263,9 @@ ${dockerignoreHelp}
 					}
 					try {
 						await docker
-							.getImage((isBuildConfig(d.image) ? d.image.tag : d.image) ?? '')
+							.getImage(
+								(isBuildConfig(d.image) ? d.image.tags?.[0] : d.image) ?? '',
+							)
 							.inspect();
 
 						return d.serviceName;
@@ -309,7 +311,7 @@ ${dockerignoreHelp}
 				(d) =>
 					builtImagesByService[d.serviceName] ?? {
 						serviceName: d.serviceName,
-						name: (isBuildConfig(d.image) ? d.image.tag : d.image) ?? '',
+						name: (isBuildConfig(d.image) ? d.image.tags?.[0] : d.image) ?? '',
 						logs: 'Build skipped; image for service already exists.',
 						props: {},
 					},

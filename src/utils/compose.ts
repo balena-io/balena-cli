@@ -19,7 +19,7 @@ import type { Renderer } from './compose_ts';
 import type * as SDK from 'balena-sdk';
 import type * as Dockerode from 'dockerode';
 import * as path from 'path';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type { Composition, ImageDescriptor } from '@balena/compose-parser';
 import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
 	BuiltImage,
@@ -54,37 +54,34 @@ export function generateOpts(options: {
 	}));
 }
 
-/** Parse the given composition and return a structure with info. Input is:
+/** Create a ComposeProject from a Composition object.
  * - composePath: the *absolute* path to the directory containing the compose file
- *  - composeStr: the contents of the compose file, as a string
+ * - composition: the parsed Composition object
  */
 export function createProject(
 	composePath: string,
-	composeStr: string,
+	composition: Composition,
 	projectName = '',
 	imageTag = '',
 ): ComposeProject {
-	const yml = require('js-yaml') as typeof import('js-yaml');
-	const compose =
-		require('@balena/compose/dist/parse') as typeof import('@balena/compose/dist/parse');
-
-	// both methods below may throw.
-	const rawComposition = yml.load(composeStr);
-	const composition = compose.normalize(rawComposition);
+	const { toImageDescriptors } =
+		require('@balena/compose-parser') as typeof import('@balena/compose-parser');
 
 	projectName ||= path.basename(composePath);
 
-	const descriptors = compose.parse(composition).map(function (descr) {
+	const descriptors = toImageDescriptors(composition).map(function (descr) {
 		// generate an image name based on the project and service names
 		// if one is not given and the service requires a build
 		if (
 			typeof descr.image !== 'string' &&
 			descr.image.context != null &&
-			descr.image.tag == null
+			!descr.image.tags?.length
 		) {
 			const { makeImageName } =
 				require('./compose_ts') as typeof import('./compose_ts');
-			descr.image.tag = makeImageName(projectName, descr.serviceName, imageTag);
+			descr.image.tags = [
+				makeImageName(projectName, descr.serviceName, imageTag),
+			];
 		}
 		return descr;
 	});
@@ -128,7 +125,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: Dictionary<any> | null,
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -165,16 +162,17 @@ export const createRelease = async function (
 		commit: crypto.pseudoRandomBytes(16).toString('hex').toLowerCase(),
 		semver,
 		is_final: !draft,
-		contract,
+		contract: contract ?? undefined,
 		imgDescriptors,
 	});
 
 	for (const serviceImage of Object.values(serviceImages)) {
 		if ('created_at' in serviceImage) {
-			delete serviceImage.created_at;
+			delete (serviceImage as Partial<typeof serviceImage>).created_at;
 		}
 		if ('is_a_build_of__service' in serviceImage) {
-			delete serviceImage.is_a_build_of__service;
+			delete (serviceImage as Partial<typeof serviceImage>)
+				.is_a_build_of__service;
 		}
 	}
 
