@@ -1,4 +1,18 @@
 - commits:
+    - subject: Retry ratelimited requests that have a Retry-After less than 60 seconds
+      hash: 6251f3c2aeefba4d8b8a9719a55e43deb5144d53
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/2327
+        see: https://balena.fibery.io/Work/Project/2327
+      author: Thodoris Greasidis
+      nested: []
+  version: 24.1.4
+  title: ""
+  date: 2026-04-28T08:24:38.660Z
+- commits:
     - subject: "test(device ssh): unset proxy env vars that break stderr assertions"
       hash: a97edb0ae4f730a46d6eede4d8d32e3f1327990e
       body: |
