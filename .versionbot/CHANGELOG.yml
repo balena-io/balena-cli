@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add organization management commands
+      hash: 039eef82e982b2cf297fe6de8a3d2f32810c36cb
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: https://balena.fibery.io/Work/Project/2327
+        see: https://balena.fibery.io/Work/Project/2327
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.1.0
+  title: ""
+  date: 2026-04-29T05:55:53.263Z
+- commits:
     - subject: Update @balena/compose to v8, add @balena/compose-parser dependency
       hash: f90e67ae3261f23202e37324b11897b6cb4fdf3a
       body: |
