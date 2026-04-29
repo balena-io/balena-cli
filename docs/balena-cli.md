@@ -250,7 +250,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Organizations
 
+	- [organization create](#organization-create)
 	- [organization list](#organization-list)
+	- [organization rename](#organization-rename)
+	- [organization rm](#organization-rm)
 
 - OS
 
@@ -2662,6 +2665,22 @@ answer "yes" to all questions (non interactive use)
 
 # Organizations
 
+## organization create
+
+### Description
+
+Create a new organization.
+
+Examples:
+
+	$ balena organization create MyOrg
+
+### Arguments
+
+#### ORGNAME
+
+the name to use for the new organization
+
 ## organization list
 
 ### Description
@@ -2671,6 +2690,55 @@ list all the organizations that you are a member of.
 Examples:
 
 	$ balena organization list
+
+## organization rename
+
+### Description
+
+Rename an organization.
+
+Note, if the name is omitted, it will be prompted for interactively.
+
+Examples:
+
+	$ balena organization rename my_org_handle
+	$ balena organization rename my_org_handle "My New Org"
+
+### Arguments
+
+#### HANDLE
+
+the handle of the organization to rename
+
+#### NEWNAME
+
+the new name for the organization
+
+## organization rm
+
+### Description
+
+Remove an organizations from balena.
+
+Note this command asks for confirmation interactively.
+You can avoid this by passing the `--yes` option.
+
+Examples:
+
+	$ balena organization rm my_org_handle
+	$ balena organization rm my_org_handle --yes
+
+### Arguments
+
+#### HANDLE
+
+the handle of the organization to delete
+
+### Options
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
 
 # OS
 
