@@ -171,8 +171,8 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@balena/compose": "^8.0.1",
-    "@balena/compose-parser": "^0.2.0",
+    "@balena/compose": "^8.0.2",
+    "@balena/compose-parser": "^0.2.1",
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
