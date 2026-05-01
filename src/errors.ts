@@ -275,7 +275,8 @@ export async function handleError(error: Error | string) {
 			? 0
 			: Number.isFinite(truncatedCode)
 				? truncatedCode
-				: (process.exitCode ?? 1);
+				: // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+					process.exitCode || 1;
 
 	// Prepare message
 	const message = [interpret(error)];
