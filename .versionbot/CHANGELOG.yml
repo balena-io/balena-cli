@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix handleError exit code fallback
+      hash: 4648d36700676973f46a5006a4b4ab373e5fda5e
+      body: |
+        Use `|| 1` instead of `?? 1` to fall back to 1 even if process.exitCode
+        was already 0, as handleError implies failure.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Christina Ying Wang
+      nested: []
+  version: 25.1.2
+  title: ""
+  date: 2026-05-04T21:41:00.172Z
+- commits:
     - subject: "tests: Update builder dashboard link"
       hash: c5988e12582d10d9dab379676438bf55abfc1473
       body: ""
