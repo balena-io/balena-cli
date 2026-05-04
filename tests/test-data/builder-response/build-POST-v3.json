@@ -3,7 +3,7 @@
 	,
 	{"message":"\u001b[36m[Info]\u001b[39m     Starting build for testApp, user gh_user"}
 	,
-	{"message":"\u001b[36m[Info]\u001b[39m     Dashboard link: https://dashboard.balena-cloud.com/apps/1301645/devices"}
+	{"message":"\u001b[36m[Info]\u001b[39m     Dashboard link: https://dashboard.balena-cloud.com/fleets/1301645"}
 	,
 	{"message":"\u001b[36m[Info]\u001b[39m     Building on arm01"}
 	,
