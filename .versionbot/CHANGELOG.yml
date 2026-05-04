@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump @balena/compose-parser to 0.2.1, @balena/compose to 8.0.2
+      hash: 817d1582fdaa1f8bf61a0587f9f376180d350cb1
+      body: >
+        This brings in the upstream container contract change from sw.compose to
+        sw.spec.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Christina Ying Wang
+      nested: []
+  version: 25.1.3
+  title: ""
+  date: 2026-05-04T23:25:52.900Z
+- commits:
     - subject: Fix handleError exit code fallback
       hash: 4648d36700676973f46a5006a4b4ab373e5fda5e
       body: |
