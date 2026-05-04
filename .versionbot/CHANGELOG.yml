@@ -1,4 +1,16 @@
 - commits:
+    - subject: "tests: Update builder dashboard link"
+      hash: c5988e12582d10d9dab379676438bf55abfc1473
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 25.1.1
+  title: ""
+  date: 2026-05-04T16:13:22.776Z
+- commits:
     - subject: Add organization management commands
       hash: 039eef82e982b2cf297fe6de8a3d2f32810c36cb
       body: ""
