@@ -24,7 +24,7 @@
         "balena-device-init": "^8.2.1",
         "balena-errors": "^4.7.3",
         "balena-image-fs": "^7.6.0",
-        "balena-preload": "^19.0.0",
+        "balena-preload": "20.0.0-build-bump-typescript-to-6-0-2-f0b34bcabb994ad58a67ede1005982bf1b2c63de-1",
         "balena-sdk": "^23.1.13",
         "balena-semver": "^4.0.0",
         "balena-settings-client": "^6.0.0",
@@ -157,7 +157,7 @@
         "string-to-stream": "^3.0.1",
         "supports-color": "^8.1.1",
         "ts-node": "^10.4.0",
-        "typescript": "^5.9.2"
+        "typescript": "^6.0.2"
       },
       "engines": {
         "node": ">=24.11.0 <25"
@@ -3162,56 +3162,18 @@
         "url": "https://github.com/sponsors/isaacs"
       }
     },
-    "node_modules/@balena/lint/node_modules/string-width": {
-      "version": "7.2.0",
-      "resolved": "https://registry.npmjs.org/string-width/-/string-width-7.2.0.tgz",
-      "integrity": "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ==",
+    "node_modules/@balena/lint/node_modules/typescript": {
+      "version": "5.9.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+      "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
       "dev": true,
-      "license": "MIT",
-      "dependencies": {
-        "emoji-regex": "^10.3.0",
-        "get-east-asian-width": "^1.0.0",
-        "strip-ansi": "^7.1.0"
+      "license": "Apache-2.0",
+      "bin": {
+        "tsc": "bin/tsc",
+        "tsserver": "bin/tsserver"
       },
       "engines": {
-        "node": ">=18"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/sindresorhus"
-      }
-    },
-    "node_modules/@balena/lint/node_modules/strip-ansi": {
-      "version": "7.2.0",
-      "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
-      "integrity": "sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==",
-      "dev": true,
-      "license": "MIT",
-      "dependencies": {
-        "ansi-regex": "^6.2.2"
-      },
-      "engines": {
-        "node": ">=12"
-      },
-      "funding": {
-        "url": "https://github.com/chalk/strip-ansi?sponsor=1"
-      }
-    },
-    "node_modules/@balena/lint/node_modules/wrap-ansi": {
-      "version": "9.0.2",
-      "resolved": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-9.0.2.tgz",
-      "integrity": "sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww==",
-      "dev": true,
-      "license": "MIT",
-      "dependencies": {
-        "ansi-styles": "^6.2.1",
-        "string-width": "^7.0.0",
-        "strip-ansi": "^7.1.0"
-      },
-      "engines": {
-        "node": ">=18"
-      },
-      "funding": {
-        "url": "https://github.com/chalk/wrap-ansi?sponsor=1"
+        "node": ">=14.17"
       }
     },
     "node_modules/@balena/lint/node_modules/yargs": {
@@ -9126,9 +9088,9 @@
       }
     },
     "node_modules/balena-preload": {
-      "version": "19.0.0",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-19.0.0.tgz",
-      "integrity": "sha512-NAKE6DRB7ZEvXs2ze8+eVssiIpZiSBo7DAKR+uUlxJbfKodAws6vXTCc2mc0ZXlafMiIk6i9R9+rRRgGWX8gkA==",
+      "version": "20.0.0-build-bump-typescript-to-6-0-2-f0b34bcabb994ad58a67ede1005982bf1b2c63de-1",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-20.0.0-build-bump-typescript-to-6-0-2-f0b34bcabb994ad58a67ede1005982bf1b2c63de-1.tgz",
+      "integrity": "sha512-x3hyPCHZMDAc9wxPGo92rxUZAVvIWnSuGUov6sTFUHEY8Mebl3xqn9zypUmLHxVNWQpdXIb46CjQ4ieg4cvtzQ==",
       "license": "Apache-2.0",
       "dependencies": {
         "balena-sdk": "^23.0.0",
@@ -9141,7 +9103,7 @@
         "tar-fs": "^2.1.1"
       },
       "engines": {
-        "node": "^22.18.0 || >= 24.0.0"
+        "node": "^24.11.0"
       }
     },
     "node_modules/balena-register-device": {
@@ -22025,9 +21987,9 @@
       }
     },
     "node_modules/typescript": {
-      "version": "5.9.3",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
-      "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
+      "version": "6.0.2",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-6.0.2.tgz",
+      "integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
       "dev": true,
       "license": "Apache-2.0",
       "bin": {

@@ -18,7 +18,7 @@ import type * as BalenaSdk from 'balena-sdk';
 
 import { ExpectedError, printErrorMessage } from '../errors';
 import { getVisuals, stripIndent, getCliForm } from './lazy';
-import Logger = require('./logger');
+import { Logger } from './logger';
 import { confirm } from './patterns';
 import { getLocalDeviceCmdStdout, getDeviceOsRelease } from './ssh';
 
@@ -178,7 +178,7 @@ async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	});
 
 	const responsiveDevices: typeof devices = [];
-	const Docker = await import('dockerode');
+	const Docker = (await import('dockerode')).default;
 	await Promise.all(
 		devices.map(async function (device) {
 			const address = device?.address;
