@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update GitHub Actions
+      hash: fb681df066d3fc9cf66d9eae42bdcbce61af2013
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.1.5
+  title: ""
+  date: 2026-05-13T23:43:56.604Z
+- commits:
     - subject: Bump @balena/compose-parser to 0.2.4, @balena/compose to 8.0.3
       hash: 031254b9eb21b74b17dff037dcfb19ddfe0b2b03
       body: ""
