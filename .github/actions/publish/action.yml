@@ -39,7 +39,7 @@ runs:
       run: tar -xf ${{ runner.temp }}/custom.tgz
 
     - name: Setup Node.js
-      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
       with:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: npm
@@ -56,7 +56,7 @@ runs:
 
     - name: Set up Python 3.11
       if: runner.os == 'macOS'
-      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
       with:
         python-version: '3.14'
 
@@ -84,7 +84,7 @@ runs:
     # https://github.com/Apple-Actions/import-codesign-certs
     - name: Import Apple code signing certificate
       if: runner.os == 'macOS'
-      uses: apple-actions/import-codesign-certs@b610f78488812c1e56b20e6df63ec42d833f2d14 # v6
+      uses: apple-actions/import-codesign-certs@fe74d46e82474f87e1ba79832ad28a4013d0e33a # v6
       with:
         p12-file-base64: ${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
         p12-password: ${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
