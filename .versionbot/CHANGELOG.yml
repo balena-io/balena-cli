@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump @balena/compose-parser to 0.2.4, @balena/compose to 8.0.3
+      hash: 031254b9eb21b74b17dff037dcfb19ddfe0b2b03
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Christina Ying Wang
+      nested: []
+  version: 25.1.4
+  title: ""
+  date: 2026-05-13T22:17:09.850Z
+- commits:
     - subject: Bump @balena/compose-parser to 0.2.1, @balena/compose to 8.0.2
       hash: 817d1582fdaa1f8bf61a0587f9f376180d350cb1
       body: >
