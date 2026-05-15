@@ -17,7 +17,7 @@
 
 export const reachingOut = `\
 For further help or support, visit:
-https://www.balena.io/docs/reference/balena-cli/#support-faq-and-troubleshooting
+https://docs.balena.io/reference/balena-cli/latest#support-faq-and-troubleshooting
 `;
 
 const debugHint = `\
