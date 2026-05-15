@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix link in help output about FAQ and troubleshooting
+      hash: 562b1e46aefb8f46ba7354a519f54c31f379b99a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 25.1.6
+  title: ""
+  date: 2026-05-15T13:48:54.733Z
+- commits:
     - subject: Update GitHub Actions
       hash: fb681df066d3fc9cf66d9eae42bdcbce61af2013
       body: |
