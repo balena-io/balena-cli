@@ -37,6 +37,9 @@ process.env.BALENARCTEST_API_RETRY_MAX_ATTEMPTS = '2';
 
 const tmpDir = mkdtempDisposableSyncGraceful();
 process.once('SIGINT', () => {
+	console.error(
+		`[debug] tests/config-tests.ts: Cleaning up BALENARC_DATA_DIRECTORY="${process.env.BALENARC_DATA_DIRECTORY}" b/c of SIGINT`,
+	);
 	tmpDir.remove();
 	console.error(
 		`[debug] tests/config-tests.ts: Cleaned up BALENARC_DATA_DIRECTORY="${process.env.BALENARC_DATA_DIRECTORY}" b/c of SIGINT`,

@@ -17,6 +17,7 @@ import * as os from 'os';
 // Make sure we're all using literally the same instance of balena-sdk
 // so we can mock out methods called by the real code
 import { getBalenaSdk } from '../../../build/utils/lazy';
+import { pipeline } from 'stream/promises';
 const balena = getBalenaSdk();
 
 const fsExistsAsync = promisify(fs.exists);
@@ -54,7 +55,7 @@ describe('image-manager', function () {
 			afterEach(function () {
 				this.cacheGetImagePathStub.restore();
 				this.getMaxSatisfyingVersionStub.restore();
-				return this.image.remove();
+				this.image.remove();
 			});
 
 			describe('given the image is fresh', function () {
@@ -400,32 +401,24 @@ describe('image-manager', function () {
 				this.image.remove();
 			});
 
-			it('should return a writable stream', () =>
-				imageManager
-					.getImageWritableStream('raspberry-pi', '1.2.3')
-					.then((stream) =>
-						expect(stream).to.be.an.instanceof(WritableStream),
-					));
-
-			it('should allow writing to the stream', function (done) {
+			it('should return a writable stream & allow writing to it', async function () {
 				if (os.platform() === 'win32') {
 					// Skipping test on Windows because we get `EPERM: operation not permitted, rename` for `getImageWritableStream` on the windows runner
 					this.skip();
 				}
-				void imageManager
-					.getImageWritableStream('raspberry-pi', '1.2.3')
-					.then((stream) => {
-						const stringStream = stringToStream('Lorem ipsum dolor sit amet');
-						stringStream.pipe(stream);
-						stream.on('finish', async () => {
-							await stream.persistCache();
-							const contents = await fsAsync.readFile(this.image.filepath, {
-								encoding: 'utf8',
-							});
-							expect(contents).to.equal('Lorem ipsum dolor sit amet');
-							done();
-						});
-					});
+				const stream = await imageManager.getImageWritableStream(
+					'raspberry-pi',
+					'1.2.3',
+				);
+				expect(stream).to.be.an.instanceof(WritableStream);
+				const stringStream = stringToStream('Lorem ipsum dolor sit amet');
+
+				await pipeline(stringStream, stream);
+				await stream.persistCache();
+				const contents = await fsAsync.readFile(this.image.filepath, {
+					encoding: 'utf8',
+				});
+				expect(contents).to.equal('Lorem ipsum dolor sit amet');
 			});
 		});
 	});
