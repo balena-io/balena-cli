@@ -202,8 +202,7 @@ export const deployLegacy = async function (
 	const logs = buildLogs;
 
 	const path = await import('node:path');
-	const { mkdtempDisposableSyncGraceful } =
-		await import('./gracefully-disposable-tmp');
+	const { mkdtempDisposableSyncGraceful } = await import('./tmp');
 
 	let buildId: number;
 	{

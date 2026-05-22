@@ -2,7 +2,7 @@ import * as stream from 'stream';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import * as path from 'path';
-import { mkdtempDisposableSyncGraceful } from '../../../src/utils/gracefully-disposable-tmp';
+import { mkdtempDisposableSyncGraceful } from '../../../src/utils/tmp';
 import { delay } from '../../utils';
 import * as fs from 'fs';
 import { promises as fsAsync } from 'fs';

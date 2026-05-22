@@ -19,7 +19,7 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as process from 'process';
 import { runCommand } from '../../helpers';
-import { mkdtempDisposableSyncGraceful } from '../../../src/utils/gracefully-disposable-tmp';
+import { mkdtempDisposableSyncGraceful } from '../../../src/utils/tmp';
 import * as path from 'node:path';
 import type * as $imagefs from 'balena-image-fs';
 import { stripIndent } from '../../../build/utils/lazy';

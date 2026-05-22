@@ -330,8 +330,7 @@ async function performBuilds(
 	const multibuild = await import('@balena/compose/dist/multibuild');
 
 	const path = await import('node:path');
-	const { mkdtempDisposableSyncGraceful } =
-		await import('../gracefully-disposable-tmp');
+	const { mkdtempDisposableSyncGraceful } = await import('../tmp');
 	using tmpDir = mkdtempDisposableSyncGraceful();
 	const tmpPath = path.join(tmpDir.path, 'buffered-deploy-tar-stream');
 
@@ -479,8 +478,7 @@ export async function rebuildSingleTask(
 	});
 
 	const path = await import('node:path');
-	const { mkdtempDisposableSyncGraceful } =
-		await import('../gracefully-disposable-tmp');
+	const { mkdtempDisposableSyncGraceful } = await import('../tmp');
 	using tmpDir = mkdtempDisposableSyncGraceful();
 	const tmpPath = path.join(tmpDir.path, 'buffered-deploy-tar-stream');
 

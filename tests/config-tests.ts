@@ -16,7 +16,7 @@
  */
 
 import { set as setEsVersion } from '@balena/es-version';
-import { mkdtempDisposableSyncGraceful } from '../src/utils/gracefully-disposable-tmp';
+import { mkdtempDisposableSyncGraceful } from '../src/utils/tmp';
 // Set the desired es version for downstream modules that support it
 setEsVersion('es2018');
 

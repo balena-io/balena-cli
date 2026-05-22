@@ -169,8 +169,7 @@ export default class DeviceInitCmd extends Command {
 		);
 
 		const path = await import('node:path');
-		const { mkdtempDisposableSyncGraceful } =
-			await import('../../utils/gracefully-disposable-tmp');
+		const { mkdtempDisposableSyncGraceful } = await import('../../utils/tmp');
 		// The only reason we are using a DisposableStack is so that we can log right before disposal
 		using disposer = new DisposableStack();
 		const tmpDir = disposer.use(mkdtempDisposableSyncGraceful());
@@ -229,8 +228,7 @@ export default class DeviceInitCmd extends Command {
 			populateDeviceConfig(configJson, device, device.api_key);
 
 			const path = await import('node:path');
-			const { mkdtempDisposableSyncGraceful } =
-				await import('../../utils/gracefully-disposable-tmp');
+			const { mkdtempDisposableSyncGraceful } = await import('../../utils/tmp');
 			// The only reason we are using a DisposableStack is so that we can log right before disposal
 			using disposer = new DisposableStack();
 			const tmpConfigJsonDir = disposer.use(mkdtempDisposableSyncGraceful());

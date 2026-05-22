@@ -470,7 +470,7 @@ describe('balena push', function () {
 		// limited in length to just over 100 characters, while the project
 		// paths in the test-data folder easily exceed that limit.
 		const { mkdtempDisposableSyncGraceful: mkdtempGracefulDisposableSync } =
-			await import('../../src/utils/gracefully-disposable-tmp');
+			await import('../../src/utils/tmp');
 
 		using projectDisposableDir = mkdtempGracefulDisposableSync();
 		console.error(`[debug] Temp project dir: ${projectDisposableDir}`);
