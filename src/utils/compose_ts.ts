@@ -282,8 +282,11 @@ async function $buildProject(
 
 	const tarStream = await tarDirectory(opts.projectPath, opts);
 
-	const { mkdtempDisposableSyncGraceful } = await import('./tmp');
-	using tmpDir = mkdtempDisposableSyncGraceful();
+	const { getDiskTmpDir, mkdtempDisposableSyncGraceful } =
+		await import('./tmp');
+	using tmpDir = mkdtempDisposableSyncGraceful(
+		path.join(await getDiskTmpDir(), 'build-project-'),
+	);
 	const tmpPath = path.join(tmpDir.path, 'buffered-build-tar-stream');
 
 	await pipeline(tarStream, createWriteStream(tmpPath));
