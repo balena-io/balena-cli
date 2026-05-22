@@ -18,7 +18,12 @@ import { Flags } from '@oclif/core';
 import type { BalenaSDK } from 'balena-sdk';
 import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
-import { promises as fs, createReadStream } from 'fs';
+import {
+	promises as fs,
+	createReadStream,
+	createWriteStream,
+	type ReadStream,
+} from 'fs';
 import * as yaml from 'js-yaml';
 import * as _ from 'lodash';
 import * as path from 'path';
@@ -277,9 +282,19 @@ async function $buildProject(
 
 	const tarStream = await tarDirectory(opts.projectPath, opts);
 
+	const { getDiskTmpDir, mkdtempDisposableSyncGraceful } =
+		await import('./tmp');
+	using tmpDir = mkdtempDisposableSyncGraceful(
+		path.join(await getDiskTmpDir(), 'build-project-'),
+	);
+	const tmpPath = path.join(tmpDir.path, 'buffered-build-tar-stream');
+
+	await pipeline(tarStream, createWriteStream(tmpPath));
+
 	const tasks: BuildTaskPlus[] = await makeBuildTasks(
 		opts.composition,
-		tarStream,
+		tmpDir.path,
+		tmpPath,
 		opts,
 		logger,
 		projectName,
@@ -480,7 +495,6 @@ async function qemuTransposeBuildStream({
 		transposeOptions,
 		// Should fall back to undefined if empty string so that
 		// transposeTarStream defaults to 'Dockerfile'.
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		dockerfilePath || undefined,
 	)) as Pack;
 
@@ -977,7 +991,8 @@ async function parseRegistrySecrets(
  */
 export async function makeBuildTasks(
 	composition: Composition,
-	tarStream: Readable,
+	tmpDir: string,
+	tarFile: string,
 	deviceInfo: DeviceInfo,
 	logger: Logger,
 	projectName: string,
@@ -985,10 +1000,20 @@ export async function makeBuildTasks(
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
 	const multiBuild = await import('@balena/compose/dist/multibuild');
-	const buildTasks = await multiBuild.splitBuildStream(composition, tarStream);
+
+	const tasks = await usingReadStreamFromFile(tarFile, async (stream) => {
+		const { tasks: $tasks, strippedStream } = multiBuild.generateTasks(
+			composition,
+			stream,
+		);
+		const strippedTmpPath = path.join(tmpDir, 'stripped.tar');
+		await pipeline(strippedStream, createWriteStream(strippedTmpPath));
+		tarFile = strippedTmpPath;
+		return $tasks;
+	});
 
 	logger.logDebug('Found build tasks:');
-	buildTasks.forEach((task) => {
+	for (const task of tasks) {
 		let infoStr: string;
 		if (task.external) {
 			infoStr = `image pull [${task.imageName}]`;
@@ -997,22 +1022,28 @@ export async function makeBuildTasks(
 		}
 		logger.logDebug(`    ${task.serviceName}: ${infoStr}`);
 		task.logger = logger.getAdapter();
-	});
+	}
 
 	logger.logDebug(
 		`Resolving services with [${deviceInfo.deviceType}|${deviceInfo.arch}]`,
 	);
 
+	const tmpPaths = Array.from({ length: tasks.length }, (_v, n) =>
+		path.join(tmpDir, `task-${n}`),
+	);
+
 	await performResolution(
-		buildTasks,
+		tarFile,
+		tasks,
 		deviceInfo,
 		projectName,
 		releaseHash,
+		tmpPaths,
 		preprocessHook,
 	);
 
 	logger.logDebug('Found project types:');
-	buildTasks.forEach((task) => {
+	tasks.forEach((task) => {
 		if (task.external) {
 			logger.logDebug(`    ${task.serviceName}: External image`);
 		} else {
@@ -1020,60 +1051,79 @@ export async function makeBuildTasks(
 		}
 	});
 
-	return buildTasks;
+	return tasks;
 }
 
 async function performResolution(
+	tarFile: string,
 	tasks: MultiBuild.BuildTask[],
 	deviceInfo: DeviceInfo,
 	appName: string,
 	releaseHash: string,
+	tmpPaths: string[],
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
 	const multiBuild = await import('@balena/compose/dist/multibuild');
-	const resolveListeners: MultiBuild.ResolveListeners = {};
-	const resolvePromise = new Promise<never>((_resolve, reject) => {
-		resolveListeners.error = [reject];
-	});
-	const buildTasks = multiBuild.performResolution(
-		tasks,
-		deviceInfo.arch,
-		deviceInfo.deviceType,
-		resolveListeners,
-		{
-			BALENA_RELEASE_HASH: releaseHash,
-			BALENA_APP_NAME: appName,
-		},
-		preprocessHook,
-	);
-	await Promise.race([resolvePromise, resolveTasks(buildTasks)]);
-	return buildTasks;
+
+	for (let i = 0; i < tasks.length; i++) {
+		const buildTask = tasks[i];
+		const tmpPath = tmpPaths[i];
+		try {
+			await usingReadStreamFromFile(tarFile, async (stream) => {
+				multiBuild.populateStreamingTaskBuildStream(buildTask, stream);
+				const newTask = multiBuild.performSingleResolution(
+					buildTask,
+					deviceInfo.arch,
+					deviceInfo.deviceType,
+					{},
+					{
+						BALENA_RELEASE_HASH: releaseHash,
+						BALENA_APP_NAME: appName,
+					},
+					preprocessHook,
+				);
+
+				if (!newTask.buildStream) {
+					return;
+				}
+
+				// Consume each task.buildStream in order to trigger the
+				// resolution events that define fields like:
+				//     task.dockerfile, task.dockerfilePath,
+				//     task.projectType, task.resolved
+				// This mimics what is currently done in `resin-builder`.
+				await pipeline(newTask.buildStream, createWriteStream(tmpPath));
+				buildTask.buildStream = createReadStream(tmpPath);
+			});
+		} catch (e: any) {
+			throw new Error(`Service ${buildTask.serviceName}: ${e.message}`);
+		}
+	}
+
+	return tasks;
 }
 
-async function resolveTasks(buildTasks: MultiBuild.BuildTask[]) {
-	const { cloneTarStream } = await import('tar-utils');
-	// Do one task at a time in order to reduce peak memory usage. Resolves to buildTasks.
-	for (const buildTask of buildTasks) {
-		// buildStream is falsy for "external" tasks (image pull)
-		if (!buildTask.buildStream) {
-			continue;
-		}
-		let error: Error | undefined;
+/**
+ * Create a readable stream from the given filename and pass it as argument
+ * to the given handler, ensuring the stream is destroyed when the promise
+ * returned by the handler settles (whether fulfilled or rejected).
+ * @param filename Name of the file to read from
+ * @param handler Handler function to be called with a readable stream
+ * @returns A promise chained to the handler's returned promise
+ */
+export async function usingReadStreamFromFile<T>(
+	filename: string,
+	handler: (stream: ReadStream) => Promise<T>,
+): Promise<T> {
+	let fsStream;
+	try {
+		fsStream = createReadStream(filename);
+		return await handler(fsStream);
+	} finally {
 		try {
-			// Consume each task.buildStream in order to trigger the
-			// resolution events that define fields like:
-			//     task.dockerfile, task.dockerfilePath,
-			//     task.projectType, task.resolved
-			// This mimics what is currently done in `resin-builder`.
-			buildTask.buildStream = await cloneTarStream(buildTask.buildStream);
-		} catch (e) {
-			error = e;
-		}
-		if (error || (!buildTask.external && !buildTask.resolved)) {
-			const cause = error ? `${error}\n` : '';
-			throw new ExpectedError(
-				`${cause}Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
-			);
+			fsStream?.destroy();
+		} catch (err) {
+			console.log(`Error destroying read stream for "${filename}": `, err);
 		}
 	}
 }

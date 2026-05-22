@@ -26,7 +26,8 @@ import type {
 } from '@balena/compose/dist/multibuild';
 import { getAuthConfigObj } from '@balena/compose/dist/multibuild';
 import type { Readable } from 'stream';
-
+import { pipeline } from 'node:stream/promises';
+import { createWriteStream } from 'fs';
 import { BALENA_ENGINE_TMP_PATH } from '../../config';
 import { ExpectedError } from '../../errors';
 import {
@@ -328,9 +329,20 @@ async function performBuilds(
 ): Promise<BuildTask[]> {
 	const multibuild = await import('@balena/compose/dist/multibuild');
 
+	const path = await import('node:path');
+	const { getDiskTmpDir, mkdtempDisposableSyncGraceful } =
+		await import('../tmp');
+	using tmpDir = mkdtempDisposableSyncGraceful(
+		path.join(await getDiskTmpDir(), 'deploy-project-'),
+	);
+	const tmpPath = path.join(tmpDir.path, 'buffered-deploy-tar-stream');
+
+	await pipeline(tarStream, createWriteStream(tmpPath));
+
 	const buildTasks = await makeBuildTasks(
 		composition,
-		tarStream,
+		tmpDir.path,
+		tmpPath,
 		deviceInfo,
 		logger,
 		LOCAL_APPNAME,
@@ -468,10 +480,21 @@ export async function rebuildSingleTask(
 		multiDockerignore: opts.multiDockerignore,
 	});
 
+	const path = await import('node:path');
+	const { getDiskTmpDir, mkdtempDisposableSyncGraceful } =
+		await import('../tmp');
+	using tmpDir = mkdtempDisposableSyncGraceful(
+		path.join(await getDiskTmpDir(), 'deploy-project-'),
+	);
+	const tmpPath = path.join(tmpDir.path, 'buffered-deploy-tar-stream');
+
+	await pipeline(tarStream, createWriteStream(tmpPath));
+
 	const task = (
 		await makeBuildTasks(
 			composition,
-			tarStream,
+			tmpDir.path,
+			tmpPath,
 			deviceInfo,
 			logger,
 			LOCAL_APPNAME,
