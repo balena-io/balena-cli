@@ -3,4 +3,4 @@ services:
     build:
       context: ./service1
     security_opt:
-      - seccomp:unconfined
+      - apparmor=my-profile

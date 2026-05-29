@@ -978,10 +978,10 @@ describe('balena build: compose field rejections', function () {
 		);
 	});
 
-	it('should reject security_opt other than no-new-privileges', async () => {
+	it('should reject security_opt other than no-new-privileges, apparmor=unconfined, seccomp=unconfined', async () => {
 		await expectRejection(
 			'security-opt.yml',
-			'Only no-new-privileges is allowed for service.security_opt',
+			'Only no-new-privileges and unconfined apparmor and seccomp are allowed for service.security_opt',
 		);
 	});
 
