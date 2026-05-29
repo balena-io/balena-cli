@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump @balena/compose-parser to 0.2.6, @balena/compose to 8.0.4
+      hash: 0a7f977e3419a12493b3ffb4c636149a8451cd78
+      body: |
+        - Convert extra_hosts separator from = to :
+        - Support apparmor=unconfined, seccomp=unconfined for security_opt
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Christina Ying Wang
+      nested: []
+  version: 25.1.7
+  title: ""
+  date: 2026-05-29T00:27:15.816Z
+- commits:
     - subject: Fix link in help output about FAQ and troubleshooting
       hash: 562b1e46aefb8f46ba7354a519f54c31f379b99a
       body: ""
