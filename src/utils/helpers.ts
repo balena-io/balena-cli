@@ -483,11 +483,11 @@ export async function awaitInterruptibleTask<
  * Sample input:  ({ 'a': 1, 'b': 2, 'c': 3 }, ['b => x', 'c', 'd'])
  * Sample output: { 'x': 2, 'c': 3 }
  */
-export function pickAndRename<T extends Dictionary<any>>(
+export function pickAndRename<T extends Record<string, any>>(
 	obj: T,
 	fields: string[],
-): Dictionary<any> {
-	const rename: Dictionary<any> = {};
+): Record<string, any> {
+	const rename: Record<string, any> = {};
 	// map 'a => b' to 'a' and setup rename['a'] = 'b'
 	fields = fields.map((f) => {
 		let renameFrom = f;

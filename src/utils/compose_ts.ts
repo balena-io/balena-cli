@@ -222,8 +222,8 @@ interface BuildTaskPlus extends MultiBuild.BuildTask {
 
 export interface Renderer {
 	start: () => void;
-	end: (buildSummaryByService?: Dictionary<string>) => void;
-	streams: Dictionary<NodeJS.ReadWriteStream>;
+	end: (buildSummaryByService?: Record<string, string>) => void;
+	streams: Record<string, NodeJS.ReadWriteStream>;
 }
 
 export interface BuildProjectOpts {
@@ -249,7 +249,7 @@ export async function buildProject(
 	const { toImageDescriptors } = await import('@balena/compose-parser');
 	const imageDescriptors = toImageDescriptors(opts.composition);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
-	let buildSummaryByService: Dictionary<string> | undefined;
+	let buildSummaryByService: Record<string, string> | undefined;
 	try {
 		const { awaitInterruptibleTask } = await import('./helpers');
 		const [images, summaryMsgByService] = await awaitInterruptibleTask(
@@ -269,7 +269,7 @@ async function $buildProject(
 	imageDescriptors: ImageDescriptor[],
 	renderer: Renderer,
 	opts: BuildProjectOpts,
-): Promise<[BuiltImage[], Dictionary<string>]> {
+): Promise<[BuiltImage[], Record<string, string>]> {
 	const { logger, projectName } = opts;
 	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
 
@@ -418,7 +418,7 @@ function setTaskAttributes({
 }: {
 	tasks: BuildTaskPlus[];
 	buildOpts: import('./docker').BuildOpts;
-	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	imageDescriptorsByServiceName: Record<string, ImageDescriptor>;
 	projectName: string;
 }) {
 	for (const task of tasks) {
@@ -540,9 +540,9 @@ async function inspectBuiltImages({
 }: {
 	builtImages: MultiBuild.LocalImage[];
 	docker: Dockerode;
-	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	imageDescriptorsByServiceName: Record<string, ImageDescriptor>;
 	tasks: BuildTaskPlus[];
-}): Promise<[BuiltImage[], Dictionary<string>]> {
+}): Promise<[BuiltImage[], Record<string, string>]> {
 	const images: BuiltImage[] = await Promise.all(
 		builtImages.map((builtImage: MultiBuild.LocalImage) =>
 			inspectBuiltImage({
@@ -573,7 +573,7 @@ async function inspectBuiltImage({
 }: {
 	builtImage: MultiBuild.LocalImage;
 	docker: Dockerode;
-	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	imageDescriptorsByServiceName: Record<string, ImageDescriptor>;
 	tasks: BuildTaskPlus[];
 }): Promise<BuiltImage> {
 	if (!builtImage.successful) {
@@ -667,8 +667,8 @@ async function loadBuildMetatada(
 export async function getServiceDirsFromComposition(
 	sourceDir: string,
 	composition?: Composition,
-): Promise<Dictionary<string>> {
-	const serviceDirs: Dictionary<string> = {};
+): Promise<Record<string, string>> {
+	const serviceDirs: Record<string, string> = {};
 	if (!composition) {
 		const [, composePath] = await resolveProject(
 			Logger.getLogger(),
@@ -812,7 +812,7 @@ export async function tarDirectory(
  */
 async function printDockerignoreWarn(
 	dockerignoreFiles: Array<import('./ignore').FileStats>,
-	serviceDirsByService: Dictionary<string>,
+	serviceDirsByService: Record<string, string>,
 	multiDockerignore: boolean,
 ) {
 	let rootDockerignore: import('./ignore').FileStats | undefined;
@@ -1536,7 +1536,7 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 
 async function getContractContent(
 	filePath: string,
-): Promise<Dictionary<any> | null> {
+): Promise<Record<string, any> | null> {
 	let fileContentAsString;
 	try {
 		fileContentAsString = await fs.readFile(filePath, 'utf8');
@@ -1566,7 +1566,7 @@ async function getContractContent(
 	return asJson;
 }
 
-function isContract(obj: any): obj is Dictionary<any> {
+function isContract(obj: any): obj is Record<string, any> {
 	return obj?.type && allowedContractTypes.includes(obj.type);
 }
 

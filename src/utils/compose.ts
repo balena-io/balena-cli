@@ -125,7 +125,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: Dictionary<any> | null,
+	contract: Record<string, any> | null,
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -348,11 +348,14 @@ export class BuildProgressUI implements Renderer {
 	private _services;
 	private _startTime: undefined | number;
 	private _ended;
-	private _serviceToDataMap: Dictionary<{
-		status?: string;
-		progress?: number;
-		error?: Error;
-	}> = {};
+	private _serviceToDataMap: Record<
+		string,
+		{
+			status?: string;
+			progress?: number;
+			error?: Error;
+		}
+	> = {};
 	private _cancelled;
 	private _spinner;
 	private _runloop:
@@ -428,7 +431,7 @@ export class BuildProgressUI implements Renderer {
 		this._startTime = Date.now();
 	}
 
-	end(summary?: Dictionary<string>) {
+	end(summary?: Record<string, string>) {
 		if (this._ended) {
 			return;
 		}
@@ -505,7 +508,7 @@ export class BuildProgressUI implements Renderer {
 		}
 	}
 
-	_renderSummary(serviceToStrMap: Dictionary<string>) {
+	_renderSummary(serviceToStrMap: Record<string, string>) {
 		const truncate = require('cli-truncate') as typeof import('cli-truncate');
 		const strlen = require('string-width') as typeof import('string-width');
 		const ux = getCliUx();
@@ -573,7 +576,7 @@ export class BuildProgressInline implements Renderer {
 		this._startTime = Date.now();
 	}
 
-	end(summary?: Dictionary<string>) {
+	end(summary?: Record<string, string>) {
 		if (this._ended) {
 			return;
 		}
