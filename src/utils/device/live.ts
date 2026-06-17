@@ -50,7 +50,7 @@ interface MonitoredContainer {
 	containerId: string;
 }
 
-type StageImageIDs = Dictionary<string[]>;
+type StageImageIDs = Record<string, string[]>;
 
 export interface LivepushOpts {
 	buildContext: string;
@@ -65,8 +65,8 @@ export interface LivepushOpts {
 
 export class LivepushManager {
 	private lastDeviceStatus: Status | null = null;
-	private containers: Dictionary<MonitoredContainer> = {};
-	private dockerfilePaths: Dictionary<string[]> = {};
+	private containers: Record<string, MonitoredContainer> = {};
+	private dockerfilePaths: Record<string, string[]> = {};
 	private deviceInfo: DeviceInfo;
 	private deployOpts: DeviceDeployOptions;
 
@@ -79,12 +79,12 @@ export class LivepushManager {
 	private imageIds: StageImageIDs;
 
 	// A map of service names to events waiting
-	private updateEventsWaiting: Dictionary<string[]> = {};
-	private deleteEventsWaiting: Dictionary<string[]> = {};
+	private updateEventsWaiting: Record<string, string[]> = {};
+	private deleteEventsWaiting: Record<string, string[]> = {};
 
-	private rebuildsRunning: Dictionary<boolean> = {};
-	private rebuildRunningIds: Dictionary<string> = {};
-	private rebuildsCancelled: Dictionary<boolean> = {};
+	private rebuildsRunning: Record<string, boolean> = {};
+	private rebuildRunningIds: Record<string, string> = {};
+	private rebuildsCancelled: Record<string, boolean> = {};
 
 	public constructor(opts: LivepushOpts) {
 		this.buildContext = opts.buildContext;

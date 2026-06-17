@@ -207,7 +207,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logDebug('Fetching device information...');
 	const deviceInfo = await api.getDeviceInformation();
 
-	let imageIds: Dictionary<string[]> | undefined;
+	let imageIds: Record<string, string[]> | undefined;
 	if (!opts.nolive) {
 		imageIds = {};
 	}
@@ -324,7 +324,7 @@ async function performBuilds(
 	deviceInfo: DeviceInfo,
 	logger: Logger,
 	opts: DeviceDeployOptions,
-	imageIds?: Dictionary<string[]>,
+	imageIds?: Record<string, string[]>,
 ): Promise<BuildTask[]> {
 	const multibuild = await import('@balena/compose/dist/multibuild');
 
@@ -351,7 +351,7 @@ async function performBuilds(
 	// up properly
 	let logHandlers: ((serviceName: string, line: string) => void) | undefined;
 
-	const lastArrowMessage: Dictionary<string> = {};
+	const lastArrowMessage: Record<string, string> = {};
 
 	if (imageIds != null) {
 		for (const task of buildTasks) {
