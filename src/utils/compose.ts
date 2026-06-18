@@ -315,27 +315,50 @@ const formatDuration = (seconds: number): string => {
 };
 
 const renderProgressBar = function (percentage: number, stepCount: number) {
-	percentage = Math.max(Math.min(percentage, 0), 100);
+	percentage = Math.min(Math.max(percentage, 0), 100);
 	const barCount = Math.floor((stepCount * percentage) / 100);
 	const spaceCount = stepCount - barCount;
 	const bar = `[${'='.repeat(barCount)}>${' '.repeat(spaceCount)}]`;
 	return `${bar} ${`${percentage}`.padStart(3)}%`;
 };
 
+/**
+ * Creates a progress callback for image push operations.
+ * Supports both TTY (in-place line replacement) and non-TTY (throttled newline output).
+ */
 export const pushProgressRenderer = function (
 	tty: ReturnType<typeof import('./tty')>,
 	prefix: string,
 ): ProgressCallback & { end: () => void } {
+	const startTime = Date.now();
+	const isTTY = process.stdout.isTTY;
+	const NON_TTY_THROTTLE_MS = 5000;
+	let lastNonTtyOutput = 0;
+
 	const fn: ProgressCallback & { end: () => void } = function (e) {
 		const { error, percentage } = e;
 		if (error != null) {
 			throw new Error(error);
 		}
 		const bar = renderProgressBar(percentage, 40);
-		return tty.replaceLine(`${prefix}${bar}\r`);
+		const elapsed = (Date.now() - startTime) / 1000;
+		const elapsedStr = ` (${formatDuration(elapsed)})`;
+
+		if (isTTY) {
+			return tty.replaceLine(`${prefix}${bar}${elapsedStr}\r`);
+		}
+
+		// Non-TTY: throttle output to avoid flooding logs
+		const now = Date.now();
+		if (now - lastNonTtyOutput >= NON_TTY_THROTTLE_MS) {
+			lastNonTtyOutput = now;
+			return tty.writeLine(`${prefix}${bar}${elapsedStr}`);
+		}
 	};
 	fn.end = () => {
-		tty.clearLine();
+		if (isTTY) {
+			tty.clearLine();
+		}
 	};
 	return fn;
 };
