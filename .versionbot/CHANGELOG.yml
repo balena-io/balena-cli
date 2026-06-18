@@ -1,4 +1,44 @@
 - commits:
+    - subject: Promote updateImage log from debug to info for deploy visibility
+      hash: eef54bc2fadb5645aa76cbe38f5d99c2defe7250
+      body: |
+        During `balena deploy`, the "Saving image..." step was only logged at
+        debug level, leaving a silent gap between push completion and release
+        save. Promote it to info so users see continuous feedback throughout
+        the deploy lifecycle.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Shaun Mulligan <shaun.mulligan@balena.io>
+        signed-off-by: Shaun Mulligan <shaun.mulligan@balena.io>
+        Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+        co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
+      author: Shaun Mulligan
+      nested: []
+    - subject: Fix progress bar clamping bug and improve push upload feedback
+      hash: c163b65393790aa02afcd8e5f364c71870371dec
+      body: |
+        The progress bar percentage clamping had Math.min and Math.max swapped,
+        causing it to always display 100% regardless of actual progress. This
+        was especially misleading for large image uploads where the push phase
+        can take over an hour.
+
+        Additionally, add elapsed time display and non-TTY output support with
+        throttled updates every 5 seconds, so CI logs and piped output also
+        show meaningful progress.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Shaun Mulligan <shaun.mulligan@balena.io>
+        signed-off-by: Shaun Mulligan <shaun.mulligan@balena.io>
+        Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+        co-authored-by: Claude Opus 4.6 <noreply@anthropic.com>
+      author: Shaun Mulligan
+      nested: []
+  version: 25.1.9
+  title: ""
+  date: 2026-06-18T15:37:27.113Z
+- commits:
     - subject: Switch from custom `Dictionary` type to built in `Record` typing
       hash: 3128a0f5dc9a2f25b4a424a9ff170e17ba8107d4
       body: |
