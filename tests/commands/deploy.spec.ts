@@ -47,6 +47,7 @@ const commonResponseLines = {
 		// '[Build] main Step 1/4 : FROM busybox',
 		'[Info] Creating release...',
 		'[Info] Pushing images to registry...',
+		'[Info] Saving image details for registry2.balena-cloud.com/v2/c089c421fb2336d0475166fbf3d0f9fa',
 		'[Info] Saving release...',
 		'[Success] Deploy succeeded!',
 		'[Success] Release: 09f7c3e1fdec609be818002299edfc2a',
