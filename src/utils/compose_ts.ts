@@ -1359,8 +1359,8 @@ async function pushServiceImages(
 		token,
 		taggedImages,
 		async function (serviceImage) {
-			logger.logDebug(
-				`Saving image ${serviceImage.is_stored_at__image_location}`,
+			logger.logInfo(
+				`Saving image details for ${serviceImage.is_stored_at__image_location}`,
 			);
 			if (skipLogUpload) {
 				delete (serviceImage as Partial<typeof serviceImage>).build_log;

@@ -1,8 +1,9 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import * as path from 'path';
 
 import { isBuildConfig, parseComposePaths } from '../../build/utils/compose_ts';
-import { createProject } from '../../build/utils/compose';
+import { createProject, pushProgressRenderer } from '../../build/utils/compose';
 
 const projectsPath = path.join(
 	__dirname,
@@ -77,5 +78,102 @@ describe('parseComposePaths()', function () {
 		});
 		// service1 should still have its build context from the base file
 		expect(composition.services.service1.build).to.have.property('context');
+	});
+});
+
+describe('pushProgressRenderer()', function () {
+	function createMockTty() {
+		return {
+			replaceLine: sinon.stub(),
+			clearLine: sinon.stub(),
+			writeLine: sinon.stub(),
+			write: sinon.stub(),
+			currentWindowSize: sinon.stub().returns({ width: 80, height: 24 }),
+			hideCursor: sinon.stub(),
+			showCursor: sinon.stub(),
+			cursorUp: sinon.stub(),
+			cursorDown: sinon.stub(),
+			deleteToEnd: sinon.stub(),
+			stream: process.stdout,
+		};
+	}
+
+	let clock: sinon.SinonFakeTimers;
+	let originalIsTTY: boolean | undefined;
+
+	beforeEach(function () {
+		clock = sinon.useFakeTimers({ now: Date.now(), shouldAdvanceTime: false });
+		originalIsTTY = process.stdout.isTTY;
+		Object.defineProperty(process.stdout, 'isTTY', {
+			value: true,
+			writable: true,
+			configurable: true,
+		});
+	});
+
+	afterEach(function () {
+		clock.restore();
+		Object.defineProperty(process.stdout, 'isTTY', {
+			value: originalIsTTY,
+			writable: true,
+			configurable: true,
+		});
+	});
+
+	it('should render prefix and percentage', function () {
+		const mockTty = createMockTty();
+		const renderer = pushProgressRenderer(mockTty as any, '[Push] ');
+		renderer({ percentage: 50 });
+		const line = mockTty.replaceLine.firstCall.args[0] as string;
+		expect(line).to.include('[Push] ');
+		expect(line).to.include('50%');
+	});
+
+	it('should clamp percentage above 100 to 100%', function () {
+		const mockTty = createMockTty();
+		const renderer = pushProgressRenderer(mockTty as any, '[Push] ');
+		renderer({ percentage: 150 });
+		const line = mockTty.replaceLine.firstCall.args[0] as string;
+		expect(line).to.include('100%');
+		expect(line).to.not.include('150%');
+	});
+
+	it('should show elapsed time', function () {
+		const mockTty = createMockTty();
+		const renderer = pushProgressRenderer(mockTty as any, '[Push] ');
+		clock.tick(10000);
+		renderer({ percentage: 50 });
+		const line = mockTty.replaceLine.firstCall.args[0] as string;
+		expect(line).to.include('(0:10)');
+	});
+
+	it('should show M:SS format for long uploads', function () {
+		const mockTty = createMockTty();
+		const renderer = pushProgressRenderer(mockTty as any, '[Push] ');
+		clock.tick(90000);
+		renderer({ percentage: 75 });
+		const line = mockTty.replaceLine.firstCall.args[0] as string;
+		expect(line).to.include('(1:30)');
+	});
+
+	it('should use writeLine in non-TTY mode', function () {
+		Object.defineProperty(process.stdout, 'isTTY', {
+			value: undefined,
+			writable: true,
+			configurable: true,
+		});
+		const mockTty = createMockTty();
+		const renderer = pushProgressRenderer(mockTty as any, '[Push] ');
+		renderer({ percentage: 50 });
+		expect(mockTty.writeLine.called).to.be.true;
+		expect(mockTty.replaceLine.called).to.be.false;
+	});
+
+	it('should throw on error event', function () {
+		const mockTty = createMockTty();
+		const renderer = pushProgressRenderer(mockTty as any, '[Push] ');
+		expect(() => {
+			renderer({ error: 'push failed' });
+		}).to.throw('push failed');
 	});
 });
