@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { retry } from '../helpers';
-import Logger = require('../logger');
+import { Logger } from '../logger';
 import * as ApiErrors from './errors';
 import { getBalenaSdk } from '../lazy';
 import type { BalenaSDK } from 'balena-sdk';
