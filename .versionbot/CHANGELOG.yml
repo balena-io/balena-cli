@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update apple-actions/import-codesign-certs action to v7
+      hash: 113c4f112902dbefdc6c1c1f109274c22a27070c
+      body: |
+        Update apple-actions/import-codesign-certs from 6.1.0 to 7.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.1.10
+  title: ""
+  date: 2026-06-29T14:58:45.110Z
+- commits:
     - subject: Promote updateImage log from debug to info for deploy visibility
       hash: eef54bc2fadb5645aa76cbe38f5d99c2defe7250
       body: |
