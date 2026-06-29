@@ -185,7 +185,11 @@ export function displayLogObject<T extends Log>(
 
 export const getServiceColor = _.memoize(_getServiceColor);
 
-const colorHash = new ColorHash();
+const colorHash = new ColorHash.default({
+	hash: 'bkdr',
+	saturation: [0.65, 0.35, 0.5],
+	lightness: [0.65, 0.35, 0.5],
+});
 function _getServiceColor(serviceName: string): string {
 	const [r, g, b] = colorHash.rgb(serviceName);
 
