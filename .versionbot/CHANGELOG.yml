@@ -1,4 +1,33 @@
 - commits:
+    - subject: Support pinning devices that haven't completed their OS update back to
+        their current release
+      hash: 98b71f27cf343e8612633d9c108b1731d9b33254
+      body: ""
+      footer:
+        Depends-on: https://github.com/balena-io/open-balena-api/pull/2194
+        depends-on: https://github.com/balena-io/open-balena-api/pull/2194
+        Change-type: minor
+        change-type: minor
+        See: https://balena.fibery.io/Work/Improvement/3617
+        see: https://balena.fibery.io/Work/Improvement/3617
+      author: Thodoris Greasidis
+      nested: []
+    - subject: "device os-update: Add support for Queued OS updates"
+      hash: ab603e34cac182d7ba6de4e7cf33eedcc7ef7862
+      body: ""
+      footer:
+        Depends-on: https://github.com/balena-io/open-balena-api/pull/2194
+        depends-on: https://github.com/balena-io/open-balena-api/pull/2194
+        Change-type: minor
+        change-type: minor
+        See: https://balena.fibery.io/Work/Project/1704
+        see: https://balena.fibery.io/Work/Project/1704
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.2.0
+  title: ""
+  date: 2026-07-27T15:08:08.422Z
+- commits:
     - subject: Update apple-actions/import-codesign-certs action to v7
       hash: 113c4f112902dbefdc6c1c1f109274c22a27070c
       body: |
