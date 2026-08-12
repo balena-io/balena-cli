@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update GitHub Actions
+      hash: ddf5e4974202346dff0f5b8566c321344a750978
+      body: |
+        Update actions/setup-node
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.2
+  title: ""
+  date: 2026-08-12T15:45:53.901Z
+- commits:
     - subject: Update actions/download-artifact action to v8
       hash: cafe078793afae3f9ec0de6b1c48a7fc7e4a2a02
       body: |
