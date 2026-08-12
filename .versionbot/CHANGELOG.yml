@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/upload-artifact action to v7
+      hash: cadae2fa003ccdac5119a438ed85a3c8aea28cb5
+      body: |
+        Update actions/upload-artifact from 6.0.0 to 7.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.3
+  title: ""
+  date: 2026-08-12T22:45:40.519Z
+- commits:
     - subject: Update GitHub Actions
       hash: ddf5e4974202346dff0f5b8566c321344a750978
       body: |
