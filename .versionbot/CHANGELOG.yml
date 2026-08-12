@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/download-artifact action to v8
+      hash: cafe078793afae3f9ec0de6b1c48a7fc7e4a2a02
+      body: |
+        Update actions/download-artifact from 7.0.0 to 8.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.1
+  title: ""
+  date: 2026-08-12T14:23:07.148Z
+- commits:
     - subject: Support pinning devices that haven't completed their OS update back to
         their current release
       hash: 98b71f27cf343e8612633d9c108b1731d9b33254
