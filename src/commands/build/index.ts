@@ -95,7 +95,7 @@ ${dockerignoreHelp}
 	public async run() {
 		const { args: params, flags: options } = await this.parse(BuildCmd);
 
-		const Logger = await import('../../utils/logger');
+		const { Logger } = await import('../../utils/logger');
 		const { checkLoggedInIf } = await import('../../utils/patterns');
 
 		await checkLoggedInIf(!!options.fleet);
@@ -244,7 +244,7 @@ ${dockerignoreHelp}
 	 */
 	protected async buildProject(
 		docker: import('dockerode'),
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger').Logger,
 		composeOpts: ComposeOpts,
 		opts: {
 			appType?: Pick<ApplicationType['Read'], 'supports_multicontainer'>;

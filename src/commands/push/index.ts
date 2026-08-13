@@ -224,7 +224,7 @@ export default class PushCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(PushCmd);
 
-		const Logger = await import('../../utils/logger');
+		const { Logger } = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 		logger.logDebug(`Using build source directory: ${options.source} `);

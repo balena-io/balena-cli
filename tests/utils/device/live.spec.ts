@@ -43,7 +43,7 @@ class MockLivepushManager extends LivepushManager {
 			buildTasks: [],
 			docker: {} as import('dockerode'),
 			api: {} as import('../../../src/utils/device/api').DeviceAPI,
-			logger: {} as import('../../../src/utils/logger'),
+			logger: {} as import('../../../src/utils/logger').Logger,
 			imageIds: {},
 			deployOpts:
 				{} as import('../../../src/utils/device/deploy').DeviceDeployOptions,
