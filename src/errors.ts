@@ -243,6 +243,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/^Flag .* expects a value/, // oclif parser
 	/^Error parsing config file.*balenarc\.yml/,
 	/^We need to slow down your requests temporarily\./,
+	/^Request error: Too Many Requests/, // balena-request
 ];
 
 // Support unit testing of handleError
