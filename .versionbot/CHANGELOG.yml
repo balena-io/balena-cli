@@ -1,4 +1,17 @@
 - commits:
+    - subject: Treat 429 errors as expected
+      hash: 715e00f7ab24b455f056d522d56937ee053d1d87
+      body: |
+        This avoids them being reported unnecessarily
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 25.2.4
+  title: ""
+  date: 2026-08-17T21:27:25.520Z
+- commits:
     - subject: Update actions/upload-artifact action to v7
       hash: cadae2fa003ccdac5119a438ed85a3c8aea28cb5
       body: |
