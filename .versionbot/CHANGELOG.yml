@@ -1,4 +1,16 @@
 - commits:
+    - subject: "os download: Add debug logs"
+      hash: 88bc2d705f19dad174898e2188af49755f2016b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.2.5
+  title: ""
+  date: 2026-08-18T16:23:56.438Z
+- commits:
     - subject: Treat 429 errors as expected
       hash: 715e00f7ab24b455f056d522d56937ee053d1d87
       body: |
