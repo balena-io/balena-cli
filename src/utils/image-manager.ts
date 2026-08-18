@@ -300,6 +300,10 @@ export const getStream = async (
 	versionOrRange ??= 'latest';
 	const version = await resolveVersion(deviceType, versionOrRange);
 	const existsInCache = await isImageCached(deviceType, version, options.type);
+	const logger = (await import('./logger')).getLogger();
+	logger.logDebug(
+		`${existsInCache ? 'Copying cached' : 'Downloading'} ${options.type ?? 'default'} artifact for device type ${deviceType} version ${versionOrRange}`,
+	);
 	const $stream = existsInCache
 		? await getImage(deviceType, version, options.type)
 		: await doDownload({ ...options, deviceType, version });
