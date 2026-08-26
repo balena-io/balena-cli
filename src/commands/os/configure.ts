@@ -54,7 +54,9 @@ export default class OsConfigureCmd extends Command {
 		Configure a previously downloaded balenaOS image.
 
 		Configure a previously downloaded balenaOS image for a specific device type
-		or fleet.
+		or fleet. This command overwrites the image's \`config.json\` with a new
+		one generated from the options provided to the command, or with the file
+		passed via the \`--config\` option.
 
 		Configuration settings such as WiFi authentication will be taken from the
 		following sources, in precedence order:
