@@ -1065,7 +1065,10 @@ async function resolveTasks(buildTasks: MultiBuild.BuildTask[]) {
 			//     task.dockerfile, task.dockerfilePath,
 			//     task.projectType, task.resolved
 			// This mimics what is currently done in `resin-builder`.
-			buildTask.buildStream = await cloneTarStream(buildTask.buildStream);
+			const packStream = await cloneTarStream(buildTask.buildStream);
+			// @ts-expect-error - tar-stream 3.2.1 embedded typings in which Packs is incompatible w/ the DefinitelyTyped ones
+			// TODO: align tar-stream all over the code base and fix the typings.
+			buildTask.buildStream = packStream;
 		} catch (e) {
 			error = e;
 		}
