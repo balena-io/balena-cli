@@ -1,4 +1,16 @@
 - commits:
+    - subject: "os configure: Clarify that the image's config.json is always replaced"
+      hash: a1a32a233c9a7783847ea32483cb9cb500bb4bde
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.2.6
+  title: ""
+  date: 2026-08-26T19:17:00.102Z
+- commits:
     - subject: "os download: Add debug logs"
       hash: 88bc2d705f19dad174898e2188af49755f2016b0
       body: ""
