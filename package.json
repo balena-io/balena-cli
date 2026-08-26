@@ -172,7 +172,7 @@
   },
   "dependencies": {
     "@balena/compose": "^8.0.4",
-    "@balena/compose-parser": "^0.2.6",
+    "@balena/compose-parser": "^0.3.0",
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
