@@ -140,7 +140,7 @@ export default class DeviceInitCmd extends Command {
 		tmp.setGracefulCleanup();
 		const { downloadOSImage } = await import('../../utils/os');
 		const { getApplication } = await import('../../utils/sdk');
-		const Logger = await import('../../utils/logger');
+		const { Logger } = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 		const balena = getBalenaSdk();
@@ -211,7 +211,7 @@ export default class DeviceInitCmd extends Command {
 		device: { id: number; uuid: string; api_key: string },
 		options: FlagsDef,
 		configJson: ImgConfig | undefined,
-		logger: import('../../utils/logger'),
+		logger: import('../../utils/logger').Logger,
 	) {
 		let tmpConfigJsonPath: string | undefined;
 		const { promises: fs } = await import('node:fs');

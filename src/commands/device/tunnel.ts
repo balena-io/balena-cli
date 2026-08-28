@@ -91,7 +91,7 @@ export default class DeviceTunnelCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeviceTunnelCmd);
 
-		const Logger = await import('../../utils/logger');
+		const { Logger } = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 		const sdk = getBalenaSdk();

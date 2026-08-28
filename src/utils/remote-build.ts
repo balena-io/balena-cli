@@ -26,7 +26,7 @@ import type { Pack } from 'tar-stream';
 import { ExpectedError, SIGINTError } from '../errors';
 import { tarDirectory } from './compose_ts';
 import { getVisuals, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { Logger } from './logger';
 
 const globalLogger = Logger.getLogger();
 

@@ -55,7 +55,7 @@ export async function login({ host = '127.0.0.1', port = 0 }) {
 	const loginUrl = await utils.getDashboardLoginURL(callbackUrl);
 
 	console.info(`Opening web browser for URL:\n${loginUrl}`);
-	const open = await import('open');
+	const open = (await import('open')).default;
 	await open(loginUrl, { wait: false });
 
 	const balena = getBalenaSdk();
