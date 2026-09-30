@@ -127,25 +127,36 @@ export default class DeviceLogsCmd extends Command {
 			const ipAddress = params.device;
 			// Logs from local device
 			const { DeviceAPI } = await import('../../utils/device/api');
-			const deviceApi = new DeviceAPI(logger, ipAddress);
-			logger.logDebug('Checking we can access device');
+			const { connectToSupervisor } =
+				await import('../../utils/device/connection');
+			const connection = await connectToSupervisor(ipAddress);
 			try {
-				await deviceApi.ping();
-			} catch {
-				const { ExpectedError } = await import('../../errors');
-				throw new ExpectedError(
-					`Cannot access device at address ${ipAddress}.  Device may not be in local mode.`,
+				const deviceApi = new DeviceAPI(
+					logger,
+					ipAddress,
+					connection.supervisorAgent,
 				);
-			}
+				logger.logDebug('Checking we can access device');
+				try {
+					await deviceApi.ping();
+				} catch {
+					const { ExpectedError } = await import('../../errors');
+					throw new ExpectedError(
+						`Cannot access device at address ${ipAddress}.  Device may not be in local mode.`,
+					);
+				}
 
-			logger.logDebug('Streaming logs');
-			await connectAndDisplayDeviceLogs({
-				deviceApi,
-				logger,
-				system: options.system || false,
-				filterServices: options.service,
-				maxAttempts: 1 + (options['max-retry'] ?? MAX_RETRY),
-			});
+				logger.logDebug('Streaming logs');
+				await connectAndDisplayDeviceLogs({
+					deviceApi,
+					logger,
+					system: options.system || false,
+					filterServices: options.service,
+					maxAttempts: 1 + (options['max-retry'] ?? MAX_RETRY),
+				});
+			} finally {
+				connection.close();
+			}
 		} else {
 			const { checkLoggedIn } = await import('../../utils/patterns');
 			// Logs from cloud
