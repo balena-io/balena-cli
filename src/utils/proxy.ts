@@ -111,6 +111,9 @@ async function setupGlobalAgentProxy(
 
 	const env = process.env;
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
+	// Respect explicitly supplied agents, such as the SSH transport to a local
+	// device's balenaEngine. Requests using the default agent are still proxied.
+	env.GLOBAL_AGENT_FORCE_GLOBAL_AGENT ??= 'false';
 	env.NO_PROXY = [
 		...requiredNoProxy,
 		...(noProxy ? noProxy.split(',').filter((v) => v) : privateNoProxy),

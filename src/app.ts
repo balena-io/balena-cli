@@ -35,6 +35,11 @@ export const setupSentry = onceAsync(async () => {
 	Sentry.init({
 		dsn: config.sentryDsn,
 		release: getPackageJson().version,
+		// Sentry uses its own HTTP agent, which global-agent does not replace.
+		// It only reads lowercase proxy variables, which setupGlobalHttpProxy() removes.
+		transportOptions: {
+			proxy: process.env.HTTPS_PROXY ?? process.env.HTTP_PROXY,
+		},
 	});
 	Sentry.getCurrentScope().setExtras({
 		node_version: process.version,
