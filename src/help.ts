@@ -23,19 +23,22 @@ import { getCliUx } from './utils/lazy';
 // Partially overrides standard implementation of help plugin
 // https://github.com/oclif/plugin-help/blob/master/src/index.ts
 
-function getHelpSubject(args: string[]): string | undefined {
+/**
+ * The leading words of the command line, eg `['fleet', 'profile', 'activate']`,
+ * which may also include positional arguments (eg `['fleet', 'myorg/myfleet']`)
+ */
+function getHelpSubjectWords(args: string[]): string[] {
+	const words: string[] = [];
 	for (const arg of args) {
-		if (arg === '--') {
-			return;
-		}
 		if (arg === 'help' || arg === '--help') {
 			continue;
 		}
-		if (arg.startsWith('-')) {
-			return;
+		if (arg === '--' || arg.startsWith('-')) {
+			break;
 		}
-		return arg;
+		words.push(arg);
 	}
+	return words;
 }
 
 // See: https://github.com/oclif/core/blob/4.8.0/src/help/index.ts#L54
@@ -49,41 +52,48 @@ export default class BalenaHelp extends Help {
 
 	public async showHelp(argv: string[]) {
 		const ux = getCliUx();
-		const subject = getHelpSubject(argv);
-		if (!subject) {
+		const words = getHelpSubjectWords(argv);
+		if (words.length === 0) {
 			const verbose = argv.includes('-v') || argv.includes('--verbose');
 			console.log(await this.getCustomRootHelp(verbose));
 			return;
 		}
 
-		const command = this.config.findCommand(subject);
-		if (command) {
-			await this.showCommandHelp(command);
-			return;
+		// Use the longest leading words that make up a command (e.g. `fleet profile activate`)
+		// or a topic, as the rest may be positional arguments (e.g. `fleet myorg/myfleet`)
+		for (let i = words.length; i > 0; i--) {
+			const id = words.slice(0, i).join(':');
+			const command = this.config.findCommand(id);
+			if (command) {
+				await this.showCommandHelp(command);
+				return;
+			}
+
+			// If they've typed a topic (e.g. `balena os`) that isn't also a command (e.g. `balena device`)
+			// then list the associated commands.
+			const topicCommands = await Promise.all(
+				this.config.commands
+					.filter((c) => {
+						return c.id.startsWith(`${id}:`);
+					})
+					.map((topic) => topic.load()),
+			);
+
+			if (topicCommands.length > 0) {
+				const topic = words.slice(0, i).join(' ');
+				console.log(`${ux.colorize('yellow', topic)} commands include:`);
+				console.log(this.formatCommands(topicCommands));
+				console.log(
+					`\nRun ${ux.colorize('bold', ux.colorize('cyan', 'balena help -v'))} for a list of all available commands,`,
+				);
+				console.log(
+					` or ${ux.colorize('bold', ux.colorize('cyan', 'balena help <command>'))} for detailed help on a specific command.`,
+				);
+				return;
+			}
 		}
 
-		// If they've typed a topic (e.g. `balena os`) that isn't also a command (e.g. `balena device`)
-		// then list the associated commands.
-		const topicCommands = await Promise.all(
-			this.config.commands
-				.filter((c) => {
-					return c.id.startsWith(`${subject}:`);
-				})
-				.map((topic) => topic.load()),
-		);
-
-		if (topicCommands.length > 0) {
-			console.log(`${ux.colorize('yellow', subject)} commands include:`);
-			console.log(this.formatCommands(topicCommands));
-			console.log(
-				`\nRun ${ux.colorize('bold', ux.colorize('cyan', 'balena help -v'))} for a list of all available commands,`,
-			);
-			console.log(
-				` or ${ux.colorize('bold', ux.colorize('cyan', 'balena help <command>'))} for detailed help on a specific command.`,
-			);
-			return;
-		}
-
+		const subject = words[0];
 		console.log(
 			`command ${ux.colorize('bold', ux.colorize('cyan', subject))} not found`,
 		);

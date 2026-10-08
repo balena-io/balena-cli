@@ -249,3 +249,100 @@ export async function getOwnOrganizations(
 		),
 	);
 }
+
+/** Resolve an application id, without a request when given one */
+export async function getApplicationId(
+	sdk: BalenaSDK,
+	slugOrUuidOrId: string | number,
+): Promise<number> {
+	return typeof slugOrUuidOrId === 'number'
+		? slugOrUuidOrId
+		: (await sdk.models.application.get(slugOrUuidOrId, { $select: 'id' })).id;
+}
+
+/** Resolve a device id, without a request when given one */
+export async function getDeviceId(
+	sdk: BalenaSDK,
+	uuidOrId: string | number,
+): Promise<number> {
+	return typeof uuidOrId === 'number'
+		? uuidOrId
+		: (await sdk.models.device.get(uuidOrId, { $select: 'id' })).id;
+}
+
+/** Resolve a release id, without a request when given one */
+export async function getReleaseId(
+	sdk: BalenaSDK,
+	commitOrId: string | number,
+): Promise<number> {
+	return typeof commitOrId === 'number'
+		? commitOrId
+		: (await sdk.models.release.get(commitOrId, { $select: 'id' })).id;
+}
+
+/**
+ * The OS (host) applications the devices of a fleet are operated by,
+ * matching how balena-ui determines them
+ */
+export async function getHostApps(
+	sdk: BalenaSDK,
+	slugOrUuidOrId: string | number,
+): Promise<Array<Pick<Application['Read'], 'id' | 'slug'>>> {
+	const appId = await getApplicationId(sdk, slugOrUuidOrId);
+	return await sdk.pine.get({
+		resource: 'application',
+		options: {
+			$select: ['id', 'slug'],
+			$filter: {
+				is_host: true,
+				owns__release: {
+					$any: {
+						$alias: 'r',
+						$expr: {
+							r: {
+								should_operate__device: {
+									$any: {
+										$alias: 'd',
+										$expr: { d: { belongs_to__application: appId } },
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			$orderby: { slug: 'asc' },
+		},
+	});
+}
+
+/**
+ * The given OS (host) application of a fleet, or else the only one the devices
+ * of the fleet are operated by
+ */
+export async function getFleetHostApp(
+	sdk: BalenaSDK,
+	fleetId: number,
+	hostAppSlugOrUuidOrId?: string | number,
+): Promise<{ id: number; name: string }> {
+	if (hostAppSlugOrUuidOrId != null) {
+		return {
+			id: await getApplicationId(sdk, hostAppSlugOrUuidOrId),
+			name: `${hostAppSlugOrUuidOrId}`,
+		};
+	}
+	const hostApps = await getHostApps(sdk, fleetId);
+	if (hostApps.length === 0) {
+		throw new sdk.errors.BalenaError(
+			'No devices of the fleet are operated by an OS application, so the OS application needs to be specified',
+		);
+	}
+	if (hostApps.length > 1) {
+		throw new sdk.errors.BalenaError(
+			`Fleets that run more than one OS application (${hostApps
+				.map((h) => h.slug)
+				.join(', ')}) need the OS application to be specified`,
+		);
+	}
+	return { id: hostApps[0].id, name: hostApps[0].slug };
+}
