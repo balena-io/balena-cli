@@ -24,6 +24,7 @@ import {
 	signFilesForNotarization,
 	testShrinkwrap,
 } from './build-bin';
+import { buildComposeParser } from './build-parser';
 
 // DEBUG set to falsy for negative values else is truthy
 process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
@@ -49,6 +50,7 @@ async function parse(args?: string[]) {
 	}
 	const commands: { [cmd: string]: () => void | Promise<void> } = {
 		'build:installer': buildOclifInstaller,
+		'build:parser': buildComposeParser,
 		'build:standalone': buildStandalone,
 		'sign:binaries': signFilesForNotarization,
 		'catch-uncommitted': catchUncommitted,
