@@ -16,7 +16,7 @@
  */
 
 import * as semver from 'balena-semver';
-import * as Docker from 'dockerode';
+import type * as Docker from 'dockerode';
 import * as _ from 'lodash';
 import type { Composition } from '@balena/compose-parser';
 import type {
@@ -39,6 +39,8 @@ import {
 import Logger = require('../logger');
 import type { DeviceInfo } from './api';
 import { DeviceAPI } from './api';
+import type { DeviceConnection } from './connection';
+import { connectToDevice, SUPERVISOR_PORT } from './connection';
 import * as LocalPushErrors from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
@@ -55,7 +57,6 @@ const globalLogger = Logger.getLogger();
 export interface DeviceDeployOptions {
 	source: string;
 	deviceHost: string;
-	devicePort?: number;
 	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
 	multiDockerignore: boolean;
@@ -136,8 +137,19 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		opts.deviceHost = address;
 	}
 
-	const port = 48484;
-	const api = new DeviceAPI(globalLogger, opts.deviceHost, port);
+	const connection = await connectToDevice(opts.deviceHost);
+	try {
+		await deployWithConnection(opts, connection);
+	} finally {
+		connection.close();
+	}
+}
+
+async function deployWithConnection(
+	opts: DeviceDeployOptions,
+	{ docker, supervisorAgent }: DeviceConnection,
+): Promise<void> {
+	const api = new DeviceAPI(globalLogger, opts.deviceHost, supervisorAgent);
 
 	// First check that we can access the device with a ping
 	try {
@@ -145,7 +157,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		await api.ping();
 	} catch {
 		throw new ExpectedError(stripIndent`
-			Could not communicate with device supervisor at address ${opts.deviceHost}:${port}.
+			Could not communicate with device supervisor at address ${opts.deviceHost}:${SUPERVISOR_PORT}.
 			Device may not have local mode enabled. Check with:
 			  balena device local-mode <device-uuid>
 		`);
@@ -189,9 +201,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		projectPath: opts.source,
 		isLocal: true,
 	});
-
-	// Attempt to attach to the device's docker daemon
-	const docker = connectToDocker(opts.deviceHost, opts.devicePort ?? 2375);
 
 	await checkBuildSecretsRequirements(docker, opts.source);
 	globalLogger.logDebug('Tarring all non-ignored files...');
@@ -299,13 +308,6 @@ async function streamDeviceLogs(
 		system: opts.system || false,
 		filterServices: opts.services,
 		maxAttempts: 1001,
-	});
-}
-
-function connectToDocker(host: string, port: number): Docker {
-	return new Docker({
-		host,
-		port,
 	});
 }
 

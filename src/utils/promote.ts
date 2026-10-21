@@ -165,8 +165,7 @@ async function getOsVersion(deviceIp: string): Promise<string> {
 	return match[1];
 }
 
-const dockerPort = 2375;
-const dockerTimeout = 2000;
+const engineTimeout = 2000;
 
 async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	const { discoverLocalBalenaOsDevices } = await import('../utils/discover');
@@ -178,7 +177,7 @@ async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 	});
 
 	const responsiveDevices: typeof devices = [];
-	const Docker = await import('dockerode');
+	const { connectToDevice } = await import('./device/connection');
 	await Promise.all(
 		devices.map(async function (device) {
 			const address = device?.address;
@@ -187,12 +186,8 @@ async function selectLocalBalenaOsDevice(timeout = 4000): Promise<string> {
 			}
 
 			try {
-				const docker = new Docker({
-					host: address,
-					port: dockerPort,
-					timeout: dockerTimeout,
-				});
-				await docker.ping();
+				const connection = await connectToDevice(address, engineTimeout);
+				connection.close();
 				responsiveDevices.push(device);
 			} catch {
 				return;
