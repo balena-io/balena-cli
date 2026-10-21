@@ -31,7 +31,6 @@ import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import { pipeline } from 'node:stream/promises';
-import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
 import type {
 	BuiltImage,
@@ -475,14 +474,17 @@ async function qemuTransposeBuildStream({
 		qemuFileMode: 0o555,
 	};
 
-	task.buildStream = (await transpose.transposeTarStream(
+	const buildStream = await transpose.transposeTarStream(
 		task.buildStream,
 		transposeOptions,
 		// Should fall back to undefined if empty string so that
 		// transposeTarStream defaults to 'Dockerfile'.
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		dockerfilePath || undefined,
-	)) as Pack;
+	);
+	// @ts-expect-error - tar-stream 3.2.1 embedded typings which are incompatible w/ the DefinitelyTyped oners that we used to have
+	// TODO: update the code base to work with the built-in tar-stream typings
+	task.buildStream = buildStream as Readable;
 
 	return transposeOptions;
 }
@@ -800,7 +802,9 @@ export async function tarDirectory(
 			pack.emit('error', error);
 		}
 	})();
-	return pack;
+	// @ts-expect-error - tar-stream 3.2.1 embedded typings which are incompatible w/ the DefinitelyTyped oners that we used to have
+	// TODO: update the code base to work with the built-in tar-stream typings
+	return pack as Readable;
 }
 
 /**
@@ -1066,9 +1070,9 @@ async function resolveTasks(buildTasks: MultiBuild.BuildTask[]) {
 			//     task.projectType, task.resolved
 			// This mimics what is currently done in `resin-builder`.
 			const packStream = await cloneTarStream(buildTask.buildStream);
-			// @ts-expect-error - tar-stream 3.2.1 embedded typings in which Packs is incompatible w/ the DefinitelyTyped ones
-			// TODO: align tar-stream all over the code base and fix the typings.
-			buildTask.buildStream = packStream;
+			// @ts-expect-error - tar-stream 3.2.1 embedded typings which are incompatible w/ the DefinitelyTyped oners that we used to have
+			// TODO: update the code base to work with the built-in tar-stream typings
+			buildTask.buildStream = packStream as Readable;
 		} catch (e) {
 			error = e;
 		}
