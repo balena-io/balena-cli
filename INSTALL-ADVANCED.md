@@ -77,7 +77,7 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some development tools to be installed first, as follows.
 
-> **The balena CLI currently requires Node.js version > 24.11.0**
+> **The balena CLI currently requires Node.js version > 24.11.0, but highly recommend using version >= 24.22.1**
 > **Versions 25 and later are not yet fully supported.**
 
 ### Install development tools
