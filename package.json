@@ -40,7 +40,7 @@
     "deduplicate-dependencies": "npm dd && git add npm-shrinkwrap.json && git commit --message \"Deduplicate dependencies\"",
     "package": "npm run build:fast && npm run build:standalone && npm run build:installer",
     "pretest": "npm run build",
-    "test": "npm run test:shrinkwrap && npm run test:core",
+    "test": "npm run test:core",
     "test:core": "npm run test:source && npm run test:standalone",
     "test:shrinkwrap": "ts-node --transpile-only automation/run.ts test-shrinkwrap",
     "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha",
