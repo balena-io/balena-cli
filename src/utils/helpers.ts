@@ -529,3 +529,22 @@ export const pick = <T extends object, U extends keyof T>(
 	}
 	return result as Pick<T, U>;
 };
+
+/**
+ * Run tasks concurrently, printing the message each one resolves to (or its
+ * error message, followed by its context) in the order of the tasks. A failing
+ * task does not interrupt the others, but sets a non-zero exit code.
+ */
+export async function runConcurrently(
+	tasks: Array<{ context: string; run: () => Promise<string> }>,
+) {
+	const results = await Promise.allSettled(tasks.map(({ run }) => run()));
+	for (const [i, result] of results.entries()) {
+		if (result.status === 'fulfilled') {
+			console.info(result.value);
+		} else {
+			console.error(`${result.reason?.message}, ${tasks[i].context}`);
+			process.exitCode = 1;
+		}
+	}
+}

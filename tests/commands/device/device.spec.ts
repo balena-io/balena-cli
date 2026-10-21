@@ -83,6 +83,9 @@ describe('balena device', function () {
 
 			  $ balena device 7cf02a6 --view
 
+			TOPICS
+			  device profile  Activate OS profiles on devices.
+
 			SUB COMMANDS
 			  device deactivate     deactivate a device
 			  device detect         scan for balenaOS devices on your local network
