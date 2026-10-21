@@ -1,4 +1,32 @@
 - commits:
+    - subject: Republish with nodejs ^24.22.1
+      hash: ea1d44fb11ce385e267377479b0604ac5a6e83bb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Suggest using nodejs >= 24.22.1
+      hash: dc91c6c66c5da05532dbe68a400f9cea39deb610
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Disable shrinkwrap deduplication test
+      hash: 163ab1bd57dcf924aa35c820bc5be6a5336b58e0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.2.7
+  title: ""
+  date: 2026-10-21T17:22:24.595Z
+- commits:
     - subject: "os configure: Clarify that the image's config.json is always replaced"
       hash: a1a32a233c9a7783847ea32483cb9cb500bb4bde
       body: ""
