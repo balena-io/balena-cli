@@ -47,7 +47,7 @@ export async function umount(device: string): Promise<void> {
 		cmd.push('/usr/sbin/diskutil', 'unmountDisk', 'force', device);
 	} else {
 		// Linux
-		const glob = promisify(await import('glob'));
+		const glob = promisify((await import('glob')).default);
 		// '?*' expands a base device path like '/dev/sdb' to an array of paths
 		// like '/dev/sdb1', '/dev/sdb2', ..., '/dev/sdb11', ... (partitions)
 		// that exist for balenaOS images and are needed as arguments to 'umount'
@@ -130,7 +130,7 @@ export async function denyMount(
 	handler: () => any,
 	opts: { autoMountOnSuccess?: boolean; executablePath?: string } = {},
 ) {
-	const denymount = promisify(await import('denymount'));
+	const denymount = promisify((await import('denymount')).default);
 	const dmHandler = async (cb: (err?: Error) => void) => {
 		let err: Error | undefined;
 		try {

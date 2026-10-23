@@ -44,7 +44,7 @@ interface LoggerAdapter {
  * to Node printing "MaxListenersExceededWarning" warning messages to the
  * console.
  */
-class Logger {
+export class Logger {
 	public static readonly Level = Level;
 	// `Logger.command` is currently set in `preparser.ts`
 	public static command: string; // CLI cmd, e.g. 'push', 'env set', ...
@@ -173,5 +173,3 @@ class Logger {
 		return this.adapter;
 	}
 }
-
-export = Logger;
