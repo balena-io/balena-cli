@@ -54,9 +54,18 @@ async function listFiles(projectDir: string): Promise<string[]> {
 					const _files = await fs.readdir(dir, { withFileTypes: true });
 					for (const entry of _files) {
 						const fpath = path.join(dir, entry.name);
-						const isDirectory =
-							entry.isDirectory() ||
-							(entry.isSymbolicLink() && (await fs.stat(fpath)).isDirectory());
+						let isDirectory = false;
+						if (entry.isSymbolicLink()) {
+							try {
+								const stats = await fs.stat(fpath);
+								isDirectory = stats.isDirectory();
+							} catch (err) {
+								console.error('Could not stat path ', fpath, err);
+								isDirectory = false;
+							}
+						} else {
+							isDirectory = entry.isDirectory();
+						}
 
 						if (isDirectory) {
 							foundDirs.push(fpath);
