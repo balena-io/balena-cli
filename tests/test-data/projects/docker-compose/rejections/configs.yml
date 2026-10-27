@@ -1,0 +1,8 @@
+services:
+  service1:
+    build:
+      context: ./service1
+
+configs:
+  my_config:
+    file: ./config.txt

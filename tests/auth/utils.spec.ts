@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as url from 'url';
 import { getBalenaSdk } from '../../build/utils/lazy';
 import * as utils from '../../build/auth/utils';
 import tokens from './tokens';
@@ -9,21 +8,22 @@ const balena = getBalenaSdk();
 
 describe('Utils:', function () {
 	describe('.getDashboardLoginURL()', function () {
-		it('should eventually be a valid url', () =>
-			utils
-				.getDashboardLoginURL('https://127.0.0.1:3000/callback')
-				.then((loginUrl: string) =>
-					expect(() => url.parse(loginUrl)).to.not.throw(Error),
-				));
+		it('should eventually be a valid url', async () => {
+			const loginUrl = await utils.getDashboardLoginURL(
+				'https://127.0.0.1:3000/callback',
+			);
+			expect(() => new URL(loginUrl)).to.not.throw(Error);
+		});
 
-		it('should eventually contain an https protocol', () =>
-			Promise.all([
+		it('should eventually contain an https protocol', async () => {
+			const [dashboardUrl, loginUrl] = await Promise.all([
 				balena.settings.get('dashboardUrl'),
 				utils.getDashboardLoginURL('https://127.0.0.1:3000/callback'),
-			]).then(function ([dashboardUrl, loginUrl]) {
-				const { protocol } = url.parse(loginUrl);
-				expect(protocol).to.equal(url.parse(dashboardUrl).protocol);
-			}));
+			]);
+			const dashboardURL = new URL(dashboardUrl);
+			const loginURL = new URL(loginUrl);
+			expect(loginURL.protocol).to.equal(dashboardURL.protocol);
+		});
 
 		it('should correctly escape a callback url without a path', () =>
 			Promise.all([

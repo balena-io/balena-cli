@@ -48,8 +48,9 @@ export default class DevicePinCmd extends Command {
 		const { args: params } = await this.parse(DevicePinCmd);
 
 		const balena = getBalenaSdk();
-
-		const device = await balena.models.device.get(params.uuid, {
+		const { getDevice } = await import('../../utils/sdk');
+		const device = await getDevice(params.uuid, {
+			$select: 'uuid',
 			$expand: {
 				is_pinned_on__release: {
 					$select: 'commit',
@@ -77,7 +78,7 @@ export default class DevicePinCmd extends Command {
 				} \n\nTo see a list of all releases this device can be pinned to, run \`balena release list ${appSlug}\`.`,
 			);
 		} else {
-			await balena.models.device.pinToRelease(params.uuid, releaseToPinTo);
+			await balena.models.device.pinToRelease(device.uuid, releaseToPinTo);
 		}
 	}
 }

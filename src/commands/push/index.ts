@@ -386,9 +386,8 @@ export default class PushCmd extends Command {
 	}
 
 	protected async getBuildTarget(appOrDevice: string): Promise<BuildTarget> {
-		const { validateLocalHostnameOrIp } = await import(
-			'../../utils/validation'
-		);
+		const { validateLocalHostnameOrIp } =
+			await import('../../utils/validation');
 
 		return validateLocalHostnameOrIp(appOrDevice)
 			? BuildTarget.Device

@@ -1,0 +1,6 @@
+services:
+  service1:
+    environment:
+      - DEBUG=1
+  service2:
+    build: ./service2

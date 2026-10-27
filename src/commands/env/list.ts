@@ -35,8 +35,7 @@ interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
 type DeviceServiceEnvironmentVariable = PickExpanded<
 	SDK.DeviceServiceEnvironmentVariable['Read']
 >;
-interface DeviceServiceEnvironmentVariableInfo
-	extends DeviceServiceEnvironmentVariable {
+interface DeviceServiceEnvironmentVariableInfo extends DeviceServiceEnvironmentVariable {
 	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
@@ -130,13 +129,9 @@ export default class EnvListCmd extends Command {
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
-			const { getDeviceAndMaybeAppFromUUID } = await import(
-				'../../utils/cloud'
-			);
-			const [device, app] = await getDeviceAndMaybeAppFromUUID(
-				balena,
-				options.device,
-			);
+			const { getDeviceAndMaybeAppFromUUID } =
+				await import('../../utils/cloud');
+			const [device, app] = await getDeviceAndMaybeAppFromUUID(options.device);
 
 			fullUUID = device.uuid;
 			if (app) {
@@ -229,10 +224,9 @@ async function getAppVars(
 	if (!fleetSlug) {
 		return appVars;
 	}
-	const vars =
-		await sdk.models.application[
-			options.config ? 'configVar' : 'envVar'
-		].getAllByApplication(fleetSlug);
+	const vars = options.config
+		? await sdk.models.application.configVar.getAllByApplication(fleetSlug)
+		: await sdk.models.application.envVar.getAllByApplication(fleetSlug);
 	fillInInfoFields(vars, fleetSlug);
 	appVars.push(...vars);
 	if (!options.config) {

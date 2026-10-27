@@ -93,7 +93,17 @@ export function filterCliOutputForTests({
 						/\(node:\d+\) Warning: Closing file descriptor \d+ on garbage collection/,
 					) &&
 					!line.match(
+						/\(Use `node --trace-deprecation \.\.\.` to show where the warning was created\)/,
+					) &&
+					!line.match(
 						/\(node:\d+\) \[DEP0137\] DeprecationWarning: Closing a FileHandle object on garbage collection is deprecated/,
+					) &&
+					// TODO: Drop once the balena-sdk stops using url.parse & url.resolve
+					!line.match(
+						/\(node:\d+\) \[DEP0169\] DeprecationWarning: `url.parse\(\)` behavior is not standardized and prone to errors that have security implications\. Use the WHATWG URL API instead\. CVEs are not issued for `url.parse\(\)` vulnerabilities\./,
+					) &&
+					!line.match(
+						/\(node:\d+\) \[DEP0040\] DeprecationWarning: The `punycode` module is deprecated\. Please use a userland alternative instead\./,
 					) &&
 					// TODO: Drop once https://github.com/oclif/plugin-update/pull/1222 gets merged and we update the plugin to that version
 					!(

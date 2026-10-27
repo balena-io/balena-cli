@@ -55,9 +55,10 @@ export function getNotifierMessage(updateInfo: UpdateNotifier.UpdateInfo) {
 
 	if (semver.lt(current, latest)) {
 		message.push(
-			`Update available ${current} → ${latest}`,
-			'https://github.com/balena-io/balena-cli/blob/master/INSTALL.md',
+			`Update available: ${current} → ${latest}`,
+			'Run `balena update` to update to the latest version.',
 		);
+
 		const currentMajor = semver.major(current);
 		const latestMajor = semver.major(latest);
 		if (currentMajor !== latestMajor) {

@@ -52,13 +52,16 @@ export default class DeviceStopServiceCmd extends Command {
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
-		const deviceUuids = params.uuid.split(',');
+		const { resolveDeviceUuidsParam } = await import('../../utils/sdk');
+		const fullDeviceUuids = await resolveDeviceUuidsParam(
+			params.uuid.split(','),
+		);
 		const serviceNames = params.service.split(',');
 
 		// Iterate sequentially through deviceUuids.
 		// We may later want to add a batching feature,
 		// so that n devices are processed in parallel
-		for (const uuid of deviceUuids) {
+		for (const uuid of fullDeviceUuids) {
 			ux.action.start(`Stopping services on device ${uuid}`);
 			await this.stopServices(balena, uuid, serviceNames);
 			ux.action.stop();
@@ -67,7 +70,7 @@ export default class DeviceStopServiceCmd extends Command {
 
 	async stopServices(
 		balena: BalenaSDK,
-		deviceUuid: string,
+		deviceFullUuid: string,
 		serviceNames: string[],
 	) {
 		const { ExpectedError } = await import('../../errors');
@@ -75,9 +78,10 @@ export default class DeviceStopServiceCmd extends Command {
 
 		// Get device
 		const device = await balena.models.device.getWithServiceDetails(
-			deviceUuid,
+			deviceFullUuid,
 			{
 				$expand: {
+					belongs_to__application: { $select: 'slug' },
 					is_running__release: { $select: 'commit' },
 				},
 			},
@@ -89,18 +93,21 @@ export default class DeviceStopServiceCmd extends Command {
 		);
 
 		// Check specified services exist on this device before stoppinganything
-		serviceNames.forEach((service) => {
-			if (!device.current_services[service]) {
+		const fleetSlug = device.belongs_to__application[0].slug;
+		const serviceInfos = serviceNames.map((serviceName) => {
+			const serviceInfo =
+				device.current_services_by_app[fleetSlug]?.[serviceName];
+			if (serviceInfo == null) {
 				throw new ExpectedError(
-					`Service ${service} not found on device ${deviceUuid}.`,
+					`Service ${serviceName} not found on device ${deviceFullUuid}.`,
 				);
 			}
+			return serviceInfo;
 		});
 
 		// Stop services
 		const stopPromises: Array<Promise<void>> = [];
-		for (const serviceName of serviceNames) {
-			const service = device.current_services[serviceName];
+		for (const service of serviceInfos) {
 			// Each service is an array of `CurrentServiceWithCommit`
 			// because when service is updating, it will actually hold 2 services
 			// Target commit matching `device.is_running__release`
@@ -111,7 +118,7 @@ export default class DeviceStopServiceCmd extends Command {
 			if (serviceContainer) {
 				stopPromises.push(
 					balena.models.device.stopService(
-						deviceUuid,
+						deviceFullUuid,
 						serviceContainer.image_id,
 					),
 				);
@@ -122,7 +129,7 @@ export default class DeviceStopServiceCmd extends Command {
 			await Promise.all(stopPromises);
 		} catch (e) {
 			if (e.message.toLowerCase().includes('no online device')) {
-				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
+				throw new ExpectedError(`Device ${deviceFullUuid} is not online.`);
 			} else {
 				throw e;
 			}

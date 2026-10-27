@@ -23,7 +23,6 @@ import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
-import { URL } from 'url';
 import { diff } from 'deep-object-diff';
 import { makeImageName } from '../build/utils/compose_ts';
 import { stripIndent } from '../build/utils/lazy';

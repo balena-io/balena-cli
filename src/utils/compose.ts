@@ -19,7 +19,7 @@ import type { Renderer } from './compose_ts';
 import type * as SDK from 'balena-sdk';
 import type * as Dockerode from 'dockerode';
 import * as path from 'path';
-import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
+import type { Composition, ImageDescriptor } from '@balena/compose-parser';
 import type { RetryParametersObj } from 'pinejs-client-core';
 import type {
 	BuiltImage,
@@ -54,37 +54,34 @@ export function generateOpts(options: {
 	}));
 }
 
-/** Parse the given composition and return a structure with info. Input is:
+/** Create a ComposeProject from a Composition object.
  * - composePath: the *absolute* path to the directory containing the compose file
- *  - composeStr: the contents of the compose file, as a string
+ * - composition: the parsed Composition object
  */
 export function createProject(
 	composePath: string,
-	composeStr: string,
+	composition: Composition,
 	projectName = '',
 	imageTag = '',
 ): ComposeProject {
-	const yml = require('js-yaml') as typeof import('js-yaml');
-	const compose =
-		require('@balena/compose/dist/parse') as typeof import('@balena/compose/dist/parse');
-
-	// both methods below may throw.
-	const rawComposition = yml.load(composeStr);
-	const composition = compose.normalize(rawComposition);
+	const { toImageDescriptors } =
+		require('@balena/compose-parser') as typeof import('@balena/compose-parser');
 
 	projectName ||= path.basename(composePath);
 
-	const descriptors = compose.parse(composition).map(function (descr) {
+	const descriptors = toImageDescriptors(composition).map(function (descr) {
 		// generate an image name based on the project and service names
 		// if one is not given and the service requires a build
 		if (
 			typeof descr.image !== 'string' &&
 			descr.image.context != null &&
-			descr.image.tag == null
+			!descr.image.tags?.length
 		) {
 			const { makeImageName } =
 				require('./compose_ts') as typeof import('./compose_ts');
-			descr.image.tag = makeImageName(projectName, descr.serviceName, imageTag);
+			descr.image.tags = [
+				makeImageName(projectName, descr.serviceName, imageTag),
+			];
 		}
 		return descr;
 	});
@@ -128,7 +125,7 @@ export const createRelease = async function (
 	composition: Composition,
 	draft: boolean,
 	semver: string | undefined,
-	contract: import('@balena/compose/dist/release/models').ReleaseModel['contract'],
+	contract: Record<string, any> | null,
 	imgDescriptors: ImageDescriptor[],
 ): Promise<Release> {
 	const crypto = require('crypto') as typeof import('crypto');
@@ -165,16 +162,17 @@ export const createRelease = async function (
 		commit: crypto.pseudoRandomBytes(16).toString('hex').toLowerCase(),
 		semver,
 		is_final: !draft,
-		contract,
+		contract: contract ?? undefined,
 		imgDescriptors,
 	});
 
 	for (const serviceImage of Object.values(serviceImages)) {
 		if ('created_at' in serviceImage) {
-			delete serviceImage.created_at;
+			delete (serviceImage as Partial<typeof serviceImage>).created_at;
 		}
 		if ('is_a_build_of__service' in serviceImage) {
-			delete serviceImage.is_a_build_of__service;
+			delete (serviceImage as Partial<typeof serviceImage>)
+				.is_a_build_of__service;
 		}
 	}
 
@@ -257,16 +255,14 @@ export const getPreviousRepos = (
 				const images = release[0].release_image;
 				const { getRegistryAndName } =
 					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
-				return Promise.all(
-					images.map(function (d) {
-						const imageName = d.image[0].is_stored_at__image_location ?? '';
-						const registry = getRegistryAndName(imageName);
-						logger.logDebug(
-							`Requesting access to previously pushed image repo (${registry.imageName})`,
-						);
-						return registry.imageName;
-					}),
-				);
+				return images.map(function (d) {
+					const imageName = d.image[0].is_stored_at__image_location ?? '';
+					const registry = getRegistryAndName(imageName);
+					logger.logDebug(
+						`Requesting access to previously pushed image repo (${registry.imageName})`,
+					);
+					return registry.imageName;
+				});
 			} else {
 				return [];
 			}
@@ -319,27 +315,50 @@ const formatDuration = (seconds: number): string => {
 };
 
 const renderProgressBar = function (percentage: number, stepCount: number) {
-	percentage = Math.max(Math.min(percentage, 0), 100);
+	percentage = Math.min(Math.max(percentage, 0), 100);
 	const barCount = Math.floor((stepCount * percentage) / 100);
 	const spaceCount = stepCount - barCount;
 	const bar = `[${'='.repeat(barCount)}>${' '.repeat(spaceCount)}]`;
 	return `${bar} ${`${percentage}`.padStart(3)}%`;
 };
 
+/**
+ * Creates a progress callback for image push operations.
+ * Supports both TTY (in-place line replacement) and non-TTY (throttled newline output).
+ */
 export const pushProgressRenderer = function (
 	tty: ReturnType<typeof import('./tty')>,
 	prefix: string,
 ): ProgressCallback & { end: () => void } {
+	const startTime = Date.now();
+	const isTTY = process.stdout.isTTY;
+	const NON_TTY_THROTTLE_MS = 5000;
+	let lastNonTtyOutput = 0;
+
 	const fn: ProgressCallback & { end: () => void } = function (e) {
 		const { error, percentage } = e;
 		if (error != null) {
 			throw new Error(error);
 		}
 		const bar = renderProgressBar(percentage, 40);
-		return tty.replaceLine(`${prefix}${bar}\r`);
+		const elapsed = (Date.now() - startTime) / 1000;
+		const elapsedStr = ` (${formatDuration(elapsed)})`;
+
+		if (isTTY) {
+			return tty.replaceLine(`${prefix}${bar}${elapsedStr}\r`);
+		}
+
+		// Non-TTY: throttle output to avoid flooding logs
+		const now = Date.now();
+		if (now - lastNonTtyOutput >= NON_TTY_THROTTLE_MS) {
+			lastNonTtyOutput = now;
+			return tty.writeLine(`${prefix}${bar}${elapsedStr}`);
+		}
 	};
 	fn.end = () => {
-		tty.clearLine();
+		if (isTTY) {
+			tty.clearLine();
+		}
 	};
 	return fn;
 };
@@ -352,11 +371,14 @@ export class BuildProgressUI implements Renderer {
 	private _services;
 	private _startTime: undefined | number;
 	private _ended;
-	private _serviceToDataMap: Dictionary<{
-		status?: string;
-		progress?: number;
-		error?: Error;
-	}> = {};
+	private _serviceToDataMap: Record<
+		string,
+		{
+			status?: string;
+			progress?: number;
+			error?: Error;
+		}
+	> = {};
 	private _cancelled;
 	private _spinner;
 	private _runloop:
@@ -432,7 +454,7 @@ export class BuildProgressUI implements Renderer {
 		this._startTime = Date.now();
 	}
 
-	end(summary?: Dictionary<string>) {
+	end(summary?: Record<string, string>) {
 		if (this._ended) {
 			return;
 		}
@@ -509,7 +531,7 @@ export class BuildProgressUI implements Renderer {
 		}
 	}
 
-	_renderSummary(serviceToStrMap: Dictionary<string>) {
+	_renderSummary(serviceToStrMap: Record<string, string>) {
 		const truncate = require('cli-truncate') as typeof import('cli-truncate');
 		const strlen = require('string-width') as typeof import('string-width');
 		const ux = getCliUx();
@@ -577,7 +599,7 @@ export class BuildProgressInline implements Renderer {
 		this._startTime = Date.now();
 	}
 
-	end(summary?: Dictionary<string>) {
+	end(summary?: Record<string, string>) {
 		if (this._ended) {
 			return;
 		}

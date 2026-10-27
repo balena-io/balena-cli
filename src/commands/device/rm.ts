@@ -55,16 +55,19 @@ export default class DeviceRmCmd extends Command {
 		const patterns = await import('../../utils/patterns');
 
 		// Confirm
-		const uuids = params.uuid.split(',');
+		const { resolveDeviceUuidsParam } = await import('../../utils/sdk');
+		const fullDeviceUuids = await resolveDeviceUuidsParam(
+			params.uuid.split(','),
+		);
 		await patterns.confirm(
 			options.yes,
-			uuids.length > 1
-				? `Are you sure you want to delete ${uuids.length} devices?`
-				: `Are you sure you want to delete device ${uuids[0]} ?`,
+			fullDeviceUuids.length > 1
+				? `Are you sure you want to delete ${fullDeviceUuids.length} devices?`
+				: `Are you sure you want to delete device ${fullDeviceUuids[0]} ?`,
 		);
 
 		// Remove
-		for (const uuid of uuids) {
+		for (const uuid of fullDeviceUuids) {
 			try {
 				await balena.models.device.remove(uuid);
 			} catch (err) {

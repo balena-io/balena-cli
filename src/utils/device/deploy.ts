@@ -18,7 +18,7 @@
 import * as semver from 'balena-semver';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
-import type { Composition } from '@balena/compose/dist/parse';
+import type { Composition } from '@balena/compose-parser';
 import type {
 	BuildTask,
 	LocalImage,
@@ -207,13 +207,13 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logDebug('Fetching device information...');
 	const deviceInfo = await api.getDeviceInformation();
 
-	let imageIds: Dictionary<string[]> | undefined;
+	let imageIds: Record<string, string[]> | undefined;
 	if (!opts.nolive) {
 		imageIds = {};
 	}
 
 	const { awaitInterruptibleTask } = await import('../helpers');
-	const buildTasks = await awaitInterruptibleTask<typeof performBuilds>(
+	const buildTasks = await awaitInterruptibleTask(
 		performBuilds,
 		project.composition,
 		tarStream,
@@ -324,7 +324,7 @@ async function performBuilds(
 	deviceInfo: DeviceInfo,
 	logger: Logger,
 	opts: DeviceDeployOptions,
-	imageIds?: Dictionary<string[]>,
+	imageIds?: Record<string, string[]>,
 ): Promise<BuildTask[]> {
 	const multibuild = await import('@balena/compose/dist/multibuild');
 
@@ -351,7 +351,7 @@ async function performBuilds(
 	// up properly
 	let logHandlers: ((serviceName: string, line: string) => void) | undefined;
 
-	const lastArrowMessage: Dictionary<string> = {};
+	const lastArrowMessage: Record<string, string> = {};
 
 	if (imageIds != null) {
 		for (const task of buildTasks) {
@@ -563,36 +563,34 @@ async function assignDockerBuildOpts(
 
 	globalLogger.logDebug(`Using ${images.length} on-device images for cache...`);
 
-	await Promise.all(
-		buildTasks.map((task: BuildTask) => {
-			task.dockerOpts = {
-				...(task.dockerOpts ?? {}),
-				...{
-					cachefrom: images,
-					labels: {
-						'io.resin.local.image': '1',
-						'io.resin.local.service': task.serviceName,
-					},
-					t: getImageNameFromTask(task),
-					nocache: opts.nocache,
-					forcerm: true,
-					pull: opts.pull,
+	for (const task of buildTasks) {
+		task.dockerOpts = {
+			...(task.dockerOpts ?? {}),
+			...{
+				cachefrom: images,
+				labels: {
+					'io.resin.local.image': '1',
+					'io.resin.local.service': task.serviceName,
 				},
 				t: getImageNameFromTask(task),
 				nocache: opts.nocache,
 				forcerm: true,
 				pull: opts.pull,
-			};
-			if (task.external) {
-				task.dockerOpts.authconfig = getAuthConfigObj(
-					task.imageName!,
-					opts.registrySecrets,
-				);
-			} else {
-				task.dockerOpts.registryconfig = opts.registrySecrets;
-			}
-		}),
-	);
+			},
+			t: getImageNameFromTask(task),
+			nocache: opts.nocache,
+			forcerm: true,
+			pull: opts.pull,
+		};
+		if (task.external) {
+			task.dockerOpts.authconfig = getAuthConfigObj(
+				task.imageName!,
+				opts.registrySecrets,
+			);
+		} else {
+			task.dockerOpts.registryconfig = opts.registrySecrets;
+		}
+	}
 }
 
 function getImageNameFromTask(task: BuildTask): string {

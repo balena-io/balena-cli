@@ -16,8 +16,7 @@
  */
 
 import { Flags, Args, type Interfaces, Command } from '@oclif/core';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import type * as BalenaSdk from 'balena-sdk';
+import { getVisuals, stripIndent } from '../../utils/lazy';
 import * as yaml from 'js-yaml';
 import { tryAsInteger } from '../../utils/validation';
 
@@ -58,30 +57,23 @@ export default class ReleaseCmd extends Command {
 	public async run() {
 		const { args: params, flags: options } = await this.parse(ReleaseCmd);
 
-		const balena = getBalenaSdk();
 		if (options.composition) {
-			await this.showComposition(params.commitOrId, balena);
+			await this.showComposition(params.commitOrId);
 		} else {
-			return await this.showReleaseInfo(params.commitOrId, balena, options);
+			return await this.showReleaseInfo(params.commitOrId, options);
 		}
 	}
 
-	async showComposition(
-		commitOrId: string | number,
-		balena: BalenaSdk.BalenaSDK,
-	) {
-		const release = await balena.models.release.get(commitOrId, {
+	async showComposition(commitOrId: string | number) {
+		const { getRelease } = await import('../../utils/sdk');
+		const release = await getRelease(commitOrId, {
 			$select: 'composition',
 		});
 
 		console.log(yaml.dump(release.composition));
 	}
 
-	async showReleaseInfo(
-		commitOrId: string | number,
-		balena: BalenaSdk.BalenaSDK,
-		options: FlagsDef,
-	) {
+	async showReleaseInfo(commitOrId: string | number, options: FlagsDef) {
 		const fields = [
 			'id',
 			'commit',
@@ -98,7 +90,8 @@ export default class ReleaseCmd extends Command {
 			raw_version: 'version',
 		};
 
-		const release = await balena.models.release.get(commitOrId, {
+		const { getRelease } = await import('../../utils/sdk');
+		const release = await getRelease(commitOrId, {
 			...(!options.json && { $select: fields }),
 			$expand: {
 				release_tag: {
@@ -110,12 +103,10 @@ export default class ReleaseCmd extends Command {
 		if (options.json) {
 			// We fetch the bC explicit read fields independently, since we want to fetch all fields on both bC & oB
 			// but bC & oB have different fields, so we can't enumerate them in a single $select.
-			const releaseWithExplicitReadFields = await balena.models.release.get(
-				release.id,
-				{
-					$select: ['id', ...explicitReadFields],
-				},
-			);
+			const { getRelease } = await import('../../utils/sdk');
+			const releaseWithExplicitReadFields = await getRelease(release.id, {
+				$select: ['id', ...explicitReadFields],
+			});
 			Object.assign(release, releaseWithExplicitReadFields);
 			return JSON.stringify(release, null, 4);
 		}

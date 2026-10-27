@@ -15,7 +15,7 @@ inputs:
   # --- custom environment
   NODE_VERSION:
     type: string
-    default: '24.x'
+    default: '^24.22.1'
   VERBOSE:
     type: string
     default: "true"
@@ -26,7 +26,7 @@ runs:
   steps:
     # https://github.com/actions/setup-node#caching-global-packages-data
     - name: Setup Node.js
-      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
+      uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
       with:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: npm

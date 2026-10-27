@@ -209,14 +209,9 @@ const appWithArchOptions = {
 	},
 } as const;
 
-export interface AppWithArch
-	extends NonNullable<
-		Pine.OptionsToResponse<
-			Application['Read'],
-			typeof appWithArchOptions,
-			string
-		>
-	> {
+export interface AppWithArch extends NonNullable<
+	Pine.OptionsToResponse<Application['Read'], typeof appWithArchOptions, string>
+> {
 	arch: string;
 }
 
@@ -366,7 +361,7 @@ export interface ProxyConfig {
  * Check whether a proxy has been configured (whether global-tunnel-ng or
  * global-agent) and if so, return a ProxyConfig object.
  */
-export async function getProxyConfig(): Promise<ProxyConfig | undefined> {
+export function getProxyConfig(): ProxyConfig | undefined {
 	const tunnelNgConfig: any = (global as any).PROXY_CONFIG;
 	// global-tunnel-ng
 	if (tunnelNgConfig) {
@@ -392,7 +387,6 @@ export async function getProxyConfig(): Promise<ProxyConfig | undefined> {
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 		if (proxyUrl) {
-			const { URL } = await import('url');
 			let url: InstanceType<typeof URL>;
 			try {
 				url = new URL(proxyUrl);
@@ -489,11 +483,11 @@ export async function awaitInterruptibleTask<
  * Sample input:  ({ 'a': 1, 'b': 2, 'c': 3 }, ['b => x', 'c', 'd'])
  * Sample output: { 'x': 2, 'c': 3 }
  */
-export function pickAndRename<T extends Dictionary<any>>(
+export function pickAndRename<T extends Record<string, any>>(
 	obj: T,
 	fields: string[],
-): Dictionary<any> {
-	const rename: Dictionary<any> = {};
+): Record<string, any> {
+	const rename: Record<string, any> = {};
 	// map 'a => b' to 'a' and setup rename['a'] = 'b'
 	fields = fields.map((f) => {
 		let renameFrom = f;

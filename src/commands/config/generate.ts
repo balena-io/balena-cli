@@ -156,7 +156,8 @@ export default class ConfigGenerateCmd extends Command {
 			| (DeviceWithDeviceType & { belongs_to__application: PineDeferred })
 			| null = null;
 		if (options.device != null) {
-			const rawDevice = await balena.models.device.get(options.device, {
+			const { getDevice } = await import('../../utils/sdk');
+			const rawDevice = await getDevice(options.device, {
 				$expand: { is_of__device_type: { $select: 'slug' } },
 			});
 			if (!rawDevice.belongs_to__application) {
@@ -197,9 +198,8 @@ export default class ConfigGenerateCmd extends Command {
 		const deviceManifest =
 			await balena.models.config.getDeviceTypeManifestBySlug(deviceType);
 
-		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
-		);
+		const { validateSecureBootOptionAndWarn } =
+			await import('../../utils/config');
 		await validateSecureBootOptionAndWarn(
 			options.secureBoot,
 			deviceType,
@@ -227,9 +227,8 @@ export default class ConfigGenerateCmd extends Command {
 		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
 
 		// Generate config
-		const { generateDeviceConfig, generateApplicationConfig } = await import(
-			'../../utils/config'
-		);
+		const { generateDeviceConfig, generateApplicationConfig } =
+			await import('../../utils/config');
 
 		let configJson;
 		if (device) {

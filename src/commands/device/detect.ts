@@ -57,9 +57,8 @@ export default class DeviceDetectCmd extends Command {
 
 	public async run() {
 		const _ = await import('lodash');
-		const { discoverLocalBalenaOsDevices } = await import(
-			'../../utils/discover'
-		);
+		const { discoverLocalBalenaOsDevices } =
+			await import('../../utils/discover');
 		const prettyjson = await import('prettyjson');
 		const dockerUtils = await import('../../utils/docker');
 

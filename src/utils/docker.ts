@@ -101,7 +101,7 @@ Implements the same feature as the "docker build --cache-from" option.`,
 };
 
 export interface BuildOpts {
-	buildargs?: Dictionary<string>;
+	buildargs?: Record<string, string>;
 	cachefrom?: string[];
 	nocache?: boolean;
 	pull?: boolean;
@@ -110,11 +110,11 @@ export interface BuildOpts {
 	t?: string; // only the tag portion of the image name, e.g. 'abc' in 'myimg:abc'
 }
 
-function parseBuildArgs(args: string[]): Dictionary<string> {
+function parseBuildArgs(args: string[]): Record<string, string> {
 	if (!Array.isArray(args)) {
 		args = [args];
 	}
-	const buildArgs: Dictionary<string> = {};
+	const buildArgs: Record<string, string> = {};
 	args.forEach(function (arg) {
 		// note: [^] matches any character, including line breaks
 		const pair = /^([^\s]+?)=([^]*)$/.exec(arg);

@@ -108,7 +108,7 @@ export class DeprecationChecker {
 	): Promise<string | undefined> {
 		const { default: got } = await import('got');
 		const url = this.getNpmUrl(version);
-		let response: import('got').Response<Dictionary<any>> | undefined;
+		let response: import('got').Response<Record<string, any>> | undefined;
 		try {
 			response = await got(url, {
 				responseType: 'json',

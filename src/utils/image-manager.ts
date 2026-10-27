@@ -61,7 +61,11 @@ export const getFileCreatedDate = async (filePath: string) => {
  * getImagePath('raspberry-pi', '1.2.3').then (imagePath) ->
  * 	console.log(imagePath)
  */
-export const getImagePath = async (deviceType: string, version?: string) => {
+export const getImagePath = async (
+	deviceType: string,
+	version?: string,
+	type?: 'installation-media' | 'disk-image',
+) => {
 	if (typeof version === 'string') {
 		validateVersion(version);
 	}
@@ -72,7 +76,10 @@ export const getImagePath = async (deviceType: string, version?: string) => {
 	]);
 	const extension = deviceTypeInfo.yocto.fstype === 'zip' ? 'zip' : 'img';
 	const path = await import('path');
-	return path.join(cacheDirectory, `${deviceType}-v${version}.${extension}`);
+	return path.join(
+		cacheDirectory,
+		`${deviceType}-v${version}${type != null ? `-${type}` : ''}.${extension}`,
+	);
 };
 
 /**
@@ -90,26 +97,18 @@ export const getImagePath = async (deviceType: string, version?: string) => {
  * 	if isCached
  * 		console.log('The Raspberry Pi image v1.2.3 is cached!')
  */
-export const isImageCached = async (deviceType: string, version: string) => {
-	const imagePath = await getImagePath(deviceType, version);
+export const isImageCached = async (
+	deviceType: string,
+	version: string,
+	type?: 'installation-media' | 'disk-image',
+) => {
+	const imagePath = await getImagePath(deviceType, version, type);
 	try {
 		const createdDate = await getFileCreatedDate(imagePath);
 		return createdDate != null;
 	} catch {
 		return false;
 	}
-};
-
-/**
- * Heuristically determine whether the given semver version is a balenaOS
- * ESR version.
- *
- * @param {string} version Semver version. If invalid or range, return false.
- */
-export const isESR = (version: string) => {
-	const match = version.match(/^v?(\d+)\.\d+\.\d+/);
-	const major = parseInt(match?.[1] ?? '', 10);
-	return major >= 2018; // note: (NaN >= 2018) is false
 };
 
 /**
@@ -121,15 +120,23 @@ export const isESR = (version: string) => {
  * See `getStream` for the detailed explanation.
  * @returns {Promise<String>} the most recent compatible version.
  */
-const resolveVersion = async (deviceType: string, versionOrRange: string) => {
+export const resolveVersion = async (
+	deviceType: string,
+	versionOrRange: string,
+) => {
 	const balena = getBalenaSdk();
+	// TODO: Consider moving the whole version resolution outside of the image-manager.ts
+	const { getOsType } = await import('./os');
 	const version = await balena.models.os.getMaxSatisfyingVersion(
 		deviceType,
 		versionOrRange,
-		isESR(versionOrRange) ? 'esr' : 'default',
+		getOsType(versionOrRange),
 	);
 	if (!version) {
-		throw new Error('No such version for the device type');
+		const { OSVersionNotFoundError } = await import('../errors');
+		throw new OSVersionNotFoundError(
+			`Version ${versionOrRange} is not available for the device type ${deviceType}`,
+		);
 	}
 	return version;
 };
@@ -139,14 +146,19 @@ const resolveVersion = async (deviceType: string, versionOrRange: string) => {
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} version - the exact balenaOS version number
+ * @param {String} type - the type of OS image, either "installation-media" or "disk-image"
  * @returns {Promise<fs.ReadStream>} image readable stream
  *
  * @example
  * getImage('raspberry-pi', '1.2.3').then (stream) ->
  * 	stream.pipe(fs.createWriteStream('foo/bar.img'))
  */
-export const getImage = async (deviceType: string, version: string) => {
-	const imagePath = await getImagePath(deviceType, version);
+export const getImage = async (
+	deviceType: string,
+	version: string,
+	type: 'installation-media' | 'disk-image' | undefined,
+) => {
+	const imagePath = await getImagePath(deviceType, version, type);
 	const fs = await import('fs');
 	const stream = fs.createReadStream(imagePath) as ReturnType<
 		typeof fs.createReadStream
@@ -163,17 +175,19 @@ export const getImage = async (deviceType: string, version: string) => {
  *
  * @param {String} deviceType - device type slug or alias
  * @param {String} version - the exact balenaOS version number
+ * @param {String} type - the type of OS image, either "installation-media" or "disk-image"
  * @returns {Promise<fs.WriteStream & { persistCache: () => Promise<void>, removeCache: () => Promise<void> }>} image writable stream
  *
  * @example
- * getImageWritableStream('raspberry-pi', '1.2.3').then (stream) ->
+ * getImageWritableStream('raspberry-pi', '1.2.3', 'installation-media').then (stream) ->
  * 	fs.createReadStream('foo/bar').pipe(stream)
  */
 export const getImageWritableStream = async (
 	deviceType: string,
 	version?: string,
+	type?: 'installation-media' | 'disk-image',
 ) => {
-	const imagePath = await getImagePath(deviceType, version);
+	const imagePath = await getImagePath(deviceType, version, type);
 
 	// Ensure the cache directory exists, to prevent
 	// ENOENT errors when trying to write to it.
@@ -199,9 +213,22 @@ type DownloadConfig = NonNullable<
 	Parameters<SDK.BalenaSDK['models']['os']['download']>[0]
 >;
 
-const doDownload = async (options: DownloadConfig) => {
+const imageTypeToSdkParam = {
+	'installation-media': 'flasher',
+	'disk-image': 'raw',
+} as const;
+
+const doDownload = async ({
+	type,
+	...restOptions
+}: Omit<DownloadConfig, 'imageType'> & {
+	type?: 'installation-media' | 'disk-image';
+}) => {
 	const balena = getBalenaSdk();
-	const imageStream = await balena.models.os.download(options);
+	const imageStream = await balena.models.os.download({
+		...restOptions,
+		imageType: type ? imageTypeToSdkParam[type] : undefined,
+	});
 	// Piping to a PassThrough stream is needed to be able
 	// to then pipe the stream to multiple destinations.
 	const { PassThrough } = await import('stream');
@@ -210,8 +237,9 @@ const doDownload = async (options: DownloadConfig) => {
 
 	// Save a copy of the image in the cache
 	const cacheStream = await getImageWritableStream(
-		options.deviceType,
-		options.version,
+		restOptions.deviceType,
+		restOptions.version,
+		type,
 	);
 
 	pass.pipe(cacheStream, { end: false });
@@ -251,31 +279,33 @@ const doDownload = async (options: DownloadConfig) => {
  * * a [semver](https://www.npmjs.com/package/semver)-compatible
  * range specification, in which case the most recent satisfying version is used
  * if it exists, or the promise is rejected,
- * * `'latest'` in which case the most recent version is used, including pre-releases,
- * * `'recommended'` in which case the recommended version is used, i.e. the most
- * recent version excluding pre-releases, the promise is rejected
- * if only pre-release versions are available,
- * * `'default'` in which case the recommended version is used if available,
- * or `latest` is used otherwise.
+ * * `'latest'` in which case the most recent version is returned, excluding pre-releases.
+ *   The promise is rejected if only pre-release versions are available,
  * Defaults to `'latest'`.
  * @param {Object} options
  * @param {boolean} options?.developmentMode
  * @returns {Promise<NodeJS.ReadableStream>} image readable stream
  *
  * @example
- * getStream('raspberry-pi', 'default').then (stream) ->
+ * getStream('raspberry-pi', 'latest').then (stream) ->
  * 	stream.pipe(fs.createWriteStream('foo/bar.img'))
  */
 export const getStream = async (
 	deviceType: string,
 	versionOrRange?: string,
-	options: Omit<DownloadConfig, 'deviceType' | 'version'> = {},
+	options: Omit<DownloadConfig, 'deviceType' | 'version' | 'imageType'> & {
+		type?: 'installation-media' | 'disk-image';
+	} = {},
 ) => {
 	versionOrRange ??= 'latest';
 	const version = await resolveVersion(deviceType, versionOrRange);
-	const isFresh = await isImageCached(deviceType, version);
-	const $stream = isFresh
-		? await getImage(deviceType, version)
+	const existsInCache = await isImageCached(deviceType, version, options.type);
+	const logger = (await import('./logger')).getLogger();
+	logger.logDebug(
+		`${existsInCache ? 'Copying cached' : 'Downloading'} ${options.type ?? 'default'} artifact for device type ${deviceType} version ${versionOrRange}`,
+	);
+	const $stream = existsInCache
+		? await getImage(deviceType, version, options.type)
 		: await doDownload({ ...options, deviceType, version });
 	// schedule the 'version' event for the next iteration of the event loop
 	// so that callers have a chance of adding an event handler

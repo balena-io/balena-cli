@@ -54,7 +54,9 @@ export default class OsConfigureCmd extends Command {
 		Configure a previously downloaded balenaOS image.
 
 		Configure a previously downloaded balenaOS image for a specific device type
-		or fleet.
+		or fleet. This command overwrites the image's \`config.json\` with a new
+		one generated from the options provided to the command, or with the file
+		passed via the \`--config\` option.
 
 		Configuration settings such as WiFi authentication will be taken from the
 		following sources, in precedence order:
@@ -200,7 +202,8 @@ export default class OsConfigureCmd extends Command {
 		}
 
 		if (options.device) {
-			device = (await balena.models.device.get(options.device, {
+			const { getDevice } = await import('../../utils/sdk');
+			device = (await getDevice(options.device, {
 				$expand: {
 					is_of__device_type: { $select: 'slug' },
 				},
@@ -236,9 +239,8 @@ export default class OsConfigureCmd extends Command {
 		const { validateDevOptionAndWarn } = await import('../../utils/config');
 		await validateDevOptionAndWarn(developmentMode, osVersion);
 
-		const { validateSecureBootOptionAndWarn } = await import(
-			'../../utils/config'
-		);
+		const { validateSecureBootOptionAndWarn } =
+			await import('../../utils/config');
 		await validateSecureBootOptionAndWarn(
 			secureBoot,
 			deviceTypeSlug,

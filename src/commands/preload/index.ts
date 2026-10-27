@@ -34,7 +34,7 @@ import type * as Fs from 'fs';
 // Define query options at the module level for proper typing
 const applicationExpandOptions = {
 	owns__release: {
-		$select: ['id', 'commit', 'end_timestamp', 'composition'],
+		$select: ['id', 'commit', 'end_timestamp', 'composition', 'raw_version'],
 		$expand: {
 			release_image: {
 				$select: ['id'],
@@ -465,9 +465,7 @@ Can be repeated to add multiple certificates.\
 		const DEFAULT_CHOICE = { name: 'current', value: 'current' };
 		const choices = [DEFAULT_CHOICE].concat(
 			releases.map((release) => ({
-				// TODO: [next-major] consider changing this to use the release semver
-				// and maybe the commit as well
-				name: `${release.end_timestamp} - ${release.commit}`,
+				name: `${release.end_timestamp} - ${release.commit} - ${release.raw_version}`,
 				value: release.commit,
 			})),
 		);

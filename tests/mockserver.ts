@@ -686,7 +686,6 @@ export class MockHttpServer {
 				times,
 			} = opts;
 			const id = 7654321;
-			const providedUuid = shortUUID ?? fullUUID;
 
 			let builder = mockServer.forGet(/\/v\d+\/device/);
 
@@ -701,8 +700,10 @@ export class MockHttpServer {
 				const decodedUrl = decodeURIComponent(req.url);
 				// Check if the URL contains the provided UUID (short or full)
 				if (
-					decodedUrl.includes(providedUuid) ||
-					decodedUrl.includes(fullUUID)
+					(shortUUID != null &&
+						decodedUrl.includes(`startswith(uuid,'${shortUUID}')`)) ||
+					((fullUUID.length === 32 || fullUUID.length === 62) &&
+						decodedUrl.includes(`/device(uuid='${fullUUID}')`))
 				) {
 					return {
 						status: 200,

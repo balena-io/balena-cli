@@ -348,7 +348,7 @@ describe('image-manager', function () {
 
 			it('should return a stream to the image', function (done) {
 				void imageManager
-					.getImage('lorem-ipsum', '1.2.3')
+					.getImage('lorem-ipsum', '1.2.3', undefined)
 					.then(function (stream) {
 						let result = '';
 
@@ -363,7 +363,7 @@ describe('image-manager', function () {
 
 			it('should contain the mime property', () =>
 				imageManager
-					.getImage('lorem-ipsum', '1.2.3')
+					.getImage('lorem-ipsum', '1.2.3', undefined)
 					.then((stream) =>
 						expect(stream.mime).to.equal('application/octet-stream'),
 					));

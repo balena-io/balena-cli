@@ -114,11 +114,14 @@ describe('balena device', function () {
 		);
 	});
 
+	const deviceUuid = '27fda508c7f44f2bad22b0732b4056f7';
+	const deviceShortUuid = deviceUuid.slice(0, 7);
+
 	it('should list device details for provided uuid', async () => {
 		await server.mockttp
-			.forGet('/v7/device')
+			.forGet(`/v7/device(uuid=%27${deviceUuid}%27)`)
 			.withExactQuery(
-				'?$filter=startswith(uuid,%2727fda508c%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+				`?$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)`,
 			)
 			.thenReply(
 				200,
@@ -130,7 +133,32 @@ describe('balena device', function () {
 				},
 			);
 
-		const { out } = await runCommand('device 27fda508c');
+		const { out } = await runCommand(`device ${deviceUuid}`);
+
+		const lines = cleanOutput(out);
+
+		expect(lines).to.have.lengthOf(25);
+		expect(lines[0]).to.equal('== SPARKLING WOOD');
+		expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
+	});
+
+	it('should list device details for provided short uuid', async () => {
+		await server.mockttp
+			.forGet('/v7/device')
+			.withExactQuery(
+				`?$filter=startswith(uuid,%27${deviceShortUuid}%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)`,
+			)
+			.thenReply(
+				200,
+				await import('fs').then((fs) =>
+					fs.readFileSync(path.join(apiResponsePath, 'device.json'), 'utf8'),
+				),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
+
+		const { out } = await runCommand(`device ${deviceShortUuid}`);
 
 		const lines = cleanOutput(out);
 
@@ -141,9 +169,9 @@ describe('balena device', function () {
 
 	it('correctly handles devices with missing fields', async () => {
 		await server.mockttp
-			.forGet('/v7/device')
+			.forGet(`/v7/device(uuid=%27${deviceUuid}%27)`)
 			.withExactQuery(
-				'?$filter=startswith(uuid,%2727fda508c%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+				`?$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)`,
 			)
 			.thenReply(
 				200,
@@ -158,7 +186,7 @@ describe('balena device', function () {
 				},
 			);
 
-		const { out } = await runCommand('device 27fda508c');
+		const { out } = await runCommand(`device ${deviceUuid}`);
 
 		const lines = cleanOutput(out);
 
@@ -171,9 +199,9 @@ describe('balena device', function () {
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		await server.mockttp
-			.forGet('/v7/device')
+			.forGet(`/v7/device(uuid=%27${deviceUuid}%27)`)
 			.withExactQuery(
-				'?$filter=startswith(uuid,%2727fda508c%27)&$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+				`?$select=device_name,id,overall_status,is_online,ip_address,mac_address,last_connectivity_event,uuid,supervisor_version,is_web_accessible,note,os_version,memory_usage,memory_total,public_address,storage_block_device,storage_usage,storage_total,cpu_usage,cpu_temp,cpu_id,is_undervolted&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)`,
 			)
 			.thenReply(
 				200,
@@ -188,7 +216,7 @@ describe('balena device', function () {
 				},
 			);
 
-		const { out } = await runCommand('device 27fda508c');
+		const { out } = await runCommand(`device ${deviceUuid}`);
 
 		const lines = cleanOutput(out);
 
@@ -199,9 +227,9 @@ describe('balena device', function () {
 
 	it('outputs device as JSON with the -j/--json flag', async () => {
 		await server.mockttp
-			.forGet('/v7/device')
+			.forGet(`/v7/device(uuid=%27${deviceUuid}%27)`)
 			.withExactQuery(
-				'?$filter=startswith(uuid,%2727fda508c%27)&$expand=device_tag($select=tag_key,value),belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
+				`?$expand=device_tag($select=tag_key,value),belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)`,
 			)
 			.thenReply(
 				200,
@@ -214,9 +242,9 @@ describe('balena device', function () {
 			);
 
 		await server.mockttp
-			.forGet('/v7/device')
+			.forGet(`/v7/device(uuid=%27${deviceUuid}%27)`)
 			.withExactQuery(
-				'?$filter=startswith(uuid,%2727fda508c%27)&$select=overall_status,overall_progress,should_be_running__release',
+				`?$select=overall_status,overall_progress,should_be_running__release`,
 			)
 			.thenReply(
 				200,
@@ -228,7 +256,7 @@ describe('balena device', function () {
 				},
 			);
 
-		const { out, err } = await runCommand('device 27fda508c --json');
+		const { out, err } = await runCommand(`device ${deviceUuid} --json`);
 		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
 		expect(json.device_name).to.equal('sparkling-wood');

@@ -69,12 +69,12 @@ export default class DeviceCmd extends Command {
 
 	public async run() {
 		const { args: params, flags: options } = await this.parse(DeviceCmd);
-
+		const { getDevice } = await import('../../utils/sdk');
 		const balena = getBalenaSdk();
 		let device: ExtendedDevice;
 		if (options.json) {
 			const [deviceBase, deviceComputed] = await Promise.all([
-				balena.models.device.get(params.uuid, {
+				getDevice(params.uuid, {
 					$expand: {
 						device_tag: {
 							$select: ['tag_key', 'value'],
@@ -82,7 +82,7 @@ export default class DeviceCmd extends Command {
 						...expandForAppName.$expand,
 					},
 				}),
-				balena.models.device.get(params.uuid, {
+				getDevice(params.uuid, {
 					$select: [
 						'overall_status',
 						'overall_progress',
@@ -96,7 +96,7 @@ export default class DeviceCmd extends Command {
 				...deviceComputed,
 			} as ExtendedDevice;
 		} else {
-			device = (await balena.models.device.get(params.uuid, {
+			device = (await getDevice(params.uuid, {
 				$select: [
 					'device_name',
 					'id',

@@ -250,7 +250,10 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Organizations
 
+	- [organization create](#organization-create)
 	- [organization list](#organization-list)
+	- [organization rename](#organization-rename)
+	- [organization rm](#organization-rm)
 
 - OS
 
@@ -1392,9 +1395,7 @@ path to the config JSON file, see `balena config generate`
 #### --os-version OS-VERSION
 
 exact version number, or a valid semver range,
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one stable version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'latest' (exludes invalidated & pre-releases),
 or 'menu' (will show the interactive menu)
 
 #### -v, --advanced
@@ -2664,6 +2665,22 @@ answer "yes" to all questions (non interactive use)
 
 # Organizations
 
+## organization create
+
+### Description
+
+Create a new organization.
+
+Examples:
+
+	$ balena organization create MyOrg
+
+### Arguments
+
+#### ORGNAME
+
+the name to use for the new organization
+
 ## organization list
 
 ### Description
@@ -2674,6 +2691,55 @@ Examples:
 
 	$ balena organization list
 
+## organization rename
+
+### Description
+
+Rename an organization.
+
+Note, if the name is omitted, it will be prompted for interactively.
+
+Examples:
+
+	$ balena organization rename my_org_handle
+	$ balena organization rename my_org_handle "My New Org"
+
+### Arguments
+
+#### HANDLE
+
+the handle of the organization to rename
+
+#### NEWNAME
+
+the new name for the organization
+
+## organization rm
+
+### Description
+
+Remove an organizations from balena.
+
+Note this command asks for confirmation interactively.
+You can avoid this by passing the `--yes` option.
+
+Examples:
+
+	$ balena organization rm my_org_handle
+	$ balena organization rm my_org_handle --yes
+
+### Arguments
+
+#### HANDLE
+
+the handle of the organization to delete
+
+### Options
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
+
 # OS
 
 ## os configure
@@ -2681,7 +2747,9 @@ Examples:
 ### Description
 
 Configure a previously downloaded balenaOS image for a specific device type
-or fleet.
+or fleet. This command overwrites the image's `config.json` with a new
+one generated from the options provided to the command, or with the file
+passed via the `--config` option.
 
 Configuration settings such as WiFi authentication will be taken from the
 following sources, in precedence order:
@@ -2812,6 +2880,10 @@ The '--version' option is used to select the balenaOS version. If omitted,
 the latest released version is downloaded (and if only pre-release versions
 exist, the latest pre-release version is downloaded).
 
+Use '--type' to specify the type of OS download
+If omitted, the default type for the specified device type-version combination is used.
+Some OS download types may not be available for certain device types and versions.
+
 Use '--version menu' or '--version menu-esr' to interactively select the
 OS version. The latter lists ESR versions which are only available for
 download on Production and Enterprise plans. See also:
@@ -2829,9 +2901,9 @@ Examples:
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2.60.1+rev1.dev
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version 2021.10.2.prod
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version latest
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version default
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberrypi3.img --version menu-esr
+	$ balena os download generic-amd64 -o ../foo/bar/generic-amd64.img --type installation-media
 
 ### Arguments
 
@@ -2849,11 +2921,14 @@ output path
 
 version number (ESR or non-ESR versions),
 or semver range (non-ESR versions only),
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one released version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'latest' (excludes invalidated & pre-releases),
 or 'menu' (interactive menu, non-ESR versions),
 or 'menu-esr' (interactive menu, ESR versions)
+
+#### --type TYPE
+
+'disk-image' (for flashing onto device system disk/storage)
+or 'installation-media' (for creating installation media to automatically erase, format, and install balenaOS on a device)
 
 ## os initialize
 

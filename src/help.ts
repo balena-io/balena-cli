@@ -155,9 +155,8 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		];
 		globalOps[0][0] = globalOps[0][0].padEnd(cmdLength);
 
-		const { deprecationPolicyNote, reachingOut } = await import(
-			'./utils/messages'
-		);
+		const { deprecationPolicyNote, reachingOut } =
+			await import('./utils/messages');
 
 		return [
 			ux.colorize('bold', 'USAGE'),

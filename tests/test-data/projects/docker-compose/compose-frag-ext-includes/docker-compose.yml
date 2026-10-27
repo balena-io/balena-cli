@@ -1,0 +1,22 @@
+x-common: &common
+  restart: always
+  volumes:
+    - 'resin-data:/data'
+
+x-build-args: &common-args
+  SHARED_ARG: shared_value
+
+include:
+  - compose-service2.yml
+
+volumes:
+  resin-data:
+
+services:
+  service1:
+    <<: *common
+    build:
+      context: ./service1
+      args:
+        <<: *common-args
+        SERVICE1_ARG: s1_value

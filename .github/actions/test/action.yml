@@ -15,7 +15,7 @@ inputs:
   # --- custom environment
   NODE_VERSION:
     type: string
-    default: '24.x'
+    default: '^24.22.1'
   VERBOSE:
     type: string
     default: "true"
@@ -26,7 +26,7 @@ runs:
   steps:
     # https://github.com/actions/setup-node#caching-global-packages-data
     - name: Setup Node.js
-      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
+      uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
       with:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: npm
@@ -43,7 +43,7 @@ runs:
 
     - name: Set up Python 3.11
       if: runner.os == 'macOS'
-      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
       with:
         python-version: "3.14"
 
@@ -70,7 +70,7 @@ runs:
       run: tar --exclude-vcs -acf ${{ runner.temp }}/custom.tgz .
 
     - name: Upload custom artifact
-      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       with:
         name: custom-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ runner.os }}-${{ runner.arch }}
         path: ${{ runner.temp }}/custom.tgz

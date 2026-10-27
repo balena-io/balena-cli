@@ -62,9 +62,7 @@ export default class OsVersionsCmd extends Command {
 			);
 		}
 
-		const { formatOsVersion, getOsVersions } = await import(
-			'../../utils/cloud'
-		);
+		const { formatOsVersion, getOsVersions } = await import('../../utils/os');
 		const vs = await getOsVersions(
 			params.type,
 			!!options.esr,

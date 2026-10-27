@@ -72,6 +72,13 @@ export function normalizeEnvVars(varNames: string[] = bootstrapVars) {
 	}
 }
 
+export function disableBackgroundAutoUpdates() {
+	// Disable the background auto-updates of @oclif/plugin-update
+	// https://github.com/oclif/plugin-update/blob/4.7.14/src/hooks/init.ts#L22
+	// https://github.com/oclif/core/blob/4.5.6/src/config/config.ts#L649-L658
+	process.env.BALENA_DISABLE_AUTOUPDATE = '1';
+}
+
 /**
  * Set the individual env vars implied by BALENARC_OFFLINE_MODE.
  */
@@ -122,7 +129,7 @@ export async function getCachedUsername(): Promise<CachedUsername | undefined> {
 		const result = (await storage.get('cachedUsername')) as
 			| CachedUsername
 			| undefined;
-		if (result && result.token === token && result.username) {
+		if (result?.token === token && result.username) {
 			cachedUsername = result;
 			return cachedUsername;
 		}

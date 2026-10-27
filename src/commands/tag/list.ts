@@ -65,12 +65,13 @@ export default class TagListCmd extends Command {
 			);
 		}
 		if (options.device) {
-			tags = await balena.models.device.tags.getAllByDevice(options.device);
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			const uuid = await resolveDeviceUuidParam(options.device);
+			tags = await balena.models.device.tags.getAllByDevice(uuid);
 		}
 		if (options.release) {
-			const { disambiguateReleaseParam } = await import(
-				'../../utils/normalization'
-			);
+			const { disambiguateReleaseParam } =
+				await import('../../utils/normalization');
 			const releaseParam = await disambiguateReleaseParam(
 				balena,
 				options.release,

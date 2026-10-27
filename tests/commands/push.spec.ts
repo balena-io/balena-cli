@@ -43,7 +43,7 @@ const itNoWin = process.platform === 'win32' ? it.skip : it;
 const commonResponseLines = {
 	'build-POST-v3.json': [
 		'[Info] Starting build for testApp, user gh_user',
-		'[Info] Dashboard link: https://dashboard.balena-cloud.com/apps/1301645/devices',
+		'[Info] Dashboard link: https://dashboard.balena-cloud.com/fleets/1301645',
 		'[Info] Building on arm01',
 		'[Info] Pulling previous images for caching purposes...',
 		'[Success] Successfully pulled cache images',

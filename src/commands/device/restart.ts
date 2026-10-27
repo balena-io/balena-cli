@@ -63,6 +63,8 @@ export default class DeviceRestartCmd extends Command {
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
+		// Not resolving partial UUIDs ahead of time,
+		// b/c restartAllServices can avoid the extra request
 		const deviceUuids = params.uuid.split(',');
 		const serviceNames = options.service?.split(',');
 
@@ -91,8 +93,11 @@ export default class DeviceRestartCmd extends Command {
 		// Get device
 		let device;
 		try {
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			deviceUuid = await resolveDeviceUuidParam(deviceUuid);
 			device = await balena.models.device.getWithServiceDetails(deviceUuid, {
 				$expand: {
+					belongs_to__application: { $select: 'slug' },
 					is_running__release: { $select: 'commit' },
 				},
 			});
@@ -106,19 +111,16 @@ export default class DeviceRestartCmd extends Command {
 		}
 		const activeRelease = getExpandedProp(device.is_running__release, 'commit');
 
-		// Check specified services exist on this device before restarting anything
-		serviceNames.forEach((service) => {
-			if (!device.current_services[service]) {
+		// Collect all restartFns so that we confirm that all services exist on this device before restarting anything
+		const restartFns: Array<() => Promise<void>> = [];
+		const fleetSlug = device.belongs_to__application[0].slug;
+		for (const serviceName of serviceNames) {
+			const service = device.current_services_by_app[fleetSlug]?.[serviceName];
+			if (service == null) {
 				throw new ExpectedError(
 					`Service ${service} not found on device ${deviceUuid}.`,
 				);
 			}
-		});
-
-		// Restart services
-		const restartPromises: Array<Promise<void>> = [];
-		for (const serviceName of serviceNames) {
-			const service = device.current_services[serviceName];
 			// Each service is an array of `CurrentServiceWithCommit`
 			// because when service is updating, it will actually hold 2 services
 			// Target commit matching `device.is_running__release`
@@ -127,7 +129,7 @@ export default class DeviceRestartCmd extends Command {
 			});
 
 			if (serviceContainer) {
-				restartPromises.push(
+				restartFns.push(() =>
 					balena.models.device.restartService(
 						deviceUuid,
 						serviceContainer.image_id,
@@ -137,7 +139,8 @@ export default class DeviceRestartCmd extends Command {
 		}
 
 		try {
-			await Promise.all(restartPromises);
+			// Restart services
+			await Promise.all(restartFns.map((fn) => fn()));
 		} catch (e) {
 			if (e.message.toLowerCase().includes('no online device')) {
 				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
@@ -152,9 +155,11 @@ export default class DeviceRestartCmd extends Command {
 		// Need to use device.get first to distinguish between non-existant and disconnected devices.
 		// Remove this workaround when SDK issue resolved: https://github.com/balena-io/balena-sdk/issues/649
 		const { instanceOf, ExpectedError } = await import('../../errors');
+		const { getDevice } = await import('../../utils/sdk');
+		let device;
 		try {
-			const device = await balena.models.device.get(deviceUuid, {
-				$select: 'is_connected_to_vpn',
+			device = await getDevice(deviceUuid, {
+				$select: ['uuid', 'is_connected_to_vpn'],
 			});
 			if (!device.is_connected_to_vpn) {
 				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
@@ -168,6 +173,6 @@ export default class DeviceRestartCmd extends Command {
 			}
 		}
 
-		await balena.models.device.restartApplication(deviceUuid);
+		await balena.models.device.restartApplication(device.uuid);
 	}
 }

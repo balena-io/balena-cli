@@ -293,7 +293,8 @@ export async function getOnlineTargetDeviceUuid(
 			logger.logDebug(
 				`Trying to fetch device by UUID ${fleetOrDevice} (${typeof fleetOrDevice})`,
 			);
-			const device = await sdk.models.device.get(fleetOrDevice, {
+			const { getDevice } = await import('./sdk');
+			const device = await getDevice(fleetOrDevice, {
 				$select: ['uuid', 'is_connected_to_vpn'],
 			});
 

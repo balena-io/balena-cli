@@ -79,7 +79,8 @@ export default class ReleaseAssetUploadCmd extends Command {
 			throw new Error(`File not found: ${args.filePath}`);
 		}
 
-		const release = await balena.models.release.get(args.commitOrId, {
+		const { getRelease } = await import('../../utils/sdk');
+		const release = await getRelease(args.commitOrId, {
 			$select: ['id'],
 		});
 

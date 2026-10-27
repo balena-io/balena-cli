@@ -103,7 +103,9 @@ export default class SupportCmd extends Command {
 		const disablingMessage = 'Disabling support access for';
 
 		// Process devices
-		for (const deviceUuid of deviceUuids) {
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		for (let deviceUuid of deviceUuids) {
+			deviceUuid = await resolveDeviceUuidParam(deviceUuid);
 			if (enabling) {
 				ux.action.start(`${enablingMessage} device ${deviceUuid}`);
 				await balena.models.device.grantSupportAccess(deviceUuid, expiryTs);

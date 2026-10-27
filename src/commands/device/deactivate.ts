@@ -53,19 +53,20 @@ export default class DeviceDeactivateCmd extends Command {
 		const balena = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');
 
-		const uuid = params.uuid;
 		const deactivationWarning = `
 Warning! Deactivating a device will charge a fee equivalent to the
 normal monthly cost for the device (e.g. $1 for an essentials device);
 the device will not be charged again until it comes online.
 `;
 
-		const warning = `Are you sure you want to deactivate device ${uuid} ?`;
+		const warning = `Are you sure you want to deactivate device ${params.uuid} ?`;
 
 		console.error(deactivationWarning);
 		// Confirm
 		await patterns.confirm(options.yes, warning);
 		// Deactivate
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(params.uuid);
 		await balena.models.device.deactivate(uuid);
 	}
 }

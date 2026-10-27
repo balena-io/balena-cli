@@ -62,8 +62,9 @@ export default class DeviceNoteCmd extends Command {
 			throw new ExpectedError('Missing device UUID (--device)');
 		}
 
+		const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+		const uuid = await resolveDeviceUuidParam(options.device);
 		const balena = getBalenaSdk();
-
-		return balena.models.device.setNote(options.device, params.note ?? '');
+		return balena.models.device.setNote(uuid, params.note ?? '');
 	}
 }

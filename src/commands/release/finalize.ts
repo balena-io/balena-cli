@@ -53,7 +53,8 @@ export default class ReleaseFinalizeCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const release = await balena.models.release.get(params.commitOrId, {
+		const { getRelease } = await import('../../utils/sdk');
+		const release = await getRelease(params.commitOrId, {
 			$select: ['id', 'is_final'],
 		});
 

@@ -26,7 +26,7 @@ import type {
 	BuildConfig,
 	Composition,
 	ImageDescriptor,
-} from '@balena/compose/dist/parse';
+} from '@balena/compose-parser';
 import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
@@ -106,6 +106,19 @@ export async function applyReleaseTagKeysAndValues(
 const LOG_LENGTH_MAX = 512 * 1024; // 512KB
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
 
+export async function parseComposePaths(
+	paths: string | string[],
+): Promise<Composition> {
+	const composeParser = await import('@balena/compose-parser');
+	const pathStr = Array.isArray(paths) ? paths.join(', ') : paths;
+	try {
+		return await composeParser.parse(paths);
+	} catch (err: any) {
+		err.message = `Error parsing composition file "${pathStr}":\n${err.message}`;
+		throw err;
+	}
+}
+
 /**
  * high-level function resolving a project and creating a composition out
  * of it in one go. if image is given, it'll create a default project for
@@ -118,19 +131,21 @@ export async function loadProject(
 	image?: string,
 	imageTag?: string,
 ): Promise<ComposeProject> {
-	const compose = await import('@balena/compose/dist/parse');
+	const composeMod = await import('@balena/compose/dist/parse');
 	const { createProject } = await import('./compose');
-	let composeName: string;
-	let composeStr: string;
+	let composition: Composition;
 
 	logger.logDebug('Loading project...');
 
 	if (image) {
 		logger.logInfo(`Creating default composition with image: "${image}"`);
-		composeStr = compose.defaultComposition(image);
+		composition = composeMod.defaultComposition(image);
 	} else {
 		logger.logDebug('Resolving project...');
-		[composeName, composeStr] = await resolveProject(logger, opts.projectPath);
+		const [composeName, composePath] = await resolveProject(
+			logger,
+			opts.projectPath,
+		);
 
 		if (composeName) {
 			if (opts.dockerfilePath) {
@@ -138,71 +153,45 @@ export async function loadProject(
 					`Ignoring alternative dockerfile "${opts.dockerfilePath}" because composition file "${composeName}" exists`,
 				);
 			}
+			// Parse the compose file (and dev overlay if local push)
+			if (opts.isLocal) {
+				const devOverlayPath = path.join(
+					opts.projectPath,
+					'docker-compose.dev.yml',
+				);
+				if (await exists(devOverlayPath)) {
+					logger.logInfo(
+						'Docker compose dev overlay detected (docker-compose.dev.yml) - merging.',
+					);
+					composition = await parseComposePaths([composePath, devOverlayPath]);
+				} else {
+					composition = await parseComposePaths(composePath);
+				}
+			} else {
+				composition = await parseComposePaths(composePath);
+			}
 		} else {
 			logger.logInfo(
 				`Creating default composition with source: "${opts.projectPath}"`,
 			);
-			composeStr = compose.defaultComposition(undefined, opts.dockerfilePath);
-		}
-
-		// If local push, merge dev compose overlay
-		if (opts.isLocal) {
-			composeStr = await mergeDevComposeOverlay(
-				logger,
-				composeStr,
-				opts.projectPath,
+			composition = composeMod.defaultComposition(
+				undefined,
+				opts.dockerfilePath,
 			);
 		}
 	}
 	logger.logDebug('Creating project...');
 	return createProject(
 		opts.projectPath,
-		composeStr,
+		composition!,
 		opts.projectName,
 		imageTag,
 	);
 }
 
 /**
- * Check for existence of docker-compose dev overlay file
- * and merge in services definitions.
- */
-async function mergeDevComposeOverlay(
-	logger: Logger,
-	composeStr: string,
-	projectRoot: string,
-) {
-	const devOverlayFilename = 'docker-compose.dev.yml';
-	const devOverlayPath = path.join(projectRoot, devOverlayFilename);
-
-	if (await exists(devOverlayPath)) {
-		logger.logInfo(
-			`Docker compose dev overlay detected (${devOverlayFilename}) - merging.`,
-		);
-		interface ComposeObj {
-			services?: object;
-		}
-		const loadObj = (inputStr: string): ComposeObj =>
-			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-			(yaml.load(inputStr) || {}) as ComposeObj;
-		try {
-			const compose = loadObj(composeStr);
-			const devOverlay = loadObj(await fs.readFile(devOverlayPath, 'utf8'));
-			// We only want to merge the services section
-			compose.services = { ...compose.services, ...devOverlay.services };
-			composeStr = yaml.dump(compose, { styles: { '!!null': 'empty' } });
-		} catch (err) {
-			err.message = `Error merging docker compose dev overlay file "${devOverlayPath}":\n${err.message}`;
-			throw err;
-		}
-	}
-
-	return composeStr;
-}
-
-/**
  * Look into the given directory for valid compose files and return
- * the contents of the first one found.
+ * the name and full path of the first one found.
  */
 async function resolveProject(
 	logger: Logger,
@@ -210,18 +199,13 @@ async function resolveProject(
 	quiet = false,
 ): Promise<[string, string]> {
 	let composeFileName = '';
-	let composeFileContents = '';
+	let composeFilePath = '';
 	for (const fname of compositionFileNames) {
 		const fpath = path.join(projectRoot, fname);
 		if (await exists(fpath)) {
 			logger.logDebug(`${fname} file found at "${projectRoot}"`);
 			composeFileName = fname;
-			try {
-				composeFileContents = await fs.readFile(fpath, 'utf8');
-			} catch (err) {
-				logger.logError(`Error reading composition file "${fpath}":\n${err}`);
-				throw err;
-			}
+			composeFilePath = fpath;
 			break;
 		}
 	}
@@ -229,7 +213,7 @@ async function resolveProject(
 		logger.logInfo(`No "docker-compose.yml" file found at "${projectRoot}"`);
 	}
 
-	return [composeFileName, composeFileContents];
+	return [composeFileName, composeFilePath];
 }
 
 interface BuildTaskPlus extends MultiBuild.BuildTask {
@@ -238,8 +222,8 @@ interface BuildTaskPlus extends MultiBuild.BuildTask {
 
 export interface Renderer {
 	start: () => void;
-	end: (buildSummaryByService?: Dictionary<string>) => void;
-	streams: Dictionary<NodeJS.ReadWriteStream>;
+	end: (buildSummaryByService?: Record<string, string>) => void;
+	streams: Record<string, NodeJS.ReadWriteStream>;
 }
 
 export interface BuildProjectOpts {
@@ -262,10 +246,10 @@ export async function buildProject(
 	opts: BuildProjectOpts,
 ): Promise<BuiltImage[]> {
 	await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
-	const compose = await import('@balena/compose/dist/parse');
-	const imageDescriptors = compose.parse(opts.composition);
+	const { toImageDescriptors } = await import('@balena/compose-parser');
+	const imageDescriptors = toImageDescriptors(opts.composition);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
-	let buildSummaryByService: Dictionary<string> | undefined;
+	let buildSummaryByService: Record<string, string> | undefined;
 	try {
 		const { awaitInterruptibleTask } = await import('./helpers');
 		const [images, summaryMsgByService] = await awaitInterruptibleTask(
@@ -285,7 +269,7 @@ async function $buildProject(
 	imageDescriptors: ImageDescriptor[],
 	renderer: Renderer,
 	opts: BuildProjectOpts,
-): Promise<[BuiltImage[], Dictionary<string>]> {
+): Promise<[BuiltImage[], Record<string, string>]> {
 	const { logger, projectName } = opts;
 	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
 
@@ -310,10 +294,10 @@ async function $buildProject(
 
 	const transposeOptArray: Array<TransposeOptions | undefined> =
 		await Promise.all(
-			tasks.map((task) => {
+			tasks.map(async (task) => {
 				// Setup emulation if needed
 				if (needsQemu && !task.external) {
-					return qemuTransposeBuildStream({ task, ...opts });
+					return await qemuTransposeBuildStream({ task, ...opts });
 				}
 			}),
 		);
@@ -401,9 +385,9 @@ async function installQemuIfNeeded({
 		logger.logInfo('Emulation is enabled');
 		// Copy qemu into all build contexts
 		await Promise.all(
-			imageDescriptors.map(function (d) {
+			imageDescriptors.map(async function (d) {
 				if (isBuildConfig(d.image)) {
-					return qemu.copyQemu(
+					return await qemu.copyQemu(
 						path.join(projectPath, d.image.context || '.'),
 						arch,
 					);
@@ -434,7 +418,7 @@ function setTaskAttributes({
 }: {
 	tasks: BuildTaskPlus[];
 	buildOpts: import('./docker').BuildOpts;
-	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	imageDescriptorsByServiceName: Record<string, ImageDescriptor>;
 	projectName: string;
 }) {
 	for (const task of tasks) {
@@ -443,7 +427,7 @@ function setTaskAttributes({
 		// any tags we've set before are lost; re-assign them here
 		task.tag ??= makeImageName(projectName, task.serviceName, buildOpts.t);
 		if (isBuildConfig(d.image)) {
-			d.image.tag = task.tag;
+			d.image.tags = [task.tag];
 		}
 		// reassign task.args so that the `--buildArg` flag takes precedence
 		// over assignments in the docker-compose.yml file (service.build.args)
@@ -556,9 +540,9 @@ async function inspectBuiltImages({
 }: {
 	builtImages: MultiBuild.LocalImage[];
 	docker: Dockerode;
-	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	imageDescriptorsByServiceName: Record<string, ImageDescriptor>;
 	tasks: BuildTaskPlus[];
-}): Promise<[BuiltImage[], Dictionary<string>]> {
+}): Promise<[BuiltImage[], Record<string, string>]> {
 	const images: BuiltImage[] = await Promise.all(
 		builtImages.map((builtImage: MultiBuild.LocalImage) =>
 			inspectBuiltImage({
@@ -589,7 +573,7 @@ async function inspectBuiltImage({
 }: {
 	builtImage: MultiBuild.LocalImage;
 	docker: Dockerode;
-	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	imageDescriptorsByServiceName: Record<string, ImageDescriptor>;
 	tasks: BuildTaskPlus[];
 }): Promise<BuiltImage> {
 	if (!builtImage.successful) {
@@ -604,7 +588,7 @@ async function inspectBuiltImage({
 
 	const image: BuiltImage = {
 		serviceName: d.serviceName,
-		name: (isBuildConfig(d.image) ? d.image.tag : d.image) ?? '',
+		name: (isBuildConfig(d.image) ? d.image.tags?.[0] : d.image) ?? '',
 		logs: truncateString(task?.logBuffer?.join('\n') ?? '', LOG_LENGTH_MAX),
 		props: {
 			dockerfile: builtImage.dockerfile,
@@ -683,27 +667,23 @@ async function loadBuildMetatada(
 export async function getServiceDirsFromComposition(
 	sourceDir: string,
 	composition?: Composition,
-): Promise<Dictionary<string>> {
-	const { createProject } = await import('./compose');
-	const serviceDirs: Dictionary<string> = {};
+): Promise<Record<string, string>> {
+	const serviceDirs: Record<string, string> = {};
 	if (!composition) {
-		const [, composeStr] = await resolveProject(
+		const [, composePath] = await resolveProject(
 			Logger.getLogger(),
 			sourceDir,
 			true,
 		);
-		if (composeStr) {
-			composition = createProject(sourceDir, composeStr).composition;
+		if (composePath) {
+			composition = await parseComposePaths(composePath);
 		}
 	}
 	if (composition?.services) {
 		const relPrefix = '.' + path.sep;
 		for (const [serviceName, service] of Object.entries(composition.services)) {
-			let dir =
-				(typeof service.build === 'string'
-					? service.build
-					: // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-						service.build?.context) || '.';
+			const dirRaw = service.build?.context;
+			let dir = dirRaw || '.';
 			// Convert forward slashes to backslashes on Windows
 			dir = path.normalize(dir);
 			// Make sure the path is relative to the project directory
@@ -736,7 +716,7 @@ export async function getServiceDirsFromComposition(
  * This is why this implementation works when `services.service.build` is defined
  * as a string in the docker-compose.yml file.
  *
- * @param image The `ImageDescriptor.image` attribute parsed with `@balena/compose/parse`
+ * @param image The `ImageDescriptor.image` attribute from `@balena/compose-parser`
  */
 export function isBuildConfig(
 	image: string | BuildConfig,
@@ -832,7 +812,7 @@ export async function tarDirectory(
  */
 async function printDockerignoreWarn(
 	dockerignoreFiles: Array<import('./ignore').FileStats>,
-	serviceDirsByService: Dictionary<string>,
+	serviceDirsByService: Record<string, string>,
 	multiDockerignore: boolean,
 ) {
 	let rootDockerignore: import('./ignore').FileStats | undefined;
@@ -1085,7 +1065,10 @@ async function resolveTasks(buildTasks: MultiBuild.BuildTask[]) {
 			//     task.dockerfile, task.dockerfilePath,
 			//     task.projectType, task.resolved
 			// This mimics what is currently done in `resin-builder`.
-			buildTask.buildStream = await cloneTarStream(buildTask.buildStream);
+			const packStream = await cloneTarStream(buildTask.buildStream);
+			// @ts-expect-error - tar-stream 3.2.1 embedded typings in which Packs is incompatible w/ the DefinitelyTyped ones
+			// TODO: align tar-stream all over the code base and fix the typings.
+			buildTask.buildStream = packStream;
 		} catch (e) {
 			error = e;
 		}
@@ -1278,7 +1261,7 @@ async function pushAndUpdateServiceImages(
 	token: string,
 	images: TaggedImage[],
 	afterEach: (
-		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
+		serviceImage: import('./compose-types').TaggedImage['serviceImage'],
 		props: object,
 	) => Promise<void>,
 ) {
@@ -1342,7 +1325,7 @@ async function pushAndUpdateServiceImages(
 			if (props.endTime) {
 				serviceImage.end_timestamp = props.endTime;
 			}
-			serviceImage.push_timestamp = new Date();
+			serviceImage.push_timestamp = new Date().toISOString();
 			serviceImage.status = 'success';
 		} catch (error) {
 			serviceImage.error_message = '' + error;
@@ -1379,11 +1362,11 @@ async function pushServiceImages(
 		token,
 		taggedImages,
 		async function (serviceImage) {
-			logger.logDebug(
-				`Saving image ${serviceImage.is_stored_at__image_location}`,
+			logger.logInfo(
+				`Saving image details for ${serviceImage.is_stored_at__image_location}`,
 			);
 			if (skipLogUpload) {
-				delete serviceImage.build_log;
+				delete (serviceImage as Partial<typeof serviceImage>).build_log;
 			}
 
 			// These are the only update-able image fields in bC atm, and passing
@@ -1429,7 +1412,7 @@ export async function deployProject(
 	projectPath: string,
 	isDraft: boolean,
 	imgDescriptors: ImageDescriptor[],
-): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
+): Promise<import('./compose-types').Release['release']> {
 	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
@@ -1500,7 +1483,7 @@ export async function deployProject(
 		}
 	} finally {
 		await runSpinner(tty, spinner, `${prefix}Saving release...`, async () => {
-			release.end_timestamp = new Date();
+			release.end_timestamp = new Date().toISOString();
 			if (release.id != null) {
 				await releaseMod.updateRelease(pineClient, release.id, {
 					status: release.status,
@@ -1556,15 +1539,13 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 
 async function getContractContent(
 	filePath: string,
-): Promise<
-	import('@balena/compose/dist/release/models').ReleaseModel['contract']
-> {
+): Promise<Record<string, any> | null> {
 	let fileContentAsString;
 	try {
 		fileContentAsString = await fs.readFile(filePath, 'utf8');
 	} catch (e) {
 		if (e.code === 'ENOENT') {
-			return; // File does not exist
+			return null; // File does not exist
 		}
 		throw e;
 	}
@@ -1588,7 +1569,7 @@ async function getContractContent(
 	return asJson;
 }
 
-function isContract(obj: any): obj is Dictionary<any> {
+function isContract(obj: any): obj is Record<string, any> {
 	return obj?.type && allowedContractTypes.includes(obj.type);
 }
 
@@ -1685,9 +1666,9 @@ function pullProgressAdapter(outStream: Duplex) {
 		error: Error;
 		errorDetail: Error;
 	}) {
-		id ||= '';
-		status ||= '';
-		const isTotal = id && id.toLowerCase() === 'total';
+		id ??= '';
+		status ??= '';
+		const isTotal = id?.toLowerCase() === 'total';
 		if (status) {
 			status = status.replace(/^Status: /, '');
 		} else if (isTotal && typeof percentage === 'number') {

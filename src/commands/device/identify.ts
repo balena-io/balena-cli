@@ -38,11 +38,12 @@ export default class DeviceIdentifyCmd extends Command {
 
 	public async run() {
 		const { args: params } = await this.parse(DeviceIdentifyCmd);
-
 		const balena = getBalenaSdk();
 
 		try {
-			await balena.models.device.identify(params.uuid);
+			const { resolveDeviceUuidParam } = await import('../../utils/sdk');
+			const uuid = await resolveDeviceUuidParam(params.uuid);
+			await balena.models.device.identify(uuid);
 		} catch (e) {
 			// Expected message: 'Request error: No online device(s) found'
 			if (e.message?.toLowerCase().includes('online')) {

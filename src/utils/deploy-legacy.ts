@@ -225,15 +225,7 @@ export const deployLegacy = async function (
 
 	if (shouldUploadLogs) {
 		logger.logInfo('Uploading logs...');
-		const args = await Promise.all([
-			logs,
-			token,
-			url,
-			buildId,
-			username,
-			appName,
-		]);
-		await uploadLogs(...args);
+		await uploadLogs(logs, token, url, buildId, username, appName);
 	}
 
 	return buildId;
