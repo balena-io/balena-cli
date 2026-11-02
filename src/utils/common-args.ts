@@ -22,3 +22,32 @@ export const fleetRequired = Args.string({
 	required: true,
 	parse: lowercaseIfSlug,
 });
+
+export const fleetOrIdRequired = Args.custom<string | number>({
+	description: 'fleet name, slug (preferred) or numeric ID',
+	parse: async (input) =>
+		/^\d+$/.test(input) ? Number(input) : lowercaseIfSlug(input),
+})({ required: true });
+
+/** Same validation the API applies to profile names */
+const PROFILE_NAME_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/;
+
+/** Parse a comma-separated list of profile names */
+export async function parseProfileNames(input: string): Promise<string[]> {
+	const { ExpectedError } = await import('../errors');
+	const names = input.split(',').filter((s) => s !== '');
+	if (names.length === 0) {
+		throw new ExpectedError('At least one profile name must be provided');
+	}
+	for (const name of names) {
+		if (!PROFILE_NAME_REGEX.test(name)) {
+			throw new ExpectedError(`Invalid profile name "${name}"`);
+		}
+	}
+	return [...new Set(names)];
+}
+
+export const profileNamesRequired = Args.custom<string[]>({
+	description: 'comma-separated list (no blank spaces) of profile names',
+	parse: parseProfileNames,
+})({ required: true });
