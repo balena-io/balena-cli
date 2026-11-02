@@ -58,7 +58,7 @@ runs:
       if: runner.os == 'macOS'
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
       with:
-        python-version: '3.14'
+        python-version: '3.15'
 
     - name: Install additional tools
       if: runner.os == 'Windows'
@@ -84,7 +84,7 @@ runs:
     # https://github.com/Apple-Actions/import-codesign-certs
     - name: Import Apple code signing certificate
       if: runner.os == 'macOS'
-      uses: apple-actions/import-codesign-certs@5142e029c445c10ffc7149d172e540235a065466 # v7
+      uses: apple-actions/import-codesign-certs@288b8ec97b82c66b6f2a6baaf7acc8dfbcbe331c # v7
       with:
         p12-file-base64: ${{ fromJSON(inputs.secrets).APPLE_SIGNING }}
         p12-password: ${{ fromJSON(inputs.secrets).APPLE_SIGNING_PASSWORD }}
@@ -161,7 +161,7 @@ runs:
         REF_NAME: ${{ github.event.pull_request.head.ref }}
         REF_SHA: ${{ github.event.pull_request.head.sha }}
     - name: Upload artifacts
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
         name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}-${{ strategy.job-index }}
         path: |
