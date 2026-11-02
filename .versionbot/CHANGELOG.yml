@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update actions/setup-node action to v7
+      hash: 26693cf6d6720c3ed84dfc915ebfb2dc4d394e17
+      body: |
+        Update actions/setup-node from 6.5.0 to 7.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.8
+  title: ""
+  date: 2026-11-02T22:51:34.837Z
+- commits:
     - subject: Republish with nodejs ^24.22.1
       hash: ea1d44fb11ce385e267377479b0604ac5a6e83bb
       body: ""
