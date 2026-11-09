@@ -27,10 +27,10 @@ export default class DeviceDetectCmd extends Command {
 
 		Scan for balenaOS devices on your local network.
 
-		The output includes device information collected through balenaEngine for
-		devices running a development image of balenaOS. Devices running a production
-		image do not expose balenaEngine (on TCP port 2375), which is why less
-		information is printed about them.
+		The output includes device information collected through balenaEngine, which
+		the CLI reaches through SSH (port 22222) with your SSH agent or default keys.
+		Less information is printed about devices that do not accept your SSH key,
+		and their OS variant is reported as 'unknown'.
 `;
 
 	public static examples = [
@@ -56,14 +56,12 @@ export default class DeviceDetectCmd extends Command {
 	public static offlineCompatible = true;
 
 	public async run() {
-		const _ = await import('lodash');
 		const { discoverLocalBalenaOsDevices } =
 			await import('../../utils/discover');
+		const { connectToDevice } = await import('../../utils/device/connection');
 		const prettyjson = await import('prettyjson');
-		const dockerUtils = await import('../../utils/docker');
 
-		const dockerPort = 2375;
-		const dockerTimeout = 2000;
+		const engineTimeout = 2000;
 
 		const { flags: options } = await this.parse(DeviceDetectCmd);
 
@@ -75,87 +73,52 @@ export default class DeviceDetectCmd extends Command {
 		ux.action.start('Scanning for local balenaOS devices');
 
 		const localDevices = await discoverLocalBalenaOsDevices(discoverTimeout);
-		const engineReachableDevices: boolean[] = await Promise.all(
-			localDevices.map(async ({ address }: { address: string }) => {
-				const docker = await dockerUtils.createClient({
-					host: address,
-					port: dockerPort,
-					timeout: dockerTimeout,
-				});
-				try {
-					await docker.ping();
-					return true;
-				} catch {
-					return false;
-				}
-			}),
-		);
-
-		const developmentDevices = localDevices.filter(
-			(_localDevice, index) => engineReachableDevices[index],
-		);
-
-		const productionDevices = _.differenceWith(
-			localDevices,
-			developmentDevices,
-			_.isEqual,
-		);
-
-		const productionDevicesInfo = productionDevices.map((device) => {
-			return {
-				host: device.host,
-				address: device.address,
-				osVariant: 'production',
-				dockerInfo: undefined,
-				dockerVersion: undefined,
-			};
-		});
-
-		// Query devices for info
-		const devicesInfo = await Promise.all(
-			developmentDevices.map(async ({ host, address }) => {
-				const docker = await dockerUtils.createClient({
-					host: address,
-					port: dockerPort,
-					timeout: dockerTimeout,
-				});
-				const [dockerInfo, dockerVersion] = await Promise.all([
-					docker.info(),
-					docker.version(),
-				]);
-				return {
-					host,
-					address,
-					osVariant: 'development',
-					dockerInfo,
-					dockerVersion,
-				};
-			}),
-		);
-
-		ux.action.stop('Reporting scan results');
-
-		// Reduce properties if not --verbose
-		if (!options.verbose) {
-			devicesInfo.forEach((d: any) => {
-				d.dockerInfo =
-					d.dockerInfo != null && typeof d.dockerInfo === 'object'
-						? pick(d.dockerInfo, DeviceDetectCmd.dockerInfoProperties)
-						: d.dockerInfo;
-				d.dockerVersion =
-					d.dockerVersion != null && typeof d.dockerVersion === 'object'
-						? pick(d.dockerVersion, DeviceDetectCmd.dockerVersionProperties)
-						: d.dockerVersion;
-			});
-		}
 
 		const cmdOutput: Array<{
 			host: string;
 			address: string;
 			osVariant: string;
 			dockerInfo: any;
-			dockerVersion: import('dockerode').DockerVersion | undefined;
-		}> = [...productionDevicesInfo, ...devicesInfo];
+			dockerVersion: Partial<import('dockerode').DockerVersion> | undefined;
+		}> = await Promise.all(
+			localDevices.map(async ({ host, address }) => {
+				let connection;
+				try {
+					connection = await connectToDevice(address, engineTimeout);
+				} catch {
+					return {
+						host,
+						address,
+						osVariant: 'unknown',
+						dockerInfo: undefined,
+						dockerVersion: undefined,
+					};
+				}
+				try {
+					const [dockerInfo, dockerVersion, developmentMode] =
+						await Promise.all([
+							connection.docker.info(),
+							connection.docker.version(),
+							connection.isDevelopmentMode(),
+						]);
+					return {
+						host,
+						address,
+						osVariant: developmentMode ? 'development' : 'production',
+						dockerInfo: options.verbose
+							? dockerInfo
+							: pick(dockerInfo, DeviceDetectCmd.dockerInfoProperties),
+						dockerVersion: options.verbose
+							? dockerVersion
+							: pick(dockerVersion, DeviceDetectCmd.dockerVersionProperties),
+					};
+				} finally {
+					connection.close();
+				}
+			}),
+		);
+
+		ux.action.stop('Reporting scan results');
 
 		// Output results
 		if (!options.json && cmdOutput.length === 0) {
@@ -186,7 +149,9 @@ export default class DeviceDetectCmd extends Command {
 		'Architecture',
 	];
 
-	protected static dockerVersionProperties = ['Version', 'ApiVersion'];
+	protected static dockerVersionProperties: Array<
+		keyof import('dockerode').DockerVersion
+	> = ['Version', 'ApiVersion'];
 
 	protected static noDevicesFoundMessage =
 		'Could not find any balenaOS devices on the local network.';

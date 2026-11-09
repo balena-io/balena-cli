@@ -1274,10 +1274,10 @@ answer "yes" to all questions (non interactive use)
 
 Scan for balenaOS devices on your local network.
 
-The output includes device information collected through balenaEngine for
-devices running a development image of balenaOS. Devices running a production
-image do not expose balenaEngine (on TCP port 2375), which is why less
-information is printed about them.
+The output includes device information collected through balenaEngine, which
+the CLI reaches through SSH (port 22222) with your SSH agent or default keys.
+Less information is printed about devices that do not accept your SSH key,
+and their OS variant is reported as 'unknown'.
 
 Examples:
 

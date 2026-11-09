@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as http from 'http';
+import type { IncomingMessage } from 'http';
+
 import { retry } from '../helpers';
 import Logger = require('../logger');
 import * as ApiErrors from './errors';
-import { getBalenaSdk } from '../lazy';
-import type { BalenaSDK } from 'balena-sdk';
 
 export interface DeviceResponse {
 	[key: string]: any;
@@ -66,12 +67,24 @@ const deviceEndpoints = {
 	containerId: 'v2/containerId',
 };
 
+interface DeviceRequest {
+	method: 'GET' | 'POST';
+	url: string;
+	json?: boolean;
+	body?: Record<string, any>;
+	qs?: Record<string, string>;
+}
+
 export class DeviceAPI {
 	private deviceAddress: string;
 
+	/**
+	 * @param agent Carries every request, e.g. over SSH; see connectToDevice()
+	 */
 	public constructor(
 		private logger: Logger,
 		addr: string,
+		private agent: http.Agent,
 		port = 48484,
 	) {
 		// Allow override for testing with mock servers
@@ -82,28 +95,22 @@ export class DeviceAPI {
 	// Either return nothing, or throw an error with the info
 	public async setTargetState(state: Record<string, any>) {
 		const url = this.getUrlForAction('setTargetState');
-		await DeviceAPI.sendRequest(
-			{
-				method: 'POST',
-				url,
-				json: true,
-				body: state,
-			},
-			this.logger,
-		);
+		await this.sendRequest({
+			method: 'POST',
+			url,
+			json: true,
+			body: state,
+		});
 	}
 
 	public async getTargetState() {
 		const url = this.getUrlForAction('getTargetState');
 
-		return await DeviceAPI.sendRequest(
-			{
-				method: 'GET',
-				url,
-				json: true,
-			},
-			this.logger,
-		).then(({ state }: { state: Record<string, any> }) => {
+		return await this.sendRequest({
+			method: 'GET',
+			url,
+			json: true,
+		}).then(({ state }: { state: Record<string, any> }) => {
 			return state;
 		});
 	}
@@ -111,14 +118,11 @@ export class DeviceAPI {
 	public async getDeviceInformation() {
 		const url = this.getUrlForAction('getDeviceInformation');
 
-		return await DeviceAPI.sendRequest(
-			{
-				method: 'GET',
-				url,
-				json: true,
-			},
-			this.logger,
-		).then(({ info }: { info: DeviceInfo }) => {
+		return await this.sendRequest({
+			method: 'GET',
+			url,
+			json: true,
+		}).then(({ info }: { info: DeviceInfo }) => {
 			return info;
 		});
 	}
@@ -126,17 +130,14 @@ export class DeviceAPI {
 	public async getContainerId(serviceName: string): Promise<string> {
 		const url = this.getUrlForAction('containerId');
 
-		const body = await DeviceAPI.sendRequest(
-			{
-				method: 'GET',
-				url,
-				json: true,
-				qs: {
-					serviceName,
-				},
+		const body = await this.sendRequest({
+			method: 'GET',
+			url,
+			json: true,
+			qs: {
+				serviceName,
 			},
-			this.logger,
-		);
+		});
 
 		if (body.status !== 'success') {
 			throw new ApiErrors.DeviceAPIError(
@@ -149,19 +150,16 @@ export class DeviceAPI {
 	public async ping() {
 		const url = this.getUrlForAction('ping');
 
-		await DeviceAPI.sendRequest(
-			{
-				method: 'GET',
-				url,
-			},
-			this.logger,
-		);
+		await this.sendRequest({
+			method: 'GET',
+			url,
+		});
 	}
 
 	public async getVersion(): Promise<string> {
 		const url = this.getUrlForAction('version');
 
-		return await DeviceAPI.sendRequest({
+		return await this.sendRequest({
 			method: 'GET',
 			url,
 			json: true,
@@ -179,7 +177,7 @@ export class DeviceAPI {
 	public async getStatus() {
 		const url = this.getUrlForAction('status');
 
-		return await DeviceAPI.sendRequest({
+		return await this.sendRequest({
 			method: 'GET',
 			url,
 			json: true,
@@ -195,39 +193,78 @@ export class DeviceAPI {
 		});
 	}
 
-	public async getLogStream() {
-		const url = this.getUrlForAction('logs');
-		const sdk = getBalenaSdk();
-
-		const stream = await sdk.request.stream({ url });
-		stream.on('response', (res) => {
-			if (res.statusCode !== 200) {
-				throw new ApiErrors.DeviceAPIError(
-					'Non-200 response from log streaming endpoint',
-				);
-			}
-			res.socket.setKeepAlive(true, 1000);
+	public async getLogStream(): Promise<IncomingMessage> {
+		const res = await this.openRequest({
+			method: 'GET',
+			url: this.getUrlForAction('logs'),
 		});
-		return stream;
+		if (res.statusCode !== 200) {
+			res.resume();
+			throw new ApiErrors.DeviceAPIError(
+				'Non-200 response from log streaming endpoint',
+			);
+		}
+		return res;
 	}
 
 	private getUrlForAction(action: keyof typeof deviceEndpoints) {
 		return `${this.deviceAddress}${deviceEndpoints[action]}`;
 	}
 
-	// A helper method for promisifying general (non-streaming) requests. Streaming
-	// requests should use a seperate setup
-	private static async sendRequest(
-		opts: Parameters<BalenaSDK['request']['send']>[number],
-		logger?: Logger,
-	) {
-		if (logger != null && opts.url != null) {
-			logger.logDebug(`Sending request to ${opts.url}`);
+	private openRequest({
+		method,
+		url,
+		json,
+		body,
+		qs,
+	}: DeviceRequest): Promise<IncomingMessage> {
+		const target = new URL(url);
+		for (const [key, value] of Object.entries(qs ?? {})) {
+			target.searchParams.set(key, value);
 		}
+		const payload = json && body != null ? JSON.stringify(body) : undefined;
+		return new Promise((resolve, reject) => {
+			const req = http.request(
+				target,
+				{
+					method,
+					agent: this.agent,
+					headers:
+						payload != null
+							? {
+									'Content-Type': 'application/json',
+									'Content-Length': Buffer.byteLength(payload),
+								}
+							: {},
+				},
+				resolve,
+			);
+			req.once('error', reject);
+			req.end(payload);
+		});
+	}
 
-		const sdk = getBalenaSdk();
+	private async readResponse(req: DeviceRequest) {
+		const res = await this.openRequest(req);
+		let text = '';
+		for await (const chunk of res) {
+			text += chunk;
+		}
+		const isJson = (res.headers['content-type'] ?? '').includes(
+			'application/json',
+		);
+		return {
+			statusCode: res.statusCode,
+			body: isJson ? JSON.parse(text) : text,
+		};
+	}
+
+	// A helper method for general (non-streaming) requests
+	private async sendRequest(opts: DeviceRequest) {
+		this.logger.logDebug(`Sending request to ${opts.url}`);
+
 		const doRequest = async () => {
-			const response = await sdk.request.send(opts);
+			const response = await this.readResponse(opts);
 			const bodyError =
 				typeof response.body === 'string'
 					? response.body
