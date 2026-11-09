@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency flowzonify to v0.4.23
+      hash: 0432421d5d54dd8db65f264bd89414d5f47c7851
+      body: |
+        Update flowzonify from 0.0.0 to 0.4.23
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.11
+  title: ""
+  date: 2026-11-09T20:33:32.466Z
+- commits:
     - subject: "os download: Update the command description for ESR being available on
         all paid plans"
       hash: fefd13e9ea263081630be751fad9688daad0685c
