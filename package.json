@@ -32,7 +32,8 @@
     "build:t": "npm run lint && npm run build:fast && npm run build:test",
     "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc",
     "build:pages": "mkdirp ./build/auth/pages/ && inline-source --compress ./src/auth/pages/error.ejs ./build/auth/pages/error.ejs && inline-source --compress ./src/auth/pages/success.ejs ./build/auth/pages/success.ejs",
-    "build:fast": "npm run build:pages && tsc && npx oclif manifest",
+    "build:parser": "ts-node --transpile-only automation/run.ts build:parser",
+    "build:fast": "npm run build:parser && npm run build:pages && tsc && npx oclif manifest",
     "build:test": "tsc -P ./tsconfig.dev.json --noEmit",
     "build:doc": "ts-node --transpile-only automation/capitanodoc/index.ts > docs/balena-cli.md",
     "build:standalone": "ts-node --transpile-only automation/run.ts build:standalone",
@@ -52,6 +53,7 @@
     "test:only": "npm run build:fast && cross-env BALENA_CLI_TEST_TYPE=source mocha \"tests/**/${npm_config_test}.spec.ts\"",
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
+    "flowzone-preinstall": "node automation/install-go.js",
     "lint": "npm run lint-tsconfig && npm run lint-other",
     "lint-tsconfig": "balena-lint -e ts -e js -t tsconfig.dev.json --fix automation/ src/ tests/ typings/",
     "lint-other": "balena-lint -e ts -e js --fix bin/run.js bin/dev.js .mocharc.js .mocharc-standalone.js",
@@ -171,8 +173,8 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@balena/compose": "^8.0.4",
-    "@balena/compose-parser": "^0.2.6",
+    "@balena/compose": "8.1.0-build-profiles-support-runtime-7d563d2b24d477a2c31cbaa93bab745efc2196aa-1",
+    "@balena/compose-parser": "1.1.0-build-runtime-9a6f1a6bc93f95edf4bc9064d3697780c387b213-1",
     "@balena/dockerignore": "^1.0.2",
     "@balena/env-parsing": "^1.1.8",
     "@balena/es-version": "^1.0.1",
