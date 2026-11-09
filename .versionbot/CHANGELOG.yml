@@ -1,4 +1,21 @@
 - commits:
+    - subject: "os download: Update the command description for ESR being available on
+        all paid plans"
+      hash: fefd13e9ea263081630be751fad9688daad0685c
+      body: ""
+      footer:
+        Depends-on: https://github.com/balena-io/balena-api/pull/6880
+        depends-on: https://github.com/balena-io/balena-api/pull/6880
+        Change-type: patch
+        change-type: patch
+        See: https://balena.fibery.io/Work/Project/3101
+        see: https://balena.fibery.io/Work/Project/3101
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.2.10
+  title: ""
+  date: 2026-11-09T18:31:51.559Z
+- commits:
     - subject: Update GitHub Actions
       hash: 3c5130816dc8e74a7704c0890ca6ed58e8e07d3a
       body: |
