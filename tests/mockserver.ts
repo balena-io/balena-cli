@@ -112,6 +112,12 @@ export class MockHttpServer {
 		$path: string | RegExp,
 		defaultResponse: { status: number; body?: string | object; file?: string },
 		opts: MockParams = {},
+		{
+			matchQuery = false,
+		}: {
+			/** Match `$path` against the path including the query string only */
+			matchQuery?: boolean;
+		} = {},
 	): Promise<mockttp.MockedEndpoint> {
 		const {
 			optional = false,
@@ -131,15 +137,19 @@ export class MockHttpServer {
 		} as const;
 
 		// Use a catch-all for forGet/forPost/etc, then apply the actual matching in .matching()
-		let builder = methodMap[method]($path).matching((req) => {
-			const decodedPath = decodeURIComponent(req.path);
-			if (typeof $path === 'string') {
-				const expectedPath = decodeURIComponent($path);
-				return decodedPath.includes(expectedPath);
-			} else {
-				return $path.test(decodedPath);
-			}
-		});
+		// mockttp matches URLs without their query string, so skip its URL
+		// matching when the query string needs to be matched as well
+		let builder = methodMap[method](matchQuery ? undefined : $path).matching(
+			(req) => {
+				const decodedPath = decodeURIComponent(req.path);
+				if (typeof $path === 'string') {
+					const expectedPath = decodeURIComponent($path);
+					return decodedPath.includes(expectedPath);
+				} else {
+					return $path.test(decodedPath);
+				}
+			},
+		);
 
 		if (persist) {
 			builder = builder.always();
@@ -178,6 +188,19 @@ export class MockHttpServer {
 	}
 
 	public api = {
+		/**
+		 * Mock a pine request. `$path` is matched against the decoded request
+		 * path, including the query string, eg /^\/resin\/image_profile\?/
+		 */
+		expectPineRequest: (
+			method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
+			$path: RegExp,
+			opts: MockParams = {},
+		) =>
+			this.createMock(method, $path, { status: 200 }, opts, {
+				matchQuery: true,
+			}),
+
 		expectWhoAmIFail: (opts?: ScopeOpts) =>
 			this.createMock('GET', '/actor/v1/whoami', { status: 401 }, opts),
 
