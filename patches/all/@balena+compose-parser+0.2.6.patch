@@ -1,0 +1,34 @@
+diff --git a/node_modules/@balena/compose-parser/dist/compose.js b/node_modules/@balena/compose-parser/dist/compose.js
+index 2f807d5..a4405c0 100644
+--- a/node_modules/@balena/compose-parser/dist/compose.js
++++ b/node_modules/@balena/compose-parser/dist/compose.js
+@@ -123,7 +123,6 @@
+     'oom_kill_disable',
+     'platform',
+     'pull_policy',
+-    'runtime',
+     'scale',
+     'secrets',
+     'stdin_open',
+@@ -362,6 +361,11 @@
+         if (v.source && allowedBindMounts.includes(v.source)) {
+             continue;
+         }
++        // TEMPORARY: pass all bind mounts through so the supervisor can filter them (e2e testing)
++        if (v.type === 'bind') {
++            shortSyntaxVolumes.push(`${v.source}:${v.target}${v.read_only ? ':ro' : ''}`);
++            continue;
++        }
+         if (['bind', 'image', 'npipe', 'cluster'].includes(v.type)) {
+             throw new errors_1.ServiceError(`service.volumes cannot be of type "${v.type}"`, serviceName);
+         }
+@@ -435,6 +439,9 @@
+     let contract = (0, contracts_1.createContractFromLabels)(serviceName, service.labels);
+     if ((0, legacy_1.usesNewComposeFields)(service)) {
+         console.warn(`Service "${serviceName}" uses compose fields that may not be supported on legacy Supervisor versions`);
++    }
++    // TEMPORARY: skip the sw.spec requirement so new compose fields reach the supervisor (e2e testing)
++    if (false) {
+         const composeRequirement = {
+             type: 'sw.spec',
+             slug: 'compose',
