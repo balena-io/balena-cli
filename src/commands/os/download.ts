@@ -38,7 +38,7 @@ export default class OsDownloadCmd extends Command {
 
 		Use '--version menu' or '--version menu-esr' to interactively select the
 		OS version. The latter lists ESR versions which are only available for
-		download on Production and Enterprise plans. See also:
+		download on paid plans. See also:
 		https://www.balena.io/docs/reference/OS/extended-support-release/
 
 		Development images can be selected by appending \`.dev\` to the version.
