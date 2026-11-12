@@ -3,9 +3,9 @@
 set -e
 
 cp npm-shrinkwrap.json npm-shrinkwrap.json.old
-npm i
-npm dedupe
-npm i
+npx -y -p @aikidosec/safe-chain aikido-npm i
+npx -y -p @aikidosec/safe-chain aikido-npm dedupe
+npx -y -p @aikidosec/safe-chain aikido-npm i
 
 if ! diff -q npm-shrinkwrap.json npm-shrinkwrap.json.old > /dev/null; then
   rm npm-shrinkwrap.json.old

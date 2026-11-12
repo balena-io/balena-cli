@@ -475,14 +475,17 @@ async function qemuTransposeBuildStream({
 		qemuFileMode: 0o555,
 	};
 
-	task.buildStream = (await transpose.transposeTarStream(
+	const buildStream = await transpose.transposeTarStream(
 		task.buildStream,
 		transposeOptions,
 		// Should fall back to undefined if empty string so that
 		// transposeTarStream defaults to 'Dockerfile'.
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		dockerfilePath || undefined,
-	)) as Pack;
+	);
+	// @ts-expect-error - Should be able to remove once the typings get fixed
+	const packBuildStream = buildStream as Pack;
+	task.buildStream = packBuildStream;
 
 	return transposeOptions;
 }

@@ -16,10 +16,18 @@
  */
 
 declare module 'color-hash' {
-	class ColorHash {
+	interface ColorHashOptions {
+		hash?: string;
+		saturation?: [number, number, number];
+		lightness?: [number, number, number];
+	}
+
+	export class ColorHash {
+		constructor(options?: ColorHashOptions);
 		public hex(text: string): string;
 		public rgb(text: string): [number, number, number];
 	}
 
-	export = ColorHash;
+	const _default: typeof ColorHash;
+	export default _default;
 }
