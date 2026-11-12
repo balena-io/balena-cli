@@ -1,4 +1,27 @@
 - commits:
+    - subject: "renovate: Cap npm below 12 to keep shrinkwrap support"
+      hash: 8b76c8c339e2e3d98c468e18b07d7cb8100b20d8
+      body: |
+        npm 12 dropped npm-shrinkwrap.json support, so Renovate's lock file
+        step writes a package-lock.json, fails to rename it over the
+        shrinkwrap, and commits only package.json.
+
+        Keep the preset's 11.6.1/11.6.2 exclusion. Also install the capped
+        npm for the github-actions dedupe task, which otherwise runs with the
+        image's default npm.
+      footer:
+        See: https://github.com/npm/cli/pull/9736
+        see: https://github.com/npm/cli/pull/9736
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 25.2.13
+  title: ""
+  date: 2026-11-12T22:24:14.614Z
+- commits:
     - subject: Use safe-chain for test-lock-deduplicated
       hash: 3d6d3d027541a1f7c557b6355f1a20b89e90a15e
       body: ""
