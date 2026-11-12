@@ -1,5 +1,8 @@
 {
 	"extends": ["github>balena-io/renovate-config"],
+	"constraints": {
+		"npm": "<=11.6.0 || >=11.6.3 <12"
+	},
 	"postUpdateOptions": ["npmDedupe"],
 	"packageRules": [
 		{
@@ -8,7 +11,10 @@
 			"postUpgradeTasks": {
 				"commands": ["npm dedupe --package-lock-only"],
 				"fileFilters": ["npm-shrinkwrap.json"],
-				"executionMode": "update"
+				"executionMode": "update",
+				"installTools": {
+					"npm": {}
+				}
 			}
 		}
 	]
