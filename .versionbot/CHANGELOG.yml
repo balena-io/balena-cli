@@ -1,4 +1,25 @@
 - commits:
+    - subject: Use safe-chain for test-lock-deduplicated
+      hash: 3d6d3d027541a1f7c557b6355f1a20b89e90a15e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Update dependency color-hash to v2
+      hash: d63e8c5b13cd224865737186d4a2663531298e53
+      body: |
+        Update color-hash from 1.1.1 to 2.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.12
+  title: ""
+  date: 2026-11-12T17:28:26.485Z
+- commits:
     - subject: Update dependency flowzonify to v0.4.23
       hash: 0432421d5d54dd8db65f264bd89414d5f47c7851
       body: |
