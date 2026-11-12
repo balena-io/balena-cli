@@ -2982,20 +2982,6 @@
         "npm": ">= 11.5.1"
       }
     },
-    "node_modules/@balena/compose/node_modules/b4a": {
-      "version": "1.9.0",
-      "resolved": "https://registry.npmjs.org/b4a/-/b4a-1.9.0.tgz",
-      "integrity": "sha512-dpfcF9fDNR6++cthXR67iyhgqWy9CBouAvIWhIntzBG6cvK/cnIPiZQjBwi/ZqjjBEDGfoNDtmB0kTjroOJ3pQ==",
-      "license": "Apache-2.0",
-      "peerDependencies": {
-        "react-native-b4a": "*"
-      },
-      "peerDependenciesMeta": {
-        "react-native-b4a": {
-          "optional": true
-        }
-      }
-    },
     "node_modules/@balena/compose/node_modules/tar-stream": {
       "version": "3.2.2",
       "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-3.2.2.tgz",
@@ -9017,6 +9003,20 @@
         "node": ">=10.19.0"
       }
     },
+    "node_modules/b4a": {
+      "version": "1.9.0",
+      "resolved": "https://registry.npmjs.org/b4a/-/b4a-1.9.0.tgz",
+      "integrity": "sha512-dpfcF9fDNR6++cthXR67iyhgqWy9CBouAvIWhIntzBG6cvK/cnIPiZQjBwi/ZqjjBEDGfoNDtmB0kTjroOJ3pQ==",
+      "license": "Apache-2.0",
+      "peerDependencies": {
+        "react-native-b4a": "*"
+      },
+      "peerDependenciesMeta": {
+        "react-native-b4a": {
+          "optional": true
+        }
+      }
+    },
     "node_modules/backo2": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/backo2/-/backo2-1.0.2.tgz",
@@ -9378,20 +9378,6 @@
           "optional": true
         },
         "bare-events": {
-          "optional": true
-        }
-      }
-    },
-    "node_modules/bare-stream/node_modules/b4a": {
-      "version": "1.9.0",
-      "resolved": "https://registry.npmjs.org/b4a/-/b4a-1.9.0.tgz",
-      "integrity": "sha512-dpfcF9fDNR6++cthXR67iyhgqWy9CBouAvIWhIntzBG6cvK/cnIPiZQjBwi/ZqjjBEDGfoNDtmB0kTjroOJ3pQ==",
-      "license": "Apache-2.0",
-      "peerDependencies": {
-        "react-native-b4a": "*"
-      },
-      "peerDependenciesMeta": {
-        "react-native-b4a": {
           "optional": true
         }
       }
@@ -21528,20 +21514,6 @@
         "node": ">=16.13.0"
       }
     },
-    "node_modules/tar-utils/node_modules/b4a": {
-      "version": "1.9.0",
-      "resolved": "https://registry.npmjs.org/b4a/-/b4a-1.9.0.tgz",
-      "integrity": "sha512-dpfcF9fDNR6++cthXR67iyhgqWy9CBouAvIWhIntzBG6cvK/cnIPiZQjBwi/ZqjjBEDGfoNDtmB0kTjroOJ3pQ==",
-      "license": "Apache-2.0",
-      "peerDependencies": {
-        "react-native-b4a": "*"
-      },
-      "peerDependenciesMeta": {
-        "react-native-b4a": {
-          "optional": true
-        }
-      }
-    },
     "node_modules/tar-utils/node_modules/tar-stream": {
       "version": "3.2.2",
       "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-3.2.2.tgz",
@@ -21662,20 +21634,6 @@
       "license": "Apache-2.0",
       "dependencies": {
         "b4a": "^1.6.4"
-      }
-    },
-    "node_modules/text-decoder/node_modules/b4a": {
-      "version": "1.9.0",
-      "resolved": "https://registry.npmjs.org/b4a/-/b4a-1.9.0.tgz",
-      "integrity": "sha512-dpfcF9fDNR6++cthXR67iyhgqWy9CBouAvIWhIntzBG6cvK/cnIPiZQjBwi/ZqjjBEDGfoNDtmB0kTjroOJ3pQ==",
-      "license": "Apache-2.0",
-      "peerDependencies": {
-        "react-native-b4a": "*"
-      },
-      "peerDependenciesMeta": {
-        "react-native-b4a": {
-          "optional": true
-        }
       }
     },
     "node_modules/thenify": {
