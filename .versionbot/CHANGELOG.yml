@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency inquirer to v8
+      hash: 44b8ddaacf4adac2e0b9a0e5ca874bbdf7bfbf32
+      body: |
+        Update inquirer from 7.3.3 to 8.2.7
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.15
+  title: ""
+  date: 2026-11-13T22:57:31.819Z
+- commits:
     - subject: "automation: Match Renovate's min-release-age in the dedupe check"
       hash: b0319a79b297946f2679d79905bccc583d69d7e1
       body: >
