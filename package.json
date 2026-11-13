@@ -215,7 +215,7 @@
     "indent-string": "^4.0.0",
     "inquirer": "^7.3.3",
     "is-elevated": "^3.0.0",
-    "is-root": "^2.1.0",
+    "is-root": "^3.0.0",
     "js-yaml": "^4.1.0",
     "JSONStream": "^1.0.3",
     "jwt-decode": "^3.1.2",
