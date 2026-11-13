@@ -6,8 +6,8 @@
 	"postUpdateOptions": ["npmDedupe"],
 	"packageRules": [
 		{
-			"description": "Run manual npm dedupe after github-actions updates",
-			"matchManagers": ["github-actions"],
+			"description": "Run npm dedupe after github-actions and npm updates, as npmDedupe only adds --prefer-dedupe to npm install",
+			"matchManagers": ["github-actions", "npm"],
 			"postUpgradeTasks": {
 				"commands": ["npm dedupe --package-lock-only"],
 				"fileFilters": ["npm-shrinkwrap.json"],
