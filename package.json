@@ -210,7 +210,7 @@
     "glob": "^7.2.0",
     "global-agent": "^2.2.0",
     "global-tunnel-ng": "^2.1.1",
-    "got": "^11.8.3",
+    "got": "^12.0.0",
     "humanize": "0.0.9",
     "indent-string": "^4.0.0",
     "inquirer": "^7.3.3",
