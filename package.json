@@ -214,7 +214,7 @@
     "humanize": "0.0.9",
     "indent-string": "^4.0.0",
     "inquirer": "^7.3.3",
-    "is-elevated": "^3.0.0",
+    "is-elevated": "^4.0.0",
     "is-root": "^2.1.0",
     "js-yaml": "^4.1.0",
     "JSONStream": "^1.0.3",
