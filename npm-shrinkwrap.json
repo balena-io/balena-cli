@@ -155,7 +155,7 @@
         "simple-git": "^3.14.1",
         "sinon": "^19.0.0",
         "string-to-stream": "^3.0.1",
-        "supports-color": "^8.1.1",
+        "supports-color": "^9.0.0",
         "ts-node": "^10.4.0",
         "typescript": "^5.9.2"
       },
@@ -5124,6 +5124,21 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/isaacs"
+      }
+    },
+    "node_modules/@oclif/core/node_modules/supports-color": {
+      "version": "8.1.1",
+      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz",
+      "integrity": "sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==",
+      "license": "MIT",
+      "dependencies": {
+        "has-flag": "^4.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/chalk/supports-color?sponsor=1"
       }
     },
     "node_modules/@oclif/core/node_modules/type-fest": {
@@ -16973,6 +16988,22 @@
         "url": "https://github.com/sponsors/sindresorhus"
       }
     },
+    "node_modules/mocha/node_modules/supports-color": {
+      "version": "8.1.1",
+      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz",
+      "integrity": "sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "has-flag": "^4.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/chalk/supports-color?sponsor=1"
+      }
+    },
     "node_modules/mocha/node_modules/yargs-parser": {
       "version": "20.2.9",
       "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.9.tgz",
@@ -21357,15 +21388,13 @@
       "integrity": "sha512-QrtfoBRe+RixlBJl852/Gu7tLLTdx3kWs3MFzY1OHNrSsYYK7aIAnzqsncYRWrKGG/QSItDmOTlELMxehw4Gjw=="
     },
     "node_modules/supports-color": {
-      "version": "8.1.1",
-      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz",
-      "integrity": "sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==",
+      "version": "9.4.0",
+      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-9.4.0.tgz",
+      "integrity": "sha512-VL+lNrEoIXww1coLPOmiEmK/0sGigko5COxI09KzHc2VJXJsQ37UaQ+8quuxjDeA7+KnLGTWRyOXSLLR2Wb4jw==",
+      "dev": true,
       "license": "MIT",
-      "dependencies": {
-        "has-flag": "^4.0.0"
-      },
       "engines": {
-        "node": ">=10"
+        "node": ">=12"
       },
       "funding": {
         "url": "https://github.com/chalk/supports-color?sponsor=1"

@@ -166,7 +166,7 @@
     "simple-git": "^3.14.1",
     "sinon": "^19.0.0",
     "string-to-stream": "^3.0.1",
-    "supports-color": "^8.1.1",
+    "supports-color": "^9.0.0",
     "ts-node": "^10.4.0",
     "typescript": "^5.9.2"
   },
