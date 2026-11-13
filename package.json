@@ -142,7 +142,7 @@
     "@types/tar-stream": "^2.2.2",
     "@types/through2": "^2.0.36",
     "@types/tmp": "^0.2.3",
-    "@types/update-notifier": "^4.1.1",
+    "@types/update-notifier": "^6.0.0",
     "@types/which": "^2.0.1",
     "@types/window-size": "^1.1.1",
     "catch-uncommitted": "^2.0.0",
@@ -245,7 +245,7 @@
     "through2": "^2.0.3",
     "tmp": "^0.2.1",
     "typed-error": "^3.2.1",
-    "update-notifier": "^5.1.0",
+    "update-notifier": "^6.0.0",
     "which": "^2.0.2",
     "window-size": "^1.1.0"
   },
