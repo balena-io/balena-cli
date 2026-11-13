@@ -206,7 +206,7 @@
     "express": "^4.22.1",
     "fast-boot2": "^1.1.4",
     "fast-levenshtein": "^3.0.0",
-    "filenamify": "^4.3.0",
+    "filenamify": "^5.0.0",
     "glob": "^7.2.0",
     "global-agent": "^2.2.0",
     "global-tunnel-ng": "^2.1.1",

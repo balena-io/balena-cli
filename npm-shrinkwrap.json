@@ -45,7 +45,7 @@
         "express": "^4.22.1",
         "fast-boot2": "^1.1.4",
         "fast-levenshtein": "^3.0.0",
-        "filenamify": "^4.3.0",
+        "filenamify": "^5.0.0",
         "glob": "^7.2.0",
         "global-agent": "^2.2.0",
         "global-tunnel-ng": "^2.1.1",
@@ -13167,24 +13167,29 @@
       }
     },
     "node_modules/filename-reserved-regex": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/filename-reserved-regex/-/filename-reserved-regex-2.0.0.tgz",
-      "integrity": "sha1-q/c9+rc10EVECr/qLZHzieu/oik=",
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/filename-reserved-regex/-/filename-reserved-regex-3.0.0.tgz",
+      "integrity": "sha512-hn4cQfU6GOT/7cFHXBqeBg2TbrMBgdD0kcjLhvSQYYwm3s4B6cjvBfb7nBALJLAXqmU5xajSa7X2NnUud/VCdw==",
+      "license": "MIT",
       "engines": {
-        "node": ">=4"
+        "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/filenamify": {
-      "version": "4.3.0",
-      "resolved": "https://registry.npmjs.org/filenamify/-/filenamify-4.3.0.tgz",
-      "integrity": "sha512-hcFKyUG57yWGAzu1CMt/dPzYZuv+jAJUT85bL8mrXvNe6hWj6yEHEc4EdcgiA6Z3oi1/9wXJdZPXF2dZNgwgOg==",
+      "version": "5.1.1",
+      "resolved": "https://registry.npmjs.org/filenamify/-/filenamify-5.1.1.tgz",
+      "integrity": "sha512-M45CbrJLGACfrPOkrTp3j2EcO9OBkKUYME0eiqOCa7i2poaklU0jhlIaMlr8ijLorT0uLAzrn3qXOp5684CkfA==",
+      "license": "MIT",
       "dependencies": {
-        "filename-reserved-regex": "^2.0.0",
-        "strip-outer": "^1.0.1",
-        "trim-repeated": "^1.0.0"
+        "filename-reserved-regex": "^3.0.0",
+        "strip-outer": "^2.0.0",
+        "trim-repeated": "^2.0.0"
       },
       "engines": {
-        "node": ">=8"
+        "node": ">=12.20"
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
@@ -21313,14 +21318,15 @@
       }
     },
     "node_modules/strip-outer": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/strip-outer/-/strip-outer-1.0.1.tgz",
-      "integrity": "sha512-k55yxKHwaXnpYGsOzg4Vl8+tDrWylxDEpknGjhTiZB8dFRU5rTo9CAzeycivxV3s+zlTKwrs6WxMxR95n26kwg==",
-      "dependencies": {
-        "escape-string-regexp": "^1.0.2"
-      },
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/strip-outer/-/strip-outer-2.0.0.tgz",
+      "integrity": "sha512-A21Xsm1XzUkK0qK1ZrytDUvqsQWict2Cykhvi0fBQntGG5JSprESasEyV1EZ/4CiR5WB5KjzLTrP/bO37B0wPg==",
+      "license": "MIT",
       "engines": {
-        "node": ">=0.10.0"
+        "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/strnum": {
@@ -21858,14 +21864,27 @@
       }
     },
     "node_modules/trim-repeated": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/trim-repeated/-/trim-repeated-1.0.0.tgz",
-      "integrity": "sha1-42RqLqTokTEr9+rObPsFOAvAHCE=",
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/trim-repeated/-/trim-repeated-2.0.0.tgz",
+      "integrity": "sha512-QUHBFTJGdOwmp0tbOG505xAgOp/YliZP/6UgafFXYZ26WT1bvQmSMJUvkeVSASuJJHbqsFbynTvkd5W8RBTipg==",
+      "license": "MIT",
       "dependencies": {
-        "escape-string-regexp": "^1.0.2"
+        "escape-string-regexp": "^5.0.0"
       },
       "engines": {
-        "node": ">=0.10.0"
+        "node": ">=12"
+      }
+    },
+    "node_modules/trim-repeated/node_modules/escape-string-regexp": {
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz",
+      "integrity": "sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/ts-api-utils": {
