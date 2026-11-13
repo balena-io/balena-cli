@@ -193,7 +193,7 @@
     "body-parser": "^2.0.0",
     "bonjour-service": "^1.2.1",
     "chokidar": "^3.5.2",
-    "cli-truncate": "^2.1.0",
+    "cli-truncate": "^3.0.0",
     "color-hash": "^2.0.2",
     "common-tags": "^1.7.2",
     "date-fns": "^4.1.0",
