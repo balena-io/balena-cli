@@ -2,10 +2,17 @@
 
 set -e
 
+# Renovate dedupes with the same min-release-age, so an npm that ignores it resolves a different tree.
+min_release_age=$(npm config get min-release-age)
+if [ "$min_release_age" != 3 ]; then
+  echo "** npm $(npm --version) has min-release-age=$min_release_age, expected 3 from .npmrc (needs npm >= 11.10.0) - FAIL **"
+  exit 1
+fi
+
 cp npm-shrinkwrap.json npm-shrinkwrap.json.old
-npx -y -p @aikidosec/safe-chain aikido-npm i
-npx -y -p @aikidosec/safe-chain aikido-npm dedupe
-npx -y -p @aikidosec/safe-chain aikido-npm i
+npm i
+npm dedupe
+npm i
 
 if ! diff -q npm-shrinkwrap.json npm-shrinkwrap.json.old > /dev/null; then
   rm npm-shrinkwrap.json.old
