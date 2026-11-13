@@ -1,4 +1,50 @@
 - commits:
+    - subject: "automation: Match Renovate's min-release-age in the dedupe check"
+      hash: b0319a79b297946f2679d79905bccc583d69d7e1
+      body: >
+        Renovate resolves with min-release-age=3 from balena-io/renovate-config,
+
+        but the dedupe check ran through safe-chain, which defaults to 48 hours.
+
+        CI could then dedupe to versions Renovate never saw and fail the PR.
+
+
+        Commit an .npmrc with the same min-release-age so CI and local installs
+
+        match Renovate, and drop safe-chain from the check since the age gate
+        now
+
+        lives in npm. Fail early if npm doesn't apply the setting, since npm
+
+        below 11.10.0 ignores it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+    - subject: "renovate: Run npm dedupe for npm updates too"
+      hash: 104a7ec7ad9da67d0bf03745b7215c28bc65b737
+      body: |
+        The npmDedupe postUpdateOption only adds --prefer-dedupe to npm install,
+        which does not dedupe the existing tree. So npm-manager PRs still fail
+        test-lock-deduplicated.sh (e.g. #3137, where a full dedupe moves root
+        @oclif/core 4.8.0 to 4.14.0).
+
+        b2b7c995 scoped the dedupe task to github-actions on the assumption that
+        npmDedupe already covered npm updates. Extend it to the npm manager.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 25.2.14
+  title: ""
+  date: 2026-11-13T15:34:33.197Z
+- commits:
     - subject: "renovate: Cap npm below 12 to keep shrinkwrap support"
       hash: 8b76c8c339e2e3d98c468e18b07d7cb8100b20d8
       body: |
