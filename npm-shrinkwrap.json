@@ -11,7 +11,7 @@
       "license": "Apache-2.0",
       "dependencies": {
         "@balena/compose": "^8.0.4",
-        "@balena/compose-parser": "^0.2.6",
+        "@balena/compose-parser": "^0.4.0",
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
@@ -2967,6 +2967,22 @@
       }
     },
     "node_modules/@balena/compose-parser": {
+      "version": "0.4.1",
+      "resolved": "https://registry.npmjs.org/@balena/compose-parser/-/compose-parser-0.4.1.tgz",
+      "integrity": "sha512-Ik6UM6upXTJpZAS9Mt3/7FubwkWYyKfu8VF14BSc08sAF9aDD8Zl/61Ubeo0S6XXi3gwFl+/vHP8UZLquOt5/g==",
+      "hasInstallScript": true,
+      "license": "Apache-2.0",
+      "dependencies": {
+        "semver": "^7.7.2",
+        "tar": "^7.5.1",
+        "typed-error": "^3.2.2"
+      },
+      "engines": {
+        "node": ">= 22.14.0",
+        "npm": ">= 11.5.1"
+      }
+    },
+    "node_modules/@balena/compose/node_modules/@balena/compose-parser": {
       "version": "0.2.6",
       "resolved": "https://registry.npmjs.org/@balena/compose-parser/-/compose-parser-0.2.6.tgz",
       "integrity": "sha512-eIkD7xw9/IELDl1dg8LiL7VTAEaH4ZlVhVO6Xuq0qDSWchhV6frTHegcu0OaXR1krpiMFGV7O4sgAQ5QLaTV6Q==",
