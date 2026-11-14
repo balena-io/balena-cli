@@ -216,7 +216,7 @@
     "inquirer": "^8.0.0",
     "is-elevated": "^3.0.0",
     "is-root": "^2.1.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.0.0",
     "JSONStream": "^1.0.3",
     "jwt-decode": "^3.1.2",
     "livepush": "^3.5.2",
