@@ -180,7 +180,7 @@
     "@oclif/plugin-autocomplete": "^3.2.34",
     "@oclif/plugin-update": "^4.7.14",
     "@oclif/plugin-version": "^2.2.32",
-    "@sentry/node": "^10.17.0",
+    "@sentry/node": "^11.0.0",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.2.1",
     "balena-errors": "^4.7.3",
