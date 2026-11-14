@@ -47,7 +47,7 @@
         "fast-levenshtein": "^3.0.0",
         "filenamify": "^4.3.0",
         "glob": "^7.2.0",
-        "global-agent": "^2.2.0",
+        "global-agent": "^3.0.0",
         "global-tunnel-ng": "^2.1.1",
         "got": "^11.8.3",
         "humanize": "0.0.9",
@@ -105,7 +105,7 @@
         "@types/fast-levenshtein": "^0.0.4",
         "@types/fs-extra": "^11.0.4",
         "@types/glob": "^7.2.0",
-        "@types/global-agent": "^2.1.1",
+        "@types/global-agent": "^3.0.0",
         "@types/global-tunnel-ng": "^2.1.1",
         "@types/inquirer": "^8.0.0",
         "@types/intercept-stdout": "^0.1.0",
@@ -7636,10 +7636,11 @@
       }
     },
     "node_modules/@types/global-agent": {
-      "version": "2.1.1",
-      "resolved": "https://registry.npmjs.org/@types/global-agent/-/global-agent-2.1.1.tgz",
-      "integrity": "sha512-sVox8Phk1UKgP6LQPAdeRxfww6vHKt7Bf59dXzYLsQBUEMEn8S10a+ESp/yO0i4fJ3WS4+CIuz42hgJcuA+3mA==",
-      "dev": true
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/@types/global-agent/-/global-agent-3.0.0.tgz",
+      "integrity": "sha512-OmvaPJtTaY/wd1hxelLJmf8oKQpmKZdrlfQ+MWL59eKSEHJDDEifIo69248bdJ0yLIN+iMNQ6sKMtnwU6AxajA==",
+      "dev": true,
+      "license": "MIT"
     },
     "node_modules/@types/global-tunnel-ng": {
       "version": "2.1.1",
@@ -10698,17 +10699,6 @@
       "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.6.tgz",
       "integrity": "sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==",
       "license": "MIT"
-    },
-    "node_modules/core-js": {
-      "version": "3.20.1",
-      "resolved": "https://registry.npmjs.org/core-js/-/core-js-3.20.1.tgz",
-      "integrity": "sha512-btdpStYFQScnNVQ5slVcr858KP0YWYjV16eGJQw8Gg7CWtu/2qNvIM3qVRIR3n1pK2R9NNOrTevbvAYxajwEjg==",
-      "deprecated": "core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.",
-      "hasInstallScript": true,
-      "funding": {
-        "type": "opencollective",
-        "url": "https://opencollective.com/core-js"
-      }
     },
     "node_modules/core-util-is": {
       "version": "1.0.2",
@@ -13841,12 +13831,12 @@
       }
     },
     "node_modules/global-agent": {
-      "version": "2.2.0",
-      "resolved": "https://registry.npmjs.org/global-agent/-/global-agent-2.2.0.tgz",
-      "integrity": "sha512-+20KpaW6DDLqhG7JDiJpD1JvNvb8ts+TNl7BPOYcURqCrXqnN1Vf+XVOrkKJAFPqfX+oEhsdzOj1hLWkBTdNJg==",
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/global-agent/-/global-agent-3.0.0.tgz",
+      "integrity": "sha512-PT6XReJ+D07JvGoxQMkT6qji/jVNfX/h364XHZOWeRzy64sSFr+xJ5OX7LI3b4MPQzdL4H8Y8M0xzPpsVMwA8Q==",
+      "license": "BSD-3-Clause",
       "dependencies": {
         "boolean": "^3.0.1",
-        "core-js": "^3.6.5",
         "es6-error": "^4.1.1",
         "matcher": "^3.0.0",
         "roarr": "^2.15.3",
