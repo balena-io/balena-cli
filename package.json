@@ -189,7 +189,7 @@
     "balena-sdk": "^23.1.13",
     "balena-semver": "^4.0.0",
     "balena-settings-client": "^6.0.0",
-    "balena-settings-storage": "^8.1.0",
+    "balena-settings-storage": "^9.0.0",
     "body-parser": "^2.0.0",
     "bonjour-service": "^1.2.1",
     "chokidar": "^3.5.2",
