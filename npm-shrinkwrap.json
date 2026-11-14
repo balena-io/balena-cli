@@ -40,7 +40,7 @@
         "docker-modem": "^5.0.6",
         "docker-progress": "^5.4.0",
         "dockerode": "^4.0.5",
-        "ejs": "^3.1.6",
+        "ejs": "^4.0.0",
         "etcher-sdk": "^10.0.0",
         "express": "^4.22.1",
         "fast-boot2": "^1.1.4",
@@ -5111,6 +5111,21 @@
         "balanced-match": "^1.0.0"
       }
     },
+    "node_modules/@oclif/core/node_modules/ejs": {
+      "version": "3.1.10",
+      "resolved": "https://registry.npmjs.org/ejs/-/ejs-3.1.10.tgz",
+      "integrity": "sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "jake": "^10.8.5"
+      },
+      "bin": {
+        "ejs": "bin/cli.js"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
     "node_modules/@oclif/core/node_modules/minimatch": {
       "version": "9.0.9",
       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz",
@@ -5150,6 +5165,21 @@
       },
       "engines": {
         "node": ">=18.0.0"
+      }
+    },
+    "node_modules/@oclif/plugin-autocomplete/node_modules/ejs": {
+      "version": "3.1.10",
+      "resolved": "https://registry.npmjs.org/ejs/-/ejs-3.1.10.tgz",
+      "integrity": "sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "jake": "^10.8.5"
+      },
+      "bin": {
+        "ejs": "bin/cli.js"
+      },
+      "engines": {
+        "node": ">=0.10.0"
       }
     },
     "node_modules/@oclif/plugin-help": {
@@ -11712,17 +11742,18 @@
       "integrity": "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
     },
     "node_modules/ejs": {
-      "version": "3.1.10",
-      "resolved": "https://registry.npmjs.org/ejs/-/ejs-3.1.10.tgz",
-      "integrity": "sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==",
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/ejs/-/ejs-4.0.1.tgz",
+      "integrity": "sha512-krvQtxc0btwSm/nvnt1UpnaFDFVJpJ0fdckmALpCgShsr/iGYHTnJiUliZTgmzq/UxTX33TtOQVKaNigMQp/6Q==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "jake": "^10.8.5"
+        "jake": "^10.9.1"
       },
       "bin": {
         "ejs": "bin/cli.js"
       },
       "engines": {
-        "node": ">=0.10.0"
+        "node": ">=0.12.18"
       }
     },
     "node_modules/electron-to-chromium": {
@@ -15842,14 +15873,14 @@
       }
     },
     "node_modules/jake": {
-      "version": "10.8.5",
-      "resolved": "https://registry.npmjs.org/jake/-/jake-10.8.5.tgz",
-      "integrity": "sha512-sVpxYeuAhWt0OTWITwT98oyV0GsXyMlXCF+3L1SuafBVUIr/uILGRB+NqwkzhgXKvoJpDIpQvqkUALgdmQsQxw==",
+      "version": "10.9.4",
+      "resolved": "https://registry.npmjs.org/jake/-/jake-10.9.4.tgz",
+      "integrity": "sha512-wpHYzhxiVQL+IV05BLE2Xn34zW1S223hvjtqk0+gsPrwd/8JNLXJgZZM/iPFsYc1xyphF+6M6EvdE5E9MBGkDA==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "async": "^3.2.3",
-        "chalk": "^4.0.2",
-        "filelist": "^1.0.1",
-        "minimatch": "^3.0.4"
+        "async": "^3.2.6",
+        "filelist": "^1.0.4",
+        "picocolors": "^1.1.1"
       },
       "bin": {
         "jake": "bin/cli.js"
@@ -17926,6 +17957,22 @@
         "node": ">=14.16"
       }
     },
+    "node_modules/oclif/node_modules/ejs": {
+      "version": "3.1.10",
+      "resolved": "https://registry.npmjs.org/ejs/-/ejs-3.1.10.tgz",
+      "integrity": "sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "dependencies": {
+        "jake": "^10.8.5"
+      },
+      "bin": {
+        "ejs": "bin/cli.js"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
     "node_modules/oclif/node_modules/form-data-encoder": {
       "version": "2.1.4",
       "resolved": "https://registry.npmjs.org/form-data-encoder/-/form-data-encoder-2.1.4.tgz",
@@ -18939,7 +18986,6 @@
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",
       "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==",
-      "dev": true,
       "license": "ISC"
     },
     "node_modules/picomatch": {
