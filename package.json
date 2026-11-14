@@ -183,7 +183,7 @@
     "@sentry/node": "^10.17.0",
     "balena-config-json": "^4.2.7",
     "balena-device-init": "^8.2.1",
-    "balena-errors": "^4.7.3",
+    "balena-errors": "^5.0.0",
     "balena-image-fs": "^7.6.0",
     "balena-preload": "^19.0.0",
     "balena-sdk": "^23.1.13",
