@@ -131,7 +131,7 @@
         "@types/tar-stream": "^2.2.2",
         "@types/through2": "^2.0.36",
         "@types/tmp": "^0.2.3",
-        "@types/update-notifier": "^4.1.1",
+        "@types/update-notifier": "^5.0.0",
         "@types/which": "^2.0.1",
         "@types/window-size": "^1.1.1",
         "catch-uncommitted": "^2.0.0",
@@ -8038,10 +8038,11 @@
       "dev": true
     },
     "node_modules/@types/update-notifier": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/@types/update-notifier/-/update-notifier-4.1.1.tgz",
-      "integrity": "sha512-iPySyshoFAgiPMj6MC41X1rbNjkTGBhCQju9xAldSGe1Y6utyWG2Fbdr7OXuuqcH96KMZbuJjviu9bXgfVbJUg==",
+      "version": "5.1.0",
+      "resolved": "https://registry.npmjs.org/@types/update-notifier/-/update-notifier-5.1.0.tgz",
+      "integrity": "sha512-aGY5pH1Q/DcToKXl4MCj1c0uDUB+zSVFDRCI7Q7js5sguzBTqJV/5kJA2awofbtWYF3xnon1TYdZYnFditRPtQ==",
       "dev": true,
+      "license": "MIT",
       "dependencies": {
         "@types/configstore": "*",
         "boxen": "^4.2.0"
