@@ -200,7 +200,7 @@
     "denymount": "^2.3.0",
     "docker-modem": "^5.0.6",
     "docker-progress": "^5.4.0",
-    "dockerode": "^4.0.5",
+    "dockerode": "^5.0.0",
     "ejs": "^3.1.6",
     "etcher-sdk": "^10.0.0",
     "express": "^4.22.1",

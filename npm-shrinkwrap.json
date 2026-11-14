@@ -39,7 +39,7 @@
         "denymount": "^2.3.0",
         "docker-modem": "^5.0.6",
         "docker-progress": "^5.4.0",
-        "dockerode": "^4.0.5",
+        "dockerode": "^5.0.0",
         "ejs": "^3.1.6",
         "etcher-sdk": "^10.0.0",
         "express": "^4.22.1",
@@ -2982,6 +2982,24 @@
         "npm": ">= 11.5.1"
       }
     },
+    "node_modules/@balena/compose/node_modules/dockerode": {
+      "version": "4.0.12",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-4.0.12.tgz",
+      "integrity": "sha512-/bCZd6KlGcjZO8Buqmi/vXuqEGVEZ0PNjx/biBNqJD3MhK9DmdiAuKxqfNhflgDESDIiBz3qF+0e55+CpnrUcw==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "@balena/dockerignore": "^1.0.2",
+        "@grpc/grpc-js": "^1.11.1",
+        "@grpc/proto-loader": "^0.7.13",
+        "docker-modem": "^5.0.7",
+        "protobufjs": "^7.3.2",
+        "tar-fs": "^2.1.4",
+        "uuid": "^10.0.0"
+      },
+      "engines": {
+        "node": ">= 8.0"
+      }
+    },
     "node_modules/@balena/compose/node_modules/tar-stream": {
       "version": "3.2.2",
       "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-3.2.2.tgz",
@@ -2992,6 +3010,20 @@
         "bare-fs": "^4.8.2",
         "fast-fifo": "^1.3.2",
         "streamx": "^2.28.1"
+      }
+    },
+    "node_modules/@balena/compose/node_modules/uuid": {
+      "version": "10.0.0",
+      "resolved": "https://registry.npmjs.org/uuid/-/uuid-10.0.0.tgz",
+      "integrity": "sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==",
+      "deprecated": "uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).",
+      "funding": [
+        "https://github.com/sponsors/broofa",
+        "https://github.com/sponsors/ctavan"
+      ],
+      "license": "MIT",
+      "bin": {
+        "uuid": "dist/bin/uuid"
       }
     },
     "node_modules/@balena/dockerignore": {
@@ -9151,6 +9183,38 @@
         "node": "^22.18.0 || >= 24.0.0"
       }
     },
+    "node_modules/balena-preload/node_modules/dockerode": {
+      "version": "4.0.12",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-4.0.12.tgz",
+      "integrity": "sha512-/bCZd6KlGcjZO8Buqmi/vXuqEGVEZ0PNjx/biBNqJD3MhK9DmdiAuKxqfNhflgDESDIiBz3qF+0e55+CpnrUcw==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "@balena/dockerignore": "^1.0.2",
+        "@grpc/grpc-js": "^1.11.1",
+        "@grpc/proto-loader": "^0.7.13",
+        "docker-modem": "^5.0.7",
+        "protobufjs": "^7.3.2",
+        "tar-fs": "^2.1.4",
+        "uuid": "^10.0.0"
+      },
+      "engines": {
+        "node": ">= 8.0"
+      }
+    },
+    "node_modules/balena-preload/node_modules/uuid": {
+      "version": "10.0.0",
+      "resolved": "https://registry.npmjs.org/uuid/-/uuid-10.0.0.tgz",
+      "integrity": "sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==",
+      "deprecated": "uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).",
+      "funding": [
+        "https://github.com/sponsors/broofa",
+        "https://github.com/sponsors/ctavan"
+      ],
+      "license": "MIT",
+      "bin": {
+        "uuid": "dist/bin/uuid"
+      }
+    },
     "node_modules/balena-register-device": {
       "version": "9.0.6",
       "resolved": "https://registry.npmjs.org/balena-register-device/-/balena-register-device-9.0.6.tgz",
@@ -11524,9 +11588,9 @@
       }
     },
     "node_modules/dockerode": {
-      "version": "4.0.12",
-      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-4.0.12.tgz",
-      "integrity": "sha512-/bCZd6KlGcjZO8Buqmi/vXuqEGVEZ0PNjx/biBNqJD3MhK9DmdiAuKxqfNhflgDESDIiBz3qF+0e55+CpnrUcw==",
+      "version": "5.0.1",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-5.0.1.tgz",
+      "integrity": "sha512-avsq/xk4YPIrn0CgleX5bjT9Y8IT1p9PxrNQ++RBQ2WEyFfHCTDsT9kmyxz+H/axnjAwg8wJWEIuPGOUuNupiA==",
       "license": "Apache-2.0",
       "dependencies": {
         "@balena/dockerignore": "^1.0.2",
@@ -11534,24 +11598,10 @@
         "@grpc/proto-loader": "^0.7.13",
         "docker-modem": "^5.0.7",
         "protobufjs": "^7.3.2",
-        "tar-fs": "^2.1.4",
-        "uuid": "^10.0.0"
+        "tar-fs": "^2.1.4"
       },
       "engines": {
-        "node": ">= 8.0"
-      }
-    },
-    "node_modules/dockerode/node_modules/uuid": {
-      "version": "10.0.0",
-      "resolved": "https://registry.npmjs.org/uuid/-/uuid-10.0.0.tgz",
-      "integrity": "sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==",
-      "funding": [
-        "https://github.com/sponsors/broofa",
-        "https://github.com/sponsors/ctavan"
-      ],
-      "license": "MIT",
-      "bin": {
-        "uuid": "dist/bin/uuid"
+        "node": ">= 14.17"
       }
     },
     "node_modules/doctrine": {
