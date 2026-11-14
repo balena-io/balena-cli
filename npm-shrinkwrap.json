@@ -76,7 +76,7 @@
         "semver": "^7.3.5",
         "shell-escape": "^0.2.0",
         "split": "^1.0.1",
-        "stream-to-promise": "^2.2.0",
+        "stream-to-promise": "^3.0.0",
         "string-width": "^4.2.3",
         "strip-ansi-stream": "^1.0.0",
         "tar-stream": "^2.1.3",
@@ -21314,29 +21314,18 @@
       }
     },
     "node_modules/stream-to-promise": {
-      "version": "2.2.0",
-      "resolved": "https://registry.npmjs.org/stream-to-promise/-/stream-to-promise-2.2.0.tgz",
-      "integrity": "sha512-HAGUASw8NT0k8JvIVutB2Y/9iBk7gpgEyAudXwNJmZERdMITGdajOa4VJfD/kNiA3TppQpTP4J+CtcHwdzKBAw==",
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/stream-to-promise/-/stream-to-promise-3.0.0.tgz",
+      "integrity": "sha512-h+7wLeFiYegOdgTfTxjRsrT7/Op7grnKEIHWgaO1RTHwcwk7xRreMr3S8XpDfDMesSxzgM2V4CxNCFAGo6ssnA==",
+      "deprecated": "Deprecated. Use node:stream/promises and node:stream/consumers instead.",
+      "license": "MIT",
       "dependencies": {
         "any-promise": "~1.3.0",
-        "end-of-stream": "~1.1.0",
+        "end-of-stream": "~1.4.1",
         "stream-to-array": "~2.3.0"
-      }
-    },
-    "node_modules/stream-to-promise/node_modules/end-of-stream": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.1.0.tgz",
-      "integrity": "sha512-EoulkdKF/1xa92q25PbjuDcgJ9RDHYU2Rs3SCIvs2/dSQ3BpmxneNHmA/M7fe60M3PrV7nNGTTNbkK62l6vXiQ==",
-      "dependencies": {
-        "once": "~1.3.0"
-      }
-    },
-    "node_modules/stream-to-promise/node_modules/once": {
-      "version": "1.3.3",
-      "resolved": "https://registry.npmjs.org/once/-/once-1.3.3.tgz",
-      "integrity": "sha512-6vaNInhu+CHxtONf3zw3vq4SP2DOQhjBvIa3rNcG0+P7eKWlYH6Peu7rHizSloRU2EwMz6GraLieis9Ac9+p1w==",
-      "dependencies": {
-        "wrappy": "1"
+      },
+      "engines": {
+        "node": ">= 10"
       }
     },
     "node_modules/streamx": {

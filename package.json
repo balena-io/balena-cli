@@ -237,7 +237,7 @@
     "semver": "^7.3.5",
     "shell-escape": "^0.2.0",
     "split": "^1.0.1",
-    "stream-to-promise": "^2.2.0",
+    "stream-to-promise": "^3.0.0",
     "string-width": "^4.2.3",
     "strip-ansi-stream": "^1.0.0",
     "tar-stream": "^2.1.3",
