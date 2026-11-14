@@ -81,7 +81,7 @@
         "strip-ansi-stream": "^1.0.0",
         "tar-stream": "^2.1.3",
         "tar-utils": "^3.0.3",
-        "through2": "^2.0.3",
+        "through2": "^3.0.0",
         "tmp": "^0.2.1",
         "typed-error": "^3.2.1",
         "update-notifier": "^5.1.0",
@@ -19274,6 +19274,16 @@
         "through2": "~2.0.3"
       }
     },
+    "node_modules/progress-stream/node_modules/through2": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/through2/-/through2-2.0.5.tgz",
+      "integrity": "sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==",
+      "license": "MIT",
+      "dependencies": {
+        "readable-stream": "~2.3.6",
+        "xtend": "~4.0.1"
+      }
+    },
     "node_modules/prop-types": {
       "version": "15.8.1",
       "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz",
@@ -21943,12 +21953,13 @@
       "integrity": "sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU="
     },
     "node_modules/through2": {
-      "version": "2.0.5",
-      "resolved": "https://registry.npmjs.org/through2/-/through2-2.0.5.tgz",
-      "integrity": "sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==",
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/through2/-/through2-3.0.2.tgz",
+      "integrity": "sha512-enaDQ4MUyP2W6ZyT6EsMzqBPZaM/avg8iuo+l2d3QCs0J+6RaqkHV/2/lOwDTueBHeJ/2LG9lrLW3d5rWPucuQ==",
+      "license": "MIT",
       "dependencies": {
-        "readable-stream": "~2.3.6",
-        "xtend": "~4.0.1"
+        "inherits": "^2.0.4",
+        "readable-stream": "2 || 3"
       }
     },
     "node_modules/thunky": {
