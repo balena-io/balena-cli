@@ -57,7 +57,7 @@
         "is-root": "^2.1.0",
         "js-yaml": "^4.1.0",
         "JSONStream": "^1.0.3",
-        "jwt-decode": "^3.1.2",
+        "jwt-decode": "^4.0.0",
         "livepush": "^3.5.2",
         "lodash": "^4.17.21",
         "mime": "^2.4.6",
@@ -9047,6 +9047,12 @@
         "npm": ">=6.0.0"
       }
     },
+    "node_modules/balena-auth/node_modules/jwt-decode": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/jwt-decode/-/jwt-decode-3.1.2.tgz",
+      "integrity": "sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==",
+      "license": "MIT"
+    },
     "node_modules/balena-config-json": {
       "version": "4.2.7",
       "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.2.7.tgz",
@@ -16097,9 +16103,13 @@
       }
     },
     "node_modules/jwt-decode": {
-      "version": "3.1.2",
-      "resolved": "https://registry.npmjs.org/jwt-decode/-/jwt-decode-3.1.2.tgz",
-      "integrity": "sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A=="
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/jwt-decode/-/jwt-decode-4.0.0.tgz",
+      "integrity": "sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      }
     },
     "node_modules/keyv": {
       "version": "4.5.4",
