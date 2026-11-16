@@ -225,7 +225,7 @@
     "ndjson": "^2.0.0",
     "node-cleanup": "^2.1.2",
     "node-unzip-2": "^0.2.8",
-    "open": "^7.1.0",
+    "open": "^8.0.0",
     "patch-package": "^8.0.0",
     "prettyjson": "^1.2.5",
     "progress-stream": "^2.0.0",
