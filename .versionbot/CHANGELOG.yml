@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency cross-env to v10
+      hash: 53d5be8c1c3dc2b08e0922ad0016ffb7724a0209
+      body: |
+        Update cross-env from 7.0.3 to 10.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.19
+  title: ""
+  date: 2026-11-16T21:27:26.748Z
+- commits:
     - subject: Update dependency mocha to v11
       hash: ff594515d5d6c05e661986d352efd785c4315452
       body: |
