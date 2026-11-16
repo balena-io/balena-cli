@@ -140,7 +140,7 @@ The full CLI command reference is available [on the web](https://www.balena.io/d
 
 To learn more, troubleshoot issues, or to contact us for support:
 
-* Check the [masterclass tutorials](https://www.balena.io/docs/learn/more/masterclasses/overview/)
+* Check the [masterclass tutorials](https://docs.balena.io/learn/more/masterclasses/masterclass-intro)
 * Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md)
 * Ask us a question in the [balena forums](https://forums.balena.io/c/product-support)
 
