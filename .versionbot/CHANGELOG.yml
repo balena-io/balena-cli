@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @oclif/plugin-autocomplete to v4
+      hash: 8765d257a7c4b5dc1b49f5ad4f467673b584617f
+      body: |
+        Update @oclif/plugin-autocomplete from 3.2.34 to 4.0.6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.16
+  title: ""
+  date: 2026-11-16T13:17:27.170Z
+- commits:
     - subject: Update dependency inquirer to v8
       hash: 44b8ddaacf4adac2e0b9a0e5ca874bbdf7bfbf32
       body: |
