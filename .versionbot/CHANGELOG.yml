@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix broken masterclasses docs link
+      hash: bc8aeb1f08b531c9973bad718f9d260dfc68d099
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 25.2.17
+  title: ""
+  date: 2026-11-16T14:59:54.081Z
+- commits:
     - subject: Update dependency @oclif/plugin-autocomplete to v4
       hash: 8765d257a7c4b5dc1b49f5ad4f467673b584617f
       body: |
