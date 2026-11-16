@@ -148,7 +148,7 @@
     "catch-uncommitted": "^2.0.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "deep-object-diff": "^1.1.0",
     "ent": "^2.2.0",
     "fs-extra": "^11.2.0",
