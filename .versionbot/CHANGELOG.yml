@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency open to v8
+      hash: 0aad54975ce36a7dffb217efe47f15cd0dd74bd6
+      body: |
+        Update open from 7.4.2 to 8.4.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.20
+  title: ""
+  date: 2026-11-16T23:59:02.922Z
+- commits:
     - subject: Update dependency cross-env to v10
       hash: 53d5be8c1c3dc2b08e0922ad0016ffb7724a0209
       body: |
