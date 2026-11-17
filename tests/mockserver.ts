@@ -1421,7 +1421,7 @@ export class MockHttpServer {
 			checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 		}) => {
 			const { optional = false, persist = false } = opts;
-			let builder = mockServer.forPost(/^\/v3\/build/);
+			let builder = mockServer.forPost(/^\/v4\/build/);
 
 			if (persist) {
 				builder = builder.always();
@@ -1446,7 +1446,7 @@ export class MockHttpServer {
 				this.nonOptionalEndpoints.push({
 					endpoint: rule,
 					method: 'POST',
-					path: /^\/v3\/build/,
+					path: /^\/v4\/build/,
 				});
 			}
 

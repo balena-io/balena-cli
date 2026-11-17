@@ -3204,6 +3204,14 @@ When building on the balenaCloud servers, the given source directory will be
 sent to the remote server. This can be used as a drop-in replacement for the
 "git push" deployment method.
 
+If the source directory has a docker-compose.yml or docker-compose.yaml file,
+it is resolved on this machine before upload: variables are interpolated against the local shell
+environment and any env_file, label_file, include or extends.file entries are
+folded into a single self-contained compose file, which is what the builder
+receives and what the release is created from. The resolved values, including
+the contents of any env_file or label_file, are therefore uploaded and stored
+with the release, so avoid referencing secrets through them.
+
 When building on a local mode device, the given source directory will be
 built on the device, and the resulting containers will be run on the device.
 Logs will be streamed back from the device as part of the same invocation.
