@@ -114,7 +114,13 @@ export async function parseComposePaths(
 	try {
 		return await composeParser.parse(paths);
 	} catch (err: any) {
-		err.message = `Error parsing composition file "${pathStr}":\n${err.message}`;
+		const message = `Error parsing composition file "${pathStr}":\n${err.message}`;
+		// What the parser says about the file is the user's to fix. Anything else,
+		// such as a missing binary or bad output, is a CLI bug and stays reported
+		if (err instanceof composeParser.ComposeError) {
+			throw new ExpectedError(message);
+		}
+		err.message = message;
 		throw err;
 	}
 }
