@@ -410,7 +410,13 @@ async function getRemoteBuildStream(
 		(uploadSpinner as any).start();
 	}
 
-	const tarStream = await getTarStream(build);
+	let tarStream: Stream.Readable;
+	try {
+		tarStream = await getTarStream(build);
+	} catch (err) {
+		uploadSpinner.stop();
+		throw err;
+	}
 	const buildRequest = await createRemoteBuildRequest(
 		build,
 		tarStream,
