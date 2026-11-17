@@ -221,7 +221,7 @@
     "jwt-decode": "^3.1.2",
     "livepush": "^3.5.2",
     "lodash": "^4.17.21",
-    "mime": "^2.4.6",
+    "mime": "^3.0.0",
     "ndjson": "^2.0.0",
     "node-cleanup": "^2.1.2",
     "node-unzip-2": "^0.2.8",
