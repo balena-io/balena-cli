@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency global-agent to v3
+      hash: ad738eb31b0a489504dd6c7c550a4260a79c33cf
+      body: |
+        Update global-agent from 2.2.0 to 3.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.22
+  title: ""
+  date: 2026-11-17T21:23:17.897Z
+- commits:
     - subject: Update dependency mime to v3
       hash: de8bd7dfa8ee22c73cfbd582623e16f0e8f8a48a
       body: |
