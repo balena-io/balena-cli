@@ -73,6 +73,36 @@ const commonResponseLines = {
 	],
 };
 
+// What the builder receives in place of the project's docker-compose.yml:
+// parsed here, secondary files folded in, serialized back out. Compared
+// verbatim, since this is what /v4 re-parses with interpolation off.
+const serializedBasicCompose = `services:
+  service1:
+    build:
+      context: 'service1'
+      dockerfile: 'Dockerfile'
+    command: null
+    volumes:
+      - 'resin-data:/data'
+  service2:
+    build:
+      args:
+        COMPOSE_ARG: 'an argument defined in the docker-compose.yml file'
+      context: 'service2'
+      dockerfile: 'Dockerfile-alt'
+    command: null
+    volumes:
+      - 'resin-data:/data'
+volumes:
+  resin-data: {}
+`;
+// A fresh object per test, since the tar stream checker mutates it
+const serializedBasicComposeEntry = (): ExpectedTarStreamFiles[string] => ({
+	fileSize: Buffer.byteLength(serializedBasicCompose),
+	type: 'file',
+	contents: serializedBasicCompose,
+});
+
 const commonQueryParams = [
 	['slug', 'gh_user/testApp'],
 	['dockerfilePath', ''],
@@ -368,7 +398,7 @@ describe('balena push', function () {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
-			'docker-compose.yml': { fileSize: 332, type: 'file' },
+			'docker-compose.yml': serializedBasicComposeEntry(),
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service2/Dockerfile-alt': { fileSize: 13, type: 'file' },
@@ -418,7 +448,7 @@ describe('balena push', function () {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
-			'docker-compose.yml': { fileSize: 332, type: 'file' },
+			'docker-compose.yml': serializedBasicComposeEntry(),
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service1/test-ignore.txt': { fileSize: 12, type: 'file' },
@@ -620,5 +650,225 @@ describe('balena push: project validation', function () {
 		);
 		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
+	});
+});
+
+// What the builder receives when the compose file uses secondary files and the
+// shell environment
+describe('balena push: compose file resolution before upload', function () {
+	let api: MockHttpServer['api'];
+	let builder: MockHttpServer['builder'];
+	let server: MockHttpServer;
+
+	before(async () => {
+		server = new MockHttpServer();
+		api = server.api;
+		builder = server.builder;
+		await server.start();
+	});
+
+	after(async () => {
+		await server.stop();
+	});
+
+	beforeEach(async () => {
+		await api.expectGetWhoAmI({ optional: true, persist: true });
+		await api.expectGetApplication();
+	});
+
+	afterEach(async () => {
+		await server.assertAllCalled();
+	});
+
+	const composeFile = (contents: string): ExpectedTarStreamFiles[string] => ({
+		fileSize: Buffer.byteLength(contents),
+		type: 'file',
+		contents,
+	});
+
+	async function testResolvedCompose(
+		projectPath: string,
+		expectedFiles: ExpectedTarStreamFiles,
+	) {
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp --source ${projectPath} -R ${regSecretsPath} --noconvert-eol`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines: commonResponseLines[responseFilename],
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	}
+
+	it('folds extends.file, env_file and label_file into the uploaded compose file', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'compose-fields',
+		);
+		// restart via extends, ENV_VAR via env_file, the label via label_file;
+		// none of the three references survive
+		const resolved = `networks:
+  custom_network:
+    ipam:
+      config:
+        - subnet: '172.16.0.0/24'
+services:
+  service1:
+    annotations:
+      com.example.foo: 'bar'
+    attach: false
+    build:
+      context: 'service1'
+      dockerfile: 'Dockerfile'
+    cgroup: 'host'
+    command: null
+    cpu_rt_period: 1000
+    cpu_rt_runtime: 400
+    cpus: 0.5
+    device_cgroup_rules:
+      - 'c 1:3 mr'
+    environment:
+      ENV_VAR: 'env_value'
+    healthcheck:
+      start_interval: '5s'
+      start_period: '30s'
+      test:
+        - 'CMD'
+        - 'echo'
+        - 'ok'
+    ipc: 'shareable'
+    labels:
+      com.example.label: 'value'
+    networks:
+      custom_network:
+        aliases:
+          - 'alias1'
+        driver_opts:
+          com.docker.network.endpoint: '0.0.0.0'
+        gw_priority: 100
+        ipv4_address: '172.16.0.10'
+        ipv6_address: 'fd00::10'
+        mac_address: '02:42:ac:11:00:02'
+        priority: 1000
+    pids_limit: 100
+    post_start:
+      - command:
+          - 'echo'
+          - 'post-start'
+    pre_stop:
+      - command:
+          - 'echo'
+          - 'pre-stop'
+    read_only: true
+    restart: 'always'
+    uts: 'host'
+  service2:
+    build:
+      context: 'service2'
+      dockerfile: 'Dockerfile-alt'
+    command: null
+    depends_on:
+      - 'service1'
+    network_mode: 'service:service1'
+    pid: 'service:service1'
+    volumes_from:
+      - 'service1'
+`;
+		await testResolvedCompose(projectPath, {
+			'.env': { fileSize: 18, type: 'file' },
+			'base.yml': { fileSize: 38, type: 'file' },
+			'labels.txt': { fileSize: 24, type: 'file' },
+			'docker-compose.yml': composeFile(resolved),
+			'service1/Dockerfile': { fileSize: 31, type: 'file' },
+			'service2/Dockerfile-alt': { fileSize: 31, type: 'file' },
+		});
+	});
+
+	it('folds an include into the uploaded compose file', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'compose-frag-ext-includes',
+		);
+		const resolved = `services:
+  service1:
+    build:
+      args:
+        SERVICE1_ARG: 's1_value'
+        SHARED_ARG: 'shared_value'
+      context: 'service1'
+      dockerfile: 'Dockerfile'
+    command: null
+    restart: 'always'
+    volumes:
+      - 'resin-data:/data'
+  service2:
+    build:
+      args:
+        SERVICE2_ARG: 's2_value'
+        SHARED_ARG: 'shared_value'
+      context: 'service2'
+      dockerfile: 'Dockerfile-alt'
+    command: null
+    restart: 'always'
+    volumes:
+      - 'resin-data:/data'
+volumes:
+  resin-data: {}
+`;
+		await testResolvedCompose(projectPath, {
+			'compose-service2.yml': { fileSize: 252, type: 'file' },
+			'docker-compose.yml': composeFile(resolved),
+			'service1/Dockerfile': { fileSize: 31, type: 'file' },
+			'service2/Dockerfile-alt': { fileSize: 31, type: 'file' },
+		});
+	});
+
+	it('interpolates variables from the shell environment', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'interpolation',
+		);
+		const resolved = `services:
+  main:
+    build:
+      context: 'service1'
+      dockerfile: 'Dockerfile'
+    command: null
+    environment:
+      GREETING: 'hello from the shell'
+    labels:
+      io.balena.test: 'label value'
+`;
+		const saved = {
+			PUSH_TEST_GREETING: process.env.PUSH_TEST_GREETING,
+			PUSH_TEST_LABEL: process.env.PUSH_TEST_LABEL,
+		};
+		process.env.PUSH_TEST_GREETING = 'hello from the shell';
+		process.env.PUSH_TEST_LABEL = 'label value';
+		try {
+			await testResolvedCompose(projectPath, {
+				'docker-compose.yml': composeFile(resolved),
+				'service1/Dockerfile': { fileSize: 31, type: 'file' },
+			});
+		} finally {
+			for (const [name, value] of Object.entries(saved)) {
+				if (value == null) {
+					delete process.env[name];
+				} else {
+					process.env[name] = value;
+				}
+			}
+		}
 	});
 });

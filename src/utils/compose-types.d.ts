@@ -100,4 +100,6 @@ interface TarDirectoryOptions {
 	convertEol?: boolean;
 	multiDockerignore?: boolean;
 	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
+	/** Replaces the project's compose file in the archive, see `loadComposeFileForUpload` */
+	serializedComposition?: string;
 }

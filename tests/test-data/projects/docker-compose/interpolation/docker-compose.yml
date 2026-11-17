@@ -1,0 +1,7 @@
+services:
+  main:
+    build: ./service1
+    environment:
+      GREETING: ${PUSH_TEST_GREETING:-default greeting}
+    labels:
+      io.balena.test: ${PUSH_TEST_LABEL}
