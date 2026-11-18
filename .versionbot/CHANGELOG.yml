@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency balena-settings-storage to v9
+      hash: 2bced6d0075e68a45cdb140c7232bf9885b33342
+      body: |
+        Update balena-settings-storage from 8.1.0 to 9.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.27
+  title: ""
+  date: 2026-11-18T22:30:11.576Z
+- commits:
     - subject: Update dependency balena-errors to v5
       hash: 7a7de159dbf4ce47a3951c7c6132de740d49144c
       body: |
