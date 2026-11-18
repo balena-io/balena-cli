@@ -17,12 +17,12 @@
 
 import { expect } from 'chai';
 
-import type { GlobalTunnelNgConfig } from '../build/utils/proxy';
-import { makeUrlFromTunnelNgConfig } from '../build/utils/proxy';
+import type { ProxyObjectConfig } from '../build/utils/proxy';
+import { makeUrlFromProxyObjectConfig } from '../build/utils/proxy';
 
-describe('makeUrlFromTunnelNgConfig() function', function () {
-	it('should return a URL given a GlobalTunnelNgConfig object', () => {
-		const tunnelNgConfig: GlobalTunnelNgConfig = {
+describe('makeUrlFromProxyObjectConfig() function', function () {
+	it('should return a URL given a ProxyObjectConfig object', () => {
+		const proxyConfig: ProxyObjectConfig = {
 			host: 'proxy.company.com',
 			port: 8080,
 			proxyAuth: 'bob:secret',
@@ -30,7 +30,7 @@ describe('makeUrlFromTunnelNgConfig() function', function () {
 			connect: 'https',
 		};
 		const expectedUrl = 'http://bob:secret@proxy.company.com:8080';
-		const url = makeUrlFromTunnelNgConfig(tunnelNgConfig);
+		const url = makeUrlFromProxyObjectConfig(proxyConfig);
 		expect(url).to.deep.equal(expectedUrl);
 	});
 });

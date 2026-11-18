@@ -15,39 +15,44 @@
  * limitations under the License.
  */
 
-import type { Options as GlobalTunnelNgConfig } from 'global-tunnel-ng';
-export type { GlobalTunnelNgConfig };
-
 import type { CliSettings } from './bootstrap';
 
-type ProxyConfig = string | GlobalTunnelNgConfig;
+/**
+ * Object format of the 'proxy' setting in `.balenarc.yml`. It mirrors the
+ * subset of the `global-tunnel-ng` options that the CLI has documented:
+ *     https://www.npmjs.com/package/global-tunnel-ng#options
+ */
+export interface ProxyObjectConfig {
+	host: string;
+	port?: number | string;
+	proxyAuth?: string;
+	protocol?: string;
+	[key: string]: unknown;
+}
+
+type ProxyConfig = string | ProxyObjectConfig;
 
 /**
- * Global proxy setup. Originally, `global-tunnel-ng` was used, but it only
- * supports Node.js versions older than 10.16.0. For v10.16.0 and later,
- * we use `global-agent` (which only supports Node.js v10.0.0 and later).
+ * Global proxy setup
  *
- * For backwards compatibility reasons, in either case we still accept a
- * 'proxy' setting in `.balenarc.yml` that follows the
- * `global-tunnel-ng` object configuration format:
- *     https://www.npmjs.com/package/global-tunnel-ng#options
+ * For backwards compatibility reasons, we still accept a
+ * 'proxy' setting in `.balenarc.yml` that is either a URL string or an
+ * object in the `global-tunnel-ng` configuration format (see ProxyObjectConfig)
  *
  * The proxy may also be configured with the environment variables:
  * BALENARC_PROXY, HTTP_PROXY, HTTPS_PROXY, http_proxy, and https_proxy,
  * any of which should contain a URL in the usual format (authentication
  * details are optional): http://username:password@domain.com:1234
  *
- * A proxy exclusion list in the NO_PROXY variable is only supported when
- * `global-agent` is used, i.e. with Node.js v10.16.0 or later. The format
+ * The format for a proxy exclusion list
  * is specified at: https://www.npmjs.com/package/global-agent#exclude-urls
  * Patterns are matched with matcher: https://www.npmjs.com/package/matcher
  * 'localhost' and '127.0.0.1' are always excluded. If NO_PROXY is not defined,
  * default exclusion patterns are added for all private IPv4 address ranges.
  */
 export async function setupGlobalHttpProxy(settings: CliSettings) {
-	// `global-tunnel-ng` accepts lowercase variables with higher precedence
-	// than uppercase variables, but `global-agent` does not accept lowercase.
-	// Set uppercase versions for backwards compatibility.
+	// `global-agent` does not accept lowercase variables.
+	// Set uppercase versions for compatibility.
 	const { env } = process;
 	if (env.http_proxy) {
 		env.HTTP_PROXY = env.http_proxy;
@@ -60,27 +65,8 @@ export async function setupGlobalHttpProxy(settings: CliSettings) {
 
 	const proxy = settings.getCatch<ProxyConfig>('proxy');
 	if (proxy || env.HTTPS_PROXY || env.HTTP_PROXY) {
-		const semver = await import('semver');
-		if (semver.lt(process.version, '10.16.0')) {
-			await setupGlobalTunnelNgProxy(proxy);
-		} else {
-			// use global-agent instead of global-tunnel-ng
-			await setupGlobalAgentProxy(settings, proxy);
-		}
+		await setupGlobalAgentProxy(settings, proxy);
 	}
-}
-
-/**
- * `global-tunnel-ng` proxy setup.
- * See docs for setupGlobalHttpProxy() above.
- */
-async function setupGlobalTunnelNgProxy(proxy?: ProxyConfig) {
-	const globalTunnel = await import('global-tunnel-ng');
-	// Init the tunnel even if BALENARC_PROXY is not defined, because
-	// other env vars may be defined. If no proxy configuration exists,
-	// initialize() does nothing.
-	globalTunnel.initialize(proxy);
-	(global as any).PROXY_CONFIG = globalTunnel.proxyConfig;
 }
 
 /**
@@ -120,7 +106,7 @@ async function setupGlobalAgentProxy(
 
 	if (proxy) {
 		const proxyUrl: string =
-			typeof proxy === 'string' ? proxy : makeUrlFromTunnelNgConfig(proxy);
+			typeof proxy === 'string' ? proxy : makeUrlFromProxyObjectConfig(proxy);
 
 		env.HTTPS_PROXY = env.HTTP_PROXY = proxyUrl;
 	}
@@ -130,7 +116,7 @@ async function setupGlobalAgentProxy(
 }
 
 /** Make a URL in the format 'http://bob:secret@proxy.company.com:12345' */
-export function makeUrlFromTunnelNgConfig(cfg: GlobalTunnelNgConfig): string {
+export function makeUrlFromProxyObjectConfig(cfg: ProxyObjectConfig): string {
 	let url: string = cfg.host;
 	if (cfg.proxyAuth) {
 		url = `${cfg.proxyAuth}@${url}`;

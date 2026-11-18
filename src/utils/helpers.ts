@@ -358,52 +358,28 @@ export interface ProxyConfig {
 }
 
 /**
- * Check whether a proxy has been configured (whether global-tunnel-ng or
- * global-agent) and if so, return a ProxyConfig object.
+ * Check whether a proxy has been configured (global-agent) and if so, return a ProxyConfig object.
  */
 export function getProxyConfig(): ProxyConfig | undefined {
-	const tunnelNgConfig: any = (global as any).PROXY_CONFIG;
-	// global-tunnel-ng
-	if (tunnelNgConfig) {
-		let username: string | undefined;
-		let password: string | undefined;
-		const proxyAuth: string = tunnelNgConfig.proxyAuth;
-		if (proxyAuth) {
-			const i = proxyAuth.lastIndexOf(':');
-			if (i > 0) {
-				username = proxyAuth.substring(0, i);
-				password = proxyAuth.substring(i + 1);
-			}
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+	const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
+	if (proxyUrl) {
+		let url: InstanceType<typeof URL>;
+		try {
+			url = new URL(proxyUrl);
+		} catch {
+			return;
 		}
 		return {
-			host: tunnelNgConfig.host,
-			port: `${tunnelNgConfig.port}`,
-			username,
-			password,
-			proxyAuth: tunnelNgConfig.proxyAuth,
+			host: url.hostname,
+			port: url.port,
+			username: url.username,
+			password: url.password,
+			proxyAuth:
+				url.username && url.password
+					? `${url.username}:${url.password}`
+					: undefined,
 		};
-		// global-agent, or no proxy config
-	} else {
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
-		if (proxyUrl) {
-			let url: InstanceType<typeof URL>;
-			try {
-				url = new URL(proxyUrl);
-			} catch {
-				return;
-			}
-			return {
-				host: url.hostname,
-				port: url.port,
-				username: url.username,
-				password: url.password,
-				proxyAuth:
-					url.username && url.password
-						? `${url.username}:${url.password}`
-						: undefined,
-			};
-		}
 	}
 }
 

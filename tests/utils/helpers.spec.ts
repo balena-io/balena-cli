@@ -20,15 +20,10 @@ import { expect } from 'chai';
 import { getProxyConfig } from '../../build/utils/helpers';
 
 describe('getProxyConfig() function', function () {
-	let originalProxyConfig: [boolean, object | undefined];
 	let originalHttpProxy: [boolean, string | undefined];
 	let originalHttpsProxy: [boolean, string | undefined];
 
 	beforeEach(() => {
-		originalProxyConfig = [
-			Object.hasOwn(global, 'PROXY_CONFIG'),
-			(global as any).PROXY_CONFIG,
-		];
 		originalHttpProxy = [
 			Object.hasOwn(process.env, 'HTTP_PROXY'),
 			process.env.HTTP_PROXY,
@@ -37,39 +32,17 @@ describe('getProxyConfig() function', function () {
 			Object.hasOwn(process.env, 'HTTPS_PROXY'),
 			process.env.HTTPS_PROXY,
 		];
-		delete (global as any).PROXY_CONFIG;
 		delete process.env.HTTP_PROXY;
 		delete process.env.HTTPS_PROXY;
 	});
 
 	afterEach(() => {
-		if (originalProxyConfig[0]) {
-			(global as any).PROXY_CONFIG = originalProxyConfig[1];
-		}
 		if (originalHttpProxy[0]) {
 			process.env.HTTP_PROXY = originalHttpProxy[1];
 		}
 		if (originalHttpsProxy[0]) {
 			process.env.HTTPS_PROXY = originalHttpsProxy[1];
 		}
-	});
-
-	it('should return a ProxyConfig object when global-tunnel-ng is in use', () => {
-		(global as any).PROXY_CONFIG = {
-			host: '127.0.0.1',
-			port: 8080,
-			proxyAuth: 'bob:secret',
-			protocol: 'http:',
-			connect: 'https',
-		};
-		const expectedProxyConfig = {
-			host: '127.0.0.1',
-			port: '8080',
-			proxyAuth: 'bob:secret',
-			username: 'bob',
-			password: 'secret',
-		};
-		expect(getProxyConfig()).to.deep.equal(expectedProxyConfig);
 	});
 
 	it('should return a ProxyConfig object when the HTTP(S)_PROXY env vars are defined', () => {
