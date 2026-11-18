@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency balena-errors to v5
+      hash: 7a7de159dbf4ce47a3951c7c6132de740d49144c
+      body: |
+        Update balena-errors from 4.9.0 to 5.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.26
+  title: ""
+  date: 2026-11-18T16:39:47.813Z
+- commits:
     - subject: Remove unsupported global-tunnel-ng dependency and code
       hash: e9dcfc46fb14950a62b5ac6bfb304e313a353eaa
       body: ""
