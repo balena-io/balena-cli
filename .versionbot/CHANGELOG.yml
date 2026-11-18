@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @oclif/plugin-version to v3
+      hash: c5d6464059823cfc8e88e7ce85331348fde30e5d
+      body: |
+        Update @oclif/plugin-version from 2.2.32 to 3.0.11
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.24
+  title: ""
+  date: 2026-11-18T01:02:37.464Z
+- commits:
     - subject: Update dependency dockerode to v5
       hash: 3bca0008ffacbc6daca0f4782e23efb5880e2381
       body: |
