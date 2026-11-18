@@ -28,7 +28,7 @@
         "balena-sdk": "^23.1.13",
         "balena-semver": "^4.0.0",
         "balena-settings-client": "^6.0.0",
-        "balena-settings-storage": "^8.1.0",
+        "balena-settings-storage": "^9.0.0",
         "body-parser": "^2.0.0",
         "bonjour-service": "^1.2.1",
         "chokidar": "^3.5.2",
@@ -9335,6 +9335,12 @@
         "npm": ">=6.0.0"
       }
     },
+    "node_modules/balena-auth/node_modules/@types/node": {
+      "version": "14.18.63",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.18.63.tgz",
+      "integrity": "sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==",
+      "license": "MIT"
+    },
     "node_modules/balena-auth/node_modules/balena-errors": {
       "version": "4.9.0",
       "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.9.0.tgz",
@@ -9346,6 +9352,20 @@
       },
       "engines": {
         "node": ">=6.0"
+      }
+    },
+    "node_modules/balena-auth/node_modules/balena-settings-storage": {
+      "version": "8.2.0",
+      "resolved": "https://registry.npmjs.org/balena-settings-storage/-/balena-settings-storage-8.2.0.tgz",
+      "integrity": "sha512-2llVgUffyq08sXoDGbNm7gDM4nh9UdSBzWVq3DTZyo+crPv1BBkSUwFLN0EEj0EV0uOaWm2Ei15QI2eD92GehQ==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "@types/node": "^14.18.63",
+        "balena-errors": "^4.7.3",
+        "tslib": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=14.0"
       }
     },
     "node_modules/balena-config-json": {
@@ -9634,35 +9654,33 @@
       }
     },
     "node_modules/balena-settings-storage": {
-      "version": "8.1.0",
-      "resolved": "https://registry.npmjs.org/balena-settings-storage/-/balena-settings-storage-8.1.0.tgz",
-      "integrity": "sha512-zqOhJ8pU0ZB84V0ddJE0lKjV8QzT2nF3mRAi3AmpQ0v/DlMUjfxWipdl5CXGQNkD04Ji9pa8E5zXgB+dha+4JA==",
+      "version": "9.0.0",
+      "resolved": "https://registry.npmjs.org/balena-settings-storage/-/balena-settings-storage-9.0.0.tgz",
+      "integrity": "sha512-PwyxEIMnaRREtjiDdOthJ5iOLH3RgrVGeuaoEmZWxc5kNJA2/MOBkWbxc2YYxXJg1xEQg9wsIh/90VyOAP8onQ==",
+      "license": "Apache-2.0",
       "dependencies": {
-        "@types/node": "^10.17.26",
-        "balena-errors": "^4.7.3",
+        "@types/node": "^18.0.0",
+        "balena-errors": "^5.0.0",
         "tslib": "^2.0.0"
       },
       "engines": {
-        "node": ">=14.0"
+        "node": ">=18.0.0"
       }
     },
     "node_modules/balena-settings-storage/node_modules/@types/node": {
-      "version": "10.17.60",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-10.17.60.tgz",
-      "integrity": "sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw=="
-    },
-    "node_modules/balena-settings-storage/node_modules/balena-errors": {
-      "version": "4.9.0",
-      "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.9.0.tgz",
-      "integrity": "sha512-VBdfUovfg1dTHs5qguX6xIB2lF1psRdZFVDfmc9F2Q6QxKSo7eheCiA+s2dLBptFz8XBVTp6u5QLh9yaODC4Wg==",
-      "license": "Apache-2.0",
+      "version": "18.19.130",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.130.tgz",
+      "integrity": "sha512-GRaXQx6jGfL8sKfaIDD6OupbIHBr9jv7Jnaml9tB7l4v068PAOXqfcujMMo5PhbIs6ggR1XODELqahT2R8v0fg==",
+      "license": "MIT",
       "dependencies": {
-        "tslib": "^2.0.0",
-        "typed-error": "^3.0.0"
-      },
-      "engines": {
-        "node": ">=6.0"
+        "undici-types": "~5.26.4"
       }
+    },
+    "node_modules/balena-settings-storage/node_modules/undici-types": {
+      "version": "5.26.5",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz",
+      "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==",
+      "license": "MIT"
     },
     "node_modules/bare-buffer": {
       "version": "3.7.1",
