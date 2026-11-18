@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unsupported global-tunnel-ng dependency and code
+      hash: e9dcfc46fb14950a62b5ac6bfb304e313a353eaa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 25.2.25
+  title: ""
+  date: 2026-11-18T15:06:07.444Z
+- commits:
     - subject: Update dependency @oclif/plugin-version to v3
       hash: c5d6464059823cfc8e88e7ce85331348fde30e5d
       body: |
