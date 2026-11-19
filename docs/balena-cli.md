@@ -271,6 +271,18 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 	- [preload](#preload)
 
+- Profile
+
+	- [app profile list](#app-profile-list)
+	- [device profile activate](#device-profile-activate)
+	- [device profile deactivate](#device-profile-deactivate)
+	- [device profile list](#device-profile-list)
+	- [device profile remove-override](#device-profile-remove-override)
+	- [fleet profile activate](#fleet-profile-activate)
+	- [fleet profile deactivate](#fleet-profile-deactivate)
+	- [fleet profile list](#fleet-profile-list)
+	- [release profile list](#release-profile-list)
+
 - Push
 
 	- [push](#push)
@@ -3191,6 +3203,281 @@ Docker host TLS certificate file
 #### --key KEY
 
 Docker host TLS key file
+
+# Profile
+
+## app profile list
+
+### Description
+
+List the profiles provided by the releases of an OS (host) application,
+eg `balena_os/raspberrypi5`, along with the earliest successful release
+version that provides each of them.
+
+Examples:
+
+	$ balena app profile list balena_os/raspberrypi5
+	$ balena app profile list balena_os/raspberrypi5 --json
+
+### Arguments
+
+#### SLUGORID
+
+app slug or numeric ID
+
+## device profile activate
+
+### Description
+
+Force one or more OS profiles on for one or more devices, regardless of the
+fleet setting, by creating or updating a device profile override. Devices
+where the profile is already overridden to active are left untouched.
+Use `device profile remove-override` to revert to the fleet setting.
+Note that devices may reboot to apply profile changes.
+
+Available profiles can be listed with the `device profile list` command.
+
+Examples:
+
+	$ balena device profile activate 7cf02a6 profilename
+	$ balena device profile activate 7cf02a6,dc39e52 profilename1,profilename2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs
+
+#### PROFILES
+
+comma-separated list (no blank spaces) of profile names
+
+## device profile deactivate
+
+### Description
+
+Force one or more OS profiles off for one or more devices, regardless of the
+fleet setting, by creating or updating a device profile override. Devices
+where the profile is already overridden to inactive are left untouched.
+Use `device profile remove-override` to revert to the fleet setting.
+Note that devices may reboot to apply profile changes.
+
+Available profiles can be listed with the `device profile list` command.
+
+Examples:
+
+	$ balena device profile deactivate 7cf02a6 profilename
+	$ balena device profile deactivate 7cf02a6,dc39e52 profilename1,profilename2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs
+
+#### PROFILES
+
+comma-separated list (no blank spaces) of profile names
+
+## device profile list
+
+### Description
+
+List the OS profiles available for the OS application a device is
+currently operated by. For each profile, the following are shown:
+- min_version: the earliest OS version that provides the profile
+- in_current_os: whether the OS release the device should be running provides it
+- fleet: whether the profile is activated for the device's fleet
+- override: the device override for the profile, if any
+- effective: the resulting state for the device (the override, if any,
+  otherwise the fleet setting)
+
+The listed profile names can be used with the `device profile activate`,
+`device profile deactivate` and `device profile remove-override` commands.
+
+Examples:
+
+	$ balena device profile list 23c73a1
+	$ balena device profile list 23c73a1 --json
+
+### Arguments
+
+#### UUID
+
+the device uuid
+
+## device profile remove-override
+
+### Description
+
+Remove the device profile overrides of one or more OS profiles from one or
+more devices, so that they follow the fleet setting again. Devices without
+an override for a profile are left untouched. Note that devices may reboot
+to apply profile changes.
+
+Available profiles can be listed with the `device profile list` command.
+
+Examples:
+
+	$ balena device profile remove-override 7cf02a6 profilename
+	$ balena device profile remove-override 7cf02a6,dc39e52 profilename1,profilename2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs
+
+#### PROFILES
+
+comma-separated list (no blank spaces) of profile names
+
+## fleet profile activate
+
+### Description
+
+Activate one or more OS profiles (by name), as provided by an OS (host)
+application, for the devices of a fleet operated by that OS application.
+Profiles that are already active are left untouched. Devices with a
+profile override (see `device profile`) are not affected. Note that
+devices may reboot to apply profile changes.
+
+The OS application can be omitted for fleets whose devices are all operated
+by the same OS application, and must be specified otherwise.
+
+Available profiles, and the OS applications providing them, can be listed
+with the `fleet profile list` command.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena fleet profile activate myorg/myfleet profilename
+	$ balena fleet profile activate myorg/myfleet balena_os/raspberrypi5 profilename
+	$ balena fleet profile activate myorg/myfleet balena_os/raspberrypi5 profilename1,profilename2
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred) or numeric ID
+
+#### HOSTAPP
+
+OS (host) application slug, eg balena_os/raspberrypi5, optional for fleets whose devices are all operated by the same OS application
+
+#### PROFILES
+
+comma-separated list (no blank spaces) of profile names
+
+## fleet profile deactivate
+
+### Description
+
+Deactivate one or more OS profiles (by name), as provided by an OS (host)
+application, for the devices of a fleet operated by that OS application.
+Profiles that are already inactive are left untouched. Devices with a
+profile override (see `device profile`) are not affected. Note that
+devices may reboot to apply profile changes.
+
+The OS application can be omitted for fleets whose devices are all operated
+by the same OS application, and must be specified otherwise.
+
+Available profiles, and the OS applications providing them, can be listed
+with the `fleet profile list` command.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena fleet profile deactivate myorg/myfleet profilename
+	$ balena fleet profile deactivate myorg/myfleet balena_os/raspberrypi5 profilename
+	$ balena fleet profile deactivate myorg/myfleet balena_os/raspberrypi5 profilename1,profilename2
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred) or numeric ID
+
+#### HOSTAPP
+
+OS (host) application slug, eg balena_os/raspberrypi5, optional for fleets whose devices are all operated by the same OS application
+
+#### PROFILES
+
+comma-separated list (no blank spaces) of profile names
+
+## fleet profile list
+
+### Description
+
+List the OS profiles available to a fleet, grouped by the OS (host)
+application they belong to. The OS applications are the ones the devices of
+the fleet are operated by: usually a single one, but fleets with devices of
+multiple device types can run several. Fleets without devices therefore
+have no profiles listed.
+
+For each profile, whether it is activated for the fleet and its
+description are shown.
+
+The listed profile names can be used with the `fleet profile activate`,
+`fleet profile deactivate` and `device profile` commands.
+
+Fleets may be specified by fleet name or slug. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleet list` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments).
+
+Examples:
+
+	$ balena fleet profile list myorg/myfleet
+	$ balena fleet profile list 1234567 --json
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred) or numeric ID
+
+## release profile list
+
+### Description
+
+List the profiles provided by a release, along with the services whose
+images are tagged with each of them.
+
+Examples:
+
+	$ balena release profile list 1234567
+	$ balena release profile list a777f7345fe3d655c1c981aa642e5555 --json
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release
 
 # Push
 

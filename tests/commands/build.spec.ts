@@ -1034,7 +1034,9 @@ describe('balena build: compose field rejections', function () {
 		);
 	});
 
-	it('should reject bind mount volumes not in allowedBindMounts', async () => {
+	// Skipped while patches/all/@balena+compose-parser+*.patch passes bind
+	// mounts through to the supervisor for e2e testing. Re-enable with the patch.
+	it.skip('should reject bind mount volumes not in allowedBindMounts', async () => {
 		await expectRejection(
 			'volume-bind-mount.yml',
 			'service.volumes cannot be of type "bind"',

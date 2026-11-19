@@ -31,7 +31,6 @@ import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import { pipeline } from 'node:stream/promises';
-import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
 import type {
 	BuiltImage,
@@ -475,7 +474,9 @@ async function qemuTransposeBuildStream({
 		qemuFileMode: 0o555,
 	};
 
-	const buildStream = await transpose.transposeTarStream(
+	// @ts-expect-error - tar-stream 3.2.2 embedded typings in which Packs is incompatible w/ the DefinitelyTyped ones
+	// TODO: align tar-stream all over the code base and fix the typings.
+	task.buildStream = await transpose.transposeTarStream(
 		task.buildStream,
 		transposeOptions,
 		// Should fall back to undefined if empty string so that
@@ -483,9 +484,6 @@ async function qemuTransposeBuildStream({
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		dockerfilePath || undefined,
 	);
-	// @ts-expect-error - Should be able to remove once the typings get fixed
-	const packBuildStream = buildStream as Pack;
-	task.buildStream = packBuildStream;
 
 	return transposeOptions;
 }
