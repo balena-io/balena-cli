@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @oclif/plugin-update to v5
+      hash: 51489592797c42c5f7fc2290ffdd5631df15280f
+      body: |
+        Update @oclif/plugin-update from 4.7.14 to 5.0.10
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.29
+  title: ""
+  date: 2026-11-19T14:33:37.414Z
+- commits:
     - subject: Update dependency @oclif/core to v5
       hash: bfe46ed2ce3a07a4edbbb93e8c2e8b3c877bc753
       body: |
