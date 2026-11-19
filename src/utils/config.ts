@@ -184,7 +184,7 @@ export async function readAndValidateConfigJson(path: string) {
 export async function validateDevOptionAndWarn(
 	dev?: boolean,
 	version?: string,
-	logger?: import('./logger'),
+	logger?: import('./logger').Logger,
 ) {
 	if (!dev) {
 		return;
@@ -196,7 +196,7 @@ export async function validateDevOptionAndWarn(
 		);
 	}
 	if (!logger) {
-		const Logger = await import('./logger');
+		const {Logger} = await import('./logger');
 		logger = Logger.getLogger();
 	}
 	logger.logInfo(stripIndent`
@@ -216,7 +216,7 @@ export async function validateSecureBootOptionAndWarn(
 	secureBoot: boolean,
 	slug: string,
 	version: string,
-	logger?: import('./logger'),
+	logger?: import('./logger').Logger,
 ) {
 	if (!secureBoot) {
 		return;
@@ -244,7 +244,7 @@ export async function validateSecureBootOptionAndWarn(
 		})
 	) {
 		if (!logger) {
-			const Logger = await import('./logger');
+			const {Logger} = await import('./logger');
 			logger = Logger.getLogger();
 		}
 		logger.logInfo(stripIndent`

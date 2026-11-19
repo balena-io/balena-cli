@@ -45,7 +45,7 @@ export default class LocalConfigureCmd extends Command {
 
 		const reconfix = await import('reconfix');
 		const { denyMount, safeUmount } = await import('../../utils/umount');
-		const Logger = await import('../../utils/logger');
+		const { Logger } = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 

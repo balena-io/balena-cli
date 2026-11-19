@@ -20,7 +20,7 @@ import { ExpectedError } from '../errors';
 import * as path from 'path';
 import * as fs from 'fs';
 import { getBalenaSdk, stripIndent } from './lazy';
-import Logger = require('./logger');
+import { Logger } from './logger';
 
 export const QEMU_VERSION = 'v7.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';

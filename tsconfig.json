@@ -4,7 +4,6 @@
 		"module": "commonjs",
 		"target": "es2018",
 		"outDir": "build",
-		"strict": true,
 		"strictPropertyInitialization": false,
 		"useUnknownInCatchVariables": false,
 		"noUnusedLocals": true,
