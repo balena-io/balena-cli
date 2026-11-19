@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @oclif/core to v5
+      hash: bfe46ed2ce3a07a4edbbb93e8c2e8b3c877bc753
+      body: |
+        Update @oclif/core from 4.14.0 to 5.1.12
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.28
+  title: ""
+  date: 2026-11-19T00:48:56.847Z
+- commits:
     - subject: Update dependency balena-settings-storage to v9
       hash: 2bced6d0075e68a45cdb140c7232bf9885b33342
       body: |
