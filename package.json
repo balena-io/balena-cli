@@ -177,7 +177,7 @@
     "@balena/es-version": "^1.0.1",
     "@oclif/core": "^5.0.0",
     "@oclif/plugin-autocomplete": "^4.0.0",
-    "@oclif/plugin-update": "^4.7.14",
+    "@oclif/plugin-update": "^5.0.0",
     "@oclif/plugin-version": "^3.0.0",
     "@sentry/node": "^10.17.0",
     "balena-config-json": "^4.2.7",
