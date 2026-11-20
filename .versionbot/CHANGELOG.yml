@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency which to v3
+      hash: fc4124d7a971b4bc3bded519872aca754eaaf054
+      body: |
+        Update which from 2.0.2 to 3.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.34
+  title: ""
+  date: 2026-11-20T15:51:00.593Z
+- commits:
     - subject: Update dependency simple-git to v4 [SECURITY]
       hash: 9a1fc7f73713808e861314be331d89822fa8c391
       body: |
