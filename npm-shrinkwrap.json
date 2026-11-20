@@ -10,8 +10,8 @@
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose": "^8.0.4",
-        "@balena/compose-parser": "^0.2.6",
+        "@balena/compose": "^9.0.1",
+        "@balena/compose-parser": "^1.3.1",
         "@balena/dockerignore": "^1.0.2",
         "@balena/env-parsing": "^1.1.8",
         "@balena/es-version": "^1.0.1",
@@ -2025,12 +2025,12 @@
       }
     },
     "node_modules/@balena/compose": {
-      "version": "8.0.4",
-      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-8.0.4.tgz",
-      "integrity": "sha512-t/hzyKSn48loBNPLwNliC74Seja6LLqJzaE8DqN7LhMNWF+Gr7X39frsJNwhc377bxs2qWRc5gDJ/+/sJg2tMw==",
+      "version": "9.0.1",
+      "resolved": "https://registry.npmjs.org/@balena/compose/-/compose-9.0.1.tgz",
+      "integrity": "sha512-cj3mabEFGwHn62WW8yJUKAI5Dxj+6QiLod73lxvjOFp8mMTIpMFHFLdim/8E5kJbzFdezWU+lNXH19IlZrF9Wg==",
       "license": "Apache-2.0",
       "dependencies": {
-        "@balena/compose-parser": "^0.2.5",
+        "@balena/compose-parser": "^1.1.0",
         "ajv": "^6.12.6",
         "docker-file-parser": "^1.0.7",
         "docker-progress": "^5.3.1",
@@ -2052,7 +2052,8 @@
         "typed-error": "^3.2.2"
       },
       "engines": {
-        "node": ">=20.6.0"
+        "node": ">=22.14.0",
+        "npm": ">=11.5.1"
       },
       "peerDependencies": {
         "balena-sdk": "^22.1.3 || ^23.0.0",
@@ -2060,12 +2061,13 @@
       }
     },
     "node_modules/@balena/compose-parser": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/@balena/compose-parser/-/compose-parser-0.2.6.tgz",
-      "integrity": "sha512-eIkD7xw9/IELDl1dg8LiL7VTAEaH4ZlVhVO6Xuq0qDSWchhV6frTHegcu0OaXR1krpiMFGV7O4sgAQ5QLaTV6Q==",
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/@balena/compose-parser/-/compose-parser-1.3.1.tgz",
+      "integrity": "sha512-nQ1niNWigQXgFOn0EmyImLq6+GOXiJJo3WBYnEUjGx9/NKgiOwtirc8JrpVbglt7MqtssVg2pmvxRlFPqXLh8w==",
       "hasInstallScript": true,
       "license": "Apache-2.0",
       "dependencies": {
+        "js-yaml": "^4.3.2",
         "semver": "^7.7.2",
         "tar": "^7.5.1",
         "typed-error": "^3.2.2"
