@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency ejs to v4
+      hash: 20c712c31fc7417e07d17dd8aae304a6e4f1ad1a
+      body: |
+        Update ejs from 3.1.10 to 4.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.35
+  title: ""
+  date: 2026-11-20T20:36:09.506Z
+- commits:
     - subject: Update dependency which to v3
       hash: fc4124d7a971b4bc3bded519872aca754eaaf054
       body: |
