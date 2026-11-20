@@ -1,4 +1,17 @@
 - commits:
+    - subject: Pin dependencies
+      hash: 81ce8cc9f068fa67f899232cfc4f52c4c2e6b629
+      body: |
+        Update @electron/notarize
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.32
+  title: ""
+  date: 2026-11-20T01:50:45.676Z
+- commits:
     - subject: Update dependency @types/update-notifier to v5
       hash: 0dae5f377314a36a5ea0aa977157d0dd85557936
       body: |
