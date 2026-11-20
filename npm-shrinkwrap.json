@@ -84,7 +84,7 @@
         "tmp": "^0.2.1",
         "typed-error": "^3.2.1",
         "update-notifier": "^5.1.0",
-        "which": "^2.0.2",
+        "which": "^3.0.0",
         "window-size": "^1.1.0"
       },
       "bin": {
@@ -130,7 +130,7 @@
         "@types/through2": "2.0.36",
         "@types/tmp": "0.2.3",
         "@types/update-notifier": "5.1.0",
-        "@types/which": "2.0.1",
+        "@types/which": "3.0.4",
         "@types/window-size": "1.1.1",
         "catch-uncommitted": "2.0.0",
         "chai": "4.3.4",
@@ -7048,9 +7048,9 @@
       "integrity": "sha512-cSjhgrr8g4KbPnnijAr/KJDNKa/bBa+ixYkywFRvrhvi9n1WEl7yYbtRyzE6jqNQiSxxJxoAW3STaOQwJHndaw=="
     },
     "node_modules/@types/which": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/@types/which/-/which-2.0.1.tgz",
-      "integrity": "sha512-Jjakcv8Roqtio6w1gr0D7y6twbhx6gGgFGF5BLwajPpnOIOxFkakFhCq+LmyyeAz7BX6ULrjBOxdKaCDy+4+dQ==",
+      "version": "3.0.4",
+      "resolved": "https://registry.npmjs.org/@types/which/-/which-3.0.4.tgz",
+      "integrity": "sha512-liyfuo/106JdlgSchJzXEQCVArk0CvevqPote8F8HgWgJ3dRCcTHgJIsLDuee0kxk/mhbInzIZk3QWSZJ8R+2w==",
       "dev": true,
       "license": "MIT"
     },
@@ -7109,9 +7109,9 @@
       }
     },
     "node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore": {
-      "version": "7.0.14",
-      "resolved": "https://registry.npmjs.org/ignore/-/ignore-7.0.14.tgz",
-      "integrity": "sha512-wCBiZ77u1tuWde6G/nfOtLaCTYcFDU5yCzARzK10y+rLhzYoL7a7yEemcopcc2Mzow7gZOIjnV2ym1NYmdiJOQ==",
+      "version": "7.0.16",
+      "resolved": "https://registry.npmjs.org/ignore/-/ignore-7.0.16.tgz",
+      "integrity": "sha512-52N+Y4HRMOJmbLmr+DqO4iSRyyB7N52gm7PWCT6h0p978+oKbqHCB7gIJIwZvBUsjlSdWbrBFqUSmIFNZMpn0A==",
       "dev": true,
       "license": "MIT",
       "engines": {
@@ -9963,6 +9963,22 @@
         "node": ">=8"
       }
     },
+    "node_modules/cross-env/node_modules/which": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "isexe": "^2.0.0"
+      },
+      "bin": {
+        "node-which": "bin/node-which"
+      },
+      "engines": {
+        "node": ">= 8"
+      }
+    },
     "node_modules/cross-fetch": {
       "version": "3.2.0",
       "resolved": "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.2.0.tgz",
@@ -11507,6 +11523,22 @@
         "node": ">=8"
       }
     },
+    "node_modules/eslint/node_modules/which": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "isexe": "^2.0.0"
+      },
+      "bin": {
+        "node-which": "bin/node-which"
+      },
+      "engines": {
+        "node": ">= 8"
+      }
+    },
     "node_modules/esniff": {
       "version": "2.0.1",
       "resolved": "https://registry.npmjs.org/esniff/-/esniff-2.0.1.tgz",
@@ -12495,6 +12527,21 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/isaacs"
+      }
+    },
+    "node_modules/foreground-child/node_modules/which": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+      "license": "ISC",
+      "dependencies": {
+        "isexe": "^2.0.0"
+      },
+      "bin": {
+        "node-which": "bin/node-which"
+      },
+      "engines": {
+        "node": ">= 8"
       }
     },
     "node_modules/form-data": {
@@ -17218,6 +17265,22 @@
         "node": ">= 4.0.0"
       }
     },
+    "node_modules/oclif/node_modules/which": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "isexe": "^2.0.0"
+      },
+      "bin": {
+        "node-which": "bin/node-which"
+      },
+      "engines": {
+        "node": ">= 8"
+      }
+    },
     "node_modules/on-finished": {
       "version": "2.4.1",
       "resolved": "https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz",
@@ -17918,6 +17981,21 @@
       "integrity": "sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==",
       "engines": {
         "node": ">=6"
+      }
+    },
+    "node_modules/patch-package/node_modules/which": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+      "license": "ISC",
+      "dependencies": {
+        "isexe": "^2.0.0"
+      },
+      "bin": {
+        "node-which": "bin/node-which"
+      },
+      "engines": {
+        "node": ">= 8"
       }
     },
     "node_modules/patch-package/node_modules/yaml": {
@@ -21936,17 +22014,18 @@
       }
     },
     "node_modules/which": {
-      "version": "2.0.2",
-      "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
-      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/which/-/which-3.0.1.tgz",
+      "integrity": "sha512-XA1b62dzQzLfaEOSQFTCOd5KFf/1VSzZo7/7TUjnya6u0vGGKzU96UQBZTAThCb2j4/xjBAyii1OhRLJEivHvg==",
+      "license": "ISC",
       "dependencies": {
         "isexe": "^2.0.0"
       },
       "bin": {
-        "node-which": "bin/node-which"
+        "node-which": "bin/which.js"
       },
       "engines": {
-        "node": ">= 8"
+        "node": "^14.17.0 || ^16.13.0 || >=18.0.0"
       }
     },
     "node_modules/which-boxed-primitive": {
