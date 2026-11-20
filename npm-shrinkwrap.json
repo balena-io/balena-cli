@@ -150,7 +150,7 @@
         "mockttp": "4.2.1",
         "oclif": "5.0.2",
         "pinejs-client-core": "8.5.0",
-        "simple-git": "3.22.0",
+        "simple-git": "4.0.1",
         "sinon": "19.0.2",
         "string-to-stream": "3.0.1",
         "supports-color": "8.1.1",
@@ -5702,6 +5702,23 @@
         "@opentelemetry/core": "^1.30.1 || ^2.1.0 || ^2.2.0",
         "@opentelemetry/sdk-trace-base": "^1.30.1 || ^2.1.0 || ^2.2.0",
         "@opentelemetry/semantic-conventions": "^1.37.0"
+      }
+    },
+    "node_modules/@simple-git/args-pathspec": {
+      "version": "1.0.4",
+      "resolved": "https://registry.npmjs.org/@simple-git/args-pathspec/-/args-pathspec-1.0.4.tgz",
+      "integrity": "sha512-EtMX6XjRWSastG2SdkmSQByPtJ9dx/NIjnHbpQPCYt62j4RmSx5rgLTGpw0YCjF5h191gZOmBfheOT23cRSFdw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/@simple-git/argv-parser": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/@simple-git/argv-parser/-/argv-parser-2.0.0.tgz",
+      "integrity": "sha512-wr5b8akZQKNXiShOfPA1wRECrG1X7IAwNRKiU24g4CxSxDHgNcc5c5tdfGuA3NEOyAwta5iAQ5b7UjyrqyRFtg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@simple-git/args-pathspec": "^1.0.4"
       }
     },
     "node_modules/@sindresorhus/base62": {
@@ -20032,15 +20049,17 @@
       }
     },
     "node_modules/simple-git": {
-      "version": "3.22.0",
-      "resolved": "https://registry.npmjs.org/simple-git/-/simple-git-3.22.0.tgz",
-      "integrity": "sha512-6JujwSs0ac82jkGjMHiCnTifvf1crOiY/+tfs/Pqih6iow7VrpNKRRNdWm6RtaXpvvv/JGNYhlUtLhGFqHF+Yw==",
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/simple-git/-/simple-git-4.0.1.tgz",
+      "integrity": "sha512-3OXqp9MDRL+IlkJz0qUkm7dZoxVi61xdX2RF8fOA2OHHA8BNAVD+UdiXZ+5VYkrYZZ31OCIcAm8F8xnHOSRmrg==",
       "dev": true,
       "license": "MIT",
       "dependencies": {
         "@kwsites/file-exists": "^1.1.1",
         "@kwsites/promise-deferred": "^1.1.1",
-        "debug": "^4.3.4"
+        "@simple-git/args-pathspec": "1.0.4",
+        "@simple-git/argv-parser": "2.0.0",
+        "debug": "^4.4.0"
       },
       "funding": {
         "type": "github",
