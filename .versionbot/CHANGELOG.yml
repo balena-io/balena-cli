@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency simple-git to v4 [SECURITY]
+      hash: 9a1fc7f73713808e861314be331d89822fa8c391
+      body: |
+        Update simple-git from 3.22.0 to 4.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.33
+  title: ""
+  date: 2026-11-20T14:12:42.597Z
+- commits:
     - subject: Pin dependencies
       hash: 81ce8cc9f068fa67f899232cfc4f52c4c2e6b629
       body: |
