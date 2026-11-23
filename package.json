@@ -244,7 +244,7 @@
     "tmp": "^0.2.1",
     "typed-error": "^3.2.1",
     "update-notifier": "^5.1.0",
-    "which": "^3.0.0",
+    "which": "^4.0.0",
     "window-size": "^1.1.0"
   },
   "optionalDependencies": {
