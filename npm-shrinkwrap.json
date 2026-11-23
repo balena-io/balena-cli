@@ -59,7 +59,7 @@
         "jwt-decode": "^3.1.2",
         "livepush": "^3.5.2",
         "lodash": "^4.17.21",
-        "mime": "^3.0.0",
+        "mime": "^4.0.0",
         "ndjson": "^2.0.0",
         "node-cleanup": "^2.1.2",
         "node-unzip-2": "^0.2.8",
@@ -112,7 +112,7 @@
         "@types/jsonwebtoken": "9.0.6",
         "@types/klaw": "3.0.7",
         "@types/lodash": "4.17.20",
-        "@types/mime": "3.0.4",
+        "@types/mime": "4.0.0",
         "@types/mocha": "10.0.7",
         "@types/mock-fs": "4.13.4",
         "@types/ndjson": "2.0.1",
@@ -6627,11 +6627,15 @@
       "license": "MIT"
     },
     "node_modules/@types/mime": {
-      "version": "3.0.4",
-      "resolved": "https://registry.npmjs.org/@types/mime/-/mime-3.0.4.tgz",
-      "integrity": "sha512-iJt33IQnVRkqeqC7PzBHPTC6fDlRNRW8vjrgqtScAhrmMwe8c4Eo7+fUGTa+XdWrpEgpyKWMYmi2dIwMAYRzPw==",
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/@types/mime/-/mime-4.0.0.tgz",
+      "integrity": "sha512-5eEkJZ/BLvTE3vXGKkWlyTSUVZuzj23Wj8PoyOq2lt5I3CYbiLBOPb3XmCW6QcuOibIUE6emHXHt9E/F/rCa6w==",
+      "deprecated": "This is a stub types definition. mime provides its own type definitions, so you do not need this installed.",
       "dev": true,
-      "license": "MIT"
+      "license": "MIT",
+      "dependencies": {
+        "mime": "*"
+      }
     },
     "node_modules/@types/minimatch": {
       "version": "3.0.5",
@@ -8191,6 +8195,18 @@
       },
       "engines": {
         "node": ">=6.0"
+      }
+    },
+    "node_modules/balena-sdk/node_modules/mime": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz",
+      "integrity": "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==",
+      "license": "MIT",
+      "bin": {
+        "mime": "cli.js"
+      },
+      "engines": {
+        "node": ">=10.0.0"
       }
     },
     "node_modules/balena-semver": {
@@ -15635,15 +15651,18 @@
       }
     },
     "node_modules/mime": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz",
-      "integrity": "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==",
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-4.1.2.tgz",
+      "integrity": "sha512-ikRzZ2RwbUVDyL9SsU0f2Phcmav4yq5r8faH5ZZKHtOZrMBLnrQOrj0uvqZ5R1uQnj+RO7Wcklw/lAf81mP9LQ==",
+      "funding": [
+        "https://github.com/sponsors/broofa"
+      ],
       "license": "MIT",
       "bin": {
-        "mime": "cli.js"
+        "mime": "bin/cli.js"
       },
       "engines": {
-        "node": ">=10.0.0"
+        "node": ">=16"
       }
     },
     "node_modules/mime-db": {
