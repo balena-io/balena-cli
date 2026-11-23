@@ -207,7 +207,7 @@
     "fast-levenshtein": "^3.0.0",
     "filenamify": "^4.3.0",
     "glob": "^8.0.0",
-    "global-agent": "^3.0.0",
+    "global-agent": "^4.0.0",
     "got": "^11.8.3",
     "humanize": "0.0.9",
     "indent-string": "^4.0.0",
