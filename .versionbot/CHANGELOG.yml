@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency glob to v8
+      hash: 23f712785502923ce91689b0763a4b3e5ff3f56e
+      body: |
+        Update glob from 7.2.3 to 8.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.36
+  title: ""
+  date: 2026-11-23T15:41:23.236Z
+- commits:
     - subject: Update dependency ejs to v4
       hash: 20c712c31fc7417e07d17dd8aae304a6e4f1ad1a
       body: |
