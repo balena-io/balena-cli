@@ -103,7 +103,7 @@
     }
   },
   "devDependencies": {
-    "@balena/abstract-sql-to-typescript": "^5.1.5",
+    "@balena/abstract-sql-to-typescript": "^6.0.0",
     "@balena/lint": "^9.4.0",
     "@electron/notarize": "2.0.0",
     "@types/chai": "4.3.0",
