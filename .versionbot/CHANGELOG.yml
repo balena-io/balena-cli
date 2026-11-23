@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency which to v4
+      hash: 93c35cb8893789f9a70a5c5259f9dfdb219401dd
+      body: |
+        Update which from 3.0.1 to 4.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.40
+  title: ""
+  date: 2026-11-23T23:40:19.926Z
+- commits:
     - subject: Update dependency stream-to-promise to v3
       hash: 15aa591adf21c7f24e31c17d86f51935032f3942
       body: |
