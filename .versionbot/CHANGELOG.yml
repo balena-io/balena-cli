@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency @sentry/node to v11
+      hash: 207c8a445198bdec7cf827bcf703c24ac45355cb
+      body: |
+        Update @sentry/node from 10.33.0 to 11.16.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.38
+  title: ""
+  date: 2026-11-23T18:22:36.928Z
+- commits:
     - subject: Update dependency express to v5
       hash: e4a7c0071c510e0ee946c4c13cc84f4d04775798
       body: |
