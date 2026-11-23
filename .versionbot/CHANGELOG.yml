@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency express to v5
+      hash: e4a7c0071c510e0ee946c4c13cc84f4d04775798
+      body: |
+        Update express from 4.22.1 to 5.3.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.37
+  title: ""
+  date: 2026-11-23T16:41:56.531Z
+- commits:
     - subject: Update dependency glob to v8
       hash: 23f712785502923ce91689b0763a4b3e5ff3f56e
       body: |
