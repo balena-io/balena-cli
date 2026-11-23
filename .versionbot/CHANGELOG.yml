@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency stream-to-promise to v3
+      hash: 15aa591adf21c7f24e31c17d86f51935032f3942
+      body: |
+        Update stream-to-promise from 2.2.0 to 3.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.39
+  title: ""
+  date: 2026-11-23T20:34:58.691Z
+- commits:
     - subject: Update dependency @sentry/node to v11
       hash: 207c8a445198bdec7cf827bcf703c24ac45355cb
       body: |
