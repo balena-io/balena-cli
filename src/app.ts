@@ -25,6 +25,8 @@ import { CliSettings } from './utils/bootstrap';
 import { getPackageJson, onceAsync } from './utils/lazy';
 import { run as mainRun, settings, Errors } from '@oclif/core';
 
+const sensitiveHeaderPatterns = ['forwarded', '-ip', 'remote-', 'via', '-user'];
+
 /**
  * Sentry.io setup
  * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
@@ -35,6 +37,22 @@ export const setupSentry = onceAsync(async () => {
 	Sentry.init({
 		dsn: config.sentryDsn,
 		release: getPackageJson().version,
+		// Sentry v11 collects everything by default when `dataCollection` is unset.
+		// Explicitly keep the v10 default (`sendDefaultPii` off) baseline.
+		// @see https://docs.sentry.io/platforms/javascript/guides/node/migration/v10-to-v11/
+		dataCollection: {
+			userInfo: false,
+			cookies: false,
+			httpHeaders: {
+				request: { deny: sensitiveHeaderPatterns },
+				response: { deny: sensitiveHeaderPatterns },
+			},
+			httpBodies: [],
+			urlQueryParams: { deny: sensitiveHeaderPatterns },
+			genAI: { inputs: false, outputs: false },
+			databaseQueryData: false,
+			graphQL: { document: false, variables: false },
+		},
 	});
 	Sentry.getCurrentScope().setExtras({
 		node_version: process.version,
