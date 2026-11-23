@@ -160,7 +160,7 @@
     "mocha": "11.8.0",
     "mock-fs": "5.2.0",
     "mockttp": "4.2.1",
-    "oclif": "5.0.2",
+    "oclif": "6.0.15",
     "pinejs-client-core": "8.5.0",
     "simple-git": "4.0.1",
     "sinon": "19.0.2",
