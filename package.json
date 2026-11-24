@@ -197,7 +197,7 @@
     "date-fns": "^4.1.0",
     "denymount": "^2.3.0",
     "docker-modem": "^5.0.6",
-    "docker-progress": "^5.4.0",
+    "docker-progress": "^5.4.28",
     "dockerode": "^5.0.0",
     "ejs": "^5.0.0",
     "etcher-sdk": "^10.0.0",
