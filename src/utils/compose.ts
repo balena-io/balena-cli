@@ -164,6 +164,7 @@ export const createRelease = async function (
 		is_final: !draft,
 		contract: contract ?? undefined,
 		imgDescriptors,
+		createImageProfiles: true,
 	});
 
 	for (const serviceImage of Object.values(serviceImages)) {

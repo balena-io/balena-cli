@@ -1,0 +1,6 @@
+services:
+  main:
+    build: .
+    profiles:
+      - gpu
+      - debug

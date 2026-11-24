@@ -1248,6 +1248,43 @@ export class MockHttpServer {
 				{ status: 201, body: { id: 1 } },
 				opts,
 			),
+
+		/** image_profile is only exposed on the /resin model */
+		expectPostImageProfile: async (
+			opts: {
+				inspectRequest?: (uri: string, requestBody: any) => void;
+			} & ScopeOpts = {},
+		) => {
+			const { inspectRequest, ...scopeOpts } = opts;
+			const $path = /^\/resin\/image_profile($|\?)/;
+
+			let builder = mockServer.forPost($path);
+			if (scopeOpts.persist) {
+				builder = builder.always();
+			}
+			if (scopeOpts.times) {
+				builder = builder.times(scopeOpts.times);
+			}
+
+			const rule = await builder.thenCallback(async (req) => {
+				inspectRequest?.(req.url, await req.body.getJson());
+				return {
+					status: 201,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ id: 1 }),
+				};
+			});
+
+			if (!scopeOpts.optional) {
+				this.nonOptionalEndpoints.push({
+					endpoint: rule,
+					method: 'POST',
+					path: $path,
+				});
+			}
+
+			return rule;
+		},
 	};
 	public docker = {
 		expectGetPing: (opts: ScopeOpts = {}) =>
