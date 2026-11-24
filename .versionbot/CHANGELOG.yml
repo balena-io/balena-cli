@@ -1,4 +1,16 @@
 - commits:
+    - subject: Exempt balena packages from the min-release-age=3 rule
+      hash: 7b68aa09c5ac4e2ef8a3f71fdbbd5b3348df0faa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested: []
+  version: 25.2.44
+  title: ""
+  date: 2026-11-24T18:50:11.942Z
+- commits:
     - subject: Remove no longer necessary @types/global-agent
       hash: dc80abc8e1e2a61127c44bdf737c6bd503148fc8
       body: ""
