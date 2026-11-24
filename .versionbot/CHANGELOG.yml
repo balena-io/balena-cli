@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update dependency ejs to v5
+      hash: bc1f41d01d5d0009864faf0647c8b27fbe74abd9
+      body: |
+        Update ejs from 4.0.1 to 5.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+      nested: []
+  version: 25.2.42
+  title: ""
+  date: 2026-11-24T16:00:40.390Z
+- commits:
     - subject: Update dependency oclif to v6
       hash: cfe922ee3f5e36c042b2eb12b5f019ead740b4c7
       body: |
