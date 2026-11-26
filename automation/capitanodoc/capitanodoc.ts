@@ -70,6 +70,7 @@ const commandHeadings: { [key: string]: string } = {
 	fleet: 'Fleets',
 	release: 'Releases',
 	tag: 'Tags',
+	'virtual-device': 'Virtual Devices',
 };
 
 // Fetch all available commands
