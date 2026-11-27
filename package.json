@@ -156,7 +156,7 @@
     "jsonwebtoken": "9.0.2",
     "klaw": "4.1.0",
     "mkdirp": "3.0.1",
-    "mocha": "11.8.0",
+    "mocha": "12.0.3",
     "mock-fs": "5.2.0",
     "mockttp": "4.2.1",
     "oclif": "6.0.15",
