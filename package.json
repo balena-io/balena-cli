@@ -166,7 +166,7 @@
     "string-to-stream": "3.0.1",
     "supports-color": "8.1.1",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "dependencies": {
     "@balena/compose": "^8.0.4",
