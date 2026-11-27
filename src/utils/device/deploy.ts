@@ -402,7 +402,6 @@ async function performBuilds(
 						localImage.serviceName,
 						'latest',
 					),
-					force: true,
 				});
 				imagesToRemove.push(localImage.name!);
 			}

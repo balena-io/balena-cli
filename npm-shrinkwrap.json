@@ -38,7 +38,7 @@
         "date-fns": "^4.1.0",
         "denymount": "^2.3.0",
         "docker-modem": "^5.0.6",
-        "docker-progress": "^5.4.0",
+        "docker-progress": "^5.4.28",
         "dockerode": "^5.0.0",
         "ejs": "^5.0.0",
         "etcher-sdk": "^10.0.0",
@@ -98,7 +98,7 @@
         "@types/chai-as-promised": "7.1.4",
         "@types/cli-truncate": "2.0.0",
         "@types/common-tags": "1.8.1",
-        "@types/dockerode": "3.3.23",
+        "@types/dockerode": "4.0.2",
         "@types/ejs": "3.1.0",
         "@types/express": "5.0.6",
         "@types/fast-levenshtein": "0.0.4",
@@ -6235,12 +6235,14 @@
       }
     },
     "node_modules/@types/dockerode": {
-      "version": "3.3.23",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.23.tgz",
-      "integrity": "sha512-Lz5J+NFgZS4cEVhquwjIGH4oQwlVn2h7LXD3boitujBnzOE5o7s9H8hchEjoDK2SlRsJTogdKnQeiJgPPKLIEw==",
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-4.0.2.tgz",
+      "integrity": "sha512-hA4myZ0XzwHG/p/eCLElYsQS3y1XZfvi6AfLFKVp1SNpPkO6J3xLatacAFVkReTxXRoIa3eHJmhJi9w6I3+zNA==",
+      "license": "MIT",
       "dependencies": {
         "@types/docker-modem": "*",
-        "@types/node": "*"
+        "@types/node": "*",
+        "@types/ssh2": "*"
       }
     },
     "node_modules/@types/ejs": {
@@ -10186,14 +10188,13 @@
       }
     },
     "node_modules/docker-progress": {
-      "version": "5.4.0",
-      "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-5.4.0.tgz",
-      "integrity": "sha512-AzH4jOpndhfB3wb2RnPOb1KEcyWmcHHR44K0g4qE8oeihmFjc/CnGSuqB2LCivL8j2Yeeduvg6LQyV24XMBtjw==",
+      "version": "5.4.28",
+      "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-5.4.28.tgz",
+      "integrity": "sha512-4APcc3lPnefxAtJJCt20rdIlaLkaN+qTBvLSM8hdxxndO0l5zjkOvx2qTX6rrWeYEaFqs0y4sO0N080UFoXWlQ==",
       "license": "Apache-2.0",
       "dependencies": {
-        "@types/dockerode": "^3.3.23",
-        "JSONStream": "^1.3.5",
-        "lodash": "^4.17.21"
+        "@types/dockerode": "^4.0.0",
+        "JSONStream": "^1.3.5"
       },
       "engines": {
         "node": ">=16.0.0"

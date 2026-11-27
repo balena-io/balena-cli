@@ -211,7 +211,7 @@ export const tagServiceImages = (
 			const name = `${registry}/${repo}`;
 			return docker
 				.getImage(d.name)
-				.tag({ repo: name, tag, force: true })
+				.tag({ repo: name, tag })
 				.then(() => docker.getImage(`${name}:${tag}`))
 				.then((localImage) => ({
 					serviceName: d.serviceName,
