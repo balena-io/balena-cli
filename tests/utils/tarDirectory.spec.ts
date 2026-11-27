@@ -16,6 +16,7 @@
  */
 
 import { expect } from 'chai';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as tar from 'tar-stream';
 
@@ -29,6 +30,7 @@ interface TarFiles {
 	[name: string]: {
 		fileSize?: number;
 		type?: string | null;
+		contents?: string;
 	};
 }
 
@@ -106,12 +108,42 @@ describe('compare new and old tarDirectory implementations', function () {
 
 		expect(fileList).to.deep.equal(expectedFiles);
 	});
+
+	it('should replace the compose file with the serialized composition', async function () {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const serializedComposition = 'services:\n  service1:\n    build: s1\n';
+
+		const tarPack = await tarDirectory(projectPath, { serializedComposition });
+		const files = await getTarPackFiles(tarPack, true);
+
+		// One docker-compose.yml, ours rather than the project's
+		expect(files['docker-compose.yml'].contents).to.equal(
+			serializedComposition,
+		);
+		expect(files).to.not.have.property('docker-compose.yaml');
+		// Everything else is still there
+		expect(files).to.have.property('service1/Dockerfile.template');
+		expect(files).to.have.property('service2/Dockerfile-alt');
+	});
+
+	it('should leave the compose file alone without a serialized composition', async function () {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const original = await fs.readFile(
+			path.join(projectPath, 'docker-compose.yml'),
+			'utf8',
+		);
+
+		const tarPack = await tarDirectory(projectPath, {});
+		const files = await getTarPackFiles(tarPack, true);
+
+		expect(files['docker-compose.yml'].contents).to.equal(original);
+	});
 });
 
 async function getTarPackFiles(
 	pack: import('stream').Readable,
+	withContents = false,
 ): Promise<TarFiles> {
-	const { drainStream } = await import('tar-utils');
 	const fileList: TarFiles = {};
 	const extract = tar.extract();
 
@@ -119,13 +151,23 @@ async function getTarPackFiles(
 		extract
 			.on('error', reject)
 			.on('entry', async function (header, stream, next) {
-				expect(fileList).to.not.have.property(header.name);
-				fileList[header.name] = {
-					fileSize: header.size,
-					type: header.type,
-				};
-				await drainStream(stream);
-				next();
+				try {
+					expect(fileList).to.not.have.property(header.name);
+					const chunks: Buffer[] = [];
+					for await (const chunk of stream) {
+						chunks.push(chunk as Buffer);
+					}
+					fileList[header.name] = {
+						fileSize: header.size,
+						type: header.type,
+						...(withContents
+							? { contents: Buffer.concat(chunks).toString('utf8') }
+							: {}),
+					};
+					next();
+				} catch (err) {
+					reject(err as Error);
+				}
 			})
 			.on('finish', function () {
 				resolve(fileList);

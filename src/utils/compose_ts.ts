@@ -112,9 +112,17 @@ export async function parseComposePaths(
 	const composeParser = await import('@balena/compose-parser');
 	const pathStr = Array.isArray(paths) ? paths.join(', ') : paths;
 	try {
-		return await composeParser.parse(paths);
+		// The file is the user's own, so resolve it against their shell environment
+		// and the files it names. The builder re-parses the upload with neither.
+		return await composeParser.parse(paths, { hostEnvironment: true });
 	} catch (err: any) {
-		err.message = `Error parsing composition file "${pathStr}":\n${err.message}`;
+		const message = `Error parsing composition file "${pathStr}":\n${err.message}`;
+		// What the parser says about the file is the user's to fix. Anything else,
+		// such as a missing binary or bad output, is a CLI bug and stays reported
+		if (err instanceof composeParser.ComposeError) {
+			throw new ExpectedError(message);
+		}
+		err.message = message;
 		throw err;
 	}
 }
@@ -187,6 +195,48 @@ export async function loadProject(
 		opts.projectName,
 		imageTag,
 	);
+}
+
+/**
+ * Resolve the project's compose file for upload. `balena push` used to send it
+ * as written; since the builder's /v4 endpoint the CLI parses it here, where
+ * the shell environment and secondary files are, and uploads one self-contained
+ * docker-compose.yml that the builder re-parses without either.
+ *
+ * @param projectPath Project source directory
+ * @returns The composition, its serialized form and the compose file's name, or
+ * undefined if the project has no compose file
+ */
+export async function loadComposeFileForUpload(projectPath: string): Promise<
+	| {
+			composition: Composition;
+			serializedComposition: string;
+			fileName: string;
+	  }
+	| undefined
+> {
+	const [composeName, composePath] = await resolveProject(
+		Logger.getLogger(),
+		projectPath,
+		true,
+	);
+	if (!composeName) {
+		return undefined;
+	}
+	const composition = await parseComposePaths(composePath);
+	const { serialize, ComposeError } = await import('@balena/compose-parser');
+	let serializedComposition: string;
+	try {
+		serializedComposition = serialize(composition);
+	} catch (err: any) {
+		const message = `Error preparing composition file "${composeName}" for upload:\n${err.message}`;
+		if (err instanceof ComposeError) {
+			throw new ExpectedError(message);
+		}
+		err.message = message;
+		throw err;
+	}
+	return { composition, serializedComposition, fileName: composeName };
 }
 
 /**
@@ -742,6 +792,7 @@ export async function tarDirectory(
 		convertEol = false,
 		multiDockerignore = false,
 		preFinalizeCallback,
+		serializedComposition,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
 	const { filterFilesWithDockerignore } = await import('./ignore');
@@ -765,9 +816,21 @@ export async function tarDirectory(
 	);
 	void (async () => {
 		try {
+			const skippedComposeFiles: string[] = [];
 			for (const fileStats of filteredFileList) {
+				const entryName = toPosixPath(fileStats.relPath);
+				// The builder parses the first compose file it finds in the tar, so
+				// every one of the project's own gives way to the resolved copy added
+				// below
+				if (
+					serializedComposition != null &&
+					compositionFileNames.includes(entryName)
+				) {
+					skippedComposeFiles.push(entryName);
+					continue;
+				}
 				const entryHeader = {
-					name: toPosixPath(fileStats.relPath),
+					name: entryName,
 					mtime: fileStats.stats.mtime,
 					mode: fileStats.stats.mode,
 					size: fileStats.stats.size,
@@ -794,6 +857,14 @@ export async function tarDirectory(
 					const entry = pack.entry(entryHeader);
 					await pipeline(fileReadStream, entry);
 				}
+			}
+			if (serializedComposition != null) {
+				if (skippedComposeFiles.length > 1) {
+					Logger.getLogger().logWarn(
+						`Only the resolved compose file is uploaded; not sending: ${skippedComposeFiles.join(', ')}`,
+					);
+				}
+				pack.entry({ name: 'docker-compose.yml' }, serializedComposition);
 			}
 			if (preFinalizeCallback) {
 				await preFinalizeCallback(pack);

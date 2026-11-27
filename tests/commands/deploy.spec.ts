@@ -529,6 +529,63 @@ describe('balena deploy', function () {
 			services: ['service1', 'service2'],
 		});
 	});
+
+	it('should register an image_profile for each service profile', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'profiles');
+		const expectedFiles: ExpectedTarStreamFiles = {
+			Dockerfile: { fileSize: 27, type: 'file' },
+			'docker-compose.yml': { fileSize: 71, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+
+		const profileRequests: any[] = [];
+		await api.expectPostRelease({});
+		await api.expectPatchImage({});
+		await api.expectPatchRelease({});
+		await api.expectPostImageProfile({
+			times: 2,
+			inspectRequest: (_uri, body) => profileRequests.push(body),
+		});
+		await docker.expectGetManifestBusybox();
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath}`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: {
+				main: Object.entries({
+					...commonComposeQueryParamsArmV7,
+					buildargs: {},
+				}),
+			},
+			expectedResponseLines: commonResponseLines[responseFilename],
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+
+		const { id: releaseImageId } = JSON.parse(
+			await fs.readFile(
+				path.join(
+					repoPath,
+					'tests',
+					'test-data',
+					'api-response',
+					'image-is-part-of-release-POST-v7.json',
+				),
+				'utf8',
+			),
+		);
+		expect(_.sortBy(profileRequests, 'profile_name')).to.deep.equal([
+			{ release_image: releaseImageId, profile_name: 'debug' },
+			{ release_image: releaseImageId, profile_name: 'gpu' },
+		]);
+	});
 });
 
 describe('balena deploy: project validation', function () {

@@ -89,7 +89,8 @@ async function getBuilderEndpoint(
 	const querystring = await import('querystring');
 	const args = querystring.stringify({
 		slug: appSlug,
-		dockerfilePath: opts.dockerfilePath,
+		// /v4 refuses an empty dockerfilePath, so leave it out when unset
+		...(opts.dockerfilePath && { dockerfilePath: opts.dockerfilePath }),
 		emulated: opts.emulated,
 		nocache: opts.nocache,
 		headless: opts.headless,
@@ -103,7 +104,9 @@ async function getBuilderEndpoint(
 	if (builderUrl.endsWith('/')) {
 		builderUrl = builderUrl.slice(0, -1);
 	}
-	return `${builderUrl}/v3/build?${args}`;
+	// /v4 expects a compose file already resolved by the CLI, see getTarStream.
+	// /v3 keeps the legacy parser for git push and Deploy-With-Balena.
+	return `${builderUrl}/v4/build?${args}`;
 }
 
 export async function startRemoteBuild(
@@ -290,7 +293,8 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 
 /**
  * Call tarDirectory() with a suitable callback to insert registry secrets in
- * the tar stream, and return the stream.
+ * the tar stream, replacing the project's compose file with a resolved,
+ * self-contained one, and return the stream.
  */
 async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 	let tarSpinner = {
@@ -307,6 +311,7 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 	}
 
 	const path = await import('path');
+	const { loadComposeFileForUpload } = await import('./compose_ts');
 	const preFinalizeCallback = (pack: Pack) => {
 		pack.entry(
 			{ name: '.balena/registry-secrets.json' },
@@ -320,9 +325,20 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 			Object.keys(build.opts.registrySecrets).length > 0
 				? preFinalizeCallback
 				: undefined;
+		const source = path.resolve(build.source);
+		// Resolve the compose file here, where the user's environment and
+		// secondary files are. /v4 refuses a file that still references either.
+		const project = await loadComposeFileForUpload(source);
+		if (project != null) {
+			globalLogger.logDebug(
+				`Resolved "${project.fileName}" into a self-contained compose file for upload`,
+			);
+		}
 		globalLogger.logDebug('Tarring all non-ignored files...');
 		const tarStartTime = Date.now();
-		const tarStream = await tarDirectory(path.resolve(build.source), {
+		const tarStream = await tarDirectory(source, {
+			composition: project?.composition,
+			serializedComposition: project?.serializedComposition,
 			preFinalizeCallback: preFinalizeCb,
 			convertEol: build.opts.convertEol,
 			multiDockerignore: build.opts.multiDockerignore,
@@ -376,6 +392,12 @@ async function createRemoteBuildRequest(
 				if (response.rawBody) {
 					msgArr.push(response.rawBody.toString());
 				}
+				if (response.statusCode === 404) {
+					msgArr.push(
+						'The builder could not accept this upload. If you use a self-hosted ' +
+							'builder, update it to the latest release.',
+					);
+				}
 				onError(new ExpectedError(msgArr.join('\n')));
 			}
 		});
@@ -410,7 +432,13 @@ async function getRemoteBuildStream(
 		(uploadSpinner as any).start();
 	}
 
-	const tarStream = await getTarStream(build);
+	let tarStream: Stream.Readable;
+	try {
+		tarStream = await getTarStream(build);
+	} catch (err) {
+		uploadSpinner.stop();
+		throw err;
+	}
 	const buildRequest = await createRemoteBuildRequest(
 		build,
 		tarStream,

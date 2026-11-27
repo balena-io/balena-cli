@@ -779,7 +779,7 @@ describe('balena build', function () {
 		});
 	});
 
-	it('should create the expected tar stream when using compose spec v2 service and network fields', async () => {
+	it('should create the expected tar stream when using compose fields gated on a newer Supervisor', async () => {
 		const projectPath = path.join(
 			repoPath,
 			'tests',
@@ -827,14 +827,9 @@ describe('balena build', function () {
 		await docker.expectGetInfo({});
 		await docker.expectGetManifestBusybox();
 		await docker.expectGetManifestBusybox();
-		const expectedErrorLines = [
-			'Service "service1" uses compose fields that may not be supported on legacy Supervisor versions',
-			'Service "service2" uses compose fields that may not be supported on legacy Supervisor versions',
-		];
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
 			dockerMock: docker,
-			expectedErrorLines,
 			expectedFilesByService,
 			expectedQueryParamsByService,
 			expectedResponseLines,
@@ -971,10 +966,17 @@ describe('balena build: compose field rejections', function () {
 		);
 	});
 
-	it('should reject volumes_from referencing a container', async () => {
+	it('should reject volumes_from, even when it references a service', async () => {
 		await expectRejection(
-			'volumes-from-container.yml',
-			'service.volumes_from which references a containerId is not allowed',
+			'volumes-from.yml',
+			'service.volumes_from is not allowed',
+		);
+	});
+
+	it('should reject compose fields that no Supervisor supports yet', async () => {
+		await expectRejection(
+			'unsupported-compose-fields.yml',
+			'service uses compose fields that no Supervisor supports yet',
 		);
 	});
 
@@ -1045,6 +1047,13 @@ describe('balena build: compose field rejections', function () {
 		await expectRejection(
 			'network-link-local-ips.yml',
 			'service.network.link_local_ips is not supported',
+		);
+	});
+
+	it('should reject network.interface_name', async () => {
+		await expectRejection(
+			'network-interface-name.yml',
+			'service.network.interface_name is not allowed',
 		);
 	});
 

@@ -3,4 +3,6 @@ services:
     build:
       context: ./service1
     volumes_from:
-      - "container:abc123"
+      - service2
+  service2:
+    image: busybox
