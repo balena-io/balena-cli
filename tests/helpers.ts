@@ -18,6 +18,8 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { createGunzip } from 'zlib';
+import { PassThrough } from 'stream';
+import * as sinon from 'sinon';
 
 import { getPackageJson } from '../build/utils/lazy';
 import { getNodeEngineVersionWarn } from '../build/utils/messages';
@@ -432,4 +434,42 @@ export function deepJsonParse(data: any): any {
 		return data;
 	}
 	return data;
+}
+
+export type ResinCliFormAskStub = sinon.SinonStub & {
+	answer: (input: string) => void;
+};
+
+export function stubResinCliFormAsk(): ResinCliFormAskStub {
+	// resin-cli-form depends on its own inquirer version
+	const inquirer = require(
+		require.resolve('inquirer', {
+			paths: [path.dirname(require.resolve('resin-cli-form'))],
+		}),
+	);
+	const queuedInputs: string[] = [];
+	// Stub the inquirer `prompt` used by resin-cli-form so that the question is rendered,
+	// while its input comes from the given `answer()`s instead of process.stdin.
+	const stub = sinon
+		.stub(inquirer, 'prompt')
+		.callsFake((questions: unknown) => {
+			const nextInput = queuedInputs.shift();
+			if (nextInput == null) {
+				return Promise.reject(
+					new Error('stubResinCliFormAsk: no answer queued for the prompt'),
+				);
+			}
+			const input = new PassThrough();
+			const prompt = inquirer.createPromptModule({
+				input,
+				output: process.stdout,
+			});
+			const result = prompt(questions);
+			input.write(`${nextInput}\n`);
+			return result;
+		}) as ResinCliFormAskStub;
+	stub.answer = (input) => {
+		queuedInputs.push(input);
+	};
+	return stub;
 }

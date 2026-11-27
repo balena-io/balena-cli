@@ -241,6 +241,35 @@ export class MockHttpServer {
 				opts,
 			),
 
+		expectGetServiceAgreement: (
+			opts: {
+				status?: number;
+				body?: string | object;
+			} & ScopeOpts = {},
+		) =>
+			this.createMock(
+				'GET',
+				/\/v7\/service_agreement($|[(?])/,
+				{ status: 200, body: { d: [] } },
+				opts,
+			),
+
+		expectPostOrganization: (opts: ScopeOpts = {}) =>
+			this.createMock(
+				'POST',
+				/\/v7\/organization($|[(?])/,
+				{
+					status: 201,
+					body: {
+						id: 1,
+						name: 'MyOrg',
+						handle: 'myorg',
+						created_at: new Date().toISOString(),
+					},
+				},
+				opts,
+			),
+
 		expectGetApplication: (
 			opts?: { expandArchitecture?: boolean } & ScopeOpts,
 		) => {

@@ -2671,15 +2671,26 @@ answer "yes" to all questions (non interactive use)
 
 Create a new organization.
 
+If the balena backend has a Master Service Agreement (MSA) defined, you will be
+asked to accept it interactively. Use the --accept-msa flag to accept it
+non-interactively (e.g. in scripts or CI).
+
 Examples:
 
 	$ balena organization create MyOrg
+	$ balena organization create MyOrg --accept-msa
 
 ### Arguments
 
 #### ORGNAME
 
 the name to use for the new organization
+
+### Options
+
+#### --accept-msa
+
+accept the current Master Service Agreement (MSA), when one is required for creating an organization
 
 ## organization list
 
