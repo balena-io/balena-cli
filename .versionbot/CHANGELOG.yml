@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena-preload to v19.0.6
+      hash: 3e263521a801d180ae2468ee17aee4af6f299023
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Shaun Mulligan
+      nested: []
+  version: 25.2.45
+  title: ""
+  date: 2026-11-27T20:27:51.146Z
+- commits:
     - subject: Exempt balena packages from the min-release-age=3 rule
       hash: 7b68aa09c5ac4e2ef8a3f71fdbbd5b3348df0faa
       body: ""
